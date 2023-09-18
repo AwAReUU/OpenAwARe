@@ -10,12 +10,19 @@ using UnityEngine;
 using UnityEngine.XR.ARCore;
 
 
-public interface IChunk<Data>
+public interface IChunkSize
+{
+    public (int, int, int) ChunkSize { get; }
+}
+
+public interface IChunkStatus
+{
+    public bool Changed { get; set; }
+}
+
+public interface IChunk<Data> : IChunkStatus, IChunkSize
 {
     public Data this[int x, int y, int z] { get; set; }
-
-    public bool Changed { get; set; }
-
     public int GetLength(int dim);
 
     public Data[,,] ChunkData { get; }
@@ -32,6 +39,10 @@ public class Chunk<Data> : IChunk<Data>
         this.chunkData = chunkData;
     }
 
+    public (int, int, int) ChunkSize { get => (chunkData.GetLength(0), chunkData.GetLength(1), chunkData.GetLength(2)); }
+
+    public bool Changed { get => changed; set => changed = value; }
+
     public Data this[int x, int y, int z]
     {
         get => chunkData[x, y, z];
@@ -44,8 +55,6 @@ public class Chunk<Data> : IChunk<Data>
             Changed = true;
         }
     }
-
-    public bool Changed { get => changed; set => changed = value; }
 
     public int GetLength(int dim) => chunkData.GetLength(dim);
 

@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChunkBehaviour<Data> : MonoBehaviour
+public class ChunkBehaviour<Data> : MonoBehaviour, IChunkSize
 {
     public IChunk<Data> chunk;
+
+    public (int, int, int) ChunkSize => chunk.ChunkSize;
 
     protected void Start()
     {
