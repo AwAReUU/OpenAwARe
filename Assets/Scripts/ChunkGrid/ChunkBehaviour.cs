@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChunkBehaviour<Data> : MonoBehaviour
 {
-    public Chunk<Data> chunk;
+    public IChunk<Data> chunk;
 
     protected void Start()
     {
