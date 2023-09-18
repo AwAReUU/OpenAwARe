@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using Unity.Notifications;
 using Unity.Notifications.Android;
 using UnityEngine.Android;
+using Unity.Notifications.iOS;
+using UnityEngine.iOS;
 
 public class NotificationManager : MonoBehaviour
 {
@@ -48,6 +50,7 @@ public class NotificationManager : MonoBehaviour
         #endif
     }
 
+
     public void SendNotification(int timefromnow)
     {
         //Android code
@@ -63,14 +66,41 @@ public class NotificationManager : MonoBehaviour
 
             AndroidNotificationCenter.SendNotification(notification, "channel");
 
+            //debug
             if(channel.Id == "channel") gameObject.GetComponent<Image>().color = Color.blue;
+
+
+            //todo: use notificationstringdata to direct the notification to the correct page once it has been implemented
+            //see https://docs.unity3d.com/Packages/com.unity.mobile.notifications@2.2/manual/Android.html 'Store and retrieve custom data'
+
         #endif
 
         //IOS code
         #if UNITY_IOS
 
-            //todo
+        //example notification template from the documentation
+        var timeTrigger = new iOSNotificationTimeIntervalTrigger()
+        {
+            TimeInterval = new TimeSpan(0, 0, timefromnow),
+            Repeats = false
+        };
 
+        var notification = new iOSNotification()
+        {
+            // You can specify a custom identifier which can be used to manage the notification later.
+            // If you don't provide one, a unique string will be generated automatically.
+            Identifier = "_notification_01",
+            Title = "Title",
+            Body = "Scheduled at: " + DateTime.Now.ToShortDateString() + " triggered in 5 seconds",
+            Subtitle = "This is a subtitle, something, something important...",
+            ShowInForeground = true,
+            ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+            CategoryIdentifier = "category_a",
+            ThreadIdentifier = "thread1",
+            Trigger = timeTrigger,
+        };
+
+        iOSNotificationCenter.ScheduleNotification(notification);
 
         #endif
     }
