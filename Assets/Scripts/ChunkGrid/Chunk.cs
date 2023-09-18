@@ -7,6 +7,8 @@ using System.Security;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.XR.ARCore;
+
 
 public interface IChunkSize
 {
