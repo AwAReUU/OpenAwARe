@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 611679245479929982}
   - component: {fileID: 2111480264883673511}
   m_Layer: 0
-  m_Name: VoxelChunkObject
+  m_Name: VoxelChunk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

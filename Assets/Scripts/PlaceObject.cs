@@ -20,14 +20,14 @@ public class PlaceObject : MonoBehaviour
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();
     private EventSystem eventSystem;
 
-    private void Awake()
+    protected void Awake()
     {
         aRRaycastManager = GetComponent<ARRaycastManager>();
         aRPlaneManager = GetComponent<ARPlaneManager>();
         eventSystem = FindObjectOfType<EventSystem>();
     }
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         Debug.Log("OnEnable");
         EnhancedTouch.TouchSimulation.Enable();
@@ -35,7 +35,7 @@ public class PlaceObject : MonoBehaviour
         EnhancedTouch.Touch.onFingerDown += FingerDown;
     }
 
-    private void OnDisable()
+    protected void OnDisable()
     {
         Debug.Log("OnDisable");
         EnhancedTouch.TouchSimulation.Disable();
@@ -44,7 +44,7 @@ public class PlaceObject : MonoBehaviour
     }
 
     //* Interact using touch screen (mobile)
-    private void FingerDown(EnhancedTouch.Finger finger)
+    protected void FingerDown(EnhancedTouch.Finger finger)
     {
         if (finger.index != 0) return;
 
@@ -56,7 +56,7 @@ public class PlaceObject : MonoBehaviour
     }
 
     //* Interact using mouse button (pc)
-    private void Update()
+    protected void Update()
     {
         //* Don't interact with world when clicking on a UI element
         if (eventSystem.IsPointerOverGameObject()) return;
@@ -65,7 +65,7 @@ public class PlaceObject : MonoBehaviour
             Interact(Input.mousePosition);
     }
 
-    private void Interact(Vector2 screenPoint)
+    protected virtual void Interact(Vector2 screenPoint)
     {
         if (aRRaycastManager.Raycast(screenPoint, hits, TrackableType.PlaneWithinPolygon))
         {
