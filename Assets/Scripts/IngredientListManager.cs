@@ -8,16 +8,15 @@ using System.Text.Json.Serialization;
 
 public class IngredientListManager : MonoBehaviour
 {
-    List<IngredientList> ingredientLists;
-    List<GameObject> listObjects = new List<GameObject>();
+    public List<IngredientList> ingredientLists { get; private set; }
+
+    public IngredientList currentIngredientList;
 
     // objects assigned within unity
-    public GameObject listObject;
-    public GameObject ingredientObject;
-    public GameObject backButton;
-    public GameObject deleteButton;
-    public GameObject addIngredientButton;
-    public GameObject addListButton;
+    public GameObject listsOverviewScreen;
+    public GameObject ingredientListScreen;
+    public GameObject addIngredientScreen;
+    public GameObject ingredientInfoScreen;
 
     string filePath;
 
@@ -26,11 +25,7 @@ public class IngredientListManager : MonoBehaviour
         filePath = Application.persistentDataPath + "/ingredientLists";
         //File.Delete(filePath);
         ingredientLists = ReadFile();
-
-        DisplayLists();
-
-        addListButton.transform.GetComponent<Button>().onClick.AddListener(CreateList);
-        addListButton.SetActive(true);
+        listsOverviewScreen.SetActive(true);
     }
 
     List<IngredientList> ReadFile()
@@ -59,13 +54,13 @@ public class IngredientListManager : MonoBehaviour
                 float ingredientQuantity = float.Parse(ingredientQuantities[j]);
                 ingredients.Add(new Ingredient(ingredientNames[j], (QuantityType) Enum.Parse(typeof(QuantityType), ingredientQuantityTypes[j]), ingredientQuantity));
             }
-            lists.Add(new IngredientList(info.listNames[i], ingredientObject, deleteButton, ingredients));
+            lists.Add(new IngredientList(info.listNames[i], ingredients));
         }
 
         return lists;
     }
 
-    void SaveFile()
+    public void SaveFile()
     {
         JSONInfo info = new JSONInfo();
         
@@ -105,102 +100,55 @@ public class IngredientListManager : MonoBehaviour
         File.WriteAllText(filePath, json);
     }
 
+    public void OpenList(int i)
+    {
+        
+        listsOverviewScreen.SetActive(false);
+        currentIngredientList = ingredientLists[i];
+        ingredientListScreen.SetActive(true);
+    }
+
+    public void CloseList()
+    {
+        ingredientListScreen.SetActive(false);
+        currentIngredientList = null;
+        listsOverviewScreen.SetActive(true);
+        SaveFile();
+    }
+
+    public void AddIngredient(Ingredient ingredient)
+    {
+        //ingredientListScreen.SetActive(false);
+        //addIngredientScreen.SetActive(true);
+        currentIngredientList.AddIngredient(ingredient);
+        SaveFile();
+    }
+
+    public void DeleteIngredient(int i)
+    {
+        currentIngredientList.RemoveIngredient(i);
+        SaveFile();
+    }
+
     public void CreateList()
     {
         // TODO: let user pick name
 
-        // adds four ingredients to the lsit for testing (TO BE REMOVED later)
+        // adds four ingredients to the list for testing (TO BE REMOVED later)
         List<Ingredient> testList = new List<Ingredient>();
         testList.Add(new Ingredient("banana", QuantityType.PCS, 2));
         testList.Add(new Ingredient("water", QuantityType.L, 0.5f));
         testList.Add(new Ingredient("pork", QuantityType.G, 500));
         testList.Add(new Ingredient("strawberry", QuantityType.G, 300));
 
-        ingredientLists.Add(new IngredientList("MyList", ingredientObject, deleteButton, testList));
-        DisplayLists();
+        ingredientLists.Add(new IngredientList("MyList", testList));
         SaveFile();
     }
 
     public void DeleteList(int i)
     {
         ingredientLists.Remove(ingredientLists[i]);
-        DisplayLists();
         SaveFile();
-    }
-
-    void DisplayLists()
-    {
-        RemoveListObjects();
-
-        float objectDist = 50; // distance between list objects
-        float yPos;
-
-        for (int i = 0; i < ingredientLists.Count; i++)
-        {
-            // calculate height for list object
-            yPos = listObject.transform.localPosition.y - (listObject.GetComponent<RectTransform>().sizeDelta.y + objectDist) * i;
-
-            // create a new list item to display this list
-            GameObject newItem = Instantiate(listObject, listObject.transform.parent);
-            newItem.GetComponent<RectTransform>().localPosition = new Vector3(listObject.transform.localPosition.x, yPos, 0); // set item position to the correct height
-            newItem.SetActive(true);
-
-            // change the text to match the list info
-            newItem.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = ingredientLists[i].listName;
-            newItem.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = ingredientLists[i].NumberOfIngredients().ToString();
-            int itemIndex = i;
-            newItem.transform.GetComponent<Button>().onClick.AddListener(() => { OpenList(itemIndex); });
-            listObjects.Add(newItem);
-
-            // create a deleteButton for this list
-            GameObject newButton = Instantiate(deleteButton, deleteButton.transform.parent);
-            newButton.GetComponent<RectTransform>().localPosition = new Vector3(deleteButton.transform.localPosition.x, yPos, 0); // set item position to the correct height
-            newButton.SetActive(true);
-            newButton.transform.GetComponent<Button>().onClick.AddListener(() => { DeleteList(itemIndex); });
-            listObjects.Add(newButton);
-        }
-    }
-
-    public void OpenList(int i)
-    {
-        RemoveListObjects();
-
-        ingredientLists[i].DisplayList();
-
-        // set the backbutton to close this list on click
-        backButton.transform.GetComponent<Button>().onClick.AddListener(() => { CloseList(i); });
-        backButton.SetActive(true);
-
-        // set the addIngredientButton to add a banana to this list on click
-        addIngredientButton.transform.GetComponent<Button>().onClick.AddListener(() => { ingredientLists[i].AddIngredient(new Ingredient("banana", QuantityType.PCS, 2)); });
-        addIngredientButton.SetActive(true);
-        
-        addListButton.SetActive(false);
-    }
-
-    void CloseList(int i)
-    {
-        ingredientLists[i].RemoveIngredientObjects();
-
-        DisplayLists();
-
-        backButton.SetActive(false);
-        backButton.transform.GetComponent<Button>().onClick.RemoveAllListeners();
-
-        addIngredientButton.SetActive(false);
-        addIngredientButton.transform.GetComponent<Button>().onClick.RemoveAllListeners();
-
-        addListButton.SetActive(true);
-        SaveFile();
-    }
-
-    void RemoveListObjects()
-    {
-        foreach (GameObject o in listObjects)
-        {
-            Destroy(o);
-        }
-        listObjects = new List<GameObject>();
     }
 }
 
