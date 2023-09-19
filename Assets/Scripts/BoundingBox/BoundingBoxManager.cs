@@ -26,10 +26,10 @@ public class BoundingBoxManager : PlaceObject
         sceneBox = Instantiate(this.boundingBox, location, rotation);
         sceneBox.transform.localScale = scale;
 
-        BoundingBoxBehaviour boundingBoxBehaviour = boundingBox.GetComponent(typeof(BoundingBoxBehaviour)) as BoundingBoxBehaviour;
-        boundingBoxBehaviour.childObject = Instantiate(childObject);
+        BoundingBoxBehaviour boundingBoxBehaviour = sceneBox.GetComponent(typeof(BoundingBoxBehaviour)) as BoundingBoxBehaviour;
+        GameObject childObject = Instantiate(this.childObject, sceneBox.transform);
+        boundingBoxBehaviour.childObject = childObject;
 
-        sceneBox = boundingBox;
     }
 
     public void DestroyBoxedObject()
