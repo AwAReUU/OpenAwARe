@@ -37,7 +37,7 @@ public class ChunkGridBehavior<Data> : MonoBehaviour, IChunkGridSize
                     GameObject chunkObject = Instantiate(this.chunkObject);
                     Transform chunkTransform = chunkObject.transform;
                     chunkTransform.parent = this.transform;
-                    chunkTransform.SetLocalPositionAndRotation(new Vector3(x, y, z), Quaternion.identity);
+                    chunkTransform.SetLocalPositionAndRotation(ChunkLocation((x,y,z)), Quaternion.identity);
                     chunkTransform.localScale = Vector3.one;
                     ChunkBehaviour<Data> chunkBehaviour = chunkObject.GetComponent(typeof(ChunkBehaviour<Data>)) as ChunkBehaviour<Data>;
                     chunkBehaviour.chunk = chunks[x,y,z];
@@ -49,4 +49,8 @@ public class ChunkGridBehavior<Data> : MonoBehaviour, IChunkGridSize
 
     protected virtual void OnUpdate() { }
 
+    protected Vector3 ChunkLocation((int,int,int) idx)
+    {
+        return new Vector3(chunkSize.Item1 * idx.Item1, chunkSize.Item1 * idx.Item2, chunkSize.Item1 * idx.Item3);
+    }
 }
