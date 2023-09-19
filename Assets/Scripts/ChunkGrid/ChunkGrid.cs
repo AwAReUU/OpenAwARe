@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.XR.ARCore;
 
 public interface IChunkGridSize : IChunkSize
 {
