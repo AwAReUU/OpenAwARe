@@ -4,18 +4,10 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class DevScreenSelector : MonoBehaviour
+
+public class DevScreenSelectorHandler : MonoBehaviour
 {
     [SerializeField] private GameObject[] devScreens;
-
-    // enum Devs { Joep, Kizi, Marco, Martijn, Max, Nathan, Nick, Sander, Seana }
-    // [SerializeField] private Devs startingDev;
-
-    //  private void Awake()
-    //  {
-    //     // Debug.Log((int)startingDev);
-    //     // SelectDevScreen((int)startingDev);
-    //  }
 
     public void SelectDevScreen(int index)
     {
