@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ChunkGridBehavior<Data> : MonoBehaviour, IChunkGridSize
 {
-    public (int, int, int) gridSize = (32,32,32), chunkSize = (VoxelData.ChunkSize, VoxelData.ChunkSize, VoxelData.ChunkSize);
     public GameObject chunkObject;
 
     public IChunkGrid<Data> chunkGrid;
@@ -23,10 +22,6 @@ public class ChunkGridBehavior<Data> : MonoBehaviour, IChunkGridSize
 
     protected virtual void OnStart()
     {
-        // Create the ChunkGrid
-        ChunkGridFactory<Data> factory = new(gridSize, chunkSize);
-        this.chunkGrid = factory.Create();
-
         // Create Chunk objects with chunk behaviour for each chunk
         IChunk<Data>[,,] chunks = this.chunkGrid.Chunks;
         chunkObjects = new GameObject[chunks.GetLength(0), chunks.GetLength(1), chunks.GetLength(2)];
@@ -34,7 +29,8 @@ public class ChunkGridBehavior<Data> : MonoBehaviour, IChunkGridSize
             for (int y = 0; y < chunks.GetLength(1); y++)
                 for (int z = 0; z < chunks.GetLength(2); z++)
                 {
-                    GameObject chunkObject = Instantiate(this.chunkObject, ChunkLocation((x, y, z)), Quaternion.identity, this.transform);
+                    GameObject chunkObject = Instantiate(this.chunkObject, this.transform);
+                    chunkObject.transform.SetLocalPositionAndRotation(ChunkLocation((x, y, z)), Quaternion.identity);
                     chunkObject.transform.localScale = Vector3.one;
                     ChunkBehaviour<Data> chunkBehaviour = chunkObject.GetComponent(typeof(ChunkBehaviour<Data>)) as ChunkBehaviour<Data>;
                     chunkBehaviour.chunk = chunks[x,y,z];
@@ -48,6 +44,7 @@ public class ChunkGridBehavior<Data> : MonoBehaviour, IChunkGridSize
 
     protected Vector3 ChunkLocation((int,int,int) idx)
     {
+        (int, int, int) chunkSize = this.ChunkSize;
         return new Vector3(chunkSize.Item1 * idx.Item1, chunkSize.Item1 * idx.Item2, chunkSize.Item1 * idx.Item3);
     }
 }
