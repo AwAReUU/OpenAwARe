@@ -3,8 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+//using System.Text.Json;
+//using System.Text.Json.Serialization;
 
 public class IngredientListManager : MonoBehaviour
 {
