@@ -12,11 +12,11 @@ public class DevScreenSelector : MonoBehaviour
     // enum Devs { Joep, Kizi, Marco, Martijn, Max, Nathan, Nick, Sander, Seana }
     // [SerializeField] private Devs startingDev;
 
-    // private void Awake()
-    // {
-    //     Debug.Log((int)startingDev);
-    //     SelectDevScreen((int)startingDev);
-    // }
+    //  private void Awake()
+    //  {
+    //     // Debug.Log((int)startingDev);
+    //     // SelectDevScreen((int)startingDev);
+    //  }
 
     public void SelectDevScreen(int index)
     {

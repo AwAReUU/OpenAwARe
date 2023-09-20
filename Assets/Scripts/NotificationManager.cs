@@ -6,8 +6,8 @@ using UnityEngine.UI;
 using Unity.Notifications;
 using Unity.Notifications.Android;
 using UnityEngine.Android;
-using Unity.Notifications.iOS;
-using UnityEngine.iOS;
+//using Unity.Notifications.iOS;
+//using UnityEngine.iOS;
 
 public class NotificationManager : MonoBehaviour
 {
@@ -66,10 +66,6 @@ public class NotificationManager : MonoBehaviour
 
             AndroidNotificationCenter.SendNotification(notification, "channel");
 
-            //debug
-            if(channel.Id == "channel") gameObject.GetComponent<Image>().color = Color.blue;
-
-
             //todo: use notificationstringdata to direct the notification to the correct page once it has been implemented
             //see https://docs.unity3d.com/Packages/com.unity.mobile.notifications@2.2/manual/Android.html 'Store and retrieve custom data'
 
@@ -100,7 +96,7 @@ public class NotificationManager : MonoBehaviour
             Trigger = timeTrigger,
         };
 
-        iOSNotificationCenter.ScheduleNotification(notification);
+        // iOSNotificationCenter.ScheduleNotification(notification);
 
         #endif
     }
