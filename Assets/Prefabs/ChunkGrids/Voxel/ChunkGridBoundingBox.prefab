@@ -50,7 +50,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4829544002877799196}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -118,4 +118,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 858a7aa8f4c15464f9c162a13cda297d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  childObject: {fileID: 0}
+  offsetChild: {x: 0, y: 0, z: 0}
+  scaleChild: {x: 1, y: 1, z: 1}

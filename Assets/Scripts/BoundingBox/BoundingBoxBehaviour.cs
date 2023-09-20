@@ -1,10 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BoundingBoxBehaviour : MonoBehaviour
 {
-    public GameObject childObject;
+    protected GameObject childObject;
+    public Func<Transform, GameObject> getChild;
 
     // Start is called before the first frame update
     void Start()
@@ -14,11 +16,9 @@ public class BoundingBoxBehaviour : MonoBehaviour
 
     protected virtual void OnStart()
     {
+        childObject = getChild(this.transform);
         SetLocalTransform();
     }
 
-    protected virtual void SetLocalTransform()
-    {
-        childObject.transform.parent = this.transform;
-    }
+    protected virtual void SetLocalTransform() { }
 }
