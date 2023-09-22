@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class IngredientInfoScreen : MonoBehaviour
 {
-    public IngredientListManager ingredientListManager;
+    [SerializeField] private IngredientListManager ingredientListManager;
 
-    public Ingredient ingredient;
-    public GameObject backButton;
+    [SerializeField] private Ingredient ingredient;
+    [SerializeField] private GameObject backButton;
 
     private void OnEnable()
     {
-
+        // TODO: draw objects
     }
 
     private void OnDisable()
     {
-
+        // TODO: remove drawn objects
     }
 }

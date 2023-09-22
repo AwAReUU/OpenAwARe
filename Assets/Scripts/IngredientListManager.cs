@@ -13,17 +13,17 @@ public class IngredientListManager : MonoBehaviour
     public IngredientList currentIngredientList;
 
     // objects assigned within unity
-    public GameObject listsOverviewScreen;
-    public GameObject ingredientListScreen;
-    public GameObject addIngredientScreen;
-    public GameObject ingredientInfoScreen;
+    [SerializeField] private GameObject listsOverviewScreen;
+    [SerializeField] private GameObject ingredientListScreen;
+    [SerializeField] private GameObject addIngredientScreen;
+    [SerializeField] private GameObject ingredientInfoScreen;
 
     string filePath;
 
     private void Awake()
     {
         filePath = Application.persistentDataPath + "/ingredientLists";
-        //File.Delete(filePath);
+        //File.Delete(filePath); // use this for emptying the saved ingredientLists
         ingredientLists = ReadFile();
         listsOverviewScreen.SetActive(true);
     }
@@ -41,6 +41,7 @@ public class IngredientListManager : MonoBehaviour
 
         List<IngredientList> lists = new List<IngredientList>();
         
+        // reconstruct all lists
         for (int i = 0; i < info.listNames.Length; i++)
         {
             List<Ingredient> ingredients = new List<Ingredient>();
@@ -49,6 +50,7 @@ public class IngredientListManager : MonoBehaviour
             string[] ingredientQuantityTypes = info.ingredientQuantityTypes[i].Split(",");
             string[] ingredientQuantities = info.ingredientQuantities[i].Split(",");
 
+            // add the ingredients to the lists
             for (int j = 0; j < ingredientNames.Length - 1; j++)
             {
                 float ingredientQuantity = float.Parse(ingredientQuantities[j]);
@@ -68,10 +70,8 @@ public class IngredientListManager : MonoBehaviour
         info.ingredientNames = new string[ingredientLists.Count];
         info.ingredientQuantityTypes = new string[ingredientLists.Count];
         info.ingredientQuantities = new string[ingredientLists.Count];
-        //info.ingredientNames = new List<string>[ingredientLists.Count];
-        //info.ingredientQuantityTypes = new List<string>[ingredientLists.Count];
-        //info.ingredientQuantities = new List<float>[ingredientLists.Count];
 
+        // convert the lists to strings
         for (int i = 0; i < ingredientLists.Count; i++)
         {
             info.listNames[i] = ingredientLists[i].listName;
@@ -79,30 +79,22 @@ public class IngredientListManager : MonoBehaviour
             info.ingredientNames[i] = "";
             info.ingredientQuantityTypes[i] = "";
             info.ingredientQuantities[i] = "";
-            //info.ingredientNames[i] = new List<string>();
-            //info.ingredientQuantityTypes[i] = new List<string>();
-            //info.ingredientQuantities[i] = new List<float>();
 
             for (int j = 0; j < ingredientLists[i].NumberOfIngredients(); j++)
             {
                 info.ingredientNames[i] += ingredientLists[i].ingredients[j].name + ",";
                 info.ingredientQuantityTypes[i] += ingredientLists[i].ingredients[j].type.ToString() + ",";
                 info.ingredientQuantities[i] += ingredientLists[i].ingredients[j].quantity + ",";
-                /*info.ingredientNames[i].Add(ingredientLists[i].ingredients[j].name);
-                info.ingredientQuantityTypes[i].Add(ingredientLists[i].ingredients[j].type.ToString());
-                info.ingredientQuantities[i].Add(ingredientLists[i].ingredients[j].quantity);*/
             }
         }
 
         string json = JsonUtility.ToJson(info);
-        //string json = JsonSerializer.Serialize(info);
 
         File.WriteAllText(filePath, json);
     }
 
     public void OpenList(int i)
     {
-        
         listsOverviewScreen.SetActive(false);
         currentIngredientList = ingredientLists[i];
         ingredientListScreen.SetActive(true);
@@ -118,8 +110,9 @@ public class IngredientListManager : MonoBehaviour
 
     public void AddIngredient(Ingredient ingredient)
     {
-        //ingredientListScreen.SetActive(false);
-        //addIngredientScreen.SetActive(true);
+        // TODO: created method inbetween with:
+        // ingredientListScreen.SetActive(false);
+        // addIngredientScreen.SetActive(true);
         currentIngredientList.AddIngredient(ingredient);
         SaveFile();
     }
@@ -132,9 +125,9 @@ public class IngredientListManager : MonoBehaviour
 
     public void CreateList()
     {
-        // TODO: let user pick name
+        // TODO: let user pick list name --> add seperate screen
 
-        // adds four ingredients to the list for testing (TO BE REMOVED later)
+        // adds four ingredients to the list for testing (to be removed later!)
         List<Ingredient> testList = new List<Ingredient>();
         testList.Add(new Ingredient("banana", QuantityType.PCS, 2));
         testList.Add(new Ingredient("water", QuantityType.L, 0.5f));
@@ -159,7 +152,4 @@ public class JSONInfo
     public string[] ingredientNames;
     public string[] ingredientQuantityTypes;
     public string[] ingredientQuantities;
-    //public List<string>[] ingredientNames;
-    //public List<string>[] ingredientQuantityTypes;
-    //public List<float>[] ingredientQuantities;
 }

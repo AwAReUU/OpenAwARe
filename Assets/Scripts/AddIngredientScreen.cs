@@ -4,26 +4,26 @@ using UnityEngine;
 
 public class AddIngredientScreen : MonoBehaviour
 {
-    public IngredientListManager ingredientListManager;
+    [SerializeField] private IngredientListManager ingredientListManager;
 
-    public GameObject backButton;
-    public GameObject addButton;
+    [SerializeField] private GameObject backButton;
+    [SerializeField] private GameObject addButton;
 
     Ingredient ingredient;
 
     private void OnEnable()
     {
-        
+        // TODO: draw objects
     }
 
     private void OnDisable()
     {
-        
+        // TODO: remove drawn objects
     }
 
     public void OnBackButtonClick()
     {
-        
+        // TODO: go back to IngredientListScreen
     }
 
     public void OnAddButtonClick()

@@ -7,17 +7,17 @@ using TMPro;
 
 public class IngredientListScreen : MonoBehaviour
 {
-    public IngredientListManager ingredientListManager;
+    [SerializeField] private IngredientListManager ingredientListManager;
 
     // the objects drawn on screen to display the list
     List<GameObject> ingredientObjects = new List<GameObject>();
 
     // (assigned within unity)
-    public GameObject ingredientObject;
-    public TextMeshProUGUI listNameText;
-    public GameObject deleteButton;
-    public GameObject backButton;
-    public GameObject addIngredientButton;
+    [SerializeField] private GameObject ingredientObject;
+    [SerializeField] private TextMeshProUGUI listNameText;
+    [SerializeField] private GameObject deleteButton;
+    [SerializeField] private GameObject backButton;
+    [SerializeField] private GameObject addIngredientButton;
 
     private void OnEnable()
     {
@@ -51,9 +51,10 @@ public class IngredientListScreen : MonoBehaviour
             newItem.SetActive(true);
 
             // change the text to match the ingredient info
-            newItem.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = ingredientListManager.currentIngredientList.ingredients[i].name;
-            newItem.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = ingredientListManager.currentIngredientList.ingredients[i].quantity.ToString();
-            newItem.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = ingredientListManager.currentIngredientList.ingredients[i].type.ToString();
+            List<Ingredient> ingredients = ingredientListManager.currentIngredientList.ingredients;
+            newItem.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = ingredients[i].name;
+            newItem.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = ingredients[i].quantity.ToString();
+            newItem.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = ingredients[i].type.ToString();
             int itemIndex = i;
             ingredientObjects.Add(newItem);
 

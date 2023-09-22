@@ -7,12 +7,15 @@ using TMPro;
 
 public class ListsOverviewScreen : MonoBehaviour
 {
-    public IngredientListManager ingredientListManager;
+    [SerializeField] private IngredientListManager ingredientListManager;
+
+    // the objects drawn on screen to display the lists
     List<GameObject> listObjects = new List<GameObject>();
 
-    public GameObject addListButton;
-    public GameObject deleteButton;
-    public GameObject listObject;
+    // (assigned within unity)
+    [SerializeField] private GameObject addListButton;
+    [SerializeField] private GameObject deleteButton;
+    [SerializeField] private GameObject listObject;
 
     private void OnEnable()
     {

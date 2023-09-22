@@ -56,24 +56,9 @@ public class Ingredient
     }
 }
 
-/*
-public struct IngredientStruct
-{
-    public string name { get; private set; }
-    public QuantityType type { get; private set; }
-    public float quantity { get; private set; }
-
-    public IngredientStruct(string name, QuantityType type, float quantity)
-    {
-        this.name = name;
-        this.type = type;
-        this.quantity = quantity;
-    }
-}
-*/
 public enum QuantityType
 { 
-    G,
-    PCS,
-    L
+    G,   // grams
+    PCS, // pieces
+    L    // litres
 }
