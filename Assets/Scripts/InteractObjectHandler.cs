@@ -10,38 +10,38 @@ public class InteractObjectHandler : MonoBehaviour
     [SerializeField] private Material black;
     [SerializeField] private Material normal;
 
-    public void ColorObject(GameObject obj)
+    public void ColorObject(GameObject target)
     {
-        if (obj.GetComponent<MeshRenderer>().material == black)
+        if (target.GetComponent<MeshRenderer>().material == black)
         {
-            obj.GetComponent<MeshRenderer>().material = normal;
+            target.GetComponent<MeshRenderer>().material = normal;
         }
         else
         {
-            obj.GetComponent<MeshRenderer>().material = black;
+            target.GetComponent<MeshRenderer>().material = black;
         }
     }
     
-    public void ToggleDataWindow(GameObject obj)
+    public void ToggleDataWindow(GameObject target)
     {
-        GameObject dataWindow = obj.transform.GetChild(0).gameObject;
+        GameObject dataWindow = target.transform.GetChild(0).gameObject;
         if (dataWindow.activeSelf)
             dataWindow.SetActive(false);
         else
             dataWindow.SetActive(true);
     }
 
-    public void DestroyObject(GameObject obj)
+    public void DestroyTarget(GameObject target)
     {
-        Destroy(obj);
+        Destroy(target);
     }
 
     public void DestroyAllObjects()
     {
-        GameObject[] objs = GameObject.FindGameObjectsWithTag("Animal");
-        foreach (GameObject obj in objs)
+        GameObject[] animals = GameObject.FindGameObjectsWithTag("Animal");
+        foreach (GameObject animal in animals)
         {
-            Destroy(obj);
+            Destroy(animal);
         }
     }
 }
