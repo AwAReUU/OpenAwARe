@@ -4,7 +4,6 @@ using UnityEngine.XR.Interaction.Toolkit.Inputs.Composites;
 
 public static class VoxelData
 {
-    public const int dim = 3;
     public const int ChunkSize = 16;
 
     public static readonly Vector3[] Vertices = new Vector3[8] {
