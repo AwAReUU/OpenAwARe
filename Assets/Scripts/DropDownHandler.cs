@@ -4,23 +4,31 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DropDownHandler : MonoBehaviour
+public class DropdownHandler : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> items;
     private TMP_Dropdown dropdown;
 
-    private void Awake() 
+    private void Start()
     {
-        TMP_Dropdown dropdown = GetComponent<TMP_Dropdown>();
+        dropdown = GetComponent<TMP_Dropdown>();
         SetDropdownOptions();
+        dropdown.onValueChanged.AddListener(delegate
+        {
+            DropdownValueChanged(dropdown);
+        });
     }
 
     private void SetDropdownOptions()
     {
         dropdown.options.Clear();
-        foreach (var item in items)
+        foreach (var obj in ObjectPrefabs.I.prefabs)
         {
-            dropdown.options.Add(new TMP_Dropdown.OptionData() { text = item.name });
+            dropdown.options.Add(new TMP_Dropdown.OptionData() { text = obj.name });
         }
+    }
+
+    private void DropdownValueChanged(TMP_Dropdown dropdown)
+    {
+        ObjectPrefabs.I.prefabIndex = dropdown.value;
     }
 }

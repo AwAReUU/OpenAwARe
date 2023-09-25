@@ -9,7 +9,7 @@ public class DevScreenSelectorHandler : MonoBehaviour
 {
     [SerializeField] private GameObject[] devScreens;
 
-    public void SelectDevScreen(int index)
+    public void SelectActiveDevScreen(int index)
     {
         for (int i = 0; i < devScreens.Length; i++)
         {

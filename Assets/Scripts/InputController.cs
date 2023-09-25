@@ -19,7 +19,7 @@ public class InputController : MonoBehaviour
     private ARRaycastManager aRRaycastManager;
     private ARPlaneManager aRPlaneManager;
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();
-    private CreateObjectHandler createObjectHandler;
+    private CreateObjectsManager createObjectController;
     private InteractObjectHandler interactObjectHandler;
     private Camera arCamera;
     public InputStates inputState = InputStates.All;
@@ -28,7 +28,7 @@ public class InputController : MonoBehaviour
     {
         aRRaycastManager = GetComponent<ARRaycastManager>();
         aRPlaneManager = GetComponent<ARPlaneManager>();
-        createObjectHandler = GetComponent<CreateObjectHandler>();
+        createObjectController = GetComponent<CreateObjectsManager>();
         interactObjectHandler = GetComponent<InteractObjectHandler>();
         arCamera = FindObjectOfType<Camera>();
     }
@@ -80,7 +80,7 @@ public class InputController : MonoBehaviour
             return true;
 
         //check touch
-        //TODO Fix this bug
+        //TODO Fix this input bug
         //! This is bugged; it's like a touch delayed. 
         //! E.g. when I press a UI button the first time it still sends a raycast behind the button. 
         //! After the first touch it works correctly, but then the first (and only the first) touch
@@ -123,7 +123,7 @@ public class InputController : MonoBehaviour
                 //     createObjectHandler.CreateObject(hit);
 
                 if (hits.Count > 0)
-                    createObjectHandler.CreateObject(hits[0]);
+                    createObjectController.CreateObjectOnHit(hits[0]);
             }
         }
     }

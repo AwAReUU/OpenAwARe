@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -13,8 +14,6 @@ using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch;
 [RequireComponent(typeof(ARRaycastManager), typeof(ARPlaneManager))]
 public class PlaceSpacedObject : MonoBehaviour
 {
-    public GameObject[] prefabs;
-    public int prefabIndex;
     private ARRaycastManager aRRaycastManager;
     private ARPlaneManager aRPlaneManager;
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();
@@ -75,7 +74,7 @@ public class PlaceSpacedObject : MonoBehaviour
                 Pose pose = hit.pose;
 
                 // Temporarily instantiate the object to get the BoxCollider size
-                GameObject tempObj = Instantiate(prefabs[prefabIndex], new Vector3(0, 0, 0), Quaternion.identity);
+                GameObject tempObj = Instantiate(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], new Vector3(0, 0, 0), Quaternion.identity);
                 BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
                 Vector3 halfExtents = tempCollider.size / 2;
                 float center_Height = tempCollider.size.y / 2;
@@ -90,7 +89,7 @@ public class PlaceSpacedObject : MonoBehaviour
                 // Check if the box overlaps with any other colliders
                 if (!Physics.CheckBox(newPosition, halfExtents, pose.rotation))
                 {
-                    GameObject obj = Instantiate(prefabs[prefabIndex], pose.position, pose.rotation);
+                    GameObject obj = Instantiate(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], pose.position, pose.rotation);
                     BoxCollider boxCollider = obj.AddComponent<BoxCollider>();
 
                     if (aRPlaneManager.GetPlane(hit.trackableId).alignment == PlaneAlignment.HorizontalUp)

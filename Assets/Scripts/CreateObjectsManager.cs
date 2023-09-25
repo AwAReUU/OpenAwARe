@@ -4,21 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
-public class CreateObjectHandler : MonoBehaviour
+public class CreateObjectsManager : MonoBehaviour
 {
-    public GameObject[] prefabs;
     private List<Vector3> validSpawnLocations = new List<Vector3>();
-    public int prefabIndex { get; private set; }
 
-    public void SetPrefabIndex(int index)
-    {
-        prefabIndex = index;
-    }
-
-    public void CreateObject(ARRaycastHit hit, bool rotateToUser = true)
+    public void CreateObjectOnHit(ARRaycastHit hit, bool rotateToUser = true)
     {
         Pose pose = hit.pose;
-        GameObject newObject = Instantiate(prefabs[prefabIndex], pose.position, pose.rotation);
+        GameObject newObject = Instantiate(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], pose.position, pose.rotation);
 
         if (rotateToUser)
             RotateToUser(newObject);
@@ -40,23 +33,30 @@ public class CreateObjectHandler : MonoBehaviour
     {
         ARPlaneManager planeManager = GetComponent<ARPlaneManager>();
 
-        //TODO: add realistic colliders to prefabs for better accuracy
+        //TODO: add realistic colliders directly in the prefabs for better accuracy
         //* Temporarily instantiate the object to get the BoxCollider size
-        GameObject tempObj = Instantiate(prefabs[prefabIndex], Vector3.zero, Quaternion.identity);
-        BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
+        GameObject tempObj = Instantiate(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], Vector3.zero, Quaternion.identity);
+        BoxCollider tempCollider;
+        if (tempObj.GetComponent<BoxCollider>() == null)
+        {
+            tempCollider = tempObj.AddComponent<BoxCollider>();
+        }
+        else
+            tempCollider = tempObj.GetComponent<BoxCollider>();
+
         // Assuming the box collider is at the object's origin
         Vector3 halfExtents = tempCollider.size / 2;
-        float center_Height = tempCollider.size.y / 2;
+        float centerHeight = tempCollider.size.y / 2;
         Destroy(tempObj);
 
         validSpawnLocations = GetValidSpawnLocations(planeManager);
         int materialsToPlace = 50;
-        for (int i = 0; i < validSpawnLocations.Count; i++) 
+        for (int i = 0; i < validSpawnLocations.Count; i++)
         {
             // Create the position where the new object should be placed (+ add slight hover to prevent floor collisions)
-            Vector3 newPosition = new Vector3(validSpawnLocations[i].x, validSpawnLocations[i].y + center_Height + 0.01f, validSpawnLocations[i].z);
+            Vector3 newPosition = validSpawnLocations[i] + new Vector3(0, centerHeight + 0.01f, 0);
 
-            if (TryPlaceObject(prefabs[0], newPosition, halfExtents, center_Height))
+            if (TryPlaceObject(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], newPosition, halfExtents, centerHeight))
             {
                 Debug.Log("placing successful");
 
@@ -72,31 +72,25 @@ public class CreateObjectHandler : MonoBehaviour
                 Debug.Log("placement failed");
             }
         }
-        
     }
 
-    private bool TryPlaceObject(GameObject gameObject, Vector3 position, Vector3 halfExtents, float center_height)
+    private bool TryPlaceObject(GameObject gameObject, Vector3 position, Vector3 halfExtents, float centerHeight)
     {
         // Check if the box overlaps with any other colliders
         if (!Physics.CheckBox(position, halfExtents, Quaternion.identity))
         {
-            GameObject obj = Instantiate(gameObject, position, Quaternion.identity);
-            obj.AddComponent<BoxCollider>();
+            GameObject newObject = Instantiate(gameObject, position, Quaternion.identity);
+            newObject.AddComponent<BoxCollider>();
+            RotateToUser(newObject);
 
-            position.y -= center_height;
-            obj.transform.position = position;
-            Vector3 cameraPosition = Camera.main.transform.position;
-            Vector3 direction = cameraPosition - position;
-            Vector3 targetRotationEuler = Quaternion.LookRotation(direction).eulerAngles;
-            Vector3 scaledEuler = Vector3.Scale(targetRotationEuler, obj.transform.up.normalized);
-            Quaternion targetRotation = Quaternion.Euler(scaledEuler);
-            obj.transform.rotation *= targetRotation;
+            position.y -= centerHeight;
             return true;
         }
+
         return false;
     }
-    
-    private List<Vector3> GetGridPnts(ARPlane plane, float spacing = 0.1f)
+
+    private List<Vector3> GetGridPoints(ARPlane plane, float spacing = 0.1f)
     {
         List<Vector3> result = new List<Vector3>();
 
@@ -119,14 +113,15 @@ public class CreateObjectHandler : MonoBehaviour
 
                 //if it hits the plane, we know that the gridpoint is on top of the plane.
                 if (Physics.Raycast(ray, out hit, 5))
-                    if (hit.collider.gameObject == plane.gameObject) 
+                    if (hit.collider.gameObject == plane.gameObject)
                         result.Add(gridPoint);
             }
         }
+
         return result;
     }
-    
-    List<Vector3> GetValidSpawnLocations(ARPlaneManager planeManager) 
+
+    List<Vector3> GetValidSpawnLocations(ARPlaneManager planeManager)
     {
         List<Vector3> result = new List<Vector3>();
         foreach (var plane in planeManager.trackables)
@@ -136,9 +131,10 @@ public class CreateObjectHandler : MonoBehaviour
             if (plane.alignment == UnityEngine.XR.ARSubsystems.PlaneAlignment.HorizontalDown)
                 continue; //skip ceilings
 
-            List<Vector3> gridPnts = GetGridPnts(plane);
-            result.AddRange(gridPnts);
+            List<Vector3> gridPoints = GetGridPoints(plane);
+            result.AddRange(gridPoints);
         }
+        
         return result;
     }
 

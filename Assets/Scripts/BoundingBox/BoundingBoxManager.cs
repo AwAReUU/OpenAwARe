@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class BoundingBoxManager : PlaceObject
+public class BoundingBoxManager : MonoBehaviour
 {
     public Vector3 location;
     public Vector3 rotation;
@@ -12,7 +12,9 @@ public class BoundingBoxManager : PlaceObject
 
     public GameObject sceneBox;
 
-    protected override void Interact(Vector2 screenPoint)
+    //? Dit was eerst een override van een obsolete method die interacteerde 
+    //? met planes en er iets creeerde, idk of dit nog nodig is maar kijk maar :)
+    private void Interact()
     {
         if (sceneBox == null)
             SpawnBoxedObject(location, Quaternion.Euler(rotation), scale);
