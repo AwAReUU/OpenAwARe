@@ -42,7 +42,8 @@ public class ListsOverviewScreen : MonoBehaviour
   
         Debug.Log(listItemObject.GetComponent<RectTransform>().sizeDelta);
 
-        Vector2 listObjectSize = listItemObject.GetComponent<RectTransform>().sizeDelta;
+        Vector2 listItemObjectSize = listItemObject.GetComponent<RectTransform>().sizeDelta;
+        Vector2 listObjectSize = listObject.GetComponent<RectTransform>().sizeDelta;
         Vector2 scrollViewSize = scrollView.GetComponent<RectTransform>().sizeDelta;
         Vector2 scrollViewPos = scrollView.GetComponent<RectTransform>().anchoredPosition;
         Debug.Log("scrollviewpos " + scrollViewPos);
@@ -60,7 +61,8 @@ public class ListsOverviewScreen : MonoBehaviour
 
             // create a new list item to display this list
             GameObject newItem = Instantiate(listItemObject, scrollViewContent);
-            newItem.GetComponent<RectTransform>().localPosition = listItemPosition;
+            Debug.Log("PLACING AT POSITION: " + listItemPosition);
+            //newItem.GetComponent<RectTransform>().localPosition = listItemPosition;
 
             newItem.SetActive(true);
 
