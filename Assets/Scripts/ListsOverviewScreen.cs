@@ -36,55 +36,23 @@ public class ListsOverviewScreen : MonoBehaviour
     {
         RemoveListObjects();
 
-        float objectDist = 50; // distance between list objects
-
-        Debug.Log(listObject.GetComponent<RectTransform>().sizeDelta);
-  
-        Debug.Log(listItemObject.GetComponent<RectTransform>().sizeDelta);
-
-        Vector2 listItemObjectSize = listItemObject.GetComponent<RectTransform>().sizeDelta;
-        Vector2 listObjectSize = listObject.GetComponent<RectTransform>().sizeDelta;
-        Vector2 scrollViewSize = scrollView.GetComponent<RectTransform>().sizeDelta;
-        Vector2 scrollViewPos = scrollView.GetComponent<RectTransform>().anchoredPosition;
-        Debug.Log("scrollviewpos " + scrollViewPos);
         for (int i = 0; i < ingredientListManager.ingredientLists.Count; i++)
         {
-            Button ingredientList = GameObject.Find("IngredientList").GetComponent<Button>();
-            Button delBtn = GameObject.Find("DeleteButton").GetComponent<Button>();
-
-            Vector3 listItemPosition = new Vector3
-            {
-                x = scrollViewPos.x,
-                y = listObject.transform.localPosition.y - (listObjectSize.y + objectDist) * i,
-                z = 0
-            };
-
             // create a new list item to display this list
             GameObject listItem = Instantiate(listItemObject, scrollViewContent);
 
             listItem.SetActive(true);
 
             // change the text to match the list info
-            Button delButton = listItem.transform.GetChild(0).GetComponent<Button>();
-            Button listButton = listItem.transform.GetChild(1).GetComponent<Button>();
+            Button delButton = listItem.transform.GetChild(1).GetComponent<Button>();
+            Button listButton = listItem.transform.GetChild(0).GetComponent<Button>();
             listButton.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = ingredientListManager.ingredientLists[i].listName;
             listButton.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = ingredientListManager.ingredientLists[i].NumberOfIngredients().ToString();
-            int itemIndex = i;
-            //newItem.transform.GetComponent<Button>().onClick.AddListener(() => { OnListButtonClick(itemIndex); });
-            //listObjects.Add(newItem);
+            listObjects.Add(listItem);
 
-            // create a deleteButton for this list
-            //GameObject deleteButton = Instantiate(deleteButtonObject, scrollViewContent);
-            //Vector3 deleteButtonPosition = new Vector3
-            //{
-            //    x = listItemPosition.x + (listObjectSize.x / 2),
-            //    y = listItemPosition.y,
-            //    z = listItemPosition.z
-            //};
-            //deleteButton.GetComponent<RectTransform>().localPosition = deleteButtonPosition;
-            //deleteButton.SetActive(true);
-            delButton.transform.GetComponent<Button>().onClick.AddListener(() => { OnDeleteButtonClick(itemIndex); });
-            //listObjects.Add(deleteButton);
+            //store i in an int for pass-by value to the lambda expression.
+            int itemIndex = i;
+            delButton.onClick.AddListener(() => { OnDeleteButtonClick(itemIndex); });
         }
     }
 
