@@ -1,10 +1,13 @@
 ## How to run
 
 1. Install dependencies:
-```console 
+
+```console
 $ npm install
 ```
+
 2. Start the server:
+
 ```console
 $ npm run dev
 ```
@@ -62,4 +65,5 @@ $ npm run dev
 
 
 ## Tips
+
 - Use **Postman** for testing post requests.
