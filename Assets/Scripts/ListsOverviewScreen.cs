@@ -60,21 +60,20 @@ public class ListsOverviewScreen : MonoBehaviour
             };
 
             // create a new list item to display this list
-            GameObject newItem = Instantiate(listItemObject, scrollViewContent);
-            Debug.Log("PLACING AT POSITION: " + listItemPosition);
-            //newItem.GetComponent<RectTransform>().localPosition = listItemPosition;
+            GameObject listItem = Instantiate(listItemObject, scrollViewContent);
 
-            newItem.SetActive(true);
+            listItem.SetActive(true);
 
             // change the text to match the list info
-            //newItem.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = ingredientListManager.ingredientLists[i].listName;
-            //newItem.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = ingredientListManager.ingredientLists[i].NumberOfIngredients().ToString();
-            //int itemIndex = i;
+            Button delButton = listItem.transform.GetChild(0).GetComponent<Button>();
+            Button listButton = listItem.transform.GetChild(1).GetComponent<Button>();
+            listButton.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = ingredientListManager.ingredientLists[i].listName;
+            listButton.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = ingredientListManager.ingredientLists[i].NumberOfIngredients().ToString();
+            int itemIndex = i;
             //newItem.transform.GetComponent<Button>().onClick.AddListener(() => { OnListButtonClick(itemIndex); });
             //listObjects.Add(newItem);
 
             // create a deleteButton for this list
-            Button btn = GameObject.Find("DeleteButton").GetComponent<Button>();
             //GameObject deleteButton = Instantiate(deleteButtonObject, scrollViewContent);
             //Vector3 deleteButtonPosition = new Vector3
             //{
@@ -84,7 +83,7 @@ public class ListsOverviewScreen : MonoBehaviour
             //};
             //deleteButton.GetComponent<RectTransform>().localPosition = deleteButtonPosition;
             //deleteButton.SetActive(true);
-            //deleteButton.transform.GetComponent<Button>().onClick.AddListener(() => { OnDeleteButtonClick(itemIndex); });
+            delButton.transform.GetComponent<Button>().onClick.AddListener(() => { OnDeleteButtonClick(itemIndex); });
             //listObjects.Add(deleteButton);
         }
     }
