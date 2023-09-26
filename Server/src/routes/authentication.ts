@@ -126,7 +126,7 @@ router.delete("/logout", (req, res) => {
 });
 
 
-router.get("/check", validateToken, (req, res) => {
+router.get("/check", validateToken, (_req, res) => {
     res.send("Logged in");
 });
 
@@ -152,6 +152,8 @@ function generateRefreshToken(email: string): string {
 }
 
 
+export type ValidatedRequest = Request & { email: string }
+
 export function validateToken(req: Request, res: Response, next: any) {
     const header = req.headers["authorization"];
     if (!header) {
@@ -169,7 +171,7 @@ export function validateToken(req: Request, res: Response, next: any) {
             return;
         }
 
-        (req as any).email = email;
+        (req as ValidatedRequest).email = email;
         next();
     });
 }
