@@ -1,0 +1,121 @@
+{
+    "questionnairetitle":"sample title",
+    "questionnairedescription":"sample description",
+    "questions":
+    [
+        {
+            "questiontitle":"How you doing?",
+            "questiontype":"radio",
+            "ifyes": false,
+            "answeroptions":
+            [
+                {
+                    "optiontype":"radio",
+                    "optiontext":"Excellent"
+                },
+                {
+                    "optiontype":"radio",
+                    "optiontext":"Splendid"
+                },
+                {
+                    "optiontype":"radio",
+                    "optiontext":"Awful"
+                },
+                {
+                    "optiontype":"radio",
+                    "optiontext":"Awful"
+                }
+            ]
+        },
+        {
+            "questiontitle":"Which of the following is true?",
+            "questiontype":"checkbox",
+            "ifyes": false,
+            "answeroptions":
+            [
+                {
+                    "optiontype":"checkbox",
+                    "optiontext":"1+1=2"
+                },
+                {
+                    "optiontype":"checkbox",
+                    "optiontext":"2+2=4"
+                },
+                {
+                    "optiontype":"checkbox",
+                    "optiontext":"2+4=3"
+                }
+            ]
+        },
+        {
+            "questiontitle":"Type something in the box",
+            "questiontype":"textbox",
+            "ifyes": false,
+            "answeroptions":
+            [
+                {
+                    "optiontype":"textbox",
+                    "optiontext":"maybe some lorem ipsum?"
+                }
+            ]
+        },
+                {
+            "questiontitle":"How you doing?",
+            "questiontype":"radio",
+            "ifyes": false,
+            "answeroptions":
+            [
+                {
+                    "optiontype":"radio",
+                    "optiontext":"Excellent"
+                },
+                {
+                    "optiontype":"radio",
+                    "optiontext":"Splendid"
+                },
+                {
+                    "optiontype":"radio",
+                    "optiontext":"Meh"
+                },
+                {
+                    "optiontype":"radio",
+                    "optiontext":"Awful"
+                }
+            ]
+        },
+        {
+            "questiontitle": "Are you human?",
+            "questiontype": "radio",
+            "ifyes": true,
+            "ifyestrigger":0,
+            "answeroptions": 
+            [
+                {
+                    "optiontype": "radio",
+                    "optiontext": "Yes"
+                },
+                {
+                    "optiontype": "radio",
+                    "optiontext": "No"
+                }
+            ],
+            "ifyesquestion":
+            {
+                "questiontitle": "Are you sure?",
+                "questiontype": "radio",
+                "ifyes": false,
+                "answeroptions": 
+                [
+                    {
+                        "optiontype": "radio",
+                        "optiontext": "Absolutely"
+                    },
+                    {
+                        "optiontype": "radio",
+                        "optiontext": "No, i lied"
+                    }
+                ]
+            }
+        }
+    ]  
+}
