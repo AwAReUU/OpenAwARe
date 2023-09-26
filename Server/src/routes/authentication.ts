@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Response, Request } from "express";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import Database from "../database";
@@ -125,6 +125,11 @@ router.delete("/logout", (req, res) => {
     res.status(204).send("Logged out!");
 });
 
+
+router.get("/check", validateToken, (req, res) => {
+    res.send("Logged in");
+});
+
 function generateAccessToken(email: string): string {
     return jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET!, {
         expiresIn: "15m",
@@ -145,5 +150,29 @@ function generateRefreshToken(email: string): string {
 
     return refreshToken;
 }
+
+
+export function validateToken(req: Request, res: Response, next: any) {
+    const header = req.headers["authorization"];
+    if (!header) {
+        res.status(400).send("Authorization header is missing");
+        return;
+    }
+
+    const token = header.split(" ")[1];
+
+    if (token == null) res.sendStatus(400).send("Invalid access token");
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!, (err: any, email: any) => {
+        if (err) {
+            res.status(403).send("Token invalid");
+            return;
+        }
+
+        (req as any).email = email;
+        next();
+    });
+}
+
 
 export default router;
