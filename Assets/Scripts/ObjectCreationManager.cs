@@ -64,8 +64,8 @@ public class ObjectCreationManager : MonoBehaviour
             newObject.AddComponent<BoxCollider>();
             RotateToUser(newObject);
 
-            //? Not sure waar deze line voor is?
             position.y -= centerHeight;
+            newObject.transform.position = position;
 
             return true;
         }
