@@ -1,25 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Networking;
 using Proyecto26;
-
-// ----------------------------------------------------------------------------
-
-public struct AccountDetails
-{
-    string firstName;
-    string lastName;
-    string email;
-    string password;
-    string confirmPassword;
-}
+using System;
+using System.Threading.Tasks;
 
 // ----------------------------------------------------------------------------
 
 public class Client
 {
+
+    // Returns true if registration succeeded
+    public static Task<bool> Register(string adress, AccountDetails account)
+    {
+        string url = adress + "/auth/register";
+
+        return AwaitRSGPromise<bool>(ret =>
+        {
+            RestClient.Post(url, account).Then(response =>
+            {
+                Debug.Log("[client]: Registration is succesfull");
+
+                ret.SetResult(true);
+            }).Catch(err =>
+            {
+                Debug.LogError("[client]: Failed to register user: " + err.Message);
+                ret.SetResult(false);
+            });
+        });
+    }
+
     // ----------------------------------------------------------------------------
     // Singleton:
 
@@ -34,15 +42,10 @@ public class Client
         return Client.instance;
     }
 
-    public static void Register(string adress, AccountDetails account)
-    {
-        // TODO
-    }
-
     // ----------------------------------------------------------------------------
     // Instance:
 
-    private string accesToken;
+    private string accessToken;
     private string refreshToken;
 
     private string email;
@@ -50,25 +53,74 @@ public class Client
 
     private Client()
     {
-        this.Login();
     }
 
-    private void Login()
+    // Returns true if login succeeded
+    public Task<bool> Login(string adress, User user)
     {
+        string url = adress + "/auth/login";
 
-    }
-
-    private void RefreshToken()
-    {
-
-    }
-
-    private void SendPostRequest()
-    {
-        string url = "";
-        RestClient.Post(url, newPost).Then(response =>
+        return AwaitRSGPromise<bool>(ret =>
         {
-            EditorUtility.DisplayDialog("Status", response.StatusCode.ToString(), "Ok");
+            RestClient.Post<TokenResponse>(url, user).Then(response =>
+            {
+                this.accessToken = response.accessToken;
+                this.refreshToken = response.refreshToken;
+                Debug.Log("[client]: Logged in");
+
+                ret.SetResult(true);
+            }).Catch(err =>
+            {
+                Debug.LogError("[client]: Failed to login: " + err.Message);
+
+                ret.SetResult(false);
+            });
         });
+
     }
+
+    // ----------------------------------------------------------------------------
+
+    private static async Task<T> AwaitRSGPromise<T>(Action<TaskCompletionSource<T>> action)
+    {
+        // !!!
+        // Volgens mij is dit heel omslachtig en niet efficient, maar weet niet hoe ik anders RestClient.Post(..) await.
+        //
+        // Om een of andere rede kun je RSG.IPromise alleen d.m.v. callbacks gebruiken...
+        var tcs = new TaskCompletionSource<T>();
+        action(tcs);
+        return await tcs.Task;
+    }
+}
+
+// ----------------------------------------------------------------------------
+
+[Serializable]
+public struct AccountDetails
+{
+    public string firstName;
+    public string lastName;
+    public string email;
+    public string password;
+    public string confirmPassword;
+}
+
+[Serializable]
+public struct User
+{
+    public string email;
+    public string password;
+}
+
+[Serializable]
+struct TokenResponse
+{
+    public string accessToken;
+    public string refreshToken;
+}
+
+public enum Response
+{
+    OK,
+    ERR
 }
