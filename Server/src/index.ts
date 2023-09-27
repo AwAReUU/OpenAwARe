@@ -3,6 +3,8 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 
 import auth from "./routes/authentication";
+import data from "./routes/data";
+import quest from "./routes/questionaire";
 
 // ----------------------------------------------------------------------------
 
@@ -25,3 +27,5 @@ app.get("/", (_req: Request, res: Response) => {
 
 
 app.use("/auth", auth);
+app.use("/data", data);
+app.use("/quest", quest);
