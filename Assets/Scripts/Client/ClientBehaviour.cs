@@ -21,6 +21,8 @@ public class ClientBehaviour : MonoBehaviour
 
     private async void Login()
     {
-        await Client.getInstance().Login(adress, new User { email = this.email, password = this.password });
+        await Client.GetInstance().Login(adress, new User { email = this.email, password = this.password });
+
+        Debug.Log(await Client.GetInstance().CheckLogin(adress));
     }
 }

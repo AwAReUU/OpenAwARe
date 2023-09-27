@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 public class Client
 {
+    // ----------------------------------------------------------------------------
+    // No login needed:
 
     // Returns true if registration succeeded
     public static Task<bool> Register(string adress, AccountDetails account)
@@ -33,7 +35,7 @@ public class Client
 
     private static Client instance;
 
-    public static Client getInstance()
+    public static Client GetInstance()
     {
         if (Client.instance == null)
         {
@@ -49,7 +51,6 @@ public class Client
     private string refreshToken;
 
     private string email;
-    private string password;
 
     private Client()
     {
@@ -66,6 +67,8 @@ public class Client
             {
                 this.accessToken = response.accessToken;
                 this.refreshToken = response.refreshToken;
+                this.email = user.email;
+
                 Debug.Log("[client]: Logged in");
 
                 ret.SetResult(true);
@@ -76,7 +79,79 @@ public class Client
                 ret.SetResult(false);
             });
         });
+    }
 
+    public Task<bool> Refresh(string adress)
+    {
+        string url = adress + "/auth/refreshToken";
+
+        return AwaitRSGPromise<bool>(ret =>
+        {
+            RestClient.Post<TokenResponse>(url, new RefreshRequest { email = this.email, token = this.refreshToken }).Then(response =>
+            {
+                this.accessToken = response.accessToken;
+                this.refreshToken = response.refreshToken;
+
+                Debug.Log("[client]: Refreshed login session");
+
+                ret.SetResult(true);
+            }).Catch(err =>
+            {
+                Debug.LogError("[client]: Failed to refresh login session: " + err.Message);
+
+                ret.SetResult(false);
+            });
+        });
+    }
+
+
+    public Task<bool> Logout(string adress)
+    {
+        string url = adress + "/auth/logout";
+
+        return AwaitRSGPromise<bool>(ret =>
+        {
+            RestClient.Post(url, new EmptyResponse { }).Then(response =>
+            {
+                Debug.Log("[client]: Logged out");
+
+                ret.SetResult(true);
+            }).Catch(err =>
+            {
+                Debug.LogError("[client]: Failed to logout: " + err.Message);
+
+                ret.SetResult(false);
+            });
+        });
+    }
+
+    // Returns true if logged in. Returns false if not logged in or if there are connections issues.
+    public Task<bool> CheckLogin(string adress)
+    {
+        string url = adress + "/auth/check";
+
+        return AwaitRSGPromise<bool>(ret =>
+        {
+            var rh = new RequestHelper
+            {
+                Uri = url
+            };
+
+            RestClient.Get(Authorize(rh)).Then(response =>
+            {
+                ret.SetResult(true);
+            }).Catch(err =>
+            {
+                ret.SetResult(false);
+            });
+        });
+
+    }
+
+    private RequestHelper Authorize(RequestHelper rh)
+    {
+        rh.Headers.Add("authorization", string.Format("{0} {1}", this.refreshToken, this.accessToken));
+        return rh;
     }
 
     // ----------------------------------------------------------------------------
@@ -86,11 +161,12 @@ public class Client
         // !!!
         // Volgens mij is dit heel omslachtig en niet efficient, maar weet niet hoe ik anders RestClient.Post(..) await.
         //
-        // Om een of andere rede kun je RSG.IPromise alleen d.m.v. callbacks gebruiken...
+        // Om een of andere rede kun je het alleen d.m.v. callbacks gebruiken...
         var tcs = new TaskCompletionSource<T>();
         action(tcs);
         return await tcs.Task;
     }
+
 }
 
 // ----------------------------------------------------------------------------
@@ -112,12 +188,23 @@ public struct User
     public string password;
 }
 
+
+[Serializable]
+public struct RefreshRequest
+{
+    public string email;
+    public string token;
+}
+
 [Serializable]
 struct TokenResponse
 {
     public string accessToken;
     public string refreshToken;
 }
+
+[Serializable]
+struct EmptyResponse { }
 
 public enum Response
 {
