@@ -19,16 +19,21 @@ public class InputController : MonoBehaviour
     private ARRaycastManager aRRaycastManager;
     private ARPlaneManager aRPlaneManager;
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();
-    private CreateObjectsManager createObjectController;
+    private ObjectCreationManager objectCreationManager;
     private InteractObjectHandler interactObjectHandler;
     private Camera arCamera;
-    public InputStates inputState = InputStates.All;
+    public InputStates inputState { get; private set; } = InputStates.All;
+
+    public void SetInputState(int inputIndex)
+    {
+        inputState = (InputStates)inputIndex;
+    }
 
     private void Awake()
     {
         aRRaycastManager = GetComponent<ARRaycastManager>();
         aRPlaneManager = GetComponent<ARPlaneManager>();
-        createObjectController = GetComponent<CreateObjectsManager>();
+        objectCreationManager = GetComponent<ObjectCreationManager>();
         interactObjectHandler = GetComponent<InteractObjectHandler>();
         arCamera = FindObjectOfType<Camera>();
     }
@@ -67,11 +72,6 @@ public class InputController : MonoBehaviour
             HandleInput(Input.mousePosition);
     }
     //#endif
-
-    public void SetInputState(int inputIndex)
-    {
-        inputState = (InputStates)inputIndex;
-    }
 
     private bool IsPointerOverUIObject()
     {
@@ -123,7 +123,7 @@ public class InputController : MonoBehaviour
                 //     createObjectHandler.CreateObject(hit);
 
                 if (hits.Count > 0)
-                    createObjectController.CreateObjectOnHit(hits[0]);
+                    objectCreationManager.TryPlaceObjectOnTouch(hits[0]);
             }
         }
     }
