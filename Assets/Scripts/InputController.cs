@@ -19,18 +19,29 @@ public class InputController : MonoBehaviour
     private ARRaycastManager aRRaycastManager;
     private ARPlaneManager aRPlaneManager;
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();
-    private CreateObjectsManager createObjectController;
+    private ObjectCreationManager objectCreationManager;
     private InteractObjectHandler interactObjectHandler;
     private Camera arCamera;
-    public InputStates inputState = InputStates.All;
+    public InputStates inputState { get; private set; }
+
+    public void SetInputState(InputStates state)
+    {
+        inputState = state;
+    }
+    
+    public void SetInputState(int index)
+    {
+        inputState = (InputStates)index;
+    }
 
     private void Awake()
     {
         aRRaycastManager = GetComponent<ARRaycastManager>();
         aRPlaneManager = GetComponent<ARPlaneManager>();
-        createObjectController = GetComponent<CreateObjectsManager>();
+        objectCreationManager = GetComponent<ObjectCreationManager>();
         interactObjectHandler = GetComponent<InteractObjectHandler>();
         arCamera = FindObjectOfType<Camera>();
+        SetInputState(InputStates.All);
     }
 
     private void OnEnable()
@@ -68,11 +79,6 @@ public class InputController : MonoBehaviour
     }
     //#endif
 
-    public void SetInputState(int inputIndex)
-    {
-        inputState = (InputStates)inputIndex;
-    }
-
     private bool IsPointerOverUIObject()
     {
         //check mouse
@@ -106,7 +112,7 @@ public class InputController : MonoBehaviour
         {
             Ray ray = arCamera.ScreenPointToRay(screenPoint);
             RaycastHit hitObject;
-            if (Physics.Raycast(ray, out hitObject, 20f, LayerMask.GetMask("Interactable")))
+            if (Physics.Raycast(ray, out hitObject, 20f, LayerMask.GetMask("Ingredient")))
             {
                 //interactObjectHandler.ColorObject(hitObject.transform.gameObject);
                 interactObjectHandler.ToggleDataWindow(hitObject.transform.gameObject);
@@ -121,9 +127,8 @@ public class InputController : MonoBehaviour
             {
                 // foreach (ARRaycastHit hit in hits)
                 //     createObjectHandler.CreateObject(hit);
-
                 if (hits.Count > 0)
-                    createObjectController.CreateObjectOnHit(hits[0]);
+                    objectCreationManager.TryPlaceObjectOnTouch(hits[0]);
             }
         }
     }
