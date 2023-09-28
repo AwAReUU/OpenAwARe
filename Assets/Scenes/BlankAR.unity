@@ -519,7 +519,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1857636059}
   - {fileID: 1368874961}
   m_Father: {fileID: 1468689670}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2221,7 +2220,6 @@ GameObject:
   - component: {fileID: 721795252}
   - component: {fileID: 721795251}
   - component: {fileID: 721795250}
-  - component: {fileID: 721795253}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -4135,8 +4133,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 348371570}
+  m_Children: []
   m_Father: {fileID: 214033282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4262,14 +4259,13 @@ GameObject:
   - component: {fileID: 1468689669}
   - component: {fileID: 1468689668}
   - component: {fileID: 1468689667}
-  - component: {fileID: 1468689671}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1468689667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4913,8 +4909,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a861b5d9bfee7e6439f8fddf904259d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  searchBar: {fileID: 1290950544}
-  results: {fileID: 1301596618}
 --- !u!114 &1659859607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5603,7 +5597,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1840238092
 RectTransform:
   m_ObjectHideFlags: 0

@@ -5,7 +5,6 @@
     [
         {
             "questiontitle":"How you doing?",
-            "questiontype":"radio",
             "ifyes": false,
             "answeroptions":
             [
@@ -29,7 +28,6 @@
         },
         {
             "questiontitle":"Which of the following is true?",
-            "questiontype":"checkbox",
             "ifyes": false,
             "answeroptions":
             [
@@ -49,7 +47,6 @@
         },
         {
             "questiontitle":"Type something in the box",
-            "questiontype":"textbox",
             "ifyes": false,
             "answeroptions":
             [
@@ -59,9 +56,8 @@
                 }
             ]
         },
-                {
+        {
             "questiontitle":"How you doing?",
-            "questiontype":"radio",
             "ifyes": false,
             "answeroptions":
             [
@@ -85,7 +81,6 @@
         },
         {
             "questiontitle": "Are you human?",
-            "questiontype": "radio",
             "ifyes": true,
             "ifyestrigger":0,
             "answeroptions": 
@@ -99,23 +94,56 @@
                     "optiontext": "No"
                 }
             ],
-            "ifyesquestion":
-            {
-                "questiontitle": "Are you sure?",
-                "questiontype": "radio",
-                "ifyes": false,
-                "answeroptions": 
-                [
-                    {
-                        "optiontype": "radio",
-                        "optiontext": "Absolutely"
-                    },
-                    {
-                        "optiontype": "radio",
-                        "optiontext": "No, i lied"
-                    }
-                ]
-            }
+            "ifyesquestions":
+            [
+                {
+                    "questiontitle": "What kind of human?",
+                    "ifyes": false,
+                    "answeroptions": 
+                    [
+                        {
+                            "optiontype": "radio",
+                            "optiontext": "Tasty one"
+                        },
+                        {
+                            "optiontype": "radio",
+                            "optiontext": "Stinky one"
+                        },
+                        {
+                            "optiontype": "radio",
+                            "optiontext": "Tall one"
+                        }
+                    ]
+                },
+                {
+                    "questiontitle": "What is your favorite color?",
+                    "ifyes": false,
+                    "answeroptions": [
+                        {
+                            "optiontype": "radio",
+                            "optiontext": "Blue"
+                        },
+                        {
+                            "optiontype": "radio",
+                            "optiontext": "Yellow"
+                        }
+                    ]
+                },
+                {
+                    "questiontitle": "Are you sure you are a human?",
+                    "ifyes": false,
+                    "answeroptions": [
+                        {
+                            "optiontype": "radio",
+                            "optiontext": "Absolutely"
+                        },
+                        {
+                            "optiontype": "radio",
+                            "optiontext": "No, i lied"
+                        }
+                    ]
+                }
+            ]
         }
     ]  
 }
