@@ -18,6 +18,7 @@ public class ListsOverviewScreen : MonoBehaviour
  
     private void OnEnable()
     {
+        //Debug.Log("count:  " + ingredientListManager.ingredientLists.Count);
         DisplayLists();
     }
 
@@ -49,6 +50,7 @@ public class ListsOverviewScreen : MonoBehaviour
             //store i in an int for pass-by value to the lambda expression.
             //else it will not work
             int itemIndex = i;
+            listButton.onClick.AddListener(() => { OnListButtonClick(itemIndex); });
             delButton.onClick.AddListener(() => { OnDeleteButtonClick(itemIndex); });
         }
     }

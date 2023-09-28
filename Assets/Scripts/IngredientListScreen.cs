@@ -11,13 +11,14 @@ public class IngredientListScreen : MonoBehaviour
 
     // the objects drawn on screen to display the list
     List<GameObject> ingredientObjects = new List<GameObject>();
+    GameObject addIngredientObj;
 
     // (assigned within unity)
-    [SerializeField] private GameObject ingredientObject;
-    [SerializeField] private TextMeshProUGUI listNameText;
-    [SerializeField] private GameObject deleteButton;
     [SerializeField] private GameObject backButton;
+    [SerializeField] private GameObject listItemObject;
+    [SerializeField] private TextMeshProUGUI listNameText;
     [SerializeField] private GameObject addIngredientButton;
+    [SerializeField] private Transform scrollViewContent;
 
     private void OnEnable()
     {
@@ -36,39 +37,42 @@ public class IngredientListScreen : MonoBehaviour
         // display list name
         listNameText.text = ingredientListManager.currentIngredientList.listName;
 
-        float objectDist = 50; // distance between object items
-        float yPos;
-
         // display each ingredient
         for (int i = 0; i < ingredientListManager.currentIngredientList.ingredients.Count; i++)
         {
-            // calculate height for ingredient object
-            yPos = ingredientObject.transform.localPosition.y - (ingredientObject.GetComponent<RectTransform>().sizeDelta.y + objectDist) * i;
-
             // create a new list item to display this ingredient
-            GameObject newItem = Instantiate(ingredientObject, ingredientObject.transform.parent);
-            newItem.GetComponent<RectTransform>().localPosition = new Vector3(ingredientObject.transform.localPosition.x, yPos, 0); // set item position to the correct height
-            newItem.SetActive(true);
+            GameObject listItem = Instantiate(listItemObject, scrollViewContent);
+            listItem.SetActive(true);
 
             // change the text to match the ingredient info
+            Button ingredientButton = listItem.transform.GetChild(0).GetComponent<Button>();
+            Button delButton = listItem.transform.GetChild(1).GetComponent<Button>();
+
             List<Ingredient> ingredients = ingredientListManager.currentIngredientList.ingredients;
-            newItem.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = ingredients[i].name;
-            newItem.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = ingredients[i].quantity.ToString();
-            newItem.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = ingredients[i].type.ToString();
-            int itemIndex = i;
-            ingredientObjects.Add(newItem);
+            ingredientButton.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = ingredients[i].name;
+            ingredientButton.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = ingredients[i].quantity.ToString();
+            ingredientButton.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = ingredients[i].type.ToString();
+            ingredientObjects.Add(listItem);
 
             // create a deleteButton for this ingredient
-            GameObject newButton = Instantiate(deleteButton, deleteButton.transform.parent);
-            newButton.GetComponent<RectTransform>().localPosition = new Vector3(deleteButton.transform.localPosition.x, yPos, 0); // set item position to the correct height
-            newButton.SetActive(true);
-            newButton.transform.GetComponent<Button>().onClick.AddListener(() => { OnDeleteButtonClick(itemIndex); });
-            ingredientObjects.Add(newButton);
+            int itemIndex = i;
+            ingredientButton.onClick.AddListener(() => { OnIngredientButtonClick(itemIndex); });
+            delButton.onClick.AddListener(() => { OnDeleteButtonClick(itemIndex); });
         }
+        //Add the "Add ingredient" button to the bottom of the list.
+        addIngredientObj = Instantiate(addIngredientButton, scrollViewContent);
+        Button addIngredientBtn = addIngredientButton.GetComponent<Button>();
+        addIngredientBtn.onClick.AddListener(() => { OnAddIngredientButtonClick(); });
+        addIngredientObj.SetActive(true);
+    }
+
+    private void OnIngredientButtonClick(int itemIndex)
+    {
+        ingredientListManager.CloseList();
     }
 
     /// <summary>
-    /// removes currently displayed objects
+    /// removes all objects from the scrollview
     /// </summary>
     public void RemoveIngredientObjects()
     {
@@ -76,6 +80,7 @@ public class IngredientListScreen : MonoBehaviour
         {
             Destroy(o);
         }
+        Destroy(addIngredientObj);
         ingredientObjects = new List<GameObject>();
     }
 
