@@ -13,14 +13,8 @@ public class ListsOverviewScreen : MonoBehaviour
     List<GameObject> listObjects = new List<GameObject>();
 
     // (assigned within unity)
-    [SerializeField] private GameObject addListButton;
-    [SerializeField] private GameObject deleteButtonObject;
-    [SerializeField] private GameObject listObject;
-
-    [SerializeField] private GameObject scrollView;
     [SerializeField] private Transform scrollViewContent;
-
-    [SerializeField] private GameObject listItemObject;
+    [SerializeField] private GameObject listItemObject; //list item 'prefab'
  
     private void OnEnable()
     {
@@ -40,17 +34,20 @@ public class ListsOverviewScreen : MonoBehaviour
         {
             // create a new list item to display this list
             GameObject listItem = Instantiate(listItemObject, scrollViewContent);
-
             listItem.SetActive(true);
 
             // change the text to match the list info
             Button delButton = listItem.transform.GetChild(1).GetComponent<Button>();
             Button listButton = listItem.transform.GetChild(0).GetComponent<Button>();
-            listButton.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = ingredientListManager.ingredientLists[i].listName;
-            listButton.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = ingredientListManager.ingredientLists[i].NumberOfIngredients().ToString();
+            listButton.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text =
+                ingredientListManager.ingredientLists[i].listName;
+            listButton.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text =
+                ingredientListManager.ingredientLists[i].NumberOfIngredients().ToString();
+
             listObjects.Add(listItem);
 
             //store i in an int for pass-by value to the lambda expression.
+            //else it will not work
             int itemIndex = i;
             delButton.onClick.AddListener(() => { OnDeleteButtonClick(itemIndex); });
         }
