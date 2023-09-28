@@ -108,11 +108,14 @@ public class IngredientListManager : MonoBehaviour
         SaveFile();
     }
 
+    public void OpenSearchScreen()
+    {
+        ingredientListScreen.SetActive(false);
+        addIngredientScreen.SetActive(true);
+    }
+
     public void AddIngredient(Ingredient ingredient)
     {
-        // TODO: created method inbetween with:
-        // ingredientListScreen.SetActive(false);
-        // addIngredientScreen.SetActive(true);
         currentIngredientList.AddIngredient(ingredient);
         SaveFile();
     }

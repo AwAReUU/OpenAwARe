@@ -97,7 +97,8 @@ public class IngredientListScreen : MonoBehaviour
 
     public void OnAddIngredientButtonClick()
     {
-        ingredientListManager.AddIngredient(new Ingredient("banana", QuantityType.PCS, 3));
-        DisplayList();
+        ingredientListManager.OpenSearchScreen();
+        //ingredientListManager.AddIngredient(new Ingredient("banana", QuantityType.PCS, 3));
+        //DisplayList();
     }
 }
