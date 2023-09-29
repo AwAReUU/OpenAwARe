@@ -527,6 +527,8 @@ MonoBehaviour:
   submitButton: {fileID: 7978906884852995942}
   questionTemplate: {fileID: 5911877008007044621, guid: 993cb102f3a3e484da507f5518417149,
     type: 3}
+  ifyesContainerTemplate: {fileID: 5866821426934997960, guid: 020f0a761cb20724e9f3566ac69106ac,
+    type: 3}
 --- !u!1 &3952158344208651898
 GameObject:
   m_ObjectHideFlags: 0

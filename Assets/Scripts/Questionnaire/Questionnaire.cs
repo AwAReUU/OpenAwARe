@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Questionnaire : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class Questionnaire : MonoBehaviour
         this.description.GetComponent<TextMeshProUGUI>().text = description;
     }
 
-    public void addQuestion(QuestionData data)
+    public GameObject addQuestion(QuestionData data)
     {
         var question = Instantiate(questionTemplate);
         question.transform.SetParent(gameObject.transform.Find("Question Scroller/Content"));
@@ -57,6 +58,17 @@ public class Questionnaire : MonoBehaviour
             {
                 questionscript.AddTextinput(answer.optiontext);
             }
-        } 
+        }
+
+        if(data.ifyes)
+        {
+            foreach (QuestionData ifyesQuestionData in data.ifyesquestions)
+            {
+                var ifyesQuestion = addQuestion(ifyesQuestionData);
+                ifyesQuestion.SetActive(false);
+                questionscript.ifyesQuestions.Add(ifyesQuestion);
+            }
+        }
+        return question;
     }
 }

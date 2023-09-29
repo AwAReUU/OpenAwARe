@@ -32,6 +32,22 @@ public class QuestionnaireConstructor : MonoBehaviour
         //submit button functionality
         //code cleanup
         //documentation
+        //possibly: add 'required' bool to questions, json format, etc.
+
+        //working on: if yes questions
+        //implemented: if yes questions are added to the questionnaire and hidden when a question is made
+        //todo: if yes questions are un- and re-hidden when the answer option that triggers them changes
+
+        //ideas for hiding/revealing ifyes questions:
+        //give the answer option templates a script that knows which question it belongs to,
+        //and have the option tell the question when it changes state. question then decides to hide or reveal.
+        //for checkbox & radio: on value changed, share same method
+        //for text inut: not applicable
+
+        //bug: if yes questions stack on eachother on first display
+        //solution: put them in one container, put container in questionnaire
+        //container gets toggled instead, questions in container are always active
+        //container has vertical layout group, padding 20, upper center alignment
 
         
         //json debug shows that if a data point doesn't need to be there, you can leave it out of the file and it will
