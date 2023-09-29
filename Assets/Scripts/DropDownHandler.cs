@@ -11,7 +11,7 @@ public class DropdownHandler : MonoBehaviour
     private void Start()
     {
         dropdown = GetComponent<TMP_Dropdown>();
-        SetDropdownOptions();
+        //SetDropdownOptions();
         dropdown.onValueChanged.AddListener(delegate
         {
             DropdownValueChanged(dropdown);
@@ -29,6 +29,24 @@ public class DropdownHandler : MonoBehaviour
 
     private void DropdownValueChanged(TMP_Dropdown dropdown)
     {
-        ObjectPrefabs.I.prefabIndex = dropdown.value;
+        switch (dropdown.value)
+        {
+            case 0:     // Go to ingredient/recipe manager
+                break;
+            case 1:     // Auto-generate objects
+                FindObjectOfType<ObjectCreationManager>().AutoGenerateObjects();
+                break;
+            case 2:     // Clear world of generated objects
+                FindObjectOfType<ObjectCreationManager>().DestroyAllObjects();
+                break;
+            case 3:     // Go to Questionaire / Diary?
+                FindObjectOfType<SceneSwitcher>().ChangeScene(1);
+                break;
+            case 4:     // Go to Settings
+                break;
+            default:
+                break;
+        }
+
     }
 }
