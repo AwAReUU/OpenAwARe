@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ObjectPrefabs : MonoBehaviour
 {
+    //* A singleton class containing a list of all potential objects/ingredients
+
     public static ObjectPrefabs I { get; private set; }
     public GameObject[] prefabs;
     public int prefabIndex;
