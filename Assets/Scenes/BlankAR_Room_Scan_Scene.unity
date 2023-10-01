@@ -4517,6 +4517,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1547301237}
+  - component: {fileID: 1547301238}
   m_Layer: 0
   m_Name: PointCloudVisualManager
   m_TagString: Untagged
@@ -4539,6 +4540,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 606425942}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1547301238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547301236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 679abd2006038d141889de536df43f15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ARorigin: {fileID: 1659859597}
+  particlePrefab: {fileID: 3677006813525733723, guid: 7baa99321108478449628c98ada64446,
+    type: 3}
+  nroParticalSystems: 8
+  color: {r: 0, g: 1, b: 0.085513115, a: 0}
+  scale: 0.2
 --- !u!1 &1553190910
 GameObject:
   m_ObjectHideFlags: 0
@@ -4808,6 +4827,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a564020f988fc6543b2663446df699f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aRRaycastManager: {fileID: 0}
+  aRPlaneManager: {fileID: 0}
+  eventSystem: {fileID: 0}
 --- !u!114 &1659859608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4865,8 +4887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab0e80cee9cc1d44928bfe488dd1e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PointCloudPrefab: {fileID: 1809323666904624677, guid: 0a9eaf990f3cad644b841ed2c18e8be2,
-    type: 3}
+  m_PointCloudPrefab: {fileID: 0}
 --- !u!1 &1670303015
 GameObject:
   m_ObjectHideFlags: 0
