@@ -30,7 +30,6 @@ public class PlaceSpacedObject : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("OnEnable");
         EnhancedTouch.TouchSimulation.Enable();
         EnhancedTouch.EnhancedTouchSupport.Enable();
         EnhancedTouch.Touch.onFingerDown += FingerDown;
@@ -38,7 +37,6 @@ public class PlaceSpacedObject : MonoBehaviour
 
     private void OnDisable()
     {
-        Debug.Log("OnDisable");
         EnhancedTouch.TouchSimulation.Disable();
         EnhancedTouch.EnhancedTouchSupport.Disable();
         EnhancedTouch.Touch.onFingerDown -= FingerDown;

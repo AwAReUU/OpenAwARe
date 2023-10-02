@@ -2,47 +2,73 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using System;
 
 public class SearchScript : MonoBehaviour
 {
-    public GameObject ContentHolder;
-    public GameObject[] Elements;
-    public GameObject SearchBar;
-    public int totalElements;
+
+    [SerializeField] private IngredientListManager ingredientListManager;
+
+    [SerializeField] private GameObject buttonPrefab;
+    [SerializeField] private GameObject ContentHolder;
+    [SerializeField] private List<GameObject> items = new List<GameObject>();
+    [SerializeField] private GameObject SearchBar;
 
     // Start is called before the first frame update
     void Start()
     {
-        totalElements = ContentHolder.transform.childCount;
-        Elements = new GameObject[totalElements];
-        for (int i = 0; i < totalElements; i++) 
+        InitDummyList();
+    }
+
+    private void InitDummyList()
+    {
+        for (int i = 0; i < 10; i++) 
         {
-            Elements[i] = ContentHolder.transform.GetChild(i).gameObject;
+            AddContentItem("item " + i*135, QuantityType.PCS);
         }
     }
 
-    public void Search() 
+    public void AddContentItem(string itemName, QuantityType qtyType) 
+    {
+        GameObject button = Instantiate(buttonPrefab, ContentHolder.transform);
+        button.GetComponentInChildren<TMP_Text>().text = itemName;
+        //Get Button object from GameObject to attach event
+        items.Add(button);
+        Button b = button.GetComponent<Button>();
+        b.onClick.AddListener(delegate { OnItemClicked(button); });
+        button.SetActive(true);
+    }
+
+    private void OnItemClicked(GameObject button)
+    {
+        ingredientListManager.OpenMaterialScreen();
+    }
+
+    /// <summary>
+    /// Find all the items that match the current text in the search bar.
+    /// TODO: replace with sql query search
+    /// </summary>
+    public void OnSearchClick() 
     {
         string searchText = SearchBar.GetComponent<TMP_InputField>().text;
         int searchTextLength = searchText.Length;
 
-        for(int i = 0; i < Elements.Length; i++)
+        for(int i = 0; i < items.Count; i++)
         {
-            GameObject elem = Elements[i];
-            if (elem.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text.Length >= searchTextLength) 
+            GameObject elem = items[i];
+            string itemText = elem.GetComponentInChildren<TMP_Text>().text;
+            if (itemText.Length >= searchTextLength) 
             {
-                if (searchText == elem.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text.Substring(0, searchTextLength).ToLower())
+                if (itemText.Contains(searchText))
+                {
+                    Debug.Log("true");
                     elem.SetActive(true);
+                }
                 else
                     elem.SetActive(false);
             }
         }
-
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
