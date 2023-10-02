@@ -1,14 +1,11 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Unity.Collections;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
-using UnityEngine.SubsystemsImplementation;
-using UnityEngine.UIElements;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 
-public class ARPointCloudManagerVizualization : MonoBehaviour
+public class VisualizePointClouds : MonoBehaviour
 {
     [SerializeField] private GameObject ARorigin;
     [SerializeField] private GameObject particlePrefab;
@@ -29,25 +26,21 @@ public class ARPointCloudManagerVizualization : MonoBehaviour
 
     private void Start()
     {
+        ARorigin = this.gameObject;
         aRPointCloudManager = ARorigin.GetComponent<ARPointCloudManager>();
 
-        pointCloudVisualizersA = new PointCloudVisualizer_Gizmo_Basic[nroParticalSystems];
+        pointCloudVisualizersA = new PointCloudVisualizer_Particles_Basic[nroParticalSystems];
         maybeCloudVisualizersA = new HideOnNullVisualizer<NativeSlice<Vector3>>[nroParticalSystems];
         aRPointCloudVisualizersA = new ARPointCloudVisualizer[nroParticalSystems];
 
         for (int i = 0; i < nroParticalSystems; i++)
         {
-            var a = pointCloudVisualizersA[i];
-            var b = maybeCloudVisualizersA[i];
-            var c = aRPointCloudVisualizersA[i];
-            CreatePointCloudVisualizer(out a, out b, out c);
-            pointCloudVisualizersA[i] = a;
-            maybeCloudVisualizersA[i] = b;
-            aRPointCloudVisualizersA[i] = c;
+            CreatePointCloudVisualizer(out IPointCloudVisualizer pcV, out IVisualizer<NativeSlice<Vector3>?> mcV, out IVisualizer<ARPointCloud> arpcV);
+            pointCloudVisualizersA[i] = pcV; maybeCloudVisualizersA[i] = mcV; aRPointCloudVisualizersA[i] = arpcV;
         }
 
         var trackableCollectionVisualizer = new TrackableCollectionVisualizer<ARPointCloud>(aRPointCloudVisualizersA);
-        
+
         aRPointCloudManagerVisualizer = new ARPointCloudManagerVisualizer(trackableCollectionVisualizer);
 
         InvokeRepeating("Visualize", 5.0f, 2.0f);
@@ -108,10 +101,11 @@ public class ARPointCloudManagerVizualization : MonoBehaviour
 
     public void CreatePointCloudVisualizer(out GameObject childParticleObject, out IPointCloudVisualizer pointCloudVisualizer, out IVisualizer<NativeSlice<Vector3>?> maybeCloudVisualizer, out IVisualizer<ARPointCloud> aRPointCloudVisualizer)
     {
+        //childParticleObject = null;
         childParticleObject = Instantiate(particlePrefab, this.transform);
         var particleSystem = childParticleObject.GetComponent<ParticleSystem>();
-        pointCloudVisualizer = new PointCloudVisualizer_Gizmo_Basic(color, scale);
-        //pointCloudVisualizer = new PointCloudVisualizer_Particles_Basic(particleSystem, color, scale);
+        //pointCloudVisualizer = new PointCloudVisualizer_Gizmo_Basic(color, scale);
+        pointCloudVisualizer = new PointCloudVisualizer_Particles_Basic(particleSystem, color, scale);
         maybeCloudVisualizer = new HideOnNullVisualizer<NativeSlice<Vector3>>(pointCloudVisualizer);
         aRPointCloudVisualizer = new ARPointCloudVisualizer(maybeCloudVisualizer);
     }
@@ -120,10 +114,11 @@ public class ARPointCloudManagerVizualization : MonoBehaviour
     {
     }
 
+    /*
     private void OnDrawGizmos()
     {
         Debug.Log("OnDrawGizmos");
-        Gizmos.color = color;
+        Gizmos.color = Color.red;
         var size = new Vector3(this.scale, this.scale, this.scale);
         for (int i = 0; i < nroParticalSystems; i++)
         {
@@ -133,10 +128,12 @@ public class ARPointCloudManagerVizualization : MonoBehaviour
             Debug.Log("OnDrawGizmos: positions.Length = " + positions.Length);
             for (int j = 0; j < positions.Length; j++)
             {
-                Gizmos.DrawCube(positions[j], size);
+                Debug.Log("OnDrawGizmos: position = " + positions[j]);
+                Gizmos.DrawSphere(positions[j], 0.05f);
             }
         }
     }
+    */
 
     protected void Visualize()
     {
@@ -162,4 +159,3 @@ public class ARPointCloudManagerVizualization : MonoBehaviour
     }
     */
 }
-

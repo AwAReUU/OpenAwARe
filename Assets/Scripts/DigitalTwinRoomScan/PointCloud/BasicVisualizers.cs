@@ -63,6 +63,7 @@ public class PointCloudVisualizer_Particles_Basic : IPointCloudVisualizer
         }
 
         particleSystem.SetParticles(particles, l);
+        Debug.Log("PointCloudV: " + particleSystem.particleCount + " , " + l);
         Debug.Log("PointCloudV: End");
     }
 
