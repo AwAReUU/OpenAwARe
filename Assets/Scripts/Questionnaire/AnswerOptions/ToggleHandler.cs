@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
-using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +7,7 @@ public class ToggleHandler : MonoBehaviour
 
     int optionNumber;
 
+    //notifies the question that this answer option is now yes or no, true or false
     public void NotifyChange()
     {
         question.GetComponent<Question>().ChangeIfyesState(optionNumber, gameObject.GetComponent<Toggle>().isOn);
@@ -22,6 +18,7 @@ public class ToggleHandler : MonoBehaviour
         this.question = question;
     }
 
+    //should be called exactly once per answer option object, when it is created by te question
     public void setNumber(ref int optionNumber)
     {
         this.optionNumber = optionNumber;

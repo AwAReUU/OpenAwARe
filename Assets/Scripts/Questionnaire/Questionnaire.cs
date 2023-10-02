@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Questionnaire : MonoBehaviour
 {
@@ -32,18 +30,23 @@ public class Questionnaire : MonoBehaviour
         this.description.GetComponent<TextMeshProUGUI>().text = description;
     }
 
+    //create a new question gameobject from its data class and returns it
     public GameObject addQuestion(QuestionData data)
     {
+        //instantiate the template
         var question = Instantiate(questionTemplate);
         question.transform.SetParent(gameObject.transform.Find("Question Scroller/Content"));
         question.SetActive(true);
         questions.Add(question.gameObject);
 
+        //set the title, questionnaire it belongs to, and if its an 'if yes' question
+        //'if yes' questions show more questions when 'yes' is answer to them
         var questionscript = question.gameObject.GetComponent<Question>();
         questionscript.SetTitle(data.questiontitle);
         questionscript.SetIfyes(data.ifyes, data.ifyestrigger);
         questionscript.SetParentQuestionnaire(this);
 
+        //add each answer option to the question
         foreach (AnswerOptionData answer in data.answeroptions)
         {
             if (answer.optiontype == "radio")
@@ -60,6 +63,7 @@ public class Questionnaire : MonoBehaviour
             }
         }
 
+        //add the questions to be shown if yes is answered to the questionnaire, and hides them
         if(data.ifyes)
         {
             foreach (QuestionData ifyesQuestionData in data.ifyesquestions)
@@ -69,6 +73,7 @@ public class Questionnaire : MonoBehaviour
                 questionscript.ifyesQuestions.Add(ifyesQuestion);
             }
         }
+
         return question;
     }
 }

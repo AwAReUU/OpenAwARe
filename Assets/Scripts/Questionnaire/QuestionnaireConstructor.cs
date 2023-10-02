@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 //This file contains the QuestionnaireConstructor, as well as several data classes
 //these data classes are used to store the data read from the json file
@@ -17,6 +13,8 @@ public class QuestionnaireConstructor : MonoBehaviour
     [SerializeField]
     private GameObject questionnaireTemplate;
 
+    //currently, start only loads the test questionnaire from a json file
+    //in the future, this obviously has to change
     void Start()
     {
         jsonfile = Resources.Load<TextAsset>("Questionnaires/Testformat");
@@ -25,35 +23,9 @@ public class QuestionnaireConstructor : MonoBehaviour
         if (data == null){ Debug.Log("data file is null"); }
 
         MakeQuestionnaire(data);
-
-
-        //TODO:
-        //if yes questions
-        //submit button functionality
-        //code cleanup
-        //documentation
-        //possibly: add 'required' bool to questions, json format, etc.
-
-        //working on: if yes questions
-        //implemented: if yes questions are added to the questionnaire and hidden when a question is made
-        //todo: if yes questions are un- and re-hidden when the answer option that triggers them changes
-
-        //ideas for hiding/revealing ifyes questions:
-        //give the answer option templates a script that knows which question it belongs to,
-        //and have the option tell the question when it changes state. question then decides to hide or reveal.
-        //for checkbox & radio: on value changed, share same method
-        //for text inut: not applicable
-
-        //bug: if yes questions stack on eachother on first display
-        //solution: put them in one container, put container in questionnaire
-        //container gets toggled instead, questions in container are always active
-        //container has vertical layout group, padding 20, upper center alignment
-
-        
-        //json debug shows that if a data point doesn't need to be there, you can leave it out of the file and it will
-        //default to the standard for its datatype (null, 0, false, etc.)
     }
 
+    //makes a questionnaire object and returns it
     GameObject MakeQuestionnaire(QuestionnaireData data)
     {
         var questionnaire = Instantiate(questionnaireTemplate, gameObject.transform, false);
@@ -72,6 +44,7 @@ public class QuestionnaireConstructor : MonoBehaviour
     }
 }
 
+//intermediary data holder classes
 [Serializable]
 public class QuestionnaireData
 {
@@ -96,3 +69,9 @@ public class QuestionData
     public List<QuestionData> ifyesquestions;
     public List<AnswerOptionData> answeroptions;
 }
+
+
+//Notes to self:
+//todo: fix layout with diff aspect ratio's
+//figure out how to dynamically alter the size of shit maybe?
+//layoutelement, layoutgroup, content size fitter, etc.

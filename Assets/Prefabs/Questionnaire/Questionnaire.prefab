@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 694.7, y: 1.9725342}
-  m_SizeDelta: {x: 22.2, y: 2555.9421}
+  m_AnchoredPosition: {x: 519, y: 1.9725342}
+  m_SizeDelta: {x: 22.2, y: 1796.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3662738147663247189
 CanvasRenderer:
@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 6934893575831977595}
   - component: {fileID: 5159079688173861648}
   - component: {fileID: 8700549137271775133}
+  - component: {fileID: 5476212386782063378}
   m_Layer: 0
   m_Name: Question Scroller
   m_TagString: Untagged
@@ -164,7 +165,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1415.6411, y: 2643.2}
+  m_SizeDelta: {x: 1080, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6934893575831977595
 MonoBehaviour:
@@ -190,7 +191,7 @@ MonoBehaviour:
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 5286433027126587253}
   m_HorizontalScrollbarVisibility: 0
-  m_VerticalScrollbarVisibility: 0
+  m_VerticalScrollbarVisibility: 1
   m_HorizontalScrollbarSpacing: 0
   m_VerticalScrollbarSpacing: 0
   m_OnValueChanged:
@@ -218,6 +219,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1274725613608035169}
   m_CullTransparentMesh: 1
+--- !u!114 &5476212386782063378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274725613608035169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: 1800
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1540325540312759551
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,7 +274,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1294, y: 50.28}
+  m_SizeDelta: {x: 1023, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &272522628792799009
 CanvasRenderer:
@@ -430,7 +451,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1440, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &6880341110755471647
 CanvasRenderer:
@@ -492,7 +513,7 @@ MonoBehaviour:
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -508,7 +529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
+  m_HorizontalFit: 2
   m_VerticalFit: 2
 --- !u!114 &6277859383896328297
 MonoBehaviour:
@@ -526,8 +547,6 @@ MonoBehaviour:
   description: {fileID: 1540325540312759551}
   submitButton: {fileID: 7978906884852995942}
   questionTemplate: {fileID: 5911877008007044621, guid: 993cb102f3a3e484da507f5518417149,
-    type: 3}
-  ifyesContainerTemplate: {fileID: 5866821426934997960, guid: 020f0a761cb20724e9f3566ac69106ac,
     type: 3}
 --- !u!1 &3952158344208651898
 GameObject:
@@ -564,7 +583,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1243.78, y: 72.62}
+  m_SizeDelta: {x: 1023, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &3137540933503688470
 CanvasRenderer:
@@ -1027,7 +1046,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 373.1, y: 81.45}
+  m_SizeDelta: {x: 373.1, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5405050890382756036
 CanvasRenderer:

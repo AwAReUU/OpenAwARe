@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,13 +22,15 @@ public class Question : MonoBehaviour
 
     //index of the answer option that will activate the 'if yes' questions
     public int ifyesTrigger { get; private set; }
+
     public bool ifyes { get; private set; }
     public List<GameObject> ifyesQuestions;
 
+    public List<GameObject> answerOptions;
+    //used to decide if the ifyesQuestions should be displayed or not
     private List<bool> answerOptionStates;
     private int answerOptionNumberCounter;
 
-    List<GameObject> answerOptions;
     Questionnaire parentQuestionnaire;
 
     void Awake()
