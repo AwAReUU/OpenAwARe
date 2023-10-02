@@ -32,7 +32,12 @@ public class SceneSwitcher : MonoBehaviour
             Debug.Log("Scene " + index + " does not exist.");
             return;
         }
-
+        
         SceneManager.LoadScene(index);
+    }
+
+    public void ChangeScene(string name)
+    {
+        SceneManager.LoadScene(name);
     }
 }

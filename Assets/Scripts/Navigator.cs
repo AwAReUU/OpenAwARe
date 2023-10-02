@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DropdownHandler : MonoBehaviour
+public class Navigator : MonoBehaviour
 {
     private TMP_Dropdown dropdown;
 
@@ -40,9 +40,12 @@ public class DropdownHandler : MonoBehaviour
                 FindObjectOfType<ObjectCreationManager>().DestroyAllObjects();
                 break;
             case 3:     // Go to Questionaire / Diary?
-                FindObjectOfType<SceneSwitcher>().ChangeScene(1);
+                FindObjectOfType<SceneSwitcher>().ChangeScene("QuestionnairePage");
                 break;
             case 4:     // Go to Settings
+                break;
+            case 5:     // Go to Home Screen
+                FindObjectOfType<SceneSwitcher>().ChangeScene("HomeScreen");
                 break;
             default:
                 break;
