@@ -16,7 +16,7 @@ public class IngredientListManager : MonoBehaviour
     [SerializeField] private GameObject listsOverviewScreen;
     [SerializeField] private GameObject ingredientListScreen;
     [SerializeField] private GameObject addIngredientScreen;
-    [SerializeField] private GameObject materialScreen;
+    [SerializeField] private GameObject ingredientScreen;
 
     string filePath;
 
@@ -114,10 +114,9 @@ public class IngredientListManager : MonoBehaviour
         addIngredientScreen.SetActive(true);
     }
 
-    public void OpenMaterialScreen() 
+    public void OpenIngredientScreen(Ingredient ingredient) 
     {
-        addIngredientScreen.SetActive(false);
-        materialScreen.SetActive(true);
+        ingredientScreen.SetActive(true);
     }
 
     public void AddIngredient(Ingredient ingredient)

@@ -14,6 +14,7 @@ public class IngredientListScreen : MonoBehaviour
     GameObject addIngredientObj;
 
     // (assigned within unity)
+    [SerializeField] private GameObject thisScreen;
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject listItemObject;
     [SerializeField] private TextMeshProUGUI listNameText;
@@ -69,7 +70,9 @@ public class IngredientListScreen : MonoBehaviour
 
     private void OnIngredientButtonClick(int itemIndex)
     {
-        ingredientListManager.CloseList();
+        Ingredient ingredient = ingredientListManager.currentIngredientList.ingredients[itemIndex];
+        thisScreen.SetActive(false);
+        ingredientListManager.OpenIngredientScreen(ingredient);
     }
 
     /// <summary>

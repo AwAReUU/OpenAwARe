@@ -50,7 +50,7 @@ public class Ingredient
         this.quantity = quantity;
     }
 
-    void SetQuantity(float q)
+    public void SetQuantity(float q)
     {
         quantity = q;
     }

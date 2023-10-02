@@ -7,7 +7,7 @@ using System;
 
 public class SearchScript : MonoBehaviour
 {
-
+    [SerializeField] private GameObject thisScreen;
     [SerializeField] private IngredientListManager ingredientListManager;
 
     [SerializeField] private GameObject buttonPrefab;
@@ -29,20 +29,22 @@ public class SearchScript : MonoBehaviour
         }
     }
 
-    public void AddContentItem(string itemName, QuantityType qtyType) 
+    public void AddContentItem(string itemName, QuantityType qtyType)
     {
         GameObject button = Instantiate(buttonPrefab, ContentHolder.transform);
         button.GetComponentInChildren<TMP_Text>().text = itemName;
         //Get Button object from GameObject to attach event
         items.Add(button);
         Button b = button.GetComponent<Button>();
-        b.onClick.AddListener(delegate { OnItemClicked(button); });
+        b.onClick.AddListener(delegate { OnItemClicked(); });
         button.SetActive(true);
     }
 
-    private void OnItemClicked(GameObject button)
+    private void OnItemClicked()
     {
-        ingredientListManager.OpenMaterialScreen();
+        Ingredient ingredient = ingredientListManager.currentIngredientList.ingredients[0];
+        thisScreen.SetActive(false);
+        ingredientListManager.OpenIngredientScreen(ingredient);
     }
 
     /// <summary>
