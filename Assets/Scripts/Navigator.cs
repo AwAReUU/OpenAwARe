@@ -7,10 +7,12 @@ using UnityEngine.UI;
 public class Navigator : MonoBehaviour
 {
     private TMP_Dropdown dropdown;
+    private SceneSwitcher sceneSwitcher;
 
     private void Start()
     {
         dropdown = GetComponent<TMP_Dropdown>();
+        sceneSwitcher = FindObjectOfType<SceneSwitcher>();
         //SetDropdownOptions();
         dropdown.onValueChanged.AddListener(delegate
         {
@@ -34,6 +36,7 @@ public class Navigator : MonoBehaviour
         switch (dropdown.value)
         {
             case 0:     // Go to ingredient/recipe manager
+                sceneSwitcher.ChangeScene("IngredientListUI");
                 break;
             case 1:     // Auto-generate objects
                 FindObjectOfType<ObjectCreationManager>().AutoGenerateObjects();
@@ -42,12 +45,12 @@ public class Navigator : MonoBehaviour
                 FindObjectOfType<ObjectCreationManager>().DestroyAllObjects();
                 break;
             case 3:     // Go to Questionaire / Diary?
-                FindObjectOfType<SceneSwitcher>().ChangeScene("QuestionnairePage");
+                sceneSwitcher.ChangeScene("QuestionnairePage");
                 break;
             case 4:     // Go to Settings
                 break;
             case 5:     // Go to Home Screen
-                FindObjectOfType<SceneSwitcher>().ChangeScene("HomeScreen");
+                sceneSwitcher.ChangeScene("HomeScreen");
                 break;
             default:
                 break;

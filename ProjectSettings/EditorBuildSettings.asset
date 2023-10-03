@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/BlankAR.unity
     guid: 6bdce89659816455b9f906fc62d19910
   - enabled: 1
+    path: Assets/Scenes/IngredientListUI.unity
+    guid: a6e3ab061f0b2b144ad1617b8597948b
+  - enabled: 1
     path: Assets/Scenes/QuestionnairePage.unity
     guid: 3c37a3ca965cd9e42a8d5d39ebc0c08c
   m_configObjects:
