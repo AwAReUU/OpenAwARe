@@ -12,7 +12,7 @@ public class SceneSwitcher : MonoBehaviour
         //scene id can be seen in the build manager
         //blankar is 0, questionnaire is 1
 
-        if(SceneManager.GetActiveScene().name == "BlankAR")
+        if (SceneManager.GetActiveScene().name == "BlankAR")
         {
             SceneManager.LoadScene(1);
         }
@@ -23,5 +23,21 @@ public class SceneSwitcher : MonoBehaviour
 
         // if (SceneManager.GetActiveScene().name == "BlankAR") gameObject.GetComponent<Image>().color = Color.green;
         // else if (SceneManager.GetActiveScene().name == "QuestionnairePage") gameObject.GetComponent<Image>().color = Color.red;
+    }
+
+    public void ChangeScene(int index)
+    {
+        if (SceneManager.sceneCount <= index)
+        {
+            Debug.Log("Scene " + index + " does not exist.");
+            return;
+        }
+        
+        SceneManager.LoadScene(index);
+    }
+
+    public void ChangeScene(string name)
+    {
+        SceneManager.LoadScene(name);
     }
 }
