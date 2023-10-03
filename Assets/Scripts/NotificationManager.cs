@@ -13,45 +13,67 @@ public class NotificationManager : MonoBehaviour
 {
         AndroidNotificationChannel channel;
 
-        // Start is called before the first frame update
-        void Start()
-        {
-#if UNITY_ANDROID
-                //create a new channel with channel ID "channel". the other arguments don't seem to be important
-                channel = new AndroidNotificationChannel("channel", "Default channel", "Questionnaire notifications", Importance.Default);
-                AndroidNotificationCenter.RegisterNotificationChannel(channel);
+    // Start is called before the first frame update
+    void Start()
+    {
+        //Android code
+        #if UNITY_ANDROID
+            //create a new channel with channel ID "channel". the other arguments don't seem to be important
+            channel = new AndroidNotificationChannel("channel", "Default channel", "Questionnaire notifications", Importance.Default);
+            AndroidNotificationCenter.RegisterNotificationChannel(channel);
 
-                //get permission to send notifications
-                if (!Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
-                {
-                        Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS");
-                }
-#endif
+            //get permission to send notifications
+            if (!Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
+            {
+                Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS");
+            }
 
-#if UNITY_IOS
+        #endif
 
-#endif
-        }
+        //IOS code
+        #if UNITY_IOS
 
-        public void SendNotification(int timefromnow)
-        {
-#if UNITY_ANDROID
-                AndroidNotification notification = new AndroidNotification();
-                notification.Title = "Questionnaire Ready";
-                notification.Text = "A New Questionnaire is waiting to be completed";
-                notification.SmallIcon = "smallicon";
-                notification.LargeIcon = "largeicon";
-                notification.ShowTimestamp = true;
-                notification.FireTime = System.DateTime.Now.AddSeconds(timefromnow);
-                notification.ShouldAutoCancel = true;
+        #endif
+    }
 
-                AndroidNotificationCenter.SendNotification(notification, "channel");
+    // Update is called once per frame
+    void Update()
+    {
+        //Android code
+        #if UNITY_ANDROID
 
-                //todo: use notificationstringdata to direct the notification to the correct page once it has been implemented
-                //see https://docs.unity3d.com/Packages/com.unity.mobile.notifications@2.2/manual/Android.html 'Store and retrieve custom data'
-#endif
+        #endif
 
-#if UNITY_IOS
+        //IOS code
+        #if UNITY_IOS
+
+        #endif
+    }
+
+
+    public void SendNotification(int timefromnow)
+    {
+        //Android code
+        #if UNITY_ANDROID
+            AndroidNotification notification = new AndroidNotification();
+            notification.Title = "Questionnaire Ready";
+            notification.Text = "A New Questionnaire is waiting to be completed";
+            notification.SmallIcon = "smallicon";
+            notification.LargeIcon = "largeicon";
+            notification.ShowTimestamp = true;
+            notification.FireTime = System.DateTime.Now.AddSeconds(timefromnow);
+            notification.ShouldAutoCancel = true;
+
+            AndroidNotificationCenter.SendNotification(notification, "channel");
+
+            //todo: use notificationstringdata to direct the notification to the correct page once it has been implemented
+            //see https://docs.unity3d.com/Packages/com.unity.mobile.notifications@2.2/manual/Android.html 'Store and retrieve custom data'
+
+        #endif
+
+        //IOS code
+        #if UNITY_IOS
+
         //example notification template from the documentation
         var timeTrigger = new iOSNotificationTimeIntervalTrigger()
         {
@@ -76,6 +98,6 @@ public class NotificationManager : MonoBehaviour
 
         // iOSNotificationCenter.ScheduleNotification(notification);
 
-#endif
-        }
+        #endif
+    }
 }
