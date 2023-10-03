@@ -16,6 +16,8 @@ public class Navigator : MonoBehaviour
         {
             DropdownValueChanged(dropdown);
         });
+
+        dropdown.captionText.alpha = 0;
     }
 
     private void SetDropdownOptions()
