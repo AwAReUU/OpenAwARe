@@ -16,14 +16,19 @@ public class IngredientManager : MonoBehaviour
     [SerializeField] private GameObject confirmButton;
     [SerializeField] private GameObject qtyInput;
 
+    private Ingredient currentIngredient;
+
     void OnEnable()
     {
         Button backB = backButton.GetComponent<Button>();
         backB.onClick.AddListener(delegate { OnBackButtonClick(); });
 
         Debug.Log("setting qty");
-        ingredientNameField.GetComponent<TMP_Text>().text = mainManager.currentIngredient.name;
-        qtyInput.GetComponent<TMP_InputField>().text = mainManager.currentIngredient.quantity.ToString();
+
+        currentIngredient = mainManager.ingredientLists[mainManager.currentListIndex].ingredients[mainManager.currentIngredientIndex];
+        
+        ingredientNameField.GetComponent<TMP_Text>().text = currentIngredient.name;
+        qtyInput.GetComponent<TMP_InputField>().text = currentIngredient.quantity.ToString();
     }
 
     public void OnConfirmClick()
@@ -35,11 +40,12 @@ public class IngredientManager : MonoBehaviour
         {
             Ingredient newIngredient = new Ingredient
             (
-                mainManager.currentIngredient.name,
-                mainManager.currentIngredient.type,
+                currentIngredient.name,
+                currentIngredient.type,
                 parsedInput
             );
-            mainManager.currentIngredient = newIngredient;
+            //currentIngredient = newIngredient;
+            UpdateIngredient(newIngredient);
             thisScreen.SetActive(false);
             mainManager.OpenList(mainManager.currentListIndex);
         }
@@ -47,7 +53,15 @@ public class IngredientManager : MonoBehaviour
         {
             //show some error to user
         }
+    }
 
+    private void UpdateIngredient(Ingredient newIngredient)
+    {
+        IngredientList currentList = mainManager.ingredientLists[mainManager.currentListIndex];
+        currentList.ingredients[mainManager.currentIngredientIndex] = newIngredient;
+        mainManager.ingredientLists[mainManager.currentListIndex] = currentList;
+
+        Debug.Log("updated the list" + mainManager.ingredientLists[mainManager.currentListIndex].ingredients.Count);
     }
 
     public void OnBackButtonClick()

@@ -12,7 +12,8 @@ public class MainManager : MonoBehaviour
 
     //public IngredientList currentIngredientList;
     public int currentListIndex = -1;
-    public Ingredient currentIngredient;
+    public int currentIngredientIndex = -1;
+    //public Ingredient currentIngredient;
 
     // objects assigned within unity
     [SerializeField] private GameObject listsOverviewScreen;
@@ -118,7 +119,7 @@ public class MainManager : MonoBehaviour
     public void OpenIngredientScreen(int itemIndex) 
     {
         Debug.Log(" setting current ingredient to " + itemIndex);
-        currentIngredient = ingredientLists[currentListIndex].ingredients[itemIndex];
+        currentIngredientIndex = itemIndex;
         ingredientScreen.SetActive(true);
     }
 
