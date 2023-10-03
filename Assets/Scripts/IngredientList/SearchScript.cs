@@ -81,8 +81,6 @@ public class SearchScript : MonoBehaviour
     public void OnBackButtonClick()
     {
         thisScreen.SetActive(false);
-        Debug.Log("GOING BACK TO");
-        Debug.Log(mainManager.currentListIndex);
         mainManager.OpenList(mainManager.currentListIndex);
     }
 

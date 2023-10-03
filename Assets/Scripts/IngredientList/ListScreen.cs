@@ -19,6 +19,7 @@ public class ListScreen : MonoBehaviour
     [SerializeField] private GameObject listItemObject;
     [SerializeField] private GameObject listTitle;
     [SerializeField] private GameObject addIngredientButton;
+    [SerializeField] private GameObject saveButton;
     [SerializeField] private Transform scrollViewContent;
 
     private IngredientList currentIngredientList;
@@ -30,7 +31,17 @@ public class ListScreen : MonoBehaviour
         Button backB = backButton.GetComponent<Button>();
         backB.onClick.AddListener(delegate { OnBackButtonClick(); });
 
+        Button saveB = saveButton.GetComponent<Button>();
+        saveB.onClick.AddListener(delegate { OnSaveButtonClick(); });
+
+
         DisplayList();
+    }
+
+    private void OnSaveButtonClick()
+    {
+        backButton.SetActive(false);
+        mainManager.CloseList();
     }
 
     private void OnDisable()
