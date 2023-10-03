@@ -6,17 +6,20 @@ using System;
 //using System.Text.Json;
 //using System.Text.Json.Serialization;
 
-public class IngredientListManager : MonoBehaviour
+public class MainManager : MonoBehaviour
 {
     public List<IngredientList> ingredientLists { get; private set; }
 
-    public IngredientList currentIngredientList;
+    //public IngredientList currentIngredientList;
+    public int currentListIndex = -1;
+    public int currentIngredientIndex = -1;
+    //public Ingredient currentIngredient;
 
     // objects assigned within unity
     [SerializeField] private GameObject listsOverviewScreen;
     [SerializeField] private GameObject ingredientListScreen;
     [SerializeField] private GameObject addIngredientScreen;
-    [SerializeField] private GameObject ingredientInfoScreen;
+    [SerializeField] private GameObject ingredientScreen;
 
     string filePath;
 
@@ -96,30 +99,39 @@ public class IngredientListManager : MonoBehaviour
     public void OpenList(int i)
     {
         listsOverviewScreen.SetActive(false);
-        currentIngredientList = ingredientLists[i];
+        currentListIndex = i;
         ingredientListScreen.SetActive(true);
     }
 
     public void CloseList()
     {
         ingredientListScreen.SetActive(false);
-        currentIngredientList = null;
         listsOverviewScreen.SetActive(true);
         SaveFile();
     }
 
+    public void OpenSearchScreen()
+    {
+        ingredientListScreen.SetActive(false);
+        addIngredientScreen.SetActive(true);
+    }
+
+    public void OpenIngredientScreen(int itemIndex) 
+    {
+        Debug.Log(" setting current ingredient to " + itemIndex);
+        currentIngredientIndex = itemIndex;
+        ingredientScreen.SetActive(true);
+    }
+
     public void AddIngredient(Ingredient ingredient)
     {
-        // TODO: created method inbetween with:
-        // ingredientListScreen.SetActive(false);
-        // addIngredientScreen.SetActive(true);
-        currentIngredientList.AddIngredient(ingredient);
+        ingredientLists[currentListIndex].AddIngredient(ingredient);
         SaveFile();
     }
 
     public void DeleteIngredient(int i)
     {
-        currentIngredientList.RemoveIngredient(i);
+        ingredientLists[currentListIndex].RemoveIngredient(i);
         SaveFile();
     }
 
