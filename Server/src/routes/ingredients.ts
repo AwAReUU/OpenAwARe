@@ -10,7 +10,7 @@ let router = express.Router();
 // {
 //      query:          string
 // }
-router.post("/search", async (req: any, res: any) => {
+router.get("/search", async (req: any, res: any) => {
     const query = req.body.query;
 
     let db = Database.getInstance().db();
@@ -44,7 +44,7 @@ router.post("/search", async (req: any, res: any) => {
 //      id:          int,
 //      type:        string
 // }
-router.post("/getingredient", async (req: any, res: any) => {
+router.get("/getingredient", async (req: any, res: any) => {
     const id = req.body.id;
     const type = req.body.type;
 

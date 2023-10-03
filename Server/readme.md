@@ -62,14 +62,14 @@ $ npm run dev
   </tr>
   <tr>
     <td ><pre>/ingr/search</pre></td>
-    <td ><b>POST</b></td>
+    <td ><b>GET</b></td>
     <td > <b>body (json):</b> { query }</td>
     <td > <b>json:</b> { rows }</td>
     <td > Get all ingredients with name containing the query string </td>
   </tr>
     <tr>
     <td ><pre>/ingr/getingredient</pre></td>
-    <td ><b>POST</b></td>
+    <td ><b>GET</b></td>
     <td > <b>body (json):</b> { id, type }</td>
     <td > <b>json:</b> { rows }</td>
     <td > Get a full row of the ingredient with this id and type </td>
