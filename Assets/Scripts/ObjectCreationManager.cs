@@ -2,11 +2,19 @@ using System.Collections.Specialized;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
+using System;
+using Unity.VisualScripting;
 
 public class ObjectCreationManager : MonoBehaviour
 {
     private List<Vector3> validSpawnLocations = new List<Vector3>();
+
+    // Hardcoded size multiplier & object amount, will have to be retrieved from database
+    private float sizeMultiplier = 0.3f;  
+    private int objectAmount = 10;
+
 
     public void TryPlaceObjectOnTouch(ARRaycastHit hit, bool rotateToUser = true, bool forceCreate = false)
     {
@@ -25,7 +33,11 @@ public class ObjectCreationManager : MonoBehaviour
 
         // Temporarily instantiate the object to get the BoxCollider size
         GameObject tempObj = Instantiate(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], new Vector3(0, 0, 0), Quaternion.identity);
+
+        // Added colliders DO NOT SCALE with adjusted object size, so must be transformed accordingly
         BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
+        tempCollider.size *= sizeMultiplier; 
+
         Vector3 halfExtents = tempCollider.size / 2;
         float centerHeight = tempCollider.size.y / 2;
         Destroy(tempObj);
@@ -57,18 +69,28 @@ public class ObjectCreationManager : MonoBehaviour
 
     private bool TryPlaceObject(GameObject obj, Vector3 position, Vector3 halfExtents, float centerHeight)
     {
+        // Adjust object size according to scaler
+        Vector3 originalScale = obj.transform.localScale;
+        obj.transform.localScale = new Vector3(sizeMultiplier, sizeMultiplier, sizeMultiplier);
+
         // Check if the box overlaps with any other colliders
         if (!Physics.CheckBox(position, halfExtents, Quaternion.identity))
         {
             GameObject newObject = Instantiate(obj, position, Quaternion.identity);
-            newObject.AddComponent<BoxCollider>();
+            
+            // Added colliders DO NOT SCALE with adjusted object size, so must also be transformed accordingly
+            BoxCollider newCollider = newObject.AddComponent<BoxCollider>();
+            newCollider.size *= sizeMultiplier;           
+            
             RotateToUser(newObject);
-
             position.y -= centerHeight;
             newObject.transform.position = position;
 
             return true;
         }
+
+        // Return prefab to original size 
+        obj.transform.localScale = originalScale;
 
         return false;
     }
@@ -81,7 +103,10 @@ public class ObjectCreationManager : MonoBehaviour
         //TODO: add realistic colliders directly in the prefabs for better accuracy (I've made this a task in backlog)
         // Temporarily instantiate the object to get the BoxCollider size
         GameObject tempObj = Instantiate(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], Vector3.zero, Quaternion.identity);
+        
+        // Added colliders DO NOT SCALE with adjusted object size, so must be transformed accordingly
         BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
+        tempCollider.size *= sizeMultiplier;           
 
         // Assuming the box collider is at the object's origin
         Vector3 halfExtents = tempCollider.size / 2;
@@ -89,7 +114,8 @@ public class ObjectCreationManager : MonoBehaviour
         Destroy(tempObj);
 
         validSpawnLocations = GetValidSpawnLocations(planeManager);
-        int materialsToPlace = 50;
+        int materialsToPlace = objectAmount;
+
         for (int i = 0; i < validSpawnLocations.Count; i++)
         {
             // Create the position where the new object should be placed (+ add slight hover to prevent floor collisions)
@@ -103,7 +129,7 @@ public class ObjectCreationManager : MonoBehaviour
                 if (materialsToPlace == 0)
                 {
                     Debug.Log("finished placing all objects");
-                    return;
+                    break;
                 }
             }
             else
@@ -112,7 +138,7 @@ public class ObjectCreationManager : MonoBehaviour
             }
         }
     }
-
+      
     List<Vector3> GetValidSpawnLocations(ARPlaneManager planeManager)
     {
         List<Vector3> result = new List<Vector3>();
