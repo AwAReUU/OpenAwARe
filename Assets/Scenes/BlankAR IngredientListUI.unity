@@ -381,7 +381,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deb349a322fcbf74fa38ed43f3e45c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placeObject: {fileID: 0}
 --- !u!1 &91761529
 GameObject:
   m_ObjectHideFlags: 0
@@ -6745,7 +6744,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1103772986}
-        m_TargetAssemblyTypeName: IngredientListScreen, Assembly-CSharp
+        m_TargetAssemblyTypeName: ListScreen, Assembly-CSharp
         m_MethodName: OnAddIngredientButtonClick
         m_Mode: 1
         m_Arguments:
@@ -8233,7 +8232,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1103772984}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a08d662cd11f10848bb4f5db930e9bff, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f97fd76a598fb64e9990282b3c2389b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainManager: {fileID: 2117929076}
@@ -10282,7 +10281,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deb349a322fcbf74fa38ed43f3e45c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placeObject: {fileID: 0}
 --- !u!114 &1351075227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11999,11 +11997,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 587865df76b60654c80684175ecd6659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 8348190331550339710, guid: 668060331e3bf164c9ecc600f779be06, type: 3}
-  - {fileID: 8348190331550339710, guid: 668060331e3bf164c9ecc600f779be06, type: 3}
-  - {fileID: 8348190331550339710, guid: 668060331e3bf164c9ecc600f779be06, type: 3}
-  - {fileID: 919132149155446097, guid: 0f121c41a9449ec4c9a9578d83fd36e2, type: 3}
 --- !u!114 &1659859607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12016,10 +12009,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a564020f988fc6543b2663446df699f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 919132149155446097, guid: 0f121c41a9449ec4c9a9578d83fd36e2, type: 3}
-  - {fileID: 919132149155446097, guid: e05f7173470ad404c86d8c3e22f94bc4, type: 3}
-  prefabIndex: 0
 --- !u!1 &1661001344
 GameObject:
   m_ObjectHideFlags: 0
@@ -13789,7 +13778,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deb349a322fcbf74fa38ed43f3e45c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placeObject: {fileID: 0}
 --- !u!114 &1982549631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14304,7 +14292,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1103772986}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: IngredientListScreen, Assembly-CSharp
         m_MethodName: OnBackButtonClick
         m_Mode: 1
@@ -14833,7 +14821,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2117929075}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 619c0d3778dd1b943b2f0441f634f50a, type: 3}
+  m_Script: {fileID: 11500000, guid: d97a4de2777e01545957d24c68e5d547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentListIndex: -1
