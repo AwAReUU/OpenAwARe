@@ -7,7 +7,7 @@ using TMPro;
 
 public class ListsOverviewScreen : MonoBehaviour
 {
-    [SerializeField] private IngredientListManager ingredientListManager;
+    [SerializeField] private MainManager mainManager;
 
     // the objects drawn on screen to display the lists
     List<GameObject> listObjects = new List<GameObject>();
@@ -31,7 +31,7 @@ public class ListsOverviewScreen : MonoBehaviour
     {
         RemoveListObjects();
 
-        for (int i = 0; i < ingredientListManager.ingredientLists.Count; i++)
+        for (int i = 0; i < mainManager.ingredientLists.Count; i++)
         {
             // create a new list item to display this list
             GameObject listItem = Instantiate(listItemObject, scrollViewContent);
@@ -41,9 +41,9 @@ public class ListsOverviewScreen : MonoBehaviour
             Button delButton = listItem.transform.GetChild(1).GetComponent<Button>();
             Button listButton = listItem.transform.GetChild(0).GetComponent<Button>();
             listButton.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text =
-                ingredientListManager.ingredientLists[i].listName;
+                mainManager.ingredientLists[i].listName;
             listButton.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text =
-                ingredientListManager.ingredientLists[i].NumberOfIngredients().ToString();
+                mainManager.ingredientLists[i].NumberOfIngredients().ToString();
 
             listObjects.Add(listItem);
 
@@ -69,18 +69,18 @@ public class ListsOverviewScreen : MonoBehaviour
 
     public void OnAddListButtonClick()
     {
-        ingredientListManager.CreateList();
+        mainManager.CreateList();
         DisplayLists();
     }
 
     public void OnDeleteButtonClick(int i)
     {
-        ingredientListManager.DeleteList(i);
+        mainManager.DeleteList(i);
         DisplayLists();
     }
 
     public void OnListButtonClick(int i)
     {
-        ingredientListManager.OpenList(i);
+        mainManager.OpenList(i);
     }
 }

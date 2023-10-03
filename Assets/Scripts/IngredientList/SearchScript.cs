@@ -8,8 +8,9 @@ using System;
 public class SearchScript : MonoBehaviour
 {
     [SerializeField] private GameObject thisScreen;
-    [SerializeField] private IngredientListManager ingredientListManager;
+    [SerializeField] private MainManager mainManager;
 
+    [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private GameObject ContentHolder;
     [SerializeField] private List<GameObject> items = new List<GameObject>();
@@ -20,10 +21,15 @@ public class SearchScript : MonoBehaviour
     {
         InitDummyList();
     }
+    private void OnEnable()
+    {
+        Button backB = backButton.GetComponent<Button>();
+        backB.onClick.AddListener(delegate { OnBackButtonClick(); });
+    }
 
     private void InitDummyList()
     {
-        for (int i = 0; i < 10; i++) 
+        for (int i = 0; i < 20; i++) 
         {
             AddContentItem("item " + i*135, QuantityType.PCS);
         }
@@ -36,15 +42,14 @@ public class SearchScript : MonoBehaviour
         //Get Button object from GameObject to attach event
         items.Add(button);
         Button b = button.GetComponent<Button>();
-        b.onClick.AddListener(delegate { OnItemClicked(); });
+        b.onClick.AddListener(delegate { OnItemClicked(itemIndex: 0); });
         button.SetActive(true);
     }
 
-    private void OnItemClicked()
+    private void OnItemClicked(int itemIndex)
     {
-        Ingredient ingredient = ingredientListManager.currentIngredientList.ingredients[0];
         thisScreen.SetActive(false);
-        ingredientListManager.OpenIngredientScreen(ingredient);
+        mainManager.OpenIngredientScreen(itemIndex);
     }
 
     /// <summary>
@@ -71,6 +76,14 @@ public class SearchScript : MonoBehaviour
                     elem.SetActive(false);
             }
         }
+    }
+
+    public void OnBackButtonClick()
+    {
+        thisScreen.SetActive(false);
+        Debug.Log("GOING BACK TO");
+        Debug.Log(mainManager.currentListIndex);
+        mainManager.OpenList(mainManager.currentListIndex);
     }
 
 }

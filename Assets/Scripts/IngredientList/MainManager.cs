@@ -6,11 +6,13 @@ using System;
 //using System.Text.Json;
 //using System.Text.Json.Serialization;
 
-public class IngredientListManager : MonoBehaviour
+public class MainManager : MonoBehaviour
 {
     public List<IngredientList> ingredientLists { get; private set; }
 
-    public IngredientList currentIngredientList;
+    //public IngredientList currentIngredientList;
+    public int currentListIndex = -1;
+    public Ingredient currentIngredient;
 
     // objects assigned within unity
     [SerializeField] private GameObject listsOverviewScreen;
@@ -96,14 +98,13 @@ public class IngredientListManager : MonoBehaviour
     public void OpenList(int i)
     {
         listsOverviewScreen.SetActive(false);
-        currentIngredientList = ingredientLists[i];
+        currentListIndex = i;
         ingredientListScreen.SetActive(true);
     }
 
     public void CloseList()
     {
         ingredientListScreen.SetActive(false);
-        currentIngredientList = null;
         listsOverviewScreen.SetActive(true);
         SaveFile();
     }
@@ -114,20 +115,22 @@ public class IngredientListManager : MonoBehaviour
         addIngredientScreen.SetActive(true);
     }
 
-    public void OpenIngredientScreen(Ingredient ingredient) 
+    public void OpenIngredientScreen(int itemIndex) 
     {
+        Debug.Log(" setting current ingredient to " + itemIndex);
+        currentIngredient = ingredientLists[currentListIndex].ingredients[itemIndex];
         ingredientScreen.SetActive(true);
     }
 
     public void AddIngredient(Ingredient ingredient)
     {
-        currentIngredientList.AddIngredient(ingredient);
+        ingredientLists[currentListIndex].AddIngredient(ingredient);
         SaveFile();
     }
 
     public void DeleteIngredient(int i)
     {
-        currentIngredientList.RemoveIngredient(i);
+        ingredientLists[currentListIndex].RemoveIngredient(i);
         SaveFile();
     }
 

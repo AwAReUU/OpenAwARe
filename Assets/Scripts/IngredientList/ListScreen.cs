@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class IngredientListScreen : MonoBehaviour
+public class ListScreen : MonoBehaviour
 {
-    [SerializeField] private IngredientListManager ingredientListManager;
+    [SerializeField] private MainManager mainManager;
 
     // the objects drawn on screen to display the list
     List<GameObject> ingredientObjects = new List<GameObject>();
@@ -17,13 +17,19 @@ public class IngredientListScreen : MonoBehaviour
     [SerializeField] private GameObject thisScreen;
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject listItemObject;
-    [SerializeField] private TextMeshProUGUI listNameText;
+    [SerializeField] private GameObject listTitle;
     [SerializeField] private GameObject addIngredientButton;
     [SerializeField] private Transform scrollViewContent;
 
+    private IngredientList currentIngredientList;
     private void OnEnable()
     {
+        currentIngredientList = mainManager.ingredientLists[mainManager.currentListIndex];
+
         backButton.SetActive(true);
+        Button backB = backButton.GetComponent<Button>();
+        backB.onClick.AddListener(delegate { OnBackButtonClick(); });
+
         DisplayList();
     }
 
@@ -37,10 +43,10 @@ public class IngredientListScreen : MonoBehaviour
         RemoveIngredientObjects();
 
         // display list name
-        listNameText.text = ingredientListManager.currentIngredientList.listName;
+        listTitle.GetComponent<TMP_InputField>().text = currentIngredientList.listName;
 
         // display each ingredient
-        for (int i = 0; i < ingredientListManager.currentIngredientList.ingredients.Count; i++)
+        for (int i = 0; i < currentIngredientList.ingredients.Count; i++)
         {
             // create a new list item to display this ingredient
             GameObject listItem = Instantiate(listItemObject, scrollViewContent);
@@ -50,7 +56,7 @@ public class IngredientListScreen : MonoBehaviour
             Button ingredientButton = listItem.transform.GetChild(0).GetComponent<Button>();
             Button delButton = listItem.transform.GetChild(1).GetComponent<Button>();
 
-            List<Ingredient> ingredients = ingredientListManager.currentIngredientList.ingredients;
+            List<Ingredient> ingredients = currentIngredientList.ingredients;
             ingredientButton.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = ingredients[i].name;
             ingredientButton.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = ingredients[i].quantity.ToString();
             ingredientButton.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = ingredients[i].type.ToString();
@@ -70,9 +76,8 @@ public class IngredientListScreen : MonoBehaviour
 
     private void OnIngredientButtonClick(int itemIndex)
     {
-        Ingredient ingredient = ingredientListManager.currentIngredientList.ingredients[itemIndex];
         thisScreen.SetActive(false);
-        ingredientListManager.OpenIngredientScreen(ingredient);
+        mainManager.OpenIngredientScreen(itemIndex);
     }
 
     /// <summary>
@@ -90,19 +95,19 @@ public class IngredientListScreen : MonoBehaviour
 
     public void OnDeleteButtonClick(int i)
     {
-        ingredientListManager.DeleteIngredient(i);
+        mainManager.DeleteIngredient(i);
         DisplayList();
     }
 
     public void OnBackButtonClick()
     {
-        ingredientListManager.CloseList();
+        mainManager.CloseList();
         backButton.SetActive(false);
     }
 
     public void OnAddIngredientButtonClick()
     {
-        ingredientListManager.OpenSearchScreen();
+        mainManager.OpenSearchScreen();
         //ingredientListManager.AddIngredient(new Ingredient("banana", QuantityType.PCS, 3));
         //DisplayList();
     }
