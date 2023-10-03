@@ -4,16 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class IngredientManager : MonoBehaviour
 {
     [SerializeField] private IngredientListManager ingredientListManager;
     [SerializeField] private GameObject thisScreen;
 
+    [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject confirmButton;
     [SerializeField] private GameObject qtyInput;
 
-    private Ingredient ingredient;
+    //private Ingredient ingredient;
+
+    void Start() 
+    {
+        Button backB = backButton.GetComponent<Button>();
+        backB.onClick.AddListener(delegate { OnBackButtonClick(); });
+    }
+
     public void OnConfirmClick()
     {
         string searchText = qtyInput.GetComponent<TMP_InputField>().text;
@@ -35,5 +44,10 @@ public class IngredientManager : MonoBehaviour
         if (searchText.Any(char.IsLetter))
             return false;
         return true;
+    }
+
+    public void OnBackButtonClick()
+    {
+        thisScreen.SetActive(false);
     }
 }
