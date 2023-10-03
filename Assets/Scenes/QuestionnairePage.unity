@@ -427,6 +427,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questionnaireTemplate: {fileID: 3649800111059760958, guid: c8ff6d44c4418124b9318c2f4fd4bc45,
     type: 3}
+  exitButton: {fileID: 7572607050577593510, guid: eca292743f982be4bbecdc179fb45da9,
+    type: 3}
 --- !u!114 &1621960021
 MonoBehaviour:
   m_ObjectHideFlags: 0

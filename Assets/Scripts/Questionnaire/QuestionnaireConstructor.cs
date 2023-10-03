@@ -10,8 +10,8 @@ public class QuestionnaireConstructor : MonoBehaviour
     QuestionnaireData data;
     TextAsset jsonfile;
 
-    [SerializeField]
-    private GameObject questionnaireTemplate;
+    [SerializeField] private GameObject questionnaireTemplate;
+    [SerializeField] private GameObject exitButton;
 
     //currently, start only loads the test questionnaire from a json file
     //in the future, this obviously has to change
@@ -20,9 +20,11 @@ public class QuestionnaireConstructor : MonoBehaviour
         jsonfile = Resources.Load<TextAsset>("Questionnaires/Testformat");
         data = JsonUtility.FromJson<QuestionnaireData>(jsonfile.text);
 
-        if (data == null){ Debug.Log("data file is null"); }
+        if (data == null) { Debug.Log("data file is null"); }
 
         MakeQuestionnaire(data);
+
+        Instantiate(exitButton, gameObject.transform);
     }
 
     //makes a questionnaire object and returns it
@@ -35,7 +37,7 @@ public class QuestionnaireConstructor : MonoBehaviour
         questionnairescript.SetTitle(data.questionnairetitle);
         questionnairescript.SetDescription(data.questionnairedescription);
 
-        foreach(QuestionData question in data.questions)
+        foreach (QuestionData question in data.questions)
         {
             questionnairescript.addQuestion(question);
         }

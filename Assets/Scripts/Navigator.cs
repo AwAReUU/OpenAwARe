@@ -12,7 +12,7 @@ public class Navigator : MonoBehaviour
     private void Start()
     {
         dropdown = GetComponent<TMP_Dropdown>();
-        sceneSwitcher = FindObjectOfType<SceneSwitcher>();
+        //sceneSwitcher = FindObjectOfType<SceneSwitcher>();
         //SetDropdownOptions();
         dropdown.onValueChanged.AddListener(delegate
         {
@@ -33,9 +33,11 @@ public class Navigator : MonoBehaviour
 
     private void DropdownValueChanged(TMP_Dropdown dropdown)
     {
+        SceneSwitcher sceneSwitcher = new SceneSwitcher();
         switch (dropdown.value)
         {
             case 0:     // Go to ingredient/recipe manager
+                Debug.Log("h");
                 sceneSwitcher.ChangeScene("IngredientListUI");
                 break;
             case 1:     // Auto-generate objects
