@@ -424,7 +424,7 @@ GameObject:
   - component: {fileID: 8753377558476038274}
   - component: {fileID: 6277859383896328297}
   m_Layer: 5
-  m_Name: Questionnaire
+  m_Name: QuestionnaireTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

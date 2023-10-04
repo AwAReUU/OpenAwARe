@@ -17,12 +17,20 @@ public class QuestionnaireConstructor : MonoBehaviour
     //in the future, this obviously has to change
     void Start()
     {
-        jsonfile = Resources.Load<TextAsset>("Questionnaires/Testformat");
+        QuestionnaireFromFile("Testformat");
+    }
+
+    public GameObject QuestionnaireFromFile(string filename)
+    {
+        jsonfile = Resources.Load<TextAsset>("Questionnaires/" + filename);
         data = JsonUtility.FromJson<QuestionnaireData>(jsonfile.text);
+        if(data == null)
+        {
+            Debug.Log("Data file is null. Is the file Questionnaires/" + filename + " correct?");
+            return new GameObject();
+        }
 
-        if (data == null){ Debug.Log("data file is null"); }
-
-        MakeQuestionnaire(data);
+        return MakeQuestionnaire(data);
     }
 
     //makes a questionnaire object and returns it
