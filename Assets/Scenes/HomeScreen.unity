@@ -805,6 +805,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3343430421643379230, guid: 3aa768d437de079459fa489a47cdb48b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9001493446378514826, guid: 3aa768d437de079459fa489a47cdb48b,
         type: 3}
       propertyPath: m_text
@@ -933,6 +938,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3343430421643379230, guid: 3aa768d437de079459fa489a47cdb48b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: QuestionnairePage
       objectReference: {fileID: 0}
     - target: {fileID: 9001493446378514826, guid: 3aa768d437de079459fa489a47cdb48b,
         type: 3}
