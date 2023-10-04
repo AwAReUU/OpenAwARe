@@ -69,13 +69,13 @@ public class ObjectCreationManager : MonoBehaviour
 
     private bool TryPlaceObject(GameObject obj, Vector3 position, Vector3 halfExtents, float centerHeight)
     {
-        // Adjust object size according to scaler
-        Vector3 originalScale = obj.transform.localScale;
-        obj.transform.localScale = new Vector3(sizeMultiplier, sizeMultiplier, sizeMultiplier);
-
         // Check if the box overlaps with any other colliders
         if (!Physics.CheckBox(position, halfExtents, Quaternion.identity))
         {
+            // Adjust object size according to scaler
+            Vector3 originalScale = obj.transform.localScale;
+            obj.transform.localScale = new Vector3(sizeMultiplier, sizeMultiplier, sizeMultiplier);
+            
             GameObject newObject = Instantiate(obj, position, Quaternion.identity);
             
             // Added colliders DO NOT SCALE with adjusted object size, so must also be transformed accordingly
@@ -86,11 +86,11 @@ public class ObjectCreationManager : MonoBehaviour
             position.y -= centerHeight;
             newObject.transform.position = position;
 
+            // Return prefab to original size 
+            obj.transform.localScale = originalScale;
+            
             return true;
         }
-
-        // Return prefab to original size 
-        obj.transform.localScale = originalScale;
 
         return false;
     }
