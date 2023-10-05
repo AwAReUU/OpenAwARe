@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ClientBehaviour : MonoBehaviour
@@ -13,16 +14,19 @@ public class ClientBehaviour : MonoBehaviour
         this.Login();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private async void Login()
     {
-        await Client.GetInstance().Login(adress, new User { email = this.email, password = this.password });
+        Client.Init(this.adress, new User { email = this.email, password = this.password });
 
-        Debug.Log(await Client.GetInstance().CheckLogin(adress));
+        Debug.Log("test" + await Client.CheckLogin());
+
+
+        // Client.Post("/ingredients/get").Then(res =>
+        // {
+        //     res.Text // <--json
+        // }).Catch(err =>
+        // {
+
+        // }).Send();
     }
 }

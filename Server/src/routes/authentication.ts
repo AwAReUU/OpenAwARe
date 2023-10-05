@@ -50,7 +50,7 @@ router.post("/register", async (req: any, res: any) => {
                     "INSERT INTO users (first_name, last_name, password, email) VALUES (?, ?, ?, ?)",
                     [firstName, lastName, password, email],
                 );
-                res.status(201).send("Registration succesfull");
+                res.status(201).send("Registration successful");
             }
         },
     );
@@ -77,7 +77,7 @@ router.post("/login", async (req: any, res: any) => {
             }
             if (row) {
                 if (await bcrypt.compare(password, row.password)) {
-                    // Login succesfull
+                    // Login successful
                     const accessToken = generateAccessToken(email);
                     const refreshToken = generateRefreshToken(email);
 

@@ -12,7 +12,13 @@ $ npm install
 $ npm run dev
 ```
 
+## Connect
+
+Ip adress: 131.211.32.146:8000
+
 ## Routes
+
+### Authentication: */auth*
 
 <table >
 <thead>
@@ -60,6 +66,23 @@ $ npm run dev
     <td >-</td>
     <td > Check if login session is active </td>
   </tr>
+</tbody>
+</table>
+
+### Ingredients: */ingr*
+
+
+<table >
+<thead>
+  <tr>
+    <th>Route</span></th>
+    <th>Type</th>
+    <th>Headers / Body</th>
+    <th>Returns</th>
+    <th>Description</th>
+  </tr>
+</thead>
+<tbody>
   <tr>
     <td ><pre>/ingr/search</pre></td>
     <td ><b>GET</b></td>
@@ -76,7 +99,6 @@ $ npm run dev
   </tr>
 </tbody>
 </table>
-
 
 ## Tips
 
