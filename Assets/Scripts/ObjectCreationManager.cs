@@ -34,10 +34,7 @@ public class ObjectCreationManager : MonoBehaviour
 
         // Temporarily instantiate the object to get the BoxCollider size
         GameObject tempObj = Instantiate(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], new Vector3(0, 0, 0), Quaternion.identity);
-
-        // Added colliders DO NOT SCALE with adjusted object size, so must be transformed accordingly
         BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
-        //tempCollider.size *= sizeMultiplier; 
 
         Vector3 halfExtents = tempCollider.size / 2;
         float centerHeight = tempCollider.size.y / 2;
