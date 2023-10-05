@@ -68,7 +68,7 @@ $ npm run dev
     <td > Get all ingredients with name containing the query string </td>
   </tr>
     <tr>
-    <td ><pre>/ingr/getingredient</pre></td>
+    <td ><pre>/ingr/getIngredient</pre></td>
     <td ><b>GET</b></td>
     <td > <b>body (json):</b> { id, type }</td>
     <td > <b>json:</b> { rows }</td>

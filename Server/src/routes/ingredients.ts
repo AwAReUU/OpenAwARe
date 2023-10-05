@@ -44,7 +44,7 @@ router.get("/search", async (req: any, res: any) => {
 //      id:          int,
 //      type:        string
 // }
-router.get("/getingredient", async (req: any, res: any) => {
+router.get("/getIngredient", async (req: any, res: any) => {
     const id = req.body.id;
     const type = req.body.type;
 
