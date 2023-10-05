@@ -12,9 +12,10 @@ public class ObjectCreationManager : MonoBehaviour
     private List<Vector3> validSpawnLocations = new List<Vector3>();
 
     // Hardcoded size multiplier & object amount, will have to be retrieved from database
-    private float sizeMultiplier = 0.3f;  
-    private int objectAmount = 10;
-
+    private float sizeMultiplier;  
+    private int objectAmount;
+    public InputField inputAmount;
+    public InputField inputSize;
 
     public void TryPlaceObjectOnTouch(ARRaycastHit hit, bool rotateToUser = true, bool forceCreate = false)
     {
@@ -36,7 +37,7 @@ public class ObjectCreationManager : MonoBehaviour
 
         // Added colliders DO NOT SCALE with adjusted object size, so must be transformed accordingly
         BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
-        tempCollider.size *= sizeMultiplier; 
+        //tempCollider.size *= sizeMultiplier; 
 
         Vector3 halfExtents = tempCollider.size / 2;
         float centerHeight = tempCollider.size.y / 2;
@@ -72,22 +73,16 @@ public class ObjectCreationManager : MonoBehaviour
         // Check if the box overlaps with any other colliders
         if (!Physics.CheckBox(position, halfExtents, Quaternion.identity))
         {
-            // Adjust object size according to scaler
-            Vector3 originalScale = obj.transform.localScale;
-            obj.transform.localScale = new Vector3(sizeMultiplier, sizeMultiplier, sizeMultiplier);
-            
+            // Adjust object size according to scalar
             GameObject newObject = Instantiate(obj, position, Quaternion.identity);
+            newObject.transform.localScale = new Vector3(sizeMultiplier, sizeMultiplier, sizeMultiplier);
             
-            // Added colliders DO NOT SCALE with adjusted object size, so must also be transformed accordingly
+            // Add collider after changing object size 
             BoxCollider newCollider = newObject.AddComponent<BoxCollider>();
-            newCollider.size *= sizeMultiplier;           
             
             RotateToUser(newObject);
             position.y -= centerHeight;
             newObject.transform.position = position;
-
-            // Return prefab to original size 
-            obj.transform.localScale = originalScale;
             
             return true;
         }
@@ -98,20 +93,22 @@ public class ObjectCreationManager : MonoBehaviour
     //* Function is called whenever button is clicked to generate objects
     public void AutoGenerateObjects()
     {
+        objectAmount = int.Parse(inputAmount.text);
+        sizeMultiplier = float.Parse(inputSize.text);
         ARPlaneManager planeManager = GetComponent<ARPlaneManager>();
 
-        //TODO: add realistic colliders directly in the prefabs for better accuracy (I've made this a task in backlog)
         // Temporarily instantiate the object to get the BoxCollider size
         GameObject tempObj = Instantiate(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], Vector3.zero, Quaternion.identity);
         
-        // Added colliders DO NOT SCALE with adjusted object size, so must be transformed accordingly
-        BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
-        tempCollider.size *= sizeMultiplier;           
+        // Scale BEFORE adding boxcollider
+        tempObj.transform.localScale = new Vector3(sizeMultiplier, sizeMultiplier, sizeMultiplier);
+        BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();          
 
         // Assuming the box collider is at the object's origin
         Vector3 halfExtents = tempCollider.size / 2;
         float centerHeight = tempCollider.size.y / 2;
-        Destroy(tempObj);
+        
+        Destroy(tempObj);        
 
         validSpawnLocations = GetValidSpawnLocations(planeManager);
         int materialsToPlace = objectAmount;
