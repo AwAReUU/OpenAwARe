@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class IngredientManager : MonoBehaviour
+public class IngredientScreen : MonoBehaviour
 {
     [SerializeField] private IngredientListManager ingredientListManager;
     [SerializeField] private GameObject thisScreen;

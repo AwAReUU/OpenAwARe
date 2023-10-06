@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 
-public class SearchScript : MonoBehaviour
+public class SearchScreen : MonoBehaviour
 {
     [SerializeField] private GameObject thisScreen;
     [SerializeField] private IngredientListManager ingredientListManager;
@@ -35,6 +35,11 @@ public class SearchScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Add an item to the searchbar's scrollview. 
+    /// </summary>
+    /// <param name="itemName"></param>
+    /// <param name="qtyType"></param>
     public void AddContentItem(string itemName, QuantityType qtyType)
     {
         GameObject button = Instantiate(buttonPrefab, ContentHolder.transform);
@@ -68,10 +73,7 @@ public class SearchScript : MonoBehaviour
             if (itemText.Length >= searchTextLength) 
             {
                 if (itemText.Contains(searchText))
-                {
-                    Debug.Log("true");
                     elem.SetActive(true);
-                }
                 else
                     elem.SetActive(false);
             }
