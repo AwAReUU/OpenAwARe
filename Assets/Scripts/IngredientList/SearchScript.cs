@@ -8,7 +8,7 @@ using System;
 public class SearchScript : MonoBehaviour
 {
     [SerializeField] private GameObject thisScreen;
-    [SerializeField] private MainManager mainManager;
+    [SerializeField] private IngredientListManager ingredientListManager;
 
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject buttonPrefab;
@@ -49,7 +49,7 @@ public class SearchScript : MonoBehaviour
     private void OnItemClicked(int itemIndex)
     {
         thisScreen.SetActive(false);
-        mainManager.OpenIngredientScreen(itemIndex);
+        ingredientListManager.OpenIngredientScreen(itemIndex);
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public class SearchScript : MonoBehaviour
     public void OnBackButtonClick()
     {
         thisScreen.SetActive(false);
-        mainManager.OpenList(mainManager.currentListIndex);
+        ingredientListManager.OpenList(ingredientListManager.currentListIndex);
     }
 
 }

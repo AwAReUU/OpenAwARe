@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class IngredientManager : MonoBehaviour
 {
-    [SerializeField] private MainManager mainManager;
+    [SerializeField] private IngredientListManager ingredientListManager;
     [SerializeField] private GameObject thisScreen;
 
     [SerializeField] private GameObject ingredientNameField;
@@ -25,7 +25,7 @@ public class IngredientManager : MonoBehaviour
 
         Debug.Log("setting qty");
 
-        currentIngredient = mainManager.ingredientLists[mainManager.currentListIndex].ingredients[mainManager.currentIngredientIndex];
+        currentIngredient = ingredientListManager.ingredientLists[ingredientListManager.currentListIndex].ingredients[ingredientListManager.currentIngredientIndex];
         
         ingredientNameField.GetComponent<TMP_Text>().text = currentIngredient.name;
         qtyInput.GetComponent<TMP_InputField>().text = currentIngredient.quantity.ToString();
@@ -47,7 +47,7 @@ public class IngredientManager : MonoBehaviour
             //currentIngredient = newIngredient;
             UpdateIngredient(newIngredient);
             thisScreen.SetActive(false);
-            mainManager.OpenList(mainManager.currentListIndex);
+            ingredientListManager.OpenList(ingredientListManager.currentListIndex);
         }
         else 
         {
@@ -57,16 +57,14 @@ public class IngredientManager : MonoBehaviour
 
     private void UpdateIngredient(Ingredient newIngredient)
     {
-        IngredientList currentList = mainManager.ingredientLists[mainManager.currentListIndex];
-        currentList.ingredients[mainManager.currentIngredientIndex] = newIngredient;
-        mainManager.ingredientLists[mainManager.currentListIndex] = currentList;
-
-        Debug.Log("updated the list" + mainManager.ingredientLists[mainManager.currentListIndex].ingredients.Count);
+        IngredientList currentList = ingredientListManager.ingredientLists[ingredientListManager.currentListIndex];
+        currentList.ingredients[ingredientListManager.currentIngredientIndex] = newIngredient;
+        ingredientListManager.ingredientLists[ingredientListManager.currentListIndex] = currentList;
     }
 
     public void OnBackButtonClick()
     {
         thisScreen.SetActive(false);
-        mainManager.OpenList(mainManager.currentListIndex);
+        ingredientListManager.OpenList(ingredientListManager.currentListIndex);
     }
 }

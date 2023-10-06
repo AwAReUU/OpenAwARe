@@ -6,7 +6,7 @@ using System;
 //using System.Text.Json;
 //using System.Text.Json.Serialization;
 
-public class MainManager : MonoBehaviour
+public class IngredientListManager : MonoBehaviour
 {
     public List<IngredientList> ingredientLists { get; private set; }
 

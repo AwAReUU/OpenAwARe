@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AddIngredientScreen : MonoBehaviour
 {
-    [SerializeField] private MainManager mainManager;
+    [SerializeField] private IngredientListManager ingredientListManager;
 
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject addButton;
@@ -28,6 +28,6 @@ public class AddIngredientScreen : MonoBehaviour
 
     public void OnAddButtonClick()
     {
-        mainManager.AddIngredient(ingredient);
+        ingredientListManager.AddIngredient(ingredient);
     }
 }
