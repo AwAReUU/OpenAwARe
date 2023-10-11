@@ -70,9 +70,25 @@ $ npm run dev
     <tr>
     <td ><pre>/ingr/getIngredient</pre></td>
     <td ><b>GET</b></td>
-    <td > <b>body (json):</b> { id, type }</td>
-    <td > <b>json:</b> { rows }</td>
-    <td > Get a full row of the ingredient with this id and type </td>
+    <td > <b>body (json):</b> { id }</td>
+    <td > <b>json:</b> { row }</td>
+    <td > Get a full row of the ingredient with this ID </td>
+  </tr>
+  </tr>
+    <tr>
+    <td ><pre>/ingr/getIngredientList</pre></td>
+    <td ><b>GET</b></td>
+    <td > <b>body (json):</b> { [id] }</td>
+    <td > <b>json:</b> { [row] }</td>
+    <td > Get a full rows of the ingredients with the IDs in the list </td>
+  </tr>
+  </tr>
+    <tr>
+    <td ><pre>/ingr/modelDimensions</pre></td>
+    <td ><b>GET</b></td>
+    <td > <b>body (json):</b> { [id] }</td>
+    <td > <b>json:</b> { [row] }</td>
+    <td > Get the filepaths, widths, lengths and heights of all models with the IDs in the list </td>
   </tr>
 </tbody>
 </table>
