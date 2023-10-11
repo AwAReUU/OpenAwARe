@@ -7,53 +7,56 @@ using TMPro;
 
 public class IngredientList
 {
-    public List<Ingredient> ingredients { get; private set; }
+    public Dictionary<Ingredient, float> Ingredients { get; private set; }
 
-    public string listName { get; private set; }
+    public string ListName { get; private set; }
 
-    public IngredientList(string listName, List<Ingredient> ingredients = null)
+    public IngredientList(string listName, Dictionary<Ingredient, float> ingredients = null)
     {
-        this.listName = listName;
+        this.ListName = listName;
 
         if (ingredients != null)
-            this.ingredients = ingredients;
+            this.Ingredients = ingredients;
         else
-            this.ingredients = new List<Ingredient>();
+            this.Ingredients = new();
     }
 
     public int NumberOfIngredients()
     {
-        return ingredients.Count;
+        return Ingredients.Count;
     }
 
-    public void AddIngredient(Ingredient ingredient)
+    public void AddIngredient(Ingredient ingredient, float quantity)
     {
-        ingredients.Add(ingredient);
+        Ingredients.Add(ingredient, quantity);
     }
 
-    public void RemoveIngredient(int i)
+    public void RemoveIngredient(Ingredient ingredient)
     {
-        ingredients.Remove(ingredients[i]);
+        Ingredients.Remove(ingredient);
     }
+
+    
 }
 
-public class Ingredient
+public class Ingredient : IEquatable<Ingredient>
 {
-    public string name { get; private set; }
-    public QuantityType type { get; private set; }
-    public float quantity { get; private set; }
+    public int ID { get; }
+    public string Name { get; private set; }
+    public QuantityType Type { get; private set; }
 
-    public Ingredient(string name, QuantityType type, float quantity)
+    public Ingredient(int id, string name, QuantityType type)
     {
-        this.name = name;
-        this.type = type;
-        this.quantity = quantity;
+        this.ID = id;
+        this.Name = name;
+        this.Type = type;
     }
+    public override bool Equals(object obj) => obj is Ingredient m && this.Equals(m);
 
-    public void SetQuantity(float q)
-    {
-        quantity = q;
-    }
+    public bool Equals(Ingredient m) => ID == m.ID;
+
+    public override int GetHashCode() => ID.GetHashCode();
+
 }
 
 public enum QuantityType
@@ -62,3 +65,4 @@ public enum QuantityType
     PCS, // pieces
     L    // litres
 }
+

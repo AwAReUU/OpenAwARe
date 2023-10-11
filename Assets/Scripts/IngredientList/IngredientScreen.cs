@@ -25,10 +25,10 @@ public class IngredientScreen : MonoBehaviour
 
         Debug.Log("setting qty");
 
-        currentIngredient = ingredientListManager.ingredientLists[ingredientListManager.currentListIndex].ingredients[ingredientListManager.currentIngredientIndex];
+        currentIngredient = ingredientListManager.currentIngredient;
         
-        ingredientNameField.GetComponent<TMP_Text>().text = currentIngredient.name;
-        qtyInput.GetComponent<TMP_InputField>().text = currentIngredient.quantity.ToString();
+        ingredientNameField.GetComponent<TMP_Text>().text = currentIngredient.Name;
+        qtyInput.GetComponent<TMP_InputField>().text = ingredientListManager.ingredientLists[ingredientListManager.currentListIndex].Ingredients[currentIngredient].ToString();
     }
 
     public void OnConfirmClick()
@@ -38,14 +38,8 @@ public class IngredientScreen : MonoBehaviour
         float parsedInput;
         if (float.TryParse(input, out parsedInput))
         {
-            Ingredient newIngredient = new Ingredient
-            (
-                currentIngredient.name,
-                currentIngredient.type,
-                parsedInput
-            );
             //currentIngredient = newIngredient;
-            UpdateIngredient(newIngredient);
+            UpdateIngredient(parsedInput);
             thisScreen.SetActive(false);
             ingredientListManager.OpenList(ingredientListManager.currentListIndex);
         }
@@ -55,10 +49,10 @@ public class IngredientScreen : MonoBehaviour
         }
     }
 
-    private void UpdateIngredient(Ingredient newIngredient)
+    private void UpdateIngredient(float newQuantity)
     {
         IngredientList currentList = ingredientListManager.ingredientLists[ingredientListManager.currentListIndex];
-        currentList.ingredients[ingredientListManager.currentIngredientIndex] = newIngredient;
+        currentList.Ingredients[ingredientListManager.currentIngredient] = newQuantity;
         ingredientListManager.ingredientLists[ingredientListManager.currentListIndex] = currentList;
     }
 

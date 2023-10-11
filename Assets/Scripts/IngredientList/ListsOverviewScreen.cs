@@ -41,7 +41,7 @@ public class ListsOverviewScreen : MonoBehaviour
             Button delButton = listItem.transform.GetChild(1).GetComponent<Button>();
             Button listButton = listItem.transform.GetChild(0).GetComponent<Button>();
             listButton.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text =
-                ingredientListManager.ingredientLists[i].listName;
+                ingredientListManager.ingredientLists[i].ListName;
             listButton.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text =
                 ingredientListManager.ingredientLists[i].NumberOfIngredients().ToString();
 
