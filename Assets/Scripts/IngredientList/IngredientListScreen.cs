@@ -49,7 +49,7 @@ public class IngredientListScreen : MonoBehaviour
         RemoveIngredientObjects();
     }
 
-    public void DisplayList()
+    private void DisplayList()
     {
         RemoveIngredientObjects();
 
@@ -94,7 +94,7 @@ public class IngredientListScreen : MonoBehaviour
     /// <summary>
     /// removes all objects from the scrollview
     /// </summary>
-    public void RemoveIngredientObjects()
+    private void RemoveIngredientObjects()
     {
         foreach (GameObject o in ingredientObjects)
         {
@@ -104,19 +104,19 @@ public class IngredientListScreen : MonoBehaviour
         ingredientObjects = new List<GameObject>();
     }
 
-    public void OnDeleteButtonClick(int i)
+    private void OnDeleteButtonClick(int i)
     {
         ingredientListManager.DeleteIngredient(i);
         DisplayList();
     }
 
-    public void OnBackButtonClick()
+    private void OnBackButtonClick()
     {
         ingredientListManager.CloseList();
         backButton.SetActive(false);
     }
 
-    public void OnAddIngredientButtonClick()
+    private void OnAddIngredientButtonClick()
     {
         ingredientListManager.OpenSearchScreen();
         //ingredientListManager.AddIngredient(new Ingredient("banana", QuantityType.PCS, 3));

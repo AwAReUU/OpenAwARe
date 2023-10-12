@@ -27,7 +27,7 @@ public class ListsOverviewScreen : MonoBehaviour
         RemoveListObjects();
     }
 
-    void DisplayLists()
+    private void DisplayLists()
     {
         RemoveListObjects();
 
@@ -58,7 +58,7 @@ public class ListsOverviewScreen : MonoBehaviour
     /// <summary>
     /// removes currently displayed objects
     /// </summary>
-    void RemoveListObjects()
+    private void RemoveListObjects()
     {
         foreach (GameObject o in listObjects)
         {
@@ -67,19 +67,19 @@ public class ListsOverviewScreen : MonoBehaviour
         listObjects = new List<GameObject>();
     }
 
-    public void OnAddListButtonClick()
+    private void OnAddListButtonClick()
     {
         ingredientListManager.CreateList();
         DisplayLists();
     }
 
-    public void OnDeleteButtonClick(int i)
+    private void OnDeleteButtonClick(int i)
     {
         ingredientListManager.DeleteList(i);
         DisplayLists();
     }
 
-    public void OnListButtonClick(int i)
+    private void OnListButtonClick(int i)
     {
         ingredientListManager.OpenList(i);
     }

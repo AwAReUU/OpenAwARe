@@ -14,7 +14,7 @@ public interface IDatabase
 
 public class DatabaseMockup : IDatabase
 {
-    private static (int, string)[] SearchTableArray =
+    private List<(int, string)> SearchTable = new List<(int, string)>
     {
         ( 1, "Apple"), (1, "Red Apple"), (1, "Green Apple"), (1, "Fuji Apple"), (1, "Elstar Apple"), (1, "Pink Lady"),
         ( 2, "Banana"),
@@ -32,28 +32,26 @@ public class DatabaseMockup : IDatabase
         (14, "Duck"),
         (15, "Milk")
     };
-    private List<(int, string)> SearchTable = new List<(int, string)>(SearchTableArray);
 
-    private static (int, string, string, QuantityType, int)[] IngredientTableArray =
-    {
-        (1,      "Apple",  "fruit", QuantityType.G, 100),
-        (2,     "Banana",  "fruit", QuantityType.G, 100),
-        (3,       "Pear",  "fruit", QuantityType.G, 100),
-        (4,   "Mandarin",  "fruit", QuantityType.G, 100),
-        (5,     "Orange",  "fruit", QuantityType.G, 100),
-        (6,      "Grape",  "fruit", QuantityType.G, 100),
-        (7, "Strawberry",  "fruit", QuantityType.G, 100),
-        (8, "Kiwi Fruit",  "fruit", QuantityType.G, 100),
-        (9,  "Pineapple",  "fruit", QuantityType.G, 100),
-        (10,     "Melon",  "fruit", QuantityType.G, 100),
-        (11,      "Beef", "animal", QuantityType.G, 100),
-        (12,   "Chicken", "animal", QuantityType.G, 100),
-        (13,      "Pork", "animal", QuantityType.G, 100),
-        (14,      "Duck", "animal", QuantityType.G, 100),
-        (15,      "Milk", "animal", QuantityType.G, 100)
-    };
-    private List<(int, string, string, QuantityType, int)> IngredientTable = 
-           new List<(int, string, string, QuantityType, int)>(IngredientTableArray);
+    private List<(int, string, string, QuantityType, int)> IngredientTable =
+        new List<(int, string, string, QuantityType, int)>
+        {
+            (1,      "Apple",  "fruit", QuantityType.G, 100),
+            (2,     "Banana",  "fruit", QuantityType.G, 100),
+            (3,       "Pear",  "fruit", QuantityType.G, 100),
+            (4,   "Mandarin",  "fruit", QuantityType.G, 100),
+            (5,     "Orange",  "fruit", QuantityType.G, 100),
+            (6,      "Grape",  "fruit", QuantityType.G, 100),
+            (7, "Strawberry",  "fruit", QuantityType.G, 100),
+            (8, "Kiwi Fruit",  "fruit", QuantityType.G, 100),
+            (9,  "Pineapple",  "fruit", QuantityType.G, 100),
+            (10,     "Melon",  "fruit", QuantityType.G, 100),
+            (11,      "Beef", "animal", QuantityType.G, 100),
+            (12,   "Chicken", "animal", QuantityType.G, 100),
+            (13,      "Pork", "animal", QuantityType.G, 100),
+            (14,      "Duck", "animal", QuantityType.G, 100),
+            (15,      "Milk", "animal", QuantityType.G, 100)
+        };
 
     List<Ingredient> IDatabase.Search(string term)
     {

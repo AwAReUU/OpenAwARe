@@ -29,20 +29,25 @@ public class SearchScreen : MonoBehaviour
         backB.onClick.AddListener(delegate { OnBackButtonClick(); });
     }
 
-    private void RenderList()
+    private void DisplayResults()
     {
-        // destroy old items
+        // destroy old item objects
+        RemoveItemObjects();
+        // create a new object for every search result
+        foreach (Ingredient result in searchResults) 
+        {
+            AddContentItem(result.name, result.type);
+        }
+    }
+
+    private void RemoveItemObjects()
+    {
         foreach (GameObject item in items)
         {
             Destroy(item);
         }
         // make list empty
         items = new List<GameObject>();
-        // create a new object for every search result
-        foreach (Ingredient result in searchResults) 
-        {
-            AddContentItem(result.name, result.type);
-        }
     }
 
     /// <summary>
@@ -74,10 +79,9 @@ public class SearchScreen : MonoBehaviour
     public void OnSearchClick() 
     {
         string searchText = SearchBar.GetComponent<TMP_InputField>().text;
-        int searchTextLength = searchText.Length;
 
         searchResults = database.Search(searchText);
-        RenderList();
+        DisplayResults();
     }
 
     public void OnBackButtonClick()

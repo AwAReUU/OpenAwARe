@@ -63,7 +63,7 @@ public class IngredientScreen : MonoBehaviour
         ingredientListManager.ingredientLists[ingredientListManager.currentListIndex] = currentList;
     }
 
-    public void OnBackButtonClick()
+    private void OnBackButtonClick()
     {
         thisScreen.SetActive(false);
         ingredientListManager.OpenList(ingredientListManager.currentListIndex);
