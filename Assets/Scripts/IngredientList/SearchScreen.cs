@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 using System.Data;
+using RSG.Promises;
 
 public class SearchScreen : MonoBehaviour
 {
@@ -34,10 +35,7 @@ public class SearchScreen : MonoBehaviour
         // destroy old item objects
         RemoveItemObjects();
         // create a new object for every search result
-        foreach (Ingredient result in searchResults) 
-        {
-            AddContentItem(result.name, result.type);
-        }
+        searchResults.Each(result => AddContentItem(result));
     }
 
     private void RemoveItemObjects()
@@ -55,21 +53,21 @@ public class SearchScreen : MonoBehaviour
     /// </summary>
     /// <param name="itemName"></param>
     /// <param name="qtyType"></param>
-    public void AddContentItem(string itemName, QuantityType qtyType)
+    public void AddContentItem(Ingredient searchResult)
     {
         GameObject button = Instantiate(buttonPrefab, ContentHolder.transform);
-        button.GetComponentInChildren<TMP_Text>().text = itemName;
+        button.GetComponentInChildren<TMP_Text>().text = searchResult.name;
         //Get Button object from GameObject to attach event
         items.Add(button);
         Button b = button.GetComponent<Button>();
-        b.onClick.AddListener(delegate { OnItemClicked(itemIndex: 0); });
+        b.onClick.AddListener(delegate { OnItemClicked(item: searchResult); });
         button.SetActive(true);
     }
 
-    private void OnItemClicked(int itemIndex)
+    private void OnItemClicked(Ingredient item)
     {
-        thisScreen.SetActive(false);
-        ingredientListManager.OpenIngredientScreen(itemIndex);
+        ingredientListManager.AddIngredient(item);
+        OnBackButtonClick();
     }
 
     /// <summary>
