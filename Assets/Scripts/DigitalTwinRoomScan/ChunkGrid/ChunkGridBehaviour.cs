@@ -38,10 +38,6 @@ public class ChunkGridBehavior<Data> : MonoBehaviour, IChunkGridSize
                 }
     }
 
-    protected void Update() { OnUpdate(); }
-
-    protected virtual void OnUpdate() { }
-
     protected Vector3 ChunkLocation((int,int,int) idx)
     {
         (int, int, int) chunkSize = this.ChunkSize;

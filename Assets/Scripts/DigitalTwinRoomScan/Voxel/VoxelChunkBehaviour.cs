@@ -17,7 +17,7 @@ public class VoxelChunkBehaviour : ChunkBehaviour<bool>
     // Start is called before the first frame update
     protected override void OnStart()
     {
-        this.chunkData = chunk.ChunkData;
+        this.chunkData = chunk.Data;
 
         SetStartData();
 

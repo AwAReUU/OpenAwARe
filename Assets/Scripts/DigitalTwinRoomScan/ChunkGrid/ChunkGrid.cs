@@ -10,21 +10,21 @@ public interface IChunkGridSize : IChunkSize
     public (int, int, int) NroChunks { get; }
 }
 
-public interface IChunkGrid<Data> : IChunkGridSize
+public interface IChunkGrid<T> : IChunkGridSize
 {
-    public Data this[int x, int y, int z] {  get; set; }
+    public T this[int x, int y, int z] {  get; set; }
     public int GetLength(int dim);
 
-    IChunk<Data>[,,] Chunks { get; }
+    IChunk<T>[,,] Chunks { get; }
 }
 
-public class ChunkGrid<Data> : IChunkGrid<Data>
+public class ChunkGrid<T> : IChunkGrid<T>
 {
     protected const int dim = VoxelData.dim;
     protected readonly int[] gridSize, chunkSize;
-    protected readonly IChunk<Data>[,,] chunks;
+    protected readonly IChunk<T>[,,] chunks;
 
-    public ChunkGrid(int[] gridSize, int[] chunkSize, IChunk<Data>[,,] chunks)
+    public ChunkGrid(int[] gridSize, int[] chunkSize, IChunk<T>[,,] chunks)
     {
         this.gridSize = gridSize;
         this.chunkSize = chunkSize;
@@ -35,7 +35,7 @@ public class ChunkGrid<Data> : IChunkGrid<Data>
     public (int, int, int) NroChunks { get => (chunks.GetLength(0), chunks.GetLength(1), chunks.GetLength(2)); }
     public (int, int, int) ChunkSize { get => (chunkSize[0], chunkSize[1], chunkSize[2]); }
 
-    public Data this[int x, int y, int z] {
+    public T this[int x, int y, int z] {
         get
         {
             int cx, cy, cz, lx, ly, lz;
@@ -73,7 +73,7 @@ public class ChunkGrid<Data> : IChunkGrid<Data>
         return (chunkIdx, localIdx);
     }
 
-    public IChunk<Data>[,,] Chunks { get => chunks; }
+    public IChunk<T>[,,] Chunks { get => chunks; }
 }
 
 

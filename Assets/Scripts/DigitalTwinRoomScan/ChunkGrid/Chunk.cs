@@ -13,51 +13,51 @@ public interface IChunkSize
     public (int, int, int) ChunkSize { get; }
 }
 
-public interface IChunkStatus
+public interface IChangeable
 {
     public bool Changed { get; set; }
 }
 
-public interface IChunk<Data> : IChunkStatus, IChunkSize
+public interface IChunk<T> : IChangeable, IChunkSize
 {
-    public Data this[int x, int y, int z] { get; set; }
+    public T this[int x, int y, int z] { get; set; }
     public int GetLength(int dim);
 
-    public Data[,,] ChunkData { get; }
+    public T[,,] Data { get; }
 }
 
-public class Chunk<Data> : IChunk<Data>
+public class Chunk<T> : IChunk<T>
 {
     protected const int dim = VoxelData.dim;
-    protected Data[,,] chunkData;
+    protected T[,,] data;
     protected bool changed = true;
 
-    public Chunk(Data[,,] chunkData)
+    public Chunk(T[,,] data)
     {
-        this.chunkData = chunkData;
+        this.data = data;
     }
 
-    public (int, int, int) ChunkSize { get => (chunkData.GetLength(0), chunkData.GetLength(1), chunkData.GetLength(2)); }
+    public (int, int, int) ChunkSize { get => (data.GetLength(0), data.GetLength(1), data.GetLength(2)); }
 
     public bool Changed { get => changed; set => changed = value; }
 
-    public Data this[int x, int y, int z]
+    public T this[int x, int y, int z]
     {
-        get => chunkData[x, y, z];
+        get => data[x, y, z];
         set
         {
-            if (chunkData[x, y, z].Equals(value))
+            if (data[x, y, z].Equals(value))
                 return;
 
-            chunkData[x, y, z] = value;
+            data[x, y, z] = value;
             Changed = true;
         }
     }
 
-    public int GetLength(int dim) => chunkData.GetLength(dim);
+    public int GetLength(int dim) => data.GetLength(dim);
 
-    public Data[,,] ChunkData
+    public T[,,] Data
     {
-        get => chunkData;
+        get => data;
     }
 }

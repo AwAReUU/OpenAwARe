@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class ChunkGridBoundingBoxBehaviour : BoundingBoxBehaviour
 {
-    public Vector3 offsetChild;
-    public Vector3 scaleChild;
-
     protected override void SetLocalTransform()
     {
         IChunkGridSize chunkGridSize = childObject.GetComponent(typeof(IChunkGridSize)) as IChunkGridSize;
@@ -16,9 +13,5 @@ public class ChunkGridBoundingBoxBehaviour : BoundingBoxBehaviour
         Transform childTransform = childObject.transform;
         childTransform.SetLocalPositionAndRotation(new Vector3(-0.5f, -0.5f, -0.5f), Quaternion.identity);
         childTransform.localScale = new Vector3(1 / gridSize.x, 1 / gridSize.y, 1 / gridSize.z);
-    }
-
-    protected void Update()
-    {
     }
 }
