@@ -2,8 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IngredientDatabase
+public interface IIngredientDatabase
 {
+    public List<Ingredient> Search(string s);
+    public Ingredient GetIngredient(float id);
+    public Dictionary<ProductMaterial, float> GetMaterials(Ingredient ingredient);
+}
+
+public class MockupIngredientDatabase : IIngredientDatabase
+{
+    Dictionary<float, Ingredient> database;
+
+    MockupIngredientDatabase()
+    {
+        database = new();
+    }
+
+    public List<Ingredient> Search(string s)
+    {
+        return new();
+    }
+
+    public Ingredient GetIngredient(float id)
+    {
+        return null;
+    }
+
     public Dictionary<ProductMaterial, float> GetMaterials(Ingredient ingredient)
     {
         Dictionary<ProductMaterial, float> materials = new();

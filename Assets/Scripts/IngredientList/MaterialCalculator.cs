@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MaterialCalculator
 {
-    IngredientDatabase ingredientDatabase;
+    MockupIngredientDatabase ingredientDatabase;
 
     public Dictionary<ProductMaterial, float> IngredientsToMaterials(IngredientList ingredientList)
     {
