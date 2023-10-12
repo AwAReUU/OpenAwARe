@@ -57,7 +57,7 @@ public class IngredientListManager : MonoBehaviour
             for (int j = 0; j < ingredientNames.Length - 1; j++)
             {
                 float ingredientQuantity = float.Parse(ingredientQuantities[j]);
-                ingredients.Add(new Ingredient(ingredientNames[j], (QuantityType) Enum.Parse(typeof(QuantityType), ingredientQuantityTypes[j]), ingredientQuantity));
+                ingredients.Add(new Ingredient(0, ingredientNames[j], (QuantityType) Enum.Parse(typeof(QuantityType), ingredientQuantityTypes[j]), ingredientQuantity));
             }
             lists.Add(new IngredientList(info.listNames[i], ingredients));
         }
@@ -141,10 +141,10 @@ public class IngredientListManager : MonoBehaviour
 
         // adds four ingredients to the list for testing (to be removed later!)
         List<Ingredient> testList = new List<Ingredient>();
-        testList.Add(new Ingredient("banana", QuantityType.PCS, 2));
-        testList.Add(new Ingredient("water", QuantityType.L, 0.5f));
-        testList.Add(new Ingredient("pork", QuantityType.G, 500));
-        testList.Add(new Ingredient("strawberry", QuantityType.G, 300));
+        testList.Add(new Ingredient(1, "banana", QuantityType.PCS, 2));
+        testList.Add(new Ingredient(2, "water", QuantityType.L, 0.5f));
+        testList.Add(new Ingredient(3, "pork", QuantityType.G, 500));
+        testList.Add(new Ingredient(4, "strawberry", QuantityType.G, 300));
 
         ingredientLists.Add(new IngredientList("MyList", testList));
         SaveFile();

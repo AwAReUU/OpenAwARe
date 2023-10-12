@@ -39,12 +39,14 @@ public class IngredientList
 
 public class Ingredient
 {
+    public int ID { get; private set; }
     public string name { get; private set; }
     public QuantityType type { get; private set; }
     public float quantity { get; private set; }
 
-    public Ingredient(string name, QuantityType type, float quantity)
+    public Ingredient(int ID, string name, QuantityType type, float quantity)
     {
+        this.ID = ID;
         this.name = name;
         this.type = type;
         this.quantity = quantity;

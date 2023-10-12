@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using System.Data;
 
 public class SearchScreen : MonoBehaviour
 {
@@ -16,10 +17,11 @@ public class SearchScreen : MonoBehaviour
     [SerializeField] private List<GameObject> items = new List<GameObject>();
     [SerializeField] private GameObject SearchBar;
 
+    private List<Ingredient> searchResults = new List<Ingredient>();
+    private IDatabase database = new DatabaseMockup();
     // Start is called before the first frame update
     void Start()
     {
-        InitDummyList();
     }
     private void OnEnable()
     {
@@ -27,11 +29,19 @@ public class SearchScreen : MonoBehaviour
         backB.onClick.AddListener(delegate { OnBackButtonClick(); });
     }
 
-    private void InitDummyList()
+    private void RenderList()
     {
-        for (int i = 0; i < 20; i++) 
+        // destroy old items
+        foreach (GameObject item in items)
         {
-            AddContentItem("item " + i*135, QuantityType.PCS);
+            Destroy(item);
+        }
+        // make list empty
+        items = new List<GameObject>();
+        // create a new object for every search result
+        foreach (Ingredient result in searchResults) 
+        {
+            AddContentItem(result.name, result.type);
         }
     }
 
@@ -66,18 +76,8 @@ public class SearchScreen : MonoBehaviour
         string searchText = SearchBar.GetComponent<TMP_InputField>().text;
         int searchTextLength = searchText.Length;
 
-        for(int i = 0; i < items.Count; i++)
-        {
-            GameObject elem = items[i];
-            string itemText = elem.GetComponentInChildren<TMP_Text>().text;
-            if (itemText.Length >= searchTextLength) 
-            {
-                if (itemText.Contains(searchText))
-                    elem.SetActive(true);
-                else
-                    elem.SetActive(false);
-            }
-        }
+        searchResults = database.Search(searchText);
+        RenderList();
     }
 
     public void OnBackButtonClick()

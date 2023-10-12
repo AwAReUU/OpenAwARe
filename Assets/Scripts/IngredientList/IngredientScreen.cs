@@ -40,6 +40,7 @@ public class IngredientScreen : MonoBehaviour
         {
             Ingredient newIngredient = new Ingredient
             (
+                currentIngredient.ID,
                 currentIngredient.name,
                 currentIngredient.type,
                 parsedInput
