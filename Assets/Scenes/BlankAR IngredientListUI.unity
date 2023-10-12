@@ -4664,8 +4664,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SearchScript, Assembly-CSharp
+      - m_Target: {fileID: 658958860}
+        m_TargetAssemblyTypeName: SearchScreen, Assembly-CSharp
         m_MethodName: OnSearchClick
         m_Mode: 1
         m_Arguments:
