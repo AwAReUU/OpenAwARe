@@ -17,7 +17,7 @@ public class QuestionnaireConstructor : MonoBehaviour
     //in the future, this obviously has to change
     void Start()
     {
-        QuestionnaireFromFile("Testformat");
+        QuestionnaireFromFile("Exampleformat");
     }
 
     public GameObject QuestionnaireFromFile(string filename)
@@ -34,7 +34,7 @@ public class QuestionnaireConstructor : MonoBehaviour
     }
 
     //makes a questionnaire object and returns it
-    GameObject MakeQuestionnaire(QuestionnaireData data)
+    private GameObject MakeQuestionnaire(QuestionnaireData data)
     {
         var questionnaire = Instantiate(questionnaireTemplate, gameObject.transform, false);
         questionnaire.SetActive(true);

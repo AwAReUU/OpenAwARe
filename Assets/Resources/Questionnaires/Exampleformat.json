@@ -48,15 +48,15 @@
                     "answeroptions": [
                         {
                             "optiontype": "radio",
-                            "optiontext": "Tasty one"
+                            "optiontext": "Bananas"
                         },
                         {
                             "optiontype": "radio",
-                            "optiontext": "Stinky one"
+                            "optiontext": "Spaghetti"
                         },
                         {
                             "optiontype": "radio",
-                            "optiontext": "Tall one"
+                            "optiontext": "Beans"
                         }
                     ]
                 }
