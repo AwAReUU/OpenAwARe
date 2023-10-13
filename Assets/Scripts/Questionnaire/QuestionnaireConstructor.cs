@@ -7,8 +7,8 @@ using UnityEngine;
 //unity's json reader is a bit limited, so the data holders are used as intermediary
 public class QuestionnaireConstructor : MonoBehaviour
 {
-    QuestionnaireData data;
-    TextAsset jsonfile;
+    private QuestionnaireData data;
+    private TextAsset jsonfile;
 
     [SerializeField]
     private GameObject questionnaireTemplate;
@@ -26,8 +26,8 @@ public class QuestionnaireConstructor : MonoBehaviour
         data = JsonUtility.FromJson<QuestionnaireData>(jsonfile.text);
         if(data == null)
         {
-            Debug.Log("Data file is null. Is the file Questionnaires/" + filename + " correct?");
-            return new GameObject();
+            Debug.Log("Data file is null. Is the file 'Questionnaires/" + filename + "' correct?");
+            return new GameObject(); //maybe return null?
         }
 
         return MakeQuestionnaire(data);
@@ -45,7 +45,7 @@ public class QuestionnaireConstructor : MonoBehaviour
 
         foreach(QuestionData question in data.questions)
         {
-            questionnairescript.addQuestion(question);
+            questionnairescript.AddQuestion(question);
         }
 
         return questionnaire;
