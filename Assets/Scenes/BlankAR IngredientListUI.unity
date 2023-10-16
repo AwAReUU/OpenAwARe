@@ -5498,6 +5498,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e104f4f5770aa164288632b1043229d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisScreen: {fileID: 780216211}
+  backButton: {fileID: 2075049463}
   ingredientListManager: {fileID: 2117929076}
   scrollViewContent: {fileID: 2048383795}
   listItemObject: {fileID: 1222685870}

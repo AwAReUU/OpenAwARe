@@ -7,6 +7,8 @@ using TMPro;
 
 public class ListsOverviewScreen : MonoBehaviour
 {
+    [SerializeField] private GameObject thisScreen;
+    [SerializeField] private GameObject backButton;
     [SerializeField] private IngredientListManager ingredientListManager;
 
     // the objects drawn on screen to display the lists
@@ -82,5 +84,15 @@ public class ListsOverviewScreen : MonoBehaviour
     private void OnListButtonClick(int i)
     {
         ingredientListManager.OpenList(i);
+    }
+
+    /// <summary>
+    /// Go back to previous screen
+    /// </summary>
+    private void OnBackButtonClick()
+    {
+        thisScreen.SetActive(false);
+
+        //TODO: Open main menu (kan bij mergen maybe?)
     }
 }
