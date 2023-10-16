@@ -21,41 +21,52 @@ public class IngredientScreen : MonoBehaviour
 
     void OnEnable()
     {
+        currentIngredient = ingredientListManager.ingredientLists[ingredientListManager.currentListIndex].ingredients[ingredientListManager.currentIngredientIndex];
+
         Button backB = backButton.GetComponent<Button>();
         backB.onClick.AddListener(delegate { OnBackButtonClick(); });
 
         SetDropDownItems();
-
-        currentIngredient = ingredientListManager.ingredientLists[ingredientListManager.currentListIndex].ingredients[ingredientListManager.currentIngredientIndex];
         
         ingredientNameField.GetComponent<TMP_Text>().text = currentIngredient.name;
         qtyInput.GetComponent<TMP_InputField>().text = currentIngredient.quantity.ToString();
     }
 
+    /// <summary>
+    /// Initialize the quantityTypeDropdown
+    /// </summary>
     private void SetDropDownItems()
     {
         //convert QuantityType names to string list
-        List<string> m_DropOptions = Enum.GetNames(typeof(QuantityType)).ToList();
+        List<string> dropOptions = Enum.GetNames(typeof(QuantityType)).ToList();
+        TMP_Dropdown dropdown = qtyTypeDropdown.GetComponent<TMP_Dropdown>();
+        dropdown.ClearOptions();
+        dropdown.AddOptions(dropOptions);
 
-        //Fetch the Dropdown GameObject the script is attached to
-        TMP_Dropdown d = qtyTypeDropdown.GetComponent<TMP_Dropdown>();
-        d.ClearOptions();
-        d.AddOptions(m_DropOptions);
+        //set selected value to current
+        dropdown.value = (int)currentIngredient.type;
     }
 
+    /// <summary>
+    /// Updates the current ingredient with values from inputs
+    /// </summary>
     public void OnConfirmClick()
     {
-        string input = qtyInput.GetComponent<TMP_InputField>().text;
+        string qInput = qtyInput.GetComponent<TMP_InputField>().text;
+        string qTypeInput = qtyTypeDropdown.GetComponent<TMP_Dropdown>().value.ToString();
 
-        float parsedInput;
-        if (float.TryParse(input, out parsedInput))
+        QuantityType parsedQType = currentIngredient.type; //use the old qtype if parse failed.
+        Enum.TryParse(qTypeInput, out parsedQType);
+
+        float parsedQty;
+        if (float.TryParse(qInput, out parsedQty))
         {
             Ingredient newIngredient = new Ingredient
             (
                 currentIngredient.ID,
                 currentIngredient.name,
-                currentIngredient.type,
-                parsedInput
+                parsedQType,
+                parsedQty
             );
             //currentIngredient = newIngredient;
             UpdateIngredient(newIngredient);
@@ -68,6 +79,11 @@ public class IngredientScreen : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Overwrite the ingredient in the current ingredient list with
+    /// the newly instantiated ingredient.
+    /// </summary>
+    /// <param name="newIngredient"></param>
     private void UpdateIngredient(Ingredient newIngredient)
     {
         IngredientList currentList = ingredientListManager.ingredientLists[ingredientListManager.currentListIndex];
@@ -75,6 +91,9 @@ public class IngredientScreen : MonoBehaviour
         ingredientListManager.ingredientLists[ingredientListManager.currentListIndex] = currentList;
     }
 
+    /// <summary>
+    /// Go back to previous screen
+    /// </summary>
     private void OnBackButtonClick()
     {
         thisScreen.SetActive(false);
