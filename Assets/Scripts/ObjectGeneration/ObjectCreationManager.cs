@@ -9,13 +9,17 @@ using Unity.VisualScripting;
 
 public class ObjectCreationManager : MonoBehaviour
 {
+    [SerializeField] GameObject spawnListButton;
     private List<Vector3> validSpawnLocations = new List<Vector3>();
 
+    private Dictionary<int, int> spawnDict = new Dictionary<int, int>() { {1,1}, {2,2}, {3,3}, {4,1} };
+
     // Hardcoded size multiplier & object amount, will have to be retrieved from database
-    private float sizeMultiplier;  
-    private int objectAmount;
-    public InputField inputAmount;
-    public InputField inputSize;
+
+    //private float sizeMultiplier;  
+    //private int objectAmount;
+    //public InputField inputAmount;
+    //public InputField inputSize;
 
     public void TryPlaceObjectOnTouch(ARRaycastHit hit, bool rotateToUser = true, bool forceCreate = false)
     {
@@ -41,7 +45,7 @@ public class ObjectCreationManager : MonoBehaviour
         Destroy(tempObj);
 
         // Create the position where the new object should be placed (+ add slight hover to prevent floor collisions)
-        Vector3 newPosition = new Vector3(pose.position.x, pose.position.y + centerHeight + 0.1f, pose.position.z);
+        Vector3 newPosition = new Vector3(pose.position.x, pose.position.y + 0.1f, pose.position.z);
 
         // Create a list of colliders that prevent an object from being placed
         Collider[] overlappingColliders;
@@ -67,68 +71,65 @@ public class ObjectCreationManager : MonoBehaviour
 
     private bool TryPlaceObject(GameObject obj, Vector3 position, Vector3 halfExtents, float centerHeight)
     {
+        float sizeMultiplier = 1.0f;
         // Check if the box overlaps with any other colliders
-        if (!Physics.CheckBox(position, halfExtents, Quaternion.identity))
+        if (!Physics.CheckBox(
+            position,
+            halfExtents,
+            Quaternion.identity,
+            LayerMask.GetMask("Material"))) //only check collisions with other materials.
         {
             // Adjust object size according to scalar
             GameObject newObject = Instantiate(obj, position, Quaternion.identity);
+            int materialLayer = LayerMask.NameToLayer("Material");
+            newObject.layer = materialLayer;
             newObject.transform.localScale = new Vector3(sizeMultiplier, sizeMultiplier, sizeMultiplier);
-            
-            // Add collider after changing object size 
-            BoxCollider newCollider = newObject.AddComponent<BoxCollider>();
-            
+
+            // Add collider after changing object size
+            _ = newObject.AddComponent<BoxCollider>();
+
             RotateToUser(newObject);
-            position.y -= centerHeight;
-            newObject.transform.position = position;
-            
+
             return true;
         }
+        else { Debug.Log("collision"); }
 
         return false;
     }
-
     //* Function is called whenever button is clicked to generate objects
-    public void AutoGenerateObjects()
+    public void OnPlaceListButtonClick() 
     {
-        objectAmount = int.Parse(inputAmount.text);
-        sizeMultiplier = float.Parse(inputSize.text);
+        AutoGenerateObjects(spawnDict);
+    }
+    public void AutoGenerateObjects(Dictionary<int,int> spawnDict_)
+    {
+        //objectAmount = int.Parse(inputAmount.text);
+        float sizeMultiplier = 1.0f;//float.Parse(inputSize.text);
         ARPlaneManager planeManager = GetComponent<ARPlaneManager>();
 
-        // Temporarily instantiate the object to get the BoxCollider size
-        GameObject tempObj = Instantiate(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], Vector3.zero, Quaternion.identity);
-        
-        // Scale BEFORE adding boxcollider
-        tempObj.transform.localScale = new Vector3(sizeMultiplier, sizeMultiplier, sizeMultiplier);
-        BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();          
-
-        // Assuming the box collider is at the object's origin
-        Vector3 halfExtents = tempCollider.size / 2;
-        float centerHeight = tempCollider.size.y / 2;
-        
-        Destroy(tempObj);        
-
         validSpawnLocations = GetValidSpawnLocations(planeManager);
-        int materialsToPlace = objectAmount;
 
-        for (int i = 0; i < validSpawnLocations.Count; i++)
+        foreach(var obj in spawnDict_) //prefab iterator
         {
-            // Create the position where the new object should be placed (+ add slight hover to prevent floor collisions)
-            Vector3 newPosition = validSpawnLocations[i] + new Vector3(0, centerHeight + 0.01f, 0);
+            // Temporarily instantiate the object to get the BoxCollider size
+            GameObject tempObj = Instantiate(ObjectPrefabs.I.prefabs[obj.Key], Vector3.zero, Quaternion.identity);
+            // Scale BEFORE adding boxcollider
+            tempObj.transform.localScale = new Vector3(sizeMultiplier, sizeMultiplier, sizeMultiplier);
+            BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
+            // Assuming the box collider is at the object's origin
+            Vector3 halfExtents = tempCollider.size / 2;
+            float centerHeight = tempCollider.size.y / 2;
+            Destroy(tempObj);
 
-            if (TryPlaceObject(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], newPosition, halfExtents, centerHeight))
+            for (int i = 0; i < obj.Value; i++) //quantity iterator
             {
-                Debug.Log("placing successful");
-
-                materialsToPlace--;
-                if (materialsToPlace == 0)
+                for (int j = 0; j < validSpawnLocations.Count; j++) //spawn iterator
                 {
-                    Debug.Log("finished placing all objects");
-                    break;
+                    if (TryPlaceObject(ObjectPrefabs.I.prefabs[obj.Key], validSpawnLocations[j], halfExtents, centerHeight))
+                        break;
+                    //else
+                        //Debug.Log("placement failed");
                 }
-            }
-            else
-            {
-                Debug.Log("placement failed");
             }
         }
     }
@@ -180,7 +181,6 @@ public class ObjectCreationManager : MonoBehaviour
 
         return result;
     }
-
     private void RotateToUser(GameObject target)
     {
         Vector3 position = target.transform.position;
@@ -191,8 +191,6 @@ public class ObjectCreationManager : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(scaledEuler);
         target.transform.rotation = targetRotation;
     }
-
-
     public void CreateVisualBox(BoxCollider boxCollider)
     {
         // Create a new GameObject
