@@ -4,18 +4,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
-using System;
-using Unity.VisualScripting;
 
 public class ObjectCreationManager : MonoBehaviour
 {
-    private List<Vector3> validSpawnLocations = new List<Vector3>();
+    [SerializeField] private InputField inputAmount;
+    [SerializeField] private InputField inputSize;
+    [SerializeField] private GameObject placeButton;
 
-    // Hardcoded size multiplier & object amount, will have to be retrieved from database
-    private float sizeMultiplier;  
-    private int objectAmount;
-    public InputField inputAmount;
-    public InputField inputSize;
+    private List<Vector3> validSpawnLocations = new List<Vector3>();
+    private Dictionary<int, int> spawnList = new Dictionary<int, int>() { { 0, 2}, { 1, 5 }, { 4, 10} };
+    int objectAmount;
+    float sizeMultiplier;
+
+    public void OnPlaceButtonClick() 
+    {
+        PlaceSpawnList(spawnList);
+    }
 
     public void TryPlaceObjectOnTouch(ARRaycastHit hit, bool rotateToUser = true, bool forceCreate = false)
     {
@@ -132,7 +136,41 @@ public class ObjectCreationManager : MonoBehaviour
             }
         }
     }
-      
+
+    public void PlaceSpawnList(Dictionary<int, int> spawnList_)
+    {
+        ARPlaneManager planeManager = GetComponent<ARPlaneManager>();
+
+        // Temporarily instantiate the object to get the BoxCollider size
+        GameObject tempObj = Instantiate(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], Vector3.zero, Quaternion.identity);
+
+        // Scale BEFORE adding boxcollider
+        tempObj.transform.localScale = new Vector3(sizeMultiplier, sizeMultiplier, sizeMultiplier);
+        BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
+
+        // Assuming the box collider is at the object's origin
+        Vector3 halfExtents = tempCollider.size / 2;
+        float centerHeight = tempCollider.size.y / 2;
+
+        Destroy(tempObj);
+
+        validSpawnLocations = GetValidSpawnLocations(planeManager);
+
+        foreach (var obj in spawnList_)
+        {
+            for (int i = 0; i < obj.Value; i++)
+            {
+                // Create the position where the new object should be placed (+ add slight hover to prevent floor collisions)
+                Vector3 newPosition = validSpawnLocations[i] + new Vector3(0, centerHeight + 0.01f, 0);
+
+                if (TryPlaceObject(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], newPosition, halfExtents, centerHeight))
+                    Debug.Log("placing successful");
+                else
+                    Debug.Log("placement failed");
+            }
+        }
+    }
+
     List<Vector3> GetValidSpawnLocations(ARPlaneManager planeManager)
     {
         List<Vector3> result = new List<Vector3>();
@@ -191,7 +229,6 @@ public class ObjectCreationManager : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(scaledEuler);
         target.transform.rotation = targetRotation;
     }
-
 
     public void CreateVisualBox(BoxCollider boxCollider)
     {
