@@ -20,7 +20,11 @@ public class ListsOverviewScreen : MonoBehaviour
  
     private void OnEnable()
     {
-        //Debug.Log("count:  " + ingredientListManager.ingredientLists.Count);
+        Debug.Log("ebnaleing btuon");
+        Button backB = backButton.GetComponent<Button>();
+        backB.onClick.AddListener(delegate { OnBackButtonClick(); });
+        backButton.SetActive(true);
+
         DisplayLists();
     }
 
@@ -92,7 +96,7 @@ public class ListsOverviewScreen : MonoBehaviour
     private void OnBackButtonClick()
     {
         thisScreen.SetActive(false);
-
+        backButton.SetActive(false);
         //TODO: Open main menu (kan bij mergen maybe?)
     }
 }

@@ -40,7 +40,6 @@ public class IngredientListScreen : MonoBehaviour
 
     private void OnSaveButtonClick()
     {
-        backButton.SetActive(false);
         ingredientListManager.CloseList();
     }
 
@@ -113,7 +112,6 @@ public class IngredientListScreen : MonoBehaviour
     private void OnBackButtonClick()
     {
         ingredientListManager.CloseList();
-        backButton.SetActive(false);
     }
 
     private void OnAddIngredientButtonClick()
