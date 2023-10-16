@@ -28,7 +28,6 @@ public class IngredientListManager : MonoBehaviour
     private void Awake()
     {
         filePath = Application.persistentDataPath + "/ingredientLists";
-        //File.Delete(filePath); // use this for emptying the saved ingredientLists
         ingredientLists = ReadFile();
         listsOverviewScreen.SetActive(true);
     }
@@ -51,11 +50,25 @@ public class IngredientListManager : MonoBehaviour
         {
             Dictionary<Ingredient, float> ingredients = new();
 
-            string[] ingredientIDs = info.ingredientIDs[i].Split(",");
-            string[] ingredientNames = info.ingredientNames[i].Split(",");
-            string[] ingredientQuantityTypes = info.ingredientQuantityTypes[i].Split(",");
-            string[] ingredientQuantities = info.ingredientQuantities[i].Split(",");
+            string[] ingredientIDs;
+            string[] ingredientNames;
+            string[] ingredientQuantityTypes;
+            string[] ingredientQuantities;
 
+            try
+            {
+                ingredientIDs = info.ingredientIDs[i].Split(",");
+                ingredientNames = info.ingredientNames[i].Split(",");
+                ingredientQuantityTypes = info.ingredientQuantityTypes[i].Split(",");
+                ingredientQuantities = info.ingredientQuantities[i].Split(",");
+            }
+            catch (System.NullReferenceException)
+            {
+                Console.WriteLine("IngredientLists file is not in correct format; lists will be deleted");
+                File.Delete(filePath); // use this for emptying the saved ingredientLists
+                return lists;
+            }
+            
             // add the ingredients to the lists
             for (int j = 0; j < ingredientIDs.Length - 1; j++)
             {
