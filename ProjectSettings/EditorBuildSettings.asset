@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/QuestionnairePage.unity
     guid: 3c37a3ca965cd9e42a8d5d39ebc0c08c
   - enabled: 1
-    path: Assets/Scenes/BlankAR_Room_Scan_Scene.unity
+    path: Assets/Scenes/Room_Scan.unity
     guid: 4e4d56d164d26fb429cf4e7264740ec6
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,

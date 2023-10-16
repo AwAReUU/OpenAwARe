@@ -186,32 +186,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7848758650845516369, guid: f600adde0709352478b0e56015558c9f,
-        type: 3}
-      propertyPath: scale.x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7848758650845516369, guid: f600adde0709352478b0e56015558c9f,
-        type: 3}
-      propertyPath: scale.y
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7848758650845516369, guid: f600adde0709352478b0e56015558c9f,
-        type: 3}
-      propertyPath: scale.z
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7848758650845516369, guid: f600adde0709352478b0e56015558c9f,
-        type: 3}
-      propertyPath: location.y
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7848758650845516369, guid: f600adde0709352478b0e56015558c9f,
-        type: 3}
-      propertyPath: tempObject
-      value: 
-      objectReference: {fileID: 8828354357057710941, guid: a0d829d2e7146744db5717d9ce6deec4,
-        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4681,8 +4655,6 @@ GameObject:
   - component: {fileID: 1659859602}
   - component: {fileID: 1659859609}
   - component: {fileID: 1659859608}
-  - component: {fileID: 1659859607}
-  - component: {fileID: 1659859605}
   - component: {fileID: 1659859610}
   m_Layer: 0
   m_Name: AR Session Origin
@@ -4752,33 +4724,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RaycastPrefab: {fileID: 0}
---- !u!114 &1659859605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1659859597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a861b5d9bfee7e6439f8fddf904259d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1659859607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1659859597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a564020f988fc6543b2663446df699f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aRRaycastManager: {fileID: 0}
-  aRPlaneManager: {fileID: 0}
-  eventSystem: {fileID: 0}
 --- !u!114 &1659859608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5707,7 +5652,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1659859605}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: IngredientsSearchBar, Assembly-CSharp
         m_MethodName: Start
         m_Mode: 1

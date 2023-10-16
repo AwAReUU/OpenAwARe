@@ -9,10 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3817374092620196715}
-  - component: {fileID: 2712425286431089579}
-  - component: {fileID: 2977316448677857147}
-  - component: {fileID: 2143277388043420938}
   - component: {fileID: 7848758650845516369}
+  - component: {fileID: 7361695707842627518}
   m_Layer: 0
   m_Name: VoxelChunkGridManager
   m_TagString: Untagged
@@ -35,50 +33,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2712425286431089579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2549425876001886450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0cb9aa70a22847b5925ee5f067c10a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Camera: {fileID: 0}
-  m_OriginBaseGameObject: {fileID: 2549425876001886450}
-  m_CameraFloorOffsetObject: {fileID: 0}
-  m_RequestedTrackingOriginMode: 0
-  m_CameraYOffset: 1.1176
---- !u!114 &2977316448677857147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2549425876001886450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa17d122634046b4a8e23048891fafc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RaycastPrefab: {fileID: 0}
---- !u!114 &2143277388043420938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2549425876001886450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1760703bbd54c04488a8d10600262ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PlanePrefab: {fileID: 0}
-  m_DetectionMode: -1
 --- !u!114 &7848758650845516369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,12 +45,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fbdfe762398f654a922e38a3579e0dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs: []
-  prefabIndex: 0
-  location: {x: 0, y: 0, z: 0}
+  location: {x: 0, y: 10, z: 0}
   rotation: {x: 0, y: 0, z: 0}
-  scale: {x: 0, y: 0, z: 0}
+  scale: {x: 10, y: 10, z: 10}
   boundingBox: {fileID: 4829544002877799196, guid: b74dbfea221286f4cb68fc0acd269092,
     type: 3}
   childObject: {fileID: 1643503270133246858, guid: 2267bd7b9e0bd1449a1745e9a4bba392,
     type: 3}
+  sceneBox: {fileID: 0}
+--- !u!114 &7361695707842627518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2549425876001886450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41eb4af6a67475447bdb87a96e0cec67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 3677006813525733723, guid: 7baa99321108478449628c98ada64446, type: 3}
+  nroParticalSystems: 1
+  color: {r: 0, g: 1, b: 0.024377823, a: 0}
+  scale: 1
+  visualizeDelay: 0
