@@ -5,15 +5,16 @@ using UnityEngine;
 public interface IIngredientDatabase
 {
     public List<Ingredient> Search(string s);
-    public Ingredient GetIngredient(float id);
-    public Dictionary<ProductMaterial, float> GetMaterials(Ingredient ingredient);
+    public Ingredient GetIngredient(int id);
+    public List<Ingredient> GetIngredients(List<int> ids);
+    public Dictionary<int, float> GetMaterialIDs(Ingredient ingredient);
 }
 
 public class MockupIngredientDatabase : IIngredientDatabase
 {
-    Dictionary<float, Ingredient> database;
+    Dictionary<int, Ingredient> database;
 
-    MockupIngredientDatabase()
+    public MockupIngredientDatabase()
     {
         database = new();
     }
@@ -23,18 +24,43 @@ public class MockupIngredientDatabase : IIngredientDatabase
         return new();
     }
 
-    public Ingredient GetIngredient(float id)
+    public Ingredient GetIngredient(int id)
+    {
+        return database[id];
+    }
+
+    public List<Ingredient> GetIngredients(List<int> ids)
     {
         return null;
     }
 
-    public Dictionary<ProductMaterial, float> GetMaterials(Ingredient ingredient)
+    public Dictionary<int, float> GetMaterialIDs(Ingredient ingredient)
     {
-        Dictionary<ProductMaterial, float> materials = new();
+        Dictionary<int, float> materialIDs = new();
         //TODO: get materials from database
-        materials.Add(new ProductMaterial(1, MaterialType.Plant),1);
-        materials.Add(new ProductMaterial(3, MaterialType.Water), 0.8f);
-        materials.Add(new ProductMaterial(6, MaterialType.Animal), 0.2f);
-        return materials;
+        materialIDs.Add(1,1);
+        materialIDs.Add(3, 0.8f);
+        materialIDs.Add(6, 0.2f);
+        return materialIDs;
+    }
+}
+
+public interface IMaterialDatabase
+{
+    public ProductMaterial GetMaterial(int id);
+}
+
+public class MockupMaterialDatabase : IMaterialDatabase
+{
+    Dictionary<int, ProductMaterial> database;
+
+    public MockupMaterialDatabase()
+    {
+        database = new();
+    }
+
+    public ProductMaterial GetMaterial(int id)
+    {
+        return database[id];
     }
 }

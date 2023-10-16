@@ -42,7 +42,7 @@ public class IngredientListManager : MonoBehaviour
             
         string json = File.ReadAllText(filePath);
 
-        JSONInfo info = JsonUtility.FromJson<JSONInfo>(json);
+        JSONIngredientInfo info = JsonUtility.FromJson<JSONIngredientInfo>(json);
 
         List<IngredientList> lists = new List<IngredientList>();
         
@@ -71,7 +71,7 @@ public class IngredientListManager : MonoBehaviour
 
     public void SaveFile()
     {
-        JSONInfo info = new JSONInfo();
+        JSONIngredientInfo info = new JSONIngredientInfo();
         
         info.listNames = new string[ingredientLists.Count];
         info.ingredientIDs = new string[ingredientLists.Count];
@@ -168,7 +168,7 @@ public class IngredientListManager : MonoBehaviour
 }
 
 [Serializable]
-public class JSONInfo
+public class JSONIngredientInfo
 {
     public string[] listNames;
     public string[] ingredientIDs;

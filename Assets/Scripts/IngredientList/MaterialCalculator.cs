@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class MaterialCalculator
 {
-    MockupIngredientDatabase ingredientDatabase;
+    [SerializeField] private IIngredientDatabase ingredientDatabase;
+    [SerializeField] private IMaterialDatabase materialDatabase;
 
-    public Dictionary<ProductMaterial, float> IngredientsToMaterials(IngredientList ingredientList)
+    public MaterialList IngredientsToMaterials(IngredientList ingredientList)
     {
         Dictionary<ProductMaterial, float> combinedMaterialCosts = new();
 
         foreach (var pair in ingredientList.Ingredients)
         {
 
-            Dictionary<ProductMaterial, float> materialCosts = GetIngredientMaterials(pair.Key, pair.Value);
+            MaterialList materialCosts = GetIngredientMaterials(pair.Key, pair.Value);
 
-            foreach (var keyValuePair in materialCosts)
+            foreach (var keyValuePair in materialCosts.Materials)
             {
                 ProductMaterial material = keyValuePair.Key;
                 float quantity = keyValuePair.Value;
@@ -31,19 +32,24 @@ public class MaterialCalculator
             }
         }
 
-        return combinedMaterialCosts;
+        return new MaterialList(combinedMaterialCosts);
     }
 
-    Dictionary<ProductMaterial, float> GetIngredientMaterials(Ingredient ingredient, float quantity)
+    MaterialList GetIngredientMaterials(Ingredient ingredient, float qt)
     {
-        Dictionary<ProductMaterial, float> materialsPerQuantity = ingredientDatabase.GetMaterials(ingredient);
+        Dictionary<int, float> materialIDs = ingredientDatabase.GetMaterialIDs(ingredient);
 
-        Dictionary<ProductMaterial, float> materialCosts = new();
+        MaterialList materialCosts = new();
 
-        foreach (var keyValuePair in materialsPerQuantity)
+        foreach (var keyValuePair in materialIDs)
         {
-            ProductMaterial material = keyValuePair.Key;
-            materialCosts[material] = keyValuePair.Value * quantity;
+            // convert materialID to material
+            ProductMaterial material = materialDatabase.GetMaterial(keyValuePair.Key);
+
+            // calculate total material cost for the quantity (qt) of this ingredient
+            float quantity = keyValuePair.Value * qt;
+
+            materialCosts.AddMaterial(material, quantity);
         }
 
         return materialCosts;
