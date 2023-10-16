@@ -15,6 +15,7 @@ public class IngredientScreen : MonoBehaviour
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject confirmButton;
     [SerializeField] private GameObject qtyInput;
+    [SerializeField] private GameObject qtyTypeDropdown;
 
     private Ingredient currentIngredient;
 
@@ -23,12 +24,23 @@ public class IngredientScreen : MonoBehaviour
         Button backB = backButton.GetComponent<Button>();
         backB.onClick.AddListener(delegate { OnBackButtonClick(); });
 
-        Debug.Log("setting qty");
+        SetDropDownItems();
 
         currentIngredient = ingredientListManager.ingredientLists[ingredientListManager.currentListIndex].ingredients[ingredientListManager.currentIngredientIndex];
         
         ingredientNameField.GetComponent<TMP_Text>().text = currentIngredient.name;
         qtyInput.GetComponent<TMP_InputField>().text = currentIngredient.quantity.ToString();
+    }
+
+    private void SetDropDownItems()
+    {
+        //convert QuantityType names to string list
+        List<string> m_DropOptions = Enum.GetNames(typeof(QuantityType)).ToList();
+
+        //Fetch the Dropdown GameObject the script is attached to
+        TMP_Dropdown d = qtyTypeDropdown.GetComponent<TMP_Dropdown>();
+        d.ClearOptions();
+        d.AddOptions(m_DropOptions);
     }
 
     public void OnConfirmClick()
