@@ -24,7 +24,7 @@ public class IngredientListManager : MonoBehaviour
     [SerializeField] private GameObject ingredientScreen;
     
     IIngredientDatabase ingredientDatabase;
-    MaterialCalculator materialCalculator;
+    MaterialCalculator materialCalculator; // for now only used to check whether the conversion works; probably to be removed later
 
     string filePath;
 
@@ -119,8 +119,10 @@ public class IngredientListManager : MonoBehaviour
         currentListIndex = i;
         ingredientListScreen.SetActive(true);
 
+        /* // code for checking the ingredientList to materialList conversion 
         foreach(KeyValuePair<ProductMaterial,float> k in materialCalculator.IngredientsToMaterials(ingredientLists[i]).Materials)
             Debug.Log("Material: " + k.Key.ID.ToString() + "; Quantity: " + k.Value.ToString());
+        */
     }
 
     public void CloseList()

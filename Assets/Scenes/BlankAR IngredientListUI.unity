@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 422218014}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -13983,7 +13983,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentListIndex: -1
-  currentIngredientIndex: -1
   listsOverviewScreen: {fileID: 780216211}
   ingredientListScreen: {fileID: 1103772984}
   addIngredientScreen: {fileID: 658958858}
