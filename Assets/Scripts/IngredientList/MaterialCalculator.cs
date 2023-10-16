@@ -7,6 +7,12 @@ public class MaterialCalculator
     [SerializeField] private IIngredientDatabase ingredientDatabase;
     [SerializeField] private IMaterialDatabase materialDatabase;
 
+    public MaterialCalculator()
+    {  
+        ingredientDatabase = new MockupIngredientDatabase();
+        materialDatabase = new MockupMaterialDatabase();
+    }
+
     public MaterialList IngredientsToMaterials(IngredientList ingredientList)
     {
         Dictionary<ProductMaterial, float> combinedMaterialCosts = new();
@@ -21,6 +27,7 @@ public class MaterialCalculator
                 ProductMaterial material = keyValuePair.Key;
                 float quantity = keyValuePair.Value;
 
+                // check whether the material already exists in the dictionary
                 if (!combinedMaterialCosts.ContainsKey(material))
                 {
                     combinedMaterialCosts[material] = quantity;
@@ -35,6 +42,8 @@ public class MaterialCalculator
         return new MaterialList(combinedMaterialCosts);
     }
 
+    
+    // gets the list of materials of a single ingredient
     MaterialList GetIngredientMaterials(Ingredient ingredient, float qt)
     {
         Dictionary<int, float> materialIDs = ingredientDatabase.GetMaterialIDs(ingredient);

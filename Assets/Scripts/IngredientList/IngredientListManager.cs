@@ -22,11 +22,16 @@ public class IngredientListManager : MonoBehaviour
     [SerializeField] private GameObject ingredientListScreen;
     [SerializeField] private GameObject addIngredientScreen;
     [SerializeField] private GameObject ingredientScreen;
+    
+    IIngredientDatabase ingredientDatabase;
+    MaterialCalculator materialCalculator;
 
     string filePath;
 
     private void Awake()
     {
+        ingredientDatabase = new MockupIngredientDatabase();
+        materialCalculator = new MaterialCalculator();
         filePath = Application.persistentDataPath + "/ingredientLists";
         ingredientLists = ReadFile();
         listsOverviewScreen.SetActive(true);
@@ -51,30 +56,27 @@ public class IngredientListManager : MonoBehaviour
             Dictionary<Ingredient, float> ingredients = new();
 
             string[] ingredientIDs;
-            string[] ingredientNames;
-            string[] ingredientQuantityTypes;
             string[] ingredientQuantities;
 
             try
             {
                 ingredientIDs = info.ingredientIDs[i].Split(",");
-                ingredientNames = info.ingredientNames[i].Split(",");
-                ingredientQuantityTypes = info.ingredientQuantityTypes[i].Split(",");
                 ingredientQuantities = info.ingredientQuantities[i].Split(",");
             }
             catch (System.NullReferenceException)
             {
-                Console.WriteLine("IngredientLists file is not in correct format; lists will be deleted");
+                Debug.LogWarning("IngredientLists file is not in correct format. Lists will be deleted");
                 File.Delete(filePath); // use this for emptying the saved ingredientLists
                 return lists;
             }
-            
+
             // add the ingredients to the lists
             for (int j = 0; j < ingredientIDs.Length - 1; j++)
             {
                 int ingredientID = int.Parse(ingredientIDs[j]);
                 float ingredientQuantity = float.Parse(ingredientQuantities[j]);
-                ingredients.Add(new Ingredient(ingredientID, ingredientNames[j], (QuantityType) Enum.Parse(typeof(QuantityType), ingredientQuantityTypes[j])), ingredientQuantity);
+
+                ingredients.Add(ingredientDatabase.GetIngredient(ingredientID), ingredientQuantity);
             }
             lists.Add(new IngredientList(info.listNames[i], ingredients));
         }
@@ -88,8 +90,6 @@ public class IngredientListManager : MonoBehaviour
         
         info.listNames = new string[ingredientLists.Count];
         info.ingredientIDs = new string[ingredientLists.Count];
-        info.ingredientNames = new string[ingredientLists.Count];
-        info.ingredientQuantityTypes = new string[ingredientLists.Count];
         info.ingredientQuantities = new string[ingredientLists.Count];
 
         // convert the lists to strings
@@ -98,16 +98,12 @@ public class IngredientListManager : MonoBehaviour
             info.listNames[i] = ingredientLists[i].ListName;
 
             info.ingredientIDs[i] = "";
-            info.ingredientNames[i] = "";
-            info.ingredientQuantityTypes[i] = "";
             info.ingredientQuantities[i] = "";
 
             for (int j = 0; j < ingredientLists[i].NumberOfIngredients(); j++)
             {
                 Ingredient ingredient = ingredientLists[i].Ingredients.ElementAt(j).Key;
                 info.ingredientIDs[i] += ingredient.ID + ",";
-                info.ingredientNames[i] += ingredient.Name + ",";
-                info.ingredientQuantityTypes[i] += ingredient.Type.ToString() + ",";
                 info.ingredientQuantities[i] += ingredientLists[i].Ingredients[ingredient] + ",";
             }
         }
@@ -122,6 +118,9 @@ public class IngredientListManager : MonoBehaviour
         listsOverviewScreen.SetActive(false);
         currentListIndex = i;
         ingredientListScreen.SetActive(true);
+
+        foreach(KeyValuePair<ProductMaterial,float> k in materialCalculator.IngredientsToMaterials(ingredientLists[i]).Materials)
+            Debug.Log("Material: " + k.Key.ID.ToString() + "; Quantity: " + k.Value.ToString());
     }
 
     public void CloseList()
@@ -163,10 +162,10 @@ public class IngredientListManager : MonoBehaviour
         // adds four ingredients to the list for testing (to be removed later!)
         Dictionary<Ingredient, float> testList = new()
         {
-            { new Ingredient(0, "banana", QuantityType.PCS), 2 },
-            { new Ingredient(1, "water", QuantityType.L), 0.5f },
-            { new Ingredient(2, "pork", QuantityType.G), 500 },
-            { new Ingredient(3, "strawberry", QuantityType.G), 300 }
+            { ingredientDatabase.GetIngredient(0), 2 },
+            { ingredientDatabase.GetIngredient(1), 200 },
+            { ingredientDatabase.GetIngredient(4), 500 },
+            { ingredientDatabase.GetIngredient(5), 300 }
         };
 
         ingredientLists.Add(new IngredientList("MyList", testList));
@@ -185,7 +184,5 @@ public class JSONIngredientInfo
 {
     public string[] listNames;
     public string[] ingredientIDs;
-    public string[] ingredientNames;
-    public string[] ingredientQuantityTypes;
     public string[] ingredientQuantities;
 }

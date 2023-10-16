@@ -45,11 +45,14 @@ public class Ingredient : IEquatable<Ingredient>
     public string Name { get; private set; }
     public QuantityType Type { get; private set; }
 
-    public Ingredient(int id, string name, QuantityType type)
+    public Dictionary<int, float> materials { get; private set; }
+
+    public Ingredient(int id, string name, QuantityType type, Dictionary<int, float> materials)
     {
         this.ID = id;
         this.Name = name;
         this.Type = type;
+        this.materials = materials;
     }
     public override bool Equals(object obj) => obj is Ingredient m && this.Equals(m);
 
