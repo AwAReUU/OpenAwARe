@@ -43,6 +43,6 @@ public class MockupIngredientDatabase : IIngredientDatabase
 
     public Dictionary<int, float> GetMaterialIDs(Ingredient ingredient)
     {
-        return ingredient.materials;
+        return ingredient.Materials;
     }
 }

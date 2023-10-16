@@ -11,11 +11,10 @@ public class IngredientListScreen : MonoBehaviour
     [SerializeField] private IngredientListManager ingredientListManager;
 
     // the objects drawn on screen to display the list
-    List<GameObject> ingredientObjects = new List<GameObject>();
+    List<GameObject> ingredientObjects = new();
     GameObject addIngredientObj;
 
     // (assigned within unity)
-    [SerializeField] private GameObject thisScreen;
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject listItemObject;
     [SerializeField] private GameObject listTitle;
@@ -26,7 +25,7 @@ public class IngredientListScreen : MonoBehaviour
     private IngredientList currentIngredientList;
     private void OnEnable()
     {
-        currentIngredientList = ingredientListManager.ingredientLists[ingredientListManager.currentListIndex];
+        currentIngredientList = ingredientListManager.IngredientLists[ingredientListManager.CurrentListIndex];
 
         backButton.SetActive(true);
         Button backB = backButton.GetComponent<Button>();
@@ -39,15 +38,15 @@ public class IngredientListScreen : MonoBehaviour
         DisplayList();
     }
 
+    private void OnDisable()
+    {
+        RemoveIngredientObjects();
+    }
+
     private void OnSaveButtonClick()
     {
         backButton.SetActive(false);
         ingredientListManager.CloseList();
-    }
-
-    private void OnDisable()
-    {
-        RemoveIngredientObjects();
     }
 
     public void DisplayList()
@@ -84,15 +83,9 @@ public class IngredientListScreen : MonoBehaviour
         }
         //Add the "Add ingredient" button to the bottom of the list.
         addIngredientObj = Instantiate(addIngredientButton, scrollViewContent);
-        Button addIngredientBtn = addIngredientButton.GetComponent<Button>();
-        addIngredientBtn.onClick.AddListener(() => { OnAddIngredientButtonClick(); });
         addIngredientObj.SetActive(true);
-    }
-
-    private void OnIngredientButtonClick(int index)
-    {
-        thisScreen.SetActive(false);
-        ingredientListManager.OpenIngredientScreen(index);
+        Button addIngredientBtn = addIngredientObj.GetComponent<Button>();
+        addIngredientBtn.onClick.AddListener(() => { OnAddIngredientButtonClick(); });
     }
 
     /// <summary>
@@ -106,6 +99,12 @@ public class IngredientListScreen : MonoBehaviour
         }
         Destroy(addIngredientObj);
         ingredientObjects = new List<GameObject>();
+    }
+
+    private void OnIngredientButtonClick(int index)
+    {
+        gameObject.SetActive(false);
+        ingredientListManager.OpenIngredientScreen(index);
     }
 
     public void OnDeleteButtonClick(Ingredient ingredient)
