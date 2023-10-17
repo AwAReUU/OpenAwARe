@@ -85,7 +85,7 @@ public class SearchScreen : MonoBehaviour
     public void OnBackButtonClick()
     {
         thisScreen.SetActive(false);
-        ingredientListManager.OpenList(ingredientListManager.currentListIndex);
+        ingredientListManager.OpenList(ingredientListManager.CurrentListIndex);
     }
 
 }

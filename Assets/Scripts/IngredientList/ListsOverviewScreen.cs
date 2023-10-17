@@ -37,7 +37,7 @@ public class ListsOverviewScreen : MonoBehaviour
     {
         RemoveListObjects();
 
-        for (int i = 0; i < ingredientListManager.ingredientLists.Count; i++)
+        for (int i = 0; i < ingredientListManager.IngredientLists.Count; i++)
         {
             // create a new list item to display this list
             GameObject listItem = Instantiate(listItemObject, scrollViewContent);
@@ -47,9 +47,9 @@ public class ListsOverviewScreen : MonoBehaviour
             Button delButton = listItem.transform.GetChild(1).GetComponent<Button>();
             Button listButton = listItem.transform.GetChild(0).GetComponent<Button>();
             listButton.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text =
-                ingredientListManager.ingredientLists[i].listName;
+                ingredientListManager.IngredientLists[i].ListName;
             listButton.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text =
-                ingredientListManager.ingredientLists[i].NumberOfIngredients().ToString();
+                ingredientListManager.IngredientLists[i].NumberOfIngredients().ToString();
 
             listObjects.Add(listItem);
 
