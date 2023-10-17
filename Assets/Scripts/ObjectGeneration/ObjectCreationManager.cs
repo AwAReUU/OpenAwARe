@@ -1,25 +1,31 @@
-using System.Collections.Specialized;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
-using System;
-using Unity.VisualScripting;
 
 public class ObjectCreationManager : MonoBehaviour
 {
     [SerializeField] GameObject spawnListButton;
     private List<Vector3> validSpawnLocations = new List<Vector3>();
 
-    private Dictionary<int, int> spawnDict = new Dictionary<int, int>() { {1,1}, {2,2}, {3,3}, {4,1} };
+    //<prefabId, quantity>
+    private Dictionary<int, int> spawnDict = new Dictionary<int, int>() { {0,2}, {1,1}, {2,2}, {3,3}, {4,1} };
 
-    // Hardcoded size multiplier & object amount, will have to be retrieved from database
 
-    //private float sizeMultiplier;  
-    //private int objectAmount;
-    //public InputField inputAmount;
-    //public InputField inputSize;
+    /// <summary>
+    /// Temporarily instantiate the object to get the BoxCollider size
+    /// </summary>
+    /// <param name="g"></param>
+    /// <returns></returns>
+    private Vector3 GetHalfExtents(GameObject prefab) 
+    {
+        GameObject tempObj = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity);
+        BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
+        Vector3 halfExtents = tempCollider.size / 2;
+        Destroy(tempObj);
+
+        return halfExtents;
+    }
 
     public void TryPlaceObjectOnTouch(ARRaycastHit hit, bool rotateToUser = true, bool forceCreate = false)
     {
@@ -36,13 +42,7 @@ public class ObjectCreationManager : MonoBehaviour
             return;
         }
 
-        // Temporarily instantiate the object to get the BoxCollider size
-        GameObject tempObj = Instantiate(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], new Vector3(0, 0, 0), Quaternion.identity);
-        BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
-
-        Vector3 halfExtents = tempCollider.size / 2;
-        float centerHeight = tempCollider.size.y / 2;
-        Destroy(tempObj);
+        Vector3 halfExtents = GetHalfExtents(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex]);
 
         // Create the position where the new object should be placed (+ add slight hover to prevent floor collisions)
         Vector3 newPosition = new Vector3(pose.position.x, pose.position.y + 0.1f, pose.position.z);
@@ -51,7 +51,7 @@ public class ObjectCreationManager : MonoBehaviour
         Collider[] overlappingColliders;
 
         // Check if the box overlaps with any other colliders
-        if (!TryPlaceObject(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], newPosition, halfExtents, centerHeight))
+        if (!TryPlaceObject(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], newPosition, halfExtents))
         {
             // Log a message if you want to know when an object can't be placed
             Debug.Log("Can't place object. It would overlap with another.");
@@ -69,7 +69,7 @@ public class ObjectCreationManager : MonoBehaviour
         }
     }
 
-    private bool TryPlaceObject(GameObject obj, Vector3 position, Vector3 halfExtents, float centerHeight)
+    private bool TryPlaceObject(GameObject obj, Vector3 position, Vector3 halfExtents)
     {
         float sizeMultiplier = 1.0f;
         // Check if the box overlaps with any other colliders
@@ -81,8 +81,7 @@ public class ObjectCreationManager : MonoBehaviour
         {
             // Adjust object size according to scalar
             GameObject newObject = Instantiate(obj, position, Quaternion.identity);
-            int materialLayer = LayerMask.NameToLayer("Material");
-            newObject.layer = materialLayer;
+            newObject.layer = LayerMask.NameToLayer("Material");
             newObject.transform.localScale = new Vector3(sizeMultiplier, sizeMultiplier, sizeMultiplier);
 
             // Add collider after changing object size
@@ -104,28 +103,19 @@ public class ObjectCreationManager : MonoBehaviour
     public void AutoGenerateObjects(Dictionary<int,int> spawnDict_)
     {
         //objectAmount = int.Parse(inputAmount.text);
-        float sizeMultiplier = 1.0f;//float.Parse(inputSize.text);
+        //float sizeMultiplier = 1.0f;//float.Parse(inputSize.text);
         ARPlaneManager planeManager = GetComponent<ARPlaneManager>();
 
         validSpawnLocations = GetValidSpawnLocations(planeManager);
 
         foreach(var obj in spawnDict_) //prefab iterator
         {
-            // Temporarily instantiate the object to get the BoxCollider size
-            GameObject tempObj = Instantiate(ObjectPrefabs.I.prefabs[obj.Key], Vector3.zero, Quaternion.identity);
-            // Scale BEFORE adding boxcollider
-            tempObj.transform.localScale = new Vector3(sizeMultiplier, sizeMultiplier, sizeMultiplier);
-            BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
-            // Assuming the box collider is at the object's origin
-            Vector3 halfExtents = tempCollider.size / 2;
-            float centerHeight = tempCollider.size.y / 2;
-            Destroy(tempObj);
-
+            Vector3 halfExtents = GetHalfExtents(ObjectPrefabs.I.prefabs[obj.Key]);
             for (int i = 0; i < obj.Value; i++) //quantity iterator
             {
                 for (int j = 0; j < validSpawnLocations.Count; j++) //spawn iterator
                 {
-                    if (TryPlaceObject(ObjectPrefabs.I.prefabs[obj.Key], validSpawnLocations[j], halfExtents, centerHeight))
+                    if (TryPlaceObject(ObjectPrefabs.I.prefabs[obj.Key], validSpawnLocations[j], halfExtents))
                         break;
                     //else
                         //Debug.Log("placement failed");
@@ -133,7 +123,7 @@ public class ObjectCreationManager : MonoBehaviour
             }
         }
     }
-      
+    
     List<Vector3> GetValidSpawnLocations(ARPlaneManager planeManager)
     {
         List<Vector3> result = new List<Vector3>();
