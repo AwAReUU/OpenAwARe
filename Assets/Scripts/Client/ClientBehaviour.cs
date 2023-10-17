@@ -18,15 +18,13 @@ public class ClientBehaviour : MonoBehaviour
     {
         Client.Init(this.adress, new User { email = this.email, password = this.password });
 
-        Debug.Log("test" + await Client.CheckLogin());
-
-
-        // Client.Post("/ingredients/get").Then(res =>
-        // {
-        //     res.Text // <--json
-        // }).Catch(err =>
-        // {
-
-        // }).Send();
+        string search = "orange";
+        Client.Get("/ingr/search", search).Then(res =>
+        {
+            Debug.Log(res);
+        }).Catch(err =>
+        {
+            Debug.Log(err);
+        }).Send();
     }
 }

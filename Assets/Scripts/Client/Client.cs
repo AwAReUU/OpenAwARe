@@ -187,7 +187,7 @@ public class Client
         return await tcs.Task;
     }
 
-    public async void SendPostRequest<B, R>(string url, B body, Func<Dictionary<string, string>, R> on_then, Action<Exception> on_catch)
+    public async void SendPostRequest<B>(string url, B body, Action<Dictionary<string, string>> on_then, Action<Exception> on_catch)
     {
         await AwaitRSGPromise<bool>(ret =>
         {
@@ -198,13 +198,8 @@ public class Client
             };
             RestClient.Post(Client.GetInstance().Authorize(rh)).Then(response =>
             {
-                // TODO: response.Text -> R
-                // on_then(response);
                 var json = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.Text);
                 on_then(json);
-
-                Debug.Log(response.Text);
-                Debug.LogWarning("Not yet implemented");
 
                 ret.SetResult(true);
             }).Catch(err =>
@@ -216,7 +211,7 @@ public class Client
         });
     }
 
-    public async void SendGetRequest<B, R>(string url, B body, Action<R> on_then, Action<Exception> on_catch)
+    public async void SendGetRequest<B>(string url, B body, Action<Dictionary<string, string>> on_then, Action<Exception> on_catch)
     {
         await AwaitRSGPromise<bool>(ret =>
         {
@@ -227,9 +222,8 @@ public class Client
             };
             RestClient.Get(Client.GetInstance().Authorize(rh)).Then(response =>
             {
-                // TODO: response.Text -> R
-                // on_then(response);
-                Debug.LogWarning("Not yet implemented");
+                var json = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.Text);
+                on_then(json);
 
                 ret.SetResult(true);
             }).Catch(err =>
@@ -242,15 +236,16 @@ public class Client
     }
 
     // ----------------------------------------------------------------------------
+    // Helper methods:
 
-    public static Request<B, R> Post<B, R>(string url)
+    public static Request<B> Post<B>(string url, B body)
     {
-        return new Request<B, R>(RequestType.POST, url);
+        return new Request<B>(RequestType.POST, url, body);
     }
 
-    public static Request<B, R> Get<B, R>(string url)
+    public static Request<B> Get<B>(string url, B body)
     {
-        return new Request<B, R>(RequestType.GET, url);
+        return new Request<B>(RequestType.GET, url, body);
     }
 }
 
@@ -262,36 +257,31 @@ public enum RequestType
     GET
 }
 
-public class Request<B, R>
+public class Request<B>
 {
     private readonly RequestType type;
 
     private readonly string url;
 
-    private B body;
+    private readonly B body;
 
-    private Func<Dictionary<string, string>, R> on_then = _ => { };
+    private Action<Dictionary<string, string>> on_then;
     private Action<Exception> on_catch = delegate { };
 
-    public Request(RequestType type, string url)
+    public Request(RequestType type, string url, B body)
     {
         this.type = type;
         this.url = url;
-    }
-
-    public Request<B, R> Body(B body)
-    {
         this.body = body;
-        return this;
     }
 
-    public Request<B, R> Then(Action<Dictionary<string, string>, R> on_then)
+    public Request<B> Then(Action<Dictionary<string, string>> on_then)
     {
         this.on_then = on_then;
         return this;
     }
 
-    public Request<B, R> Catch(Action<Exception> on_catch)
+    public Request<B> Catch(Action<Exception> on_catch)
     {
         this.on_catch = on_catch;
         return this;
