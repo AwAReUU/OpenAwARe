@@ -48,11 +48,6 @@ public class IngredientListScreen : MonoBehaviour
         ingredientListManager.CloseList();
     }
 
-    private void OnDisable()
-    {
-        RemoveIngredientObjects();
-    }
-
     private void DisplayList()
     {
         RemoveIngredientObjects();

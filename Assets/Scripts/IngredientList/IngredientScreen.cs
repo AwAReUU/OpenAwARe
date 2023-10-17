@@ -20,7 +20,7 @@ public class IngredientScreen : MonoBehaviour
 
     void OnEnable()
     {
-        currentIngredient = ingredientListManager.ingredientLists[ingredientListManager.currentListIndex].ingredients[ingredientListManager.currentIngredientIndex];
+        currentIngredient = ingredientListManager.CurrentIngredient;
 
         Button backB = backButton.GetComponent<Button>();
         backB.onClick.AddListener(delegate { OnBackButtonClick(); });
@@ -45,7 +45,7 @@ public class IngredientScreen : MonoBehaviour
         dropdown.AddOptions(dropOptions);
 
         //set selected value to current
-        dropdown.value = (int)currentIngredient.type;
+        dropdown.value = (int)currentIngredient.Type;
     }
 
     /// <summary>
@@ -56,14 +56,14 @@ public class IngredientScreen : MonoBehaviour
         string qInput = qtyInput.GetComponent<TMP_InputField>().text;
         string qTypeInput = qtyTypeDropdown.GetComponent<TMP_Dropdown>().value.ToString();
 
-        QuantityType parsedQType = currentIngredient.type; //use the old qtype if parse failed.
+        QuantityType parsedQType = currentIngredient.Type; //use the old qtype if parse failed.
         Enum.TryParse(qTypeInput, out parsedQType);
 
         float parsedQty;
         if (float.TryParse(qInput, out parsedQty))
         {
             //currentIngredient = newIngredient;
-            UpdateIngredient(parsedInput);
+            UpdateIngredient(parsedQty);
             gameObject.SetActive(false);
             ingredientListManager.OpenList(ingredientListManager.CurrentListIndex);
         }

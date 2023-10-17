@@ -56,12 +56,12 @@ public class DatabaseMockup : IDatabase
     List<Ingredient> IDatabase.Search(string term)
     {
         List<int> ids = SearchTable.Where(x => x.Item2.Contains(term,System.StringComparison.OrdinalIgnoreCase)).Select(x => x.Item1).ToList();
-        List<Ingredient> result = IngredientTable.Where(x => ids.Contains(x.Item1)).Select(x => new Ingredient(x.Item1,x.Item2,x.Item4,0)).ToList();
+        List<Ingredient> result = IngredientTable.Where(x => ids.Contains(x.Item1)).Select(x => new Ingredient(x.Item1, x.Item2, x.Item4, new Dictionary<int, float>())).ToList();
         return result;
     }
 
     Ingredient IDatabase.getIngredient(int ingredientID)
     {
-        return new Ingredient(0, "Test", QuantityType.G, 0);
+        return new Ingredient(0, "Test", QuantityType.G, new Dictionary<int, float>());
     }
 }

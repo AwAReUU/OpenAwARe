@@ -56,7 +56,7 @@ public class SearchScreen : MonoBehaviour
     public void AddContentItem(Ingredient searchResult)
     {
         GameObject button = Instantiate(buttonPrefab, ContentHolder.transform);
-        button.GetComponentInChildren<TMP_Text>().text = searchResult.name;
+        button.GetComponentInChildren<TMP_Text>().text = searchResult.Name;
         //Get Button object from GameObject to attach event
         items.Add(button);
         Button b = button.GetComponent<Button>();
@@ -66,7 +66,7 @@ public class SearchScreen : MonoBehaviour
 
     private void OnItemClicked(Ingredient item)
     {
-        ingredientListManager.AddIngredient(item);
+        ingredientListManager.AddIngredient(item, 0);
         OnBackButtonClick();
     }
 
