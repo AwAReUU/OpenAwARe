@@ -64,7 +64,6 @@ namespace AwARe.Visualization
             }
 
             particleSystem.SetParticles(particles, l);
-            Debug.Log("PointCloudV: " + particleSystem.particleCount + " , " + l);
             Debug.Log("PointCloudV: End");
         }
 
