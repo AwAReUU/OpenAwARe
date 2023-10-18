@@ -114,6 +114,8 @@ public class IngredientListManager : MonoBehaviour
 
     public void OpenList(int i)
     {
+        addIngredientScreen.SetActive(false);
+        ingredientScreen.SetActive(false);
         listsOverviewScreen.SetActive(false);
         CurrentListIndex = i;
         ingredientListScreen.SetActive(true);
@@ -139,6 +141,8 @@ public class IngredientListManager : MonoBehaviour
 
     public void OpenIngredientScreen(int itemIndex) 
     {
+        ingredientListScreen.SetActive(false);
+        addIngredientScreen.SetActive(false);
         //Debug.Log(" setting current ingredient to " + itemIndex);
         CurrentIngredient = IngredientLists[CurrentListIndex].Ingredients.ElementAt(itemIndex).Key;
         ingredientScreen.SetActive(true);

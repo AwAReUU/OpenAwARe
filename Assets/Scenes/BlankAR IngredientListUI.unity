@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 422218014}
-  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
+  m_IndirectSpecularColor: {r: 0.37089851, g: 0.3783701, b: 0.3572253, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4230,7 +4230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c0e52889484b4e418d94b7a253106ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisScreen: {fileID: 658958858}
   ingredientListManager: {fileID: 2117929076}
   backButton: {fileID: 2075049463}
   buttonPrefab: {fileID: 951960253}
@@ -8771,11 +8770,11 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Option A
+    - m_Text: G
       m_Image: {fileID: 0}
-    - m_Text: Option B
+    - m_Text: L
       m_Image: {fileID: 0}
-    - m_Text: Option C
+    - m_Text: PCS
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

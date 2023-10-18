@@ -9,7 +9,6 @@ using RSG.Promises;
 
 public class SearchScreen : MonoBehaviour
 {
-    [SerializeField] private GameObject thisScreen;
     [SerializeField] private IngredientListManager ingredientListManager;
 
     [SerializeField] private GameObject backButton;
@@ -84,7 +83,6 @@ public class SearchScreen : MonoBehaviour
 
     public void OnBackButtonClick()
     {
-        thisScreen.SetActive(false);
         ingredientListManager.OpenList(ingredientListManager.CurrentListIndex);
     }
 

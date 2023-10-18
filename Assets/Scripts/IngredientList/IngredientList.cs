@@ -43,7 +43,7 @@ public class Ingredient : IEquatable<Ingredient>
 {
     public int ID { get; }
     public string Name { get; private set; }
-    public QuantityType Type { get; private set; }
+    public QuantityType Type { get; set; }
 
     public Dictionary<int, float> Materials { get; private set; }
 

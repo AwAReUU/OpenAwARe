@@ -102,7 +102,6 @@ public class IngredientListScreen : MonoBehaviour
 
     private void OnIngredientButtonClick(int index)
     {
-        gameObject.SetActive(false);
         ingredientListManager.OpenIngredientScreen(index);
     }
 

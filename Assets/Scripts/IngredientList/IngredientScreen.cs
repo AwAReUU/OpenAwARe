@@ -31,6 +31,8 @@ public class IngredientScreen : MonoBehaviour
         
         ingredientNameField.GetComponent<TMP_Text>().text = currentIngredient.Name;
         qtyInput.GetComponent<TMP_InputField>().text = ingredientListManager.IngredientLists[ingredientListManager.CurrentListIndex].Ingredients[currentIngredient].ToString();
+
+        SetDropDownItems();
     }
 
     /// <summary>
@@ -63,8 +65,7 @@ public class IngredientScreen : MonoBehaviour
         if (float.TryParse(qInput, out parsedQty))
         {
             //currentIngredient = newIngredient;
-            UpdateIngredient(parsedQty);
-            gameObject.SetActive(false);
+            UpdateIngredient(parsedQType, parsedQty);
             ingredientListManager.OpenList(ingredientListManager.CurrentListIndex);
         }
         else 
@@ -73,11 +74,11 @@ public class IngredientScreen : MonoBehaviour
         }
     }
 
-    private void UpdateIngredient(float newQuantity)
+    private void UpdateIngredient(QuantityType QType, float newQuantity)
     {
+        ingredientListManager.CurrentIngredient.Type = QType;
         IngredientList currentList = ingredientListManager.IngredientLists[ingredientListManager.CurrentListIndex];
         currentList.Ingredients[ingredientListManager.CurrentIngredient] = newQuantity;
-        ingredientListManager.IngredientLists[ingredientListManager.CurrentListIndex] = currentList;
     }
 
     /// <summary>
@@ -85,7 +86,6 @@ public class IngredientScreen : MonoBehaviour
     /// </summary>
     private void OnBackButtonClick()
     {
-        gameObject.SetActive(false);
         ingredientListManager.OpenList(ingredientListManager.CurrentListIndex);
     }
 }
