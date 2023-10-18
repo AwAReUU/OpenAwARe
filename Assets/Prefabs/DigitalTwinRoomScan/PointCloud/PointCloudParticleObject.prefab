@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2953443594455580576}
   - component: {fileID: 1513689944876553613}
   m_Layer: 0
-  m_Name: Particle System1
+  m_Name: PointCloudParticleObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -865,7 +865,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
   EmissionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 4
     rateOverTime:
       serializedVersion: 2
