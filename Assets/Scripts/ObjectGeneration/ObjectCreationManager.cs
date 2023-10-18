@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.IO;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
@@ -13,74 +11,6 @@ public class ObjectCreationManager : MonoBehaviour
     //<prefabId, quantity>
     private Dictionary<int, int> spawnDict = new Dictionary<int, int>() { {0,2}, {1,1}, {2,2}, {3,3}, {4,1} };
 
-    void Start()
-    {
-        string foodType = FirstLetterToUpper("crops");
-        string prefName = "garlic".ToLower();
-        string prefabPath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "Prefabs", foodType, prefName);
-        Debug.Log(prefabPath);
-
-        //string dbPath = @"C:\Users\Martijn\Documents\GitHub\awARe\Assets\Scripts\ObjectGeneration\awaredb.db";
-        //string connectionString = $"Data Source={dbPath};Version=3;";
-        //string q = "SELECT * FROM Ingredient WHERE IngredientID = 1;";
-
-        IngredientResourceDatabaseMock dbm = new();
-
-        //var result = GetIngredientDetails(1);
-    }
-
-    //public (string PrefName, string FoodType)? GetIngredientDetails(int ingredientId)
-    //{
-    //    using (var connection = new SQLiteConnection(connectionString))
-    //    {
-    //        connection.Open();
-    //        string query = "SELECT PrefName, FoodType FROM Ingredient WHERE IngredientID = @id";
-
-    //        using (var command = new SQLiteCommand(query, connection))
-    //        {
-    //            command.Parameters.AddWithValue("@id", ingredientId);
-
-    //            using (var reader = command.ExecuteReader())
-    //            {
-    //                if (reader.Read())
-    //                {
-    //                    string prefName = reader["PrefName"].ToString();
-    //                    string foodType = reader["FoodType"].ToString();
-    //                    return (prefName, foodType);
-    //                }
-    //            }
-    //        }
-    //    }
-
-    //    return null; // Return null if no data found
-    //}
-
-
-//private DataTable Query(string query)
-//{
-//    //TODO: REPLACE WITH REAL SQL QUERY
-//    DataTable dt = new DataTable() { Columns = {
-//            { "IngredientId", typeof(int) },
-//            { "PrefName", typeof(string) },
-//            { "FoodType", typeof(string) }
-//    }, Rows = { { 1 }, { "Apple"}, { "fruit"} } };
-
-//    return dt;
-//}
-
-public string FirstLetterToUpper(string str)
-    {
-        if (str == null)
-            return null;
-
-        if (str.Length > 1)
-            return char.ToUpper(str[0]) + str.Substring(1);
-
-        return str.ToUpper();
-    }
-
-    //C:\Users\Martijn\Documents\GitHub\awARe\Assets\Prefabs\Crops\garlic.fbx
-    //C:\Users\Martijn\Documents\GitHub\awARe\Assets\Prefabs\Crops
 
     /// <summary>
     /// Temporarily instantiate the object to get the BoxCollider size
