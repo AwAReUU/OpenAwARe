@@ -19,7 +19,7 @@ public class SearchScreen : MonoBehaviour
     [SerializeField] private GameObject SearchBar;
 
     private List<Ingredient> searchResults = new List<Ingredient>();
-    private IDatabase database = new DatabaseMockup();
+    private IIngredientDatabase database = new MockupIngredientDatabase();
     // Start is called before the first frame update
     void Start()
     {
