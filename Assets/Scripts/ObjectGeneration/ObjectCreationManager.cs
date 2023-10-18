@@ -8,10 +8,6 @@ public class ObjectCreationManager : MonoBehaviour
     [SerializeField] GameObject spawnListButton;
     private List<Vector3> validSpawnLocations = new List<Vector3>();
 
-    //<prefabId, quantity>
-    private Dictionary<int, int> spawnDict = new Dictionary<int, int>() { {0,2}, {1,1}, {2,2}, {3,3}, {4,1} };
-
-
     /// <summary>
     /// Temporarily instantiate the object to get the BoxCollider size
     /// </summary>
@@ -85,9 +81,9 @@ public class ObjectCreationManager : MonoBehaviour
             newObject.transform.localScale = new Vector3(sizeMultiplier, sizeMultiplier, sizeMultiplier);
 
             // Add collider after changing object size
-            _ = newObject.AddComponent<BoxCollider>();
-
-            RotateToUser(newObject);
+            BoxCollider bc = newObject.AddComponent<BoxCollider>();
+            //RotateToUser(newObject);
+            CreateVisualBox(bc);
 
             return true;
         }
@@ -98,9 +94,12 @@ public class ObjectCreationManager : MonoBehaviour
     //* Function is called whenever button is clicked to generate objects
     public void OnPlaceListButtonClick() 
     {
+        //<prefabId, quantity>
+        Dictionary<int, int> spawnDict = new Dictionary<int, int>() 
+        { { 0, 2 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 1 } };
         AutoGenerateObjects(spawnDict);
     }
-    public void AutoGenerateObjects(Dictionary<int,int> spawnDict_)
+    public void AutoGenerateObjects(Dictionary<int,int> spawnDict)
     {
         //objectAmount = int.Parse(inputAmount.text);
         //float sizeMultiplier = 1.0f;//float.Parse(inputSize.text);
@@ -108,7 +107,7 @@ public class ObjectCreationManager : MonoBehaviour
 
         validSpawnLocations = GetValidSpawnLocations(planeManager);
 
-        foreach(var obj in spawnDict_) //prefab iterator
+        foreach(var obj in spawnDict) //prefab iterator
         {
             Vector3 halfExtents = GetHalfExtents(ObjectPrefabs.I.prefabs[obj.Key]);
             for (int i = 0; i < obj.Value; i++) //quantity iterator
@@ -212,7 +211,6 @@ public class ObjectCreationManager : MonoBehaviour
     }
 
     public IEnumerator FadeOutAndDestroy(GameObject target, float duration)
-
     {
         float counter = 0;
         MeshRenderer meshRenderer = target.GetComponent<MeshRenderer>();
@@ -229,7 +227,7 @@ public class ObjectCreationManager : MonoBehaviour
         Destroy(target);
     }
 
-    //? What is this for? It's never used.
+    //debug method for displaying spawnlocations in scene.
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
