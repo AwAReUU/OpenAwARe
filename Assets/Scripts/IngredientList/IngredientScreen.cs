@@ -20,19 +20,22 @@ public class IngredientScreen : MonoBehaviour
 
     void OnEnable()
     {
-        currentIngredient = ingredientListManager.CurrentIngredient;
+        currentIngredient = ingredientListManager.SelectedIngredient;
 
         Button backB = backButton.GetComponent<Button>();
         backB.onClick.AddListener(delegate { OnBackButtonClick(); });
 
-        Debug.Log("setting qty");
-
-        currentIngredient = ingredientListManager.CurrentIngredient;
+        currentIngredient = ingredientListManager.SelectedIngredient;
         
         ingredientNameField.GetComponent<TMP_Text>().text = currentIngredient.Name;
-        qtyInput.GetComponent<TMP_InputField>().text = ingredientListManager.IngredientLists[ingredientListManager.CurrentListIndex].Ingredients[currentIngredient].ToString();
+        qtyInput.GetComponent<TMP_InputField>().text = ingredientListManager.SelectedList.Ingredients[currentIngredient].ToString();
 
         SetDropDownItems();
+    }
+    private void OnDisable()
+    {
+        Button backB = backButton.GetComponent<Button>();
+        backB.onClick.RemoveAllListeners();
     }
 
     /// <summary>
@@ -66,7 +69,7 @@ public class IngredientScreen : MonoBehaviour
         {
             //currentIngredient = newIngredient;
             UpdateIngredient(parsedQType, parsedQty);
-            ingredientListManager.OpenList(ingredientListManager.CurrentListIndex);
+            ingredientListManager.OpenList(ingredientListManager.SelectedList, this.gameObject);
         }
         else 
         {
@@ -76,9 +79,9 @@ public class IngredientScreen : MonoBehaviour
 
     private void UpdateIngredient(QuantityType QType, float newQuantity)
     {
-        ingredientListManager.CurrentIngredient.Type = QType;
-        IngredientList currentList = ingredientListManager.IngredientLists[ingredientListManager.CurrentListIndex];
-        currentList.Ingredients[ingredientListManager.CurrentIngredient] = newQuantity;
+        ingredientListManager.SelectedIngredient.Type = QType;
+        IngredientList currentList = ingredientListManager.SelectedList;
+        currentList.Ingredients[ingredientListManager.SelectedIngredient] = newQuantity;
     }
 
     /// <summary>
@@ -86,6 +89,6 @@ public class IngredientScreen : MonoBehaviour
     /// </summary>
     private void OnBackButtonClick()
     {
-        ingredientListManager.OpenList(ingredientListManager.CurrentListIndex);
+        ingredientListManager.OpenList(ingredientListManager.SelectedList, this.gameObject);
     }
 }

@@ -4231,7 +4231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredientListManager: {fileID: 2117929076}
   backButton: {fileID: 2075049463}
-  buttonPrefab: {fileID: 179842187}
+  ingredientButtonPrefab: {fileID: 179842187}
   ContentHolder: {fileID: 105476905}
   items: []
   SearchBar: {fileID: 1043189953}
@@ -5642,7 +5642,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 558072329}
   m_HandleRect: {fileID: 558072328}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -11003,7 +11003,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Option A
+  m_text: G
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14883,7 +14883,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listsOverviewScreen: {fileID: 780216211}
   ingredientListScreen: {fileID: 1103772984}
-  addIngredientScreen: {fileID: 658958858}
+  searchScreen: {fileID: 658958858}
   ingredientScreen: {fileID: 844402549}
 --- !u!4 &2117929077
 Transform:

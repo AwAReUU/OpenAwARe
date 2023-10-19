@@ -7,12 +7,11 @@ using TMPro;
 
 public class ListsOverviewScreen : MonoBehaviour
 {
-    [SerializeField] private GameObject thisScreen;
     [SerializeField] private GameObject backButton;
     [SerializeField] private IngredientListManager ingredientListManager;
 
     // the objects drawn on screen to display the lists
-    List<GameObject> listObjects = new List<GameObject>();
+    List<GameObject> listObjects = new();
 
     // (assigned within unity)
     [SerializeField] private Transform scrollViewContent;
@@ -20,7 +19,6 @@ public class ListsOverviewScreen : MonoBehaviour
  
     private void OnEnable()
     {
-        Debug.Log("ebnaleing btuon");
         Button backB = backButton.GetComponent<Button>();
         backB.onClick.AddListener(delegate { OnBackButtonClick(); });
         backButton.SetActive(true);
@@ -30,6 +28,8 @@ public class ListsOverviewScreen : MonoBehaviour
 
     private void OnDisable()
     {
+        Button backB = backButton.GetComponent<Button>();
+        backB.onClick.RemoveAllListeners();
         RemoveListObjects();
     }
 
@@ -87,7 +87,8 @@ public class ListsOverviewScreen : MonoBehaviour
 
     private void OnListButtonClick(int i)
     {
-        ingredientListManager.OpenList(i);
+        IngredientList selectedList = ingredientListManager.IngredientLists[i];
+        ingredientListManager.OpenList(selectedList, this.gameObject);
     }
 
     /// <summary>
@@ -95,8 +96,6 @@ public class ListsOverviewScreen : MonoBehaviour
     /// </summary>
     private void OnBackButtonClick()
     {
-        thisScreen.SetActive(false);
-        backButton.SetActive(false);
-        //TODO: Open main menu (kan bij mergen maybe?)
+        //TODO: Open main menu
     }
 }

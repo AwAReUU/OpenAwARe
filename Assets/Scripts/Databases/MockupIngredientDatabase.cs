@@ -74,8 +74,8 @@ public class MockupIngredientDatabase : IIngredientDatabase
         return ingredients;
     }
 
-    public Dictionary<int, float> GetMaterialIDs(Ingredient ingredient)
+    public Dictionary<int, float> GetResourceIDs(Ingredient ingredient)
     {
-        return ingredient.Materials;
+        return ingredient.Resources;
     }
 }

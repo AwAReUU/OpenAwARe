@@ -12,21 +12,23 @@ public class SearchScreen : MonoBehaviour
     [SerializeField] private IngredientListManager ingredientListManager;
 
     [SerializeField] private GameObject backButton;
-    [SerializeField] private GameObject buttonPrefab;
+    [SerializeField] private GameObject ingredientButtonPrefab;
     [SerializeField] private GameObject ContentHolder;
-    [SerializeField] private List<GameObject> items = new List<GameObject>();
+    [SerializeField] private List<GameObject> items = new();
     [SerializeField] private GameObject SearchBar;
 
     private List<Ingredient> searchResults = new List<Ingredient>();
-    private IIngredientDatabase database = new MockupIngredientDatabase();
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+    readonly private IIngredientDatabase database = new MockupIngredientDatabase();
+    
     private void OnEnable()
     {
         Button backB = backButton.GetComponent<Button>();
         backB.onClick.AddListener(delegate { OnBackButtonClick(); });
+    }
+    private void OnDisable()
+    {
+        Button backB = backButton.GetComponent<Button>();
+        backB.onClick.RemoveAllListeners();
     }
 
     private void DisplayResults()
@@ -54,7 +56,7 @@ public class SearchScreen : MonoBehaviour
     /// <param name="qtyType"></param>
     public void AddContentItem(Ingredient searchResult)
     {
-        GameObject button = Instantiate(buttonPrefab, ContentHolder.transform);
+        GameObject button = Instantiate(ingredientButtonPrefab, ContentHolder.transform);
         button.GetComponentInChildren<TMP_Text>().text = searchResult.Name;
         //Get Button object from GameObject to attach event
         items.Add(button);
@@ -83,7 +85,6 @@ public class SearchScreen : MonoBehaviour
 
     public void OnBackButtonClick()
     {
-        ingredientListManager.OpenList(ingredientListManager.CurrentListIndex);
+        ingredientListManager.OpenList(ingredientListManager.SelectedList, this.gameObject);
     }
-
 }
