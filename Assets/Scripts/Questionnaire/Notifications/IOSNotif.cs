@@ -1,4 +1,4 @@
-//#if UNITY_IOS
+#if UNITY_IOS
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +13,10 @@ public class IOSNotif : Notification
     public IOSNotif()
     {
         notification.ShowInForeground = true;
-        notification.ForegroundPresentationOption = PresentationOption.Alert;
+        notification.ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound);
+        notification.Identifier = "default identifier";
+        notification.CategoryIdentifier = "default category identifier";
+        notification.ThreadIdentifier = "default thread identifier";
     }
 
     public override void SetFireTime(DateTime time)
@@ -57,4 +60,4 @@ public class IOSNotif : Notification
         Debug.Log("notification sent/scheduled");
     }
 }
-//#endif
+#endif
