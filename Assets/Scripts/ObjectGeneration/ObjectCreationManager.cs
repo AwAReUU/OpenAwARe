@@ -5,8 +5,16 @@ using UnityEngine.XR.ARFoundation;
 
 public class ObjectCreationManager : MonoBehaviour
 {
-    [SerializeField] GameObject spawnListButton;
+    [SerializeField] private ARPlaneManager planeManager;
+    [SerializeField] private GameObject placeListButton;
+    [SerializeField] private GameObject placeButton;
     private List<Vector3> validSpawnLocations = new List<Vector3>();
+
+    // Hardcoded size multiplier & object amount, will have to be retrieved from database
+    //private float sizeMultiplier;
+
+    public InputField inputAmount;
+    public InputField inputSize;
 
     /// <summary>
     /// Temporarily instantiate the object to get the BoxCollider size
@@ -47,7 +55,7 @@ public class ObjectCreationManager : MonoBehaviour
         Collider[] overlappingColliders;
 
         // Check if the box overlaps with any other colliders
-        if (!TryPlaceObject(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], newPosition, halfExtents))
+        if (!TryPlaceObject(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], newPosition, halfExtents, 1))
         {
             // Log a message if you want to know when an object can't be placed
             Debug.Log("Can't place object. It would overlap with another.");
@@ -65,15 +73,15 @@ public class ObjectCreationManager : MonoBehaviour
         }
     }
 
-    private bool TryPlaceObject(GameObject obj, Vector3 position, Vector3 halfExtents)
+    private bool TryPlaceObject(GameObject obj, Vector3 position, Vector3 halfExtents, float sizeMultiplier)
     {
-        float sizeMultiplier = 1.0f;
         // Check if the box overlaps with any other colliders
         if (!Physics.CheckBox(
             position,
             halfExtents,
             Quaternion.identity,
-            LayerMask.GetMask("Material"))) //only check collisions with other materials.
+            LayerMask.NameToLayer("Material"))
+            ) //only check collisions with other materials.
         {
             // Adjust object size according to scalar
             GameObject newObject = Instantiate(obj, position, Quaternion.identity);
@@ -94,27 +102,38 @@ public class ObjectCreationManager : MonoBehaviour
     //* Function is called whenever button is clicked to generate objects
     public void OnPlaceListButtonClick() 
     {
+        Debug.Log("onplace list click");
         //<prefabId, quantity>
         Dictionary<int, int> spawnDict = new Dictionary<int, int>() 
         { { 0, 2 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 1 } };
         AutoGenerateObjects(spawnDict);
     }
+    public void OnPlaceButtonClick() 
+    {
+        Debug.Log("onplace click");
+        int objectAmount = int.Parse(inputAmount.text);
+        float sizeMultiplier = float.Parse(inputSize.text);
+        AutoGenerateObjects(objectAmount, sizeMultiplier, ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex]);
+    }
+
+    /// <summary>
+    /// overload method: spawn from dictionary.
+    /// Will be replaced with material list
+    /// </summary>
+    /// <param name="spawnDict"></param>
     public void AutoGenerateObjects(Dictionary<int,int> spawnDict)
     {
-        //objectAmount = int.Parse(inputAmount.text);
-        //float sizeMultiplier = 1.0f;//float.Parse(inputSize.text);
-        ARPlaneManager planeManager = GetComponent<ARPlaneManager>();
-
         validSpawnLocations = GetValidSpawnLocations(planeManager);
 
         foreach(var obj in spawnDict) //prefab iterator
         {
             Vector3 halfExtents = GetHalfExtents(ObjectPrefabs.I.prefabs[obj.Key]);
+            Debug.Log(halfExtents);
             for (int i = 0; i < obj.Value; i++) //quantity iterator
             {
                 for (int j = 0; j < validSpawnLocations.Count; j++) //spawn iterator
                 {
-                    if (TryPlaceObject(ObjectPrefabs.I.prefabs[obj.Key], validSpawnLocations[j], halfExtents))
+                    if (TryPlaceObject(ObjectPrefabs.I.prefabs[obj.Key], validSpawnLocations[j], halfExtents, 1))
                         break;
                     //else
                         //Debug.Log("placement failed");
@@ -123,6 +142,43 @@ public class ObjectCreationManager : MonoBehaviour
         }
     }
     
+
+    /// <summary>
+    /// overload method: spawn from input by user. 
+    /// will be replaced by material list
+    /// </summary>
+    /// <param name="objectAmount"></param>
+    /// <param name="sizeMultiplier"></param>
+    /// <param name="gameObject"></param>
+    public void AutoGenerateObjects(int objectAmount, float sizeMultiplier, GameObject gameObject)
+    {
+        Vector3 halfExtents = GetHalfExtents(gameObject);
+        halfExtents *= sizeMultiplier;
+        Debug.Log(halfExtents);
+
+        validSpawnLocations = GetValidSpawnLocations(planeManager);
+        int materialsToPlace = objectAmount;
+
+        for (int i = 0; i < validSpawnLocations.Count; i++)
+        {
+            if (TryPlaceObject(gameObject, validSpawnLocations[i], halfExtents, sizeMultiplier))
+            {
+                Debug.Log("placing successful");
+
+                materialsToPlace--;
+                if (materialsToPlace == 0)
+                {
+                    Debug.Log("finished placing all objects");
+                    break;
+                }
+            }
+            else
+            {
+                Debug.Log("placement failed");
+            }
+        }
+    }
+
     List<Vector3> GetValidSpawnLocations(ARPlaneManager planeManager)
     {
         List<Vector3> result = new List<Vector3>();
