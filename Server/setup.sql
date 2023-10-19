@@ -1,16 +1,18 @@
 -- Table Creation
-CREATE TABLE IF NOT EXISTS users (
-	contact_id INTEGER PRIMARY KEY,
-	first_name TEXT NOT NULL,
-	last_name TEXT NOT NULL,
-	email TEXT NOT NULL UNIQUE,
-	password TEXT NOT NULL
+CREATE TABLE IF NOT EXISTS User (
+    UserID int,
+    FirstName varchar NOT NULL,
+    LastName varchar NOT NULL,
+    Email varchar NOT NULL UNIQUE,
+    Password varchar NOT NULL,
+    PRIMARY KEY (UserID)
 );
 
 CREATE TABLE IF NOT EXISTS Ingredient(
     IngredientID int NOT NULL UNIQUE,
     PrefName varchar(30) NOT NULL,
-    FoodType varchar(14) NOT NULL,
+    GramsPerML float,
+    GramsPerPiece float,
     PRIMARY KEY (IngredientID)
 );
 
@@ -18,30 +20,38 @@ CREATE TABLE IF NOT EXISTS Search(
     IngredientID int NOT NULL,
     PosName varchar(30) NOT NULL,
     PRIMARY KEY (IngredientID, PosName),
-    CONSTRAINT FK_sid FOREIGN KEY (IngredientID) REFERENCES Ingredient(IngredientID)
+    CONSTRAINT FK_siid FOREIGN KEY (IngredientID) REFERENCES Ingredient(IngredientID)
 );
 
-CREATE TABLE IF NOT EXISTS Plant(
-    IngredientID int NOT NULL UNIQUE,
-	UnitType varchar(6) NOT NULL, 
-    UnitsPerPiece int, 
-    Yield int,
-    Water int,
-    SpacePlants int,
-    SpaceRows int,
-    PRIMARY KEY (IngredientID),
-    CONSTRAINT FK_pid FOREIGN KEY (IngredientID) REFERENCES Ingredient(IngredientID)
+CREATE TABLE IF NOT EXISTS Requires(
+    IngredientID int NOT NULL,
+    ResourceID int NOT NULL,
+    ResPerIngr float NOT NULL,
+    PRIMARY KEY (IngredientID, ResourceID),
+    CONSTRAINT  FK_rqiid FOREIGN KEY (IngredientID) REFERENCES Ingredient(IngredientID),
+    CONSTRAINT FK_rqrsid FOREIGN KEY   (ResourceID) REFERENCES   Resource(ResourceID)
 );
 
-CREATE TABLE IF NOT EXISTS Animal(
-    IngredientID int NOT NULL UNIQUE,
-	UnitType varchar(6) NOT NULL, 
-    UnitsPerPiece int,
-    Yield int,
-    Water int, 
-    Fodder int,
-    PRIMARY KEY (IngredientID),
-    CONSTRAINT FK_aid FOREIGN KEY (IngredientID) REFERENCES Ingredient(IngredientID)
+CREATE TABLE IF NOT EXISTS Resource(
+    ResourceID int NOT NULL,
+    Name varchar(30),
+    Type varchar(14) NOT NULL,
+    GramsPerModel int,
+    ModelID int,
+    PRIMARY KEY (ResourceID),
+    CONSTRAINT FK_rsmid FOREIGN KEY (ModelID) REFERENCES Model(ModelID)
+);
+
+CREATE TABLE IF NOT EXISTS Model(
+    ModelID int NOT NULL,
+    Type varchar(14) NOT NULL,
+    PrefabPath varchar NOT NULL,
+    RealLength int,
+    RealWidth int,
+    RealHeight int,
+    DistanceX int,
+    DistanceY int,
+    PRIMARY KEY(ModelID)
 );
 
 
@@ -49,21 +59,22 @@ CREATE TABLE IF NOT EXISTS Animal(
 /* because of 'UNIQUE' and 'PRIMARY KEY' constraints, the following commands
 might throw an error if the tuple has already been inserted before.
 The 'OR IGNORE' part will make the program ignore the error in case inserting fails. */
-INSERT OR IGNORE INTO Ingredient VALUES (1,      'Apple',  'fruit');
-INSERT OR IGNORE INTO Ingredient VALUES (2,     'Banana',  'fruit');
-INSERT OR IGNORE INTO Ingredient VALUES (3,       'Pear',  'fruit');
-INSERT OR IGNORE INTO Ingredient VALUES (4,   'Mandarin',  'fruit');
-INSERT OR IGNORE INTO Ingredient VALUES (5,     'Orange',  'fruit');
-INSERT OR IGNORE INTO Ingredient VALUES (6,      'Grape',  'fruit');
-INSERT OR IGNORE INTO Ingredient VALUES (7, 'Strawberry',  'fruit');
-INSERT OR IGNORE INTO Ingredient VALUES (8, 'Kiwi Fruit',  'fruit');
-INSERT OR IGNORE INTO Ingredient VALUES (9,  'Pineapple',  'fruit');
-INSERT OR IGNORE INTO Ingredient VALUES (10,     'Melon',  'fruit');
-INSERT OR IGNORE INTO Ingredient VALUES (11,      'Beef', 'animal');
-INSERT OR IGNORE INTO Ingredient VALUES (12,   'Chicken', 'animal');
-INSERT OR IGNORE INTO Ingredient VALUES (13,      'Pork', 'animal');
-INSERT OR IGNORE INTO Ingredient VALUES (14,      'Duck', 'animal');
-INSERT OR IGNORE INTO Ingredient VALUES (15,      'Milk', 'animal');
+INSERT OR IGNORE INTO Ingredient VALUES ( 1,     'Water',  1.0, NULL);
+INSERT OR IGNORE INTO Ingredient VALUES ( 2,     'Apple', NULL,  100);
+INSERT OR IGNORE INTO Ingredient VALUES ( 3,    'Banana', NULL,  200);
+INSERT OR IGNORE INTO Ingredient VALUES ( 4,      'Pear', NULL,  150);
+INSERT OR IGNORE INTO Ingredient VALUES ( 5,  'Mandarin', NULL,   60);
+INSERT OR IGNORE INTO Ingredient VALUES ( 6,    'Orange', NULL,  100);
+INSERT OR IGNORE INTO Ingredient VALUES ( 7,     'Grape', NULL,    8);
+INSERT OR IGNORE INTO Ingredient VALUES ( 8,'Strawberry', NULL,    7);
+INSERT OR IGNORE INTO Ingredient VALUES ( 9,'Kiwi Fruit', NULL,   60);
+INSERT OR IGNORE INTO Ingredient VALUES (10, 'Pineapple', NULL, 1000);
+INSERT OR IGNORE INTO Ingredient VALUES (11,     'Melon', NULL, 1000);
+INSERT OR IGNORE INTO Ingredient VALUES (12,      'Beef', NULL,  250);
+INSERT OR IGNORE INTO Ingredient VALUES (13,   'Chicken', NULL,  250);
+INSERT OR IGNORE INTO Ingredient VALUES (14,      'Pork', NULL,  250);
+INSERT OR IGNORE INTO Ingredient VALUES (15,      'Duck', NULL,  250);
+INSERT OR IGNORE INTO Ingredient VALUES (16,      'Milk', 1.04, NULL);
 
 INSERT OR IGNORE INTO Search VALUES ( 1,         'Apple');
 INSERT OR IGNORE INTO Search VALUES ( 1,     'Red Apple');
@@ -99,19 +110,90 @@ INSERT OR IGNORE INTO Search VALUES (13,           'Ham');
 INSERT OR IGNORE INTO Search VALUES (14,          'Duck');
 INSERT OR IGNORE INTO Search VALUES (15,          'Milk');
 
-INSERT OR IGNORE INTO  Plant VALUES ( 1, 'G',  100,  10000, 495, 1100, 1100);
-INSERT OR IGNORE INTO  Plant VALUES ( 2, 'G',  200,  10000, 594, 3658, 3658);
-INSERT OR IGNORE INTO  Plant VALUES ( 3, 'G',  150,  10000, 495,  600,  600);
-INSERT OR IGNORE INTO  Plant VALUES ( 4, 'G',   60,   8000, 347, 3658, 3658);
-INSERT OR IGNORE INTO  Plant VALUES ( 5, 'G',  100,  10000, 347, 3658, 3658);
-INSERT OR IGNORE INTO  Plant VALUES ( 6, 'G',    8,   5000, 347, 1828, 2438);
-INSERT OR IGNORE INTO  Plant VALUES ( 7, 'G',    7,    100, 495,  254,  254);
-INSERT OR IGNORE INTO  Plant VALUES ( 8, 'G',   60,   1000, 495, 4572, 4572);
-INSERT OR IGNORE INTO  Plant VALUES ( 9, 'G', 1000,   1000, 594,  300, 1500);
-INSERT OR IGNORE INTO  Plant VALUES (10, 'G', 1000,   5000, 495,  900,  900);
+-- water requirements
+INSERT OR IGNORE INTO Requires VALUES ( 1,  1,    1);
+INSERT OR IGNORE INTO Requires VALUES ( 2,  1,  495);
+INSERT OR IGNORE INTO Requires VALUES ( 3,  1,  594);
+INSERT OR IGNORE INTO Requires VALUES ( 4,  1,  495);
+INSERT OR IGNORE INTO Requires VALUES ( 5,  1,  347);
+INSERT OR IGNORE INTO Requires VALUES ( 6,  1,  347);
+INSERT OR IGNORE INTO Requires VALUES ( 7,  1,  347);
+INSERT OR IGNORE INTO Requires VALUES ( 8,  1,  495);
+INSERT OR IGNORE INTO Requires VALUES ( 9,  1,  495);
+INSERT OR IGNORE INTO Requires VALUES (10,  1,  594);
+INSERT OR IGNORE INTO Requires VALUES (11,  1,  495);
+INSERT OR IGNORE INTO Requires VALUES (12,  1, 1000);
+INSERT OR IGNORE INTO Requires VALUES (13,  1, 1000);
+INSERT OR IGNORE INTO Requires VALUES (14,  1, 1000);
+INSERT OR IGNORE INTO Requires VALUES (15,  1, 1000);
+INSERT OR IGNORE INTO Requires VALUES (16,  1, 1000);
 
-INSERT OR IGNORE INTO Animal VALUES (11, 'G',  250, 200000, 100, 100);
-INSERT OR IGNORE INTO Animal VALUES (12, 'G',  250,   2500, 100, 100);
-INSERT OR IGNORE INTO Animal VALUES (13, 'G',  250,  50000, 100, 100);
-INSERT OR IGNORE INTO Animal VALUES (14, 'G',  250,   2500, 100, 100);
-INSERT OR IGNORE INTO Animal VALUES (15, 'L', NULL,   NULL, 100, 100);
+-- plant/meat requirements
+INSERT OR IGNORE INTO Requires VALUES ( 2,  2,    1);
+INSERT OR IGNORE INTO Requires VALUES ( 3,  3,    1);
+INSERT OR IGNORE INTO Requires VALUES ( 4,  4,    1);
+INSERT OR IGNORE INTO Requires VALUES ( 5,  5,    1);
+INSERT OR IGNORE INTO Requires VALUES ( 6,  6,    1);
+INSERT OR IGNORE INTO Requires VALUES ( 7,  7,    1);
+INSERT OR IGNORE INTO Requires VALUES ( 8,  8,    1);
+INSERT OR IGNORE INTO Requires VALUES ( 9,  9,    1);
+INSERT OR IGNORE INTO Requires VALUES (10, 10,    1);
+INSERT OR IGNORE INTO Requires VALUES (11, 11,    1);
+INSERT OR IGNORE INTO Requires VALUES (12, 12,    1);
+INSERT OR IGNORE INTO Requires VALUES (13, 13,    1);
+INSERT OR IGNORE INTO Requires VALUES (14, 14,    1);
+INSERT OR IGNORE INTO Requires VALUES (15, 15,    1);
+INSERT OR IGNORE INTO Requires VALUES (16, 16,    1);
+
+-- fodder requirements
+INSERT OR IGNORE INTO Requires VALUES (11, 17,   10);
+INSERT OR IGNORE INTO Requires VALUES (12, 17,   10);
+INSERT OR IGNORE INTO Requires VALUES (13, 17,   10);
+INSERT OR IGNORE INTO Requires VALUES (14, 17,   10);
+INSERT OR IGNORE INTO Requires VALUES (15, 17,   10);
+INSERT OR IGNORE INTO Requires VALUES (16, 17,   10);
+
+INSERT OR IGNORE INTO Resource VALUES ( 1,      'Water',  'Water',   NULL, 1); -- model set to cube
+INSERT OR IGNORE INTO Resource VALUES ( 2,      'Apple',  'Plant',  10000, 7); -- all fruits set to grape
+INSERT OR IGNORE INTO Resource VALUES ( 3,     'Banana',  'Plant',  10000, 7);
+INSERT OR IGNORE INTO Resource VALUES ( 4,       'Pear',  'Plant',  10000, 7);
+INSERT OR IGNORE INTO Resource VALUES ( 5,   'Mandarin',  'Plant',   8000, 7);
+INSERT OR IGNORE INTO Resource VALUES ( 6,     'Orange',  'Plant',  10000, 7);
+INSERT OR IGNORE INTO Resource VALUES ( 7,      'Grape',  'Plant',   5000, 7);
+INSERT OR IGNORE INTO Resource VALUES ( 8, 'Strawberry',  'Plant',    100, 7);
+INSERT OR IGNORE INTO Resource VALUES ( 9, 'Kiwi Fruit',  'Plant',   1000, 7);
+INSERT OR IGNORE INTO Resource VALUES (10,  'Pineapple',  'Plant',   1000, 7);
+INSERT OR IGNORE INTO Resource VALUES (11,      'Melon',  'Plant',   5000, 7);
+INSERT OR IGNORE INTO Resource VALUES (12,       'Beef', 'Animal', 200000, 2);
+INSERT OR IGNORE INTO Resource VALUES (13,    'Chicken', 'Animal',   2500, 3);
+INSERT OR IGNORE INTO Resource VALUES (14,       'Pork', 'Animal',  50000, 4);
+INSERT OR IGNORE INTO Resource VALUES (15,       'Duck', 'Animal',   2500, 5);
+INSERT OR IGNORE INTO Resource VALUES (16,       'Milk', 'Animal',   NULL, 2);
+INSERT OR IGNORE INTO Resource VALUES (17,      'Wheat',  'Plant',     80, 6); -- wheat
+
+INSERT OR IGNORE INTO Model VALUES (1,  'Shapes',         'Cube.prefab', NULL, NULL, NULL, NULL, NULL);
+INSERT OR IGNORE INTO Model VALUES (2, 'Animals',       'CowBIW.prefab', NULL, NULL, NULL, NULL, NULL);
+INSERT OR IGNORE INTO Model VALUES (3, 'Animals', 'ChickenBrown.prefab', NULL, NULL, NULL, NULL, NULL)
+INSERT OR IGNORE INTO Model VALUES (4, 'Animals',          'Pig.prefab', NULL, NULL, NULL, NULL, NULL)
+INSERT OR IGNORE INTO Model VALUES (5, 'Animals',    'DuckWhite.prefab', NULL, NULL, NULL, NULL, NULL)
+INSERT OR IGNORE INTO Model VALUES (6,   'Crops',         'grap.prefab', NULL, NULL, NULL, NULL, NULL)
+INSERT OR IGNORE INTO Model VALUES (7,   'Crops',       'Wheat1.prefab', NULL, NULL, NULL, NULL, NULL)
+
+
+-- leaving these old commands here for the distance fields etc.
+-- INSERT OR IGNORE INTO  Plant VALUES ( 1, 'G',  100,  10000, 495, 1100, 1100);
+-- INSERT OR IGNORE INTO  Plant VALUES ( 2, 'G',  200,  10000, 594, 3658, 3658);
+-- INSERT OR IGNORE INTO  Plant VALUES ( 3, 'G',  150,  10000, 495,  600,  600);
+-- INSERT OR IGNORE INTO  Plant VALUES ( 4, 'G',   60,   8000, 347, 3658, 3658);
+-- INSERT OR IGNORE INTO  Plant VALUES ( 5, 'G',  100,  10000, 347, 3658, 3658);
+-- INSERT OR IGNORE INTO  Plant VALUES ( 6, 'G',    8,   5000, 347, 1828, 2438);
+-- INSERT OR IGNORE INTO  Plant VALUES ( 7, 'G',    7,    100, 495,  254,  254);
+-- INSERT OR IGNORE INTO  Plant VALUES ( 8, 'G',   60,   1000, 495, 4572, 4572);
+-- INSERT OR IGNORE INTO  Plant VALUES ( 9, 'G', 1000,   1000, 594,  300, 1500);
+-- INSERT OR IGNORE INTO  Plant VALUES (10, 'G', 1000,   5000, 495,  900,  900);
+
+-- INSERT OR IGNORE INTO Animal VALUES (11, 'G',  250, 200000, 100, 100);
+-- INSERT OR IGNORE INTO Animal VALUES (12, 'G',  250,   2500, 100, 100);
+-- INSERT OR IGNORE INTO Animal VALUES (13, 'G',  250,  50000, 100, 100);
+-- INSERT OR IGNORE INTO Animal VALUES (14, 'G',  250,   2500, 100, 100);
+-- INSERT OR IGNORE INTO Animal VALUES (15, 'L', NULL,   NULL, 100, 100);
