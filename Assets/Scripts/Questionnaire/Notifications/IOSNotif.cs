@@ -1,4 +1,4 @@
-#if UNITY_IOS
+//#if UNITY_IOS
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,6 +30,8 @@ public class IOSNotif : Notification
         };
 
         notification.Trigger = trigger;
+
+        Debug.Log("fire time set to " + time.ToString());
     }
 
     public override void SetTitle(string title)
@@ -51,6 +53,8 @@ public class IOSNotif : Notification
     public override void Send()
     {
         iOSNotificationCenter.ScheduleNotification(notification);
+
+        Debug.Log("notification sent/scheduled");
     }
 }
-#endif
+//#endif

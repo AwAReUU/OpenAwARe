@@ -38,7 +38,7 @@ public class NotificationScheduler : MonoBehaviour
                 SendAndroidNotification("Test Title", "Test text", "No questionnaire", DateTime.Now);
                 break;
             case Platform.IOS:
-                SendIOSNotification("Test Title", "Test text", "No questionnaire", DateTime.Now);
+                SendIOSNotification("Test Title", "Test text", "No questionnaire", DateTime.Now.AddSeconds(1));
                 break;
             case Platform.Editor:
                 SendEditorNotification("Test Title", "Test text", "No questionnaire", DateTime.Now.AddSeconds(10));
