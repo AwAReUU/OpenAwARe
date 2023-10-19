@@ -1,66 +1,75 @@
+using Databases;
+using IngredientLists;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceCalculator
+namespace ResourceLists
 {
-    [SerializeField] private IIngredientDatabase ingredientDatabase;
-    [SerializeField] private IResourceDatabase resourceDatabase;
-
-    public ResourceCalculator()
-    {  
-        ingredientDatabase = new MockupIngredientDatabase();
-        resourceDatabase = new MockupResourceDatabase();
-    }
-
-    public ResourceList IngredientsToResources(IngredientList ingredientList)
+    public class ResourceCalculator
     {
-        Dictionary<Resource, float> combinedResourceCosts = new();
+        [SerializeField] private IIngredientDatabase ingredientDatabase;
+        [SerializeField] private IIngredientToResourceDatabase toResourceDatabase;
+        [SerializeField] private IResourceDatabase resourceDatabase;
 
-        foreach (var pair in ingredientList.Ingredients)
+        public ResourceCalculator()
         {
+            ingredientDatabase = new MockupIngredientDatabase();
+            resourceDatabase = new MockupResourceDatabase();
+        }
 
-            ResourceList resourceCosts = GetIngredientResources(pair.Key, pair.Value);
+        public ResourceList IngredientsToResources(IngredientList ingredientList)
+        {
+            Dictionary<Resource, float> combinedResourceCosts = new();
 
-            foreach (var keyValuePair in resourceCosts.Resources)
+            foreach (var pair in ingredientList.Ingredients)
             {
-                Resource resource = keyValuePair.Key;
-                float quantity = keyValuePair.Value;
 
-                // check whether the resource already exists in the dictionary
-                if (!combinedResourceCosts.ContainsKey(resource))
+                ResourceList resourceCosts = GetIngredientResources(pair.Key, pair.Value.Item1, pair.Value.Item2);
+
+                foreach (var keyValuePair in resourceCosts.Resources)
                 {
-                    combinedResourceCosts[resource] = quantity;
-                }
-                else
-                {
-                    combinedResourceCosts[resource] += quantity;
+                    Resource resource = keyValuePair.Key;
+                    float quantity = keyValuePair.Value;
+
+                    // check whether the resource already exists in the dictionary
+                    if (!combinedResourceCosts.ContainsKey(resource))
+                    {
+                        combinedResourceCosts[resource] = quantity;
+                    }
+                    else
+                    {
+                        combinedResourceCosts[resource] += quantity;
+                    }
                 }
             }
+
+            return new ResourceList(combinedResourceCosts);
         }
 
-        return new ResourceList(combinedResourceCosts);
-    }
 
-    
-    // gets the list of resources of a single ingredient
-    ResourceList GetIngredientResources(Ingredient ingredient, float qt)
-    {
-        Dictionary<int, float> resourceIDs = ingredientDatabase.GetResourceIDs(ingredient);
-
-        ResourceList resourceCosts = new();
-
-        foreach (var keyValuePair in resourceIDs)
+        // gets the list of resources of a single ingredient
+        ResourceList GetIngredientResources(Ingredient ingredient, float qt, QuantityType type)
         {
-            // convert resourceID to resource
-            Resource resource = resourceDatabase.GetResource(keyValuePair.Key);
+            Dictionary<int, float> resourceIDs = toResourceDatabase.GetResourceIDs(ingredient);
 
-            // calculate total resource cost for the quantity (qt) of this ingredient
-            float quantity = keyValuePair.Value * qt;
+            float quantity = ingredient.GetNumberOfGrams(qt, type);
 
-            resourceCosts.AddResource(resource, quantity);
+            ResourceList resourceCosts = new();
+
+            foreach (var keyValuePair in resourceIDs)
+            {
+                // convert resourceID to resource
+                Resource resource = resourceDatabase.GetResource(keyValuePair.Key);
+
+                // calculate total resource cost for the quantity (qt) of this ingredient
+                float resourceQuantity = keyValuePair.Value * quantity;
+
+                resourceCosts.AddResource(resource, resourceQuantity);
+            }
+
+            return resourceCosts;
         }
-
-        return resourceCosts;
     }
 }

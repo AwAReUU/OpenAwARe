@@ -1,108 +1,121 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using System.IO;
 using System;
 using System.Linq;
-using UnityEngine.InputSystem;
+using Databases;
 
-public class IngredientFileHandler
+namespace IngredientLists
 {
-    readonly string filePath;
-    readonly IIngredientDatabase ingredientDatabase;
-
-    public IngredientFileHandler(IIngredientDatabase database)
+    public class IngredientFileHandler
     {
-        filePath = Application.persistentDataPath + "/ingredientLists";
-        this.ingredientDatabase = database;
-    }
+        readonly string filePath;
+        readonly IIngredientDatabase ingredientDatabase;
 
-    public List<IngredientList> ReadFile()
-    {
-        if (!File.Exists(filePath))
+        public IngredientFileHandler(IIngredientDatabase database)
         {
-            return new List<IngredientList>();
+            filePath = Application.persistentDataPath + "/ingredientLists";
+            this.ingredientDatabase = database;
         }
 
-        string json = File.ReadAllText(filePath);
-
-        JSONIngredientInfo info = JsonUtility.FromJson<JSONIngredientInfo>(json);
-
-        List<IngredientList> lists = new();
-
-        // reconstruct all lists
-        for (int i = 0; i < info.listNames.Length; i++)
+        public List<IngredientList> ReadFile()
         {
-            Dictionary<Ingredient, float> ingredients = new();
-
-            string[] ingredientIDs;
-            string[] ingredientQuantities;
-
-            try
+            if (!File.Exists(filePath))
             {
-                ingredientIDs = info.ingredientIDs[i].Split(",");
-                ingredientQuantities = info.ingredientQuantities[i].Split(",");
-            }
-            catch (System.NullReferenceException)
-            {
-                Debug.LogWarning("IngredientLists file is not in correct format. Lists will be deleted");
-                File.Delete(filePath); // empties the saved ingredientLists
-                return lists;
+                return new List<IngredientList>();
             }
 
-            // add the ingredients to the lists
-            for (int j = 0; j < ingredientIDs.Length - 1; j++)
-            {
-                int ingredientID = int.Parse(ingredientIDs[j]);
-                float ingredientQuantity = float.Parse(ingredientQuantities[j]);
+            string json = File.ReadAllText(filePath);
 
-                ingredients.Add(ingredientDatabase.GetIngredient(ingredientID), ingredientQuantity);
+            JSONIngredientInfo info = JsonUtility.FromJson<JSONIngredientInfo>(json);
+
+            List<IngredientList> lists = new();
+
+            // reconstruct all Lists
+            for (int i = 0; i < info.listNames.Length; i++)
+            {
+                Dictionary<Ingredient, (float, QuantityType)> ingredients = new();
+
+                string[] ingredientIDs;
+                string[] ingredientQuantities;
+                string[] ingredientQuantityTypes;
+
+                try
+                {
+                    ingredientIDs = info.ingredientIDs[i].Split(",");
+                    ingredientQuantities = info.ingredientQuantities[i].Split(",");
+                    ingredientQuantityTypes = info.ingredientQuantityTypes[i].Split(",");
+                }
+                catch (System.NullReferenceException)
+                {
+                    Debug.LogWarning("IngredientLists file is not in correct format. Lists will be deleted");
+                    File.Delete(filePath); // empties the saved ingredientLists
+                    return lists;
+                }
+
+                // add the ingredients to the Lists
+                for (int j = 0; j < ingredientIDs.Length - 1; j++)
+                {
+                    int ingredientID = int.Parse(ingredientIDs[j]);
+                    float ingredientQuantity = float.Parse(ingredientQuantities[j]);
+
+                    bool stringToQType = Enum.TryParse(ingredientQuantityTypes[j], out QuantityType ingredientQuantityType);
+                    if (!stringToQType)
+                    {
+                        throw new Exception("Cannot convert string to QuantityType.");
+                    }
+
+                    ingredients.Add(ingredientDatabase.GetIngredient(ingredientID), (ingredientQuantity, ingredientQuantityType));
+                }
+                lists.Add(new IngredientList(info.listNames[i], ingredients));
             }
-            lists.Add(new IngredientList(info.listNames[i], ingredients));
+
+            return lists;
         }
 
-        return lists;
+        public void SaveLists(List<IngredientList> ingredientLists)
+        {
+            int numberOfLists = ingredientLists.Count;
+
+            JSONIngredientInfo info = new()
+            {
+                listNames = new string[numberOfLists],
+                ingredientIDs = new string[numberOfLists],
+                ingredientQuantities = new string[numberOfLists],
+                ingredientQuantityTypes = new string[numberOfLists]
+            };
+
+            // convert the Lists to strings
+            for (int i = 0; i < numberOfLists; i++)
+            {
+                info.listNames[i] = ingredientLists[i].ListName;
+
+                info.ingredientIDs[i] = "";
+                info.ingredientQuantities[i] = "";
+                info.ingredientQuantityTypes[i] = "";
+
+                for (int j = 0; j < ingredientLists[i].NumberOfIngredients(); j++)
+                {
+                    Ingredient ingredient = ingredientLists[i].Ingredients.ElementAt(j).Key;
+                    info.ingredientIDs[i] += ingredient.ID.ToString() + ",";
+                    info.ingredientQuantities[i] += ingredientLists[i].GetQuantity(ingredient).ToString() + ",";
+                    info.ingredientQuantityTypes[i] += ingredientLists[i].GetQuantityType(ingredient).ToString() + ",";
+                }
+            }
+
+            string json = JsonUtility.ToJson(info);
+
+            File.WriteAllText(filePath, json);
+        }
     }
 
-    public void SaveLists(List<IngredientList> ingredientLists)
+
+    [Serializable]
+    public class JSONIngredientInfo
     {
-        int numberOfLists = ingredientLists.Count;
-
-        JSONIngredientInfo info = new()
-        {
-            listNames = new string[numberOfLists],
-            ingredientIDs = new string[numberOfLists],
-            ingredientQuantities = new string[numberOfLists]
-        };
-
-        // convert the lists to strings
-        for (int i = 0; i < numberOfLists; i++)
-        {
-            info.listNames[i] = ingredientLists[i].ListName;
-
-            info.ingredientIDs[i] = "";
-            info.ingredientQuantities[i] = "";
-
-            for (int j = 0; j < ingredientLists[i].NumberOfIngredients(); j++)
-            {
-                Ingredient ingredient = ingredientLists[i].Ingredients.ElementAt(j).Key;
-                info.ingredientIDs[i] += ingredient.ID + ",";
-                info.ingredientQuantities[i] += ingredientLists[i].Ingredients[ingredient] + ",";
-            }
-        }
-
-        string json = JsonUtility.ToJson(info);
-
-        File.WriteAllText(filePath, json);
+        public string[] listNames;
+        public string[] ingredientIDs;
+        public string[] ingredientQuantities;
+        public string[] ingredientQuantityTypes;
     }
-}
-
-
-[Serializable]
-public class JSONIngredientInfo
-{
-    public string[] listNames;
-    public string[] ingredientIDs;
-    public string[] ingredientQuantities;
 }

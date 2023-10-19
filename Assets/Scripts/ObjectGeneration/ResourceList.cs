@@ -1,50 +1,60 @@
 using System;
 using System.Collections.Generic;
 
-public class ResourceList
+namespace ResourceLists
 {
-    public Dictionary<Resource, float> Resources { get; private set; }
-
-    public ResourceList(Dictionary<Resource, float> resources = null)
+    public class ResourceList
     {
-        if (resources != null)
-            this.Resources = resources;
-        else
-            this.Resources = new();
+        public Dictionary<Resource, float> Resources { get; private set; }
+
+        public ResourceList(Dictionary<Resource, float> resources = null)
+        {
+            if (resources != null)
+                this.Resources = resources;
+            else
+                this.Resources = new();
+        }
+
+        public int NumberOfResources()
+        {
+            return Resources.Count;
+        }
+
+        public void AddResource(Resource resource, float quantity)
+        {
+            Resources.Add(resource, quantity);
+        }
     }
 
-    public int NumberOfResources()
+    public class Resource : IEquatable<Resource>
     {
-        return Resources.Count;
+        public int ID { get; }
+        public string Name { get; }
+        public ResourceType Type { get; }
+        public int GramsPerModel { get; }
+        public int ModelID { get; }
+
+        public Resource(int id, string name, ResourceType type, int gramsPerModel, int modelID)
+        {
+            ID = id;
+            Name = name;
+            Type = type;
+            GramsPerModel = gramsPerModel;
+            ModelID = modelID;
+        }
+
+        public override bool Equals(object obj) => obj is Resource m && this.Equals(m);
+
+        public bool Equals(Resource m) => ID == m.ID;
+
+        public override int GetHashCode() => ID.GetHashCode();
+
     }
 
-    public void AddResource(Resource resource, float quantity)
+    public enum ResourceType
     {
-        Resources.Add(resource, quantity);
+        Animal,
+        Plant,
+        Water
     }
-}
-
-public class Resource : IEquatable<Resource>
-{
-    public int ID { get; }
-    public ResourceType Type { get; }
-
-    public Resource(int id, ResourceType type)
-    {
-        ID = id;
-    }
-
-    public override bool Equals(object obj) => obj is Resource m && this.Equals(m);
-
-    public bool Equals(Resource m) => ID == m.ID;
-
-    public override int GetHashCode() => ID.GetHashCode();
-
-}
-
-public enum ResourceType
-{
-    Animal,
-    Plant,
-    Water
 }
