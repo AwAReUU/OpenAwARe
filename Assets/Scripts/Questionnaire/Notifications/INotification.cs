@@ -1,18 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface INotification
+public abstract class Notification
 {
-    private DateTime fireTime;
-    private string title;
-    private string body;
-    private string questionnaire;
+    // protected DateTime fireTime;
+    // protected string title;
+    // protected string body;
+    // protected string questionnaire;
 
-    public void SetFireTime(DateTime);
-    public void SetTitle(string);
-    public void SetBody(string);
-    beepapae
-    asfelan
-    
+    public abstract void SetFireTime(DateTime time);
+    public abstract void SetTitle(string title);
+    public abstract void Setbody(string body);
+    public abstract void SetQuestionnaire(string questionnaire);
+    public abstract void Send();
 }

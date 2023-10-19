@@ -4,8 +4,7 @@ using UnityEngine.UI;
 public class ToggleHandler : MonoBehaviour
 {
     private GameObject question;
-
-    int optionNumber;
+    private int optionNumber;
 
     //notifies the question that this answer option is now yes or no, true or false
     public void NotifyChange()
