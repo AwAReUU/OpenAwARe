@@ -81,12 +81,11 @@ public class ObjectCreationManager : MonoBehaviour
             position,
             halfExtents,
             Quaternion.identity,
-            LayerMask.NameToLayer("Material"))
-            ) //only check collisions with other materials.
+            LayerMask.GetMask("Material2"))) //only check collisions with other materials.
         {
             // Adjust object size according to scalar
             GameObject newObject = Instantiate(obj, position, Quaternion.identity);
-            newObject.layer = LayerMask.NameToLayer("Material");
+            newObject.layer = LayerMask.NameToLayer("Material2");
             newObject.transform.localScale = new Vector3(sizeMultiplier, sizeMultiplier, sizeMultiplier);
 
             // Add collider after changing object size
@@ -100,6 +99,7 @@ public class ObjectCreationManager : MonoBehaviour
 
         return false;
     }
+
     //* Function is called whenever button is clicked to generate objects
     public void OnPlaceListButtonClick() 
     {
