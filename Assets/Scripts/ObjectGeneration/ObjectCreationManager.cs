@@ -14,12 +14,13 @@ public class ObjectCreationManager : MonoBehaviour
     public InputField inputSize;
 
     /// <summary>
-    /// Temporarily instantiate the object to get the BoxCollider size
+    /// HalfExtents are distances from center to bounding box walls.
     /// </summary>
     /// <param name="g"></param>
     /// <returns></returns>
-    private Vector3 GetHalfExtents(GameObject prefab) 
+    private Vector3 GetHalfExtents(GameObject prefab)
     {
+        //Temporarily instantiate the object to get the BoxCollider size
         GameObject tempObj = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity);
         BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
         Vector3 halfExtents = tempCollider.size / 2;
@@ -46,7 +47,7 @@ public class ObjectCreationManager : MonoBehaviour
         Vector3 halfExtents = GetHalfExtents(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex]);
 
         // Create the position where the new object should be placed (+ add slight hover to prevent floor collisions)
-        Vector3 newPosition = new Vector3(pose.position.x, pose.position.y + 0.1f, pose.position.z);
+        Vector3 newPosition = new Vector3(pose.position.x, pose.position.y, pose.position.z);
 
         // Create a list of colliders that prevent an object from being placed
         Collider[] overlappingColliders;
@@ -96,7 +97,8 @@ public class ObjectCreationManager : MonoBehaviour
         return false;
     }
 
-    //* Function is called whenever button is clicked to generate objects
+    //* Function is called whenever PlaceListButton is clicked to generate objects
+    //* Spawns a hardcoded list.
     public void OnPlaceListButtonClick() 
     {
         Debug.Log("onplace list click");
@@ -105,6 +107,8 @@ public class ObjectCreationManager : MonoBehaviour
         { { 0, 2 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 1 } };
         AutoGenerateObjects(spawnDict);
     }
+    //* Function is called whenever PlaceButton is clicked to generate objects
+    //* Spawns selected object from dropdown.
     public void OnPlaceButtonClick() 
     {
         Debug.Log("onplace click");
