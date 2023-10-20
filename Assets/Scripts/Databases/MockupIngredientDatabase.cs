@@ -6,63 +6,62 @@ namespace Databases
 {
     public class MockupIngredientDatabase : IIngredientDatabase
     {
-        readonly Dictionary<int, Ingredient> database; // (ID , Ingredient)
+        readonly List<Ingredient> ingredientTable; // (ID , Ingredient)
 
         public MockupIngredientDatabase()
         {
-            database = new()
-        {
-            { 0,  new Ingredient(0,"Sugar"      ,null , null)},
-            { 1,  new Ingredient(1,"Banana"     ,null , 200 )},
-            { 2,  new Ingredient(2,"Strawberry" ,null , 50  )},
-            { 3,  new Ingredient(3,"Beef"       ,null , null)},
-            { 4,  new Ingredient(4,"Pork"       ,null , null)},
-            { 5,  new Ingredient(5,"Chicken"    ,null , 300 )},
-            { 6,  new Ingredient(6,"Water"      ,1    , null)},
-            { 7,  new Ingredient(7,"Milk"       ,1.03f, null)},
-            { 8,  new Ingredient(8,"Kiwi Fruit" ,null , 200 )},
-            { 9,  new Ingredient(9,"Pineapple"  ,null , 300 )},
-            { 10, new Ingredient(10,"Melon"     ,null , 1000)},
-            { 11, new Ingredient(11,"Pear"      ,null , 500 )},
-            { 12, new Ingredient(12,"Mandarin"  ,null , 300 )},
-            { 13, new Ingredient(13,"Orange"    ,null , 350 )},
-            { 14, new Ingredient(14,"Grape"     ,null , 20  )},
-            { 15, new Ingredient(15,"Apple"     ,null , 500 )}
-
-        };
+            ingredientTable = new()
+            {
+                new Ingredient( 1,     "Water",  1.0f, null),
+                new Ingredient( 2,     "Apple",  null,  100),
+                new Ingredient( 3,    "Banana",  null,  200),
+                new Ingredient( 4,      "Pear",  null,  150),
+                new Ingredient( 5,  "Mandarin",  null,   60),
+                new Ingredient( 6,    "Orange",  null,  100),
+                new Ingredient( 7,     "Grape",  null,    8),
+                new Ingredient( 8,"Strawberry",  null,    7),
+                new Ingredient( 9,"Kiwi Fruit",  null,   60),
+                new Ingredient(10, "Pineapple",  null, 1000),
+                new Ingredient(11,     "Melon",  null, 1000),
+                new Ingredient(12,      "Beef",  null,  250),
+                new Ingredient(13,   "Chicken",  null,  250),
+                new Ingredient(14,      "Pork",  null,  250),
+                new Ingredient(15,      "Duck",  null,  250),
+                new Ingredient(16,      "Milk", 1.04f, null)
+            };
         }
 
         private readonly List<(int, string)> SearchTable = new()
-    {
-        (0, "Sugar"),
-        (1, "Banana"),
-        (2, "Strawberry"),
-        (3, "Beef"), (3, "Steak"), (3, "Hamburger"),
-        (4, "Pork"), (4, "Bacon"), (4, "Ham"),
-        (5, "Chicken"), (5, "Chicken Legs"), (5, "Chicken Wings"), (5, "Drumsticks"),
-        (6, "Water"),
-        (7, "Milk"),
-        (8, "Kiwi Fruit"),
-        (9, "Pineapple"), (9, "Ananas"),
-        (10, "Melon"), (10, "Watermelon"),
-        (11, "Pear"),
-        (12, "Mandarin"), (12, "Satsuma"),
-        (13, "Orange"), (13, "Tangerine"),
-        (14, "Grape"), (14, "Red Grape"), (14, "White Grape"),
-        (15, "Apple"), (15, "Red Apple"), (15, "Green Apple"), (15, "Fuji Apple"), (15, "Elstar Apple"), (15, "Pink Lady"),
-    };
+        {
+            ( 1,         "Water"),
+            ( 2,         "Apple"), ( 2,     "Red Apple"), ( 2,   "Green Apple"), ( 2,    "Fuji Apple"), ( 2,  "Elstar Apple"), ( 2,     "Pink Lady"),
+            ( 3,        "Banana"),
+            ( 4,          "Pear"),
+            ( 5,      "Mandarin"), ( 5,       "Satsuma"),
+            ( 6,        "Orange"), ( 6,     "Tangerine"),
+            ( 7,         "Grape"), ( 7,     "Red Grape"), ( 7,   "White Grape"),
+            ( 8,    "Strawberry"),
+            ( 9,    "Kiwi Fruit"),
+            (10,     "Pineapple"), (10,        "Ananas"),
+            (11,         "Melon"), (11,    "Watermelon"),
+            (12,          "Beef"), (12,         "Steak"), (12,     "Hamburger"),
+            (13,       "Chicken"), (13,  "Chicken Legs"), (13, "Chicken Wings"), (13,    "Drumsticks"),
+            (14,          "Pork"), (14,         "Bacon"), (14,           "Ham"),
+            (15,          "Duck"),
+            (16,          "Milk"),
+        };
 
         public List<Ingredient> Search(string term)
         {
             List<int> ids = SearchTable.Where(x => x.Item2.Contains(term, System.StringComparison.OrdinalIgnoreCase)).Select(x => x.Item1).ToList();
-            List<Ingredient> result = database.Where(x => ids.Contains(x.Key)).Select(x => x.Value).ToList();
+            List<Ingredient> result = ingredientTable.Where(x => ids.Contains(x.ID)).ToList();
             //List<Ingredient> result = GetIngredients(ids);
             return result;
         }
 
         public Ingredient GetIngredient(int id)
         {
-            return database[id];
+            return ingredientTable.First(x => x.ID == id);
         }
 
         public List<Ingredient> GetIngredients(List<int> ids)

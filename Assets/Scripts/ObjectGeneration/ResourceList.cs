@@ -31,10 +31,10 @@ namespace ResourceLists
         public int ID { get; }
         public string Name { get; }
         public ResourceType Type { get; }
-        public int GramsPerModel { get; }
+        public int? GramsPerModel { get; }
         public int ModelID { get; }
 
-        public Resource(int id, string name, ResourceType type, int gramsPerModel, int modelID)
+        public Resource(int id, string name, ResourceType type, int? gramsPerModel, int modelID)
         {
             ID = id;
             Name = name;

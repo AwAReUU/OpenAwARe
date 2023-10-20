@@ -1,29 +1,40 @@
 using System.Collections.Generic;
+using System.Linq;
 using ResourceLists;
 
 namespace Databases
 {
     public class MockupResourceDatabase : IResourceDatabase
     {
-        readonly Dictionary<int, Resource> database;
+        readonly List<Resource> ResourceTable;
 
         public MockupResourceDatabase()
         {
-            database = new()
-        {
-            { 0, new Resource(0, "apple", ResourceType.Plant, 60, 1)},
-            { 1, new Resource(1, "wheat", ResourceType.Plant, 20, 3)},
-            { 2, new Resource(2, "carrot", ResourceType.Plant, 50, 5)},
-            { 3, new Resource(3, "cow", ResourceType.Animal, 3000, 10)},
-            { 4, new Resource(4, "pig", ResourceType.Animal, 2500, 11)},
-            { 5, new Resource(5, "chicken", ResourceType.Animal, 1000, 12)},
-            { 6, new Resource(6, "water", ResourceType.Water, 100, 8)}
-        };
+            ResourceTable = new()
+            {
+                new Resource( 1,      "Water",  ResourceType.Water,   null, 1),
+                new Resource( 2,      "Apple",  ResourceType.Plant,  10000, 7), 
+                new Resource( 3,     "Banana",  ResourceType.Plant,  10000, 7),
+                new Resource( 4,       "Pear",  ResourceType.Plant,  10000, 7),
+                new Resource( 5,   "Mandarin",  ResourceType.Plant,   8000, 7),
+                new Resource( 6,     "Orange",  ResourceType.Plant,  10000, 7),
+                new Resource( 7,      "Grape",  ResourceType.Plant,   5000, 7),
+                new Resource( 8, "Strawberry",  ResourceType.Plant,    100, 7),
+                new Resource( 9, "Kiwi Fruit",  ResourceType.Plant,   1000, 7),
+                new Resource(10,  "Pineapple",  ResourceType.Plant,   1000, 7),
+                new Resource(11,      "Melon",  ResourceType.Plant,   5000, 7),
+                new Resource(12,       "Beef", ResourceType.Animal, 200000, 2),
+                new Resource(13,    "Chicken", ResourceType.Animal,   2500, 3),
+                new Resource(14,       "Pork", ResourceType.Animal,  50000, 4),
+                new Resource(15,       "Duck", ResourceType.Animal,   2500, 5),
+                new Resource(16,       "Milk", ResourceType.Animal,   null, 2),
+                new Resource(17,      "Wheat",  ResourceType.Plant,     80, 6)
+            };
         }
 
         public Resource GetResource(int id)
         {
-            return database[id];
+            return ResourceTable.First(x => x.ID == id);
         }
 
         public List<Resource> GetResources(List<int> ids)
