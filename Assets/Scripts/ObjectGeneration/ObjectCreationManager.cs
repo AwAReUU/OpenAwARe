@@ -9,10 +9,6 @@ public class ObjectCreationManager : MonoBehaviour
     [SerializeField] private ARPlaneManager planeManager;
     [SerializeField] private GameObject placeListButton;
     [SerializeField] private GameObject placeButton;
-    private List<Vector3> validSpawnLocations = new List<Vector3>();
-
-    // Hardcoded size multiplier & object amount, will have to be retrieved from database
-    //private float sizeMultiplier;
 
     public InputField inputAmount;
     public InputField inputSize;
@@ -124,20 +120,20 @@ public class ObjectCreationManager : MonoBehaviour
     /// <param name="spawnDict"></param>
     public void AutoGenerateObjects(Dictionary<int,int> spawnDict)
     {
-        validSpawnLocations = GetValidSpawnLocations(planeManager);
+        ObjectSpawnPointHandler osph = new(0.1f, planeManager);
+        List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
 
         foreach(var obj in spawnDict) //prefab iterator
         {
             Vector3 halfExtents = GetHalfExtents(ObjectPrefabs.I.prefabs[obj.Key]);
-            Debug.Log(halfExtents);
+
             for (int i = 0; i < obj.Value; i++) //quantity iterator
             {
-                for (int j = 0; j < validSpawnLocations.Count; j++) //spawn iterator
+                for (int j = 0; j < validSpawnPoints.Count; j++) //spawn iterator
                 {
-                    if (TryPlaceObject(ObjectPrefabs.I.prefabs[obj.Key], validSpawnLocations[j], halfExtents, 1))
+                    if (TryPlaceObject(ObjectPrefabs.I.prefabs[obj.Key], validSpawnPoints[j], halfExtents, 1))
                         break;
-                    //else
-                        //Debug.Log("placement failed");
+                    //Else-> spawning failed, try again.
                 }
             }
         }
@@ -145,7 +141,7 @@ public class ObjectCreationManager : MonoBehaviour
     
 
     /// <summary>
-    /// overload method: spawn from input by user. 
+    /// overload method: spawn from input by user.
     /// will be replaced by material list
     /// </summary>
     /// <param name="objectAmount"></param>
@@ -157,12 +153,13 @@ public class ObjectCreationManager : MonoBehaviour
         halfExtents *= sizeMultiplier;
         Debug.Log(halfExtents);
 
-        validSpawnLocations = GetValidSpawnLocations(planeManager);
-        int materialsToPlace = objectAmount;
+        ObjectSpawnPointHandler osph = new(0.1f, planeManager);
+        List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
 
-        for (int i = 0; i < validSpawnLocations.Count; i++)
+        int materialsToPlace = objectAmount;
+        for (int i = 0; i < validSpawnPoints.Count; i++)
         {
-            if (TryPlaceObject(gameObject, validSpawnLocations[i], halfExtents, sizeMultiplier))
+            if (TryPlaceObject(gameObject, validSpawnPoints[i], halfExtents, sizeMultiplier))
             {
                 Debug.Log("placing successful");
 
@@ -180,53 +177,6 @@ public class ObjectCreationManager : MonoBehaviour
         }
     }
 
-    List<Vector3> GetValidSpawnLocations(ARPlaneManager planeManager)
-    {
-        List<Vector3> result = new List<Vector3>();
-        foreach (var plane in planeManager.trackables)
-        {
-            if (plane.alignment == UnityEngine.XR.ARSubsystems.PlaneAlignment.Vertical)
-                continue; //skip vertical planes
-            if (plane.alignment == UnityEngine.XR.ARSubsystems.PlaneAlignment.HorizontalDown)
-                continue; //skip ceilings
-
-            List<Vector3> gridPoints = GetGridPoints(plane);
-            result.AddRange(gridPoints);
-        }
-
-        return result;
-    }
-
-    private List<Vector3> GetGridPoints(ARPlane plane, float spacing = 0.1f)
-    {
-        List<Vector3> result = new List<Vector3>();
-
-        Bounds bounds = plane.gameObject.GetComponent<Renderer>().bounds;
-        float y = plane.transform.position.y;
-
-        //get all pnts in bounding box in grid pattern with space "spacing" in between.
-        for (float x = bounds.min.x; x <= bounds.max.x; x += spacing)
-        {
-            for (float z = bounds.min.z; z <= bounds.max.z; z += spacing)
-            {
-                Vector3 gridPoint = new Vector3(x, y, z);
-
-                //The ray origin is the pnt, but moved slightely up.
-                Vector3 rayOrigin = gridPoint + Vector3.up;
-
-                //cast a ray to the plane. check if it hits.
-                Ray ray = new Ray(rayOrigin, -plane.normal);
-                RaycastHit hit;
-
-                //if it hits the plane, we know that the gridpoint is on top of the plane.
-                if (Physics.Raycast(ray, out hit, 5))
-                    if (hit.collider.gameObject == plane.gameObject)
-                        result.Add(gridPoint);
-            }
-        }
-
-        return result;
-    }
     private void RotateToUser(GameObject target)
     {
         Vector3 position = target.transform.position;
@@ -285,12 +235,13 @@ public class ObjectCreationManager : MonoBehaviour
     }
 
     //debug method for displaying spawnlocations in scene.
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        foreach (var p in validSpawnLocations)
-        {
-            Gizmos.DrawSphere(p, 0.05f);
-        }
-    }
+    //void OnDrawGizmos()
+    //{
+    //    ObjectSpawnPointHandler osph = new(0.1f, planeManager);
+    //    List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
+
+    //    Gizmos.color = Color.red;
+    //    foreach (var p in validSpawnPoints)
+    //        Gizmos.DrawSphere(p, 0.05f);
+    //}
 }
