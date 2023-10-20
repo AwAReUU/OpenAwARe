@@ -55,7 +55,6 @@ public class ObjectCreationManager : MonoBehaviour
         // Check if the box overlaps with any other colliders
         if (!TryPlaceObject(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], newPosition, halfExtents, 1))
         {
-            // Log a message if you want to know when an object can't be placed
             Debug.Log("Can't place object. It would overlap with another.");
 
             // Get all overlapping colliders + draw a fading cube around each overlapping collider for visualization
@@ -64,16 +63,14 @@ public class ObjectCreationManager : MonoBehaviour
             {
                 BoxCollider box = collider as BoxCollider;
                 if (box)
-                {
                     CreateVisualBox(box);
-                }
             }
         }
     }
 
     private bool TryPlaceObject(GameObject obj, Vector3 position, Vector3 halfExtents, float sizeMultiplier)
     {
-        // Check if the box overlaps with any other colliders
+        // Check if the box of the new object will overlap with any other colliders
         if (!Physics.CheckBox(
             position,
             halfExtents,
@@ -101,7 +98,6 @@ public class ObjectCreationManager : MonoBehaviour
     //* Spawns a hardcoded list.
     public void OnPlaceListButtonClick() 
     {
-        Debug.Log("onplace list click");
         //<prefabId, quantity>
         Dictionary<int, int> spawnDict = new Dictionary<int, int>() 
         { { 0, 2 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 1 } };
@@ -111,7 +107,6 @@ public class ObjectCreationManager : MonoBehaviour
     //* Spawns selected object from dropdown.
     public void OnPlaceButtonClick() 
     {
-        Debug.Log("onplace click");
         int objectAmount = int.Parse(inputAmount.text);
         float sizeMultiplier = float.Parse(inputSize.text);
         AutoGenerateObjects(objectAmount, sizeMultiplier, ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex]);
@@ -141,8 +136,7 @@ public class ObjectCreationManager : MonoBehaviour
                 }
             }
         }
-    }
-    
+    }   
 
     /// <summary>
     /// overload method: spawn from input by user.
