@@ -4,10 +4,14 @@ namespace AwARe.DigitalTwin.VoxelMap
 {
     public class ARInfo
     {
-        public Vector3 cameraPosition;
-        public Vector3[] pointCloudPositions;
-        public float[] pointCloudConfidenceValues;
+        public Vector3 cameraPosition = Vector3.zero;
+        public Vector3[] pointCloudPositions = new Vector3[0];
+        public float[] pointCloudConfidenceValues = new float[0];
 
+        public ARInfo()
+        { }
+
+        // Never alter, if other format/input is desired, implement new constructor or create factory methods.
         public ARInfo(Vector3 cameraPosition, Vector3[] pointCloudPositions, float[] pointCloudConfidenceValues)
         {
             this.cameraPosition = cameraPosition;
