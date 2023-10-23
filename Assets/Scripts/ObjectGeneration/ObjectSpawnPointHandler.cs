@@ -7,7 +7,7 @@ public class ObjectSpawnPointHandler
 {
     private readonly float gridSpacing_;
     private readonly ARPlaneManager planeManager_;
-    public ObjectSpawnPointHandler(float gridSpacing, ARPlaneManager planeManager) 
+    public ObjectSpawnPointHandler(ARPlaneManager planeManager, float gridSpacing = 0.1f) 
     {
         gridSpacing_ = gridSpacing;
         planeManager_ = planeManager;
@@ -35,7 +35,7 @@ public class ObjectSpawnPointHandler
     {
         List<Vector3> spawnPoints = new List<Vector3>();
         foreach (var plane in GetSpawnPlanes())
-            spawnPoints.AddRange(GetGridPoints(plane));
+            spawnPoints.AddRange(GetGridPoints(plane, gridSpacing_));
 
         return spawnPoints;
     }
@@ -46,7 +46,7 @@ public class ObjectSpawnPointHandler
     /// <param name="plane"></param>
     /// <param name="spacing"></param>
     /// <returns></returns>
-    private List<Vector3> GetGridPoints(ARPlane plane, float spacing = 0.1f)
+    private List<Vector3> GetGridPoints(ARPlane plane, float spacing)
     {
         List<Vector3> result = new List<Vector3>();
 

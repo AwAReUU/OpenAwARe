@@ -119,7 +119,7 @@ public class ObjectCreationManager : MonoBehaviour
     /// <param name="spawnDict"></param>
     public void AutoGenerateObjects(Dictionary<int,int> spawnDict)
     {
-        ObjectSpawnPointHandler osph = new(0.1f, planeManager);
+        ObjectSpawnPointHandler osph = new(planeManager);
         List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
 
         foreach(var obj in spawnDict) //prefab iterator
@@ -151,7 +151,7 @@ public class ObjectCreationManager : MonoBehaviour
         halfExtents *= sizeMultiplier;
         Debug.Log(halfExtents);
 
-        ObjectSpawnPointHandler osph = new(0.1f, planeManager);
+        ObjectSpawnPointHandler osph = new(planeManager);
         List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
 
         int materialsToPlace = objectAmount;
