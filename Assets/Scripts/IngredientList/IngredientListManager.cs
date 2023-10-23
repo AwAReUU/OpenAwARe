@@ -10,25 +10,29 @@ using UnityEngine.InputSystem;
 
 public class IngredientListManager : MonoBehaviour
 {
-    public List<IngredientList> ingredientLists { get; private set; }
+    public List<IngredientList> IngredientLists { get; private set; }
 
-    //public IngredientList currentIngredientList;
-    public int currentListIndex = -1;
-    //public int currentIngredientIndex = -1;
-    public Ingredient currentIngredient;
+    //public IngredientList { get; private set; } currentIngredientList;
+    public int CurrentListIndex { get; private set; } = -1;
+    public Ingredient CurrentIngredient { get; private set; }
 
     // objects assigned within unity
     [SerializeField] private GameObject listsOverviewScreen;
     [SerializeField] private GameObject ingredientListScreen;
     [SerializeField] private GameObject addIngredientScreen;
     [SerializeField] private GameObject ingredientScreen;
+    
+    IIngredientDatabase ingredientDatabase;
+    MaterialCalculator materialCalculator; // for now only used to check whether the conversion works; probably to be removed later
 
     string filePath;
 
     private void Awake()
     {
+        ingredientDatabase = new MockupIngredientDatabase();
+        materialCalculator = new MaterialCalculator();
         filePath = Application.persistentDataPath + "/ingredientLists";
-        ingredientLists = ReadFile();
+        IngredientLists = ReadFile();
         listsOverviewScreen.SetActive(true);
     }
 
@@ -43,7 +47,7 @@ public class IngredientListManager : MonoBehaviour
 
         JSONIngredientInfo info = JsonUtility.FromJson<JSONIngredientInfo>(json);
 
-        List<IngredientList> lists = new List<IngredientList>();
+        List<IngredientList> lists = new();
         
         // reconstruct all lists
         for (int i = 0; i < info.listNames.Length; i++)
@@ -51,30 +55,27 @@ public class IngredientListManager : MonoBehaviour
             Dictionary<Ingredient, float> ingredients = new();
 
             string[] ingredientIDs;
-            string[] ingredientNames;
-            string[] ingredientQuantityTypes;
             string[] ingredientQuantities;
 
             try
             {
                 ingredientIDs = info.ingredientIDs[i].Split(",");
-                ingredientNames = info.ingredientNames[i].Split(",");
-                ingredientQuantityTypes = info.ingredientQuantityTypes[i].Split(",");
                 ingredientQuantities = info.ingredientQuantities[i].Split(",");
             }
             catch (System.NullReferenceException)
             {
-                Console.WriteLine("IngredientLists file is not in correct format; lists will be deleted");
+                Debug.LogWarning("IngredientLists file is not in correct format. Lists will be deleted");
                 File.Delete(filePath); // use this for emptying the saved ingredientLists
                 return lists;
             }
-            
+
             // add the ingredients to the lists
             for (int j = 0; j < ingredientIDs.Length - 1; j++)
             {
                 int ingredientID = int.Parse(ingredientIDs[j]);
                 float ingredientQuantity = float.Parse(ingredientQuantities[j]);
-                ingredients.Add(new Ingredient(ingredientID, ingredientNames[j], (QuantityType) Enum.Parse(typeof(QuantityType), ingredientQuantityTypes[j])), ingredientQuantity);
+
+                ingredients.Add(ingredientDatabase.GetIngredient(ingredientID), ingredientQuantity);
             }
             lists.Add(new IngredientList(info.listNames[i], ingredients));
         }
@@ -86,29 +87,23 @@ public class IngredientListManager : MonoBehaviour
     {
         JSONIngredientInfo info = new JSONIngredientInfo();
         
-        info.listNames = new string[ingredientLists.Count];
-        info.ingredientIDs = new string[ingredientLists.Count];
-        info.ingredientNames = new string[ingredientLists.Count];
-        info.ingredientQuantityTypes = new string[ingredientLists.Count];
-        info.ingredientQuantities = new string[ingredientLists.Count];
+        info.listNames = new string[IngredientLists.Count];
+        info.ingredientIDs = new string[IngredientLists.Count];
+        info.ingredientQuantities = new string[IngredientLists.Count];
 
         // convert the lists to strings
-        for (int i = 0; i < ingredientLists.Count; i++)
+        for (int i = 0; i < IngredientLists.Count; i++)
         {
-            info.listNames[i] = ingredientLists[i].ListName;
+            info.listNames[i] = IngredientLists[i].ListName;
 
             info.ingredientIDs[i] = "";
-            info.ingredientNames[i] = "";
-            info.ingredientQuantityTypes[i] = "";
             info.ingredientQuantities[i] = "";
 
-            for (int j = 0; j < ingredientLists[i].NumberOfIngredients(); j++)
+            for (int j = 0; j < IngredientLists[i].NumberOfIngredients(); j++)
             {
-                Ingredient ingredient = ingredientLists[i].Ingredients.ElementAt(j).Key;
+                Ingredient ingredient = IngredientLists[i].Ingredients.ElementAt(j).Key;
                 info.ingredientIDs[i] += ingredient.ID + ",";
-                info.ingredientNames[i] += ingredient.Name + ",";
-                info.ingredientQuantityTypes[i] += ingredient.Type.ToString() + ",";
-                info.ingredientQuantities[i] += ingredientLists[i].Ingredients[ingredient] + ",";
+                info.ingredientQuantities[i] += IngredientLists[i].Ingredients[ingredient] + ",";
             }
         }
 
@@ -120,8 +115,13 @@ public class IngredientListManager : MonoBehaviour
     public void OpenList(int i)
     {
         listsOverviewScreen.SetActive(false);
-        currentListIndex = i;
+        CurrentListIndex = i;
         ingredientListScreen.SetActive(true);
+
+        /* // code for checking the ingredientList to materialList conversion 
+        foreach(KeyValuePair<ProductMaterial,float> k in materialCalculator.IngredientsToMaterials(ingredientLists[i]).Materials)
+            Debug.Log("Material: " + k.Key.ID.ToString() + "; Quantity: " + k.Value.ToString());
+        */
     }
 
     public void CloseList()
@@ -140,19 +140,19 @@ public class IngredientListManager : MonoBehaviour
     public void OpenIngredientScreen(int itemIndex) 
     {
         //Debug.Log(" setting current ingredient to " + itemIndex);
-        currentIngredient = ingredientLists[currentListIndex].Ingredients.ElementAt(itemIndex).Key;
+        CurrentIngredient = IngredientLists[CurrentListIndex].Ingredients.ElementAt(itemIndex).Key;
         ingredientScreen.SetActive(true);
     }
 
     public void AddIngredient(Ingredient ingredient, float quantity)
     {
-        ingredientLists[currentListIndex].AddIngredient(ingredient, quantity);
+        IngredientLists[CurrentListIndex].AddIngredient(ingredient, quantity);
         SaveFile();
     }
 
     public void DeleteIngredient(Ingredient ingredient)
     {
-        ingredientLists[currentListIndex].RemoveIngredient(ingredient);
+        IngredientLists[CurrentListIndex].RemoveIngredient(ingredient);
         SaveFile();
     }
 
@@ -163,19 +163,19 @@ public class IngredientListManager : MonoBehaviour
         // adds four ingredients to the list for testing (to be removed later!)
         Dictionary<Ingredient, float> testList = new()
         {
-            { new Ingredient(0, "banana", QuantityType.PCS), 2 },
-            { new Ingredient(1, "water", QuantityType.L), 0.5f },
-            { new Ingredient(2, "pork", QuantityType.G), 500 },
-            { new Ingredient(3, "strawberry", QuantityType.G), 300 }
+            { ingredientDatabase.GetIngredient(0), 2 },
+            { ingredientDatabase.GetIngredient(1), 200 },
+            { ingredientDatabase.GetIngredient(4), 500 },
+            { ingredientDatabase.GetIngredient(5), 300 }
         };
 
-        ingredientLists.Add(new IngredientList("MyList", testList));
+        IngredientLists.Add(new IngredientList("MyList", testList));
         SaveFile();
     }
 
     public void DeleteList(int i)
     {
-        ingredientLists.Remove(ingredientLists[i]);
+        IngredientLists.Remove(IngredientLists[i]);
         SaveFile();
     }
 }
@@ -185,7 +185,5 @@ public class JSONIngredientInfo
 {
     public string[] listNames;
     public string[] ingredientIDs;
-    public string[] ingredientNames;
-    public string[] ingredientQuantityTypes;
     public string[] ingredientQuantities;
 }

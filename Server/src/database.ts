@@ -34,7 +34,7 @@ export default class Database {
         });
 
         let sqlSetup = fs.readFileSync("./setup.sql").toString();
-        this.database.run(sqlSetup);
+        this.database.exec(sqlSetup);
     }
 
     public db(): sqlite3.Database {

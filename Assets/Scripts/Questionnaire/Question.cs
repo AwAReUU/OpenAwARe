@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Question : MonoBehaviour
 {
-    private ToggleGroup RadiobuttonGroup;
+    private ToggleGroup radiobuttonGroup;
 
     //'Template' objects are instantiated when a new answer option is created for the question
     //if more answer options are added in the future, they should have their own 'Template' object
@@ -38,8 +38,8 @@ public class Question : MonoBehaviour
         answerOptions = new List<GameObject>();
         answerOptionStates = new List<bool>();
         gameObject.AddComponent<ToggleGroup>();
-        RadiobuttonGroup = gameObject.GetComponent<ToggleGroup>();
-        RadiobuttonGroup.allowSwitchOff = true;
+        radiobuttonGroup = gameObject.GetComponent<ToggleGroup>();
+        radiobuttonGroup.allowSwitchOff = true;
     }
 
     //hide or reveal the 'ifyes' questions linked to this question depending
@@ -125,7 +125,7 @@ public class Question : MonoBehaviour
         button.GetComponent<ToggleHandler>().setNumber(ref answerOptionNumberCounter);
         answerOptionStates.Add(false);
 
-        button.GetComponent<Toggle>().group = RadiobuttonGroup;
+        button.GetComponent<Toggle>().group = radiobuttonGroup;
         button.transform.Find("Label").GetComponent<TextMeshProUGUI>().text = labeltext;
     }
 }
