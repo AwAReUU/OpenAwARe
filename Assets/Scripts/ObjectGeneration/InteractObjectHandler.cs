@@ -30,18 +30,4 @@ public class InteractObjectHandler : MonoBehaviour
         else
             dataWindow.SetActive(true);
     }
-
-    public void DestroyTarget(GameObject target)
-    {
-        Destroy(target);
-    }
-
-    public void DestroyAllObjects()
-    {
-        GameObject[] animals = GameObject.FindGameObjectsWithTag("Animal");
-        foreach (GameObject animal in animals)
-        {
-            Destroy(animal);
-        }
-    }
 }

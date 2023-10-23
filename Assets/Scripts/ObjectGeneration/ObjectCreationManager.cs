@@ -231,6 +231,15 @@ public class ObjectCreationManager : MonoBehaviour
 
         Destroy(target);
     }
+    
+    public void DestroyAllObjects()
+    {
+        GameObject[] animals = GameObject.FindGameObjectsWithTag("Animal");
+        foreach (GameObject animal in animals)
+        {
+            Destroy(animal);
+        }
+    }
 
     //debug method for displaying spawnlocations in scene.
     //void OnDrawGizmos()
