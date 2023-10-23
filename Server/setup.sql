@@ -111,6 +111,32 @@ INSERT OR IGNORE INTO Search VALUES (14,           'Ham');
 INSERT OR IGNORE INTO Search VALUES (15,          'Duck');
 INSERT OR IGNORE INTO Search VALUES (16,          'Milk');
 
+INSERT OR IGNORE INTO Model VALUES (1,  'Shapes',         'Cube.prefab', NULL, NULL, NULL, NULL, NULL);
+INSERT OR IGNORE INTO Model VALUES (2, 'Animals',       'CowBIW.prefab', NULL, NULL, NULL, NULL, NULL);
+INSERT OR IGNORE INTO Model VALUES (3, 'Animals', 'ChickenBrown.prefab', NULL, NULL, NULL, NULL, NULL);
+INSERT OR IGNORE INTO Model VALUES (4, 'Animals',          'Pig.prefab', NULL, NULL, NULL, NULL, NULL);
+INSERT OR IGNORE INTO Model VALUES (5, 'Animals',    'DuckWhite.prefab', NULL, NULL, NULL, NULL, NULL);
+INSERT OR IGNORE INTO Model VALUES (6,   'Crops',         'grap.prefab', NULL, NULL, NULL, NULL, NULL);
+INSERT OR IGNORE INTO Model VALUES (7,   'Crops',       'Wheat1.prefab', NULL, NULL, NULL, NULL, NULL);
+
+INSERT OR IGNORE INTO Resource VALUES ( 1,      'Water',  'Water',   NULL, 1); -- model set to cube
+INSERT OR IGNORE INTO Resource VALUES ( 2,      'Apple',  'Plant',  10000, 7); -- all fruits set to grape
+INSERT OR IGNORE INTO Resource VALUES ( 3,     'Banana',  'Plant',  10000, 7);
+INSERT OR IGNORE INTO Resource VALUES ( 4,       'Pear',  'Plant',  10000, 7);
+INSERT OR IGNORE INTO Resource VALUES ( 5,   'Mandarin',  'Plant',   8000, 7);
+INSERT OR IGNORE INTO Resource VALUES ( 6,     'Orange',  'Plant',  10000, 7);
+INSERT OR IGNORE INTO Resource VALUES ( 7,      'Grape',  'Plant',   5000, 7);
+INSERT OR IGNORE INTO Resource VALUES ( 8, 'Strawberry',  'Plant',    100, 7);
+INSERT OR IGNORE INTO Resource VALUES ( 9, 'Kiwi Fruit',  'Plant',   1000, 7);
+INSERT OR IGNORE INTO Resource VALUES (10,  'Pineapple',  'Plant',   1000, 7);
+INSERT OR IGNORE INTO Resource VALUES (11,      'Melon',  'Plant',   5000, 7);
+INSERT OR IGNORE INTO Resource VALUES (12,       'Beef', 'Animal', 200000, 2);
+INSERT OR IGNORE INTO Resource VALUES (13,    'Chicken', 'Animal',   2500, 3);
+INSERT OR IGNORE INTO Resource VALUES (14,       'Pork', 'Animal',  50000, 4);
+INSERT OR IGNORE INTO Resource VALUES (15,       'Duck', 'Animal',   2500, 5);
+INSERT OR IGNORE INTO Resource VALUES (16,       'Milk', 'Animal',   NULL, 2);
+INSERT OR IGNORE INTO Resource VALUES (17,      'Wheat',  'Plant',     80, 6); -- wheat
+
 -- water requirements
 INSERT OR IGNORE INTO Requires VALUES ( 1,  1,    1);
 INSERT OR IGNORE INTO Requires VALUES ( 2,  1,  495);
@@ -153,32 +179,6 @@ INSERT OR IGNORE INTO Requires VALUES (13, 17,   10);
 INSERT OR IGNORE INTO Requires VALUES (14, 17,   10);
 INSERT OR IGNORE INTO Requires VALUES (15, 17,   10);
 INSERT OR IGNORE INTO Requires VALUES (16, 17,   10);
-
-INSERT OR IGNORE INTO Resource VALUES ( 1,      'Water',  'Water',   NULL, 1); -- model set to cube
-INSERT OR IGNORE INTO Resource VALUES ( 2,      'Apple',  'Plant',  10000, 7); -- all fruits set to grape
-INSERT OR IGNORE INTO Resource VALUES ( 3,     'Banana',  'Plant',  10000, 7);
-INSERT OR IGNORE INTO Resource VALUES ( 4,       'Pear',  'Plant',  10000, 7);
-INSERT OR IGNORE INTO Resource VALUES ( 5,   'Mandarin',  'Plant',   8000, 7);
-INSERT OR IGNORE INTO Resource VALUES ( 6,     'Orange',  'Plant',  10000, 7);
-INSERT OR IGNORE INTO Resource VALUES ( 7,      'Grape',  'Plant',   5000, 7);
-INSERT OR IGNORE INTO Resource VALUES ( 8, 'Strawberry',  'Plant',    100, 7);
-INSERT OR IGNORE INTO Resource VALUES ( 9, 'Kiwi Fruit',  'Plant',   1000, 7);
-INSERT OR IGNORE INTO Resource VALUES (10,  'Pineapple',  'Plant',   1000, 7);
-INSERT OR IGNORE INTO Resource VALUES (11,      'Melon',  'Plant',   5000, 7);
-INSERT OR IGNORE INTO Resource VALUES (12,       'Beef', 'Animal', 200000, 2);
-INSERT OR IGNORE INTO Resource VALUES (13,    'Chicken', 'Animal',   2500, 3);
-INSERT OR IGNORE INTO Resource VALUES (14,       'Pork', 'Animal',  50000, 4);
-INSERT OR IGNORE INTO Resource VALUES (15,       'Duck', 'Animal',   2500, 5);
-INSERT OR IGNORE INTO Resource VALUES (16,       'Milk', 'Animal',   NULL, 2);
-INSERT OR IGNORE INTO Resource VALUES (17,      'Wheat',  'Plant',     80, 6); -- wheat
-
-INSERT OR IGNORE INTO Model VALUES (1,  'Shapes',         'Cube.prefab', NULL, NULL, NULL, NULL, NULL);
-INSERT OR IGNORE INTO Model VALUES (2, 'Animals',       'CowBIW.prefab', NULL, NULL, NULL, NULL, NULL);
-INSERT OR IGNORE INTO Model VALUES (3, 'Animals', 'ChickenBrown.prefab', NULL, NULL, NULL, NULL, NULL)
-INSERT OR IGNORE INTO Model VALUES (4, 'Animals',          'Pig.prefab', NULL, NULL, NULL, NULL, NULL)
-INSERT OR IGNORE INTO Model VALUES (5, 'Animals',    'DuckWhite.prefab', NULL, NULL, NULL, NULL, NULL)
-INSERT OR IGNORE INTO Model VALUES (6,   'Crops',         'grap.prefab', NULL, NULL, NULL, NULL, NULL)
-INSERT OR IGNORE INTO Model VALUES (7,   'Crops',       'Wheat1.prefab', NULL, NULL, NULL, NULL, NULL)
 
 
 -- leaving these old commands here for the distance fields etc.
