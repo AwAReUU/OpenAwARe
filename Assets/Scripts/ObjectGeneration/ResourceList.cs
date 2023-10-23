@@ -5,6 +5,7 @@ namespace ResourceLists
 {
     public class ResourceList
     {
+        // dictionary with resources and their respective quantities
         public Dictionary<Resource, float> Resources { get; private set; }
 
         public ResourceList(Dictionary<Resource, float> resources = null)
@@ -31,7 +32,7 @@ namespace ResourceLists
         public int ID { get; }
         public string Name { get; }
         public ResourceType Type { get; }
-        public int? GramsPerModel { get; }
+        public int? GramsPerModel { get; } // amount of grams of this resource that can be represented in one model
         public int ModelID { get; }
 
         public Resource(int id, string name, ResourceType type, int? gramsPerModel, int modelID)

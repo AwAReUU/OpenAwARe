@@ -11,11 +11,12 @@ namespace Databases
         public Ingredient GetIngredient(int id);
         public List<Ingredient> GetIngredients(List<int> ids);
 
-        // returns a List of Ingredients with a (possible) name containing the search term
+        // returns a List of Ingredients with a (possible) name containing the search term,
+        // without any duplicates
         public List<Ingredient> Search(string term);
     }
 
-    public interface IIngredientToResourceDatabase
+    public interface IIngrToResDatabase
     {
         // returns a dictionary of the resource IDs for this ingredient,
         // together with the amount of grams of the resource per instance of the ingredient

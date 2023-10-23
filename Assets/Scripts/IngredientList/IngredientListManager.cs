@@ -87,8 +87,8 @@ namespace IngredientLists
             // adds four ingredients to the list for testing (to be removed later!)
             Dictionary<Ingredient, (float, QuantityType)> testList = new()
         {
-            { ingredientDatabase.GetIngredient(0), (2, QuantityType.PCS) },
-            { ingredientDatabase.GetIngredient(1), (200, QuantityType.G) },
+            { ingredientDatabase.GetIngredient(1), (2, QuantityType.PCS) },
+            { ingredientDatabase.GetIngredient(2), (200, QuantityType.G) },
             { ingredientDatabase.GetIngredient(4), (500, QuantityType.G) },
             { ingredientDatabase.GetIngredient(5), (300, QuantityType.G) }
         };

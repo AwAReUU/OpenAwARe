@@ -78,13 +78,14 @@ namespace IngredientLists
                 ingredientButton.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = quantityType.ToString();
                 ingredientObjects.Add(listItem);
 
+                // store i in an int for pass-by value to the lambda expression
                 int itemIndex = i;
                 ingredientButton.onClick.AddListener(() => { OnIngredientButtonClick(itemIndex); });
 
                 // create a deleteButton for this ingredient
                 delButton.onClick.AddListener(() => { OnDeleteButtonClick(ingredient); });
             }
-            //Add the "Add ingredient" button to the bottom of the list.
+            // add the "Add ingredient" button to the bottom of the list.
             addIngredientObj = Instantiate(addIngredientButton, scrollViewContent);
             addIngredientObj.SetActive(true);
             Button addIngredientBtn = addIngredientObj.GetComponent<Button>();
@@ -92,7 +93,7 @@ namespace IngredientLists
         }
 
         /// <summary>
-        /// removes all objects from the scrollview
+        /// Destroys all objects in the scrollview
         /// </summary>
         private void RemoveIngredientObjects()
         {

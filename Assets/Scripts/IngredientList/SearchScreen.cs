@@ -17,7 +17,7 @@ namespace IngredientLists
         [SerializeField] private List<GameObject> items = new();
         [SerializeField] private GameObject SearchBar;
 
-        private List<Ingredient> searchResults = new List<Ingredient>();
+        private List<Ingredient> searchResults = new();
         readonly private IIngredientDatabase database = new MockupIngredientDatabase();
 
         private void OnEnable()
@@ -33,24 +33,28 @@ namespace IngredientLists
 
         private void DisplayResults()
         {
-            // destroy old item objects
             RemoveItemObjects();
+
             // create a new object for every search result
             searchResults.Each(result => AddContentItem(result));
         }
 
+        /// <summary>
+        /// Destroys all displayed ingredient objects
+        /// </summary>
         private void RemoveItemObjects()
         {
             foreach (GameObject item in items)
             {
                 Destroy(item);
             }
+
             // make list empty
             items = new List<GameObject>();
         }
 
         /// <summary>
-        /// Add an item to the searchbar's scrollview. 
+        /// Adds an item to the searchbar's scrollview. 
         /// </summary>
         /// <param name="itemName"></param>
         /// <param name="qtyType"></param>
@@ -73,7 +77,6 @@ namespace IngredientLists
 
         /// <summary>
         /// Find all the items that match the current text in the search bar.
-        /// TODO: replace with sql query search
         /// </summary>
         public void OnSearchClick()
         {

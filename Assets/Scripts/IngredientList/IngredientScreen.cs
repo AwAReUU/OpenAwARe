@@ -30,7 +30,6 @@ namespace IngredientLists
             selectedIngredientQuantity = ingredientListManager.SelectedList.GetQuantity(selectedIngredient);
             selectedIngredientQType = ingredientListManager.SelectedList.GetQuantityType(selectedIngredient);
 
-
             ingredientNameField.GetComponent<TMP_Text>().text = selectedIngredient.Name;
             qtyInput.GetComponent<TMP_InputField>().text = selectedIngredientQuantity.ToString();
 
@@ -43,7 +42,7 @@ namespace IngredientLists
         }
 
         /// <summary>
-        /// Initialize the quantityTypeDropdown
+        /// Initializes the quantityTypeDropdown
         /// </summary>
         private void SetDropDownItems()
         {
@@ -54,7 +53,8 @@ namespace IngredientLists
             dropdown.AddOptions(dropOptions);
 
             //set selected value to current
-            dropdown.value = (int)ingredientListManager.SelectedList.GetQuantityType(selectedIngredient);
+            dropdown.value = (int)selectedIngredientQType;
+;
         }
 
         /// <summary>
@@ -65,27 +65,27 @@ namespace IngredientLists
             string qInput = qtyInput.GetComponent<TMP_InputField>().text;
             string qTypeInput = qtyTypeDropdown.GetComponent<TMP_Dropdown>().value.ToString();
 
+            // try converting the quantity type string to a QuantityType
             if (!Enum.TryParse(qTypeInput, out QuantityType parsedQType))
             {
                 throw new Exception("Cannot convert string to QuantityType.");
             }
 
+            // check whether the quantity type is valid for this ingredient
             if ((parsedQType == QuantityType.ML && !ingredientListManager.SelectedIngredient.MLQuantityPossible())
                 || parsedQType == QuantityType.PCS && !ingredientListManager.SelectedIngredient.PieceQuantityPossible())
             {
                 throw new Exception("Chosen QuantityType not available for this ingredient.");
             }
 
-            float parsedQty;
-            if (float.TryParse(qInput, out parsedQty))
+            // try converting the quantity string to a Quantity
+            if (!float.TryParse(qInput, out float parsedQty))
             {
-                UpdateIngredient(parsedQType, parsedQty);
-                ingredientListManager.OpenList(ingredientListManager.SelectedList, this.gameObject);
+                throw new Exception("Cannot convert string to Quantity.");
             }
-            else
-            {
-                //show some error to user
-            }
+
+            UpdateIngredient(parsedQType, parsedQty);
+            ingredientListManager.OpenList(ingredientListManager.SelectedList, this.gameObject);
         }
 
         private void UpdateIngredient(QuantityType type, float newQuantity)

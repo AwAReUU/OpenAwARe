@@ -6,9 +6,9 @@ using ResourceLists;
 
 namespace Databases
 {
-    public class MockupIngrToResDatabase : IIngredientToResourceDatabase
+    public class MockupIngrToResDatabase : IIngrToResDatabase
     {
-        private List<(int, int, float)> requiresTable;
+        private readonly List<(int, int, float)> requiresTable; // (IngrID, ResID, ResGrams per IngrGram)
         
         public MockupIngrToResDatabase()
         {

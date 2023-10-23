@@ -5,6 +5,7 @@ namespace IngredientLists
 {
     public class IngredientList
     {
+        // dictionary with ingredients and their respective quantities and chosen quantity types
         public Dictionary<Ingredient, (float, QuantityType)> Ingredients { get; private set; }
 
         public string ListName { get; private set; }
@@ -18,17 +19,18 @@ namespace IngredientLists
             else
                 this.Ingredients = new();
         }
+
         public float GetQuantity(Ingredient ingredient)
         {
             (float quantity, _) = Ingredients[ingredient];
             return quantity;
         }
+
         public QuantityType GetQuantityType(Ingredient ingredient)
         {
             (_, QuantityType type) = Ingredients[ingredient];
             return type;
         }
-
 
         public int NumberOfIngredients()
         {
@@ -44,14 +46,15 @@ namespace IngredientLists
         {
             Ingredients.Remove(ingredient);
         }
-
-
     }
 
     public class Ingredient : IEquatable<Ingredient>
     {
         public int ID { get; }
         public string Name { get; }
+
+        // the amount of grams that go into one ML/piece of this ingredient;
+        // is zero if the conversion is not possible
         public float? GramsPerML { get; }
         public float? GramsPerPiece { get; }
 
@@ -63,16 +66,19 @@ namespace IngredientLists
             this.GramsPerPiece = gramsPerPiece;
         }
 
+        // whether ML is a valid quantity type for this ingredient
         public bool MLQuantityPossible()
         {
             return !(GramsPerML == null);
         }
 
+        // whether pieces is a valid quantity type for this ingredient
         public bool PieceQuantityPossible()
         {
             return !(GramsPerPiece == null);
         }
 
+        // Converts the given quantity to the number of grams of this ingredient, given the quantity type
         public float GetNumberOfGrams(float quantity, QuantityType fromType)
         {
             switch (fromType)

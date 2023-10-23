@@ -9,31 +9,32 @@ namespace ResourceLists
 {
     public class ResourceCalculator
     {
-        [SerializeField] private IIngredientDatabase ingredientDatabase;
-        [SerializeField] private IIngredientToResourceDatabase toResourceDatabase;
+        [SerializeField] private IIngrToResDatabase toResourceDatabase;
         [SerializeField] private IResourceDatabase resourceDatabase;
 
         public ResourceCalculator()
         {
-            ingredientDatabase = new MockupIngredientDatabase();
+            toResourceDatabase = new MockupIngrToResDatabase();
             resourceDatabase = new MockupResourceDatabase();
         }
 
+        // Converts a full list of ingredients to a list of the total resource cost
         public ResourceList IngredientsToResources(IngredientList ingredientList)
         {
             Dictionary<Resource, float> combinedResourceCosts = new();
 
+            // loop over all ingredients
             foreach (var pair in ingredientList.Ingredients)
             {
-
                 ResourceList resourceCosts = GetIngredientResources(pair.Key, pair.Value.Item1, pair.Value.Item2);
 
+                // loop over this ingredient's resources
                 foreach (var keyValuePair in resourceCosts.Resources)
                 {
                     Resource resource = keyValuePair.Key;
                     float quantity = keyValuePair.Value;
 
-                    // check whether the resource already exists in the dictionary
+                    // check whether the resource already exists in the combined dictionary
                     if (!combinedResourceCosts.ContainsKey(resource))
                     {
                         combinedResourceCosts[resource] = quantity;
@@ -48,12 +49,12 @@ namespace ResourceLists
             return new ResourceList(combinedResourceCosts);
         }
 
-
-        // gets the list of resources of a single ingredient
+        // Converts a single ingredient to a list of its resource cost.
         ResourceList GetIngredientResources(Ingredient ingredient, float qt, QuantityType type)
         {
             Dictionary<int, float> resourceIDs = toResourceDatabase.GetResourceIDs(ingredient);
 
+            // convert the saved quantity to its equivalent in grams
             float quantity = ingredient.GetNumberOfGrams(qt, type);
 
             ResourceList resourceCosts = new();
@@ -63,7 +64,7 @@ namespace ResourceLists
                 // convert resourceID to resource
                 Resource resource = resourceDatabase.GetResource(keyValuePair.Key);
 
-                // calculate total resource cost for the quantity (qt) of this ingredient
+                // calculate total resource cost for the quantity of this ingredient
                 float resourceQuantity = keyValuePair.Value * quantity;
 
                 resourceCosts.AddResource(resource, resourceQuantity);

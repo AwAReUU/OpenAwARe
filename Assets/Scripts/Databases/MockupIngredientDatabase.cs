@@ -6,7 +6,7 @@ namespace Databases
 {
     public class MockupIngredientDatabase : IIngredientDatabase
     {
-        readonly List<Ingredient> ingredientTable; // (ID , Ingredient)
+        readonly List<Ingredient> ingredientTable;
 
         public MockupIngredientDatabase()
         {
@@ -55,7 +55,6 @@ namespace Databases
         {
             List<int> ids = SearchTable.Where(x => x.Item2.Contains(term, System.StringComparison.OrdinalIgnoreCase)).Select(x => x.Item1).ToList();
             List<Ingredient> result = ingredientTable.Where(x => ids.Contains(x.ID)).ToList();
-            //List<Ingredient> result = GetIngredients(ids);
             return result;
         }
 

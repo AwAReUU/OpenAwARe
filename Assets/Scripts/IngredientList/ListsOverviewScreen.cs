@@ -9,15 +9,14 @@ namespace IngredientLists
 {
     public class ListsOverviewScreen : MonoBehaviour
     {
+        // (assigned within unity)
         [SerializeField] private GameObject backButton;
         [SerializeField] private IngredientListManager ingredientListManager;
+        [SerializeField] private Transform scrollViewContent;
+        [SerializeField] private GameObject listItemObject; //list item 'prefab'
 
         // the objects drawn on screen to display the Lists
         List<GameObject> listObjects = new();
-
-        // (assigned within unity)
-        [SerializeField] private Transform scrollViewContent;
-        [SerializeField] private GameObject listItemObject; //list item 'prefab'
 
         private void OnEnable()
         {
@@ -55,8 +54,7 @@ namespace IngredientLists
 
                 listObjects.Add(listItem);
 
-                //store i in an int for pass-by value to the lambda expression.
-                //else it will not work
+                // store i in an int for pass-by value to the lambda expression
                 int itemIndex = i;
                 listButton.onClick.AddListener(() => { OnListButtonClick(itemIndex); });
                 delButton.onClick.AddListener(() => { OnDeleteButtonClick(itemIndex); });
@@ -93,9 +91,6 @@ namespace IngredientLists
             ingredientListManager.OpenList(selectedList, this.gameObject);
         }
 
-        /// <summary>
-        /// Go back to previous screen
-        /// </summary>
         private void OnBackButtonClick()
         {
             //TODO: Open main menu

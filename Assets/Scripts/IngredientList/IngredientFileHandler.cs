@@ -18,6 +18,7 @@ namespace IngredientLists
             this.ingredientDatabase = database;
         }
 
+        // Converts the file contents to an IngredientList
         public List<IngredientList> ReadFile()
         {
             if (!File.Exists(filePath))
@@ -64,8 +65,14 @@ namespace IngredientLists
                     {
                         throw new Exception("Cannot convert string to QuantityType.");
                     }
-
-                    ingredients.Add(ingredientDatabase.GetIngredient(ingredientID), (ingredientQuantity, ingredientQuantityType));
+                    try
+                    {
+                        ingredients.Add(ingredientDatabase.GetIngredient(ingredientID), (ingredientQuantity, ingredientQuantityType));
+                    }
+                    catch(System.InvalidOperationException)
+                    {
+                        Debug.LogWarning("Could not find ingredient. Ingredient will be removed");
+                    }
                 }
                 lists.Add(new IngredientList(info.listNames[i], ingredients));
             }
@@ -73,6 +80,7 @@ namespace IngredientLists
             return lists;
         }
 
+        // Convert the lists to JSON and write this to the file
         public void SaveLists(List<IngredientList> ingredientLists)
         {
             int numberOfLists = ingredientLists.Count;
@@ -108,7 +116,6 @@ namespace IngredientLists
             File.WriteAllText(filePath, json);
         }
     }
-
 
     [Serializable]
     public class JSONIngredientInfo
