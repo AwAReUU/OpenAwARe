@@ -10,8 +10,8 @@ public class ObjectCreationManager : MonoBehaviour
     [SerializeField] private GameObject placeListButton;
     [SerializeField] private GameObject placeButton;
 
-    public InputField inputAmount;
-    public InputField inputSize;
+    [SerializeField] private InputField inputAmount;
+    [SerializeField] private InputField inputSize;
 
     /// <summary>
     /// HalfExtents are distances from center to bounding box walls.
