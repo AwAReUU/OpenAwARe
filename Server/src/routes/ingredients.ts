@@ -22,8 +22,8 @@ router.get("/search", async (req: any, res: any) => {
             JOIN
             (SELECT DISTINCT IngredientID
                 FROM Search s
-                WHERE instr(lower(PosName), lower(?)) > 0
-                ORDER BY instr(lower(s.PosName), lower(?))  
+                WHERE instr(lower(AltName), lower(?)) > 0
+                ORDER BY instr(lower(s.AltName), lower(?))  
                 LIMIT 10) y
             ON x.IngredientID = y.IngredientID;
         `,
