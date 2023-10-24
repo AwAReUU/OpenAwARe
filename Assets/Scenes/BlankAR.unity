@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3424,16 +3424,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5dd8c7041810d643ba7ce549133f137, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  devScreens:
-  - {fileID: 119787752}
-  - {fileID: 982965670}
-  - {fileID: 1872479487}
-  - {fileID: 850888910}
-  - {fileID: 2115527182}
-  - {fileID: 1222528973}
-  - {fileID: 1193048116}
-  - {fileID: 1443600346}
-  - {fileID: 1994344843}
 --- !u!114 &953029201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5593,7 +5583,7 @@ GameObject:
   - component: {fileID: 1329966927}
   - component: {fileID: 1329966926}
   - component: {fileID: 1329966925}
-  - component: {fileID: 1329966924}
+  - component: {fileID: 1329966928}
   m_Layer: 5
   m_Name: Navigator
   m_TagString: Untagged
@@ -5623,18 +5613,6 @@ RectTransform:
   m_AnchoredPosition: {x: -200, y: -200}
   m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1329966924
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1329966922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eff01eb04ef0fe943a2f9904b2994c3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1329966925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5741,6 +5719,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1329966922}
   m_CullTransparentMesh: 1
+--- !u!114 &1329966928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329966922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ecb164a1b9334740b311ecfaa1e8e71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1338236711
 GameObject:
   m_ObjectHideFlags: 0
@@ -6907,6 +6897,7 @@ GameObject:
   - component: {fileID: 1840096320}
   - component: {fileID: 1840096319}
   - component: {fileID: 1840096318}
+  - component: {fileID: 1840096325}
   m_Layer: 0
   m_Name: AR Session Origin
   m_TagString: Untagged
@@ -6956,6 +6947,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51de02e0eb10a3a4ebf6c0b54aac3302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  planeManager: {fileID: 0}
+  placeListButton: {fileID: 0}
+  placeButton: {fileID: 0}
+  inputAmount: {fileID: 0}
+  inputSize: {fileID: 0}
 --- !u!114 &1840096320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6980,13 +6976,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 462db1251458f0745a061ee327e65cbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 1206511787925574, guid: 3b1e3e9155d404942bc65d9aa80120ba, type: 3}
-  - {fileID: 1287295899898638, guid: 9ec060093457ad84ca2733cb15c2c41e, type: 3}
-  - {fileID: 1522729216997060, guid: 32026357c04e0e944835774b42e3c1b7, type: 3}
-  - {fileID: 1055064919166404, guid: de6abd774f85e18408346a3233418242, type: 3}
-  - {fileID: 1965851562501010, guid: e82139b3bae6212439ea1e85ad29678b, type: 3}
-  prefabIndex: 0
 --- !u!114 &1840096322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7032,6 +7021,19 @@ MonoBehaviour:
   m_CameraFloorOffsetObject: {fileID: 0}
   m_RequestedTrackingOriginMode: 0
   m_CameraYOffset: 1.1176
+--- !u!114 &1840096325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840096316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab0e80cee9cc1d44928bfe488dd1e2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PointCloudPrefab: {fileID: 0}
 --- !u!1 &1857883143
 GameObject:
   m_ObjectHideFlags: 0
