@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class Polygon : MonoBehaviour
 {
-    [SerializeField] private GameObject pointerObj;
-    [SerializeField] private GameObject scannerObj;
+    [SerializeField] private readonly GameObject pointerObj;
+    [SerializeField] private readonly GameObject scannerObj;
 
     private Vector3 pointer = Vector3.zero;
     private List<Vector3> points = new List<Vector3>();
@@ -44,7 +44,6 @@ public class Polygon : MonoBehaviour
 
     public void Apply()
     {
-        this.points.Add(this.pointer);
         this.line.loop = true;
         this.UpdateLine();
         this.UpdateTempLine();
