@@ -1,8 +1,6 @@
 using Databases;
 using System.Collections.Generic;
 using UnityEngine;
-//using System.Text.Json;
-//using System.Text.Json.Serialization;
 
 namespace IngredientLists
 {
