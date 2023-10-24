@@ -41,7 +41,9 @@ public class Navigator : MonoBehaviour
                 sceneSwitcher.ChangeScene("IngredientListUI");
                 break;
             case 1:     // Auto-generate objects
-                FindObjectOfType<ObjectCreationManager>().AutoGenerateObjects();
+                Dictionary<int, int> spawnDict = new Dictionary<int, int>()
+                { { 0, 2 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 1 } };
+                FindObjectOfType<ObjectCreationManager>().AutoGenerateObjects(spawnDict);
                 break;
             case 2:     // Clear world of generated objects
                 FindObjectOfType<ObjectCreationManager>().DestroyAllObjects();
