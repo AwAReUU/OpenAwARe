@@ -8,42 +8,47 @@ using UnityEngine;
 using AwARe.DataTypes;
 using Unity.VisualScripting;
 using System.Collections;
+using Newtonsoft.Json.Linq;
+using UnityEngine.Video;
+using System.Threading;
 
 namespace AwARe.DataStructures
 {
     public static class GridMath
     {
-
-
-
+        private static DiscreteRay CreateRay(Vector3 start, Vector3 end, IGridSize gridSize) =>
+            CreateRay(start, end, gridSize.GridSize);
+        private static DiscreteRay CreateRay(Vector3 start, Vector3 end, Point3 gridSize) =>
+            new DiscreteRay(start, end, gridSize);
     }
 
-    public class GridRay : IEnumerable<Point3>
+    public class DiscreteRay : IEnumerable<(float, Point3)>
     {
         private const float eps = 0.00001f;
 
-        readonly Vector3 start;
-        readonly Vector3 end;
+        public readonly Vector3 start;
+        public readonly Vector3 end;
 
-        readonly Vector3 v;
-        readonly Vector3 d;
+        public readonly float l_start;
+        public readonly float l_end;
 
-        readonly Point3 incr;
+        public readonly Vector3 v;
+        public readonly Vector3 d;
 
-        public GridRay(Vector3 start, Vector3 end, Point3 gridSize)
+        public DiscreteRay(Vector3 start, Vector3 end, Point3 gridSize)
         {
-            (this.start, this.end) = FitRayInGrid(start, end, gridSize);
+            this.start = start; this.end = end;
+            (l_start, l_end) = GetSection(start, end, gridSize);
             (v, d) = Parametrize(start, end);
-            incr = GetIdxIncrement(v);
         }
 
         public static (Vector3, Vector3) Parametrize(Vector3 start, Vector3 end) =>
             (end - start, start);
 
-        public static (Vector3, Vector3) FitRayInGrid(Vector3 start, Vector3 end, Point3 gridSize) =>
-            FitRayInBox(start, end, Point3.zero, gridSize);
+        public static (float, float) GetSection(Vector3 start, Vector3 end, Point3 gridSize) =>
+            GetSection(start, end, Point3.zero, gridSize);
 
-        public static (Vector3, Vector3) FitRayInBox(Vector3 start, Vector3 end, Vector3 min, Vector3 max)
+        public static (float, float) GetSection(Vector3 start, Vector3 end, Vector3 min, Vector3 max)
         {
             // Parametrize the (finite) ray for computation
             (Vector3 v, Vector3 d) = Parametrize(start, end);
@@ -60,10 +65,7 @@ namespace AwARe.DataStructures
             start_l = Mathf.Max(start_l, NullableVector3.MaxEl(ls_min));
             end_l = Mathf.Min(end_l, NullableVector3.MinEl(ls_max));
 
-            // Get the new start and end coordinates of the ray, which lay in bounds.
-            var g = GetParametrization(v, d);
-            start = g(start_l); end = g(end_l);
-            return (start, end);
+            return (start_l, end_l);
         }
 
         public static Func<NullableVector3, NullableVector3> GetParametersFunction(Vector3 v, Vector3 d) =>
@@ -78,66 +80,121 @@ namespace AwARe.DataStructures
         public Vector3 GetCoordinates(float l) =>
             GetParametrization(v, d)(l);
 
-        public Point3 GetIdxIncrement(Vector3 v) =>
-            (Point3)(new Vector3(Mathf.Sign(v.x), Mathf.Sign(v.y), Mathf.Sign(v.z)));
 
-        public (float, Point3) NextCellAndParameter((float, Point3) current)
+        // Enumerator helpers
+        public float GetNext(float current)
         {
-            (float current_l, Point3 current_idx) = current;
-
             // Get next parameter
-            var ls = GetPossibleParameters(current_idx + incr);
-            var next_l = NullableVector3.MinEl(ls, out int arg);
+            var next_l = SmallIncr(current);
+            var point = GetCoordinates(next_l);
+            var extremes = NullableVector3.elementWiseOp(NullableVector3.safeOp(GetBounds1D), v, point);
 
-            // Get next index
-            var next_idx = current_idx;
-            next_idx[arg] += incr[arg];
+            var ls = GetPossibleParameters(extremes);
+            next_l = NullableVector3.MinEl(ls, out int arg);
 
-            return(next_l, next_idx);
+            return next_l;
         }
 
-        public bool IsPastEnd(float current_l) =>
-            current_l > 0;
+        public static float SmallIncr(float v)
+        {
+            var e = eps;
+            var w = v + e;
+            while (w == v)
+            { e *= 2; w = v + e; }
+            return w;
+        }
 
-        public IEnumerator<Point3> GetEnumerator() =>
-            new RayEnumarator(this);
+        public static NullableVector3 GetBounds(Vector3 v, Vector3 xyz) =>
+            NullableVector3.elementWiseOp(NullableVector3.safeOp(GetBounds1D), v, xyz);
+
+        public static float? GetBounds1D(float v, float x) =>
+            (v<0) ? Mathf.Floor(x) : (v>0) ? Mathf.Ceil(x) : null;
+
+        public float GetStart() =>
+            l_start;
+
+        public bool IsPastEnd(float current_l) =>
+            current_l > l_end;
+
+        public IEnumerator<(float, Point3)> GetEnumerator() =>
+            new DiscreteRayEnumerator(this);
 
         IEnumerator IEnumerable.GetEnumerator() =>
             GetEnumerator();
+    }
 
-        private class RayEnumarator : IEnumerator<Point3>
+    public class DiscreteRayParameterEnumerator : IEnumerator<float>
+    {
+        private float? current;
+        private DiscreteRay ray;
+
+        public DiscreteRayParameterEnumerator(DiscreteRay ray)
         {
-            private Point3 current_idx = Point3.zero;
-            private float current_l = -1;
-            private GridRay ray;
+            this.ray = ray;
+        }
 
-            public RayEnumarator(GridRay ray)
-            {
-                this.ray = ray;
-            }
+        public float Current => current.Value;
 
-            public Point3 Current => current_idx;
+        object IEnumerator.Current => Current;
 
-            object IEnumerator.Current => Current;
+        public void Dispose() { }
 
-            public void Dispose() { }
+        public bool MoveNext()
+        {
+            current = current.HasValue ? ray.GetNext(current.Value) : current = ray.GetStart();
 
-            public bool MoveNext()
-            {
-                throw new NotImplementedException();
+            return ray.IsPastEnd(current.Value);
+        }
 
-                /* 
-                if (current_l == -1)
-                { current_l = 0; current_idx = ray.GetCoordinates(current_l); return true; }
+        public void Reset() => current = null;
+    }
 
-                if (ray.IsPastEnd(current_l))
-                    return false;
+    public class DiscreteRayEnumerator : IEnumerator<(float, Point3)>
+    {
+        private (float,Point3) current;
+        private DiscreteRay ray;
+        private DiscreteRayParameterEnumerator rayEnumerator;
+        private float totalLength;
 
-                current_l = ray.Get
-                */
-            }
+        private (float,Vector3) last;
 
-            public void Reset() => current_l = -1;
+        public DiscreteRayEnumerator(DiscreteRay ray)
+        {
+            this.ray = ray;
+            totalLength = Vector3.Magnitude(ray.v);
+            rayEnumerator = new DiscreteRayParameterEnumerator(ray);
+
+            Reset();
+        }
+
+        public (float, Point3) Current => current;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose() { }
+
+        public bool MoveNext()
+        {
+            if (!rayEnumerator.MoveNext())
+                return false;
+
+            (float l0, Vector3 p0) = last;
+            var l1 = rayEnumerator.Current;
+            var p1 = ray.GetCoordinates(l1);
+
+            Point3 idx = (Point3)((p0 + p1) / 2);
+            float length = (l0 - l1) * totalLength;
+
+            current = (length, idx);
+            return true;
+        }
+
+        public void Reset()
+        {
+            rayEnumerator.Reset();
+            rayEnumerator.MoveNext();
+            var l = rayEnumerator.Current;
+            last = (l, ray.GetCoordinates(l));
         }
     }
 }

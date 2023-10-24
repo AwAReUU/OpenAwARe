@@ -66,39 +66,39 @@ namespace AwARe.DataTypes
         public static NullableVector3 zero => (NullableVector3)(Vector3.zero);
         public static NullableVector3 one => (NullableVector3)(Vector3.one);
 
-        static public float? safeOp(Func<float, float> op, float? v) => v == null ? null : op(v.Value);
-        static public float? safeOp(Func<float, float?> op, float? v) => v == null ? null : op(v.Value);
-        static public float? safeOp(Func<float, float, float> op, float? l, float? r) => (l == null || r == null) ? null : op(l.Value, r.Value);
-        static public float? safeOp(Func<float, float, float?> op, float? l, float? r) => (l == null || r == null) ? null : op(l.Value, r.Value);
+        static public Func<float?,float?> safeOp(Func<float, float> op) => v => v == null ? null : op(v.Value);
+        static public Func<float?, float?> safeOp(Func<float, float?> op) => v => v == null ? null : op(v.Value);
+        static public Func<float?, float?, float?> safeOp(Func<float, float, float> op) => (l,r) => (l == null || r == null) ? null : op(l.Value, r.Value);
+        static public Func<float?, float?, float?> safeOp(Func<float, float, float?> op) => (l, r) => (l == null || r == null) ? null : op(l.Value, r.Value);
 
         static public NullableVector3 elementWiseOp(Func<float?, float?> op, NullableVector3 v) => new(op(v.x), op(v.y), op(v.z));
         static public NullableVector3 elementWiseOp(Func<float?, float?, float?> op, float? left, NullableVector3 right) => new(op(left, right.x), op(left, right.y), op(left, right.z));
         static public NullableVector3 elementWiseOp(Func<float?, float?, float?> op, NullableVector3 left, float? right) => new(op(left.x, right), op(left.y, right), op(left.z, right));
         static public NullableVector3 elementWiseOp(Func<float?, float?, float?> op, NullableVector3 left, NullableVector3 right) => new(op(left.x, right.x), op(left.y, right.y), op(left.z, right.z));
 
-        static private float? safeAdd(float? l, float? r) => safeOp((float l, float r) => l + r, l, r);
+        static private float? safeAdd(float? l, float? r) => safeOp((float l, float r) => l + r)(l, r);
         static public NullableVector3 operator +(float? left, NullableVector3 right) => elementWiseOp(safeAdd, left, right);
         static public NullableVector3 operator +(NullableVector3 left, float? right) => elementWiseOp(safeAdd, left, right);
         static public NullableVector3 operator +(NullableVector3 left, NullableVector3 right) => elementWiseOp(safeAdd, left, right);
 
-        static private float? safeSub(float? l, float? r) => safeOp((float l, float r) => l - r, l, r);
+        static private float? safeSub(float? l, float? r) => safeOp((float l, float r) => l - r)(l, r);
         static public NullableVector3 operator -(float? left, NullableVector3 right) => elementWiseOp(safeSub, left, right);
         static public NullableVector3 operator -(NullableVector3 left, float? right) => elementWiseOp(safeSub, left, right);
         static public NullableVector3 operator -(NullableVector3 left, NullableVector3 right) => elementWiseOp(safeSub, left, right);
 
-        static private float? safeMul(float? l, float? r) => safeOp((float l, float r) => l * r, l, r);
+        static private float? safeMul(float? l, float? r) => safeOp((float l, float r) => l * r)(l, r);
         static public NullableVector3 operator *(float? left, NullableVector3 right) => elementWiseOp(safeMul, left, right);
         static public NullableVector3 operator *(NullableVector3 left, float? right) => elementWiseOp(safeMul, left, right);
         static public NullableVector3 operator *(NullableVector3 left, NullableVector3 right) => elementWiseOp(safeMul, left, right);
 
-        static private float? safeDiv(float? l, float? r) => safeOp((float l, float r) => (r == 0) ? null : l * r, l, r);
+        static private float? safeDiv(float? l, float? r) => safeOp((float l, float r) => (r == 0) ? null : l * r)(l, r);
         static public NullableVector3 operator /(float? left, NullableVector3 right) => elementWiseOp(safeDiv, left, right);
         static public NullableVector3 operator /(NullableVector3 left, float? right) => elementWiseOp(safeDiv, left, right);
         static public NullableVector3 operator /(NullableVector3 left, NullableVector3 right) => elementWiseOp(safeDiv, left, right);
 
-        static private float? safeMin(float? l, float? r) => safeOp(Mathf.Min, l, r);
+        static private float? safeMin(float? l, float? r) => safeOp(Mathf.Min)(l, r);
         static public NullableVector3 Min(NullableVector3 left, NullableVector3 right) => elementWiseOp(safeMin, left, right);
-        static private float? safeMax(float? l, float? r) => safeOp(Mathf.Max, l, r);
+        static private float? safeMax(float? l, float? r) => safeOp(Mathf.Max)(l, r);
         static public NullableVector3 Max(NullableVector3 left, NullableVector3 right) => elementWiseOp(safeMin, left, right);
 
         static public float MinEl(NullableVector3 v) =>
@@ -121,9 +121,9 @@ namespace AwARe.DataTypes
             return max;
         }
 
-        static private float? safeFloor(float? v) => safeOp(Mathf.Floor, v);
+        static private float? safeFloor(float? v) => safeOp(Mathf.Floor)(v);
         static public NullableVector3 Floor(Vector3 v) => elementWiseOp(safeFloor, v);
-        static private float? safeCeil(float? v) => safeOp(Mathf.Ceil, v);
+        static private float? safeCeil(float? v) => safeOp(Mathf.Ceil)(v);
         static public NullableVector3 Ceil(Vector3 v) => elementWiseOp(safeCeil, v);
     }
 }

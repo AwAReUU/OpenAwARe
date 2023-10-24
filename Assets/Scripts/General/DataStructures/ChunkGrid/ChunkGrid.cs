@@ -8,17 +8,15 @@ using AwARe.DataTypes;
 
 namespace AwARe.DataStructures
 {
-    public interface IChunkGridSize : IChunkSize
+    public interface IChunkGridSize : IChunkSize, IGridSize
     {
-        public Point3 GridSize { get; }
         public Point3 NroChunks { get; }
     }
 
-    public interface IChunkGrid<T> : IChunkGridSize
-    {
-        public T this[int x, int y, int z] { get; set; }
-        public int GetLength(int dim);
 
+
+    public interface IChunkGrid<T> : IChunkGridSize, IGrid<T>
+    {
         IChunk<T>[,,] Chunks { get; }
     }
 
@@ -54,10 +52,25 @@ namespace AwARe.DataStructures
                 Chunks[c.x, c.y, c.z][l.x, l.y, l.z] = value;
             }
         }
-        public int GetLength(int dim)
+
+        public T this[Point3 idx]
         {
-            return gridSize[dim];
+            get
+            {
+                Point3 c, l;
+                (c, l) = GetChunkAndLocalIdx(idx);
+                return Chunks[c.x, c.y, c.z][l.x, l.y, l.z];
+            }
+            set
+            {
+                Point3 c, l;
+                (c, l) = GetChunkAndLocalIdx(idx);
+                Chunks[c.x, c.y, c.z][l.x, l.y, l.z] = value;
+            }
         }
+
+        public int GetLength(int dim) =>
+            gridSize[dim];
 
         protected (Point3, Point3) GetChunkAndLocalIdx(Point3 idx)
         {

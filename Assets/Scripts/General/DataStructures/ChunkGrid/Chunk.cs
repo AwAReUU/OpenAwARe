@@ -22,11 +22,8 @@ namespace AwARe.DataStructures
         public bool Changed { get; set; }
     }
 
-    public interface IChunk<T> : IChangeable, IChunkSize
+    public interface IChunk<T> : IChangeable, IGrid<T>, IChunkSize
     {
-        public T this[int x, int y, int z] { get; set; }
-        public int GetLength(int dim);
-
         public T[,,] Data { get; }
     }
 
@@ -56,6 +53,12 @@ namespace AwARe.DataStructures
                 data[x, y, z] = value;
                 Changed = true;
             }
+        }
+
+        public T this[Point3 idx]
+        {
+            get => this[idx.x, idx.y, idx.z];
+            set => this[idx.x, idx.y, idx.z] = value;
         }
 
         public int GetLength(int dim) => data.GetLength(dim);
