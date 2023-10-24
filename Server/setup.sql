@@ -116,8 +116,8 @@ INSERT OR IGNORE INTO Model VALUES (2, 'Animals',       'CowBIW.prefab', NULL, N
 INSERT OR IGNORE INTO Model VALUES (3, 'Animals', 'ChickenBrown.prefab', NULL, NULL, NULL, NULL, NULL);
 INSERT OR IGNORE INTO Model VALUES (4, 'Animals',          'Pig.prefab', NULL, NULL, NULL, NULL, NULL);
 INSERT OR IGNORE INTO Model VALUES (5, 'Animals',    'DuckWhite.prefab', NULL, NULL, NULL, NULL, NULL);
-INSERT OR IGNORE INTO Model VALUES (6,   'Crops',         'grap.prefab', NULL, NULL, NULL, NULL, NULL);
-INSERT OR IGNORE INTO Model VALUES (7,   'Crops',       'Wheat1.prefab', NULL, NULL, NULL, NULL, NULL);
+INSERT OR IGNORE INTO Model VALUES (6,   'Crops',            'grap.fbx', NULL, NULL, NULL, NULL, NULL);
+INSERT OR IGNORE INTO Model VALUES (7,   'Crops',          'wheat1.fbx', NULL, NULL, NULL, NULL, NULL);
 
 INSERT OR IGNORE INTO Resource VALUES ( 1,      'Water',  'Water',   NULL, 1); -- model set to cube
 INSERT OR IGNORE INTO Resource VALUES ( 2,      'Apple',  'Plant',  10000, 7); -- all fruits set to grape
