@@ -9,6 +9,7 @@ using UnityEngine.XR.ARFoundation;
 public class PolygonScan : MonoBehaviour
 {
     [SerializeField] private GameObject pointer;
+    [SerializeField] private GameObject polygon;
 
     private GameObject trackables;
 
@@ -30,6 +31,13 @@ public class PolygonScan : MonoBehaviour
         {
             // Check if hitpoint is on a horizontal ar plane.
             pointer.transform.position = hitData.point;
+
+            polygon.GetComponent<Polygon>().SetPointer(pointer.transform.position);
+        }
+
+        if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
+        {
+            polygon.GetComponent<Polygon>().AddPoint();
         }
     }
 }
