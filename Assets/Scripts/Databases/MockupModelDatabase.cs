@@ -13,13 +13,13 @@ namespace Databases
             ModelTable = new()
             {
                 // Placeholder '10' for all float distances
-                new Model( 1, ResourceType.Water, @"path",  10, 10, 10, 10, 10),
-                new Model( 2, ResourceType.Plant, @"Crops\beet.fbx",  10, 10, 10, 10, 10),
-                new Model( 1, ResourceType.Plant, @"Crops\garlic.fbx",  10, 10, 10, 10, 10),
-                new Model( 1, ResourceType.Plant, @"Crops\corn.fbx",  10, 10, 10, 10, 10),
-                new Model( 1, ResourceType.Animal, @"Animals\ChickenBrown.prefab",  10, 10, 10, 10, 10),
-                new Model( 1, ResourceType.Animal, @"Animals\Pig.prefab",  10, 10, 10, 10, 10),
-                new Model( 1, ResourceType.Animal, @"Animals\DuckWhite.prefab",  10, 10, 10, 10, 10),
+                new Model( 1, ResourceType.Water, @"cube.prefab",  10, 10, 10, 10, 10),
+                new Model( 2, ResourceType.Plant, @"Animals\CowBIW.prefab",  10, 10, 10, 10, 10),
+                new Model( 1, ResourceType.Animal,@"Animals\ChickenBrown.prefab",  10, 10, 10, 10, 10),
+                new Model( 1, ResourceType.Animal,@"Animals\Pig.prefab",  10, 10, 10, 10, 10),
+                new Model( 1, ResourceType.Animal,@"Animals\DuckWhite.prefab",  10, 10, 10, 10, 10),
+                new Model( 1, ResourceType.Plant, @"Crops\grap.fbx",  10, 10, 10, 10, 10),
+                new Model( 1, ResourceType.Plant, @"Crops\wheat1.fbx",  10, 10, 10, 10, 10),
             };
         }
 
