@@ -1,10 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class Polygon : MonoBehaviour
 {
+    [SerializeField] private GameObject pointerObj;
+    [SerializeField] private GameObject scannerObj;
+
     private Vector3 pointer = Vector3.zero;
     private List<Vector3> points = new List<Vector3>();
 
@@ -29,11 +33,24 @@ public class Polygon : MonoBehaviour
 
     public void Reset()
     {
+        pointerObj.SetActive(true);
+        scannerObj.SetActive(true);
         this.pointer = Vector3.zero;
         this.points = new List<Vector3>();
         this.UpdateLine();
         this.UpdateTempLine();
         this.UpdateCloseLine();
+    }
+
+    public void Apply()
+    {
+        this.points.Add(this.pointer);
+        this.line.loop = true;
+        this.UpdateLine();
+        this.UpdateTempLine();
+        this.UpdateCloseLine();
+        pointerObj.SetActive(false);
+        scannerObj.SetActive(false);
     }
 
     public void SetPointer(Vector3 pointer)
