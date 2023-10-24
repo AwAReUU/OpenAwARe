@@ -13,6 +13,7 @@ public class ObjectCreationManager : MonoBehaviour
     [SerializeField] private InputField inputAmount;
     [SerializeField] private InputField inputSize;
 
+
     /// <summary>
     /// HalfExtents are distances from center to bounding box walls.
     /// </summary>
@@ -36,7 +37,7 @@ public class ObjectCreationManager : MonoBehaviour
         if (forceCreate)
         {
             //* Ignore any constrains and force create the object, only requirement being a plane hit
-            GameObject newObject = Instantiate(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], pose.position, pose.rotation);
+            GameObject newObject = Instantiate(ObjectPrefabsObjectGen.I.prefabs[ObjectPrefabsObjectGen.I.prefabIndex], pose.position, pose.rotation);
 
             if (rotateToUser)
                 RotateToUser(newObject);
@@ -44,7 +45,7 @@ public class ObjectCreationManager : MonoBehaviour
             return;
         }
 
-        Vector3 halfExtents = GetHalfExtents(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex]);
+        Vector3 halfExtents = GetHalfExtents(ObjectPrefabsObjectGen.I.prefabs[ObjectPrefabsObjectGen.I.prefabIndex]);
 
         // Create the position where the new object should be placed (+ add slight hover to prevent floor collisions)
         Vector3 newPosition = new Vector3(pose.position.x, pose.position.y, pose.position.z);
@@ -53,7 +54,7 @@ public class ObjectCreationManager : MonoBehaviour
         Collider[] overlappingColliders;
 
         // Check if the box overlaps with any other colliders
-        if (!TryPlaceObject(ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex], newPosition, halfExtents, 1))
+        if (!TryPlaceObject(ObjectPrefabsObjectGen.I.prefabs[ObjectPrefabsObjectGen.I.prefabIndex], newPosition, halfExtents, 1))
         {
             Debug.Log("Can't place object. It would overlap with another.");
 
@@ -109,7 +110,7 @@ public class ObjectCreationManager : MonoBehaviour
     {
         int objectAmount = int.Parse(inputAmount.text);
         float sizeMultiplier = float.Parse(inputSize.text);
-        AutoGenerateObjects(objectAmount, sizeMultiplier, ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex]);
+        AutoGenerateObjects(objectAmount, sizeMultiplier, ObjectPrefabsObjectGen.I.prefabs[ObjectPrefabsObjectGen.I.prefabIndex]);
     }
 
     /// <summary>
@@ -124,13 +125,13 @@ public class ObjectCreationManager : MonoBehaviour
 
         foreach(var obj in spawnDict) //prefab iterator
         {
-            Vector3 halfExtents = GetHalfExtents(ObjectPrefabs.I.prefabs[obj.Key]);
+            Vector3 halfExtents = GetHalfExtents(ObjectPrefabsObjectGen.I.prefabs[obj.Key]);
 
             for (int i = 0; i < obj.Value; i++) //quantity iterator
             {
                 for (int j = 0; j < validSpawnPoints.Count; j++) //spawn iterator
                 {
-                    if (TryPlaceObject(ObjectPrefabs.I.prefabs[obj.Key], validSpawnPoints[j], halfExtents, 1))
+                    if (TryPlaceObject(ObjectPrefabsObjectGen.I.prefabs[obj.Key], validSpawnPoints[j], halfExtents, 1))
                         break;
                     //Else-> spawning failed, try again.
                 }

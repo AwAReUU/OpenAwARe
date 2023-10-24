@@ -25,7 +25,7 @@ public class Navigator : MonoBehaviour
     private void SetDropdownOptions()
     {
         dropdown.options.Clear();
-        foreach (var obj in ObjectPrefabs.I.prefabs)
+        foreach (var obj in ObjectPrefabsMainUI.I.prefabs)
         {
             dropdown.options.Add(new TMP_Dropdown.OptionData() { text = obj.name });
         }

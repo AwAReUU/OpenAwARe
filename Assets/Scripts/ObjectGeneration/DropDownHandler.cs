@@ -4,9 +4,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DropdownHandler : MonoBehaviour
+public abstract class DropdownHandler : MonoBehaviour
 {
     private TMP_Dropdown dropdown;
+    protected abstract ObjectPrefabs prefabs { get; }
 
     private void Start()
     {
@@ -21,7 +22,7 @@ public class DropdownHandler : MonoBehaviour
     private void SetDropdownOptions()
     {
         dropdown.options.Clear();
-        foreach (var obj in ObjectPrefabs.I.prefabs)
+        foreach (var obj in prefabs.prefabs)
         {
             dropdown.options.Add(new TMP_Dropdown.OptionData() { text = obj.name });
         }
@@ -29,6 +30,7 @@ public class DropdownHandler : MonoBehaviour
 
     private void DropdownValueChanged(TMP_Dropdown dropdown)
     {
-        ObjectPrefabs.I.prefabIndex = dropdown.value;
+        prefabs.prefabIndex = dropdown.value;
     }
 }
+

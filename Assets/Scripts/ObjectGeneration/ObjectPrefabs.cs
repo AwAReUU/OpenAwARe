@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPrefabs : MonoBehaviour
+public abstract class ObjectPrefabs : MonoBehaviour
 {
     //* A singleton class containing a list of all potential objects/ingredients
-
-    public static ObjectPrefabs I { get; private set; }
+    public abstract ObjectPrefabs Me { get; protected set; }
     public GameObject[] prefabs;
     public int prefabIndex;
 
@@ -14,18 +11,14 @@ public class ObjectPrefabs : MonoBehaviour
     {
         // If there is an instance, and it's not me, delete myself.
 
-        if (I != null && I != this)
-        {
+        if (Me != null && Me != this)
             Destroy(this);
-        }
         else
-        {
-            I = this;
-        }
+            Me = this;
     }
 
-    public void SetIndex(int index)
-    {
+    public void SetIndex(int index) =>
         prefabIndex = index;
-    }
 }
+
+
