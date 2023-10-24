@@ -14,12 +14,12 @@ namespace Databases
             {
                 // Placeholder '10' for all float distances
                 new Model( 1, ResourceType.Water, @"cube.prefab",  10, 10, 10, 10, 10),
-                new Model( 2, ResourceType.Plant, @"Animals\CowBIW.prefab",  10, 10, 10, 10, 10),
-                new Model( 1, ResourceType.Animal,@"Animals\ChickenBrown.prefab",  10, 10, 10, 10, 10),
-                new Model( 1, ResourceType.Animal,@"Animals\Pig.prefab",  10, 10, 10, 10, 10),
-                new Model( 1, ResourceType.Animal,@"Animals\DuckWhite.prefab",  10, 10, 10, 10, 10),
-                new Model( 1, ResourceType.Plant, @"Crops\grap.fbx",  10, 10, 10, 10, 10),
-                new Model( 1, ResourceType.Plant, @"Crops\wheat1.fbx",  10, 10, 10, 10, 10),
+                new Model( 2, ResourceType.Plant, @"Animals/CowBIW.prefab",  10, 10, 10, 10, 10),
+                new Model( 3, ResourceType.Animal,@"Animals/ChickenBrown",  10, 10, 10, 10, 10), ///  \/\/\/
+                new Model( 4, ResourceType.Animal,@"Animals/Pig.prefab",  10, 10, 10, 10, 10),
+                new Model( 5, ResourceType.Animal,@"Animals/DuckWhite.prefab",  10, 10, 10, 10, 10),
+                new Model( 6, ResourceType.Plant, @"Crops/grap.fbx",  10, 10, 10, 10, 10),
+                new Model( 7, ResourceType.Plant, @"Crops/wheat1.fbx",  10, 10, 10, 10, 10),
             };
         }
 

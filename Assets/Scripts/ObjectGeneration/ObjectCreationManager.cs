@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
+using Databases;
+using ResourceLists;
 
 public class ObjectCreationManager : MonoBehaviour
 {
@@ -99,9 +101,10 @@ public class ObjectCreationManager : MonoBehaviour
     public void OnPlaceListButtonClick() 
     {
         //<prefabId, quantity>
-        Dictionary<int, int> spawnDict = new Dictionary<int, int>() 
-        { { 0, 2 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 1 } };
-        AutoGenerateObjects(spawnDict);
+        //Dictionary<int, int> spawnDict = new Dictionary<int, int>() 
+        //{ { 0, 2 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 1 } };
+        //AutoGenerateObjects(spawnDict);
+        PrintResourceList();
     }
     //* Function is called whenever PlaceButton is clicked to generate objects
     //* Spawns selected object from dropdown.
@@ -111,6 +114,63 @@ public class ObjectCreationManager : MonoBehaviour
         float sizeMultiplier = float.Parse(inputSize.text);
         AutoGenerateObjects(objectAmount, sizeMultiplier, ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex]);
     }
+
+    public void PrintResourceList()
+    {
+        MockupResourceDatabase resourceDatabase = new MockupResourceDatabase();
+        MockupModelDatabase    modelDatabase    = new MockupModelDatabase();
+
+        // given a list of (resourceID, Quantity)
+        Dictionary<int, int> resourceList = new Dictionary<int, int>() 
+        { { 13, 2 }, // 2 chickens 
+          { 14, 3 }, // 1 pig
+          { 15, 2 }, // 2 ducks 
+        };
+         
+        // Convert resourceList to modelList (ModelID, Quantity)
+        Dictionary<int, int> modelList = ResourceListToModelList(resourceList, resourceDatabase);
+
+        // Generate the models as gameobjects in the scene 
+        AutoGenerateObjects(modelList, modelDatabase);
+    }
+    
+    public Dictionary<int, int> ResourceListToModelList(Dictionary<int, int> resourceList, MockupResourceDatabase resourceDatabase)
+    {
+        var modelList = new Dictionary<int, int>();
+        foreach(var obj in resourceList) 
+        {
+            int modelID = resourceDatabase.GetResource(obj.Key).ModelID;
+            modelList[modelID] = obj.Value;
+        }
+        return modelList;
+    }
+
+    public void AutoGenerateObjects(Dictionary<int,int> spawnDict, MockupModelDatabase modelDatabase)
+    {
+        ObjectSpawnPointHandler osph = new(planeManager);
+        List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
+
+        foreach(var obj in spawnDict) //prefab iterator
+        {
+            Vector3 halfExtents = GetHalfExtents(ObjectPrefabs.I.prefabs[0]);
+
+            // Get the right gameobject by using the model's prefabPath
+            string modelpath = @"Prefabs/" + modelDatabase.GetModel(obj.Key).PrefabPath; 
+            Debug.Log(modelpath);
+            GameObject model = Resources.Load<GameObject>(modelpath);
+            //GameObject model = ObjectPrefabs.I.prefabs[0];
+
+            for (int i = 0; i < obj.Value; i++) //quantity iterator
+            {
+                for (int j = 0; j < validSpawnPoints.Count; j++) //spawn iterator
+                {
+                    if (TryPlaceObject(model, validSpawnPoints[j], halfExtents, 1))
+                        break;
+                    //Else-> spawning failed, try again.
+                }
+            }
+        }
+    }   
 
     /// <summary>
     /// overload method: spawn from dictionary.
