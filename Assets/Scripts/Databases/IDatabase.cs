@@ -14,3 +14,10 @@ public interface IMaterialDatabase
 {
     public ProductMaterial GetMaterial(int id);
 }
+
+public interface IResourceDatabase
+    {
+        // returns the full data of a resource, given its unique Resource ID
+        public Resource GetResource(int id);
+        public List<Resource> GetResources(List<int> ids);
+    }
