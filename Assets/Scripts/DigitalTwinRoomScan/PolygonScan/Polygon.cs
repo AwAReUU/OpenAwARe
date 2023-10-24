@@ -27,6 +27,15 @@ public class Polygon : MonoBehaviour
         UpdateTempLine();
     }
 
+    public void Reset()
+    {
+        this.pointer = Vector3.zero;
+        this.points = new List<Vector3>();
+        this.UpdateLine();
+        this.UpdateTempLine();
+        this.UpdateCloseLine();
+    }
+
     public void SetPointer(Vector3 pointer)
     {
         this.pointer = pointer;
@@ -66,6 +75,8 @@ public class Polygon : MonoBehaviour
         {
 
             this.temp_line.positionCount = 0;
+            Vector3[] empty = { };
+            this.temp_line.SetPositions(empty);
         }
     }
 
@@ -79,7 +90,7 @@ public class Polygon : MonoBehaviour
         }
         else
         {
-            this.temp_line.positionCount = 0;
+            this.close_line.positionCount = 0;
         }
     }
 }
