@@ -2263,6 +2263,7 @@ GameObject:
   - component: {fileID: 1535441700}
   - component: {fileID: 1535441703}
   - component: {fileID: 1535441702}
+  - component: {fileID: 1535441704}
   m_Layer: 5
   m_Name: ObjectCreationManager
   m_TagString: Untagged
@@ -2323,6 +2324,25 @@ MonoBehaviour:
   placeButton: {fileID: 1518352462}
   inputAmount: {fileID: 1268180432}
   inputSize: {fileID: 130469075}
+--- !u!114 &1535441704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535441699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d34be982e69206d4aa3003e51344ae7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 1055064919166404, guid: de6abd774f85e18408346a3233418242, type: 3}
+  - {fileID: 1206511787925574, guid: 3b1e3e9155d404942bc65d9aa80120ba, type: 3}
+  - {fileID: 1287295899898638, guid: 9ec060093457ad84ca2733cb15c2c41e, type: 3}
+  - {fileID: 1522729216997060, guid: 32026357c04e0e944835774b42e3c1b7, type: 3}
+  - {fileID: 1965851562501010, guid: e82139b3bae6212439ea1e85ad29678b, type: 3}
+  prefabIndex: 0
 --- !u!1 &1553190910
 GameObject:
   m_ObjectHideFlags: 0
@@ -2647,7 +2667,9 @@ MonoBehaviour:
   m_ItemImage: {fileID: 0}
   m_Value: 0
   m_Options:
-    m_Options: []
+    m_Options:
+    - m_Text: Object Selector
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2699,16 +2721,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1784429915}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d34be982e69206d4aa3003e51344ae7c, type: 3}
+  m_Script: {fileID: 11500000, guid: e6bf28079112f2f4e9e3a6bc14fcfcc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 1055064919166404, guid: de6abd774f85e18408346a3233418242, type: 3}
-  - {fileID: 1206511787925574, guid: 3b1e3e9155d404942bc65d9aa80120ba, type: 3}
-  - {fileID: 1287295899898638, guid: 9ec060093457ad84ca2733cb15c2c41e, type: 3}
-  - {fileID: 1522729216997060, guid: 32026357c04e0e944835774b42e3c1b7, type: 3}
-  - {fileID: 1965851562501010, guid: e82139b3bae6212439ea1e85ad29678b, type: 3}
-  prefabIndex: 0
 --- !u!1 &1811373163
 GameObject:
   m_ObjectHideFlags: 0
@@ -2900,7 +2915,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Object Selector
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
