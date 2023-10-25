@@ -3424,6 +3424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5dd8c7041810d643ba7ce549133f137, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  devScreens: []
 --- !u!114 &953029201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6213,7 +6214,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1840096319}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CreateObjectHandler, Assembly-CSharp
         m_MethodName: AutoGenerateObjects
         m_Mode: 1
@@ -6895,7 +6896,6 @@ GameObject:
   - component: {fileID: 1840096322}
   - component: {fileID: 1840096321}
   - component: {fileID: 1840096320}
-  - component: {fileID: 1840096319}
   - component: {fileID: 1840096318}
   - component: {fileID: 1840096325}
   m_Layer: 0
@@ -6935,23 +6935,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   black: {fileID: 2100000, guid: 315de474bf9d26d4aaf2b1ec5d62fb07, type: 2}
   normal: {fileID: 2100000, guid: b83d3bf75db8f704fb67e55cf64a537f, type: 2}
---- !u!114 &1840096319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1840096316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51de02e0eb10a3a4ebf6c0b54aac3302, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  planeManager: {fileID: 0}
-  placeListButton: {fileID: 0}
-  placeButton: {fileID: 0}
-  inputAmount: {fileID: 0}
-  inputSize: {fileID: 0}
 --- !u!114 &1840096320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7580,7 +7563,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1840096319}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCreationManager, Assembly-CSharp
         m_MethodName: DestroyAllObjects
         m_Mode: 1
