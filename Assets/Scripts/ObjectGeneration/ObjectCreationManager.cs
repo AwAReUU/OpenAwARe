@@ -14,6 +14,7 @@ public class ObjectCreationManager : MonoBehaviour
     [SerializeField] private InputField inputSize;
 
 
+
     /// <summary>
     /// HalfExtents are distances from center to bounding box walls.
     /// </summary>
@@ -120,7 +121,7 @@ public class ObjectCreationManager : MonoBehaviour
     /// <param name="spawnDict"></param>
     public void AutoGenerateObjects(Dictionary<int,int> spawnDict)
     {
-        ObjectSpawnPointHandler osph = new(planeManager);
+        TestObjectSpawnPointHandler osph = new(planeManager);
         List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
 
         foreach(var obj in spawnDict) //prefab iterator
