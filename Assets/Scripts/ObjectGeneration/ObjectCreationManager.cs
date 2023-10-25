@@ -115,6 +115,10 @@ public class ObjectCreationManager : MonoBehaviour
         AutoGenerateObjects(objectAmount, sizeMultiplier, ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex]);
     }
 
+
+    /// <summary>
+    /// Given a dictionary in the form (resourceID, quantity), generates these resources and their respective quantities in the form of their corresponding GameObjects
+    /// </summary>
     public void PrintResourceList()
     {
         MockupResourceDatabase resourceDatabase = new MockupResourceDatabase();
@@ -127,13 +131,14 @@ public class ObjectCreationManager : MonoBehaviour
           { 15, 2 }, // 2 ducks 
         };
          
-        // Convert resourceList to modelList (ModelID, Quantity)
         Dictionary<int, int> modelList = ResourceListToModelList(resourceList, resourceDatabase);
-
-        // Generate the models as gameobjects in the scene 
         AutoGenerateObjects(modelList, modelDatabase);
     }
     
+
+    /// <summary>
+    /// Converts the dictionary from the form (resourceID, Quantity) to the form (modelID, Quantity)
+    /// </summary>
     public Dictionary<int, int> ResourceListToModelList(Dictionary<int, int> resourceList, MockupResourceDatabase resourceDatabase)
     {
         var modelList = new Dictionary<int, int>();
@@ -144,7 +149,12 @@ public class ObjectCreationManager : MonoBehaviour
         }
         return modelList;
     }
+    
 
+    /// <summary>
+    /// Generates the unity Gameobjects given a model list (modelID, Quantity) and a modelDatabase. 
+    /// The modelID is used to find the corresponding prefab name in the modelDatabase.
+    /// </summary>
     public void AutoGenerateObjects(Dictionary<int,int> spawnDict, MockupModelDatabase modelDatabase)
     {
         ObjectSpawnPointHandler osph = new(planeManager);
@@ -154,11 +164,9 @@ public class ObjectCreationManager : MonoBehaviour
         {
             Vector3 halfExtents = GetHalfExtents(ObjectPrefabs.I.prefabs[0]);
 
-            // Get the right gameobject by using the model's prefabPath
+            // Get the GameObject by using the model's prefabPath
             string modelpath = @"Prefabs/" + modelDatabase.GetModel(obj.Key).PrefabPath; 
-            Debug.Log(modelpath);
             GameObject model = Resources.Load<GameObject>(modelpath);
-            //GameObject model = ObjectPrefabs.I.prefabs[0];
 
             for (int i = 0; i < obj.Value; i++) //quantity iterator
             {
@@ -172,31 +180,7 @@ public class ObjectCreationManager : MonoBehaviour
         }
     }   
 
-    /// <summary>
-    /// overload method: spawn from dictionary.
-    /// Will be replaced with material list
-    /// </summary>
-    /// <param name="spawnDict"></param>
-    public void AutoGenerateObjects(Dictionary<int,int> spawnDict)
-    {
-        ObjectSpawnPointHandler osph = new(planeManager);
-        List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
 
-        foreach(var obj in spawnDict) //prefab iterator
-        {
-            Vector3 halfExtents = GetHalfExtents(ObjectPrefabs.I.prefabs[obj.Key]);
-
-            for (int i = 0; i < obj.Value; i++) //quantity iterator
-            {
-                for (int j = 0; j < validSpawnPoints.Count; j++) //spawn iterator
-                {
-                    if (TryPlaceObject(ObjectPrefabs.I.prefabs[obj.Key], validSpawnPoints[j], halfExtents, 1))
-                        break;
-                    //Else-> spawning failed, try again.
-                }
-            }
-        }
-    }   
 
     /// <summary>
     /// overload method: spawn from input by user.
