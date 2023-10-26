@@ -72,7 +72,7 @@ namespace IngredientLists
         private void OnItemClicked(Ingredient item)
         {
             ingredientListManager.AddIngredient(item, 0);
-            OnBackButtonClick();
+            ingredientListManager.ChangeToIngredientScreen(item, this.gameObject);
         }
 
         /// <summary>
