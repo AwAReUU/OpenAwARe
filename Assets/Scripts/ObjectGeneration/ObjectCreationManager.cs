@@ -9,7 +9,6 @@ using ResourceLists;
 public class ObjectCreationManager : MonoBehaviour
 {
     [SerializeField] private ARPlaneManager planeManager;
-    [SerializeField] private GameObject placeListButton;
     [SerializeField] private GameObject placeButton;
     [SerializeField] private InputField inputSize;
     [SerializeField] private InputField inputPigAmount;
@@ -148,15 +147,19 @@ public class ObjectCreationManager : MonoBehaviour
             // Get the GameObject by using the model's prefabPath
             string modelpath = @"Prefabs/" + modelDatabase.GetModel(obj.Key).PrefabPath; 
             GameObject model = Resources.Load<GameObject>(modelpath);
+
+            // Get object size (temporary)
+            float modelSizeMultiplier = modelDatabase.GetModel(obj.Key).RealHeight;
             
             Vector3 halfExtents = GetHalfExtents(model);
-            halfExtents *= sizeMultiplier;
+            //halfExtents *= sizeMultiplier;
+            halfExtents *= modelSizeMultiplier;
 
             for (int i = 0; i < obj.Value; i++) //quantity iterator
             {
                 for (int j = 0; j < validSpawnPoints.Count; j++) //spawn iterator
                 {
-                    if (TryPlaceObject(model, validSpawnPoints[j], halfExtents, sizeMultiplier))
+                    if (TryPlaceObject(model, validSpawnPoints[j], halfExtents, modelSizeMultiplier))
                         break;
                     //Else-> spawning failed, try again.
                 }
