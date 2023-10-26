@@ -12,10 +12,10 @@ namespace Databases
         {
             ModelTable = new()
             {
-                // Placeholder '10' for all float distances
+                // Placeholder '10' for all float distances (.prefab needs to be removed!)
                 new Model( 1, ResourceType.Water, @"cube",  10, 10, 10, 10, 10),
-                new Model( 2, ResourceType.Plant, @"Animals/CowBIW",  10, 10, 10, 10, 10),
-                new Model( 3, ResourceType.Animal,@"Animals/ChickenBrown",  10, 10, 10, 10, 10), ///  \/\/\/ .prefab needs to be removed!
+                new Model( 2, ResourceType.Animal,@"Animals/CowBlW",  10, 10, 10, 10, 10),
+                new Model( 3, ResourceType.Animal,@"Animals/ChickenBrown",  10, 10, 10, 10, 10), 
                 new Model( 4, ResourceType.Animal,@"Animals/Pig",  10, 10, 10, 10, 10),
                 new Model( 5, ResourceType.Animal,@"Animals/DuckWhite",  10, 10, 10, 10, 10),
                 new Model( 6, ResourceType.Plant, @"Crops/grap",  10, 10, 10, 10, 10),

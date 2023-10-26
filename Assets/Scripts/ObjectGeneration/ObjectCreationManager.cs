@@ -11,15 +11,14 @@ public class ObjectCreationManager : MonoBehaviour
     [SerializeField] private ARPlaneManager planeManager;
     [SerializeField] private GameObject placeListButton;
     [SerializeField] private GameObject placeButton;
-
-    [SerializeField] private InputField inputAmount;
     [SerializeField] private InputField inputSize;
+    [SerializeField] private InputField inputAmount;
+    [SerializeField] private InputField inputPigAmount;
+    [SerializeField] private InputField inputChickenAmount;
+    [SerializeField] private InputField inputWheatAmount;
+    [SerializeField] private InputField inputDuckAmount;
 
-    /// <summary>
-    /// HalfExtents are distances from center to bounding box walls.
-    /// </summary>
-    /// <param name="g"></param>
-    /// <returns></returns>
+    /// <summary> HalfExtents are distances from center to bounding box walls. </summary>
     private Vector3 GetHalfExtents(GameObject prefab)
     {
         //Temporarily instantiate the object to get the BoxCollider size
@@ -96,49 +95,37 @@ public class ObjectCreationManager : MonoBehaviour
         return false;
     }
 
-    //* Function is called whenever PlaceListButton is clicked to generate objects
-    //* Spawns a hardcoded list.
-    public void OnPlaceListButtonClick() 
-    {
-        //<prefabId, quantity>
-        //Dictionary<int, int> spawnDict = new Dictionary<int, int>() 
-        //{ { 0, 2 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 1 } };
-        //AutoGenerateObjects(spawnDict);
-        PrintResourceList();
-    }
-    //* Function is called whenever PlaceButton is clicked to generate objects
-    //* Spawns selected object from dropdown.
-    public void OnPlaceButtonClick() 
-    {
-        int objectAmount = int.Parse(inputAmount.text);
-        float sizeMultiplier = float.Parse(inputSize.text);
-        AutoGenerateObjects(objectAmount, sizeMultiplier, ObjectPrefabs.I.prefabs[ObjectPrefabs.I.prefabIndex]);
-    }
 
-
-    /// <summary>
-    /// Given a dictionary in the form (resourceID, quantity), generates these resources and their respective quantities in the form of their corresponding GameObjects
-    /// </summary>
+    /// <summary> Given a dictionary in the form (resourceID, quantity), generates these resources and their respective quantities in the form of their corresponding GameObjects </summary>
     public void PrintResourceList()
     {
+        // Get input values 
+        int PigAmount = int.Parse(inputPigAmount.text);
+        int ChickenAmount = int.Parse(inputChickenAmount.text);
+        int WheatAmount = int.Parse(inputWheatAmount.text);
+        int DuckAmount = int.Parse(inputDuckAmount.text);
+
+        float sizeMultiplier = float.Parse(inputSize.text);
+
+        // Get databases
         MockupResourceDatabase resourceDatabase = new MockupResourceDatabase();
         MockupModelDatabase    modelDatabase    = new MockupModelDatabase();
 
-        // given a list of (resourceID, Quantity)
+        // make a list of (resourceID, Quantity)
         Dictionary<int, int> resourceList = new Dictionary<int, int>() 
-        { { 13, 2 }, // 2 chickens 
-          { 14, 3 }, // 1 pig
-          { 15, 2 }, // 2 ducks 
+        { 
+          { 17, WheatAmount   }, 
+          { 13, ChickenAmount },
+          { 14, PigAmount     },
+          { 15, DuckAmount    },
         };
          
         Dictionary<int, int> modelList = ResourceListToModelList(resourceList, resourceDatabase);
         AutoGenerateObjects(modelList, modelDatabase);
     }
     
-
-    /// <summary>
-    /// Converts the dictionary from the form (resourceID, Quantity) to the form (modelID, Quantity)
-    /// </summary>
+    
+    /// <summary> Converts the dictionary from the form (resourceID, Quantity) to the form (modelID, Quantity) </summary>
     public Dictionary<int, int> ResourceListToModelList(Dictionary<int, int> resourceList, MockupResourceDatabase resourceDatabase)
     {
         var modelList = new Dictionary<int, int>();
@@ -151,10 +138,7 @@ public class ObjectCreationManager : MonoBehaviour
     }
     
 
-    /// <summary>
-    /// Generates the unity Gameobjects given a model list (modelID, Quantity) and a modelDatabase. 
-    /// The modelID is used to find the corresponding prefab name in the modelDatabase.
-    /// </summary>
+    /// <summary> Generates the unity Gameobjects given a model list (modelID, Quantity) and a modelDatabase. The modelID is used to find the corresponding prefab name in the modelDatabase. </summary>
     public void AutoGenerateObjects(Dictionary<int,int> spawnDict, MockupModelDatabase modelDatabase)
     {
         ObjectSpawnPointHandler osph = new(planeManager);
@@ -181,14 +165,7 @@ public class ObjectCreationManager : MonoBehaviour
     }   
 
 
-
-    /// <summary>
-    /// overload method: spawn from input by user.
-    /// will be replaced by material list
-    /// </summary>
-    /// <param name="objectAmount"></param>
-    /// <param name="sizeMultiplier"></param>
-    /// <param name="gameObject"></param>
+    /// <summary> overload method: spawn from input by user. Will be replaced by material list </summary>
     public void AutoGenerateObjects(int objectAmount, float sizeMultiplier, GameObject gameObject)
     {
         Vector3 halfExtents = GetHalfExtents(gameObject);

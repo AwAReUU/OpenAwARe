@@ -28,7 +28,7 @@ namespace Databases
                 new Resource(14,       "Pork", ResourceType.Animal,  50000, 4),
                 new Resource(15,       "Duck", ResourceType.Animal,   2500, 5),
                 new Resource(16,       "Milk", ResourceType.Animal,   null, 2),
-                new Resource(17,      "Wheat",  ResourceType.Plant,     80, 6)
+                new Resource(17,      "Wheat",  ResourceType.Plant,     80, 7)
             };
         }
 
