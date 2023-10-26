@@ -12,7 +12,6 @@ public class ObjectCreationManager : MonoBehaviour
     [SerializeField] private GameObject placeListButton;
     [SerializeField] private GameObject placeButton;
     [SerializeField] private InputField inputSize;
-    [SerializeField] private InputField inputAmount;
     [SerializeField] private InputField inputPigAmount;
     [SerializeField] private InputField inputChickenAmount;
     [SerializeField] private InputField inputWheatAmount;
@@ -114,14 +113,14 @@ public class ObjectCreationManager : MonoBehaviour
         // make a list of (resourceID, Quantity)
         Dictionary<int, int> resourceList = new Dictionary<int, int>() 
         { 
-          { 17, WheatAmount   }, 
-          { 13, ChickenAmount },
           { 14, PigAmount     },
+          { 13, ChickenAmount },
+          { 17, WheatAmount   }, 
           { 15, DuckAmount    },
         };
          
         Dictionary<int, int> modelList = ResourceListToModelList(resourceList, resourceDatabase);
-        AutoGenerateObjects(modelList, modelDatabase);
+        AutoGenerateObjects(modelList, modelDatabase, sizeMultiplier);
     }
     
     
@@ -139,24 +138,25 @@ public class ObjectCreationManager : MonoBehaviour
     
 
     /// <summary> Generates the unity Gameobjects given a model list (modelID, Quantity) and a modelDatabase. The modelID is used to find the corresponding prefab name in the modelDatabase. </summary>
-    public void AutoGenerateObjects(Dictionary<int,int> spawnDict, MockupModelDatabase modelDatabase)
+    public void AutoGenerateObjects(Dictionary<int,int> spawnDict, MockupModelDatabase modelDatabase, float sizeMultiplier)
     {
         ObjectSpawnPointHandler osph = new(planeManager);
         List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
 
         foreach(var obj in spawnDict) //prefab iterator
         {
-            Vector3 halfExtents = GetHalfExtents(ObjectPrefabs.I.prefabs[0]);
-
             // Get the GameObject by using the model's prefabPath
             string modelpath = @"Prefabs/" + modelDatabase.GetModel(obj.Key).PrefabPath; 
             GameObject model = Resources.Load<GameObject>(modelpath);
+            
+            Vector3 halfExtents = GetHalfExtents(model);
+            halfExtents *= sizeMultiplier;
 
             for (int i = 0; i < obj.Value; i++) //quantity iterator
             {
                 for (int j = 0; j < validSpawnPoints.Count; j++) //spawn iterator
                 {
-                    if (TryPlaceObject(model, validSpawnPoints[j], halfExtents, 1))
+                    if (TryPlaceObject(model, validSpawnPoints[j], halfExtents, sizeMultiplier))
                         break;
                     //Else-> spawning failed, try again.
                 }
