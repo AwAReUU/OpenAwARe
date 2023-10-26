@@ -1,13 +1,4 @@
 -- Table Creation
-CREATE TABLE IF NOT EXISTS User (
-    UserID int,
-    FirstName varchar NOT NULL,
-    LastName varchar NOT NULL,
-    Email varchar NOT NULL UNIQUE,
-    Password varchar NOT NULL,
-    PRIMARY KEY (UserID)
-);
-
 CREATE TABLE IF NOT EXISTS Ingredient(
     IngredientID int NOT NULL UNIQUE,
     PrefName varchar(30) NOT NULL,

@@ -14,7 +14,7 @@ let router = express.Router();
 router.get("/search", async (req: any, res: any) => {
   const query = req.body.query;
 
-  let db = Database.getInstance().db();
+  let db = Database.getInstance().ingrdb();
   db.all(
     `SELECT
         x.*
@@ -47,7 +47,7 @@ router.get("/search", async (req: any, res: any) => {
 router.get("/getIngredient", async (req: any, res: any) => {
   const id = req.body.id;
 
-  let db = Database.getInstance().db();
+  let db = Database.getInstance().userdb();
 
   db.get(
     "SELECT * FROM TABLE Ingredient WHERE IngredientID = ?",
@@ -70,7 +70,7 @@ router.get("/getIngredient", async (req: any, res: any) => {
 router.get("/getIngredientList", async (req: any, res: any) => {
   const id = req.body.id;
 
-  let db = Database.getInstance().db();
+  let db = Database.getInstance().userdb();
 
   db.all(
     "SELECT * FROM TABLE Ingredient WHERE IngredientID = ?",
