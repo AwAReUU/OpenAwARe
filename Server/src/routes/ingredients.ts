@@ -47,7 +47,7 @@ router.get("/search", async (req: any, res: any) => {
 router.get("/getIngredient", async (req: any, res: any) => {
   const id = req.body.id;
 
-  let db = Database.getInstance().userdb();
+  let db = Database.getInstance().ingrdb();
 
   db.get(
     "SELECT * FROM TABLE Ingredient WHERE IngredientID = ?",
@@ -65,16 +65,132 @@ router.get("/getIngredient", async (req: any, res: any) => {
 //
 // # Body
 // {
-//      id:          int
+//      ids:          [int]
 // }
 router.get("/getIngredientList", async (req: any, res: any) => {
-  const id = req.body.id;
+  const ids = req.body.ids;
 
-  let db = Database.getInstance().userdb();
+  let db = Database.getInstance().ingrdb();
 
   db.all(
-    "SELECT * FROM TABLE Ingredient WHERE IngredientID = ?",
+    "SELECT * FROM TABLE Ingredient WHERE IngredientID IN ?",
+    [ids],
+    async (error: any, rows: any) => {
+      if (error) {
+        console.error(error);
+      }
+      res.status(200).json(rows);
+    },
+  );
+});
+
+// Get Resource Requirements
+//
+// # Body
+// {
+//      id:          int
+// }
+router.get("/getRequirements", async (req: any, res: any) => {
+  const id = req.body.id;
+
+  let db = Database.getInstance().ingrdb();
+
+  db.all(
+    "SELECT * FROM TABLE Requires WHERE IngredientID = ?",
     [id],
+    async (error: any, rows: any) => {
+      if (error) {
+        console.error(error);
+      }
+      res.status(200).json(rows);
+    },
+  );
+});
+
+
+// Get Resource
+//
+// # Body
+// {
+//      id:          int
+// }
+router.get("/getResource", async (req: any, res: any) => {
+  const id = req.body.id;
+
+  let db = Database.getInstance().ingrdb();
+
+  db.get(
+    "SELECT * FROM TABLE Resource WHERE ResourceID = ?",
+    [id],
+    async (error: any, row: any) => {
+      if (error) {
+        console.error(error);
+      }
+      res.status(200).json(row);
+    },
+  );
+});
+
+// Get ResourceList
+//
+// # Body
+// {
+//      ids:          [int]
+// }
+router.get("/getResourceList", async (req: any, res: any) => {
+  const ids = req.body.ids;
+
+  let db = Database.getInstance().ingrdb();
+
+  db.all(
+    "SELECT * FROM TABLE Resource WHERE IngredientID IN ?",
+    [ids],
+    async (error: any, rows: any) => {
+      if (error) {
+        console.error(error);
+      }
+      res.status(200).json(rows);
+    },
+  );
+});
+
+// Get Model
+//
+// # Body
+// {
+//      id:          int
+// }
+router.get("/getModel", async (req: any, res: any) => {
+  const id = req.body.id;
+
+  let db = Database.getInstance().ingrdb();
+
+  db.get(
+    "SELECT * FROM TABLE Model WHERE ModelID = ?",
+    [id],
+    async (error: any, row: any) => {
+      if (error) {
+        console.error(error);
+      }
+      res.status(200).json(row);
+    },
+  );
+});
+
+// Get ModelList
+//
+// # Body
+// {
+//      ids:          [int]
+// }
+router.get("/getModelList", async (req: any, res: any) => {
+  const ids = req.body.ids;
+
+  let db = Database.getInstance().ingrdb();
+
+  db.all(
+    "SELECT * FROM TABLE Model WHERE ModelID IN ?",
+    [ids],
     async (error: any, rows: any) => {
       if (error) {
         console.error(error);
