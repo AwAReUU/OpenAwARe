@@ -5719,7 +5719,7 @@ GameObject:
   - component: {fileID: 1268180433}
   - component: {fileID: 1268180432}
   m_Layer: 5
-  m_Name: SheepAmount
+  m_Name: WheatAmount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6947,7 +6947,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1535441703}
         m_TargetAssemblyTypeName: ObjectCreationManager, Assembly-CSharp
-        m_MethodName: OnPlaceListButtonClick
+        m_MethodName: PrintResourceList
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7120,8 +7120,12 @@ MonoBehaviour:
   planeManager: {fileID: 1659859602}
   placeListButton: {fileID: 790451581}
   placeButton: {fileID: 1518352462}
-  inputAmount: {fileID: 1268180432}
   inputSize: {fileID: 130469075}
+  inputAmount: {fileID: 0}
+  inputPigAmount: {fileID: 969304995}
+  inputChickenAmount: {fileID: 774283590}
+  inputWheatAmount: {fileID: 0}
+  inputDuckAmount: {fileID: 265404354}
 --- !u!1 &1553190910
 GameObject:
   m_ObjectHideFlags: 0
@@ -8126,7 +8130,7 @@ GameObject:
   - component: {fileID: 1814055571}
   - component: {fileID: 1814055570}
   m_Layer: 5
-  m_Name: SheepText
+  m_Name: WheatText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8171,7 +8175,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SHEEP
+  m_text: WHEAT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
