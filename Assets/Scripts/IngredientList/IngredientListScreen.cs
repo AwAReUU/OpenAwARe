@@ -60,7 +60,7 @@ namespace IngredientLists
             Dictionary<Ingredient, (float, QuantityType)> ingredients = ingredientListManager.SelectedList.Ingredients;
 
             // display each ingredient
-            for (int i = 0; i < ingredientListManager.SelectedList.Ingredients.Count; i++)
+            foreach (Ingredient ingredient in ingredientListManager.SelectedList.Ingredients.Keys)
             {
                 // create a new list item to display this ingredient
                 GameObject listItem = Instantiate(listItemObject, scrollViewContent);
@@ -70,7 +70,6 @@ namespace IngredientLists
                 Button ingredientButton = listItem.transform.GetChild(0).GetComponent<Button>();
                 Button delButton = listItem.transform.GetChild(1).GetComponent<Button>();
 
-                Ingredient ingredient = ingredients.ElementAt(i).Key;
                 (float quantity, QuantityType quantityType) = ingredients[ingredient];
 
                 ingredientButton.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = ingredient.Name;
@@ -79,8 +78,7 @@ namespace IngredientLists
                 ingredientObjects.Add(listItem);
 
                 // store i in an int for pass-by value to the lambda expression
-                int itemIndex = i;
-                ingredientButton.onClick.AddListener(() => { OnIngredientButtonClick(itemIndex); });
+                ingredientButton.onClick.AddListener(() => { OnIngredientButtonClick(ingredient); });
 
                 // create a deleteButton for this ingredient
                 delButton.onClick.AddListener(() => { OnDeleteButtonClick(ingredient); });
@@ -105,9 +103,8 @@ namespace IngredientLists
             ingredientObjects = new List<GameObject>();
         }
 
-        private void OnIngredientButtonClick(int index)
+        private void OnIngredientButtonClick(Ingredient ingredient)
         {
-            Ingredient ingredient = ingredientListManager.SelectedList.Ingredients.ElementAt(index).Key;
             ingredientListManager.ChangeToIngredientScreen(ingredient, this.gameObject);
         }
 

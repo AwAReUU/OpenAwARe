@@ -38,7 +38,7 @@ namespace IngredientLists
         {
             RemoveListObjects();
 
-            for (int i = 0; i < ingredientListManager.Lists.Count; i++)
+            foreach (IngredientList ingredientList in ingredientListManager.Lists)
             {
                 // create a new list item to display this list
                 GameObject listItem = Instantiate(listItemObject, scrollViewContent);
@@ -48,16 +48,15 @@ namespace IngredientLists
                 Button delButton = listItem.transform.GetChild(1).GetComponent<Button>();
                 Button listButton = listItem.transform.GetChild(0).GetComponent<Button>();
                 listButton.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text =
-                    ingredientListManager.Lists[i].ListName;
+                    ingredientList.ListName;
                 listButton.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text =
-                    ingredientListManager.Lists[i].NumberOfIngredients().ToString();
+                    ingredientList.NumberOfIngredients().ToString();
 
                 listObjects.Add(listItem);
 
                 // store i in an int for pass-by value to the lambda expression
-                int itemIndex = i;
-                listButton.onClick.AddListener(() => { OnListButtonClick(itemIndex); });
-                delButton.onClick.AddListener(() => { OnDeleteButtonClick(itemIndex); });
+                listButton.onClick.AddListener(() => { OnListButtonClick(ingredientList); });
+                delButton.onClick.AddListener(() => { OnDeleteButtonClick(ingredientList); });
             }
         }
 
@@ -79,16 +78,15 @@ namespace IngredientLists
             DisplayLists();
         }
 
-        private void OnDeleteButtonClick(int i)
+        private void OnDeleteButtonClick(IngredientList list)
         {
-            ingredientListManager.DeleteList(i);
+            ingredientListManager.DeleteList(list);
             DisplayLists();
         }
 
-        private void OnListButtonClick(int i)
+        private void OnListButtonClick(IngredientList list)
         {
-            IngredientList selectedList = ingredientListManager.Lists[i];
-            ingredientListManager.OpenList(selectedList, this.gameObject);
+            ingredientListManager.OpenList(list, this.gameObject);
         }
 
         private void OnBackButtonClick()

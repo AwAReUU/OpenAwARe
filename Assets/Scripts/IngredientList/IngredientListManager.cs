@@ -97,9 +97,9 @@ namespace IngredientLists
             fileHandler.SaveLists(Lists);
         }
 
-        public void DeleteList(int i)
+        public void DeleteList(IngredientList list)
         {
-            Lists.Remove(Lists[i]);
+            Lists.Remove(list);
             fileHandler.SaveLists(Lists);
         }
     }
