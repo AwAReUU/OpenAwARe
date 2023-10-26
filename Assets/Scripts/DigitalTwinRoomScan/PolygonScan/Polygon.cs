@@ -3,12 +3,10 @@ using UnityEngine;
 
 public class Polygon : MonoBehaviour
 {
-    [SerializeField] private GameObject pointerObj;
-    [SerializeField] private GameObject scannerObj;
     [SerializeField] private GameObject applyBtn;
 
     private Vector3 pointer = Vector3.zero;
-    private List<Vector3> points = new List<Vector3>();
+    private List<Vector3> points = new();
 
     private LineRenderer line;
     private LineRenderer temp_line;
@@ -33,8 +31,6 @@ public class Polygon : MonoBehaviour
     public void Reset()
     {
         this.line.loop = false;
-        pointerObj.SetActive(true);
-        scannerObj.SetActive(true);
         applyBtn.SetActive(false);
         this.pointer = Vector3.zero;
         this.points = new List<Vector3>();
@@ -50,13 +46,16 @@ public class Polygon : MonoBehaviour
         this.UpdateLine();
         this.UpdateTempLine();
         this.UpdateCloseLine();
-        pointerObj.SetActive(false);
-        scannerObj.SetActive(false);
     }
 
     public void SetPointer(Vector3 pointer)
     {
         this.pointer = pointer;
+    }
+
+    public Vector3[] GetPoints()
+    {
+        return this.points.ToArray();
     }
 
     public void AddPoint()
