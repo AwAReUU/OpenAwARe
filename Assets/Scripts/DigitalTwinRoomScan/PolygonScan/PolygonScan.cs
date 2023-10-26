@@ -35,7 +35,7 @@ public class PolygonScan : MonoBehaviour
             polygon.GetComponent<Polygon>().SetPointer(pointer.transform.position);
         }
 
-        if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
+        if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
         {
             polygon.GetComponent<Polygon>().AddPoint();
         }

@@ -12,6 +12,7 @@ public class PolygonManager : MonoBehaviour
     [SerializeField] private GameObject resetBtn;
     [SerializeField] private GameObject applyBtn;
     [SerializeField] private GameObject confirmBtn;
+    [SerializeField] private GameObject slider;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +23,6 @@ public class PolygonManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
 
     public void Apply()
@@ -43,9 +43,16 @@ public class PolygonManager : MonoBehaviour
 
     public void Confirm()
     {
-        this.applyBtn.SetActive(true);
+        this.applyBtn.SetActive(false);
+        this.resetBtn.SetActive(false);
         this.confirmBtn.SetActive(false);
         this.polygonMesh.SetActive(true);
         this.polygonMesh.GetComponent<PolygonMesh>().SetPolygon(this.polygon.GetComponent<Polygon>().GetPoints());
+        this.slider.SetActive(true);
+    }
+
+    public void OnSlider(System.Single height)
+    {
+        this.polygonMesh.GetComponent<PolygonMesh>().SetHeight(height);
     }
 }

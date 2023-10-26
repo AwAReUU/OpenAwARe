@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class PolygonMesh : MonoBehaviour
 {
-    [SerializeField] private List<Vector3> polygon = new();
+    private float height = 1f;
+    private List<Vector3> polygon = new();
 
     void Start()
     {
@@ -16,7 +16,8 @@ public class PolygonMesh : MonoBehaviour
 
     public void SetHeight(float height)
     {
-
+        this.height = height;
+        this.CreateMesh();
     }
 
     public void SetPolygon(Vector3[] points)
@@ -34,7 +35,7 @@ public class PolygonMesh : MonoBehaviour
         for (int i = 0; i < this.polygon.Count; i++)
         {
             vertices.Add(this.polygon[i]);
-            vertices.Add(this.polygon[i] + new Vector3(0f, 1f, 0f));
+            vertices.Add(this.polygon[i] + new Vector3(0f, this.height, 0f));
 
             int j = i * 2;
             triangles.Add(j);
