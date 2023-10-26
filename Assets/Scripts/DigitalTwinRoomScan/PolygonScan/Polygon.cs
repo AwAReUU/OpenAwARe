@@ -1,13 +1,11 @@
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class Polygon : MonoBehaviour
 {
-    [SerializeField] private readonly GameObject pointerObj;
-    [SerializeField] private readonly GameObject scannerObj;
+    [SerializeField] private GameObject pointerObj;
+    [SerializeField] private GameObject scannerObj;
+    [SerializeField] private GameObject applyBtn;
 
     private Vector3 pointer = Vector3.zero;
     private List<Vector3> points = new List<Vector3>();
@@ -22,6 +20,7 @@ public class Polygon : MonoBehaviour
         this.line = this.transform.GetChild(0).GetComponent<LineRenderer>();
         this.temp_line = this.transform.GetChild(1).GetComponent<LineRenderer>();
         this.close_line = this.transform.GetChild(2).GetComponent<LineRenderer>();
+        applyBtn.SetActive(false);
     }
 
     // Update is called once per frame
@@ -33,8 +32,10 @@ public class Polygon : MonoBehaviour
 
     public void Reset()
     {
+        this.line.loop = false;
         pointerObj.SetActive(true);
         scannerObj.SetActive(true);
+        applyBtn.SetActive(false);
         this.pointer = Vector3.zero;
         this.points = new List<Vector3>();
         this.UpdateLine();
@@ -44,6 +45,7 @@ public class Polygon : MonoBehaviour
 
     public void Apply()
     {
+        applyBtn.SetActive(false);
         this.line.loop = true;
         this.UpdateLine();
         this.UpdateTempLine();
@@ -59,6 +61,7 @@ public class Polygon : MonoBehaviour
 
     public void AddPoint()
     {
+        applyBtn.SetActive(true);
         this.points.Add(this.pointer);
 
         UpdateLine();
@@ -91,8 +94,7 @@ public class Polygon : MonoBehaviour
         {
 
             this.temp_line.positionCount = 0;
-            Vector3[] empty = { };
-            this.temp_line.SetPositions(empty);
+            // this.temp_line.SetPositions(new Vector3[] { });
         }
     }
 

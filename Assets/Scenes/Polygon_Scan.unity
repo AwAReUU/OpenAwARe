@@ -7044,6 +7044,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2523054796051462468, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
         type: 3}
+      propertyPath: applyBtn
+      value: 
+      objectReference: {fileID: 1283589465}
+    - target: {fileID: 2523054796051462468, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+        type: 3}
       propertyPath: pointerObj
       value: 
       objectReference: {fileID: 798067248}
