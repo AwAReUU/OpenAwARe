@@ -28,9 +28,9 @@ public class TestObjectSpawnPointHandler : IObjectSpawnPointHandler
         float y = -0.87f;
 
         //get all pnts in bounding box in grid pattern with space "spacing" in between.
-        for (float x = -5f; x <= 0; x += gridSpacing_)
+        for (float x = -8f; x <= -3; x += gridSpacing_)
         {
-            for (float z = -5f; z <= 0; z += gridSpacing_)  
+            for (float z = -8f; z <= -3; z += gridSpacing_)  
             {
                 Vector3 gridPoint = new Vector3(x, y, z);
                 result.Add(gridPoint);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -70,14 +71,24 @@ public class ObjectCreationManager : MonoBehaviour
         }
     }
 
-    private bool TryPlaceObject(GameObject obj, Vector3 position, Vector3 halfExtents, float sizeMultiplier)
+    /// <summary>
+    /// return gameobject if successful
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="position"></param>
+    /// <param name="halfExtents"></param>
+    /// <param name="sizeMultiplier"></param>
+    /// <returns></returns>
+    private GameObject TryPlaceObject(GameObject obj, Vector3 position, Vector3 halfExtents, float sizeMultiplier, bool forcePlace = false)
     {
         // Check if the box of the new object will overlap with any other colliders
+        Vector3 boxCenter = position;
+        boxCenter.y += halfExtents.y;
         if (!Physics.CheckBox(
-            position,
+            boxCenter,
             halfExtents,
             Quaternion.identity,
-            LayerMask.GetMask("Material2"))) //only check collisions with other materials.
+            LayerMask.GetMask("Material2")) || forcePlace) //only check collisions with other materials.
         {
             // Adjust object size according to scalar
             GameObject newObject = Instantiate(obj, position, Quaternion.identity);
@@ -89,25 +100,25 @@ public class ObjectCreationManager : MonoBehaviour
             //RotateToUser(newObject);
             CreateVisualBox(bc);
 
-            return true;
+            return newObject;
         }
-        else { Debug.Log("collision"); }
+        //else { Debug.Log("collision"); }
 
-        return false;
+        return null;
     }
 
     //* Function is called whenever PlaceListButton is clicked to generate objects
     //* Spawns a hardcoded list.
-    public void OnPlaceListButtonClick() 
+    public void OnPlaceListButtonClick()
     {
         //<prefabId, quantity>
-        Dictionary<int, int> spawnDict = new Dictionary<int, int>() 
-        { { 0, 2 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 1 } };
+        Dictionary<int, int> spawnDict = new Dictionary<int, int>()
+        { { 0, 12 }, { 1, 15 }, { 2, 50 }, { 3, 17 }, { 4, 40 } };
         AutoGenerateObjects(spawnDict);
     }
     //* Function is called whenever PlaceButton is clicked to generate objects
     //* Spawns selected object from dropdown.
-    public void OnPlaceButtonClick() 
+    public void OnPlaceButtonClick()
     {
         int objectAmount = int.Parse(inputAmount.text);
         float sizeMultiplier = float.Parse(inputSize.text);
@@ -121,24 +132,91 @@ public class ObjectCreationManager : MonoBehaviour
     /// <param name="spawnDict"></param>
     public void AutoGenerateObjects(Dictionary<int,int> spawnDict)
     {
-        TestObjectSpawnPointHandler osph = new(planeManager);
+        TestObjectSpawnPointHandler osph = new(planeManager); //(<-remove the word "Test" to use actual planes)
         List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
 
-        foreach(var obj in spawnDict) //prefab iterator
+        foreach (var obj in spawnDict) //prefab iterator
         {
-            Vector3 halfExtents = GetHalfExtents(ObjectPrefabsObjectGen.I.prefabs[obj.Key]);
+            //If we place an object, store its position as key, and a stack of gameobjects as value.
+            //If we run out of ground space, we can start stacking the objects at these locations.
+            //this dictionary is reset for each different objects, so that only clones of the same object
+            //can be stacked on eachother.
+            Dictionary<Vector3, Stack<GameObject>> objStacks = new();
 
             for (int i = 0; i < obj.Value; i++) //quantity iterator
+                SpawnParticularObj(obj.Key, validSpawnPoints, ref objStacks);
+        }
+    }
+
+    /// <summary>
+    /// try to spawn an object, and try to stack if it doesnt fit
+    /// </summary>
+    /// <param name="objIndex"></param>
+    /// <param name="objAmount"></param>
+    /// <param name="validSpawnPoints"></param>
+    private void SpawnParticularObj(
+        int objIndex,
+        List<Vector3> validSpawnPoints,
+        ref Dictionary<Vector3, Stack<GameObject>> objStacks)
+    {
+        GameObject curObj = ObjectPrefabsObjectGen.I.prefabs[objIndex];
+        Vector3 halfExtents = GetHalfExtents(curObj);
+
+        for (int j = 0; j < validSpawnPoints.Count; j++) //spawn iterator
+        {
+            GameObject placedObj = TryPlaceObject(curObj, validSpawnPoints[j], halfExtents, 1);
+            if (placedObj) //placement successful
             {
-                for (int j = 0; j < validSpawnPoints.Count; j++) //spawn iterator
-                {
-                    if (TryPlaceObject(ObjectPrefabsObjectGen.I.prefabs[obj.Key], validSpawnPoints[j], halfExtents, 1))
-                        break;
-                    //Else-> spawning failed, try again.
-                }
+                objStacks.Add(validSpawnPoints[j], new Stack<GameObject>(new[] { placedObj }));
+                return;
             }
         }
-    }   
+        //If the program reaches here, it ran out of "ground space", and will need to stack.
+        TryStack(curObj, ref objStacks, halfExtents);
+    }
+
+    /// <summary>
+    /// Given a prefab, size (in form of halfextents) and a objStacks, try to 
+    /// stack the object on each key of objStacks until successful.
+    /// </summary>
+    /// <param name="gameObject">prefab</param>
+    /// <param name="objStacks">dictionary containing locations of instances of this prefab</param>
+    /// <param name="halfExtents">size of the prefab</param>
+    /// <returns></returns>
+    private bool TryStack(
+        GameObject gameObject,
+        ref Dictionary<Vector3, Stack<GameObject>> objStacks,
+        Vector3 halfExtents)
+    {
+        //Debug.Log("start of try stack: " + objStack.Count);
+        foreach (KeyValuePair<Vector3, Stack<GameObject>> kvp in objStacks)
+        {
+            Vector3 basePos = kvp.Key;
+
+            //prevent placement if that stack will reach higher than 3 meters
+            //with the additional current object on top
+            float maxHeight = 3.0f;
+            if (objStacks[basePos].Peek().transform.position.y + (halfExtents.y*2) >= maxHeight)
+                continue;
+
+            Stack<GameObject> s = kvp.Value;
+            GameObject topObj = s.Peek();
+            BoxCollider bc = topObj.GetComponent<BoxCollider>();
+            Vector3 newPos = topObj.transform.position;
+            newPos.y = bc.transform.position.y + bc.size.y;
+
+            GameObject placedObj = TryPlaceObject(gameObject, newPos, halfExtents, 1);
+            if (placedObj)
+            {
+                objStacks[basePos].Push(placedObj);
+                return true;
+            }
+            else 
+                Debug.Log("stacking failed");
+        }
+        Debug.Log("out of available stacks for this gameobject");
+        return false;
+    }
 
     /// <summary>
     /// overload method: spawn from input by user.
