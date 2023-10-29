@@ -19,10 +19,10 @@ namespace AwARe.DataStructures
         private static DiscreteRay CreateRay(Vector3 start, Vector3 end, IGridSize gridSize) =>
             CreateRay(start, end, gridSize.GridSize);
         private static DiscreteRay CreateRay(Vector3 start, Vector3 end, Point3 gridSize) =>
-            new DiscreteRay(start, end, gridSize);
+            new(start, end, gridSize);
     }
 
-    public class DiscreteRay : IEnumerable<(float, Point3)>
+    public class DiscreteRay : IEnumerable<CellRay>
     {
         private const float eps = 0.00001f;
 
@@ -74,8 +74,8 @@ namespace AwARe.DataStructures
         public NullableVector3 GetPossibleParameters(NullableVector3 coordinates) =>
             GetParametersFunction(v, d)(coordinates);
 
-        public static Func<float,Vector3> GetParametrization(Vector3 v, Vector3 d) =>
-            l => v * l +d;
+        public static Func<float, Vector3> GetParametrization(Vector3 v, Vector3 d) =>
+            l => v * l + d;
 
         public Vector3 GetCoordinates(float l) =>
             GetParametrization(v, d)(l);
@@ -108,7 +108,7 @@ namespace AwARe.DataStructures
             NullableVector3.elementWiseOp(NullableVector3.safeOp(GetBounds1D), v, xyz);
 
         public static float? GetBounds1D(float v, float x) =>
-            (v<0) ? Mathf.Floor(x) : (v>0) ? Mathf.Ceil(x) : null;
+            (v < 0) ? Mathf.Floor(x) : (v > 0) ? Mathf.Ceil(x) : null;
 
         public float GetStart() =>
             l_start;
@@ -116,7 +116,7 @@ namespace AwARe.DataStructures
         public bool IsPastEnd(float current_l) =>
             current_l > l_end;
 
-        public IEnumerator<(float, Point3)> GetEnumerator() =>
+        public IEnumerator<CellRay> GetEnumerator() =>
             new DiscreteRayEnumerator(this);
 
         IEnumerator IEnumerable.GetEnumerator() =>
@@ -149,14 +149,13 @@ namespace AwARe.DataStructures
         public void Reset() => current = null;
     }
 
-    public class DiscreteRayEnumerator : IEnumerator<(float, Point3)>
+    public class DiscreteRayEnumerator : IEnumerator<CellRay>
     {
-        private (float,Point3) current;
-        private DiscreteRay ray;
-        private DiscreteRayParameterEnumerator rayEnumerator;
-        private float totalLength;
+        private CellRay current;
 
-        private (float,Vector3) last;
+        private readonly DiscreteRay ray;
+        private readonly DiscreteRayParameterEnumerator rayEnumerator;
+        private readonly float totalLength;
 
         public DiscreteRayEnumerator(DiscreteRay ray)
         {
@@ -167,7 +166,7 @@ namespace AwARe.DataStructures
             Reset();
         }
 
-        public (float, Point3) Current => current;
+        public CellRay Current => current;
 
         object IEnumerator.Current => Current;
 
@@ -175,17 +174,19 @@ namespace AwARe.DataStructures
 
         public bool MoveNext()
         {
+            var l_start = rayEnumerator.Current;
+            var start = current.End;
+
             if (!rayEnumerator.MoveNext())
                 return false;
 
-            (float l0, Vector3 p0) = last;
-            var l1 = rayEnumerator.Current;
-            var p1 = ray.GetCoordinates(l1);
+            var l_end = rayEnumerator.Current;
+            var end = ray.GetCoordinates(l_end);
 
-            Point3 idx = (Point3)((p0 + p1) / 2);
-            float length = (l0 - l1) * totalLength;
+            Point3 idx = (Point3)((start + end) / 2);
+            float length = (l_end - l_start) * totalLength;
 
-            current = (length, idx);
+            current = new(idx, length, start, end);
             return true;
         }
 
@@ -194,7 +195,20 @@ namespace AwARe.DataStructures
             rayEnumerator.Reset();
             rayEnumerator.MoveNext();
             var l = rayEnumerator.Current;
-            last = (l, ray.GetCoordinates(l));
+            current = new(Point3.zero, 0, Vector3.zero, ray.GetCoordinates(l));
         }
+    }
+
+    public class CellRay
+    {
+        public CellRay(Point3 idx, float length, Vector3 start, Vector3 end)
+        {
+            Idx = idx; Length = length; Start = start; End = end;
+        }
+
+        public Point3 Idx { get; private set; }
+        public float Length { get; private set; }
+        public Vector3 Start { get; private set; }
+        public Vector3 End { get; private set; }
     }
 }

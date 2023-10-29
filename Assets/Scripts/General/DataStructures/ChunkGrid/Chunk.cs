@@ -38,7 +38,7 @@ namespace AwARe.DataStructures
             this.data = data;
         }
 
-        public Point3 ChunkSize { get => new Point3(data.GetLength(0), data.GetLength(1), data.GetLength(2)); }
+        public Point3 ChunkSize { get => new (data.GetLength(0), data.GetLength(1), data.GetLength(2)); }
 
         public bool Changed { get => changed; set => changed = value; }
 

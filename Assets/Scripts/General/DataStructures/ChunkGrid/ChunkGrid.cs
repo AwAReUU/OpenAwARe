@@ -34,7 +34,7 @@ namespace AwARe.DataStructures
         }
 
         public Point3 GridSize { get => gridSize; }
-        public Point3 NroChunks { get => new Point3(chunks.GetLength(0), chunks.GetLength(1), chunks.GetLength(2)); }
+        public Point3 NroChunks { get => new (chunks.GetLength(0), chunks.GetLength(1), chunks.GetLength(2)); }
         public Point3 ChunkSize { get => chunkSize; }
 
         public T this[int x, int y, int z]
