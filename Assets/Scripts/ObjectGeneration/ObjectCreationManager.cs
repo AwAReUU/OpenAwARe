@@ -143,6 +143,7 @@ public class ObjectCreationManager : MonoBehaviour
         foreach (var obj in spawnDict) //prefab iterator
         {
             Debug.Log("spawning: " + ObjectPrefabsObjectGen.I.prefabs[obj.Key].name);
+            //Debug.Log("Allowed ratio: " + areaRatios[obj.Key]);
             float allowedRatioUsage = areaRatios[obj.Key];
             float currentRatioUsage = 0;
             float availableSurfaceArea = EstimateAvailableSurfaceArea(validSpawnPoints.Count);
@@ -167,7 +168,7 @@ public class ObjectCreationManager : MonoBehaviour
     {
         //each spawnpoint takes 0.1f*0.1f space approximately.
         //not 100% of available space is useful for us. weird corners, space in between objects etc.
-        return spawnPoints * 0.1f * 0.1f * 0.75f;
+        return spawnPoints * 0.1f * 0.1f * 0.9f;
     }
 
     /// <summary>
@@ -182,7 +183,7 @@ public class ObjectCreationManager : MonoBehaviour
         {
             GameObject curObj = ObjectPrefabsObjectGen.I.prefabs[obj.Key];
             Vector3 halfExtents = GetHalfExtents(curObj);
-            float area = halfExtents.x * halfExtents.z;
+            float area = halfExtents.x * halfExtents.z * 4;
             sumArea += area * obj.Value;
         }
         Dictionary<int, float> areaRatios = new();
@@ -190,7 +191,7 @@ public class ObjectCreationManager : MonoBehaviour
         {
             GameObject curObj = ObjectPrefabsObjectGen.I.prefabs[obj.Key];
             Vector3 halfExtents = GetHalfExtents(curObj);
-            float area = halfExtents.x * halfExtents.z;
+            float area = halfExtents.x * halfExtents.z * 4;
             float ratio = (area * obj.Value) / sumArea;
             areaRatios.Add(obj.Key, ratio);
         }
@@ -216,7 +217,7 @@ public class ObjectCreationManager : MonoBehaviour
 
         for (int j = 0; j < validSpawnPoints.Count; j++) //spawn iterator
         {
-            float ratioUsage = halfExtents.x * halfExtents.z / availableSurfaceArea;
+            float ratioUsage = (halfExtents.x * halfExtents.z * 4) / availableSurfaceArea;
             if (currentRatioUsage + ratioUsage < allowedRatioUsage)
             {
                 GameObject placedObj = TryPlaceObject(curObj, validSpawnPoints[j], halfExtents, 1);
