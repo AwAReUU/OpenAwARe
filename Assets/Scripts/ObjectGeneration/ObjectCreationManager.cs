@@ -174,23 +174,20 @@ public class ObjectCreationManager : MonoBehaviour
     /// <returns></returns>
     private Dictionary<int, float> GetAreaRatios(Dictionary<int, int> spawnDict)
     {
-        float sumArea = 0;
-        foreach (var obj in spawnDict) //prefab iterator
-        {
-            GameObject curObj = ObjectPrefabsObjectGen.I.prefabs[obj.Key];
-            Vector3 halfExtents = GetHalfExtents(curObj);
-            float area = halfExtents.x * halfExtents.z * 4;
-            sumArea += area * obj.Value;
-        }
         Dictionary<int, float> areaRatios = new();
-        foreach (var obj in spawnDict) //prefab iterator
+        //compute the sum of area of all gameobjects that will be spawned.
+        float sumArea = 0;
+        foreach (var obj in spawnDict)
         {
+            int quantity = obj.Value;
             GameObject curObj = ObjectPrefabsObjectGen.I.prefabs[obj.Key];
             Vector3 halfExtents = GetHalfExtents(curObj);
             float area = halfExtents.x * halfExtents.z * 4;
-            float ratio = (area * obj.Value) / sumArea;
-            areaRatios.Add(obj.Key, ratio);
+            sumArea += area * quantity;
         }
+        foreach (var key in spawnDict.Keys)
+            areaRatios[key] /= sumArea;
+
         return areaRatios;
     }
 
