@@ -232,6 +232,11 @@ public class ObjectCreationManager : MonoBehaviour
         TryStack(curObj, ref objStacks, halfExtents);
     }
 
+    /// <summary>
+    /// The sum of the area of all gameobjects that will be spawned
+    /// </summary>
+    /// <param name="spawnDict"></param>
+    /// <returns></returns>
     float ComputeSpaceNeeded(Dictionary<int, int> spawnDict)
     {
         //compute the sum of area of all gameobjects that will be spawned.
@@ -263,6 +268,7 @@ public class ObjectCreationManager : MonoBehaviour
     {
         while (objStacks.Keys.ToList().Count > 0)
         {
+            //Step 1: find the smallest stack.
             float smallestStackHeight = float.MaxValue;
             Vector3 smallestStackPos = Vector3.zero;
             foreach (KeyValuePair<Vector3, float> kvp in objStacks)
@@ -273,8 +279,10 @@ public class ObjectCreationManager : MonoBehaviour
                     smallestStackPos = kvp.Key;
                 }
             }
-            if (smallestStackHeight == float.MaxValue)
-                return false;
+            if (smallestStackHeight == float.MaxValue) //error scenario
+                return false; 
+
+            //step 2: check if it doesnt reach through the roof.
 
             //prevent placement if that stack will reach higher than 3 meters
             //with the additional current object on top
@@ -287,9 +295,9 @@ public class ObjectCreationManager : MonoBehaviour
                 return false;
             }
 
+            //Step 3: Test placement on new spot, check for collisions.
             Vector3 newPos = smallestStackPos;
             newPos.y = stackHeight;
-
             GameObject placedObj = TryPlaceObject(gameObject, newPos, halfExtents, 1);
             if (placedObj)
             {
