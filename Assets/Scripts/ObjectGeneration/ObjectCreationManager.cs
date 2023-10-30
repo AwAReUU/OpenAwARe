@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
@@ -182,10 +183,12 @@ public class ObjectCreationManager : MonoBehaviour
             int quantity = obj.Value;
             GameObject curObj = ObjectPrefabsObjectGen.I.prefabs[obj.Key];
             Vector3 halfExtents = GetHalfExtents(curObj);
-            float area = halfExtents.x * halfExtents.z * 4;
-            sumArea += area * quantity;
+            float areaPerClone = halfExtents.x * halfExtents.z * 4;
+            float areaClonesSum = areaPerClone * quantity;
+            areaRatios.Add(obj.Key, areaClonesSum);
+            sumArea += areaClonesSum;
         }
-        foreach (var key in spawnDict.Keys)
+        foreach (var key in areaRatios.Keys.ToList())
             areaRatios[key] /= sumArea;
 
         return areaRatios;
@@ -226,6 +229,22 @@ public class ObjectCreationManager : MonoBehaviour
         }
         //If the program reaches here, it ran out of "ground space", and will need to stack.
         TryStack(curObj, ref objStacks, halfExtents);
+    }
+
+    float EstimateSpaceNeeded(Dictionary<int, int> spawnDict) 
+    {
+        //compute the sum of area of all gameobjects that will be spawned.
+        float sumArea = 0;
+        foreach (var obj in spawnDict)
+        {
+            int quantity = obj.Value;
+            GameObject curObj = ObjectPrefabsObjectGen.I.prefabs[obj.Key];
+            Vector3 halfExtents = GetHalfExtents(curObj);
+            float area = halfExtents.x * halfExtents.z * 4;
+            sumArea += area * quantity;
+        }
+
+        return sumArea;
     }
 
     /// <summary>
