@@ -88,7 +88,10 @@ public class ObjectCreationManager : MonoBehaviour
 
             return true;
         }
-        else { Debug.Log("collision"); }
+        else
+        {
+            // Collision 
+        }
 
         return false;
     }
@@ -148,11 +151,10 @@ public class ObjectCreationManager : MonoBehaviour
             string modelpath = @"Prefabs/" + modelDatabase.GetModel(obj.Key).PrefabPath; 
             GameObject model = Resources.Load<GameObject>(modelpath);
 
-            // Get object size (temporary)
-            float modelSizeMultiplier = modelDatabase.GetModel(obj.Key).RealHeight;
-            
             Vector3 halfExtents = GetHalfExtents(model);
-            //halfExtents *= sizeMultiplier;
+            
+            // Get object size 
+            float modelSizeMultiplier = (modelDatabase.GetModel(obj.Key).RealHeight / (2 * halfExtents.y)) * sizeMultiplier;
             halfExtents *= modelSizeMultiplier;
 
             for (int i = 0; i < obj.Value; i++) //quantity iterator

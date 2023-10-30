@@ -12,14 +12,14 @@ namespace Databases
         {
             ModelTable = new()
             {
-                // Placeholder '10' for all float distances (.prefab needs to be removed!)
-                new Model( 1, ResourceType.Water, @"cube",  10, 10, 10, 10, 10),
-                new Model( 2, ResourceType.Animal,@"Animals/CowBlW",  10, 10, 10, 10, 10),
-                new Model( 3, ResourceType.Animal,@"Animals/ChickenBrown",  0.7f, 0.7f, 0.7f, 10, 10), 
-                new Model( 4, ResourceType.Animal,@"Animals/Pig",  1.35f, 1.35f, 1.35f, 10, 10),       
-                new Model( 5, ResourceType.Animal,@"Animals/DuckWhite",  0.65f, 0.65f, 0.65f, 10, 10), 
-                new Model( 6, ResourceType.Plant, @"Crops/grap",  10, 10, 10, 10, 10),
-                new Model( 7, ResourceType.Plant, @"Crops/wheat1",  10, 10, 10, 10, 10),
+                // All distances are 'placeholder = 0', except for real-life heights (meters)
+                new Model( 1, ResourceType.Water, @"cube",                  0, 0, 0, 0, 0),
+                new Model( 2, ResourceType.Animal,@"Animals/CowBlW",        0, 0, 0, 0, 0),
+                new Model( 3, ResourceType.Animal,@"Animals/ChickenBrown",  0, 0, 0.5f, 0, 0), 
+                new Model( 4, ResourceType.Animal,@"Animals/Pig",           0, 0, 0.94f, 0, 0),       
+                new Model( 5, ResourceType.Animal,@"Animals/DuckWhite",     0, 0, 0.39f, 0, 0), 
+                new Model( 6, ResourceType.Plant, @"Crops/grap",            0, 0, 0, 0, 0),
+                new Model( 7, ResourceType.Plant, @"Crops/wheat1",          0, 0, 2.25f, 0, 0),
             };
         }
 
