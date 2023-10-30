@@ -79,7 +79,12 @@ public class ObjectCreationManager : MonoBehaviour
     /// <param name="halfExtents"></param>
     /// <param name="sizeMultiplier"></param>
     /// <returns></returns>
-    private GameObject TryPlaceObject(GameObject obj, Vector3 position, Vector3 halfExtents, float sizeMultiplier, bool forcePlace = false)
+    private GameObject TryPlaceObject(
+        GameObject obj,
+        Vector3 position,
+        Vector3 halfExtents,
+        float sizeMultiplier,
+        bool forcePlace = false)
     {
         // Check if the box of the new object will overlap with any other colliders
         Vector3 boxCenter = position;
@@ -113,7 +118,7 @@ public class ObjectCreationManager : MonoBehaviour
     {
         //<prefabId, quantity>
         Dictionary<int, int> spawnDict = new Dictionary<int, int>()
-        { { 0, 12 }, { 1, 15 }, { 2, 50 }, { 3, 17 }, { 4, 40 } };
+        { { 0, 16 }, { 1, 15 }, { 2, 8 }, { 3, 12 }, { 4, 20 } };
         AutoGenerateObjects(spawnDict);
     }
     //* Function is called whenever PlaceButton is clicked to generate objects
@@ -134,9 +139,13 @@ public class ObjectCreationManager : MonoBehaviour
     {
         TestObjectSpawnPointHandler osph = new(planeManager); //(<-remove the word "Test" to use actual planes)
         List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
-
+        Dictionary<int, float> areaRatios = GetAreaRatios(spawnDict);
         foreach (var obj in spawnDict) //prefab iterator
         {
+            Debug.Log("spawning: " + ObjectPrefabsObjectGen.I.prefabs[obj.Key].name);
+            float allowedRatioUsage = areaRatios[obj.Key];
+            float currentRatioUsage = 0;
+            float availableSurfaceArea = EstimateAvailableSurfaceArea(validSpawnPoints.Count);
             //If we place an object, store its position as key, and a stack of gameobjects as value.
             //If we run out of ground space, we can start stacking the objects at these locations.
             //this dictionary is reset for each different objects, so that only clones of the same object
@@ -144,8 +153,48 @@ public class ObjectCreationManager : MonoBehaviour
             Dictionary<Vector3, Stack<GameObject>> objStacks = new();
 
             for (int i = 0; i < obj.Value; i++) //quantity iterator
-                SpawnParticularObj(obj.Key, validSpawnPoints, ref objStacks);
+                SpawnParticularObj(
+                    obj.Key,
+                    validSpawnPoints,
+                    ref objStacks,
+                    allowedRatioUsage,
+                    availableSurfaceArea,
+                    ref currentRatioUsage);
         }
+    }
+
+    private float EstimateAvailableSurfaceArea(int spawnPoints)
+    {
+        //each spawnpoint takes 0.1f*0.1f space approximately.
+        //not 100% of available space is useful for us. weird corners, space in between objects etc.
+        return spawnPoints * 0.1f * 0.1f * 0.75f;
+    }
+
+    /// <summary>
+    /// For each unique object, find out the percentage of space it will need.
+    /// </summary>
+    /// <param name="spawnDict"></param>
+    /// <returns></returns>
+    private Dictionary<int, float> GetAreaRatios(Dictionary<int, int> spawnDict)
+    {
+        float sumArea = 0;
+        foreach (var obj in spawnDict) //prefab iterator
+        {
+            GameObject curObj = ObjectPrefabsObjectGen.I.prefabs[obj.Key];
+            Vector3 halfExtents = GetHalfExtents(curObj);
+            float area = halfExtents.x * halfExtents.z;
+            sumArea += area * obj.Value;
+        }
+        Dictionary<int, float> areaRatios = new();
+        foreach (var obj in spawnDict) //prefab iterator
+        {
+            GameObject curObj = ObjectPrefabsObjectGen.I.prefabs[obj.Key];
+            Vector3 halfExtents = GetHalfExtents(curObj);
+            float area = halfExtents.x * halfExtents.z;
+            float ratio = (area * obj.Value) / sumArea;
+            areaRatios.Add(obj.Key, ratio);
+        }
+        return areaRatios;
     }
 
     /// <summary>
@@ -157,19 +206,28 @@ public class ObjectCreationManager : MonoBehaviour
     private void SpawnParticularObj(
         int objIndex,
         List<Vector3> validSpawnPoints,
-        ref Dictionary<Vector3, Stack<GameObject>> objStacks)
+        ref Dictionary<Vector3, Stack<GameObject>> objStacks,
+        float allowedRatioUsage,
+        float availableSurfaceArea,
+        ref float currentRatioUsage)
     {
         GameObject curObj = ObjectPrefabsObjectGen.I.prefabs[objIndex];
         Vector3 halfExtents = GetHalfExtents(curObj);
 
         for (int j = 0; j < validSpawnPoints.Count; j++) //spawn iterator
         {
-            GameObject placedObj = TryPlaceObject(curObj, validSpawnPoints[j], halfExtents, 1);
-            if (placedObj) //placement successful
+            float ratioUsage = halfExtents.x * halfExtents.z / availableSurfaceArea;
+            if (currentRatioUsage + ratioUsage < allowedRatioUsage)
             {
-                objStacks.Add(validSpawnPoints[j], new Stack<GameObject>(new[] { placedObj }));
-                return;
+                GameObject placedObj = TryPlaceObject(curObj, validSpawnPoints[j], halfExtents, 1);
+                if (placedObj) //placement successful
+                {
+                    objStacks.Add(validSpawnPoints[j], new Stack<GameObject>(new[] { placedObj }));
+                    currentRatioUsage += ratioUsage;
+                    return;
+                }
             }
+            //else Debug.Log("Out of ratio");
         }
         //If the program reaches here, it ran out of "ground space", and will need to stack.
         TryStack(curObj, ref objStacks, halfExtents);
@@ -211,10 +269,9 @@ public class ObjectCreationManager : MonoBehaviour
                 objStacks[basePos].Push(placedObj);
                 return true;
             }
-            else 
-                Debug.Log("stacking failed");
+            //else Debug.Log("stacking failed");
         }
-        Debug.Log("out of available stacks for this gameobject");
+        //Debug.Log("out of available stacks for this gameobject");
         return false;
     }
 
