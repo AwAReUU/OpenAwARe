@@ -147,11 +147,11 @@ public class ObjectCreationManager : MonoBehaviour
             float allowedRatioUsage = areaRatios[obj.Key];
             float currentRatioUsage = 0;
             float availableSurfaceArea = EstimateAvailableSurfaceArea(validSpawnPoints.Count);
-            //If we place an object, store its position as key, and a stack of gameobjects as value.
+            //If we place an object, store its position as key, and the height as value.
             //If we run out of ground space, we can start stacking the objects at these locations.
             //this dictionary is reset for each different objects, so that only clones of the same object
             //can be stacked on eachother.
-            Dictionary<Vector3, Stack<GameObject>> objStacks = new();
+            Dictionary<Vector3, float> objStacks = new();
 
             for (int i = 0; i < obj.Value; i++) //quantity iterator
                 SpawnParticularObj(
@@ -164,12 +164,8 @@ public class ObjectCreationManager : MonoBehaviour
         }
     }
 
-    private float EstimateAvailableSurfaceArea(int spawnPoints)
-    {
-        //each spawnpoint takes 0.1f*0.1f space approximately.
-        //not 100% of available space is useful for us. weird corners, space in between objects etc.
-        return spawnPoints * 0.1f * 0.1f * 0.9f;
-    }
+    private float EstimateAvailableSurfaceArea(int spawnPoints) =>
+        spawnPoints * 0.1f * 0.1f * 0.9f;
 
     /// <summary>
     /// For each unique object, find out the percentage of space it will need.
@@ -207,7 +203,7 @@ public class ObjectCreationManager : MonoBehaviour
     private void SpawnParticularObj(
         int objIndex,
         List<Vector3> validSpawnPoints,
-        ref Dictionary<Vector3, Stack<GameObject>> objStacks,
+        ref Dictionary<Vector3, float> objStacks,
         float allowedRatioUsage,
         float availableSurfaceArea,
         ref float currentRatioUsage)
@@ -223,7 +219,8 @@ public class ObjectCreationManager : MonoBehaviour
                 GameObject placedObj = TryPlaceObject(curObj, validSpawnPoints[j], halfExtents, 1);
                 if (placedObj) //placement successful
                 {
-                    objStacks.Add(validSpawnPoints[j], new Stack<GameObject>(new[] { placedObj }));
+                    float height = placedObj.transform.position.y + 2 * halfExtents.y; 
+                    objStacks.Add(validSpawnPoints[j], height);
                     currentRatioUsage += ratioUsage;
                     return;
                 }
@@ -244,30 +241,29 @@ public class ObjectCreationManager : MonoBehaviour
     /// <returns></returns>
     private bool TryStack(
         GameObject gameObject,
-        ref Dictionary<Vector3, Stack<GameObject>> objStacks,
+        ref Dictionary<Vector3, float> objStacks,
         Vector3 halfExtents)
     {
         //Debug.Log("start of try stack: " + objStack.Count);
-        foreach (KeyValuePair<Vector3, Stack<GameObject>> kvp in objStacks)
+        foreach (KeyValuePair<Vector3, float> kvp in objStacks)
         {
             Vector3 basePos = kvp.Key;
 
             //prevent placement if that stack will reach higher than 3 meters
             //with the additional current object on top
-            float maxHeight = 3.0f;
-            if (objStacks[basePos].Peek().transform.position.y + (halfExtents.y*2) >= maxHeight)
+            float stackHeight = objStacks[basePos];
+            float newHeight = stackHeight + halfExtents.y * 2;
+            const float maxHeight = 3.0f;
+            if (newHeight >= maxHeight)
                 continue;
 
-            Stack<GameObject> s = kvp.Value;
-            GameObject topObj = s.Peek();
-            BoxCollider bc = topObj.GetComponent<BoxCollider>();
-            Vector3 newPos = topObj.transform.position;
-            newPos.y = bc.transform.position.y + bc.size.y;
+            Vector3 newPos = basePos;
+            newPos.y = stackHeight;
 
             GameObject placedObj = TryPlaceObject(gameObject, newPos, halfExtents, 1);
             if (placedObj)
             {
-                objStacks[basePos].Push(placedObj);
+                objStacks[basePos] = newHeight;
                 return true;
             }
             //else Debug.Log("stacking failed");
