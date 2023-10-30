@@ -15,8 +15,6 @@ public class ObjectCreationManager : MonoBehaviour
     [SerializeField] private InputField inputAmount;
     [SerializeField] private InputField inputSize;
 
-
-
     /// <summary>
     /// HalfExtents are distances from center to bounding box walls.
     /// </summary>
@@ -119,7 +117,7 @@ public class ObjectCreationManager : MonoBehaviour
     {
         //<prefabId, quantity>
         Dictionary<int, int> spawnDict = new Dictionary<int, int>()
-        { { 0, 16 }, { 1, 15 }, { 2, 8 }, { 3, 12 }, { 4, 20 } };
+        { { 0, 16 }, { 1, 20 }, { 2, 8 }, { 3, 12 }, { 4, 20 } };
         AutoGenerateObjects(spawnDict);
     }
     //* Function is called whenever PlaceButton is clicked to generate objects
@@ -148,6 +146,9 @@ public class ObjectCreationManager : MonoBehaviour
             float allowedRatioUsage = areaRatios[obj.Key];
             float currentRatioUsage = 0;
             float availableSurfaceArea = EstimateAvailableSurfaceArea(validSpawnPoints.Count);
+            float spaceNeeded = ComputeSpaceNeeded(spawnDict);
+            //Debug.Log("available spawnSpace: " + availableSurfaceArea);
+            //Debug.Log("spaceNeeded: " + spaceNeeded);
             //If we place an object, store its position as key, and the height as value.
             //If we run out of ground space, we can start stacking the objects at these locations.
             //this dictionary is reset for each different objects, so that only clones of the same object
@@ -188,7 +189,7 @@ public class ObjectCreationManager : MonoBehaviour
             areaRatios.Add(obj.Key, areaClonesSum);
             sumArea += areaClonesSum;
         }
-        foreach (var key in areaRatios.Keys.ToList())
+        foreach (int key in areaRatios.Keys.ToList())
             areaRatios[key] /= sumArea;
 
         return areaRatios;
@@ -231,7 +232,7 @@ public class ObjectCreationManager : MonoBehaviour
         TryStack(curObj, ref objStacks, halfExtents);
     }
 
-    float EstimateSpaceNeeded(Dictionary<int, int> spawnDict) 
+    float ComputeSpaceNeeded(Dictionary<int, int> spawnDict)
     {
         //compute the sum of area of all gameobjects that will be spawned.
         float sumArea = 0;
@@ -260,29 +261,43 @@ public class ObjectCreationManager : MonoBehaviour
         ref Dictionary<Vector3, float> objStacks,
         Vector3 halfExtents)
     {
-        //Debug.Log("start of try stack: " + objStack.Count);
-        foreach (KeyValuePair<Vector3, float> kvp in objStacks)
+        while (objStacks.Keys.ToList().Count > 0)
         {
-            Vector3 basePos = kvp.Key;
+            float smallestStackHeight = float.MaxValue;
+            Vector3 smallestStackPos = Vector3.zero;
+            foreach (KeyValuePair<Vector3, float> kvp in objStacks)
+            {
+                if (kvp.Value < smallestStackHeight)
+                {
+                    smallestStackHeight = kvp.Value;
+                    smallestStackPos = kvp.Key;
+                }
+            }
+            if (smallestStackHeight == float.MaxValue)
+                return false;
 
             //prevent placement if that stack will reach higher than 3 meters
             //with the additional current object on top
-            float stackHeight = objStacks[basePos];
+            float stackHeight = objStacks[smallestStackPos];
             float newHeight = stackHeight + halfExtents.y * 2;
             const float maxHeight = 3.0f;
             if (newHeight >= maxHeight)
-                continue;
+            {
+                objStacks.Remove(smallestStackPos);
+                return false;
+            }
 
-            Vector3 newPos = basePos;
+            Vector3 newPos = smallestStackPos;
             newPos.y = stackHeight;
 
             GameObject placedObj = TryPlaceObject(gameObject, newPos, halfExtents, 1);
             if (placedObj)
             {
-                objStacks[basePos] = newHeight;
+                objStacks[smallestStackPos] = newHeight;
                 return true;
             }
-            //else Debug.Log("stacking failed");
+            else 
+                objStacks.Remove(smallestStackPos);
         }
         //Debug.Log("out of available stacks for this gameobject");
         return false;
