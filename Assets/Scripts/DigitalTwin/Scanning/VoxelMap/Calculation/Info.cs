@@ -35,7 +35,17 @@ namespace AwARe.DigitalTwin.VoxelMap
     public class VoxelInfo
     {
         public VoxelValue value;
+
+        public VoxelInfo()
+        {
+            this.value = VoxelValue.Unseen;
+        }
+
+        public VoxelInfo(VoxelValue value)
+        {
+            this.value = value;
+        }
     }
 
-    public enum VoxelValue { Air, Solid, Unseen, Unknown }
+    public enum VoxelValue { Unseen, Air, Solid, Unknown, Outside }
 }

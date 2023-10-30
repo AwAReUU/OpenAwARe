@@ -20,7 +20,7 @@ namespace AwARe.DataStructures
             this.chunkFactory = chunkFactory;
         }
 
-        public ChunkGrid<T> Create(Point3 gridSize, Point3 chunkSize)
+        public virtual ChunkGrid<T> Create(Point3 gridSize, Point3 chunkSize)
         {
             // Compute how many chunks are needed in each dimension/direction
             Point3 chunkGridSize = (gridSize - 1) / chunkSize + 1;
@@ -42,7 +42,7 @@ namespace AwARe.DataStructures
     {
         public ChunkFactory() { }
 
-        public Chunk<T> Create(Point3 chunkSize)
+        public virtual Chunk<T> Create(Point3 chunkSize)
         {
             // Create the subgrid stored in chunk
             T[,,] chunkData = new T[chunkSize.x, chunkSize.y, chunkSize.z];

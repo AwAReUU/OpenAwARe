@@ -1,11 +1,9 @@
 using UnityEngine;
 
-using AwARe.DataTypes;
 using Data = AwARe.DataStructures;
-using System;
-using AwARe.DigitalTwin.VoxelMap;
+using AwARe.MonoBehaviours;
 
-namespace AwARe.MonoBehaviours
+namespace AwARe.DigitalTwin.VoxelMap.MonoBehaviours
 {
     public class VoxelMapSpawner : CompositeSpawner
     {

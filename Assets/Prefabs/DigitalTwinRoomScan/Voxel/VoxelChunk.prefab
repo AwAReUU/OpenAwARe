@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 394501772549684890}
   - component: {fileID: -7228742008166201095}
   - component: {fileID: -272621794476872854}
-  - component: {fileID: 3891138634492463340}
+  - component: {fileID: 733686867573378607}
   m_Layer: 0
   m_Name: VoxelChunk
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8828354357057710941}
   m_Mesh: {fileID: 0}
---- !u!114 &3891138634492463340
+--- !u!114 &733686867573378607
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,6 +93,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8828354357057710941}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1a2e7075945891419dcb0b402c1b514, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e20cc5aa56d87b4984999faff33554d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

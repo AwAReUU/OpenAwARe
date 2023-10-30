@@ -1,6 +1,7 @@
 using AwARe.DataTypes.Interfaces;
 using System;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -35,11 +36,11 @@ namespace AwARe.DataTypes
         public static implicit operator Vector2(Point2 p) => p.ToVector2();
         public static explicit operator Point2(Vector2 v) => new(v);
 
-        public int x { get => X; set => X = value; }
-        public int y { get => Y; set => Y = value; }
+        public int x { readonly get => X; set => X = value; }
+        public int y { readonly get => Y; set => Y = value; }
         public int this[int idx]
         {
-            get => idx switch
+            readonly get => idx switch
             {
                 0 => X,
                 1 => Y,
@@ -56,12 +57,15 @@ namespace AwARe.DataTypes
             }
         }
 
-        public int[] ToArray()
+        public override readonly String ToString() =>
+            $"({x}, {y})";
+
+        public readonly int[] ToArray()
         {
             return new[] { X, Y };
         }
 
-        public Vector2 ToVector2()
+        public readonly Vector2 ToVector2()
         {
             return new Vector2(X, Y);
         }
@@ -139,12 +143,12 @@ namespace AwARe.DataTypes
         public static implicit operator Vector3(Point3 p) => p.ToVector3();
         public static explicit operator Point3(Vector3 v) => new(v);
 
-        public int x { get => X; set => X = value; }
-        public int y { get => Y; set => Y = value; }
-        public int z { get => Z; set => Z = value; }
+        public int x { readonly get => X; set => X = value; }
+        public int y { readonly get => Y; set => Y = value; }
+        public int z { readonly get => Z; set => Z = value; }
         public int this[int idx]
         {
-            get => idx switch
+            readonly get => idx switch
             {
                 0 => X,
                 1 => Y,
@@ -163,6 +167,9 @@ namespace AwARe.DataTypes
             }
         }
 
+        public override readonly String ToString() =>
+            $"({x}, {y}, {z})";
+
         public int[] ToArray()
         {
             return new[] { X, Y, Z };
@@ -176,13 +183,12 @@ namespace AwARe.DataTypes
         public static Point3 one => new(1, 1, 1);
 
         static private Point3 elementWiseOp(Func<float, int> op, Vector3 v) => new(op(v.x), op(v.y), op(v.z));
-        static private Point3 elementWiseOp(Func<int, int, int> op, int left, Point3 right) => new(op(left, right.x), op(left, right.y), op(left, right.z));
-        static private Point3 elementWiseOp(Func<int, int, int> op, Point3 left, int right) => new(op(left.x, right), op(left.y, right), op(left.z, right));
-        static private Point3 elementWiseOp(Func<int, int, int> op, Point3 left, Point3 right) => new(op(left.x, right.x), op(left.y, right.y), op(left.z, right.z));
-        static private Point3 elementWiseOp(Func<int[], int> op, Point3[] points) => new(op(points.Select(p=>p.x).ToArray()), op(points.Select(p => p.y).ToArray()), op(points.Select(p => p.z).ToArray()));
-        static private (int?, int?, int?) safeElementWiseOp(Func<int, int, int?> op, int left, Point3 right) => (op(left, right.x), op(left, right.y), op(left, right.z));
-        static private (int?, int?, int?) safeElementWiseOp(Func<int, int, int?> op, Point3 left, int right) => (op(left.x, right), op(left.y, right), op(left.z, right));
-        static private (int?, int?, int?) safeElementWiseOp(Func<int, int, int?> op, Point3 left, Point3 right) => (op(left.x, right.x), op(left.y, right.y), op(left.z, right.z));
+        static private Point3 elementWiseOp<T>(Func<T, int> op, ITensor3<T> v) => new(op(v.x), op(v.y), op(v.z));
+        static private Point3 elementWiseOp<L, R>(Func<L, R, int> op, L left, ITensor3<R> right) => new(op(left, right.x), op(left, right.y), op(left, right.z));
+        static private Point3 elementWiseOp<L, R>(Func<L, R, int> op, ITensor3<L> left, R right) => new(op(left.x, right), op(left.y, right), op(left.z, right));
+        static private Point3 elementWiseOp<L, R>(Func<L, R, int> op, ITensor3<L> left, ITensor3<R> right) => new(op(left.x, right.x), op(left.y, right.y), op(left.z, right.z));
+        // static private Point3 elementWiseOp<T>(Func<T[], int> op, ITensor3<T>[] array) => new(op(array.Select(p => p.x).ToArray()), op(array.Select(p => p.y).ToArray()), op(array.Select(p => p.z).ToArray()));
+        static private Point3 elementWiseOp(Func<int[], int> op, Point3[] array) => new(op(array.Select(p => p.x).ToArray()), op(array.Select(p => p.y).ToArray()), op(array.Select(p => p.z).ToArray()));
 
         static public Point3 operator +(int left, Point3 right) => elementWiseOp((l, r) => l + r, left, right);
         static public Point3 operator +(Point3 left, int right) => elementWiseOp((l, r) => l + r, left, right);
@@ -200,18 +206,40 @@ namespace AwARe.DataTypes
         static public Point3 operator /(Point3 left, int right) => elementWiseOp((l, r) => l / r, left, right);
         static public Point3 operator /(Point3 left, Point3 right) => elementWiseOp((l, r) => l / r, left, right);
 
-        static private int? SafeDivInt(int left, int right) => (right == 0) ? null : (left / right);
-        static public (int?, int?, int?) SafeDiv(int left, Point3 right) => safeElementWiseOp(SafeDivInt, left, right);
-        static public (int?, int?, int?) SafeDiv(Point3 left, int right) => safeElementWiseOp(SafeDivInt, left, right);
-        static public (int?, int?, int?) SafeDiv(Point3 left, Point3 right) => safeElementWiseOp(SafeDivInt, left, right);
-
         static public Point3 Min(Point3 left, Point3 right) => elementWiseOp(Math.Min, left, right);
-        static public Point3 Min(Point3[] points) => elementWiseOp(p => p.Min(), points);
+        static public Point3 Min(Point3[] array) => elementWiseOp(v => v.Min(), array);
         static public Point3 Max(Point3 left, Point3 right) => elementWiseOp(Math.Max, left, right);
-        static public Point3 Max(Point3[] points) => elementWiseOp(p => p.Max(), points);
+        static public Point3 Max(Point3[] array) => elementWiseOp(v => v.Max(), array);
 
         static public Point3 Floor(Vector3 v) => elementWiseOp(Mathf.FloorToInt, v);
         static public Point3 Ceil(Vector3 v) => elementWiseOp(Mathf.CeilToInt, v);
+
+        public readonly bool Equals(Point3 t) => x == t.x && y == t.y && z == t.z;
+        public override readonly bool Equals(object o) => o is Point3 t && Equals(t);
+
+        static public BinaryTensor3 operator ==(int left, Point3 right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l == r, left, right);
+        static public BinaryTensor3 operator ==(Point3 left, int right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l == r, left, right);
+        static public BinaryTensor3 operator ==(Point3 left, Point3 right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l == r, left, right);
+
+        static public BinaryTensor3 operator !=(int left, Point3 right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l != r, left, right);
+        static public BinaryTensor3 operator !=(Point3 left, int right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l != r, left, right);
+        static public BinaryTensor3 operator !=(Point3 left, Point3 right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l != r, left, right);
+
+        static public BinaryTensor3 operator <(int left, Point3 right) => BinaryTensor3.elementWiseOp<int,int>((l, r) => l < r, left, right);
+        static public BinaryTensor3 operator <(Point3 left, int right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l < r, left, right);
+        static public BinaryTensor3 operator <(Point3 left, Point3 right) => BinaryTensor3.elementWiseOp<int, int>((l,r) => l < r, left, right);
+
+        static public BinaryTensor3 operator >(int left, Point3 right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l > r, left, right);
+        static public BinaryTensor3 operator >(Point3 left, int right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l > r, left, right);
+        static public BinaryTensor3 operator >(Point3 left, Point3 right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l > r, left, right);
+
+        static public BinaryTensor3 operator <=(int left, Point3 right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l <= r, left, right);
+        static public BinaryTensor3 operator <=(Point3 left, int right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l <= r, left, right);
+        static public BinaryTensor3 operator <=(Point3 left, Point3 right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l <= r, left, right);
+
+        static public BinaryTensor3 operator >=(int left, Point3 right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l >= r, left, right);
+        static public BinaryTensor3 operator >=(Point3 left, int right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l >= r, left, right);
+        static public BinaryTensor3 operator >=(Point3 left, Point3 right) => BinaryTensor3.elementWiseOp<int, int>((l, r) => l >= r, left, right);
     }
 
     public struct Point4 : ITensor4<int>
@@ -247,13 +275,13 @@ namespace AwARe.DataTypes
         public static implicit operator Vector4(Point4 p) => p.ToVector4();
         public static explicit operator Point4(Vector4 v) => new(v);
 
-        public int x { get => X; set => X = value; }
-        public int y { get => Y; set => Y = value; }
-        public int z { get => Z; set => Z = value; }
-        public int w { get => W; set => W = value; }
+        public int x { readonly get => X; set => X = value; }
+        public int y { readonly get => Y; set => Y = value; }
+        public int z { readonly get => Z; set => Z = value; }
+        public int w { readonly get => W; set => W = value; }
         public int this[int idx]
         {
-            get => idx switch
+            readonly get => idx switch
             {
                 0 => X,
                 1 => Y,
@@ -273,6 +301,9 @@ namespace AwARe.DataTypes
                 };
             }
         }
+
+        public override readonly String ToString()
+            => $"({x}, {y}, {z}, {w})";
 
         public int[] ToArray()
         {

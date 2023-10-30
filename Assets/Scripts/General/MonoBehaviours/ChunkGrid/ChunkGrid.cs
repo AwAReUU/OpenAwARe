@@ -28,17 +28,17 @@ namespace AwARe.MonoBehaviours
         protected virtual void OnStart()
         {
             // Create Chunk objects with chunk behaviour for each chunk
-            Data.IChunk<T>[,,] chunks = this.chunkGrid.Chunks;
-            chunkObjects = new GameObject[chunks.GetLength(0), chunks.GetLength(1), chunks.GetLength(2)];
-            for (int x = 0; x < chunks.GetLength(0); x++)
-                for (int y = 0; y < chunks.GetLength(1); y++)
-                    for (int z = 0; z < chunks.GetLength(2); z++)
+            Data.IChunk<T>[,,] data = this.chunkGrid.Chunks;
+            chunkObjects = new GameObject[data.GetLength(0), data.GetLength(1), data.GetLength(2)];
+            for (int x = 0; x < data.GetLength(0); x++)
+                for (int y = 0; y < data.GetLength(1); y++)
+                    for (int z = 0; z < data.GetLength(2); z++)
                     {
                         GameObject chunkObject = Instantiate(this.chunkObject, this.transform);
                         chunkObject.transform.SetLocalPositionAndRotation(ChunkLocation(new Point3(x, y, z)), Quaternion.identity);
                         chunkObject.transform.localScale = Vector3.one;
-                        Chunk<T> chunkBehaviour = chunkObject.GetComponent<Chunk<T>>();
-                        chunkBehaviour.chunk = chunks[x, y, z];
+                        Chunk<T> chunk = chunkObject.GetComponent<Chunk<T>>();
+                        chunk.chunk = data[x, y, z];
                         chunkObjects[x, y, z] = chunkObject;
                     }
         }

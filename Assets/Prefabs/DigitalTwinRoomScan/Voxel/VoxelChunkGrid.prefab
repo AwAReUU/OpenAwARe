@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 759150803715483987}
-  - component: {fileID: -3514482179352734597}
+  - component: {fileID: 3747775652134143329}
   m_Layer: 0
   m_Name: VoxelChunkGrid
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-3514482179352734597
+--- !u!114 &3747775652134143329
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1643503270133246858}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48d630d83ae7bb4d93b974d8d3bdceb, type: 3}
+  m_Script: {fileID: 11500000, guid: a64c4a91d0f5d1a4f8b092aacd84f02a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   chunkObject: {fileID: 8828354357057710941, guid: a0d829d2e7146744db5717d9ce6deec4,

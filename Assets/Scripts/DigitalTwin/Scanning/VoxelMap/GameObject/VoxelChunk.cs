@@ -2,26 +2,21 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AwARe.MonoBehaviours
-{
-    public class VoxelChunk : Chunk<bool>
-    {
-        const int dim = VoxelData.dim;
+using AwARe.MonoBehaviours;
+using AwARe.DataTypes;
 
+namespace AwARe.DigitalTwin.VoxelMap.MonoBehaviours
+{
+    public class VoxelChunk : Chunk<VoxelInfo>
+    {
         protected int vertexIndex;
         protected List<Vector3> vertices;
         protected List<int> triangles;
         protected List<Vector2> uvs;
 
-        public bool[,,] chunkData;
-
         // Start is called before the first frame update
         protected override void OnStart()
         {
-            this.chunkData = chunk.Data;
-
-            SetStartData();
-
             UpdateMesh();
         }
 
@@ -34,26 +29,18 @@ namespace AwARe.MonoBehaviours
         private void SetStartData()
         {
             // Temp.
-            for (int x = 0; x < chunkData.GetLength(0); x++)
-                for (int y = 0; y < chunkData.GetLength(1); y++)
-                    for (int z = 0; z < chunkData.GetLength(2); z++)
-                    {
-                        chunkData[x, y, z] = UnityEngine.Random.value > 0.8f;
-                    }
+            for (int x = 0; x < chunk.Data.GetLength(0); x++)
+                for (int y = 0; y < chunk.Data.GetLength(1); y++)
+                    for (int z = 0; z < chunk.Data.GetLength(2); z++)
+                        chunk.Data[x, y, z] = new(VoxelValue.Unseen);
         }
 
-        private bool Voxel(Vector3 pos)
+        private Voxel Voxel(Point3 pos)
         {
-            float[] xyzf = new float[] { pos.x, pos.y, pos.z };
-            int[] xyz = new int[dim];
-            for (int i = 0; i < dim; i++)
-            {
-                xyz[i] = (int)MathF.Floor(xyzf[i]);
-                if (xyz[i] < 0 || xyz[i] >= chunkData.GetLength(i))
-                    return false;
-            }
+            bool inBounds = pos >= 0 && pos < ChunkSize;
+            if (!inBounds) return new(VoxelFill.Empty);
 
-            return chunkData[xyz[0], xyz[1], xyz[2]];
+            return (Voxel)chunk[pos];
         }
 
         void UpdateMesh()
@@ -63,10 +50,12 @@ namespace AwARe.MonoBehaviours
             triangles = new List<int>();
             uvs = new List<Vector2>();
 
-            for (int x = 0; x < chunkData.GetLength(0); x++)
-                for (int y = 0; y < chunkData.GetLength(1); y++)
-                    for (int z = 0; z < chunkData.GetLength(2); z++)
-                        AddVoxel(new Vector3(x, y, z));
+            
+            for (int x = 0; x < chunk.Data.GetLength(0); x++)
+                for (int y = 0; y < chunk.Data.GetLength(1); y++)
+                    for (int z = 0; z < chunk.Data.GetLength(2); z++)
+                        AddVoxel(new Point3(x, y, z));
+            
 
             Mesh mesh = new()
             {
@@ -81,13 +70,13 @@ namespace AwARe.MonoBehaviours
             meshFilter.mesh = mesh;
         }
 
-        void AddVoxel(Vector3 pos)
+        void AddVoxel(Point3 pos)
         {
             var voxel = Voxel(pos);
             for (int p = 0; p < 6; p++)
             {
-                var neighbour = Voxel(pos + VoxelData.FaceChecks[p]);
-                if (!toRenderFace(voxel, neighbour))
+                var neighbour = Voxel((Point3)(pos + VoxelData.FaceChecks[p]));
+                if (!ToRenderFace(voxel, neighbour))
                     continue;
 
                 vertices.Add(pos + VoxelData.Vertices[VoxelData.Triangles[p, 0]]);
@@ -108,8 +97,34 @@ namespace AwARe.MonoBehaviours
             }
         }
 
-        bool toRenderFace(bool voxel, bool neighbour) => voxel && !neighbour;
+        bool ToRenderFace(Voxel voxel, Voxel neighbour) => (voxel.fill, neighbour.fill) switch
+            {
+                (VoxelFill.Filled, VoxelFill.Filled)    => false,
+                (VoxelFill.Filled, _)                   => true,
+                (VoxelFill.Ghost, VoxelFill.Ghost)      => false,
+                (VoxelFill.Ghost, _)                    => true,
+                _                                       => false
+            };
     }
+
+    public class Voxel
+    {
+        public VoxelFill fill;
+
+        public Voxel(VoxelFill fill)
+        {
+            this.fill = fill;
+        }
+
+        public static explicit operator Voxel(VoxelInfo info) => info.value switch
+        {
+            VoxelValue.Solid    => new(VoxelFill.Filled),
+            VoxelValue.Air      => new(VoxelFill.Ghost),
+            _                   => new(VoxelFill.Empty)
+        };
+    }
+
+    public enum VoxelFill { Empty, Filled, Ghost }
 }
 
 

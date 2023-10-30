@@ -29,9 +29,9 @@ namespace AwARe.DataTypes
         public static implicit operator NullableVector3(Vector3 v) => new(v);
         public static implicit operator NullableVector3(Point3 v) => (Vector3)v;
 
-        public float? x { get => X; set => X = value; }
-        public float? y { get => Y; set => Y = value; }
-        public float? z { get => Z; set => Z = value; }
+        public float? x { readonly get => X; set => X = value; }
+        public float? y { readonly get => Y; set => Y = value; }
+        public float? z { readonly get => Z; set => Z = value; }
         public float? this[int idx]
         {
             get => idx switch
@@ -53,6 +53,9 @@ namespace AwARe.DataTypes
             }
         }
 
+        public override readonly String ToString() =>
+            $"({x}, {y}, {z})";
+
         public float?[] ToArray()
         {
             return new[] { X, Y, Z };
@@ -62,6 +65,8 @@ namespace AwARe.DataTypes
         {
             return new Vector3(X ?? 0, Y ?? 0, Z ?? 0);
         }
+
+
 
         public static NullableVector3 zero => (NullableVector3)(Vector3.zero);
         public static NullableVector3 one => (NullableVector3)(Vector3.one);
@@ -91,7 +96,7 @@ namespace AwARe.DataTypes
         static public NullableVector3 operator *(NullableVector3 left, float? right) => elementWiseOp(safeMul, left, right);
         static public NullableVector3 operator *(NullableVector3 left, NullableVector3 right) => elementWiseOp(safeMul, left, right);
 
-        static private float? safeDiv(float? l, float? r) => safeOp((float l, float r) => (r == 0) ? null : l * r)(l, r);
+        static private float? safeDiv(float? l, float? r) => safeOp((float l, float r) => (r == 0) ? null : l / r)(l, r);
         static public NullableVector3 operator /(float? left, NullableVector3 right) => elementWiseOp(safeDiv, left, right);
         static public NullableVector3 operator /(NullableVector3 left, float? right) => elementWiseOp(safeDiv, left, right);
         static public NullableVector3 operator /(NullableVector3 left, NullableVector3 right) => elementWiseOp(safeDiv, left, right);
@@ -99,7 +104,7 @@ namespace AwARe.DataTypes
         static private float? safeMin(float? l, float? r) => safeOp(Mathf.Min)(l, r);
         static public NullableVector3 Min(NullableVector3 left, NullableVector3 right) => elementWiseOp(safeMin, left, right);
         static private float? safeMax(float? l, float? r) => safeOp(Mathf.Max)(l, r);
-        static public NullableVector3 Max(NullableVector3 left, NullableVector3 right) => elementWiseOp(safeMin, left, right);
+        static public NullableVector3 Max(NullableVector3 left, NullableVector3 right) => elementWiseOp(safeMax, left, right);
 
         static public float MinEl(NullableVector3 v) =>
             MinEl(v, out _);
@@ -107,7 +112,9 @@ namespace AwARe.DataTypes
         {
             var a = v.ToArray();
             var min = float.PositiveInfinity; arg = -1;
-            for (int i = 0; i < 3; i++) if (a[i].HasValue && a[i].Value < min) { min = a[i].Value; arg = i; }
+            for (int i = 0; i < a.Length; i++)
+                if (a[i].HasValue && a[i].Value < min)
+                { min = a[i].Value; arg = i; }
             return min;
         }
 
@@ -116,8 +123,10 @@ namespace AwARe.DataTypes
         static public float MaxEl(NullableVector3 v, out int arg)
         {
             var a = v.ToArray();
-            var max = float.PositiveInfinity; arg = -1;
-            for (int i = 0; i < 3; i++) if (a[i].HasValue && a[i].Value > max) { max = a[i].Value; arg = i; }
+            var max = float.NegativeInfinity; arg = -1;
+            for (int i = 0; i < a.Length; i++)
+                if (a[i].HasValue && a[i].Value > max)
+                { max = a[i].Value; arg = i; }
             return max;
         }
 

@@ -14,14 +14,7 @@ using System.Threading;
 
 namespace AwARe.DataStructures
 {
-    public static class GridMath
-    {
-        private static DiscreteRay CreateRay(Vector3 start, Vector3 end, IGridSize gridSize) =>
-            CreateRay(start, end, gridSize.GridSize);
-        private static DiscreteRay CreateRay(Vector3 start, Vector3 end, Point3 gridSize) =>
-            new(start, end, gridSize);
-    }
-
+    
     public class DiscreteRay : IEnumerable<CellRay>
     {
         private const float eps = 0.00001f;
@@ -50,20 +43,30 @@ namespace AwARe.DataStructures
 
         public static (float, float) GetSection(Vector3 start, Vector3 end, Vector3 min, Vector3 max)
         {
+            Debug.Log($"start: {start}, end: {end}, min: {min}, max: {max}");
+
             // Parametrize the (finite) ray for computation
             (Vector3 v, Vector3 d) = Parametrize(start, end);
             float start_l = 0, end_l = 1;
+            Debug.Log($"v: {v}, d: {d}");
 
             // Compute the parameter on the bounds
             var f = GetParametersFunction(v, d);
             var ls_bound_min = f(min);
             var ls_bound_max = f(max);
 
+            Debug.Log($"ls_bound_min: {ls_bound_min}, ls_bound_max: {ls_bound_max}");
+
             // Compute the minimal and maximal values on the (finite) ray s.t. the points are in bounds.
             var ls_min = NullableVector3.Min(ls_bound_max, ls_bound_min);
             var ls_max = NullableVector3.Max(ls_bound_max, ls_bound_min);
+
+            Debug.Log($"ls_min: {ls_min}, ls_max: {ls_max}");
+
             start_l = Mathf.Max(start_l, NullableVector3.MaxEl(ls_min));
             end_l = Mathf.Min(end_l, NullableVector3.MinEl(ls_max));
+
+            Debug.Log($"start_l: {start_l}, end_l: {end_l}");
 
             return (start_l, end_l);
         }
@@ -85,36 +88,38 @@ namespace AwARe.DataStructures
         public float GetNext(float current)
         {
             // Get next parameter
-            var next_l = SmallIncr(current);
-            var point = GetCoordinates(next_l);
-            var extremes = NullableVector3.elementWiseOp(NullableVector3.safeOp(GetBounds1D), v, point);
+            var point = GetCoordinates(current);
+            var extremes = GetNextBounds(v, point);
 
             var ls = GetPossibleParameters(extremes);
-            next_l = NullableVector3.MinEl(ls, out int arg);
-
-            return next_l;
+            return NullableVector3.MinEl(ls);
         }
 
-        public static float SmallIncr(float v)
+        public static NullableVector3 GetNextBounds(Vector3 v, Vector3 point) =>
+            NullableVector3.elementWiseOp(NullableVector3.safeOp(GetNextBound), v, point);
+
+        public static float? GetNextBound(float v, float x) =>
+            (v < 0) ? GetBoundBelow(x) : (v > 0) ? GetBoundAbove(x) : null;
+
+        public static float? GetBoundAbove(float x)
         {
-            var e = eps;
-            var w = v + e;
-            while (w == v)
-            { e *= 2; w = v + e; }
-            return w;
+            var b = Mathf.Ceil(x);
+            if (b - x < eps) b++;
+            return b;
         }
 
-        public static NullableVector3 GetBounds(Vector3 v, Vector3 xyz) =>
-            NullableVector3.elementWiseOp(NullableVector3.safeOp(GetBounds1D), v, xyz);
-
-        public static float? GetBounds1D(float v, float x) =>
-            (v < 0) ? Mathf.Floor(x) : (v > 0) ? Mathf.Ceil(x) : null;
+        public static float? GetBoundBelow(float x)
+        {
+            var b = Mathf.Floor(x);
+            if (x - b < eps) b--;
+            return b;
+        }
 
         public float GetStart() =>
             l_start;
 
-        public bool IsPastEnd(float current_l) =>
-            current_l > l_end;
+        public bool Continue(float current_l) =>
+            current_l <= l_end;
 
         public IEnumerator<CellRay> GetEnumerator() =>
             new DiscreteRayEnumerator(this);
@@ -141,9 +146,9 @@ namespace AwARe.DataStructures
 
         public bool MoveNext()
         {
-            current = current.HasValue ? ray.GetNext(current.Value) : current = ray.GetStart();
+            current = current.HasValue ? ray.GetNext(current.Value) : ray.GetStart();
 
-            return ray.IsPastEnd(current.Value);
+            return ray.Continue(current.Value);
         }
 
         public void Reset() => current = null;
