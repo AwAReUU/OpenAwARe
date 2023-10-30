@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using IngredientLists;
 
 namespace Databases
@@ -53,9 +54,22 @@ namespace Databases
 
         public List<Ingredient> Search(string term)
         {
-            List<int> ids = SearchTable.Where(x => x.Item2.Contains(term, System.StringComparison.OrdinalIgnoreCase)).Select(x => x.Item1).ToList();
-            List<Ingredient> result = ingredientTable.Where(x => ids.Contains(x.ID)).ToList();
-            return result;
+            // old, possibly more comprehensible version
+            // // get all tuples in search table which names contain the search term
+            // IEnumerable<(int,string)> idNamePairs = SearchTable.Where(x => x.Item2.Contains(term, System.StringComparison.OrdinalIgnoreCase));
+            // // order these by the position of the search term within the name and select ID
+            // IEnumerable<int> ids = idNamePairs.OrderBy(x => x.Item2.IndexOf(term, System.StringComparison.OrdinalIgnoreCase)).Select(x => x.Item1);
+
+            // new, potentially faster version. Since index of and contains do basically the same thing we will only perform indexOf once
+            // get all tuples in search table which names contain the search term
+            IEnumerable<(int, string, int)> idIndexPairs = SearchTable.Select(x => (x.Item1, x.Item2, x.Item2.IndexOf(term, System.StringComparison.OrdinalIgnoreCase)));
+            // filter all tuples with index > -1. index == -1 means the name did not contain the search term
+            idIndexPairs = idIndexPairs.Where(x => x.Item3 > -1);
+            // order these by the position of the search term within the name, then by preferred name, and select ID
+            IEnumerable<int> ids = idIndexPairs.OrderBy(x => (x.Item3,x.Item2)).Select(x => x.Item1).Distinct();
+
+            // get the ingredients with these IDs
+            return GetIngredients(ids);
         }
 
         public Ingredient GetIngredient(int id)
@@ -63,14 +77,13 @@ namespace Databases
             return ingredientTable.First(x => x.ID == id);
         }
 
-        public List<Ingredient> GetIngredients(List<int> ids)
+        public List<Ingredient> GetIngredients(IEnumerable<int> ids)
         {
-            List<Ingredient> ingredients = new();
-            foreach (int id in ids)
-            {
-                ingredients.Add(GetIngredient(id));
-            }
-            return ingredients;
+            //return ingredientTable.Join(ids,x => x.ID, x => x, (x,y) => x == y).ToList();
+            IEnumerable<Ingredient> ingredients = from id in ids
+                                                  join ingredient in ingredientTable on id equals ingredient.ID
+                                                  select ingredient;
+            return ingredients.ToList();
         }
     }
 }

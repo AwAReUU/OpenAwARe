@@ -37,9 +37,9 @@ namespace Databases
             return ResourceTable.First(x => x.ID == id);
         }
 
-        public List<Resource> GetResources(List<int> ids)
+        public List<Resource> GetResources(IEnumerable<int> ids)
         {
-            throw new System.Exception("method not implemented");
+            return ResourceTable.Where(x => ids.Contains(x.ID)).ToList();
         }
     }
 }

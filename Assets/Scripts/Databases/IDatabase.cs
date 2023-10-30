@@ -9,7 +9,7 @@ namespace Databases
 
         // returns the full data of an ingredient, given its unique IngredientID
         public Ingredient GetIngredient(int id);
-        public List<Ingredient> GetIngredients(List<int> ids);
+        public List<Ingredient> GetIngredients(IEnumerable<int> ids);
 
         // returns a List of Ingredients with a (possible) name containing the search term,
         // without any duplicates
@@ -27,6 +27,6 @@ namespace Databases
     {
         // returns the full data of a resource, given its unique Resource ID
         public Resource GetResource(int id);
-        public List<Resource> GetResources(List<int> ids);
+        public List<Resource> GetResources(IEnumerable<int> ids);
     }
 }
