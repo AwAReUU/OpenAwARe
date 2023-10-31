@@ -12,12 +12,14 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch;
 
+// Kizi: I changed the ARplanemanager to accept a pointcloud manager for now instead to geenrate the pointcloud for the boundingbox
 public enum InputStates { All, Place, Interact }
-[RequireComponent(typeof(ARRaycastManager), typeof(ARPlaneManager))]
+[RequireComponent(typeof(ARRaycastManager), typeof(ARPointCloudManager))]
+
 public class InputController : MonoBehaviour
 {
     private ARRaycastManager aRRaycastManager;
-    private ARPlaneManager aRPlaneManager;
+    private ARPointCloudManager aRCloudManager;
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();
     private ObjectCreationManager objectCreationManager;
     private InteractObjectHandler interactObjectHandler;
@@ -37,7 +39,7 @@ public class InputController : MonoBehaviour
     private void Awake()
     {
         aRRaycastManager = GetComponent<ARRaycastManager>();
-        aRPlaneManager = GetComponent<ARPlaneManager>();
+        aRCloudManager = GetComponent<ARPointCloudManager>();
         objectCreationManager = GetComponent<ObjectCreationManager>();
         interactObjectHandler = GetComponent<InteractObjectHandler>();
         arCamera = FindObjectOfType<Camera>();
