@@ -7,6 +7,8 @@ using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using Databases;
 using ResourceLists;
+using AwARe.DataStructures;
+using Unity.VisualScripting;
 
 public class ObjectCreationManager : MonoBehaviour
 {
@@ -30,45 +32,6 @@ public class ObjectCreationManager : MonoBehaviour
         return halfExtents;
     }
 
-    public void TryPlaceObjectOnTouch(ARRaycastHit hit, bool rotateToUser = true, bool forceCreate = false)
-    {
-        Pose pose = hit.pose;
-
-        if (forceCreate)
-        {
-            //* Ignore any constrains and force create the object, only requirement being a plane hit
-            GameObject newObject = Instantiate(ObjectPrefabsObjectGen.I.prefabs[ObjectPrefabsObjectGen.I.prefabIndex], pose.position, pose.rotation);
-
-            if (rotateToUser)
-                RotateToUser(newObject);
-
-            return;
-        }
-
-        Vector3 halfExtents = GetHalfExtents(ObjectPrefabsObjectGen.I.prefabs[ObjectPrefabsObjectGen.I.prefabIndex]);
-
-        // Create the position where the new object should be placed (+ add slight hover to prevent floor collisions)
-        Vector3 newPosition = new Vector3(pose.position.x, pose.position.y, pose.position.z);
-
-        // Create a list of colliders that prevent an object from being placed
-        Collider[] overlappingColliders;
-
-        // Check if the box overlaps with any other colliders
-        if (!TryPlaceObject(ObjectPrefabsObjectGen.I.prefabs[ObjectPrefabsObjectGen.I.prefabIndex], newPosition, halfExtents, 1))
-        {
-            Debug.Log("Can't place object. It would overlap with another.");
-
-            // Get all overlapping colliders + draw a fading cube around each overlapping collider for visualization
-            overlappingColliders = Physics.OverlapBox(newPosition, halfExtents, pose.rotation);
-            foreach (var collider in overlappingColliders)
-            {
-                BoxCollider box = collider as BoxCollider;
-                if (box)
-                    CreateVisualBox(box);
-            }
-        }
-    }
-
     /// <summary>
     /// return gameobject if successful
     /// </summary>
@@ -78,25 +41,23 @@ public class ObjectCreationManager : MonoBehaviour
     /// <param name="sizeMultiplier"></param>
     /// <returns></returns>
     private GameObject TryPlaceObject(
-        GameObject obj,
+        SpawnParams so,
         Vector3 position,
-        Vector3 halfExtents,
-        float sizeMultiplier,
         bool forcePlace = false)
     {
         // Check if the box of the new object will overlap with any other colliders
         Vector3 boxCenter = position;
-        boxCenter.y += halfExtents.y;
+        boxCenter.y += so.halfExtents.y;
         if (!Physics.CheckBox(
             boxCenter,
-            halfExtents,
+            so.halfExtents,
             Quaternion.identity,
             LayerMask.GetMask("Material2")) || forcePlace) //only check collisions with other materials.
         {
             // Adjust object size according to scalar
-            GameObject newObject = Instantiate(obj, position, Quaternion.identity);
+            GameObject newObject = Instantiate(so.prefab, position, Quaternion.identity);
             newObject.layer = LayerMask.NameToLayer("Material2");
-            newObject.transform.localScale = new Vector3(sizeMultiplier, sizeMultiplier, sizeMultiplier);
+            newObject.transform.localScale = new Vector3(so.scaling, so.scaling, so.scaling);
 
             // Add collider after changing object size
             BoxCollider bc = newObject.AddComponent<BoxCollider>();
@@ -118,80 +79,94 @@ public class ObjectCreationManager : MonoBehaviour
         int WheatAmount = int.Parse(inputWheatAmount.text);
         int DuckAmount = int.Parse(inputDuckAmount.text);
 
-        float sizeMultiplier = float.Parse(inputSize.text);
-
         // Get databases
         MockupResourceDatabase resourceDatabase = new MockupResourceDatabase();
-        MockupModelDatabase    modelDatabase    = new MockupModelDatabase();
+        MockupModelDatabase modelDatabase = new MockupModelDatabase();
 
         // make a list of (resourceID, Quantity)
-        Dictionary<int, int> resourceList = new Dictionary<int, int>() 
-        { 
+        Dictionary<int, int> resourceList = new Dictionary<int, int>()
+        {
           { 14, PigAmount     },
           { 13, ChickenAmount },
-          { 17, WheatAmount   }, 
+          { 17, WheatAmount   },
           { 15, DuckAmount    },
         };
-         
+
         Dictionary<int, int> modelList = ResourceListToModelList(resourceList, resourceDatabase);
-        AutoGenerateObjects(modelList, modelDatabase, sizeMultiplier);
+        Dictionary<int, SpawnParams> spawnDict = GenerateSpawnDict(modelList, modelDatabase);
+
+        AutoGenerateObjects(spawnDict);
     }
-    
-    
+
+
     /// <summary> Converts the dictionary from the form (resourceID, Quantity) to the form (modelID, Quantity) </summary>
     public Dictionary<int, int> ResourceListToModelList(Dictionary<int, int> resourceList, MockupResourceDatabase resourceDatabase)
     {
         var modelList = new Dictionary<int, int>();
-        foreach(var obj in resourceList) 
+        foreach (var obj in resourceList)
         {
             int modelID = resourceDatabase.GetResource(obj.Key).ModelID;
             modelList[modelID] = obj.Value;
         }
         return modelList;
     }
-    
+
+    private Dictionary<int, SpawnParams> GenerateSpawnDict(Dictionary<int, int> modelList, MockupModelDatabase modelDatabase)
+    {
+        float sizeMultiplier = float.Parse(inputSize.text);
+        Dictionary<int, SpawnParams> spawnDict = new();
+        foreach (var kvp in modelList)
+        {
+            SpawnParams sp = new();
+            string modelpath = @"Prefabs/" + modelDatabase.GetModel(kvp.Key).PrefabPath;
+            GameObject model = Resources.Load<GameObject>(modelpath);
+            Vector3 halfExtents = GetHalfExtents(model);
+            float modelSizeMultiplier = modelDatabase.GetModel(kvp.Key).RealHeight / (2 * halfExtents.y) * sizeMultiplier;
+            sp.prefab = model;
+            sp.quantity = kvp.Value;
+            sp.scaling = modelSizeMultiplier;
+            sp.halfExtents = halfExtents * modelSizeMultiplier;
+            spawnDict.Add(kvp.Key, sp);
+        }
+
+        spawnDict = SetSurfaceRatios(spawnDict);
+        return spawnDict;
+    }
+    class SpawnParams
+    {
+        public int quantity;
+        public float allowedSurfaceUsage; //percentage
+        public GameObject prefab;
+        public Vector3 halfExtents;
+        public float scaling;
+    }
 
     /// <summary> Generates the unity Gameobjects given a model list (modelID, Quantity) and a modelDatabase. The modelID is used to find the corresponding prefab name in the modelDatabase. </summary>
-    public void AutoGenerateObjects(Dictionary<int,int> spawnDict, MockupModelDatabase modelDatabase, float sizeMultiplier)
+    private void AutoGenerateObjects(Dictionary<int, SpawnParams> spawnDict)
     {
-        TestObjectSpawnPointHandler osph = new(planeManager); //(<-remove the word "Test" to use actual planes)
+        TestObjectSpawnPointHandler osph = new(planeManager); //(<-remove the word "Test" to use scanned planes)
+
         List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
-        Dictionary<int, float> areaRatios = GetAreaRatios(spawnDict);
         foreach (var obj in spawnDict) //prefab iterator
         {
-            // Get the GameObject by using the model's prefabPath
-            string modelpath = @"Prefabs/" + modelDatabase.GetModel(obj.Key).PrefabPath; 
-            GameObject model = Resources.Load<GameObject>(modelpath);
-
-            Vector3 halfExtents = GetHalfExtents(model);
-            
-            // Get object size 
-            float modelSizeMultiplier = (modelDatabase.GetModel(obj.Key).RealHeight / (2 * halfExtents.y)) * sizeMultiplier;
-            halfExtents *= modelSizeMultiplier;
-            Debug.Log("spawning: " + ObjectPrefabsObjectGen.I.prefabs[obj.Key].name);
-            //Debug.Log("Allowed ratio: " + areaRatios[obj.Key]);
-            float allowedRatioUsage = areaRatios[obj.Key];
             float currentRatioUsage = 0;
             float availableSurfaceArea = EstimateAvailableSurfaceArea(validSpawnPoints.Count);
-            float spaceNeeded = ComputeSpaceNeeded(spawnDict);
+            //float spaceNeeded = ComputeSpaceNeeded(spawnDict);
 
-            //Debug.Log("available spawnSpace: " + availableSurfaceArea);
-            //Debug.Log("spaceNeeded: " + spaceNeeded);
             //If we place an object, store its position as key, and the height as value.
             //If we run out of ground space, we can start stacking the objects at these locations.
             //this dictionary is reset for each different objects, so that only clones of the same object
             //can be stacked on eachother.
-            Dictionary<Vector3, float> objStacks = new();
+            Dictionary<Vector3, float> prefabStacks = new();
 
-            for (int i = 0; i < obj.Value; i++) //quantity iterator
+            for (int i = 0; i < obj.Value.quantity; i++) //quantity iterator
                 SpawnParticularObj(
-                    model,
+                    obj.Value,
                     validSpawnPoints,
-                    ref objStacks,
-                    allowedRatioUsage,
+                    ref prefabStacks,
                     availableSurfaceArea,
-                    ref currentRatioUsage,
-                    modelSizeMultiplier);
+                    ref currentRatioUsage
+                );
         }
     }
 
@@ -203,25 +178,23 @@ public class ObjectCreationManager : MonoBehaviour
     /// </summary>
     /// <param name="spawnDict"></param>
     /// <returns></returns>
-    private Dictionary<int, float> GetAreaRatios(Dictionary<int, int> spawnDict)
+    private Dictionary<int, SpawnParams> SetSurfaceRatios(Dictionary<int, SpawnParams> spawnDict)
     {
-        Dictionary<int, float> areaRatios = new();
         //compute the sum of area of all gameobjects that will be spawned.
         float sumArea = 0;
-        foreach (var obj in spawnDict)
+        foreach (var so in spawnDict.Values)
         {
-            int quantity = obj.Value;
-            GameObject curObj = ObjectPrefabsObjectGen.I.prefabs[obj.Key];
-            Vector3 halfExtents = GetHalfExtents(curObj);
+            int quantity = so.quantity;
+            Vector3 halfExtents = so.halfExtents;
             float areaPerClone = halfExtents.x * halfExtents.z * 4;
             float areaClonesSum = areaPerClone * quantity;
-            areaRatios.Add(obj.Key, areaClonesSum);
+            so.allowedSurfaceUsage = areaClonesSum;
             sumArea += areaClonesSum;
         }
-        foreach (int key in areaRatios.Keys.ToList())
-            areaRatios[key] /= sumArea;
+        foreach (int key in spawnDict.Keys.ToList())
+            spawnDict[key].allowedSurfaceUsage /= sumArea;
 
-        return areaRatios;
+        return spawnDict;
     }
 
     /// <summary>
@@ -231,25 +204,21 @@ public class ObjectCreationManager : MonoBehaviour
     /// <param name="objAmount"></param>
     /// <param name="validSpawnPoints"></param>
     private void SpawnParticularObj(
-        GameObject curObj, 
+        SpawnParams so,
         List<Vector3> validSpawnPoints,
         ref Dictionary<Vector3, float> objStacks,
-        float allowedRatioUsage,
         float availableSurfaceArea,
-        ref float currentRatioUsage,
-        float modelSizeMultiplier)
+        ref float currentRatioUsage)
     {
-        Vector3 halfExtents = GetHalfExtents(curObj);
-
         for (int j = 0; j < validSpawnPoints.Count; j++) //spawn iterator
         {
-            float ratioUsage = (halfExtents.x * halfExtents.z * 4) / availableSurfaceArea;
-            if (currentRatioUsage + ratioUsage < allowedRatioUsage)
+            float ratioUsage = so.halfExtents.x * so.halfExtents.z * 4 / availableSurfaceArea;
+            if (currentRatioUsage + ratioUsage < so.allowedSurfaceUsage)
             {
-                bool placedObj = TryPlaceObject(curObj, validSpawnPoints[j], halfExtents, modelSizeMultiplier);
+                bool placedObj = TryPlaceObject(so, validSpawnPoints[j]);
                 if (placedObj) //placement successful
                 {
-                    float height = validSpawnPoints[j].y + 2*halfExtents.y;
+                    float height = validSpawnPoints[j].y + 2 * so.halfExtents.y;
                     objStacks.Add(validSpawnPoints[j], height);
                     currentRatioUsage += ratioUsage;
                     return;
@@ -258,7 +227,7 @@ public class ObjectCreationManager : MonoBehaviour
             //else Debug.Log("Out of ratio");
         }
         //If the program reaches here, it ran out of "ground space", and will need to stack.
-        TryStack(curObj, ref objStacks, halfExtents);
+        TryStack(so, ref objStacks);
     }
 
     /// <summary>
@@ -266,15 +235,14 @@ public class ObjectCreationManager : MonoBehaviour
     /// </summary>
     /// <param name="spawnDict"></param>
     /// <returns></returns>
-    float ComputeSpaceNeeded(Dictionary<int, int> spawnDict)
+    float ComputeSpaceNeeded(Dictionary<int, SpawnParams> spawnDict)
     {
         //compute the sum of area of all gameobjects that will be spawned.
         float sumArea = 0;
         foreach (var obj in spawnDict)
         {
-            int quantity = obj.Value;
-            GameObject curObj = ObjectPrefabsObjectGen.I.prefabs[obj.Key];
-            Vector3 halfExtents = GetHalfExtents(curObj);
+            int quantity = obj.Value.quantity;
+            Vector3 halfExtents = obj.Value.halfExtents;
             float area = halfExtents.x * halfExtents.z * 4;
             sumArea += area * quantity;
         }
@@ -291,9 +259,8 @@ public class ObjectCreationManager : MonoBehaviour
     /// <param name="halfExtents">size of the prefab</param>
     /// <returns></returns>
     private bool TryStack(
-        GameObject gameObject,
-        ref Dictionary<Vector3, float> objStacks,
-        Vector3 halfExtents)
+        SpawnParams so,
+        ref Dictionary<Vector3, float> objStacks)
     {
         while (objStacks.Keys.ToList().Count > 0)
         {
@@ -309,14 +276,14 @@ public class ObjectCreationManager : MonoBehaviour
                 }
             }
             if (smallestStackHeight == float.MaxValue) //error scenario
-                return false; 
+                return false;
 
             //step 2: check if it doesnt reach through the roof.
 
             //prevent placement if that stack will reach higher than 3 meters
             //with the additional current object on top
             float stackHeight = objStacks[smallestStackPos];
-            float newHeight = stackHeight + halfExtents.y * 2;
+            float newHeight = stackHeight + so.halfExtents.y * 2;
             const float maxHeight = 3.0f;
             if (newHeight >= maxHeight)
             {
@@ -327,49 +294,17 @@ public class ObjectCreationManager : MonoBehaviour
             //Step 3: Test placement on new spot, check for collisions.
             Vector3 newPos = smallestStackPos;
             newPos.y = stackHeight;
-            GameObject placedObj = TryPlaceObject(gameObject, newPos, halfExtents, 1);
+            GameObject placedObj = TryPlaceObject(so, newPos);
             if (placedObj)
             {
                 objStacks[smallestStackPos] = newHeight;
                 return true;
             }
-            else 
+            else
                 objStacks.Remove(smallestStackPos);
         }
         //Debug.Log("out of available stacks for this gameobject");
         return false;
-    }
-
-
-    /// <summary> overload method: spawn from input by user. Will be replaced by material list </summary>
-    public void AutoGenerateObjects(int objectAmount, float sizeMultiplier, GameObject gameObject)
-    {
-        Vector3 halfExtents = GetHalfExtents(gameObject);
-        halfExtents *= sizeMultiplier;
-        Debug.Log(halfExtents);
-
-        ObjectSpawnPointHandler osph = new(planeManager);
-        List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
-
-        int materialsToPlace = objectAmount;
-        for (int i = 0; i < validSpawnPoints.Count; i++)
-        {
-            if (TryPlaceObject(gameObject, validSpawnPoints[i], halfExtents, sizeMultiplier))
-            {
-                Debug.Log("placing successful");
-
-                materialsToPlace--;
-                if (materialsToPlace == 0)
-                {
-                    Debug.Log("finished placing all objects");
-                    break;
-                }
-            }
-            else
-            {
-                Debug.Log("placement failed");
-            }
-        }
     }
 
     private void RotateToUser(GameObject target)
@@ -428,7 +363,7 @@ public class ObjectCreationManager : MonoBehaviour
 
         Destroy(target);
     }
-    
+
     public void DestroyAllObjects()
     {
         GameObject[] animals = GameObject.FindGameObjectsWithTag("Animal");

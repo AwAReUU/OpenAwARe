@@ -123,15 +123,15 @@ public class InputController : MonoBehaviour
         }
 
         //* Place new object in world
-        if (inputState == InputStates.Place || inputState == InputStates.All)
-        {
-            if (aRRaycastManager.Raycast(screenPoint, hits, TrackableType.PlaneWithinPolygon))
-            {
-                // foreach (ARRaycastHit hit in hits)
-                //     createObjectHandler.CreateObject(hit);
-                if (hits.Count > 0)
-                    objectCreationManager.TryPlaceObjectOnTouch(hits[0]);
-            }
-        }
+        //if (inputState == InputStates.Place || inputState == InputStates.All)
+        //{
+        //    if (aRRaycastManager.Raycast(screenPoint, hits, TrackableType.PlaneWithinPolygon))
+        //    {
+        //        // foreach (ARRaycastHit hit in hits)
+        //        //     createObjectHandler.CreateObject(hit);
+        //        if (hits.Count > 0)
+        //            objectCreationManager.TryPlaceObjectOnTouch(hits[0]);
+        //    }
+        //}
     }
 }
