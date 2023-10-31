@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 759150803715483987}
   - component: {fileID: 3747775652134143329}
+  - component: {fileID: 8082461508444039732}
   m_Layer: 0
   m_Name: VoxelChunkGrid
   m_TagString: Untagged
@@ -46,3 +47,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chunkObject: {fileID: 8828354357057710941, guid: a0d829d2e7146744db5717d9ce6deec4,
     type: 3}
+--- !u!33 &8082461508444039732
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643503270133246858}
+  m_Mesh: {fileID: -5495902117074765545, guid: de4da3906a001624fabcc7838ddf2eb4, type: 3}
