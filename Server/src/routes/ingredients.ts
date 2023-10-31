@@ -25,8 +25,7 @@ router.get("/search", async (req: any, res: any) => {
                 WHERE instr(lower(PosName), lower(?)) > 0
                 ORDER BY instr(lower(s.PosName), lower(?))  
                 LIMIT 10) y
-            ON x.IngredientID = y.IngredientID;
-        `,
+            ON x.IngredientID = y.IngredientID;`,
     [query, query],
     async (error: any, rows: any) => {
       if (error) {
@@ -50,7 +49,7 @@ router.get("/getIngredient", async (req: any, res: any) => {
   let db = Database.getInstance().ingrdb();
 
   db.get(
-    "SELECT * FROM TABLE Ingredient WHERE IngredientID = ?",
+    `SELECT * FROM Ingredient WHERE IngredientID = ?;`,
     [id],
     async (error: any, row: any) => {
       if (error) {
@@ -73,8 +72,8 @@ router.get("/getIngredientList", async (req: any, res: any) => {
   let db = Database.getInstance().ingrdb();
 
   db.all(
-    "SELECT * FROM TABLE Ingredient WHERE IngredientID IN ?",
-    [ids],
+    `SELECT * FROM Ingredient WHERE IngredientID IN (`+ ids.map(function(){ return '?' }).join(',') +`);`,
+    ids,
     async (error: any, rows: any) => {
       if (error) {
         console.error(error);
@@ -96,7 +95,7 @@ router.get("/getRequirements", async (req: any, res: any) => {
   let db = Database.getInstance().ingrdb();
 
   db.all(
-    "SELECT * FROM TABLE Requires WHERE IngredientID = ?",
+    `SELECT * FROM TABLE Requires WHERE IngredientID = ?;`,
     [id],
     async (error: any, rows: any) => {
       if (error) {
@@ -120,7 +119,7 @@ router.get("/getResource", async (req: any, res: any) => {
   let db = Database.getInstance().ingrdb();
 
   db.get(
-    "SELECT * FROM TABLE Resource WHERE ResourceID = ?",
+    `SELECT * FROM TABLE Resource WHERE ResourceID = ?;`,
     [id],
     async (error: any, row: any) => {
       if (error) {
@@ -143,8 +142,8 @@ router.get("/getResourceList", async (req: any, res: any) => {
   let db = Database.getInstance().ingrdb();
 
   db.all(
-    "SELECT * FROM TABLE Resource WHERE IngredientID IN ?",
-    [ids],
+    `SELECT * FROM Resource WHERE ResourceID IN (`+ ids.map(function(){ return '?' }).join(',') +`);`,
+    ids,
     async (error: any, rows: any) => {
       if (error) {
         console.error(error);
@@ -166,7 +165,7 @@ router.get("/getModel", async (req: any, res: any) => {
   let db = Database.getInstance().ingrdb();
 
   db.get(
-    "SELECT * FROM TABLE Model WHERE ModelID = ?",
+    `SELECT * FROM TABLE Model WHERE ModelID = ?;`,
     [id],
     async (error: any, row: any) => {
       if (error) {
@@ -189,8 +188,8 @@ router.get("/getModelList", async (req: any, res: any) => {
   let db = Database.getInstance().ingrdb();
 
   db.all(
-    "SELECT * FROM TABLE Model WHERE ModelID IN ?",
-    [ids],
+    `SELECT * FROM Model WHERE ModelID IN (`+ ids.map(function(){ return '?' }).join(',') +`);`,
+    ids,
     async (error: any, rows: any) => {
       if (error) {
         console.error(error);
