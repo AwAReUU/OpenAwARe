@@ -3,11 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
-public class ObjectSpawnPointHandler
+
+public interface IObjectSpawnPointHandler 
+{
+    public List<Vector3> GetValidSpawnPoints();
+
+}
+
+public class TestObjectSpawnPointHandler : IObjectSpawnPointHandler
+{
+    public TestObjectSpawnPointHandler(ARPlaneManager planeManager = null, float gridSpacing = 0.1f)
+    {
+        gridSpacing_ = gridSpacing;
+    }
+    private readonly float gridSpacing_;
+
+    /// <summary>
+    /// Just return a hardcoded "fake plane" of spawnpoints
+    /// </summary>
+    /// <returns></returns>
+    public List<Vector3> GetValidSpawnPoints()
+    {
+        List<Vector3> result = new List<Vector3>();
+        float y = -0.87f;
+
+        //get all pnts in bounding box in grid pattern with space "spacing" in between.
+        for (float x = -8f; x <= -3; x += gridSpacing_)
+        {
+            for (float z = -8f; z <= -3; z += gridSpacing_)  
+            {
+                Vector3 gridPoint = new Vector3(x, y, z);
+                result.Add(gridPoint);
+            }
+        }
+        return result;
+    }
+}
+
+public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
 {
     private readonly float gridSpacing_;
     private readonly ARPlaneManager planeManager_;
-    public ObjectSpawnPointHandler(ARPlaneManager planeManager, float gridSpacing = 0.1f) 
+    public ObjectSpawnPointHandler(ARPlaneManager planeManager, float gridSpacing = 0.1f)
     {
         gridSpacing_ = gridSpacing;
         planeManager_ = planeManager;
@@ -70,7 +107,7 @@ public class ObjectSpawnPointHandler
                 //if it hits the plane, we know that the gridpoint is on top of the plane.
                 if (Physics.Raycast(ray, out hit, 5))
                     if (hit.collider.gameObject == plane.gameObject)
-                        result.Add(gridPoint);
+                    { result.Add(gridPoint); Debug.Log(gridPoint); }
             }
         }
         return result;

@@ -33,7 +33,7 @@ router.post("/register", async (req: any, res: any) => {
 
     let db = Database.getInstance().db();
     db.get(
-        "SELECT email FROM users WHERE email = ?",
+        "SELECT Email FROM User WHERE Email = ?",
         [email],
         async (error: any, row: any) => {
             if (error) {
@@ -47,7 +47,7 @@ router.post("/register", async (req: any, res: any) => {
                 return;
             } else {
                 db.run(
-                    "INSERT INTO users (first_name, last_name, password, email) VALUES (?, ?, ?, ?)",
+                    "INSERT INTO User (FirstName, LastName, Password, Email) VALUES (?, ?, ?, ?)",
                     [firstName, lastName, password, email],
                 );
                 res.status(201).send("Registration successful");
@@ -69,7 +69,7 @@ router.post("/login", async (req: any, res: any) => {
 
     let db = Database.getInstance().db();
     db.get(
-        "SELECT password FROM users WHERE email = ?",
+        "SELECT Password FROM User WHERE Email = ?",
         [email],
         async (error: any, row: any) => {
             if (error) {
