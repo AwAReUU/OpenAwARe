@@ -4,6 +4,7 @@ using UnityEngine;
 public class Polygon : MonoBehaviour
 {
     [SerializeField] private GameObject applyBtn;
+    [SerializeField] private GameObject pointerObj;
 
     private Vector3 pointer = Vector3.zero;
     private List<Vector3> points = new();
@@ -62,6 +63,7 @@ public class Polygon : MonoBehaviour
     {
         applyBtn.SetActive(true);
         this.points.Add(this.pointer);
+        this.pointerObj.SetActive(false);
 
         UpdateLine();
     }
