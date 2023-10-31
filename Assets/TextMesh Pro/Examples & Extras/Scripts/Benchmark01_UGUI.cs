@@ -81,7 +81,7 @@ namespace TMPro.Examples
                 }
                 else
                 {
-                    //m_textMesh.font = Resources.Load("Fonts/ARIAL", typeof(Font)) as Font;
+                    //m_textMesh.font = ResourceLists.Load("Fonts/ARIAL", typeof(Font)) as Font;
                     //m_textMesh.renderer.sharedMaterial = m_textMesh.font.material;
                 }
 

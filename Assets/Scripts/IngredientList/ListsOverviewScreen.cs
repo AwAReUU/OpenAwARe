@@ -5,82 +5,93 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ListsOverviewScreen : MonoBehaviour
+namespace IngredientLists
 {
-    [SerializeField] private IngredientListManager ingredientListManager;
-
-    // the objects drawn on screen to display the lists
-    List<GameObject> listObjects = new List<GameObject>();
-
-    // (assigned within unity)
-    [SerializeField] private Transform scrollViewContent;
-    [SerializeField] private GameObject listItemObject; //list item 'prefab'
- 
-    private void OnEnable()
+    public class ListsOverviewScreen : MonoBehaviour
     {
-        //Debug.Log("count:  " + ingredientListManager.ingredientLists.Count);
-        DisplayLists();
-    }
+        // (assigned within unity)
+        [SerializeField] private GameObject backButton;
+        [SerializeField] private IngredientListManager ingredientListManager;
+        [SerializeField] private Transform scrollViewContent;
+        [SerializeField] private GameObject listItemObject; //list item 'prefab'
 
-    private void OnDisable()
-    {
-        RemoveListObjects();
-    }
+        // the objects drawn on screen to display the Lists
+        List<GameObject> listObjects = new();
 
-    void DisplayLists()
-    {
-        RemoveListObjects();
-
-        for (int i = 0; i < ingredientListManager.IngredientLists.Count; i++)
+        private void OnEnable()
         {
-            // create a new list item to display this list
-            GameObject listItem = Instantiate(listItemObject, scrollViewContent);
-            listItem.SetActive(true);
+            Button backB = backButton.GetComponent<Button>();
+            backB.onClick.AddListener(delegate { OnBackButtonClick(); });
+            backButton.SetActive(true);
 
-            // change the text to match the list info
-            Button delButton = listItem.transform.GetChild(1).GetComponent<Button>();
-            Button listButton = listItem.transform.GetChild(0).GetComponent<Button>();
-            listButton.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text =
-                ingredientListManager.IngredientLists[i].ListName;
-            listButton.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text =
-                ingredientListManager.IngredientLists[i].NumberOfIngredients().ToString();
-
-            listObjects.Add(listItem);
-
-            //store i in an int for pass-by value to the lambda expression.
-            //else it will not work
-            int itemIndex = i;
-            listButton.onClick.AddListener(() => { OnListButtonClick(itemIndex); });
-            delButton.onClick.AddListener(() => { OnDeleteButtonClick(itemIndex); });
+            DisplayLists();
         }
-    }
 
-    /// <summary>
-    /// removes currently displayed objects
-    /// </summary>
-    void RemoveListObjects()
-    {
-        foreach (GameObject o in listObjects)
+        private void OnDisable()
         {
-            Destroy(o);
+            Button backB = backButton.GetComponent<Button>();
+            backB.onClick.RemoveAllListeners();
+            RemoveListObjects();
         }
-        listObjects = new List<GameObject>();
-    }
 
-    public void OnAddListButtonClick()
-    {
-        ingredientListManager.CreateList();
-        DisplayLists();
-    }
+        private void DisplayLists()
+        {
+            RemoveListObjects();
 
-    public void OnDeleteButtonClick(int i)
-    {
-        ingredientListManager.DeleteList(i);
-        DisplayLists();
-    }
+            foreach (IngredientList ingredientList in ingredientListManager.Lists)
+            {
+                // create a new list item to display this list
+                GameObject listItem = Instantiate(listItemObject, scrollViewContent);
+                listItem.SetActive(true);
 
-    public void OnListButtonClick(int i)
-    {
-        ingredientListManager.OpenList(i);
+                // change the text to match the list info
+                Button delButton = listItem.transform.GetChild(1).GetComponent<Button>();
+                Button listButton = listItem.transform.GetChild(0).GetComponent<Button>();
+                listButton.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text =
+                    ingredientList.ListName;
+                listButton.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text =
+                    ingredientList.NumberOfIngredients().ToString();
+
+                listObjects.Add(listItem);
+
+                // store i in an int for pass-by value to the lambda expression
+                listButton.onClick.AddListener(() => { OnListButtonClick(ingredientList); });
+                delButton.onClick.AddListener(() => { OnDeleteButtonClick(ingredientList); });
+            }
+        }
+
+        /// <summary>
+        /// removes currently displayed objects
+        /// </summary>
+        private void RemoveListObjects()
+        {
+            foreach (GameObject o in listObjects)
+            {
+                Destroy(o);
+            }
+            listObjects = new List<GameObject>();
+        }
+
+        private void OnAddListButtonClick()
+        {
+            ingredientListManager.CreateList();
+            DisplayLists();
+        }
+
+        private void OnDeleteButtonClick(IngredientList list)
+        {
+            ingredientListManager.DeleteList(list);
+            DisplayLists();
+        }
+
+        private void OnListButtonClick(IngredientList list)
+        {
+            ingredientListManager.OpenList(list, this.gameObject);
+        }
+
+        private void OnBackButtonClick()
+        {
+            //TODO: Open main menu
+        }
     }
 }
