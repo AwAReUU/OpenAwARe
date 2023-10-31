@@ -31,7 +31,7 @@ public class Questionnaire : MonoBehaviour
     }
 
     //create a new question gameobject from its data class and returns it
-    public GameObject addQuestion(QuestionData data)
+    public GameObject AddQuestion(QuestionData data)
     {
         //instantiate the template
         var question = Instantiate(questionTemplate);
@@ -68,7 +68,7 @@ public class Questionnaire : MonoBehaviour
         {
             foreach (QuestionData ifyesQuestionData in data.ifyesquestions)
             {
-                var ifyesQuestion = addQuestion(ifyesQuestionData);
+                var ifyesQuestion = AddQuestion(ifyesQuestionData);
                 ifyesQuestion.SetActive(false);
                 questionscript.ifyesQuestions.Add(ifyesQuestion);
             }
