@@ -6,11 +6,11 @@ namespace Databases
 {
     public class MockupModelDatabase : IModelDatabase
     {
-        readonly List<Model> ModelTable;
+        readonly List<Model> modelTable;
 
         public MockupModelDatabase()
         {
-            ModelTable = new()
+            modelTable = new()
             {
                 // All distances are 'placeholder = 0', except for real-life heights (meters)
                 new Model( 1, ResourceType.Water, @"cube",                  0, 0, 0, 0, 0),
@@ -25,12 +25,16 @@ namespace Databases
 
         public Model GetModel(int id)
         {
-            return ModelTable.First(x => x.ID == id);
+            return modelTable.First(x => x.ID == id);
         }
 
-        public List<Model> GetModels(List<int> ids)
+        public List<Model> GetModels(IEnumerable<int> ids)
         {
-            throw new System.Exception("method not implemented");
+            IEnumerable<Model> models =
+                from id in ids
+                join model in modelTable on id equals model.ID
+                select model;
+            return models.ToList();
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using IngredientLists;
 using ResourceLists;
+using ModelLists;
 
 namespace Databases
 {
@@ -28,5 +29,12 @@ namespace Databases
         // returns the full data of a resource, given its unique Resource ID
         public Resource GetResource(int id);
         public List<Resource> GetResources(IEnumerable<int> ids);
+    }
+
+    public interface IModelDatabase
+    {
+        public Model GetModel(int id);
+
+        public List<Model> GetModels(IEnumerable<int> ids);
     }
 }
