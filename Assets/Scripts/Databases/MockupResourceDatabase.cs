@@ -6,11 +6,11 @@ namespace Databases
 {
     public class MockupResourceDatabase : IResourceDatabase
     {
-        readonly List<Resource> ResourceTable;
+        readonly List<Resource> resourceTable;
 
         public MockupResourceDatabase()
         {
-            ResourceTable = new()
+            resourceTable = new()
             {
                 new Resource( 1,      "Water",  ResourceType.Water,   null, 1),
                 new Resource( 2,      "Apple",  ResourceType.Plant,  10000, 7), 
@@ -34,12 +34,18 @@ namespace Databases
 
         public Resource GetResource(int id)
         {
-            return ResourceTable.First(x => x.ID == id);
+            // return the first resource that matches id, should be the only one since IDs are unique
+            return resourceTable.First(x => x.ID == id);
         }
 
         public List<Resource> GetResources(IEnumerable<int> ids)
         {
-            return ResourceTable.Where(x => ids.Contains(x.ID)).ToList();
+            // perform an inner join of resource table and ids on resourceID
+            IEnumerable<Resource> resources =
+                from id in ids
+                join resource in resourceTable on id equals resource.ID
+                select resource;
+            return resources.ToList();
         }
     }
 }

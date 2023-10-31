@@ -55,10 +55,12 @@ namespace Databases
         }
         public Dictionary<int, float> GetResourceIDs(Ingredient ingredient)
         {
-            List<(int, float)> result = requiresTable.Where(x => x.Item1 == ingredient.ID).Select(x => (x.Item2,x.Item3)).ToList();
-            Dictionary<int, float> resultDictionary = result.ToDictionary(x => x.Item1, x => x.Item2);
+            IEnumerable<(int, float)> result =
+                from (int ingredientID, int ResourceID, float Ratio) x in requiresTable
+                where x.ingredientID == ingredient.ID
+                select (x.ResourceID, x.Ratio);
 
-            return resultDictionary;
+            return result.ToDictionary(x => x.Item1, x => x.Item2);
         }
     }
 }
