@@ -12,6 +12,7 @@ public class Navigator : MonoBehaviour
     public GameObject ingredientListUI;
     public GameObject objectGeneration;
     public GameObject questionnaire;
+    public GameObject roomScan;
 
     private void Start()
     {
@@ -58,10 +59,11 @@ public class Navigator : MonoBehaviour
             case 3:     // Go to Questionaire / Diary?
                 dummyChangeScene(questionnaire);
                 break;
-            case 4:     // Go to Settings
+            case 4:     // Go to Settings //*Room scan
+                dummyChangeScene(roomScan);
                 break;
             case 5:     // Go to Home Screen
-                sceneSwitcher.ChangeScene("HomeScreen");
+                //sceneSwitcher.ChangeScene("HomeScreen");
                 break;
             default:
                 break;
@@ -73,6 +75,7 @@ public class Navigator : MonoBehaviour
         ingredientListUI.SetActive(false);
         objectGeneration.SetActive(false);
         questionnaire.SetActive(false);
+        roomScan.SetActive(false);
 
         targetDummyScene.SetActive(true);
 
