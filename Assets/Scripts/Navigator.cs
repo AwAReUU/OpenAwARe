@@ -6,8 +6,12 @@ using UnityEngine.UI;
 
 public class Navigator : MonoBehaviour
 {
+    //! INSANELY DIRTY VERSION FOR DEMO THIS CODE SUX BALLS
     private TMP_Dropdown dropdown;
     private SceneSwitcher sceneSwitcher;
+    public GameObject ingredientListUI;
+    public GameObject objectGeneration;
+    public GameObject questionnaire;
 
     private void Start()
     {
@@ -31,26 +35,28 @@ public class Navigator : MonoBehaviour
         }
     }
 
+    //! DIRTY MODE VOOR DEMO
     private void DropdownValueChanged(TMP_Dropdown dropdown)
     {
         SceneSwitcher sceneSwitcher = new SceneSwitcher();
         switch (dropdown.value)
         {
             case 0:     // Go to ingredient/recipe manager
-                Debug.Log("h");
-                sceneSwitcher.ChangeScene("IngredientListUI");
+                dummyChangeScene(ingredientListUI);
                 break;
             case 1:     // Auto-generate objects
                 //Dictionary<int, int> spawnDict = new Dictionary<int, int>()
                 //{ { 0, 2 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 1 } };
                 //FindObjectOfType<ObjectCreationManager>().AutoGenerateObjects(spawnDict);
-                sceneSwitcher.ChangeScene("ObjectGeneration");
+                dummyChangeScene(objectGeneration);
                 break;
             case 2:     // Clear world of generated objects
-                FindObjectOfType<ObjectCreationManager>().DestroyAllObjects();
+                GameObject[] generatedObjects = GameObject.FindGameObjectsWithTag("Animal");
+                foreach (GameObject target in generatedObjects)
+                    Destroy(target);
                 break;
             case 3:     // Go to Questionaire / Diary?
-                sceneSwitcher.ChangeScene("QuestionnairePage");
+                dummyChangeScene(questionnaire);
                 break;
             case 4:     // Go to Settings
                 break;
@@ -60,6 +66,48 @@ public class Navigator : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void dummyChangeScene(GameObject targetDummyScene)
+    {
+        ingredientListUI.SetActive(false);
+        objectGeneration.SetActive(false);
+        questionnaire.SetActive(false);
+
+        targetDummyScene.SetActive(true);
 
     }
+
+
+    // private void DropdownValueChanged(TMP_Dropdown dropdown)
+    // {
+    //     SceneSwitcher sceneSwitcher = new SceneSwitcher();
+    //     switch (dropdown.value)
+    //     {
+    //         case 0:     // Go to ingredient/recipe manager
+    //             Debug.Log("h");
+    //             sceneSwitcher.ChangeScene("IngredientListUI");
+    //             break;
+    //         case 1:     // Auto-generate objects
+    //             //Dictionary<int, int> spawnDict = new Dictionary<int, int>()
+    //             //{ { 0, 2 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 1 } };
+    //             //FindObjectOfType<ObjectCreationManager>().AutoGenerateObjects(spawnDict);
+    //             sceneSwitcher.ChangeScene("ObjectGeneration");
+    //             break;
+    //         case 2:     // Clear world of generated objects
+    //             FindObjectOfType<ObjectCreationManager>().DestroyAllObjects();
+    //             break;
+    //         case 3:     // Go to Questionaire / Diary?
+    //             sceneSwitcher.ChangeScene("QuestionnairePage");
+    //             break;
+    //         case 4:     // Go to Settings
+    //             break;
+    //         case 5:     // Go to Home Screen
+    //             sceneSwitcher.ChangeScene("HomeScreen");
+    //             break;
+    //         default:
+    //             break;
+    //     }
+
+    // }
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3974,10 +3974,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1228106851}
   - {fileID: 1840096317}
   - {fileID: 401382897}
   - {fileID: 850172447}
-  - {fileID: 1228106851}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1068470231
@@ -5585,6 +5585,7 @@ GameObject:
   - component: {fileID: 1329966926}
   - component: {fileID: 1329966925}
   - component: {fileID: 1329966928}
+  - component: {fileID: 1329966929}
   m_Layer: 5
   m_Name: Navigator
   m_TagString: Untagged
@@ -5730,6 +5731,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ecb164a1b9334740b311ecfaa1e8e71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1329966929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329966922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a2ff01a8bf1d2d41894482cd6274340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1338236711
