@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/ObjectGeneration.unity
     guid: f3862ce717824477c9a27b87ba7ca126
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/DirtyDemo.unity
     guid: d26ddaebfe8f8ca45ae8ed448eda4e5a
   m_configObjects:
