@@ -88,7 +88,7 @@ namespace IngredientLists
 
         public void OnBackButtonClick()
         {
-            ingredientListManager.OpenList(ingredientListManager.SelectedList, this.gameObject);
+            ingredientListManager.ChangeToIngredientListScreen(ingredientListManager.SelectedList, this.gameObject);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace IngredientLists
 
         private void OnSaveButtonClick()
         {
-            ingredientListManager.CloseList();
+            ingredientListManager.ChangeToListsOverviewScreen();
         }
 
         private void DisplayList()
@@ -116,7 +116,7 @@ namespace IngredientLists
 
         private void OnBackButtonClick()
         {
-            ingredientListManager.CloseList();
+            ingredientListManager.ChangeToListsOverviewScreen();
         }
 
         private void OnAddIngredientButtonClick()

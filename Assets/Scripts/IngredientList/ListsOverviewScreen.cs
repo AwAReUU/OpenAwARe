@@ -83,7 +83,7 @@ namespace IngredientLists
 
         private void OnListButtonClick(IngredientList list)
         {
-            ingredientListManager.OpenList(list, this.gameObject);
+            ingredientListManager.ChangeToIngredientListScreen(list, this.gameObject);
         }
 
         private void OnBackButtonClick()

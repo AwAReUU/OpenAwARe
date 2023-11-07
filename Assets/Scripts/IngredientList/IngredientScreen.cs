@@ -85,7 +85,7 @@ namespace IngredientLists
             }
 
             UpdateIngredient(parsedQType, parsedQty);
-            ingredientListManager.OpenList(ingredientListManager.SelectedList, this.gameObject);
+            ingredientListManager.ChangeToIngredientListScreen(ingredientListManager.SelectedList, this.gameObject);
         }
 
         private void UpdateIngredient(QuantityType type, float newQuantity)
@@ -98,7 +98,7 @@ namespace IngredientLists
         /// </summary>
         private void OnBackButtonClick()
         {
-            ingredientListManager.OpenList(ingredientListManager.SelectedList, this.gameObject);
+            ingredientListManager.ChangeToIngredientListScreen(ingredientListManager.SelectedList, this.gameObject);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace IngredientLists
             listsOverviewScreen.SetActive(true);
         }
 
-        public void OpenList(IngredientList list, GameObject fromScreen)
+        public void ChangeToIngredientListScreen(IngredientList list, GameObject fromScreen)
         {
             fromScreen.SetActive(false);
 
@@ -41,7 +41,7 @@ namespace IngredientLists
             ingredientListScreen.SetActive(true);
         }
 
-        public void CloseList()
+        public void ChangeToListsOverviewScreen()
         {
             ingredientListScreen.SetActive(false);
 
