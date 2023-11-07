@@ -42,12 +42,12 @@ public class TestObjectSpawnPointHandler : IObjectSpawnPointHandler
 
 public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
 {
-    private readonly float gridSpacing_;
-    private readonly ARPlaneManager planeManager_;
-    public ObjectSpawnPointHandler(ARPlaneManager planeManager, float gridSpacing = 0.1f)
+    private readonly float gridSpacing;
+    private readonly ARPlaneManager planeManager;
+    public ObjectSpawnPointHandler(ARPlaneManager manager, float spacing = 0.1f)
     {
-        gridSpacing_ = gridSpacing;
-        planeManager_ = planeManager;
+        gridSpacing = spacing;
+        planeManager = manager;
     }
     /// <summary>
     /// Get a list of planes where objects are allowed to be spawned on.
@@ -57,7 +57,7 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
     private List<ARPlane> GetSpawnPlanes()
     {
         List<ARPlane> validPlanes = new List<ARPlane>();
-        foreach (var plane in planeManager_.trackables)
+        foreach (var plane in planeManager.trackables)
         {
             if (plane.alignment == UnityEngine.XR.ARSubsystems.PlaneAlignment.Vertical)
                 continue; //skip vertical planes
@@ -72,7 +72,7 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
     {
         List<Vector3> spawnPoints = new List<Vector3>();
         foreach (var plane in GetSpawnPlanes())
-            spawnPoints.AddRange(GetGridPoints(plane, gridSpacing_));
+            spawnPoints.AddRange(GetGridPoints(plane, gridSpacing));
 
         return spawnPoints;
     }
