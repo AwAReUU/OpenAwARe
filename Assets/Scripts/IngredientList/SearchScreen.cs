@@ -14,7 +14,7 @@ namespace IngredientLists
         [SerializeField] private GameObject backButton;
         [SerializeField] private GameObject ingredientButtonPrefab;
         [SerializeField] private GameObject ContentHolder;
-        [SerializeField] private List<GameObject> items = new();
+        [SerializeField] private List<GameObject> searchResultObjects = new();
         [SerializeField] private GameObject SearchBar;
 
         private List<Ingredient> searchResults = new();
@@ -31,44 +31,45 @@ namespace IngredientLists
             backB.onClick.RemoveAllListeners();
         }
 
+        /// <summary>
+        /// Creates new GameObjects for every ingredient in the search results.
+        /// </summary>
         private void DisplayResults()
         {
             RemoveItemObjects();
 
             // create a new object for every search result
-            searchResults.Each(result => AddContentItem(result));
+            foreach (Ingredient result in searchResults)
+            {
+                GameObject button = Instantiate(ingredientButtonPrefab, ContentHolder.transform);
+                button.GetComponentInChildren<TMP_Text>().text = result.Name;
+                //Get Button object from GameObject to attach event
+                searchResultObjects.Add(button);
+                Button b = button.GetComponent<Button>();
+                b.onClick.AddListener(delegate { OnItemClicked(item: result); });
+                button.SetActive(true);
+            }
+
         }
 
         /// <summary>
-        /// Destroys all displayed ingredient objects
+        /// Destroys all displayed ingredient objects.
         /// </summary>
         private void RemoveItemObjects()
         {
-            foreach (GameObject item in items)
+            foreach (GameObject item in searchResultObjects)
             {
                 Destroy(item);
             }
 
             // make list empty
-            items = new List<GameObject>();
+            searchResultObjects = new List<GameObject>();
         }
 
         /// <summary>
-        /// Adds an item to the searchbar's scrollview. 
+        /// Calls an instance of ingredientListManager to add the given ingredient to the ingredientlist and open its IngredientScreen.
         /// </summary>
-        /// <param name="itemName"></param>
-        /// <param name="qtyType"></param>
-        public void AddContentItem(Ingredient searchResult)
-        {
-            GameObject button = Instantiate(ingredientButtonPrefab, ContentHolder.transform);
-            button.GetComponentInChildren<TMP_Text>().text = searchResult.Name;
-            //Get Button object from GameObject to attach event
-            items.Add(button);
-            Button b = button.GetComponent<Button>();
-            b.onClick.AddListener(delegate { OnItemClicked(item: searchResult); });
-            button.SetActive(true);
-        }
-
+        /// <param name="item"> The search result that was selected </param>
         private void OnItemClicked(Ingredient item)
         {
             ingredientListManager.AddIngredient(item, 0);
@@ -76,7 +77,7 @@ namespace IngredientLists
         }
 
         /// <summary>
-        /// Find all the items that match the current text in the search bar.
+        /// Finds all ingredients in the database that match with the text entered in the searchbar and displays the results.
         /// </summary>
         public void OnSearchClick()
         {
@@ -86,6 +87,9 @@ namespace IngredientLists
             DisplayResults();
         }
 
+        /// <summary>
+        /// Calls an instance of ingredientListManager to close this screen and go back to the IngredientListScreen.
+        /// </summary>
         public void OnBackButtonClick()
         {
             ingredientListManager.ChangeToIngredientListScreen(ingredientListManager.SelectedList, this.gameObject);

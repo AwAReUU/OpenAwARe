@@ -84,17 +84,12 @@ namespace IngredientLists
                 throw new Exception("Cannot convert string to Quantity.");
             }
 
-            UpdateIngredient(parsedQType, parsedQty);
+            ingredientListManager.UpdateIngredient(parsedQty, parsedQType);
             ingredientListManager.ChangeToIngredientListScreen(ingredientListManager.SelectedList, this.gameObject);
         }
 
-        private void UpdateIngredient(QuantityType type, float newQuantity)
-        {
-            ingredientListManager.SelectedList.Ingredients[ingredientListManager.SelectedIngredient] = (newQuantity, type);
-        }
-
         /// <summary>
-        /// Go back to previous screen
+        /// Calls an instance of ingredientListManager to close this screen and open the ingredientListScreen.
         /// </summary>
         private void OnBackButtonClick()
         {

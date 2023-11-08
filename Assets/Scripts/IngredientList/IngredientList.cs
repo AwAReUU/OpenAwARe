@@ -46,6 +46,11 @@ namespace IngredientLists
         {
             Ingredients.Remove(ingredient);
         }
+
+        public void UpdateIngredient(Ingredient ingredient, float quantity, QuantityType type)
+        {
+            Ingredients[ingredient] = (quantity, type);
+        }
     }
 
     public class Ingredient : IEquatable<Ingredient>
