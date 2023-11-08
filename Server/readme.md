@@ -1,12 +1,18 @@
 ## How to run
 
-1. Install dependencies:
+1. Navigate to directory:
+
+```console
+$ cd {repository}/Server
+```
+
+2. Install dependencies:
 
 ```console
 $ npm install
 ```
 
-2. Start the server:
+3. Start the server:
 
 ```console
 $ npm run dev
@@ -18,7 +24,7 @@ Ip adress: 131.211.32.146:8000
 
 ## Routes
 
-### Authentication: */auth*
+### Authentication: _/auth_
 
 <table >
 <thead>
@@ -69,8 +75,7 @@ Ip adress: 131.211.32.146:8000
 </tbody>
 </table>
 
-### Ingredients: */ingr*
-
+### Ingredients: _/ingr_
 
 <table >
 <thead>
