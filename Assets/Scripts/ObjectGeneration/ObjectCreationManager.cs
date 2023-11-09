@@ -13,6 +13,7 @@ using Unity.VisualScripting;
 public class ObjectCreationManager : MonoBehaviour
 {
     [SerializeField] private ARPlaneManager planeManager;
+    [SerializeField] private PolygonManager polygonManager;
     [SerializeField] private GameObject placeButton;
     [SerializeField] private InputField inputSize;
     [SerializeField] private InputField inputPigAmount;
@@ -73,6 +74,10 @@ public class ObjectCreationManager : MonoBehaviour
     /// <summary> Given a dictionary in the form (resourceID, quantity), generates these resources and their respective quantities in the form of their corresponding GameObjects </summary>
     public void PrintResourceList()
     {
+        // Get polygon info 
+        GameObject polygon = polygonManager.GetPolygon();
+        List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
+
         // Get input values 
         int PigAmount = int.Parse(inputPigAmount.text);
         int ChickenAmount = int.Parse(inputChickenAmount.text);
@@ -95,9 +100,8 @@ public class ObjectCreationManager : MonoBehaviour
         Dictionary<int, int> modelList = ResourceListToModelList(resourceList, resourceDatabase);
         Dictionary<int, SpawnParams> spawnDict = GenerateSpawnDict(modelList, modelDatabase);
 
-        AutoGenerateObjects(spawnDict);
+        AutoGenerateObjects(spawnDict, polygonPoints);
     }
-
 
     /// <summary> Converts the dictionary from the form (resourceID, Quantity) to the form (modelID, Quantity) </summary>
     public Dictionary<int, int> ResourceListToModelList(Dictionary<int, int> resourceList, MockupResourceDatabase resourceDatabase)
@@ -170,6 +174,40 @@ public class ObjectCreationManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Generates a list of objects given a dictionary of (modelID, Quantity) on a polygon given by points
+    /// </summary>
+    /// <param name="spawnDict"></param>
+    /// <param name="polygon"></param>
+    private void AutoGenerateObjects(Dictionary<int, SpawnParams> spawnDict, List<Vector3> polygon)
+    {
+        // Create spawpointhandler without ARPlanemanager
+        ObjectSpawnPointHandler osph = new(); 
+
+        List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints(polygon);
+        foreach (var obj in spawnDict) //prefab iterator
+        {
+            float currentRatioUsage = 0;
+            float availableSurfaceArea = EstimateAvailableSurfaceArea(validSpawnPoints.Count);
+            //float spaceNeeded = ComputeSpaceNeeded(spawnDict);
+
+            //If we place an object, store its position as key, and the height as value.
+            //If we run out of ground space, we can start stacking the objects at these locations.
+            //this dictionary is reset for each different objects, so that only clones of the same object
+            //can be stacked on eachother.
+            Dictionary<Vector3, float> prefabStacks = new();
+
+            for (int i = 0; i < obj.Value.quantity; i++) //quantity iterator
+                SpawnParticularObj(
+                    obj.Value,
+                    validSpawnPoints,
+                    ref prefabStacks,
+                    availableSurfaceArea,
+                    ref currentRatioUsage
+                );
+        }
+    }
+
     private float EstimateAvailableSurfaceArea(int spawnPoints) =>
         spawnPoints * 0.1f * 0.1f * 0.9f;
 
@@ -218,11 +256,13 @@ public class ObjectCreationManager : MonoBehaviour
                 bool placedObj = TryPlaceObject(so, validSpawnPoints[j]);
                 if (placedObj) //placement successful
                 {
+                    Debug.Log("Placement SUCCESFUL");
                     float height = validSpawnPoints[j].y + 2 * so.halfExtents.y;
                     objStacks.Add(validSpawnPoints[j], height);
                     currentRatioUsage += ratioUsage;
                     return;
                 }
+                else Debug.Log("!!! Couldn't place !!!");
             }
             //else Debug.Log("Out of ratio");
         }
@@ -374,13 +414,15 @@ public class ObjectCreationManager : MonoBehaviour
     }
 
     //debug method for displaying spawnlocations in scene.
-    //void OnDrawGizmos()
-    //{
-    //    ObjectSpawnPointHandler osph = new(0.1f, planeManager);
-    //    List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
+    void OnDrawGizmos()
+    {
+        GameObject polygon = polygonManager.GetPolygon();
+        List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
+        ObjectSpawnPointHandler osph = new(); 
+        List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints(polygonPoints);
 
-    //    Gizmos.color = Color.red;
-    //    foreach (var p in validSpawnPoints)
-    //        Gizmos.DrawSphere(p, 0.05f);
-    //}
+        Gizmos.color = Color.red;
+        foreach (var p in validSpawnPoints)
+            Gizmos.DrawSphere(p, 0.05f);
+    }
 }

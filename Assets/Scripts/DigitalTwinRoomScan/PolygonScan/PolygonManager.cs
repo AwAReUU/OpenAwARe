@@ -55,4 +55,9 @@ public class PolygonManager : MonoBehaviour
     {
         this.polygonMesh.GetComponent<PolygonMesh>().SetHeight(height);
     }
+
+    public GameObject GetPolygon()
+    {
+        return this.polygon;
+    }
 }
