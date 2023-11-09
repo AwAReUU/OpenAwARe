@@ -124,7 +124,7 @@ namespace IngredientLists
         /// </summary>
         private void OnSaveButtonClick()
         {
-            ingredientListManager.ChangeToListsOverviewScreen();
+            ingredientListManager.ChangeToListsOverviewScreen(true);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace IngredientLists
         /// </summary>
         private void OnBackButtonClick()
         {
-            ingredientListManager.ChangeToListsOverviewScreen();
+            ingredientListManager.ChangeToListsOverviewScreen(false);
         }
 
         /// <summary>

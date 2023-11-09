@@ -47,13 +47,17 @@ namespace IngredientLists
         }
 
         /// <summary>
-        /// Closes the IngredientListScreen, Calls the fileHandler to save all lists and opens the ListsOverviewScreen.
+        /// Closes the IngredientListScreen, calls the fileHandler to either save all lists or load the old lists, and opens the ListsOverviewScreen.
         /// </summary>
-        public void ChangeToListsOverviewScreen()
+        /// <param name="save"> Whether or not to save the changes made to the currently selected IngredientList </param>
+        public void ChangeToListsOverviewScreen(bool save)
         {
             ingredientListScreen.SetActive(false);
 
-            fileHandler.SaveLists(Lists);
+            if (save)
+                fileHandler.SaveLists(Lists);
+            else
+                Lists = fileHandler.ReadFile();
             SelectedList = null;
 
             listsOverviewScreen.SetActive(true);
@@ -83,23 +87,21 @@ namespace IngredientLists
         }
 
         /// <summary>
-        /// Adds the given ingredient to the ingredient list and calls the fileHandler to save all lists.
+        /// Adds the given ingredient to the ingredient list.
         /// </summary>
         /// <param name="ingredient"> The ingredient that is to be added </param>
         public void AddIngredient(Ingredient ingredient, float quantity)
         {
             SelectedList.AddIngredient(ingredient, quantity);
-            fileHandler.SaveLists(Lists);
         }
 
         /// <summary>
-        /// Removes the given ingredient from the ingredient list and calls the fileHandler to save all lists.
+        /// Removes the given ingredient from the ingredient list.
         /// </summary>
         /// <param name="ingredient"> The ingredient that is to be deleted </param>
         public void DeleteIngredient(Ingredient ingredient)
         {
             SelectedList.RemoveIngredient(ingredient);
-            fileHandler.SaveLists(Lists);
         }
 
         /// <summary>
