@@ -2460,6 +2460,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 512199214}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &512199217 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2523054796051462468, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+    type: 3}
+  m_PrefabInstance: {fileID: 512199214}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512199215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0bfae1a6e3b8497596e34d4c99dc0d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &515905453
 GameObject:
   m_ObjectHideFlags: 0
@@ -8163,15 +8175,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planeManager: {fileID: 1659859602}
+  polygonManager: {fileID: 744273401}
   placeButton: {fileID: 1518352462}
   inputSize: {fileID: 130469075}
   inputPigAmount: {fileID: 969304995}
   inputChickenAmount: {fileID: 774283590}
   inputWheatAmount: {fileID: 1268180432}
   inputDuckAmount: {fileID: 265404354}
-  polygon: {fileID: 0}
+  polygon: {fileID: 512199217}
   negPolygons: []
-  gridPoint: {fileID: 0}
 --- !u!114 &1535441704
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10368,6 +10368,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1046016939}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1046016942 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2523054796051462468, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1046016939}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1046016940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0bfae1a6e3b8497596e34d4c99dc0d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1057305000
 GameObject:
   m_ObjectHideFlags: 0
@@ -12626,7 +12638,7 @@ MonoBehaviour:
   inputChickenAmount: {fileID: 237128310}
   inputWheatAmount: {fileID: 73794248}
   inputDuckAmount: {fileID: 1301207956}
-  polygon: {fileID: 0}
+  polygon: {fileID: 1046016942}
   negPolygons: []
 --- !u!224 &1245964183
 RectTransform:
