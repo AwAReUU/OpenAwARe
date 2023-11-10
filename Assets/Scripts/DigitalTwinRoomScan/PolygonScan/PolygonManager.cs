@@ -30,7 +30,7 @@ public class PolygonManager : MonoBehaviour
         this.polygon.GetComponent<Polygon>().Apply();
         this.applyBtn.SetActive(false);
         this.confirmBtn.SetActive(true);
-        this.scanner.GetComponent<PolygonScan>().enabled = false;
+        this.scanner.SetActive(false);
         this.pointerObj.SetActive(false);
     }
 
@@ -38,7 +38,6 @@ public class PolygonManager : MonoBehaviour
     {
         this.polygon.GetComponent<Polygon>().Reset();
         this.scanner.SetActive(true);
-        this.scanner.GetComponent<PolygonScan>().enabled = true;
         this.pointerObj.SetActive(true);
     }
 
@@ -55,5 +54,10 @@ public class PolygonManager : MonoBehaviour
     public void OnSlider(System.Single height)
     {
         this.polygonMesh.GetComponent<PolygonMesh>().SetHeight(height);
+    }
+
+    public GameObject GetPolygon()
+    {
+        return this.polygon;
     }
 }

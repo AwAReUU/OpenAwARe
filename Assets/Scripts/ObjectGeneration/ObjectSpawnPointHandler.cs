@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using System.Linq;
@@ -43,19 +44,19 @@ public class TestObjectSpawnPointHandler : IObjectSpawnPointHandler
 
 public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
 {
-    private readonly float gridSpacing_;
-    private readonly ARPlaneManager planeManager_;
-
-    [SerializeField] public Polygon polygon;
-    [SerializeField] private List<Polygon> negPolygons = null;
-    
-    public ObjectSpawnPointHandler(Polygon polygon, List<Polygon> negPolygons, ARPlaneManager planeManager, float gridSpacing = 0.1f)
+    private readonly float gridSpacing;
+    private readonly ARPlaneManager planeManager;
+    public ObjectSpawnPointHandler(ARPlaneManager manager, float spacing = 0.1f)
     {
-        gridSpacing_ = gridSpacing;
-        planeManager_ = planeManager;
-        this.polygon = polygon;
-        this.negPolygons = negPolygons;
+        gridSpacing = spacing;
+        planeManager = manager;
     }
+
+    public ObjectSpawnPointHandler(float spacing = 0.1f)
+    {
+        gridSpacing = spacing;
+    }
+
     /// <summary>
     /// Get a list of planes where objects are allowed to be spawned on.
     /// </summary>
@@ -64,7 +65,7 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
     private List<ARPlane> GetSpawnPlanes()
     {
         List<ARPlane> validPlanes = new List<ARPlane>();
-        foreach (var plane in planeManager_.trackables)
+        foreach (var plane in planeManager.trackables)
         {
             if (plane.alignment == UnityEngine.XR.ARSubsystems.PlaneAlignment.Vertical)
                 continue; //skip vertical planes
@@ -79,7 +80,16 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
     {
         List<Vector3> spawnPoints = new List<Vector3>();
         foreach (var plane in GetSpawnPlanes())
-            spawnPoints.AddRange(GetGridPoints(plane, gridSpacing_));
+            spawnPoints.AddRange(GetGridPoints(plane, gridSpacing));
+
+        return spawnPoints;
+    }
+
+    // Gets A Vector3 list as input that represent the spawn plane (polygon)
+    public List<Vector3> GetValidSpawnPoints(List<Vector3> polygon) 
+    {
+        List<Vector3> spawnPoints = new List<Vector3>();
+        spawnPoints = GetGridPoints(polygon, gridSpacing);
 
         return spawnPoints;
     }
@@ -119,98 +129,66 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
         }
         return result;
     }
-    */
-    public List<Vector3> GetValidSpawnPoints()
+   
+    private List<Vector3> GetGridPoints(List<Vector3> polygon, float spacing)
     {
-        List<Vector3> spawnPoints = new();
-        spawnPoints.AddRange(GetGridPoints(polygon, negPolygons, gridSpacing_));
+        List<Vector3> result = new List<Vector3>();
 
-        return spawnPoints;
-    }
+        // Calculate the bounds of the polygon
+        Bounds bounds = CalculateBounds(polygon);
 
-    private List<Vector3> GetGridPoints(Polygon polygon, List<Polygon> negPolygons, float spacing)
-    {
-        List<Vector3> result = new();
+        // Define the height of the polygon
+        float y = polygon[0].y;
 
-        Vector3[] polygonPoints = polygon.GetPoints();
-
-        (float xMin, float zMin, float xMax, float zMax) = GetBounds(polygonPoints);
-        float y = GetHeight(polygonPoints);
-        Debug.Log(xMin);
-        Debug.Log(xMax);
-        Debug.Log(xMax);
-        Debug.Log(zMax);
-        //get all pnts in bounding box in grid pattern with space "spacing" in between.
-        for (float x = xMin; x <= xMax; x += spacing)
+        // Get all points in bounding box in grid pattern with spacing "spacing" in between
+        for (float x = bounds.min.x; x <= bounds.max.x; x += spacing)
         {
-            for (float z = zMin; z <= zMax; z += spacing)
+            for (float z = bounds.min.z; z <= bounds.max.z; z += spacing)
             {
                 Vector3 gridPoint = new Vector3(x, y, z);
 
-                Debug.Log(gridPoint);
-                //if it hits the plane, we know that the gridpoint is on top of the plane.
-                if (PointInPolygon(gridPoint, polygon) &&
-                    PointNotInPolygons(gridPoint, negPolygons))
-                    { result.Add(gridPoint); Debug.Log(gridPoint); }
+                // Check if the grid point is inside the polygon
+                if (IsPointInsidePolygon(polygon, gridPoint))
+                {
+                    result.Add(gridPoint);
+                    //Debug.Log(gridPoint);
+                }
             }
         }
         return result;
     }
-    private bool PointInPolygon(Vector3 p, Polygon polygon)
+
+    private Bounds CalculateBounds(List<Vector3> points)
     {
-        Vector3[] points = polygon.GetPoints();
-        
-        bool inPolygon = false;
-        int j = points.Length - 1;
-        
-        for (int i = 0; i < points.Length; i++)
+        Bounds bounds = new Bounds(points[0], Vector3.zero);
+        foreach (var point in points)
         {
-            Debug.Log(j);
-            Debug.Log(i);
-            Debug.Log(points.Length);
-            if (points[i].z < p.z && points[j].z >= p.z ||
-                points[j].z < p.z && points[i].z >= p.z)
+            bounds.Encapsulate(point);
+        }
+        return bounds;
+    }
+
+    private bool IsPointInsidePolygon(List<Vector3> polygon, Vector3 point)
+{
+    bool isInside = false;
+    int j = polygon.Count - 1;
+
+    for (int i = 0; i < polygon.Count; i++)
+    {
+        Vector3 pi = polygon[i];
+        Vector3 pj = polygon[j];
+
+        if (pi.z < point.z && pj.z >= point.z || pj.z < point.z && pi.z >= point.z)
+        {
+            if (pi.x + (point.z - pi.z) / (pj.z - pi.z) * (pj.x - pi.x) < point.x)
             {
-                if (points[i].x + (p.z - points[i].z) /
-                    (points[j].z - points[i].z) *
-                    (points[j].x - points[i].x) < p.x)
-                {
-                    inPolygon = !inPolygon;
-                }
+                isInside = !isInside;
             }
-
-            j = i;
         }
-        Debug.Log(inPolygon);
-        return inPolygon;
-    }
-    private bool PointNotInPolygons(Vector3 p, List<Polygon> polygons)
-    {
-        foreach(Polygon polygon in polygons)
-        {
-            if (PointInPolygon(p, polygon)) return false;
-        }
-        return true;
+        j = i;
     }
 
-    private (float, float, float, float) GetBounds(Vector3[] points)
-    {
-        float xMin = points[0].x;
-        float zMin = points[0].z;
-        float xMax = points[0].x;
-        float zMax = points[0].z;
-        for (int i = 1; i < points.Length;  i++)
-        {
-            xMin = Mathf.Min(xMin, points[i].x);
-            zMin = Mathf.Min(zMin, points[i].z);
-            xMax = Mathf.Max(xMax, points[i].x);
-            zMax = Mathf.Max(zMax, points[i].z);
-        }
-        return (xMin, zMin, xMax, zMax);
-    }
-    private float GetHeight(Vector3[] points)
-    {
-        return points.Average(p => p.y);
-    }
-    
+    return isInside;
+}
+
 }
