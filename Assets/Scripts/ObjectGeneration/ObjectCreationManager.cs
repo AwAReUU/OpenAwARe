@@ -20,6 +20,10 @@ public class ObjectCreationManager : MonoBehaviour
     [SerializeField] private InputField inputWheatAmount;
     [SerializeField] private InputField inputDuckAmount;
 
+    [SerializeField] public Polygon polygon;
+    [SerializeField] private List<Polygon> negPolygons = null;
+    [SerializeField] private GameObject gridPoint;
+
     /// <summary> HalfExtents are distances from center to bounding box walls. </summary>
     private Vector3 GetHalfExtents(GameObject prefab)
     {
@@ -144,9 +148,9 @@ public class ObjectCreationManager : MonoBehaviour
     /// <summary> Generates the unity Gameobjects given a model list (modelID, Quantity) and a modelDatabase. The modelID is used to find the corresponding prefab name in the modelDatabase. </summary>
     private void AutoGenerateObjects(Dictionary<int, SpawnParams> spawnDict)
     {
-        ObjectSpawnPointHandler osph = new(planeManager); //(<-remove the word "Test" to use scanned planes)
-
+        ObjectSpawnPointHandler osph = new(polygon, negPolygons, planeManager); //(<-remove the word "Test" to use scanned planes)
         List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
+        ShowGridPoints(validSpawnPoints);
         foreach (var obj in spawnDict) //prefab iterator
         {
             float currentRatioUsage = 0;
@@ -383,4 +387,14 @@ public class ObjectCreationManager : MonoBehaviour
     //    foreach (var p in validSpawnPoints)
     //        Gizmos.DrawSphere(p, 0.05f);
     //}
+
+
+    private void ShowGridPoints(List<Vector3> points)
+    {
+        foreach (Vector3 point in points)
+        {
+            GameObject grPoint = Instantiate(gridPoint);
+            grPoint.transform.position = point;
+        }
+    }
 }

@@ -6901,6 +6901,9 @@ MonoBehaviour:
   inputChickenAmount: {fileID: 774283590}
   inputWheatAmount: {fileID: 1268180432}
   inputDuckAmount: {fileID: 265404354}
+  polygon: {fileID: 0}
+  negPolygons: []
+  gridPoint: {fileID: 0}
 --- !u!114 &1535441704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9049,6 +9052,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ecb164a1b9334740b311ecfaa1e8e71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ingredientListUI: {fileID: 0}
+  objectGeneration: {fileID: 0}
+  questionnaire: {fileID: 0}
+  roomScan: {fileID: 0}
 --- !u!114 &2065670174
 MonoBehaviour:
   m_ObjectHideFlags: 0
