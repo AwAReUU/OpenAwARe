@@ -55,19 +55,23 @@ public class ObjectCreationManager : MonoBehaviour
             Quaternion.identity,
             LayerMask.GetMask("Material2")) || forcePlace) //only check collisions with other materials.
         {
-            // Adjust object size according to scalar
-            GameObject newObject = Instantiate(so.prefab, position, Quaternion.identity);
-            newObject.layer = LayerMask.NameToLayer("Material2");
-            newObject.transform.localScale = new Vector3(so.scaling, so.scaling, so.scaling);
+            // Check if the collider doesn't cross the polygon border
+            if (ObjectColliderInPolygon(so, position))
+            {
+                // Adjust object size according to scalar
+                GameObject newObject = Instantiate(so.prefab, position, Quaternion.identity);
+                newObject.layer = LayerMask.NameToLayer("Material2");
+                newObject.transform.localScale = new Vector3(so.scaling, so.scaling, so.scaling);
 
-            // Add collider after changing object size
-            BoxCollider bc = newObject.AddComponent<BoxCollider>();
-            //RotateToUser(newObject);
-            CreateVisualBox(bc);
+                // Add collider after changing object size
+                BoxCollider bc = newObject.AddComponent<BoxCollider>();
+                //RotateToUser(newObject);
+                CreateVisualBox(bc);
 
-            return newObject;
+                return newObject;
+            }
         }
-        //else { Debug.Log("collision"); }
+        
         return null;
     }
 
@@ -262,9 +266,7 @@ public class ObjectCreationManager : MonoBehaviour
                     currentRatioUsage += ratioUsage;
                     return;
                 }
-                else Debug.Log("!!! Couldn't place !!!");
             }
-            //else Debug.Log("Out of ratio");
         }
         //If the program reaches here, it ran out of "ground space", and will need to stack.
         TryStack(so, ref objStacks);
@@ -357,6 +359,7 @@ public class ObjectCreationManager : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(scaledEuler);
         target.transform.rotation = targetRotation;
     }
+    
     public void CreateVisualBox(BoxCollider boxCollider)
     {
         // Create a new GameObject
@@ -411,6 +414,64 @@ public class ObjectCreationManager : MonoBehaviour
         {
             Destroy(animal);
         }
+    }
+
+    private bool ObjectColliderInPolygon(SpawnParams so, Vector3 position)
+    {
+        GameObject polygon = polygonManager.GetPolygon();
+        List<Vector3> polygonArea = polygon.GetComponent<Polygon>().GetPointsList();
+
+        bool inPolygon = true;
+
+        List<Vector3> corners = CalculateColliderCorners(so, position);
+        foreach (var x in corners)
+        {
+            if (!IsPointInsidePolygon(polygonArea, x))
+            {
+                return false; 
+            }
+        }
+
+        return inPolygon;
+    }
+
+    private List<Vector3> CalculateColliderCorners(SpawnParams so, Vector3 position)
+    {
+        List<Vector3> corners = new();
+
+        // Get the size of the BoxCollider
+        Vector3 size = so.halfExtents; 
+
+        // Calculate the corners
+        corners.Add(position + new Vector3(-size.x, 0, -size.z));
+        corners.Add(position + new Vector3(size.x, 0, -size.z));
+        corners.Add(position + new Vector3(-size.x, 0, size.z));
+        corners.Add(position + new Vector3(size.x, 0, size.z));
+
+        return corners;
+    }
+
+    private bool IsPointInsidePolygon(List<Vector3> polygon, Vector3 point)
+    {
+        bool isInside = false;
+        int j = polygon.Count - 1;
+
+        for (int i = 0; i < polygon.Count; i++)
+        {
+            Vector3 pi = polygon[i];
+            Vector3 pj = polygon[j];
+
+            if (pi.z < point.z && pj.z >= point.z || pj.z < point.z && pi.z >= point.z)
+            {
+                if (pi.x + (point.z - pi.z) / (pj.z - pi.z) * (pj.x - pi.x) < point.x)
+                {
+                    isInside = !isInside;
+                }
+            }
+            j = i;
+        }
+
+        return isInside;
     }
 
     //debug method for displaying spawnlocations in scene.
