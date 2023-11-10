@@ -23,7 +23,6 @@ public class ObjectCreationManager : MonoBehaviour
 
     [SerializeField] public Polygon polygon;
     [SerializeField] private List<Polygon> negPolygons = null;
-    [SerializeField] private GameObject gridPoint;
 
     /// <summary> HalfExtents are distances from center to bounding box walls. </summary>
     private Vector3 GetHalfExtents(GameObject prefab)

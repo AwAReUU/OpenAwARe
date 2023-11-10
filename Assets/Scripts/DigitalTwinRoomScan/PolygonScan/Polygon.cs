@@ -19,11 +19,13 @@ public class Polygon : MonoBehaviour
         this.line = this.transform.GetChild(0).GetComponent<LineRenderer>();
         this.temp_line = this.transform.GetChild(1).GetComponent<LineRenderer>();
         this.close_line = this.transform.GetChild(2).GetComponent<LineRenderer>();
+        if (points == null)
+            Debug.Log("null");
         applyBtn.SetActive(false);
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         UpdateCloseLine();
         UpdateTempLine();

@@ -21,7 +21,7 @@ public class TestPolygon : Polygon
         line.SetPositions(this.points.ToArray());
     }
 
-    void Update()
+    protected override void Update()
     {
         
     }
