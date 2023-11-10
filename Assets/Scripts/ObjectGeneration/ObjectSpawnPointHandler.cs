@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
-using System.Linq;
 
 
-public interface IObjectSpawnPointHandler 
+public interface IObjectSpawnPointHandler
 {
     public List<Vector3> GetValidSpawnPoints();
 
@@ -32,7 +31,7 @@ public class TestObjectSpawnPointHandler : IObjectSpawnPointHandler
         //get all pnts in bounding box in grid pattern with space "spacing" in between.
         for (float x = -8f; x <= -3; x += gridSpacing_)
         {
-            for (float z = -8f; z <= -3; z += gridSpacing_)  
+            for (float z = -8f; z <= -3; z += gridSpacing_)
             {
                 Vector3 gridPoint = new Vector3(x, y, z);
                 result.Add(gridPoint);
@@ -75,7 +74,7 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
         }
         return validPlanes;
     }
-    /*
+
     public List<Vector3> GetValidSpawnPoints()
     {
         List<Vector3> spawnPoints = new List<Vector3>();
@@ -86,14 +85,14 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
     }
 
     // Gets A Vector3 list as input that represent the spawn plane (polygon)
-    public List<Vector3> GetValidSpawnPoints(List<Vector3> polygon) 
+    public List<Vector3> GetValidSpawnPoints(List<Vector3> polygon)
     {
         List<Vector3> spawnPoints = new List<Vector3>();
         spawnPoints = GetGridPoints(polygon, gridSpacing);
 
         return spawnPoints;
     }
-    
+
     /// <summary>
     /// Divides a plane into a grid, and obtains all points on the intersections
     /// </summary>
@@ -129,7 +128,7 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
         }
         return result;
     }
-   
+
     private List<Vector3> GetGridPoints(List<Vector3> polygon, float spacing)
     {
         List<Vector3> result = new List<Vector3>();
@@ -169,26 +168,35 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
     }
 
     private bool IsPointInsidePolygon(List<Vector3> polygon, Vector3 point)
-{
-    bool isInside = false;
-    int j = polygon.Count - 1;
-
-    for (int i = 0; i < polygon.Count; i++)
     {
-        Vector3 pi = polygon[i];
-        Vector3 pj = polygon[j];
+        bool isInside = false;
+        int j = polygon.Count - 1;
 
-        if (pi.z < point.z && pj.z >= point.z || pj.z < point.z && pi.z >= point.z)
+        for (int i = 0; i < polygon.Count; i++)
         {
-            if (pi.x + (point.z - pi.z) / (pj.z - pi.z) * (pj.x - pi.x) < point.x)
+            Vector3 pi = polygon[i];
+            Vector3 pj = polygon[j];
+
+            if (pi.z < point.z && pj.z >= point.z || pj.z < point.z && pi.z >= point.z)
             {
-                isInside = !isInside;
+                if (pi.x + (point.z - pi.z) / (pj.z - pi.z) * (pj.x - pi.x) < point.x)
+                {
+                    isInside = !isInside;
+                }
             }
+            j = i;
         }
-        j = i;
+
+        return isInside;
     }
 
-    return isInside;
-}
-
+    private bool PointNotInPolygons(Vector3 p, List<Polygon> polygons)
+    {
+        foreach (Polygon polygon in polygons)
+        {
+            List<Vector3> points = polygon.GetPointsList();
+            if (IsPointInsidePolygon(points, p)) return false;
+        }
+        return true;
+    }
 }

@@ -8,8 +8,8 @@ public class Polygon : MonoBehaviour
     [SerializeField] private GameObject pointerObj;
 
     private Vector3 pointer = Vector3.zero;
-    private List<Vector3> points = new();
-    private LineRenderer line;
+    protected List<Vector3> points = new();
+    protected LineRenderer line;
     private LineRenderer temp_line;
     private LineRenderer close_line;
 

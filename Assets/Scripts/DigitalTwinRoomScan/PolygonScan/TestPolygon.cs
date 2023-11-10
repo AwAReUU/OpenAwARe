@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class TestPolygon : Polygon
 {
-    private List<Vector3> points = new();
-    private LineRenderer line;
     private void Start()
     {
-        this.line = this.transform.GetChild(0).GetComponent<LineRenderer>();
+        line = this.transform.GetChild(0).GetComponent<LineRenderer>();
 
         this.points.Add(new Vector3(0, -1.5f, 0));
         this.points.Add(new Vector3(1f, -1.5f, 0));
@@ -17,9 +15,14 @@ public class TestPolygon : Polygon
         this.points.Add(new Vector3(0, -1.5f, 0));
         UpdateLine();
     }
-    new private void UpdateLine()
+    private void UpdateLine()
     {
-        this.line.positionCount = this.points.Count;
-        this.line.SetPositions(this.points.ToArray());
+        line.positionCount = this.points.Count;
+        line.SetPositions(this.points.ToArray());
+    }
+
+    void Update()
+    {
+        
     }
 }
