@@ -9,6 +9,7 @@ using Databases;
 using ResourceLists;
 using AwARe.DataStructures;
 using Unity.VisualScripting;
+using IngredientLists;
 
 public class ObjectCreationManager : MonoBehaviour
 {
@@ -19,6 +20,18 @@ public class ObjectCreationManager : MonoBehaviour
     [SerializeField] private InputField inputChickenAmount;
     [SerializeField] private InputField inputWheatAmount;
     [SerializeField] private InputField inputDuckAmount;
+
+    private readonly Dictionary<int, int> modelList;
+
+    public ObjectCreationManager(IngredientList ingredientList)
+    {
+        MockupResourceDatabase resourceDatabase = new MockupResourceDatabase();
+
+        ResourceCalculator resourceCalculator = new ResourceCalculator();
+        ResourceList resourceList = resourceCalculator.IngredientsToResources(ingredientList);
+        modelList = ResourceListToModelList(resourceList, resourceDatabase);
+        RenderModelList(modelList);
+    }
 
     /// <summary> HalfExtents are distances from center to bounding box walls. </summary>
     private Vector3 GetHalfExtents(GameObject prefab)
@@ -62,7 +75,7 @@ public class ObjectCreationManager : MonoBehaviour
             // Add collider after changing object size
             BoxCollider bc = newObject.AddComponent<BoxCollider>();
             //RotateToUser(newObject);
-            CreateVisualBox(bc);
+            //CreateVisualBox(bc);
 
             return newObject;
         }
@@ -71,36 +84,48 @@ public class ObjectCreationManager : MonoBehaviour
     }
 
     /// <summary> Given a dictionary in the form (resourceID, quantity), generates these resources and their respective quantities in the form of their corresponding GameObjects </summary>
-    public void PrintResourceList()
-    {
-        // Get input values 
-        int PigAmount = int.Parse(inputPigAmount.text);
-        int ChickenAmount = int.Parse(inputChickenAmount.text);
-        int WheatAmount = int.Parse(inputWheatAmount.text);
-        int DuckAmount = int.Parse(inputDuckAmount.text);
+    //public void RenderResourceList()
+    //{
+    //    // Get input values 
+    //    int PigAmount = int.Parse(inputPigAmount.text);
+    //    int ChickenAmount = int.Parse(inputChickenAmount.text);
+    //    int WheatAmount = int.Parse(inputWheatAmount.text);
+    //    int DuckAmount = int.Parse(inputDuckAmount.text);
 
+    //    // Get databases
+    //    MockupResourceDatabase resourceDatabase = new MockupResourceDatabase();
+    //    MockupModelDatabase modelDatabase = new MockupModelDatabase();
+
+    //    // make a list of (resourceID, Quantity)
+    //    Dictionary<int, int> resourceList = new Dictionary<int, int>()
+    //    {
+    //      { 14, PigAmount     },
+    //      { 13, ChickenAmount },
+    //      { 17, WheatAmount   },
+    //      { 15, DuckAmount    },
+    //    };
+
+    //    Dictionary<int, int> modelList = MockResourceListToModelList(resourceList, resourceDatabase);
+    //    Dictionary<int, SpawnParams> spawnDict = GenerateSpawnDict(modelList, modelDatabase);
+
+    //    AutoGenerateObjects(spawnDict);
+    //}
+
+    public void RenderModelList(Dictionary<int, int> modelList)
+    {
         // Get databases
         MockupResourceDatabase resourceDatabase = new MockupResourceDatabase();
         MockupModelDatabase modelDatabase = new MockupModelDatabase();
 
-        // make a list of (resourceID, Quantity)
-        Dictionary<int, int> resourceList = new Dictionary<int, int>()
-        {
-          { 14, PigAmount     },
-          { 13, ChickenAmount },
-          { 17, WheatAmount   },
-          { 15, DuckAmount    },
-        };
-
-        Dictionary<int, int> modelList = ResourceListToModelList(resourceList, resourceDatabase);
         Dictionary<int, SpawnParams> spawnDict = GenerateSpawnDict(modelList, modelDatabase);
 
         AutoGenerateObjects(spawnDict);
     }
 
 
+
     /// <summary> Converts the dictionary from the form (resourceID, Quantity) to the form (modelID, Quantity) </summary>
-    public Dictionary<int, int> ResourceListToModelList(Dictionary<int, int> resourceList, MockupResourceDatabase resourceDatabase)
+    public Dictionary<int, int> MockResourceListToModelList(Dictionary<int, int> resourceList, MockupResourceDatabase resourceDatabase)
     {
         var modelList = new Dictionary<int, int>();
         foreach (var obj in resourceList)
@@ -111,9 +136,25 @@ public class ObjectCreationManager : MonoBehaviour
         return modelList;
     }
 
+    public Dictionary<int, int> ResourceListToModelList(ResourceList resourceList, MockupResourceDatabase resourceDatabase)
+    {
+        ModelCalculator modelCalculator = new ModelCalculator();
+        var modelList = new Dictionary<int, int>();
+        foreach (var obj in resourceList.Resources)
+        {
+            Resource resource = obj.Key;
+            float quantityGrams = obj.Value;
+
+            int modelID = resource.ModelID;
+            modelList[modelID] = modelCalculator.CalculateModelQuantity(resource, quantityGrams);
+        }
+        return modelList;
+    }
+
+
     private Dictionary<int, SpawnParams> GenerateSpawnDict(Dictionary<int, int> modelList, MockupModelDatabase modelDatabase)
     {
-        float sizeMultiplier = float.Parse(inputSize.text);
+        float sizeMultiplier = 1;//float.Parse(inputSize.text);
         Dictionary<int, SpawnParams> spawnDict = new();
         foreach (var kvp in modelList)
         {
@@ -121,7 +162,13 @@ public class ObjectCreationManager : MonoBehaviour
             string modelpath = @"Prefabs/" + modelDatabase.GetModel(kvp.Key).PrefabPath;
             GameObject model = Resources.Load<GameObject>(modelpath);
             Vector3 halfExtents = GetHalfExtents(model);
-            float modelSizeMultiplier = modelDatabase.GetModel(kvp.Key).RealHeight / (2 * halfExtents.y) * sizeMultiplier;
+            
+            //dirty temp code so that water doesnt have size 0.
+            float realHeight = modelDatabase.GetModel(kvp.Key).RealHeight;
+            if (realHeight == 0)
+                realHeight = 1;
+
+            float modelSizeMultiplier = realHeight / (2 * halfExtents.y) * sizeMultiplier;
             sp.prefab = model;
             sp.quantity = kvp.Value;
             sp.scaling = modelSizeMultiplier;
@@ -144,7 +191,7 @@ public class ObjectCreationManager : MonoBehaviour
     /// <summary> Generates the unity Gameobjects given a model list (modelID, Quantity) and a modelDatabase. The modelID is used to find the corresponding prefab name in the modelDatabase. </summary>
     private void AutoGenerateObjects(Dictionary<int, SpawnParams> spawnDict)
     {
-        ObjectSpawnPointHandler osph = new(planeManager); //(<-remove the word "Test" to use scanned planes)
+        TestObjectSpawnPointHandler osph = new(planeManager); //(<-remove the word "Test" to use scanned planes)
 
         List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
         foreach (var obj in spawnDict) //prefab iterator

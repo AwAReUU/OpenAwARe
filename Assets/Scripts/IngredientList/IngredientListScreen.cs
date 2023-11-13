@@ -21,7 +21,8 @@ namespace IngredientLists
         [SerializeField] private GameObject addIngredientButton;
         [SerializeField] private GameObject saveButton;
         [SerializeField] private Transform scrollViewContent;
-
+        [SerializeField] private GameObject loadListButton;
+ 
         private void OnEnable()
         {
             backButton.SetActive(true);
@@ -30,6 +31,9 @@ namespace IngredientLists
 
             Button saveB = saveButton.GetComponent<Button>();
             saveB.onClick.AddListener(delegate { OnSaveButtonClick(); });
+
+            Button loadB = loadListButton.GetComponent<Button>();
+            loadB.onClick.AddListener(delegate { OnLoadListButtonClick(); });
 
             DisplayList();
         }
@@ -42,12 +46,23 @@ namespace IngredientLists
             Button saveB = saveButton.GetComponent<Button>();
             saveB.onClick.RemoveAllListeners();
 
+            Button loadB = loadListButton.GetComponent<Button>();
+            loadB.onClick.RemoveAllListeners();
+
             RemoveIngredientObjects();
         }
 
         private void OnSaveButtonClick()
         {
             ingredientListManager.CloseList();
+        }
+        private void OnLoadListButtonClick() 
+        {
+            //remove everything from the screen
+            ingredientListManager.CloseListScreen();
+            backButton.SetActive(false);
+
+            ObjectCreationManager ocm = new ObjectCreationManager(ingredientListManager.SelectedList);
         }
 
         private void DisplayList()

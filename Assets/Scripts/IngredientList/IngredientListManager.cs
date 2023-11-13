@@ -51,6 +51,11 @@ namespace IngredientLists
             listsOverviewScreen.SetActive(true);
         }
 
+        public void CloseListScreen()
+        {
+            ingredientListScreen.SetActive(false);
+        }
+
         public void ChangeToSearchScreen()
         {
             ingredientListScreen.SetActive(false);
