@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using TMPro;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -12,19 +13,19 @@ public class StartState
 {
     public PathData GetStartState(Polygon positive, List<Polygon> negatives)
     {
-        PathData result = new();
-
-
         //shoot a ray from every corner point in the positive mesh
         //shoot a ray from every corner point in the negative mesh in the opposite direction
         //ray direction = make the 2 lines of the point into a parallelogram by virtually copying
 
         List<(Vector3, Vector3)> positiveLines = GenerateLines(positive);
         List<(Vector3, Vector3)> allRays = generateRays(positiveLines);
+        List<(Vector3, Vector3)> allLines = new List<(Vector3, Vector3)>();
+        allLines.Concat(positiveLines);
 
         for (int i = 0; i < negatives.Count; i++)
         {
             List<(Vector3, Vector3)> negativeLines = GenerateLines(negatives[i]);
+            allLines.Concat(negativeLines);
             List<(Vector3, Vector3)> negativeRays = generateRays(negativeLines, true);
 
             for(int j = 0; j < negativeRays.Count; j++)
@@ -48,20 +49,102 @@ public class StartState
                     continue;
                 }
 
-                //check if the point is in the polygon
+                //check if the point is inside the positive polygon and outside the negative polygons
                 if(CheckInPolygon(positive, point))
                 {
-                    allIntersections.Add(point);
+                    bool addpoint = true;
+                    for(int k = 0; k < negatives.Count; k++)
+                    {
+                        if (CheckInPolygon(negatives[k], point))
+                        {
+                            addpoint = false;
+                            break;
+                        }
+                    }
+                    if(addpoint)
+                    {
+                        allIntersections.Add(point);
+                    }
                 }
             }
         }
 
-        //potential issue: order of the points in the list is probably not correct
-        //i am still looking into this
-        result.points = allIntersections;
+        return FindOptimalPath(allIntersections, allLines);
+    }
+
+    /// <summary>
+    /// Find the optimal path using a greedy approach
+    /// </summary>
+    /// <param name="points"> the points to create a path between </param>
+    /// <param name="walls"> all the lines of polygons (both positive and negative)</param>
+    /// <returns> the path </returns>
+    private PathData FindOptimalPath(List<Vector3> pathPoints, List<(Vector3, Vector3)> walls)
+    {
+        PathData result = new();
+
+        result.points = new();
         result.radius = 1;      //arbitrarily chosen number, feel free to alter to something better
 
+        //greedy appraoch: choose the closest intercection found (but only if it dont cross a polygon line), that is the next one on the path
+        //how to choose first one: one closest to a wall? just the first intersection found?
+        //lets start with it just being the first intersection and see how well that works out
+
+        //initialize the first point on the path
+        Vector3 latest = pathPoints[0];
+        result.points.Add(latest);
+        pathPoints.Remove(latest);
+
+        while (pathPoints.Count > 0)
+        {
+            Vector3 best = pathPoints[0];
+            float bestdist = math.sqrt(math.pow(latest.x - best.x, 2) + math.pow(latest.y - best.y, 2));
+
+            //continually find and remove the best intersection in the remaining intersections
+            for (int i = 1; i < pathPoints.Count; i++)
+            {
+                Vector3 current = pathPoints[i];
+
+                //check if the distance to the current point is better than that of the best point
+                float dist = math.sqrt(math.pow(latest.x - current.x, 2) + math.pow(latest.y - current.y, 2));
+                if (dist >= bestdist)
+                {
+                    continue;
+                }
+
+                //check if the path between the previous and this point moves through any walls
+                bool valid = true;
+                for (int j = 0; j < walls.Count; j++)
+                {
+                    bool intersects;
+                    _ = IntersectionPoint(latest, current, walls[j].Item1, walls[j].Item2, out intersects);
+
+                    if (intersects)
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+
+                if (valid)
+                {
+                    best = current;
+                    bestdist = dist;
+                }
+            }
+
+            //add the best point to the end of the path and remove it from the list of remaining intersections
+            result.points.Add(best);
+            pathPoints.Remove(best);
+        }
+
         return result;
+    }
+
+    private List<Vector3> ClusterPoints(List<Vector3> points)
+    {
+
+        //temp
+        return new();
     }
 
     /// <summary>
@@ -206,7 +289,6 @@ public class StartState
         //i do not believe this can happen because the origin point should then intersect 2 polygon edges, thus always adding 2 to the number
         //of intersections, and so even will remain even and odd will remain odd, not influencing the outcome.
 
-
         for(int i = 0; i < rays.Count; i++)
         {
             int intersections = 0;
@@ -285,12 +367,28 @@ public class StartState
 
         return true;
     }
+}
 
     //genlines method voor de polygons. 1 voor beide tegelijk is goed                                    done
     //genrays method voor de polygons. pos en neg een apparte, omdat neg rays de andere kant op moeten.  done (alternatively)
     //alternatively, 1 voor beide, en dan een method om pos rays in neg rays te veranderen               done
     //method om ray intersections te calculaten en de intersection points te returnen                    done
-    //method om een path te maken tussen deze intersection points                                        done but probably not good enough
+    //method om een path te maken tussen deze intersection points                                        done (greedy)
     //maybe een method om nearby intersections te refinen door clusteren                                 optional todo
     //maybe een method om de 'roundness' van de polygon te detecten en de polygon te refinen door wat cornerpoints te mergen    optional todo
-}
+    //maybe (probably) make rays end at when they encounter an edge                                      todo?
+    //find a way such that the startstate will always produce a path                                     todo
+
+    //'thinning' method
+    //potentially use from BV assignments:
+    //drawline method, see 'Assignment 3'
+    //floodfill method, see 'Assignment 2'
+    //maybe convolve image? for hit/miss transform with thinning
+    //ideas:
+    //first, create a grid with a certain 'resolution'
+    //tranform the polygons such that their points are the same relative to each other, but they also fit in the grid for the drawline method
+    //create the grid properly with drawline and floodfill
+    //apply thinning with the 'Golay' structuring elements found in BV slides
+    //find the path by tracing the thinning residue. potentially make in-between 'node' structure
+    //convert the node structure back into a regular path structure (or maybe not, discuss with Joep)
+    //transform the path back into 'polygon-space'
