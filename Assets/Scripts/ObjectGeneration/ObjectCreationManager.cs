@@ -23,6 +23,10 @@ public class ObjectCreationManager : MonoBehaviour
 
     private IngredientList selectedList { get; set; }
 
+    /// <summary>
+    /// Set the current ingredientList.
+    /// </summary>
+    /// <param name="ingredientList"></param>
     public void SetSelectedList(IngredientList ingredientList) 
     {
         selectedList = ingredientList;
@@ -33,11 +37,9 @@ public class ObjectCreationManager : MonoBehaviour
     /// <returns>Model list</returns>
     private Dictionary<int, int> ConvertSelectedListToModels()
     {
-        MockupResourceDatabase resourceDatabase = new MockupResourceDatabase();
-
         ResourceCalculator resourceCalculator = new ResourceCalculator();
         ResourceList resourceList = resourceCalculator.IngredientsToResources(selectedList);
-        Dictionary<int, int> modelList = ResourceListToModelList(resourceList, resourceDatabase);
+        Dictionary<int, int> modelList = ResourceListToModelList(resourceList);
         return modelList;
     }
 
@@ -58,8 +60,7 @@ public class ObjectCreationManager : MonoBehaviour
     /// </summary>
     /// <param name="obj"></param>
     /// <param name="position"></param>
-    /// <param name="halfExtents"></param>
-    /// <param name="sizeMultiplier"></param>
+    /// <param name="forcePlace"></param>
     /// <returns></returns>
     private GameObject TryPlaceObject(
         SpawnParams so,
@@ -119,24 +120,19 @@ public class ObjectCreationManager : MonoBehaviour
     //    AutoGenerateObjects(spawnDict);
     //}
 
+    /// <summary>
+    /// Called when the place button is clicked. 
+    /// </summary>
     public void OnPlaceButtonClick()
     {
-        Dictionary<int, int> modelList = ConvertSelectedListToModels();
-        RenderModelList(modelList);
-    }
-
-    public void RenderModelList(Dictionary<int, int> modelList)
-    {
-        // Get databases
-        MockupResourceDatabase resourceDatabase = new MockupResourceDatabase();
+        //Get database
         MockupModelDatabase modelDatabase = new MockupModelDatabase();
 
+        Dictionary<int, int> modelList = ConvertSelectedListToModels();
         Dictionary<int, SpawnParams> spawnDict = GenerateSpawnDict(modelList, modelDatabase);
 
         AutoGenerateObjects(spawnDict);
     }
-
-
 
     /// <summary> Converts the dictionary from the form (resourceID, Quantity) to the form (modelID, Quantity) </summary>
     public Dictionary<int, int> MockResourceListToModelList(Dictionary<int, int> resourceList, MockupResourceDatabase resourceDatabase)
@@ -150,7 +146,13 @@ public class ObjectCreationManager : MonoBehaviour
         return modelList;
     }
 
-    public Dictionary<int, int> ResourceListToModelList(ResourceList resourceList, MockupResourceDatabase resourceDatabase)
+    /// <summary>
+    /// Convert resourceList to ModelList (list of <id,quantity> of items we need to render)
+    /// </summary>
+    /// <param name="resourceList"></param>
+    /// <param name="resourceDatabase"></param>
+    /// <returns>modelList</returns>
+    public Dictionary<int, int> ResourceListToModelList(ResourceList resourceList)
     {
         ModelCalculator modelCalculator = new ModelCalculator();
         var modelList = new Dictionary<int, int>();
@@ -165,10 +167,9 @@ public class ObjectCreationManager : MonoBehaviour
         return modelList;
     }
 
-
     private Dictionary<int, SpawnParams> GenerateSpawnDict(Dictionary<int, int> modelList, MockupModelDatabase modelDatabase)
     {
-        float sizeMultiplier = 1;//float.Parse(inputSize.text);
+        float sizeMultiplier = 1; //float.Parse(inputSize.text);
         Dictionary<int, SpawnParams> spawnDict = new();
         foreach (var kvp in modelList)
         {
@@ -205,7 +206,7 @@ public class ObjectCreationManager : MonoBehaviour
     /// <summary> Generates the unity Gameobjects given a model list (modelID, Quantity) and a modelDatabase. The modelID is used to find the corresponding prefab name in the modelDatabase. </summary>
     private void AutoGenerateObjects(Dictionary<int, SpawnParams> spawnDict)
     {
-        TestObjectSpawnPointHandler osph = new(planeManager); //(<-remove the word "Test" to use scanned planes)
+        ObjectSpawnPointHandler osph = new(planeManager); //(<-remove the word "Test" to use scanned planes)
 
         List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
         foreach (var obj in spawnDict) //prefab iterator
