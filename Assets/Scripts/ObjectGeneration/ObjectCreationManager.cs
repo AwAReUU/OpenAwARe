@@ -15,22 +15,30 @@ public class ObjectCreationManager : MonoBehaviour
 {
     [SerializeField] private ARPlaneManager planeManager;
     [SerializeField] private GameObject placeButton;
-    [SerializeField] private InputField inputSize;
-    [SerializeField] private InputField inputPigAmount;
-    [SerializeField] private InputField inputChickenAmount;
-    [SerializeField] private InputField inputWheatAmount;
-    [SerializeField] private InputField inputDuckAmount;
+    //[SerializeField] private InputField inputSize;
+    //[SerializeField] private InputField inputPigAmount;
+    //[SerializeField] private InputField inputChickenAmount;
+    //[SerializeField] private InputField inputWheatAmount;
+    //[SerializeField] private InputField inputDuckAmount;
 
-    private readonly Dictionary<int, int> modelList;
+    private IngredientList selectedList { get; set; }
 
-    public ObjectCreationManager(IngredientList ingredientList)
+    public void SetSelectedList(IngredientList ingredientList) 
+    {
+        selectedList = ingredientList;
+    }
+    /// <summary>
+    /// Converts an ingredientlist to resource list to model list.
+    /// </summary>
+    /// <returns>Model list</returns>
+    private Dictionary<int, int> ConvertSelectedListToModels()
     {
         MockupResourceDatabase resourceDatabase = new MockupResourceDatabase();
 
         ResourceCalculator resourceCalculator = new ResourceCalculator();
-        ResourceList resourceList = resourceCalculator.IngredientsToResources(ingredientList);
-        modelList = ResourceListToModelList(resourceList, resourceDatabase);
-        RenderModelList(modelList);
+        ResourceList resourceList = resourceCalculator.IngredientsToResources(selectedList);
+        Dictionary<int, int> modelList = ResourceListToModelList(resourceList, resourceDatabase);
+        return modelList;
     }
 
     /// <summary> HalfExtents are distances from center to bounding box walls. </summary>
@@ -75,7 +83,7 @@ public class ObjectCreationManager : MonoBehaviour
             // Add collider after changing object size
             BoxCollider bc = newObject.AddComponent<BoxCollider>();
             //RotateToUser(newObject);
-            //CreateVisualBox(bc);
+            CreateVisualBox(bc);
 
             return newObject;
         }
@@ -110,6 +118,12 @@ public class ObjectCreationManager : MonoBehaviour
 
     //    AutoGenerateObjects(spawnDict);
     //}
+
+    public void OnPlaceButtonClick()
+    {
+        Dictionary<int, int> modelList = ConvertSelectedListToModels();
+        RenderModelList(modelList);
+    }
 
     public void RenderModelList(Dictionary<int, int> modelList)
     {

@@ -14,6 +14,12 @@ class ModelCalculator
         resourceDatabase = new MockupResourceDatabase();
     }
 
+    /// <summary>
+    /// Calculate how many models we need to render for the given resource
+    /// </summary>
+    /// <param name="resource"></param>
+    /// <param name="resourceQuantity"></param>
+    /// <returns></returns>
     public int CalculateModelQuantity(Resource resource, float resourceQuantity)
     {
         if (resource.GramsPerModel != null) 

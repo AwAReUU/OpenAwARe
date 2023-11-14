@@ -56,13 +56,13 @@ namespace IngredientLists
         {
             ingredientListManager.CloseList();
         }
+        /// <summary>
+        /// Just go back to the home screen, without removing the selected list.
+        /// </summary>
         private void OnLoadListButtonClick() 
         {
-            //remove everything from the screen
             ingredientListManager.CloseListScreen();
             backButton.SetActive(false);
-
-            ObjectCreationManager ocm = new ObjectCreationManager(ingredientListManager.SelectedList);
         }
 
         private void DisplayList()

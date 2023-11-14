@@ -18,7 +18,7 @@ namespace Databases
                 new Resource( 4,       "Pear",  ResourceType.Plant,  10000, 7),
                 new Resource( 5,   "Mandarin",  ResourceType.Plant,   8000, 7),
                 new Resource( 6,     "Orange",  ResourceType.Plant,  10000, 7),
-                new Resource( 7,      "Grape",  ResourceType.Plant,   5000, 7),
+                new Resource( 7,      "Grape",  ResourceType.Plant,   5000, 6),
                 new Resource( 8, "Strawberry",  ResourceType.Plant,    100, 7),
                 new Resource( 9, "Kiwi Fruit",  ResourceType.Plant,   1000, 7),
                 new Resource(10,  "Pineapple",  ResourceType.Plant,   1000, 7),
