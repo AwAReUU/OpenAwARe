@@ -95,6 +95,9 @@ public class ObjectCreationManager : MonoBehaviour
     /// </summary>
     public void OnPlaceButtonClick()
     {
+        GameObject polygon = polygonManager.GetPolygon();
+        List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
+
         //Get database
         MockupModelDatabase modelDatabase = new MockupModelDatabase();
 
