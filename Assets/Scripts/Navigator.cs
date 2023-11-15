@@ -89,7 +89,7 @@ public class Navigator : MonoBehaviour
     }
 
     /// <summary>
-    /// Obtains the currently selected list from the ingredientlist scene.
+    /// Extracts the currently selected list from the ingredientlist scene.
     /// </summary>
     /// <returns></returns>
     private IngredientList GetSelectedList() 
@@ -100,8 +100,9 @@ public class Navigator : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Pass the selectedList to the ObjectGeneration scene.
     /// </summary>
+    /// <param name="selectedList">IngredientList to be rendered in object gen</param>
     private void SetSelectedListObjectGen(IngredientList selectedList) 
     {
         GameObject objectCreationManager = objectGeneration.GetNamedChild("ObjectCreationManager");

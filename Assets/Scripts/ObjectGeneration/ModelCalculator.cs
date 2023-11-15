@@ -1,6 +1,7 @@
 using Databases;
 using ResourceLists;
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 class ModelCalculator 
@@ -24,8 +25,10 @@ class ModelCalculator
     {
         if (resource.GramsPerModel != null) 
             return (int)Math.Ceiling((double)(resourceQuantity / resource.GramsPerModel));
-        if (resource.Name == "Water" || resource.Name == "Milk")
-            return 1;
+        if (resource.Name == "Water")
+            return (int)Math.Ceiling(resourceQuantity / 1500); //1500grams per bottle
+        if (resource.Name == "Milk")
+            return (int)Math.Ceiling(resourceQuantity / 1000); //1000grams per carton
         return 1;
     }
 }

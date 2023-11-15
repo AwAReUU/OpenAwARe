@@ -27,10 +27,8 @@ public class ObjectCreationManager : MonoBehaviour
     /// Set the current ingredientList.
     /// </summary>
     /// <param name="ingredientList"></param>
-    public void SetSelectedList(IngredientList ingredientList) 
-    {
-        selectedList = ingredientList;
-    }
+    public void SetSelectedList(IngredientList ingredientList) => selectedList = ingredientList;
+
     /// <summary>
     /// Converts an ingredientlist to resource list to model list.
     /// </summary>
@@ -79,10 +77,12 @@ public class ObjectCreationManager : MonoBehaviour
             // Adjust object size according to scalar
             GameObject newObject = Instantiate(so.prefab, position, Quaternion.identity);
             newObject.layer = LayerMask.NameToLayer("Material2");
-            newObject.transform.localScale = new Vector3(so.scaling, so.scaling, so.scaling);
+            newObject.transform.localScale *= so.scaling; //(1,1,1) * 0.66
 
             // Add collider after changing object size
             BoxCollider bc = newObject.AddComponent<BoxCollider>();
+            Vector3 boxscale = bc.size * so.scaling;
+            bc.size.Set(boxscale.x, boxscale.y, boxscale.z);
             //RotateToUser(newObject);
             CreateVisualBox(bc);
 
@@ -206,7 +206,7 @@ public class ObjectCreationManager : MonoBehaviour
     /// <summary> Generates the unity Gameobjects given a model list (modelID, Quantity) and a modelDatabase. The modelID is used to find the corresponding prefab name in the modelDatabase. </summary>
     private void AutoGenerateObjects(Dictionary<int, SpawnParams> spawnDict)
     {
-        ObjectSpawnPointHandler osph = new(planeManager); //(<-remove the word "Test" to use scanned planes)
+        TestObjectSpawnPointHandler osph = new(planeManager); //(<-remove the word "Test" to use scanned planes)
 
         List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
         foreach (var obj in spawnDict) //prefab iterator
@@ -277,9 +277,10 @@ public class ObjectCreationManager : MonoBehaviour
             float ratioUsage = so.halfExtents.x * so.halfExtents.z * 4 / availableSurfaceArea;
             if (currentRatioUsage + ratioUsage < so.allowedSurfaceUsage)
             {
-                bool placedObj = TryPlaceObject(so, validSpawnPoints[j]);
+                GameObject placedObj = TryPlaceObject(so, validSpawnPoints[j]);
                 if (placedObj) //placement successful
                 {
+                    Debug.Log("placed at: " + placedObj.transform.position);
                     float height = validSpawnPoints[j].y + 2 * so.halfExtents.y;
                     objStacks.Add(validSpawnPoints[j], height);
                     currentRatioUsage += ratioUsage;

@@ -27,7 +27,7 @@ namespace Databases
                 (13,  1, 1000),
                 (14,  1, 1000),
                 (15,  1, 1000),
-                (16,  1, 1000),
+                (16,  1, 4.32692307692f),
                 ( 2,  2,    1),
                 ( 3,  3,    1),
                 ( 4,  4,    1),
@@ -48,7 +48,7 @@ namespace Databases
                 (13, 17,   2.5f),
                 (14, 17,   10),
                 (15, 17,   10),
-                (16, 17,   10),
+                (16, 17,   1.25f),
             };
         }
         public Dictionary<int, float> GetResourceIDs(Ingredient ingredient)
