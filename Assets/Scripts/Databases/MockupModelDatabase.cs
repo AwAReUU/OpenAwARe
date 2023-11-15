@@ -21,6 +21,8 @@ namespace Databases
                 new Model( 6, ResourceType.Plant,  @"Crops/grap",            0, 0, 1f, 0, 0),
                 new Model( 7, ResourceType.Plant,  @"Crops/wheat1",          0, 0, 1.2f, 0, 0),
                 new Model( 8, ResourceType.Animal, @"Other/Milk_carton",     0, 0, 0.2f, 0, 0),
+                new Model( 9, ResourceType.Plant,  @"Crops/potato",          0, 0, 0.4f, 0, 0),
+                new Model(10, ResourceType.Plant,  @"Crops/beet", 0, 0, 0.2f, 0, 0)
             };
         }
 

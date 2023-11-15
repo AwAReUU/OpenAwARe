@@ -30,6 +30,7 @@ namespace ResourceLists
                 foreach (var keyValuePair in resourceCosts.Resources)
                 {
                     Resource resource = keyValuePair.Key;
+                    Debug.Log(resource.Name);
                     float quantity = keyValuePair.Value;
 
                     // check whether the resource already exists in the combined dictionary
