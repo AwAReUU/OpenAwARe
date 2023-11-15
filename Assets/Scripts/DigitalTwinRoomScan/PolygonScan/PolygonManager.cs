@@ -6,7 +6,7 @@ public class PolygonManager : MonoBehaviour
 {
     [SerializeField] private GameObject polygon;
     [SerializeField] private GameObject polygonMesh;
-    [SerializeField] private GameObject scanner;
+    [SerializeField] private PolygonScan scanner;
     [SerializeField] private GameObject pointerObj;
 
     [SerializeField] private GameObject resetBtn;
@@ -30,14 +30,14 @@ public class PolygonManager : MonoBehaviour
         this.polygon.GetComponent<Polygon>().Apply();
         this.applyBtn.SetActive(false);
         this.confirmBtn.SetActive(true);
-        this.scanner.SetActive(false);
+        this.scanner.enabled = false;
         this.pointerObj.SetActive(false);
     }
 
     public void Reset()
     {
         this.polygon.GetComponent<Polygon>().Reset();
-        this.scanner.SetActive(true);
+        this.scanner.enabled = true;
         this.pointerObj.SetActive(true);
     }
 

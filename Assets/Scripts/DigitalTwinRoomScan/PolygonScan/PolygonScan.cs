@@ -16,13 +16,13 @@ public class PolygonScan : MonoBehaviour
     private GameObject trackables;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         trackables = GameObject.Find("Trackables");
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
         Physics.Raycast(ray, out RaycastHit hitData);
