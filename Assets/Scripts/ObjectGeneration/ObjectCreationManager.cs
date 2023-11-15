@@ -81,8 +81,6 @@ public class ObjectCreationManager : MonoBehaviour
 
             // Add collider after changing object size
             BoxCollider bc = newObject.AddComponent<BoxCollider>();
-            Vector3 boxscale = bc.size * so.scaling;
-            bc.size.Set(boxscale.x, boxscale.y, boxscale.z);
             //RotateToUser(newObject);
             CreateVisualBox(bc);
 
