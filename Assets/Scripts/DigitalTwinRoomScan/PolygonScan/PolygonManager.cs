@@ -14,17 +14,6 @@ public class PolygonManager : MonoBehaviour
     [SerializeField] private GameObject confirmBtn;
     [SerializeField] private GameObject slider;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     public void Apply()
     {
         this.polygon.GetComponent<Polygon>().Apply();

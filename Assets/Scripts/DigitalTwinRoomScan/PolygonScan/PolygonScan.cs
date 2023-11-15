@@ -24,7 +24,7 @@ public class PolygonScan : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         Physics.Raycast(ray, out RaycastHit hitData);
 
         if (hitData.transform != null && hitData.transform.gameObject.name.Contains("ARPlane") &&
