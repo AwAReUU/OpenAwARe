@@ -52,16 +52,12 @@ namespace IngredientLists
             RemoveIngredientObjects();
         }
 
-        private void OnSaveButtonClick()
-        {
-            ingredientListManager.CloseList();
-        }
         /// <summary>
         /// Just go back to the home screen, without removing the selected list.
         /// </summary>
-        private void OnLoadListButtonClick() 
+        private void OnLoadListButtonClick()
         {
-            ingredientListManager.CloseListScreen();
+            //ingredientListManager.CloseListScreen();
             backButton.SetActive(false);
         }
 
