@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Polygon : MonoBehaviour
@@ -8,7 +9,6 @@ public class Polygon : MonoBehaviour
 
     private Vector3 pointer = Vector3.zero;
     private List<Vector3> points = new();
-
     private LineRenderer line;
     private LineRenderer temp_line;
     private LineRenderer close_line;
@@ -57,6 +57,11 @@ public class Polygon : MonoBehaviour
     public Vector3[] GetPoints()
     {
         return this.points.ToArray();
+    }
+
+    public List<Vector3> GetPointsList()
+    {
+        return this.points;
     }
 
     public void AddPoint()

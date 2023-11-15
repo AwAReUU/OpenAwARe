@@ -14,12 +14,8 @@ using IngredientLists;
 public class ObjectCreationManager : MonoBehaviour
 {
     [SerializeField] private ARPlaneManager planeManager;
+    [SerializeField] private PolygonManager polygonManager;
     [SerializeField] private GameObject placeButton;
-    //[SerializeField] private InputField inputSize;
-    //[SerializeField] private InputField inputPigAmount;
-    //[SerializeField] private InputField inputChickenAmount;
-    //[SerializeField] private InputField inputWheatAmount;
-    //[SerializeField] private InputField inputDuckAmount;
 
     private IngredientList selectedList { get; set; }
 
@@ -74,49 +70,25 @@ public class ObjectCreationManager : MonoBehaviour
             Quaternion.identity,
             LayerMask.GetMask("Material2")) || forcePlace) //only check collisions with other materials.
         {
-            // Adjust object size according to scalar
-            GameObject newObject = Instantiate(so.prefab, position, Quaternion.identity);
-            newObject.layer = LayerMask.NameToLayer("Material2");
-            newObject.transform.localScale *= so.scaling; //(1,1,1) * 0.66
+            // Check if the collider doesn't cross the polygon border
+            if (ObjectColliderInPolygon(so, position))
+            {
+                // Adjust object size according to scalar
+                GameObject newObject = Instantiate(so.prefab, position, Quaternion.identity);
+                newObject.layer = LayerMask.NameToLayer("Material2");
+                newObject.transform.localScale = new Vector3(so.scaling, so.scaling, so.scaling);
 
-            // Add collider after changing object size
-            BoxCollider bc = newObject.AddComponent<BoxCollider>();
-            //RotateToUser(newObject);
-            CreateVisualBox(bc);
+                // Add collider after changing object size
+                BoxCollider bc = newObject.AddComponent<BoxCollider>();
+                //RotateToUser(newObject);
+                CreateVisualBox(bc);
 
-            return newObject;
+                return newObject;
+            }
         }
-        //else { Debug.Log("collision"); }
+        
         return null;
     }
-
-    /// <summary> Given a dictionary in the form (resourceID, quantity), generates these resources and their respective quantities in the form of their corresponding GameObjects </summary>
-    //public void RenderResourceList()
-    //{
-    //    // Get input values 
-    //    int PigAmount = int.Parse(inputPigAmount.text);
-    //    int ChickenAmount = int.Parse(inputChickenAmount.text);
-    //    int WheatAmount = int.Parse(inputWheatAmount.text);
-    //    int DuckAmount = int.Parse(inputDuckAmount.text);
-
-    //    // Get databases
-    //    MockupResourceDatabase resourceDatabase = new MockupResourceDatabase();
-    //    MockupModelDatabase modelDatabase = new MockupModelDatabase();
-
-    //    // make a list of (resourceID, Quantity)
-    //    Dictionary<int, int> resourceList = new Dictionary<int, int>()
-    //    {
-    //      { 14, PigAmount     },
-    //      { 13, ChickenAmount },
-    //      { 17, WheatAmount   },
-    //      { 15, DuckAmount    },
-    //    };
-
-    //    Dictionary<int, int> modelList = MockResourceListToModelList(resourceList, resourceDatabase);
-    //    Dictionary<int, SpawnParams> spawnDict = GenerateSpawnDict(modelList, modelDatabase);
-
-    //    AutoGenerateObjects(spawnDict);
-    //}
 
     /// <summary>
     /// Called when the place button is clicked. 
@@ -129,7 +101,7 @@ public class ObjectCreationManager : MonoBehaviour
         Dictionary<int, int> modelList = ConvertSelectedListToModels();
         Dictionary<int, SpawnParams> spawnDict = GenerateSpawnDict(modelList, modelDatabase);
 
-        AutoGenerateObjects(spawnDict);
+        AutoGenerateObjects(spawnDict, polygonPoints);
     }
 
     /// <summary> Converts the dictionary from the form (resourceID, Quantity) to the form (modelID, Quantity) </summary>
@@ -230,6 +202,40 @@ public class ObjectCreationManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Generates a list of objects given a dictionary of (modelID, Quantity) on a polygon given by points
+    /// </summary>
+    /// <param name="spawnDict"></param>
+    /// <param name="polygon"></param>
+    private void AutoGenerateObjects(Dictionary<int, SpawnParams> spawnDict, List<Vector3> polygon)
+    {
+        // Create spawpointhandler without ARPlanemanager
+        ObjectSpawnPointHandler osph = new(); 
+
+        List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints(polygon);
+        foreach (var obj in spawnDict) //prefab iterator
+        {
+            float currentRatioUsage = 0;
+            float availableSurfaceArea = EstimateAvailableSurfaceArea(validSpawnPoints.Count);
+            //float spaceNeeded = ComputeSpaceNeeded(spawnDict);
+
+            //If we place an object, store its position as key, and the height as value.
+            //If we run out of ground space, we can start stacking the objects at these locations.
+            //this dictionary is reset for each different objects, so that only clones of the same object
+            //can be stacked on eachother.
+            Dictionary<Vector3, float> prefabStacks = new();
+
+            for (int i = 0; i < obj.Value.quantity; i++) //quantity iterator
+                SpawnParticularObj(
+                    obj.Value,
+                    validSpawnPoints,
+                    ref prefabStacks,
+                    availableSurfaceArea,
+                    ref currentRatioUsage
+                );
+        }
+    }
+
     private float EstimateAvailableSurfaceArea(int spawnPoints) =>
         spawnPoints * 0.1f * 0.1f * 0.9f;
 
@@ -278,14 +284,12 @@ public class ObjectCreationManager : MonoBehaviour
                 GameObject placedObj = TryPlaceObject(so, validSpawnPoints[j]);
                 if (placedObj) //placement successful
                 {
-                    Debug.Log("placed at: " + placedObj.transform.position);
                     float height = validSpawnPoints[j].y + 2 * so.halfExtents.y;
                     objStacks.Add(validSpawnPoints[j], height);
                     currentRatioUsage += ratioUsage;
                     return;
                 }
             }
-            //else Debug.Log("Out of ratio");
         }
         //If the program reaches here, it ran out of "ground space", and will need to stack.
         TryStack(so, ref objStacks);
@@ -378,6 +382,7 @@ public class ObjectCreationManager : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(scaledEuler);
         target.transform.rotation = targetRotation;
     }
+    
     public void CreateVisualBox(BoxCollider boxCollider)
     {
         // Create a new GameObject
@@ -434,14 +439,74 @@ public class ObjectCreationManager : MonoBehaviour
         }
     }
 
-    //debug method for displaying spawnlocations in scene.
-    //void OnDrawGizmos()
-    //{
-    //    ObjectSpawnPointHandler osph = new(0.1f, planeManager);
-    //    List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
+    private bool ObjectColliderInPolygon(SpawnParams so, Vector3 position)
+    {
+        GameObject polygon = polygonManager.GetPolygon();
+        List<Vector3> polygonArea = polygon.GetComponent<Polygon>().GetPointsList();
 
-    //    Gizmos.color = Color.red;
-    //    foreach (var p in validSpawnPoints)
-    //        Gizmos.DrawSphere(p, 0.05f);
-    //}
+        bool inPolygon = true;
+
+        List<Vector3> corners = CalculateColliderCorners(so, position);
+        foreach (var x in corners)
+        {
+            if (!IsPointInsidePolygon(polygonArea, x))
+            {
+                return false; 
+            }
+        }
+
+        return inPolygon;
+    }
+
+    private List<Vector3> CalculateColliderCorners(SpawnParams so, Vector3 position)
+    {
+        List<Vector3> corners = new();
+
+        // Get the size of the BoxCollider
+        Vector3 size = so.halfExtents; 
+
+        // Calculate the corners
+        corners.Add(position + new Vector3(-size.x, 0, -size.z));
+        corners.Add(position + new Vector3(size.x, 0, -size.z));
+        corners.Add(position + new Vector3(-size.x, 0, size.z));
+        corners.Add(position + new Vector3(size.x, 0, size.z));
+
+        return corners;
+    }
+
+    private bool IsPointInsidePolygon(List<Vector3> polygon, Vector3 point)
+    {
+        bool isInside = false;
+        int j = polygon.Count - 1;
+
+        for (int i = 0; i < polygon.Count; i++)
+        {
+            Vector3 pi = polygon[i];
+            Vector3 pj = polygon[j];
+
+            if (pi.z < point.z && pj.z >= point.z || pj.z < point.z && pi.z >= point.z)
+            {
+                if (pi.x + (point.z - pi.z) / (pj.z - pi.z) * (pj.x - pi.x) < point.x)
+                {
+                    isInside = !isInside;
+                }
+            }
+            j = i;
+        }
+
+        return isInside;
+    }
+
+    //debug method for displaying spawnlocations in scene.
+    void OnDrawGizmos()
+    {
+        GameObject polygon = polygonManager.GetPolygon();
+        List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
+        ObjectSpawnPointHandler osph = new(); 
+        List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints(polygonPoints);
+
+        Gizmos.color = Color.red;
+        foreach (var p in validSpawnPoints)
+            Gizmos.DrawSphere(p, 0.05f);
+    }
 }

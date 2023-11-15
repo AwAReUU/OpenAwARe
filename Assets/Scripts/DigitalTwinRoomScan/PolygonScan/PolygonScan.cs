@@ -40,7 +40,7 @@ public class PolygonScan : MonoBehaviour
             // Check if plane and ray are not parrallel.
             if (ray.direction.y != 0)
             {
-                float l = (-1.5f - ray.origin.y) / ray.direction.y;
+                float l = (pointer.transform.position.y - ray.origin.y) / ray.direction.y;
                 // Check if ray is not reversed
                 if (l > 0f)
                 {
