@@ -35,6 +35,8 @@ public class Polygon : MonoBehaviour
         applyBtn.SetActive(false);
         this.pointer = Vector3.zero;
         this.points = new List<Vector3>();
+        this.close_line.gameObject.SetActive(true);
+        this.temp_line.gameObject.SetActive(true);
         this.UpdateLine();
         this.UpdateTempLine();
         this.UpdateCloseLine();
@@ -44,9 +46,11 @@ public class Polygon : MonoBehaviour
     {
         applyBtn.SetActive(false);
         this.line.loop = true;
+        this.close_line.gameObject.SetActive(false);
+        this.temp_line.gameObject.SetActive(false);
         this.UpdateLine();
-        this.UpdateTempLine();
-        this.UpdateCloseLine();
+        // this.UpdateTempLine();
+        // this.UpdateCloseLine();
     }
 
     public void SetPointer(Vector3 pointer)
