@@ -28,7 +28,7 @@ public class PolygonScan : MonoBehaviour
         Physics.Raycast(ray, out RaycastHit hitData);
 
         if (hitData.transform != null && hitData.transform.gameObject.name.Contains("ARPlane") &&
-                hitData.normal.x == 0f && hitData.normal.y == 1f && hitData.normal.z == 0f)
+                (hitData.normal - Vector3.up).magnitude < 0.05f)
         {
             // Check if hitpoint is on a horizontal ar plane.
             pointer.transform.position = hitData.point;
