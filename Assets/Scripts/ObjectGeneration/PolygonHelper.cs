@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ObjectGeneration
@@ -12,7 +9,7 @@ namespace ObjectGeneration
         /// <summary>
         /// Get a fake hardcoded polygon for testing purposes.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Hardcoded polygon</returns>
         public static List<Vector3> GetMockPolygon()
         {
             return new List<Vector3>() {
@@ -23,13 +20,13 @@ namespace ObjectGeneration
             };
         }
 
-
         /// <summary>
-        /// Point in Polygon algorithm. 
+        /// Check if the <paramref name="point"/> is inside of the <paramref name="polygon"/>,
+        /// By using a Point-in-polygon (even-odd method) algorithm.
         /// </summary>
         /// <param name="polygon"></param>
         /// <param name="point"></param>
-        /// <returns></returns>
+        /// <returns>Whether the <paramref name="point"/> is inside the <paramref name="polygon"/>.</returns>
         private static bool IsPointInsidePolygon(List<Vector3> polygon, Vector3 point)
         {
             bool isInside = false;
@@ -48,6 +45,12 @@ namespace ObjectGeneration
 
             return isInside;
         }
+        /// <summary>
+        /// Check if the <paramref name="point"/> is outside of the <paramref name="polygon"/>.
+        /// </summary>
+        /// <param name="polygon"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
         private static bool IsPointOutsidePolygon(List<Vector3> polygon, Vector3 point) =>
             !IsPointInsidePolygon(polygon, point);
 

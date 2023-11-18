@@ -14,6 +14,9 @@ public class ObjectDestroyer : MonoBehaviour
     {
         int layer = LayerMask.NameToLayer("Placed Objects");
         GameObject[] generatedObjects = FindGameObjectsInLayer(layer);
+        if (generatedObjects == null)
+            return;
+
         foreach (GameObject target in generatedObjects)
             Destroy(target);
     }

@@ -1,11 +1,7 @@
 ﻿using Databases;
 using IngredientLists;
 using ResourceLists;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ObjectGeneration
@@ -15,13 +11,12 @@ namespace ObjectGeneration
         public List<Renderable> GetRenderableDict(IngredientList selectedList)
         {
             Dictionary<int, int> quantityDict = IngredientListToQuantityDict(selectedList);
-
             MockupModelDatabase modelDatabase = new MockupModelDatabase();
             return QuantityDictToRenderables(quantityDict, modelDatabase);
         }
 
         /// <summary>
-        /// Converts an ingredientlist to resource list to model list.
+        /// Converts an ingredientlist to resourcelist to quantityDictionary
         /// </summary>
         /// <returns>Model list</returns>
         private Dictionary<int, int> IngredientListToQuantityDict(IngredientList selectedList)
@@ -29,20 +24,6 @@ namespace ObjectGeneration
             ResourceCalculator resourceCalculator = new ResourceCalculator();
             ResourceList resourceList = resourceCalculator.IngredientsToResources(selectedList);
             Dictionary<int, int> modelList = ResourceListToModelList(resourceList);
-            return modelList;
-        }
-
-        /// <summary> Converts the dictionary from the form (resourceID, Quantity) to the form (modelID, Quantity) </summary>
-        public Dictionary<int, int> MockResourceListToModelList(
-            Dictionary<int, int> resourceList,
-            MockupResourceDatabase resourceDatabase)
-        {
-            var modelList = new Dictionary<int, int>();
-            foreach (var obj in resourceList)
-            {
-                int modelID = resourceDatabase.GetResource(obj.Key).ModelID;
-                modelList[modelID] = obj.Value;
-            }
             return modelList;
         }
 
@@ -83,7 +64,7 @@ namespace ObjectGeneration
                     modelpath = @"Prefabs/Shapes/Cube";
                     model = Resources.Load<GameObject>(modelpath);
                 }
-                Vector3 halfExtents = ObjectCreationManager.GetHalfExtents(model);
+                Vector3 halfExtents = PipeLineMonoBehaviour.GetHalfExtents(model);
 
                 //dirty temp code so that water doesnt have size 0.
                 float realHeight = modelDatabase.GetModel(modelId).RealHeight;
@@ -105,7 +86,7 @@ namespace ObjectGeneration
         /// <summary>
         /// For each unique object, find out the percentage of space it will need.
         /// </summary>
-        /// <param name="spawnDict"></param>
+        /// <param name="renderables"></param>
         /// <returns></returns>
         private List<Renderable> SetSurfaceRatios(List<Renderable> renderables)
         {
@@ -125,6 +106,24 @@ namespace ObjectGeneration
                 renderables[i].allowedSurfaceUsage /= sumArea;
 
             return renderables;
+        }
+    }
+    class PipeLineMonoBehaviour : MonoBehaviour
+    {
+        /// <summary>
+        /// HalfExtents are distances from center to bounding box walls.
+        /// </summary>
+        /// <param name="prefab"></param>
+        /// <returns></returns>
+        public static Vector3 GetHalfExtents(GameObject prefab)
+        {
+            //Temporarily instantiate the object to get the BoxCollider size
+            GameObject tempObj = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity);
+            BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
+            Vector3 halfExtents = tempCollider.size / 2;
+            Destroy(tempObj);
+
+            return halfExtents;
         }
     }
 }

@@ -13,6 +13,9 @@ namespace ObjectGeneration
         [SerializeField] private PolygonManager polygonManager;
         [SerializeField] private GameObject placeButton;
 
+        /// <value>
+        /// <c>IngredientList</c> that we are going to render
+        /// </value>
         private IngredientList selectedList { get; set; }
 
         /// <summary>
@@ -22,27 +25,10 @@ namespace ObjectGeneration
         public void SetSelectedList(IngredientList ingredientList) => selectedList = ingredientList;
 
         /// <summary>
-        /// HalfExtents are distances from center to bounding box walls.
-        /// </summary>
-        /// <param name="prefab"></param>
-        /// <returns></returns>
-        public static Vector3 GetHalfExtents(GameObject prefab)
-        {
-            //Temporarily instantiate the object to get the BoxCollider size
-            GameObject tempObj = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity);
-            BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
-            Vector3 halfExtents = tempCollider.size / 2;
-            Destroy(tempObj);
-
-            return halfExtents;
-        }
-
-        /// <summary>
-        /// return gameobject if successful
+        /// Tries to place a <paramref name="renderable"/> at <paramref name="position"/>
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="position"></param>
-        /// <param name="forcePlace"></param>
         /// <returns></returns>
         private GameObject TryPlaceObject(
             Renderable renderable,
@@ -169,26 +155,6 @@ namespace ObjectGeneration
         }
 
         /// <summary>
-        /// The sum of the area of all gameobjects that will be spawned
-        /// </summary>
-        /// <param name="spawnDict"></param>
-        /// <returns></returns>
-        float ComputeSpaceNeeded(Dictionary<int, Renderable> spawnDict)
-        {
-            //compute the sum of area of all gameobjects that will be spawned.
-            float sumArea = 0;
-            foreach (var obj in spawnDict)
-            {
-                int quantity = obj.Value.quantity;
-                Vector3 halfExtents = obj.Value.halfExtents;
-                float area = halfExtents.x * halfExtents.z * 4;
-                sumArea += area * quantity;
-            }
-
-            return sumArea;
-        }
-
-        /// <summary>
         /// Given a prefab, size (in form of halfextents) and a objStacks, try to 
         /// stack the object on each key of objStacks until successful.
         /// </summary>
@@ -246,17 +212,6 @@ namespace ObjectGeneration
             return false;
         }
 
-        private void RotateToUser(GameObject target)
-        {
-            Vector3 position = target.transform.position;
-            Vector3 cameraPosition = Camera.main.transform.position;
-            Vector3 direction = cameraPosition - position;
-            Vector3 targetRotationEuler = Quaternion.LookRotation(direction).eulerAngles;
-            Vector3 scaledEuler = Vector3.Scale(targetRotationEuler, target.transform.up.normalized);
-            Quaternion targetRotation = Quaternion.Euler(scaledEuler);
-            target.transform.rotation = targetRotation;
-        }
-
         public void CreateVisualBox(BoxCollider boxCollider)
         {
             // Create a new GameObject
@@ -306,20 +261,53 @@ namespace ObjectGeneration
 
         private List<Vector3> CalculateColliderCorners(Renderable renderable, Vector3 position)
         {
-            List<Vector3> corners = new();
-
             // Get the size of the BoxCollider
             Vector3 size = renderable.halfExtents;
 
             // Calculate the corners
-            corners.Add(position + new Vector3(-size.x, 0, -size.z));
-            corners.Add(position + new Vector3(size.x, 0, -size.z));
-            corners.Add(position + new Vector3(-size.x, 0, size.z));
-            corners.Add(position + new Vector3(size.x, 0, size.z));
-
-            return corners;
+            return new()
+            {
+                position + new Vector3(-size.x, 0, -size.z),
+                position + new Vector3(size.x, 0, -size.z),
+                position + new Vector3(-size.x, 0, size.z),
+                position + new Vector3(size.x, 0, size.z)
+            };
         }
 
+        /// <summary>
+        /// The sum of the area of all gameobjects that will be spawned
+        /// </summary>
+        /// <param name="spawnDict"></param>
+        /// <returns></returns>
+        float ComputeSpaceNeeded(List<Renderable> renderables)
+        {
+            //compute the sum of area of all gameobjects that will be spawned.
+            float sumArea = 0;
+            foreach (var renderable in renderables)
+            {
+                int quantity = renderable.quantity;
+                Vector3 halfExtents = renderable.halfExtents;
+                float area = halfExtents.x * halfExtents.z * 4;
+                sumArea += area * quantity;
+            }
+
+            return sumArea;
+        }
+
+        /// <summary>
+        /// Rotate a gameobject to face the user.
+        /// </summary>
+        /// <param name="target">Object to rotate</param>
+        private void RotateToUser(GameObject target)
+        {
+            Vector3 position = target.transform.position;
+            Vector3 cameraPosition = Camera.main.transform.position;
+            Vector3 direction = cameraPosition - position;
+            Vector3 targetRotationEuler = Quaternion.LookRotation(direction).eulerAngles;
+            Vector3 scaledEuler = Vector3.Scale(targetRotationEuler, target.transform.up.normalized);
+            Quaternion targetRotation = Quaternion.Euler(scaledEuler);
+            target.transform.rotation = targetRotation;
+        }
 
         //debug method for displaying spawnlocations in scene.
         //void OnDrawGizmos()
