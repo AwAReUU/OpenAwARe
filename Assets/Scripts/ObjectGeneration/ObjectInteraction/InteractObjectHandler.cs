@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.XR.CoreUtils;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
 
+/// <summary>
+/// TODO: implement pop-up screen with information when clicking
+/// on GameObject. Currently this class only colors clicked objects. 
+/// </summary>
 public class InteractObjectHandler : MonoBehaviour
 {
     [SerializeField] private Material black;
