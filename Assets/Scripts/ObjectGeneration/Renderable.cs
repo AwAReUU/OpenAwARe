@@ -2,6 +2,10 @@
 
 namespace ObjectGeneration
 {
+    /// <summary>
+    /// <c>Renderable</c> is a class that contains properties
+    /// we need to render a specific gameobject
+    /// </summary>
     class Renderable
     {
         /// <value>

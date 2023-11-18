@@ -7,6 +7,10 @@ using IngredientLists;
 
 namespace ObjectGeneration
 {
+    /// <summary>
+    /// Class <c>ObjectCreationManager</c> Handles placement of objects, 
+    /// by managing some helper classes and implementing some placement methods.
+    /// </summary>
     public class ObjectCreationManager : MonoBehaviour
     {
         [SerializeField] private ARPlaneManager planeManager;
@@ -21,7 +25,7 @@ namespace ObjectGeneration
         /// <summary>
         /// Set the current ingredientList.
         /// </summary>
-        /// <param name="ingredientList"></param>
+        /// <param name="ingredientList"><c>IngredientList</c> that we are going to render</param>
         public void SetSelectedList(IngredientList ingredientList) => selectedList = ingredientList;
 
         /// <summary>
@@ -30,7 +34,7 @@ namespace ObjectGeneration
         /// <param name="obj"></param>
         /// <param name="position"></param>
         /// <returns></returns>
-        private GameObject TryPlaceObject(
+        private bool TryPlaceObject(
             Renderable renderable,
             Vector3 position,
             List<Vector3> polygonPoints)
@@ -43,12 +47,12 @@ namespace ObjectGeneration
                 renderable.halfExtents,
                 Quaternion.identity,
                 LayerMask.GetMask("Placed Objects"))) //only check collisions with other materials.
-                return null;
+                return false;
 
             // Check if the collider doesn't cross the polygon border
             List<Vector3> objectCorners = CalculateColliderCorners(renderable, position);
             if (!PolygonHelper.ObjectColliderInPolygon(objectCorners, polygonPoints))
-                return null;
+                return false;
 
             // Adjust object size according to scalar
             GameObject newObject = Instantiate(renderable.prefab, position, Quaternion.identity);
@@ -61,7 +65,7 @@ namespace ObjectGeneration
             //RotateToUser(newObject);
             CreateVisualBox(bc);
 
-            return newObject;
+            return true;
         }
 
         /// <summary>
@@ -140,8 +144,8 @@ namespace ObjectGeneration
                 float ratioUsage = so.halfExtents.x * so.halfExtents.z * 4 / availableSurfaceArea;
                 if (currentRatioUsage + ratioUsage < so.allowedSurfaceUsage)
                 {
-                    GameObject placedObj = TryPlaceObject(so, validSpawnPoints[j], polygonPoints);
-                    if (placedObj) //placement successful
+                    bool hasPlaced = TryPlaceObject(so, validSpawnPoints[j], polygonPoints);
+                    if (hasPlaced)
                     {
                         float height = validSpawnPoints[j].y + 2 * so.halfExtents.y;
                         objStacks.Add(validSpawnPoints[j], height);
@@ -155,15 +159,15 @@ namespace ObjectGeneration
         }
 
         /// <summary>
-        /// Given a prefab, size (in form of halfextents) and a objStacks, try to 
-        /// stack the object on each key of objStacks until successful.
+        /// Try to stack the object on one of the stacks in <paramref name="objStacks"/> 
+        /// untill sucessfull or out of stacks.
         /// </summary>
-        /// <param name="gameObject">prefab</param>
+        /// <param name="renderable">renderable</param>
         /// <param name="objStacks">dictionary containing locations of instances of this prefab</param>
-        /// <param name="halfExtents">size of the prefab</param>
+        /// <param name="polygonPoints">size of the prefab</param>
         /// <returns></returns>
         private bool TryStack(
-            Renderable so,
+            Renderable renderable,
             ref Dictionary<Vector3, float> objStacks,
             List<Vector3> polygonPoints)
         {
@@ -187,8 +191,9 @@ namespace ObjectGeneration
 
                 //prevent placement if that stack will reach higher than 3 meters
                 //with the additional current object on top
+                //TODO: replace with height from digital twin roomscan.
                 float stackHeight = objStacks[smallestStackPos];
-                float newHeight = stackHeight + so.halfExtents.y * 2;
+                float newHeight = stackHeight + renderable.halfExtents.y * 2;
                 const float maxHeight = 3.0f;
                 if (newHeight >= maxHeight)
                 {
@@ -199,8 +204,8 @@ namespace ObjectGeneration
                 //Step 3: Test placement on new spot, check for collisions.
                 Vector3 newPos = smallestStackPos;
                 newPos.y = stackHeight;
-                GameObject placedObj = TryPlaceObject(so, newPos, polygonPoints);
-                if (placedObj)
+                bool hasPlaced = TryPlaceObject(renderable, newPos, polygonPoints);
+                if (hasPlaced)
                 {
                     objStacks[smallestStackPos] = newHeight;
                     return true;
@@ -212,6 +217,10 @@ namespace ObjectGeneration
             return false;
         }
 
+        /// <summary>
+        /// Render a boxcollider that fades out after some time.
+        /// </summary>
+        /// <param name="boxCollider"></param>
         public void CreateVisualBox(BoxCollider boxCollider)
         {
             // Create a new GameObject
@@ -242,6 +251,13 @@ namespace ObjectGeneration
             StartCoroutine(FadeOutAndDestroy(visualBox, 3f));
         }
 
+        /// <summary>
+        /// Fade out the given <paramref name="target"/> GameObject during <paramref name="duration"/> seconds. 
+        /// After this, destroy it.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="duration"></param>
+        /// <returns></returns>
         public IEnumerator FadeOutAndDestroy(GameObject target, float duration)
         {
             float counter = 0;
@@ -259,6 +275,13 @@ namespace ObjectGeneration
             Destroy(target);
         }
 
+        /// <summary>
+        /// Get all four corners of a <paramref name="renderable"/> 
+        /// that is placed at <paramref name="position"/>, so they are global coordinates.
+        /// </summary>
+        /// <param name="renderable"></param>
+        /// <param name="position"></param>
+        /// <returns></returns>
         private List<Vector3> CalculateColliderCorners(Renderable renderable, Vector3 position)
         {
             // Get the size of the BoxCollider

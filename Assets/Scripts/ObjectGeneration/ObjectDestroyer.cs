@@ -3,12 +3,13 @@ using UnityEngine;
 
 /// <summary>
 /// Class <c>ObjectDestroyer</c> Implements methods to remove all 
-/// generated objects from the scene.
+/// generated objects from the scene. 
+/// (And nothing more, so no UI elements, planes, polygons etc.)
 /// </summary>
 public class ObjectDestroyer : MonoBehaviour
 {
     /// <summary>
-    /// Destroy all GameObjects in the Material layer
+    /// Destroy all GameObjects in the "Placed Objects" layer
     /// </summary>
     public void DestroyAllObjects()
     {

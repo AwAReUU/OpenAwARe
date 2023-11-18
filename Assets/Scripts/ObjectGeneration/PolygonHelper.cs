@@ -4,10 +4,14 @@ using UnityEngine;
 
 namespace ObjectGeneration
 {
+    /// <summary>
+    /// <c>PolygonHelper</c> is a class that contains some helper methods 
+    /// for object generation using the polygon method.
+    /// </summary>
     class PolygonHelper
     {
         /// <summary>
-        /// Get a fake hardcoded polygon for testing purposes.
+        /// Get a fake hardcoded polygon for testing/debugging purposes.
         /// </summary>
         /// <returns>Hardcoded polygon</returns>
         public static List<Vector3> GetMockPolygon()
@@ -22,7 +26,7 @@ namespace ObjectGeneration
 
         /// <summary>
         /// Check if the <paramref name="point"/> is inside of the <paramref name="polygon"/>,
-        /// By using a Point-in-polygon (even-odd method) algorithm.
+        /// By using a Point-in-polygon (even-odd) algorithm.
         /// </summary>
         /// <param name="polygon"></param>
         /// <param name="point"></param>
@@ -45,16 +49,15 @@ namespace ObjectGeneration
 
             return isInside;
         }
-        /// <summary>
-        /// Check if the <paramref name="point"/> is outside of the <paramref name="polygon"/>.
-        /// </summary>
-        /// <param name="polygon"></param>
-        /// <param name="point"></param>
-        /// <returns></returns>
-        private static bool IsPointOutsidePolygon(List<Vector3> polygon, Vector3 point) =>
-            !IsPointInsidePolygon(polygon, point);
 
+        /// <summary>
+        /// Check if all four <paramref name="corners"/> are inside of the polygon 
+        /// described by <paramref name="polygonPoints"/>
+        /// </summary>
+        /// <param name="corners"></param>
+        /// <param name="polygonPoints"></param>
+        /// <returns></returns>
         public static bool ObjectColliderInPolygon(List<Vector3> corners, List<Vector3> polygonPoints)
-        => corners.Any(corner => IsPointOutsidePolygon(polygonPoints, corner));
+            => corners.All(corner => IsPointInsidePolygon(polygonPoints, corner));
     }
 }
