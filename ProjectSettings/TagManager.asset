@@ -9,7 +9,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Material
+  - Placed Objects
   - Water
   - UI
   - Ingredient
