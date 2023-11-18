@@ -60,10 +60,9 @@ public class Navigator : MonoBehaviour
                 
                 dummyChangeScene(objectGeneration);
                 break;
-            case 2:     // Clear world of generated objects
-                GameObject[] generatedObjects = GameObject.FindGameObjectsWithTag("Animal");
-                foreach (GameObject target in generatedObjects)
-                    Destroy(target);
+            case 2:
+                ObjectDestroyer objectDestroyer = new();
+                objectDestroyer.DestroyAllObjects();
                 break;
             case 3:     // Go to Questionaire / Diary?
                 dummyChangeScene(questionnaire);

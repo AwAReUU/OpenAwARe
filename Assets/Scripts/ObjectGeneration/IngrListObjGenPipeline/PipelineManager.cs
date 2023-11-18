@@ -68,16 +68,21 @@ namespace ObjectGeneration
         }
 
         private List<Renderable> QuantityDictToRenderables(
-            Dictionary<int, int> idQtyDictionary,
+            Dictionary<int, int> quantityDictionary,
             MockupModelDatabase modelDatabase)
         {
             float sizeMultiplier = 1;
             List<Renderable> Renderables = new();
-            foreach ((int modelId, int quantity) in idQtyDictionary)
+            foreach ((int modelId, int quantity) in quantityDictionary)
             {
                 Renderable renderable = new();
                 string modelpath = @"Prefabs/" + modelDatabase.GetModel(modelId).PrefabPath;
                 GameObject model = Resources.Load<GameObject>(modelpath);
+                if (!model) //model not found, use placeholder model.
+                {
+                    modelpath = @"Prefabs/Shapes/Cube";
+                    model = Resources.Load<GameObject>(modelpath);
+                }
                 Vector3 halfExtents = ObjectCreationManager.GetHalfExtents(model);
 
                 //dirty temp code so that water doesnt have size 0.

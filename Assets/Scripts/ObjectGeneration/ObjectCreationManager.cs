@@ -56,7 +56,7 @@ namespace ObjectGeneration
                 boxCenter,
                 renderable.halfExtents,
                 Quaternion.identity,
-                LayerMask.GetMask("Material"))) //only check collisions with other materials.
+                LayerMask.GetMask("Placed Objects"))) //only check collisions with other materials.
                 return null;
 
             // Check if the collider doesn't cross the polygon border
@@ -66,7 +66,7 @@ namespace ObjectGeneration
 
             // Adjust object size according to scalar
             GameObject newObject = Instantiate(renderable.prefab, position, Quaternion.identity);
-            newObject.layer = LayerMask.NameToLayer("Material");
+            newObject.layer = LayerMask.NameToLayer("Placed Objects");
             newObject.transform.localScale = 
                 new Vector3(renderable.scaling, renderable.scaling, renderable.scaling);
 

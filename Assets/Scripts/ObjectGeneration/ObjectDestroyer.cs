@@ -12,7 +12,7 @@ public class ObjectDestroyer : MonoBehaviour
     /// </summary>
     public void DestroyAllObjects()
     {
-        int layer = LayerMask.GetMask("Material");
+        int layer = LayerMask.NameToLayer("Placed Objects");
         GameObject[] generatedObjects = FindGameObjectsInLayer(layer);
         foreach (GameObject target in generatedObjects)
             Destroy(target);
