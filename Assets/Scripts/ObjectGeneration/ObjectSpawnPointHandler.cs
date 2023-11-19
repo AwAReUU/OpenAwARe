@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
@@ -42,13 +43,19 @@ public class TestObjectSpawnPointHandler : IObjectSpawnPointHandler
 
 public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
 {
-    private readonly float gridSpacing_;
-    private readonly ARPlaneManager planeManager_;
-    public ObjectSpawnPointHandler(ARPlaneManager planeManager, float gridSpacing = 0.1f)
+    private readonly float gridSpacing;
+    private readonly ARPlaneManager planeManager;
+    public ObjectSpawnPointHandler(ARPlaneManager manager, float spacing = 0.1f)
     {
-        gridSpacing_ = gridSpacing;
-        planeManager_ = planeManager;
+        gridSpacing = spacing;
+        planeManager = manager;
     }
+
+    public ObjectSpawnPointHandler(float spacing = 0.1f)
+    {
+        gridSpacing = spacing;
+    }
+
     /// <summary>
     /// Get a list of planes where objects are allowed to be spawned on.
     /// </summary>
@@ -57,7 +64,7 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
     private List<ARPlane> GetSpawnPlanes()
     {
         List<ARPlane> validPlanes = new List<ARPlane>();
-        foreach (var plane in planeManager_.trackables)
+        foreach (var plane in planeManager.trackables)
         {
             if (plane.alignment == UnityEngine.XR.ARSubsystems.PlaneAlignment.Vertical)
                 continue; //skip vertical planes
@@ -72,11 +79,20 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
     {
         List<Vector3> spawnPoints = new List<Vector3>();
         foreach (var plane in GetSpawnPlanes())
-            spawnPoints.AddRange(GetGridPoints(plane, gridSpacing_));
+            spawnPoints.AddRange(GetGridPoints(plane, gridSpacing));
 
         return spawnPoints;
     }
 
+    // Gets A Vector3 list as input that represent the spawn plane (polygon)
+    public List<Vector3> GetValidSpawnPoints(List<Vector3> polygon) 
+    {
+        List<Vector3> spawnPoints = new List<Vector3>();
+        spawnPoints = GetGridPoints(polygon, gridSpacing);
+
+        return spawnPoints;
+    }
+    
     /// <summary>
     /// Divides a plane into a grid, and obtains all points on the intersections
     /// </summary>
@@ -112,4 +128,66 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
         }
         return result;
     }
+   
+    private List<Vector3> GetGridPoints(List<Vector3> polygon, float spacing)
+    {
+        List<Vector3> result = new List<Vector3>();
+
+        // Calculate the bounds of the polygon
+        Bounds bounds = CalculateBounds(polygon);
+
+        // Define the height of the polygon
+        float y = polygon[0].y;
+
+        // Get all points in bounding box in grid pattern with spacing "spacing" in between
+        for (float x = bounds.min.x; x <= bounds.max.x; x += spacing)
+        {
+            for (float z = bounds.min.z; z <= bounds.max.z; z += spacing)
+            {
+                Vector3 gridPoint = new Vector3(x, y, z);
+
+                // Check if the grid point is inside the polygon
+                if (IsPointInsidePolygon(polygon, gridPoint))
+                {
+                    result.Add(gridPoint);
+                    //Debug.Log(gridPoint);
+                }
+            }
+        }
+        return result;
+    }
+
+    private Bounds CalculateBounds(List<Vector3> points)
+    {
+        Bounds bounds = new Bounds(points[0], Vector3.zero);
+        foreach (var point in points)
+        {
+            bounds.Encapsulate(point);
+        }
+        return bounds;
+    }
+
+    private bool IsPointInsidePolygon(List<Vector3> polygon, Vector3 point)
+{
+    bool isInside = false;
+    int j = polygon.Count - 1;
+
+    for (int i = 0; i < polygon.Count; i++)
+    {
+        Vector3 pi = polygon[i];
+        Vector3 pj = polygon[j];
+
+        if (pi.z < point.z && pj.z >= point.z || pj.z < point.z && pi.z >= point.z)
+        {
+            if (pi.x + (point.z - pi.z) / (pj.z - pi.z) * (pj.x - pi.x) < point.x)
+            {
+                isInside = !isInside;
+            }
+        }
+        j = i;
+    }
+
+    return isInside;
+}
+
 }

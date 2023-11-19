@@ -6,7 +6,7 @@ public class PolygonManager : MonoBehaviour
 {
     [SerializeField] private GameObject polygon;
     [SerializeField] private GameObject polygonMesh;
-    [SerializeField] private GameObject scanner;
+    [SerializeField] private PolygonScan scanner;
     [SerializeField] private GameObject pointerObj;
 
     [SerializeField] private GameObject resetBtn;
@@ -14,31 +14,19 @@ public class PolygonManager : MonoBehaviour
     [SerializeField] private GameObject confirmBtn;
     [SerializeField] private GameObject slider;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     public void Apply()
     {
         this.polygon.GetComponent<Polygon>().Apply();
         this.applyBtn.SetActive(false);
         this.confirmBtn.SetActive(true);
-        this.scanner.GetComponent<PolygonScan>().enabled = false;
+        this.scanner.enabled = false;
         this.pointerObj.SetActive(false);
     }
 
     public void Reset()
     {
         this.polygon.GetComponent<Polygon>().Reset();
-        this.scanner.SetActive(true);
-        this.scanner.GetComponent<PolygonScan>().enabled = true;
+        this.scanner.enabled = true;
         this.pointerObj.SetActive(true);
     }
 
@@ -55,5 +43,10 @@ public class PolygonManager : MonoBehaviour
     public void OnSlider(System.Single height)
     {
         this.polygonMesh.GetComponent<PolygonMesh>().SetHeight(height);
+    }
+
+    public GameObject GetPolygon()
+    {
+        return this.polygon;
     }
 }

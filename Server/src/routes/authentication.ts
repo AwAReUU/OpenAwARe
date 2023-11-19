@@ -31,7 +31,7 @@ router.post("/register", async (req: any, res: any) => {
 
     password = await bcrypt.hash(confirmPassword, 10);
 
-    let db = Database.getInstance().db();
+    let db = Database.getInstance().userdb();
     db.get(
         "SELECT Email FROM User WHERE Email = ?",
         [email],
@@ -67,7 +67,7 @@ router.post("/login", async (req: any, res: any) => {
     const email: string = req.body.email;
     const password: string = req.body.password;
 
-    let db = Database.getInstance().db();
+    let db = Database.getInstance().userdb();
     db.get(
         "SELECT Password FROM User WHERE Email = ?",
         [email],

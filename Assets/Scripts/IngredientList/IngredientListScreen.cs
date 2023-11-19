@@ -21,7 +21,8 @@ namespace IngredientLists
         [SerializeField] private GameObject addIngredientButton;
         [SerializeField] private GameObject saveButton;
         [SerializeField] private Transform scrollViewContent;
-
+        [SerializeField] private GameObject loadListButton;
+ 
         private void OnEnable()
         {
             backButton.SetActive(true);
@@ -30,6 +31,9 @@ namespace IngredientLists
 
             Button saveB = saveButton.GetComponent<Button>();
             saveB.onClick.AddListener(delegate { OnSaveButtonClick(); });
+
+            Button loadB = loadListButton.GetComponent<Button>();
+            loadB.onClick.AddListener(delegate { OnLoadListButtonClick(); });
 
             DisplayList();
         }
@@ -42,8 +46,21 @@ namespace IngredientLists
             Button saveB = saveButton.GetComponent<Button>();
             saveB.onClick.RemoveAllListeners();
 
+            Button loadB = loadListButton.GetComponent<Button>();
+            loadB.onClick.RemoveAllListeners();
+
             RemoveIngredientObjects();
         }
+
+        /// <summary>
+        /// Just go back to the home screen, without removing the selected list.
+        /// </summary>
+        private void OnLoadListButtonClick()
+        {
+            //ingredientListManager.CloseListScreen();
+            backButton.SetActive(false);
+        }
+
         
         /// <summary>
         /// Creates GameObjects with an "edit" and "delete" button for all the ingredients in this is List and adds them to the ScrollView 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Polygon : MonoBehaviour
@@ -8,7 +9,6 @@ public class Polygon : MonoBehaviour
 
     private Vector3 pointer = Vector3.zero;
     private List<Vector3> points = new();
-
     private LineRenderer line;
     private LineRenderer temp_line;
     private LineRenderer close_line;
@@ -35,6 +35,8 @@ public class Polygon : MonoBehaviour
         applyBtn.SetActive(false);
         this.pointer = Vector3.zero;
         this.points = new List<Vector3>();
+        this.close_line.gameObject.SetActive(true);
+        this.temp_line.gameObject.SetActive(true);
         this.UpdateLine();
         this.UpdateTempLine();
         this.UpdateCloseLine();
@@ -44,9 +46,11 @@ public class Polygon : MonoBehaviour
     {
         applyBtn.SetActive(false);
         this.line.loop = true;
+        this.close_line.gameObject.SetActive(false);
+        this.temp_line.gameObject.SetActive(false);
         this.UpdateLine();
-        this.UpdateTempLine();
-        this.UpdateCloseLine();
+        // this.UpdateTempLine();
+        // this.UpdateCloseLine();
     }
 
     public void SetPointer(Vector3 pointer)
@@ -57,6 +61,11 @@ public class Polygon : MonoBehaviour
     public Vector3[] GetPoints()
     {
         return this.points.ToArray();
+    }
+
+    public List<Vector3> GetPointsList()
+    {
+        return this.points;
     }
 
     public void AddPoint()
