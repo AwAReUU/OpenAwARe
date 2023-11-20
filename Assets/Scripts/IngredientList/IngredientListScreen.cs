@@ -1,5 +1,8 @@
 using System.Linq;
 using System.Collections.Generic;
+
+using AwARe.MonoBehaviours;
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -63,12 +66,9 @@ namespace IngredientLists
         }
         private void CreateSelectedListGameObject() 
         {
-            GameObject selectedListObject = new();
-            selectedListObject.name = "SelectedListGameObject";
-            selectedListObject.AddComponent<IngrListGameObject>();
-            IngrListGameObject ingrListGameObject = new IngrListGameObject();
-            ingrListGameObject.selectedList = ingredientListManager.SelectedList;
-            DontDestroyOnLoad(selectedListObject);
+            Storage storage = Storage.Get();
+
+            storage.ActiveIngredientList = ingredientListManager.SelectedList;
         }
         
         /// <summary>
