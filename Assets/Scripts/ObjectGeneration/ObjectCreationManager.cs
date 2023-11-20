@@ -98,7 +98,12 @@ public class ObjectCreationManager : MonoBehaviour
 
     private IngredientList RetrieveIngredientlist()
     {
-        return Storage.Get().ActiveIngredientList;
+        if (Storage.Get().ActiveIngredientList != null)
+        {
+            return new IngredientList("null");
+        }
+        else
+            return Storage.Get().ActiveIngredientList;
     }
 
     /// <summary>
