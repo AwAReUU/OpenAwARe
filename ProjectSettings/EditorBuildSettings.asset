@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Polygon_Scan.unity
     guid: 51fb609f6d73a42a3a812a11486439fb
+  - enabled: 1
+    path: Assets/Scenes/IngredientListUI.unity
+    guid: eab78bde0cd638b4884b604ca9aa26c1
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
       type: 2}

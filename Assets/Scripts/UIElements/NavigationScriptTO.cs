@@ -5,17 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class NavigationScriptTO : MonoBehaviour
 {
- 
+
     public void OnButtonNewRoomClick()
     {
         
         SceneManager.LoadScene("Polygon_Scan");
-    }
-
-    public void OnButtonLoadRoomClick()
-    {
-
-        ShowPopup("Button 2 Popup");
     }
 
     public void OnButtonQuestionnaireClick()
@@ -24,15 +18,16 @@ public class NavigationScriptTO : MonoBehaviour
         SceneManager.LoadScene("QuestionnairePage");
     }
 
-    public void OnButtonSettingsClick()
+    public void OnButtonIngredientListClick()
     {
- 
-        ShowPopup("Button 4 Popup");
+
+        SceneManager.LoadScene("IngredientListUI");
     }
 
-    private void ShowPopup(string message)
+    public void OnButtonHomeClick()
     {
-        Debug.Log("Showing popup: " + message);
 
+        SceneManager.LoadScene("HomeScreen");
     }
+
 }
