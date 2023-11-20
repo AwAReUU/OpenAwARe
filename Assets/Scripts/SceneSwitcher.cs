@@ -4,10 +4,17 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.XR.ARCore;
 using UnityEngine.XR.ARFoundation;
 
 public class SceneSwitcher : MonoBehaviour
 {
+    private void ResetARSession()
+    {
+        ARSession arSession = GetComponent<ARSession>();
+        if (arSession != null)
+            arSession.Reset();
+    }
     public void ChangeScene(int index)
     {
         if (SceneManager.sceneCount <= index)
@@ -16,13 +23,13 @@ public class SceneSwitcher : MonoBehaviour
             return;
         }
 
-        GetComponent<ARSession>().Reset();
+        ResetARSession();
         SceneManager.LoadScene(index);
     }
 
     public void ChangeScene(string name)
     {
-        GetComponent<ARSession>().Reset();
+        ResetARSession();
         SceneManager.LoadScene(name);
     }
 }
