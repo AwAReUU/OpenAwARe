@@ -8,7 +8,7 @@ public class PopUpScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.popupPanel.SetActive(false);
+      
 
     }
 
@@ -21,6 +21,7 @@ public class PopUpScript : MonoBehaviour
     public void PopUpOn()
     {
         this.popupPanel.SetActive(true);
+       
     }
 
     public void PopUpOff()
