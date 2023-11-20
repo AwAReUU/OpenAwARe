@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using Databases;
 using ResourceLists;
-using AwARe.DataStructures;
+using AwARe.MonoBehaviours;
 using Unity.VisualScripting;
 using IngredientLists;
 
@@ -96,27 +96,9 @@ public class ObjectCreationManager : MonoBehaviour
         return null;
     }
 
-    private IngredientList RetrieveIngredientlist() 
+    private IngredientList RetrieveIngredientlist()
     {
-        GameObject selectedListObject = GameObject.Find("SelectedListGameObject");
-        if (selectedListObject != null)
-        {
-            Debug.Log("JAzz");
-            // Access the IngrListGameObject script component
-            IngrListGameObject ingrListGameObject = selectedListObject.GetComponent<IngrListGameObject>();
-
-            if (ingrListGameObject != null)
-            {
-                Debug.Log("half cringe");
-                return ingrListGameObject.selectedList;
-            }
-            else
-                Debug.Log("Cringe");
-        }
-        else 
-            Debug.Log("Not jazz");
-
-        return null;
+        return Storage.Get().ActiveIngredientList;
     }
 
     /// <summary>
