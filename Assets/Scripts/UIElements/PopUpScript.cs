@@ -18,6 +18,7 @@ public class PopUpScript : MonoBehaviour
         
     }
 
+    // popUp is set to active or inactive
     public void PopUpOn()
     {
         this.popupPanel.SetActive(true);

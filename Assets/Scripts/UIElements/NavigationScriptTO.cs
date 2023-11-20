@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class NavigationScriptTO : MonoBehaviour
 {
 
+    // Navigation to the scenes from button clicks
     public void OnButtonNewRoomClick()
     {
         

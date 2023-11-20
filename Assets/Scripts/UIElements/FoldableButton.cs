@@ -6,12 +6,7 @@ public class FoldableButton : MonoBehaviour
 {
     [SerializeField] private GameObject foldBtn;
     [SerializeField] private GameObject foldableBtns;
-    //[SerializeField] private GameObject settingsBtn;
-    //[SerializeField] private GameObject homeBtn;
-    //[SerializeField] private GameObject generatenewBtn;
-    //[SerializeField] private GameObject ingredientlistBtn;
-    //[SerializeField] private GameObject questionnaireBtn;
-   
+
     private int clickCount = 0;
 
     // foldable buttons 
@@ -38,12 +33,13 @@ public class FoldableButton : MonoBehaviour
         }
     
     }
+    // all buttons that can be shown from the foldable button are shown
     public void UnFold()
     {
         this.foldableBtns.SetActive(true);
     }
 
-
+    // all buttons that can be shown from the foldable button are not shown
     public void Fold()
     {
         this.foldableBtns.SetActive(false);
