@@ -96,6 +96,20 @@ public class ObjectCreationManager : MonoBehaviour
         return null;
     }
 
+    private IngredientList RetrieveIngredientlist() 
+    {
+        GameObject selectedListObject = GameObject.Find("SelectedListGameObject");
+        if (selectedListObject != null)
+        {
+            // Access the IngrListGameObject script component
+            IngrListGameObject ingrListGameObject = selectedListObject.GetComponent<IngrListGameObject>();
+
+            if (ingrListGameObject != null)
+                return ingrListGameObject.selectedList;
+        }
+        return null;
+    }
+
     /// <summary>
     /// Called when the place button is clicked. 
     /// </summary>
@@ -103,7 +117,7 @@ public class ObjectCreationManager : MonoBehaviour
     {
         GameObject polygon = polygonManager.GetPolygon();
         List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
-
+        SetSelectedList(RetrieveIngredientlist());
         //Get database
         MockupModelDatabase modelDatabase = new MockupModelDatabase();
 

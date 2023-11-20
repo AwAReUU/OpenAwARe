@@ -58,9 +58,18 @@ namespace IngredientLists
         private void OnLoadListButtonClick()
         {
             //ingredientListManager.CloseListScreen();
+            CreateSelectedListGameObject();
             backButton.SetActive(false);
         }
-
+        private void CreateSelectedListGameObject() 
+        {
+            GameObject selectedListObject = new();
+            selectedListObject.name = "SelectedListGameObject";
+            selectedListObject.AddComponent<IngrListGameObject>();
+            IngrListGameObject ingrListGameObject = new IngrListGameObject();
+            ingrListGameObject.selectedList = ingredientListManager.SelectedList;
+            DontDestroyOnLoad(selectedListObject);
+        }
         
         /// <summary>
         /// Creates GameObjects with an "edit" and "delete" button for all the ingredients in this is List and adds them to the ScrollView 
