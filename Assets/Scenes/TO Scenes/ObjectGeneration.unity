@@ -4636,7 +4636,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1535441703}
         m_TargetAssemblyTypeName: ObjectCreationManager, Assembly-CSharp
-        m_MethodName: PrintResourceList
+        m_MethodName: OnPlaceButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

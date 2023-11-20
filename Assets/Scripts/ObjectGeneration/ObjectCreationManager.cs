@@ -101,12 +101,21 @@ public class ObjectCreationManager : MonoBehaviour
         GameObject selectedListObject = GameObject.Find("SelectedListGameObject");
         if (selectedListObject != null)
         {
+            Debug.Log("JAzz");
             // Access the IngrListGameObject script component
             IngrListGameObject ingrListGameObject = selectedListObject.GetComponent<IngrListGameObject>();
 
             if (ingrListGameObject != null)
+            {
+                Debug.Log("half cringe");
                 return ingrListGameObject.selectedList;
+            }
+            else
+                Debug.Log("Cringe");
         }
+        else 
+            Debug.Log("Not jazz");
+
         return null;
     }
 
