@@ -11,6 +11,7 @@ public class MainButtonNavigation : MonoBehaviour
     [SerializeField] private GameObject generatenewBtn;
     [SerializeField] private GameObject ingredientlistBtn;
     [SerializeField] private GameObject questionnaireBtn;
+   
     private int clickCount = 0;
 
     void Start()
@@ -22,6 +23,7 @@ public class MainButtonNavigation : MonoBehaviour
         this.generatenewBtn.SetActive(false);
         this.ingredientlistBtn.SetActive(false);
         this.questionnaireBtn.SetActive(false);
+        
     }
 
    
@@ -66,5 +68,9 @@ public class MainButtonNavigation : MonoBehaviour
         this.questionnaireBtn.SetActive(true);
 
     }
+
+
+
+  
 
 }
