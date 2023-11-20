@@ -2344,12 +2344,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2839e1a583d774500830f1f13268cf78, type: 3}
---- !u!1 &504617476 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4614980801449458759, guid: 2839e1a583d774500830f1f13268cf78,
+--- !u!114 &504617477 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8001080608682987098, guid: 2839e1a583d774500830f1f13268cf78,
     type: 3}
   m_PrefabInstance: {fileID: 504617475}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130bc0a4ab89141658ecd8a5b09b724b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &512199214
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2430,13 +2436,28 @@ PrefabInstance:
       objectReference: {fileID: 2086956200}
     - target: {fileID: 2523054796051462468, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
         type: 3}
+      propertyPath: temp_line
+      value: 
+      objectReference: {fileID: 1142656914}
+    - target: {fileID: 2523054796051462468, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+        type: 3}
+      propertyPath: close_line
+      value: 
+      objectReference: {fileID: 761028168}
+    - target: {fileID: 2523054796051462468, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+        type: 3}
+      propertyPath: lineObject
+      value: 
+      objectReference: {fileID: 1950485528}
+    - target: {fileID: 2523054796051462468, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+        type: 3}
       propertyPath: pointerObj
       value: 
       objectReference: {fileID: 342954616}
     - target: {fileID: 2548462417406896888, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
         type: 3}
       propertyPath: m_Name
-      value: Polygon
+      value: PolygonDrawer
       objectReference: {fileID: 0}
     - target: {fileID: 7613406942604140912, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
         type: 3}
@@ -4021,7 +4042,7 @@ PrefabInstance:
         type: 3}
       propertyPath: scanner
       value: 
-      objectReference: {fileID: 1062129175}
+      objectReference: {fileID: 1062129177}
     - target: {fileID: 9122867843713203604, guid: 6581b1f42e5344416845747b1d7549db,
         type: 3}
       propertyPath: applyBtn
@@ -4046,7 +4067,12 @@ PrefabInstance:
         type: 3}
       propertyPath: polygonMesh
       value: 
-      objectReference: {fileID: 504617476}
+      objectReference: {fileID: 504617477}
+    - target: {fileID: 9122867843713203604, guid: 6581b1f42e5344416845747b1d7549db,
+        type: 3}
+      propertyPath: polygonDrawer
+      value: 
+      objectReference: {fileID: 512199217}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4069,6 +4095,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 412588084391389012, guid: 6581b1f42e5344416845747b1d7549db,
     type: 3}
   m_PrefabInstance: {fileID: 744273400}
+  m_PrefabAsset: {fileID: 0}
+--- !u!120 &761028168 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 7613406942604140912, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+    type: 3}
+  m_PrefabInstance: {fileID: 512199214}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &774283588
 GameObject:
@@ -6125,18 +6157,24 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14b2197d8e14f4e89bfd96ef3df168be, type: 3}
---- !u!1 &1062129175 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4923386820518886077, guid: 14b2197d8e14f4e89bfd96ef3df168be,
-    type: 3}
-  m_PrefabInstance: {fileID: 1062129174}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1062129176 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2987169750349024574, guid: 14b2197d8e14f4e89bfd96ef3df168be,
     type: 3}
   m_PrefabInstance: {fileID: 1062129174}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1062129177 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8234101969155764026, guid: 14b2197d8e14f4e89bfd96ef3df168be,
+    type: 3}
+  m_PrefabInstance: {fileID: 1062129174}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f480bc07c3a1a4f09bee3f07aea7fd8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1103787270
 GameObject:
   m_ObjectHideFlags: 0
@@ -6338,6 +6376,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1108241329}
   m_CullTransparentMesh: 1
+--- !u!120 &1142656914 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 6614461975305764114, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+    type: 3}
+  m_PrefabInstance: {fileID: 512199214}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1222026606
 GameObject:
   m_ObjectHideFlags: 0
@@ -8182,8 +8226,6 @@ MonoBehaviour:
   inputChickenAmount: {fileID: 774283590}
   inputWheatAmount: {fileID: 1268180432}
   inputDuckAmount: {fileID: 265404354}
-  polygon: {fileID: 512199217}
-  negPolygons: []
 --- !u!114 &1535441704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10174,6 +10216,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1945320415}
   m_CullTransparentMesh: 1
+--- !u!1 &1950485528 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8115292839978449337, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+    type: 3}
+  m_PrefabInstance: {fileID: 512199214}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1963342599
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,25 +4,50 @@ using UnityEngine;
 
 public class TestPolygon : Polygon
 {
-    private void Start()
+    public TestPolygon()
     {
-        line = this.transform.GetChild(0).GetComponent<LineRenderer>();
-
-        this.points.Add(new Vector3(0, -1.5f, 0));
-        this.points.Add(new Vector3(1f, -1.5f, 0));
-        this.points.Add(new Vector3(1f, -1.5f, 0.8f));
-        this.points.Add(new Vector3(0f, -1.5f, 1));
-        this.points.Add(new Vector3(0, -1.5f, 0));
-        UpdateLine();
+        points = new()
+        {
+            new Vector3(-5,-1.5f,-5),
+            new Vector3(5,-1.5f,-4),
+            new Vector3(5, -1.5f, 6),
+            new Vector3(-4,-1.5f,6)
+        };
     }
-    private void UpdateLine()
+}
+
+public class TestPolygonList : List<Polygon>
+{
+    public TestPolygonList()
     {
-        line.positionCount = this.points.Count;
-        line.SetPositions(this.points.ToArray());
+        List<Vector3> pol1Points = new()
+        {
+            new Vector3(0,-1.5f,0),
+            new Vector3(1,-1.5f,0),
+            new Vector3(1,-1.5f,2),
+            new Vector3(0,-1.5f,2)
+        };
+
+        List<Vector3> pol2Points = new()
+        {
+            new Vector3(-3,-1.5f,-3),
+            new Vector3(-2,-1.5f,-3),
+            new Vector3(-2,-1.5f,-1),
+            new Vector3(-2.3f,-1.5f,-1.2f),
+            new Vector3(-2.8f,-1.5f,-1.3f)
+        };
+
+        this.Add(CreatePolygon(pol1Points));
+        this.Add(CreatePolygon(pol2Points));
     }
 
-    protected override void Update()
+    Polygon CreatePolygon(List<Vector3> points)
     {
-        
+        Polygon polygon = new Polygon();
+        foreach (Vector3 point in points)
+        {
+            polygon.AddPoint(point);
+        }
+        return polygon;
     }
 }

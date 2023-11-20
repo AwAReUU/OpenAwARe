@@ -85,10 +85,10 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
     }
 
     // Gets A Vector3 list as input that represent the spawn plane (polygon)
-    public List<Vector3> GetValidSpawnPoints(List<Vector3> polygon)
+    public List<Vector3> GetValidSpawnPoints(List<Vector3> polygon, List<Polygon> negPolygons)
     {
         List<Vector3> spawnPoints = new List<Vector3>();
-        spawnPoints = GetGridPoints(polygon, gridSpacing);
+        spawnPoints = GetGridPoints(polygon, negPolygons, gridSpacing);
 
         return spawnPoints;
     }
@@ -129,7 +129,7 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
         return result;
     }
 
-    private List<Vector3> GetGridPoints(List<Vector3> polygon, float spacing)
+    private List<Vector3> GetGridPoints(List<Vector3> polygon, List<Polygon> negPolygons, float spacing)
     {
         List<Vector3> result = new List<Vector3>();
 
@@ -147,7 +147,8 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
                 Vector3 gridPoint = new Vector3(x, y, z);
 
                 // Check if the grid point is inside the polygon
-                if (IsPointInsidePolygon(polygon, gridPoint))
+                if (IsPointInsidePolygon(polygon, gridPoint) &&
+                    PointNotInPolygons(negPolygons, gridPoint))
                 {
                     result.Add(gridPoint);
                     //Debug.Log(gridPoint);
@@ -190,12 +191,12 @@ public class ObjectSpawnPointHandler : IObjectSpawnPointHandler
         return isInside;
     }
 
-    private bool PointNotInPolygons(Vector3 p, List<Polygon> polygons)
+    private bool PointNotInPolygons(List<Polygon> polygons, Vector3 point)
     {
         foreach (Polygon polygon in polygons)
         {
             List<Vector3> points = polygon.GetPointsList();
-            if (IsPointInsidePolygon(points, p)) return false;
+            if (IsPointInsidePolygon(points, point)) return false;
         }
         return true;
     }

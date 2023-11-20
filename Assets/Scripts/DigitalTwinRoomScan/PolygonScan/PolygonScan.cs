@@ -33,7 +33,7 @@ public class PolygonScan : MonoBehaviour
             // Check if hitpoint is on a horizontal ar plane.
             pointer.transform.position = hitData.point;
 
-            polygon.GetComponent<Polygon>().SetPointer(pointer.transform.position);
+            polygon.GetComponent<PolygonDrawer>().SetPointer(pointer.transform.position);
         }
         else
         {
@@ -46,7 +46,7 @@ public class PolygonScan : MonoBehaviour
                 {
                     pointer.transform.position = ray.origin + ray.direction * l;
 
-                    polygon.GetComponent<Polygon>().SetPointer(pointer.transform.position);
+                    polygon.GetComponent<PolygonDrawer>().SetPointer(pointer.transform.position);
                 }
             }
         }
@@ -54,7 +54,7 @@ public class PolygonScan : MonoBehaviour
 
         if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
         {
-            polygon.GetComponent<Polygon>().AddPoint();
+            polygon.GetComponent<PolygonDrawer>().AddPoint();
         }
     }
 

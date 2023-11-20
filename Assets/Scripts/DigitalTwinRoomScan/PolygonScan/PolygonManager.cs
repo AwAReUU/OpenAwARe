@@ -4,40 +4,46 @@ using UnityEngine;
 
 public class PolygonManager : MonoBehaviour
 {
-    [SerializeField] private GameObject polygon;
-    [SerializeField] private GameObject polygonMesh;
-    [SerializeField] private GameObject scanner;
+    [SerializeField] private PolygonDrawer polygonDrawer;
+    [SerializeField] private PolygonMesh polygonMesh;
+    [SerializeField] private PolygonScan scanner;
     [SerializeField] private GameObject pointerObj;
+
+    [SerializeField] private Polygon positivePolygon;
+    [SerializeField] private List<Polygon> negativePolygons;
 
     [SerializeField] private GameObject resetBtn;
     [SerializeField] private GameObject applyBtn;
     [SerializeField] private GameObject confirmBtn;
     [SerializeField] private GameObject slider;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    public Polygon CurrentPolygon { get; private set; }
 
-    }
-
-    // Update is called once per frame
-    void Update()
+    public void Start()
     {
+        positivePolygon = new TestPolygon();
+        negativePolygons = new TestPolygonList();
+
+        polygonDrawer.DrawNewPolygon(positivePolygon);
+        foreach(Polygon p in negativePolygons)
+        {
+            polygonDrawer.DrawNewPolygon(p, true);
+        }
     }
 
     public void Apply()
     {
-        this.polygon.GetComponent<Polygon>().Apply();
+        this.polygonDrawer.Apply();
         this.applyBtn.SetActive(false);
         this.confirmBtn.SetActive(true);
-        this.scanner.SetActive(false);
+        this.scanner.gameObject.SetActive(false);
         this.pointerObj.SetActive(false);
     }
 
     public void Reset()
     {
-        this.polygon.GetComponent<Polygon>().Reset();
-        this.scanner.SetActive(true);
+        this.polygonDrawer.Reset();
+        this.scanner.gameObject.SetActive(true);
         this.pointerObj.SetActive(true);
     }
 
@@ -46,18 +52,24 @@ public class PolygonManager : MonoBehaviour
         this.applyBtn.SetActive(false);
         this.resetBtn.SetActive(false);
         this.confirmBtn.SetActive(false);
-        this.polygonMesh.SetActive(true);
-        this.polygonMesh.GetComponent<PolygonMesh>().SetPolygon(this.polygon.GetComponent<Polygon>().GetPoints());
+        this.polygonMesh.gameObject.SetActive(true);
+        this.polygonMesh.SetPolygon(this.polygonDrawer.polygon.GetPoints());
         this.slider.SetActive(true);
+        positivePolygon = polygonDrawer.polygon;
     }
 
     public void OnSlider(System.Single height)
     {
-        this.polygonMesh.GetComponent<PolygonMesh>().SetHeight(height);
+        this.polygonMesh.SetHeight(height);
     }
 
-    public GameObject GetPolygon()
+    public Polygon GetPolygon()
     {
-        return this.polygon;
+        return this.positivePolygon;
+    }
+
+    public List<Polygon> GetNegPolygons()
+    {
+        return this.negativePolygons;
     }
 }

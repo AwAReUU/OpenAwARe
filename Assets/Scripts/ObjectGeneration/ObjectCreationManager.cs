@@ -21,9 +21,6 @@ public class ObjectCreationManager : MonoBehaviour
     [SerializeField] private InputField inputWheatAmount;
     [SerializeField] private InputField inputDuckAmount;
 
-    [SerializeField] public Polygon polygon;
-    [SerializeField] private List<Polygon> negPolygons = null;
-
     /// <summary> HalfExtents are distances from center to bounding box walls. </summary>
     private Vector3 GetHalfExtents(GameObject prefab)
     {
@@ -58,7 +55,7 @@ public class ObjectCreationManager : MonoBehaviour
             Quaternion.identity,
             LayerMask.GetMask("Material2")) || forcePlace) //only check collisions with other materials.
         {
-            // Check if the collider doesn't cross the polygon border
+            // Check if the collider doesn't cross the polygonDrawer border
             if (ObjectColliderInPolygon(so, position))
             {
                 // Adjust object size according to scalar
@@ -81,9 +78,11 @@ public class ObjectCreationManager : MonoBehaviour
     /// <summary> Given a dictionary in the form (resourceID, quantity), generates these resources and their respective quantities in the form of their corresponding GameObjects </summary>
     public void PrintResourceList()
     {
-        // Get polygon info 
-        GameObject polygon = polygonManager.GetPolygon();
-        List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
+        // Get polygonDrawer info 
+        Polygon polygon = polygonManager.GetPolygon();
+        List<Vector3> polygonPoints = polygon.GetPointsList();
+
+        List<Polygon> negPolygons = polygonManager.GetNegPolygons();
 
         // Get input values 
         int PigAmount = int.Parse(inputPigAmount.text);
@@ -107,7 +106,7 @@ public class ObjectCreationManager : MonoBehaviour
         Dictionary<int, int> modelList = ResourceListToModelList(resourceList, resourceDatabase);
         Dictionary<int, SpawnParams> spawnDict = GenerateSpawnDict(modelList, modelDatabase);
 
-        AutoGenerateObjects(spawnDict, polygonPoints);
+        AutoGenerateObjects(spawnDict, polygonPoints, negPolygons);
     }
 
     /// <summary> Converts the dictionary from the form (resourceID, Quantity) to the form (modelID, Quantity) </summary>
@@ -182,16 +181,16 @@ public class ObjectCreationManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Generates a list of objects given a dictionary of (modelID, Quantity) on a polygon given by points
+    /// Generates a list of objects given a dictionary of (modelID, Quantity) on a polygonDrawer given by points
     /// </summary>
     /// <param name="spawnDict"></param>
     /// <param name="polygon"></param>
-    private void AutoGenerateObjects(Dictionary<int, SpawnParams> spawnDict, List<Vector3> polygon)
+    private void AutoGenerateObjects(Dictionary<int, SpawnParams> spawnDict, List<Vector3> polygon, List<Polygon> negPolygons)
     {
         // Create spawpointhandler without ARPlanemanager
         ObjectSpawnPointHandler osph = new(); 
 
-        List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints(polygon);
+        List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints(polygon,negPolygons);
         foreach (var obj in spawnDict) //prefab iterator
         {
             float currentRatioUsage = 0;
@@ -421,8 +420,8 @@ public class ObjectCreationManager : MonoBehaviour
 
     private bool ObjectColliderInPolygon(SpawnParams so, Vector3 position)
     {
-        GameObject polygon = polygonManager.GetPolygon();
-        List<Vector3> polygonArea = polygon.GetComponent<Polygon>().GetPointsList();
+        Polygon polygon = polygonManager.GetPolygon();
+        List<Vector3> polygonArea = polygon.GetPointsList();
 
         bool inPolygon = true;
 
@@ -476,17 +475,19 @@ public class ObjectCreationManager : MonoBehaviour
 
         return isInside;
     }
-
+    /*
     //debug method for displaying spawnlocations in scene.
     void OnDrawGizmos()
     {
-        GameObject polygon = polygonManager.GetPolygon();
-        List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
+        Polygon polygon = polygonManager.GetPolygon();
+        List<Vector3> polygonPoints = polygon.GetPointsList();
+        List<Polygon> negPolygons = polygonManager.GetNegPolygons();
+
         ObjectSpawnPointHandler osph = new(); 
-        List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints(polygonPoints);
+        List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints(polygonPoints, negPolygons);
 
         Gizmos.color = Color.red;
         foreach (var p in validSpawnPoints)
             Gizmos.DrawSphere(p, 0.05f);
-    }
+    }*/
 }
