@@ -10,6 +10,7 @@ public class ARScenePhaseManager : MonoBehaviour
     [SerializeField] private GameObject phaseQuestionnaire;
     [SerializeField] private GameObject phaseHomeScreen;
 
+    string prevPhase;
 
     private void Awake()
     {
@@ -30,6 +31,8 @@ public class ARScenePhaseManager : MonoBehaviour
 
     public void SetPhase(string s)
     {
+        GetPrevPhase();
+
         phasePolyScan.SetActive(false);
         phaseActiveRoom.SetActive(false);
         phaseIngredientList.SetActive(false);
@@ -47,5 +50,24 @@ public class ARScenePhaseManager : MonoBehaviour
         else if (s == "home")
             phaseHomeScreen.SetActive(true);
 
+    }
+
+    private void GetPrevPhase()
+    {
+        if (phasePolyScan.activeInHierarchy)
+            prevPhase = "poly";
+        else if (phaseActiveRoom.activeInHierarchy)
+            prevPhase = "ar";
+        else if (phaseIngredientList.activeInHierarchy)
+            prevPhase = "ing";
+        else if (phaseQuestionnaire.activeInHierarchy)
+            prevPhase = "que";
+        else if (phaseActiveRoom.activeInHierarchy)
+            prevPhase = "home";
+    }
+
+    public void GoPrevPhase()
+    {
+        SetPhase(prevPhase);
     }
 }
