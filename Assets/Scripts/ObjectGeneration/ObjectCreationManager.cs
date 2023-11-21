@@ -182,7 +182,7 @@ public class ObjectCreationManager : MonoBehaviour
     /// <summary> Generates the unity Gameobjects given a model list (modelID, Quantity) and a modelDatabase. The modelID is used to find the corresponding prefab name in the modelDatabase. </summary>
     private void AutoGenerateObjects(Dictionary<int, SpawnParams> spawnDict)
     {
-        TestObjectSpawnPointHandler osph = new(planeManager); //(<-remove the word "Test" to use scanned planes)
+        ObjectSpawnPointHandler osph = new(planeManager); //(<-remove the word "Test" to use scanned planes)
 
         List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
 

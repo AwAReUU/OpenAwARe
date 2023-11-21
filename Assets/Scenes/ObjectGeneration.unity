@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 422218014}
-  m_IndirectSpecularColor: {r: 0.37311932, g: 0.38073996, b: 0.3587271, a: 1}
+  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1417,7 +1417,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 744273401}
         m_TargetAssemblyTypeName: PolygonManager, Assembly-CSharp
-        m_MethodName: Reset
+        m_MethodName: ResetPolygon
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8249,7 +8249,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1535441703}
         m_TargetAssemblyTypeName: ObjectCreationManager, Assembly-CSharp
-        m_MethodName: PrintResourceList
+        m_MethodName: OnPlaceButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8380,11 +8380,6 @@ MonoBehaviour:
   planeManager: {fileID: 1659859602}
   polygonManager: {fileID: 744273401}
   placeButton: {fileID: 1518352462}
-  inputSize: {fileID: 130469075}
-  inputPigAmount: {fileID: 969304995}
-  inputChickenAmount: {fileID: 774283590}
-  inputWheatAmount: {fileID: 1268180432}
-  inputDuckAmount: {fileID: 265404354}
 --- !u!114 &1535441704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11195,7 +11190,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 744273401}
         m_TargetAssemblyTypeName: PolygonManager, Assembly-CSharp
-        m_MethodName: Apply
+        m_MethodName: OnApplyButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
