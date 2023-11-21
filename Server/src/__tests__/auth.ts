@@ -31,7 +31,21 @@ test("POST /auth/register", async () => {
   };
   await api.post("/auth/register").send(body).expect(201);
 
-  //TODO: Check in table
+  // Check if user data is correct. Password will be checked later.
+  Database.getInstance()
+    .userdb()
+    .get(
+      "SELECT * FROM User WHERE Email = ?",
+      [body.email],
+      async (error: any, row: any) => {
+        if (error) {
+          console.error(error);
+        }
+        expect(row.FirstName).toEqual(body.firstName);
+        expect(row.LastName).toEqual(body.lastName);
+        expect(row.Email).toEqual(body.email);
+      },
+    );
 });
 
 // 2) Test login

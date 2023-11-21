@@ -47,7 +47,7 @@ router.post("/register", async (req: any, res: any) => {
         return;
       } else {
         db.run(
-          "INSERT INTO User (FirstName, LastName, Password, Email) VALUES (?, ?, ?, ?)",
+          "INSERT INTO User (UserID, FirstName, LastName, Password, Email) VALUES (NULL, ?, ?, ?, ?)",
           [firstName, lastName, password, email],
         );
         res.status(201).send("Registration successful");
