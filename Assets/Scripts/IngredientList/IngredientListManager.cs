@@ -27,6 +27,18 @@ namespace IngredientLists
             ingredientDatabase = new MockupIngredientDatabase();
             fileHandler = new IngredientFileHandler(ingredientDatabase);
             Lists = fileHandler.ReadFile();
+            if(Lists.Count == 0)
+            {
+                Dictionary<Ingredient, (float, QuantityType)> exampleRecipe = new()
+                {
+                    { new Ingredient(12, "Steak"), (150, QuantityType.G) },
+                    { new Ingredient(17, "Potato"), (250, QuantityType.G) },
+                    { new Ingredient(18, "Beet"), (300, QuantityType.G) }
+                };
+
+                Lists.Add(new IngredientList("Steak+", exampleRecipe));
+                fileHandler.SaveLists(Lists);
+            }
 
             listsOverviewScreen.SetActive(true);
         }

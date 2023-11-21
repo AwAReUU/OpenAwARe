@@ -62,7 +62,7 @@ namespace IngredientLists
         {
             //ingredientListManager.CloseListScreen();
             CreateSelectedListGameObject();
-            backButton.SetActive(false);
+            //backButton.SetActive(false);
         }
 
         public void OnChangeListName()

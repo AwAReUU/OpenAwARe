@@ -19,7 +19,7 @@ namespace IngredientLists
         {
             Button backB = backButton.GetComponent<Button>();
             backB.onClick.AddListener(delegate { OnBackButtonClick(); });
-            backButton.SetActive(true);
+            backButton.SetActive(false);
 
             DisplayLists();
         }
@@ -28,6 +28,8 @@ namespace IngredientLists
         {
             Button backB = backButton.GetComponent<Button>();
             backB.onClick.RemoveAllListeners();
+            backButton.SetActive(true);
+
             RemoveListObjects();
         }
 

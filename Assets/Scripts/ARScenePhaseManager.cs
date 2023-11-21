@@ -10,7 +10,7 @@ public class ARScenePhaseManager : MonoBehaviour
     [SerializeField] private GameObject phaseQuestionnaire;
     [SerializeField] private GameObject phaseHomeScreen;
 
-    string prevPhase;
+    bool fromHome = true;
 
     private void Awake()
     {
@@ -31,8 +31,6 @@ public class ARScenePhaseManager : MonoBehaviour
 
     public void SetPhase(string s)
     {
-        GetPrevPhase();
-
         phasePolyScan.SetActive(false);
         phaseActiveRoom.SetActive(false);
         phaseIngredientList.SetActive(false);
@@ -40,34 +38,42 @@ public class ARScenePhaseManager : MonoBehaviour
         phaseHomeScreen.SetActive(false);
 
         if (s == "poly")
+        {
+
             phasePolyScan.SetActive(true);
+        }
         else if (s == "ar")
+        {
+            fromHome = false;
             phaseActiveRoom.SetActive(true);
+        }
         else if (s == "ing")
+        {
+
             phaseIngredientList.SetActive(true);
+        }
         else if (s == "que")
+        {
+
             phaseQuestionnaire.SetActive(true);
+        }
         else if (s == "home")
+        {
+            fromHome = true;
             phaseHomeScreen.SetActive(true);
-
+        }
+    }
+    
+    public void FromHome(bool b)
+    {
+        fromHome = b;
     }
 
-    private void GetPrevPhase()
+    public void GoBack()
     {
-        if (phasePolyScan.activeInHierarchy)
-            prevPhase = "poly";
-        else if (phaseActiveRoom.activeInHierarchy)
-            prevPhase = "ar";
-        else if (phaseIngredientList.activeInHierarchy)
-            prevPhase = "ing";
-        else if (phaseQuestionnaire.activeInHierarchy)
-            prevPhase = "que";
-        else if (phaseActiveRoom.activeInHierarchy)
-            prevPhase = "home";
-    }
-
-    public void GoPrevPhase()
-    {
-        SetPhase(prevPhase);
+        if (fromHome)
+            SetPhase("home");
+        else
+            SetPhase("ar");
     }
 }
