@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PolygonManager : MonoBehaviour
@@ -7,55 +9,67 @@ public class PolygonManager : MonoBehaviour
     [SerializeField] private PolygonDrawer polygonDrawer;
     [SerializeField] private PolygonMesh polygonMesh;
     [SerializeField] private PolygonScan scanner;
-    [SerializeField] private GameObject pointerObj;
 
-    [SerializeField] private Polygon positivePolygon;
-    [SerializeField] private List<Polygon> negativePolygons;
-
+    [SerializeField] private GameObject createBtn;
     [SerializeField] private GameObject resetBtn;
     [SerializeField] private GameObject applyBtn;
     [SerializeField] private GameObject confirmBtn;
     [SerializeField] private GameObject slider;
+    [SerializeField] private GameObject pointerObj;
 
-    public Polygon CurrentPolygon { get; private set; }
+    List<GameObject> UIObjects;
+
+    private Polygon positivePolygon;
+    private List<Polygon> negativePolygons;
+
+    public Polygon CurrentPolygon { get; private set; } // the polygon currently being drawn
 
     public void Start()
     {
+        CurrentPolygon = new Polygon();
+
         positivePolygon = new TestPolygon();
         negativePolygons = new TestPolygonList();
 
-        polygonDrawer.DrawNewPolygon(positivePolygon);
-        foreach(Polygon p in negativePolygons)
+        polygonDrawer.DrawAllPolygons(positivePolygon, negativePolygons);
+
+        UIObjects = new()
         {
-            polygonDrawer.DrawNewPolygon(p, true);
+            createBtn, resetBtn, confirmBtn, slider, applyBtn, pointerObj, scanner.gameObject, polygonMesh.gameObject
+        };
+
+        SwitchToState(State.Default);
+    }
+
+    public void OnApplyButtonClick()
+    {
+        polygonDrawer.Apply();
+        SwitchToState(State.SettingHeight);
+        polygonMesh.SetPolygon(CurrentPolygon.GetPoints());
+
+        if (positivePolygon == null)
+        {
+            positivePolygon = CurrentPolygon;
+            polygonDrawer.DrawPolygon(CurrentPolygon);
+        }
+        else
+        {
+            negativePolygons.Add(CurrentPolygon);
+            polygonDrawer.DrawPolygon(CurrentPolygon, true);
         }
     }
 
-    public void Apply()
+    public void ResetPolygon()
     {
-        this.polygonDrawer.Apply();
-        this.applyBtn.SetActive(false);
-        this.confirmBtn.SetActive(true);
-        this.scanner.gameObject.SetActive(false);
-        this.pointerObj.SetActive(false);
-    }
-
-    public void Reset()
-    {
-        this.polygonDrawer.Reset();
-        this.scanner.gameObject.SetActive(true);
-        this.pointerObj.SetActive(true);
+        CurrentPolygon = new();
+        polygonDrawer.Reset();
+        SwitchToState(State.Scanning);
     }
 
     public void Confirm()
     {
-        this.applyBtn.SetActive(false);
-        this.resetBtn.SetActive(false);
-        this.confirmBtn.SetActive(false);
-        this.polygonMesh.gameObject.SetActive(true);
-        this.polygonMesh.SetPolygon(this.polygonDrawer.polygon.GetPoints());
-        this.slider.SetActive(true);
-        positivePolygon = polygonDrawer.polygon;
+        // TODO: set room height
+        SwitchToState(State.Default);
     }
 
     public void OnSlider(System.Single height)
@@ -71,5 +85,48 @@ public class PolygonManager : MonoBehaviour
     public List<Polygon> GetNegPolygons()
     {
         return this.negativePolygons;
+    }
+
+    private void SwitchToState(State toState)
+    {
+        foreach(GameObject obj in UIObjects)
+        {
+            obj.SetActive(false);
+        }
+
+        foreach(GameObject obj in GetStateObjects(toState))
+        {
+            obj.SetActive(true);
+        }
+    }
+
+    enum State
+    {
+        Default,
+        Scanning,
+        SettingHeight
+    }
+
+    List<GameObject> GetStateObjects(State state)
+    {
+        List<GameObject> objects = new();
+        switch(state)
+        {
+            case State.Default:
+                objects.Add(createBtn);
+                break;
+            case State.Scanning:
+                objects.Add(applyBtn);
+                objects.Add(resetBtn);
+                objects.Add(scanner.gameObject);
+                objects.Add(pointerObj);
+                break;
+            case State.SettingHeight:
+                objects.Add(confirmBtn);
+                objects.Add(slider);
+                objects.Add(polygonMesh.gameObject);
+                break;
+        }
+        return objects;
     }
 }

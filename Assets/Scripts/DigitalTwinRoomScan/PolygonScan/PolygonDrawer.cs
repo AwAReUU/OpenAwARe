@@ -5,24 +5,24 @@ using UnityEngine.XR.ARFoundation.VisualScripting;
 
 public class PolygonDrawer : MonoBehaviour
 {
+    [SerializeField] private PolygonManager polygonManager;
+
     [SerializeField] private GameObject applyBtn;
     [SerializeField] private GameObject pointerObj;
 
-    private Vector3 pointer = Vector3.zero;
 
     [SerializeField] private GameObject lineObject;
-    [SerializeField] private LineRenderer temp_line;
-    [SerializeField] private LineRenderer close_line;
+    [SerializeField] private LineRenderer tempLine;
+    [SerializeField] private LineRenderer closeLine;
 
     private LineRenderer line;
-    public Polygon polygon { get; private set; }
+
+    private Vector3 pointer = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
     {
         line = lineObject.GetComponent<LineRenderer>();
-        polygon = new Polygon();
-        applyBtn.SetActive(false);
     }
 
     // Update is called once per frame
@@ -34,22 +34,16 @@ public class PolygonDrawer : MonoBehaviour
 
     public void Reset()
     {
-        this.line.loop = false;
-        applyBtn.SetActive(false);
-        this.pointer = Vector3.zero;
-        this.polygon = new();
-        this.UpdateLine(line, polygon);
-        this.UpdateTempLine();
-        this.UpdateCloseLine();
+        pointer = Vector3.zero;
+        UpdateLine(line, polygonManager.CurrentPolygon);
+        tempLine.gameObject.SetActive(true);
+        closeLine.gameObject.SetActive(true);
     }
 
     public void Apply()
     {
-        applyBtn.SetActive(false);
-        this.line.loop = true;
-        this.UpdateLine(line, polygon);
-        this.UpdateTempLine();
-        this.UpdateCloseLine();
+        UpdateLine(line, polygonManager.CurrentPolygon);
+        ClearScanningLines();
     }
 
     public void SetPointer(Vector3 pointer)
@@ -59,17 +53,23 @@ public class PolygonDrawer : MonoBehaviour
 
     public void AddPoint()
     {
-        applyBtn.SetActive(true);
-        polygon.AddPoint(this.pointer);
-        this.pointerObj.SetActive(false);
+        Polygon polygon = polygonManager.CurrentPolygon;
+        polygon.AddPoint(pointer);
+        pointerObj.SetActive(false);
 
         UpdateLine(line, polygon);
     }
 
     public void RemoveLast()
     {
+        Polygon polygon = polygonManager.CurrentPolygon;
         polygon.RemoveLastPoint();
         UpdateLine(line, polygon);
+    }
+    public void ClearScanningLines()
+    {
+        tempLine.gameObject.SetActive(false);
+        closeLine.gameObject.SetActive(false);
     }
 
     public void UpdateLine(LineRenderer line, Polygon polygon)
@@ -80,43 +80,55 @@ public class PolygonDrawer : MonoBehaviour
 
     private void UpdateTempLine()
     {
+        Polygon polygon = polygonManager.CurrentPolygon;
         if (polygon.AmountOfPoints() > 0)
         {
-            this.temp_line.positionCount = 2;
+            tempLine.positionCount = 2;
             Vector3[] points = { polygon.GetPoints()[^1], this.pointer };
-            this.temp_line.SetPositions(points);
+            tempLine.SetPositions(points);
         }
         else
         {
-            this.temp_line.positionCount = 0;
-            // this.temp_line.SetPositions(new Vector3[] { });
+            tempLine.positionCount = 0;
+            // this.tempLine.SetPositions(new Vector3[] { });
         }
     }
 
     private void UpdateCloseLine()
     {
+        Polygon polygon = polygonManager.CurrentPolygon;
         if (polygon.AmountOfPoints() > 1)
         {
-            this.close_line.positionCount = 2;
-            Vector3[] points = { polygon.GetFirstPoint(), this.pointer };
-            this.close_line.SetPositions(points);
+            closeLine.positionCount = 2;
+            Vector3[] points = { polygon.GetFirstPoint(), pointer };
+            closeLine.SetPositions(points);
         }
         else
         {
-            this.close_line.positionCount = 0;
+            closeLine.positionCount = 0;
         }
     }
 
-    public void DrawNewPolygon(Polygon newPolygon, bool isNegPolygon = false)
+    public void DrawAllPolygons(Polygon posPolygon, List<Polygon> negPolygons)
     {
-        GameObject newLineObject = Instantiate(lineObject, this.gameObject.transform);
+        DrawPolygon(posPolygon);
+        foreach (Polygon p in negPolygons)
+        {
+            DrawPolygon(p, true);
+        }
+    }
+
+    public void DrawPolygon(Polygon newPolygon, bool isNegPolygon = false)
+    {
+        GameObject newLineObject = Instantiate(lineObject, gameObject.transform);
         LineRenderer newLine = newLineObject.GetComponent<LineRenderer>();
         if(isNegPolygon)
         {
             newLine.startColor = Color.red;
             newLine.endColor = Color.red;
         }
-        newPolygon.AddPoint(newPolygon.GetFirstPoint());
+        newLine.loop = true;
+        //newPolygon.AddPoint(newPolygon.GetFirstPoint());
         UpdateLine(newLine, newPolygon);
     }
 }

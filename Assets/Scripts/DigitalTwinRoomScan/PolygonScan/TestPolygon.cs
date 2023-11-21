@@ -41,9 +41,14 @@ public class TestPolygonList : List<Polygon>
         this.Add(CreatePolygon(pol2Points));
     }
 
+    /// <summary>
+    /// Creates a polygon and fills its points list with the given points
+    /// </summary>
+    /// <param name="points">The points of which the polygon consists</param>
+    /// <returns>The polygon consisting of the given points</returns>
     Polygon CreatePolygon(List<Vector3> points)
     {
-        Polygon polygon = new Polygon();
+        Polygon polygon = new();
         foreach (Vector3 point in points)
         {
             polygon.AddPoint(point);
