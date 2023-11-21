@@ -1,7 +1,11 @@
+using IngredientLists;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
+using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Navigator : MonoBehaviour
@@ -49,6 +53,10 @@ public class Navigator : MonoBehaviour
                 //Dictionary<int, int> spawnDict = new Dictionary<int, int>()
                 //{ { 0, 2 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 1 } };
                 //FindObjectOfType<ObjectCreationManager>().AutoGenerateObjects(spawnDict);
+
+                IngredientList selectedList = GetSelectedList();
+                SetSelectedListObjectGen(selectedList);
+                
                 dummyChangeScene(objectGeneration);
                 break;
             case 2:     // Clear world of generated objects
@@ -78,7 +86,28 @@ public class Navigator : MonoBehaviour
         roomScan.SetActive(false);
 
         targetDummyScene.SetActive(true);
+    }
 
+    /// <summary>
+    /// Extracts the currently selected list from the ingredientlist scene.
+    /// </summary>
+    /// <returns></returns>
+    private IngredientList GetSelectedList() 
+    {
+        GameObject ingredientListManager = ingredientListUI.GetNamedChild("IngredientListManager");
+        IngredientListManager component = ingredientListManager.GetComponent<IngredientListManager>();
+        return component.SelectedList;
+    }
+
+    /// <summary>
+    /// Pass the selectedList to the ObjectGeneration scene.
+    /// </summary>
+    /// <param name="selectedList">IngredientList to be rendered in object gen</param>
+    private void SetSelectedListObjectGen(IngredientList selectedList) 
+    {
+        GameObject objectCreationManager = objectGeneration.GetNamedChild("ObjectCreationManager");
+        ObjectCreationManager component = objectCreationManager.GetComponent<ObjectCreationManager>();
+        component.SetSelectedList(selectedList);
     }
 
 

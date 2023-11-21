@@ -9,17 +9,33 @@ using Databases;
 using ResourceLists;
 using AwARe.DataStructures;
 using Unity.VisualScripting;
+using IngredientLists;
 
 public class ObjectCreationManager : MonoBehaviour
 {
     [SerializeField] private ARPlaneManager planeManager;
     [SerializeField] private PolygonManager polygonManager;
     [SerializeField] private GameObject placeButton;
-    [SerializeField] private InputField inputSize;
-    [SerializeField] private InputField inputPigAmount;
-    [SerializeField] private InputField inputChickenAmount;
-    [SerializeField] private InputField inputWheatAmount;
-    [SerializeField] private InputField inputDuckAmount;
+
+    private IngredientList selectedList { get; set; }
+
+    /// <summary>
+    /// Set the current ingredientList.
+    /// </summary>
+    /// <param name="ingredientList"></param>
+    public void SetSelectedList(IngredientList ingredientList) => selectedList = ingredientList;
+
+    /// <summary>
+    /// Converts an ingredientlist to resource list to model list.
+    /// </summary>
+    /// <returns>Model list</returns>
+    private Dictionary<int, int> ConvertSelectedListToModels()
+    {
+        ResourceCalculator resourceCalculator = new ResourceCalculator();
+        ResourceList resourceList = resourceCalculator.IngredientsToResources(selectedList);
+        Dictionary<int, int> modelList = ResourceListToModelList(resourceList);
+        return modelList;
+    }
 
     /// <summary> HalfExtents are distances from center to bounding box walls. </summary>
     private Vector3 GetHalfExtents(GameObject prefab)
@@ -38,8 +54,7 @@ public class ObjectCreationManager : MonoBehaviour
     /// </summary>
     /// <param name="obj"></param>
     /// <param name="position"></param>
-    /// <param name="halfExtents"></param>
-    /// <param name="sizeMultiplier"></param>
+    /// <param name="forcePlace"></param>
     /// <returns></returns>
     private GameObject TryPlaceObject(
         SpawnParams so,
@@ -75,8 +90,10 @@ public class ObjectCreationManager : MonoBehaviour
         return null;
     }
 
-    /// <summary> Given a dictionary in the form (resourceID, quantity), generates these resources and their respective quantities in the form of their corresponding GameObjects </summary>
-    public void PrintResourceList()
+    /// <summary>
+    /// Called when the place button is clicked. 
+    /// </summary>
+    public void OnPlaceButtonClick()
     {
         // Get polygonDrawer info 
         Polygon polygon = polygonManager.GetPolygon();
@@ -84,33 +101,17 @@ public class ObjectCreationManager : MonoBehaviour
 
         List<Polygon> negPolygons = polygonManager.GetNegPolygons();
 
-        // Get input values 
-        int PigAmount = int.Parse(inputPigAmount.text);
-        int ChickenAmount = int.Parse(inputChickenAmount.text);
-        int WheatAmount = int.Parse(inputWheatAmount.text);
-        int DuckAmount = int.Parse(inputDuckAmount.text);
-
-        // Get databases
-        MockupResourceDatabase resourceDatabase = new MockupResourceDatabase();
+        //Get database
         MockupModelDatabase modelDatabase = new MockupModelDatabase();
 
-        // make a list of (resourceID, Quantity)
-        Dictionary<int, int> resourceList = new Dictionary<int, int>()
-        {
-          { 14, PigAmount     },
-          { 13, ChickenAmount },
-          { 17, WheatAmount   },
-          { 15, DuckAmount    },
-        };
-
-        Dictionary<int, int> modelList = ResourceListToModelList(resourceList, resourceDatabase);
+        Dictionary<int, int> modelList = ConvertSelectedListToModels();
         Dictionary<int, SpawnParams> spawnDict = GenerateSpawnDict(modelList, modelDatabase);
 
         AutoGenerateObjects(spawnDict, polygonPoints, negPolygons);
     }
 
     /// <summary> Converts the dictionary from the form (resourceID, Quantity) to the form (modelID, Quantity) </summary>
-    public Dictionary<int, int> ResourceListToModelList(Dictionary<int, int> resourceList, MockupResourceDatabase resourceDatabase)
+    public Dictionary<int, int> MockResourceListToModelList(Dictionary<int, int> resourceList, MockupResourceDatabase resourceDatabase)
     {
         var modelList = new Dictionary<int, int>();
         foreach (var obj in resourceList)
@@ -121,9 +122,30 @@ public class ObjectCreationManager : MonoBehaviour
         return modelList;
     }
 
+    /// <summary>
+    /// Convert resourceList to ModelList (list of <id,quantity> of items we need to render)
+    /// </summary>
+    /// <param name="resourceList"></param>
+    /// <param name="resourceDatabase"></param>
+    /// <returns>modelList</returns>
+    public Dictionary<int, int> ResourceListToModelList(ResourceList resourceList)
+    {
+        ModelCalculator modelCalculator = new ModelCalculator();
+        var modelList = new Dictionary<int, int>();
+        foreach (var obj in resourceList.Resources)
+        {
+            Resource resource = obj.Key;
+            float quantityGrams = obj.Value;
+
+            int modelID = resource.ModelID;
+            modelList[modelID] = modelCalculator.CalculateModelQuantity(resource, quantityGrams);
+        }
+        return modelList;
+    }
+
     private Dictionary<int, SpawnParams> GenerateSpawnDict(Dictionary<int, int> modelList, MockupModelDatabase modelDatabase)
     {
-        float sizeMultiplier = float.Parse(inputSize.text);
+        float sizeMultiplier = 1; //float.Parse(inputSize.text);
         Dictionary<int, SpawnParams> spawnDict = new();
         foreach (var kvp in modelList)
         {
@@ -131,7 +153,13 @@ public class ObjectCreationManager : MonoBehaviour
             string modelpath = @"Prefabs/" + modelDatabase.GetModel(kvp.Key).PrefabPath;
             GameObject model = Resources.Load<GameObject>(modelpath);
             Vector3 halfExtents = GetHalfExtents(model);
-            float modelSizeMultiplier = modelDatabase.GetModel(kvp.Key).RealHeight / (2 * halfExtents.y) * sizeMultiplier;
+            
+            //dirty temp code so that water doesnt have size 0.
+            float realHeight = modelDatabase.GetModel(kvp.Key).RealHeight;
+            if (realHeight == 0)
+                realHeight = 1;
+
+            float modelSizeMultiplier = realHeight / (2 * halfExtents.y) * sizeMultiplier;
             sp.prefab = model;
             sp.quantity = kvp.Value;
             sp.scaling = modelSizeMultiplier;
@@ -154,7 +182,8 @@ public class ObjectCreationManager : MonoBehaviour
     /// <summary> Generates the unity Gameobjects given a model list (modelID, Quantity) and a modelDatabase. The modelID is used to find the corresponding prefab name in the modelDatabase. </summary>
     private void AutoGenerateObjects(Dictionary<int, SpawnParams> spawnDict)
     {
-        ObjectSpawnPointHandler osph = new(planeManager); //(<-remove the word "Test" to use scanned planes)
+        TestObjectSpawnPointHandler osph = new(planeManager); //(<-remove the word "Test" to use scanned planes)
+
         List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints();
 
         foreach (var obj in spawnDict) //prefab iterator
@@ -259,10 +288,9 @@ public class ObjectCreationManager : MonoBehaviour
             float ratioUsage = so.halfExtents.x * so.halfExtents.z * 4 / availableSurfaceArea;
             if (currentRatioUsage + ratioUsage < so.allowedSurfaceUsage)
             {
-                bool placedObj = TryPlaceObject(so, validSpawnPoints[j]);
+                GameObject placedObj = TryPlaceObject(so, validSpawnPoints[j]);
                 if (placedObj) //placement successful
                 {
-                    Debug.Log("Placement SUCCESFUL");
                     float height = validSpawnPoints[j].y + 2 * so.halfExtents.y;
                     objStacks.Add(validSpawnPoints[j], height);
                     currentRatioUsage += ratioUsage;
