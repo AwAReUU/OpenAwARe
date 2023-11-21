@@ -10,7 +10,8 @@ public class NavigationScriptTO : MonoBehaviour
     public void OnButtonNewRoomClick()
     {
         
-        SceneManager.LoadScene("Polygon_Scan");
+        SceneManager.LoadScene("ObjectGeneration");
+        //SceneManager.LoadScene("Polygon_Scan");
     }
 
     public void OnButtonQuestionnaireClick()
