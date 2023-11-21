@@ -10,6 +10,8 @@ export default class Database {
     // ----------------------------------------------------------------------------
     // Singleton:
 
+    public static testing: boolean = false;
+
     private static instance: Database;
 
     public static getInstance(): Database {
@@ -25,7 +27,11 @@ export default class Database {
     private ingrDatabase: sqlite3.Database;
 
     private constructor() {
-        this.userDatabase = new sqlite3.Database(UDB_SRC, (err) => {
+        let testing = "";
+        if (Database.testing) {
+            testing = "test_";
+        }
+        this.userDatabase = new sqlite3.Database(testing + UDB_SRC, (err) => {
             if (err) {
                 // Cannot open database
                 console.error(err.message);
@@ -35,7 +41,7 @@ export default class Database {
             }
         });
 
-        this.ingrDatabase = new sqlite3.Database(IDB_SRC, (err) => {
+        this.ingrDatabase = new sqlite3.Database(testing + IDB_SRC, (err) => {
             if (err) {
                 // Cannot open database
                 console.error(err.message);
@@ -58,5 +64,17 @@ export default class Database {
 
     public ingrdb(): sqlite3.Database {
         return this.ingrDatabase;
+    }
+
+    public delete() {
+        this.userDatabase.close();
+        this.ingrDatabase.close();
+
+        let testing = "";
+        if (Database.testing) {
+            testing = "test_";
+        }
+        fs.unlinkSync(testing + UDB_SRC);
+        fs.unlinkSync(testing + IDB_SRC);
     }
 }
