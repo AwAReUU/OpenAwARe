@@ -60,7 +60,7 @@ Ip adress: 131.211.32.146:8000
   </tr>
   <tr>
     <td ><pre>/auth/logout</pre></td>
-    <td ><b>POST</b></td>
+    <td ><b>DELETE</b></td>
     <td > <b>body (json):</b> { token }</td>
     <td >-</td>
     <td > Logout </td>

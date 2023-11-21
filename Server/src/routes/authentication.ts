@@ -120,7 +120,9 @@ router.post("/refreshToken", (req, res) => {
 // }
 router.delete("/logout", (req, res) => {
   // Remove the old token
-  refreshTokens = refreshTokens.filter((t) => t != req.body.token);
+  refreshTokens = refreshTokens.filter((t) => {
+    return t != req.body.token;
+  });
 
   res.status(204).send("Logged out!");
 });
@@ -154,7 +156,6 @@ export type ValidatedRequest = Request & { email: string };
 
 export function validateToken(req: Request, res: Response, next: any) {
   const header = req.headers["authorization"];
-  console.log(header);
   if (!header) {
     res.status(400).send("Authorization header is missing");
     return;
