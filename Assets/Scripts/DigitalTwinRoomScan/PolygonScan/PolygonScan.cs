@@ -16,19 +16,19 @@ public class PolygonScan : MonoBehaviour
     private GameObject trackables;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         trackables = GameObject.Find("Trackables");
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         Physics.Raycast(ray, out RaycastHit hitData);
 
         if (hitData.transform != null && hitData.transform.gameObject.name.Contains("ARPlane") &&
-                hitData.normal.x == 0f && hitData.normal.y == 1f && hitData.normal.z == 0f)
+                (hitData.normal - Vector3.up).magnitude < 0.05f)
         {
             // Check if hitpoint is on a horizontal ar plane.
             pointer.transform.position = hitData.point;
@@ -40,7 +40,7 @@ public class PolygonScan : MonoBehaviour
             // Check if plane and ray are not parrallel.
             if (ray.direction.y != 0)
             {
-                float l = (-1.5f - ray.origin.y) / ray.direction.y;
+                float l = (pointer.transform.position.y - ray.origin.y) / ray.direction.y;
                 // Check if ray is not reversed
                 if (l > 0f)
                 {

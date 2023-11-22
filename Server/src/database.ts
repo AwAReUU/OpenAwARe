@@ -3,7 +3,8 @@ import sqlite3 from "sqlite3";
 
 // ----------------------------------------------------------------------------
 
-const DB_SRC = "db.sqlite";
+const UDB_SRC = "userdb.sqlite";
+const IDB_SRC = "ingrdb.sqlite";
 
 export default class Database {
     // ----------------------------------------------------------------------------
@@ -20,24 +21,42 @@ export default class Database {
     // ----------------------------------------------------------------------------
     // instance:
 
-    private database: sqlite3.Database;
+    private userDatabase: sqlite3.Database;
+    private ingrDatabase: sqlite3.Database;
 
     private constructor() {
-        this.database = new sqlite3.Database(DB_SRC, (err) => {
+        this.userDatabase = new sqlite3.Database(UDB_SRC, (err) => {
             if (err) {
                 // Cannot open database
                 console.error(err.message);
                 throw err;
             } else {
-                console.log("Connected to the SQLite database.");
+                console.log("Connected to the user SQLite database.");
             }
         });
 
-        let sqlSetup = fs.readFileSync("./setup.sql").toString();
-        this.database.exec(sqlSetup);
+        this.ingrDatabase = new sqlite3.Database(IDB_SRC, (err) => {
+            if (err) {
+                // Cannot open database
+                console.error(err.message);
+                throw err;
+            } else {
+                console.log("Connected to the ingredient SQLite database.");
+            }
+        });
+
+        let userSqlSetup = fs.readFileSync("./usersetup.sql").toString();
+        this.userDatabase.exec(userSqlSetup);
+
+        let ingrSqlSetup = fs.readFileSync("./ingrsetup.sql").toString();
+        this.ingrDatabase.exec(ingrSqlSetup);
     }
 
-    public db(): sqlite3.Database {
-        return this.database;
+    public userdb(): sqlite3.Database {
+        return this.userDatabase;
+    }
+
+    public ingrdb(): sqlite3.Database {
+        return this.ingrDatabase;
     }
 }

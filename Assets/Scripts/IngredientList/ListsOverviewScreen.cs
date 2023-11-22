@@ -19,7 +19,7 @@ namespace IngredientLists
         {
             Button backB = backButton.GetComponent<Button>();
             backB.onClick.AddListener(delegate { OnBackButtonClick(); });
-            backButton.SetActive(true);
+            backButton.SetActive(false);
 
             DisplayLists();
         }
@@ -28,10 +28,15 @@ namespace IngredientLists
         {
             Button backB = backButton.GetComponent<Button>();
             backB.onClick.RemoveAllListeners();
+            backButton.SetActive(true);
+
             RemoveListObjects();
         }
 
-        private void DisplayLists()
+        /// <summary>
+        /// Creates GameObjects with buttons to select or destroy every ingredient list.
+        /// </summary>
+        public void DisplayLists()
         {
             RemoveListObjects();
 
@@ -58,7 +63,7 @@ namespace IngredientLists
         }
 
         /// <summary>
-        /// removes currently displayed objects
+        /// Destroys all currently displayed GameObjects in the ScrollView.
         /// </summary>
         private void RemoveListObjects()
         {
@@ -69,21 +74,32 @@ namespace IngredientLists
             listObjects = new List<GameObject>();
         }
 
-        private void OnAddListButtonClick()
+        /// <summary>
+        /// Calls an instance of ingredientListManager to create a new ingredient list, then displays the new list of ingredient lists.
+        /// </summary>
+        public void OnAddListButtonClick()
         {
             ingredientListManager.CreateList();
             DisplayLists();
         }
 
+        /// <summary>
+        /// Calls an instance of ingredientListManager to delete the given ingredient list, then displays the new list of ingredient lists.
+        /// </summary>
+        /// <param name="list"> The ingredient list that is to be deleted </param>
         private void OnDeleteButtonClick(IngredientList list)
         {
             ingredientListManager.DeleteList(list);
             DisplayLists();
         }
 
+        /// <summary>
+        /// Calls an instance of ingredientListManager to close this screen and open the IngredientListScreen of the given ingredient list.
+        /// </summary>
+        /// <param name="list"> The ingredient list that was selected </param>
         private void OnListButtonClick(IngredientList list)
         {
-            ingredientListManager.OpenList(list, this.gameObject);
+            ingredientListManager.ChangeToIngredientListScreen(list, this.gameObject);
         }
 
         private void OnBackButtonClick()

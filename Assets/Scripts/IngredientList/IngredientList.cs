@@ -37,6 +37,11 @@ namespace IngredientLists
             return Ingredients.Count;
         }
 
+        public void ChangeName(string name)
+        {
+            ListName = name;
+        }
+
         public void AddIngredient(Ingredient ingredient, float quantity, QuantityType type = QuantityType.G)
         {
             Ingredients.Add(ingredient, (quantity, type));
@@ -45,6 +50,11 @@ namespace IngredientLists
         public void RemoveIngredient(Ingredient ingredient)
         {
             Ingredients.Remove(ingredient);
+        }
+
+        public void UpdateIngredient(Ingredient ingredient, float quantity, QuantityType type)
+        {
+            Ingredients[ingredient] = (quantity, type);
         }
     }
 
