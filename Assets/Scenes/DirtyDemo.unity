@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5613,7 +5613,7 @@ PrefabInstance:
         type: 3}
       propertyPath: scanner
       value: 
-      objectReference: {fileID: 1068470231}
+      objectReference: {fileID: 1068470237}
     - target: {fileID: 9122867843713203604, guid: 6581b1f42e5344416845747b1d7549db,
         type: 3}
       propertyPath: applyBtn
@@ -10617,8 +10617,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcc55656579c37439e592eaeb63c581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  applyBtn: {fileID: 1420265149}
-  pointerObj: {fileID: 576188842}
 --- !u!1 &1057305000
 GameObject:
   m_ObjectHideFlags: 0
@@ -12806,7 +12804,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1245964183}
   - component: {fileID: 1245964182}
-  - component: {fileID: 1245964181}
   - component: {fileID: 1245964179}
   m_Layer: 5
   m_Name: ObjectCreationManager
@@ -12827,23 +12824,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f693dda691dc744aa4e0550f86f429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1245964181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1245964178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0cb9aa70a22847b5925ee5f067c10a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Camera: {fileID: 0}
-  m_OriginBaseGameObject: {fileID: 1245964178}
-  m_CameraFloorOffsetObject: {fileID: 0}
-  m_RequestedTrackingOriginMode: 0
-  m_CameraYOffset: 1.1176
 --- !u!114 &1245964182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12856,7 +12836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51de02e0eb10a3a4ebf6c0b54aac3302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planeManager: {fileID: 1840096322}
+  polygonManager: {fileID: 507889399}
   placeButton: {fileID: 728764088}
 --- !u!224 &1245964183
 RectTransform:
@@ -15409,7 +15389,7 @@ MonoBehaviour:
   backButton: {fileID: 1530163496}
   ingredientButtonPrefab: {fileID: 646652015}
   ContentHolder: {fileID: 87627982}
-  items: []
+  searchResultObjects: []
   SearchBar: {fileID: 2132688096}
 --- !u!224 &1467712455
 RectTransform:

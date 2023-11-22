@@ -3,15 +3,24 @@ using UnityEngine;
 
 namespace ObjectGeneration
 {
+    /// <summary>
+    /// Class <c>MockSpawnPointHandler</c> is an implementation of <see cref="ISpawnPointHandler"/>
+    /// in which creates a hardcoded plane of spawnPoints. In this implementation, no room scan is necessary.
+    /// This Implementation is only used for debugging/testing.
+    /// </summary>
     public class MockSpawnPointHandler : ISpawnPointHandler
     {
-        public MockSpawnPointHandler(float spacing = 0.1f) => gridSpacing = spacing;
+        public MockSpawnPointHandler(float spacing = 0.1f) { gridSpacing = spacing; }
+
+        /// <value>
+        /// Minimal space in between spawnPoints
+        /// </value>
         private readonly float gridSpacing;
 
         /// <summary>
         /// Just return a hardcoded "fake plane" of spawnpoints
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List of all spawnpoints</returns>
         public List<Vector3> GetValidSpawnPoints()
         {
             List<Vector3> result = new List<Vector3>();

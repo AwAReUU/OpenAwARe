@@ -4,10 +4,19 @@ using UnityEngine.XR.ARFoundation;
 
 namespace ObjectGeneration
 {
+    /// <summary>
+    /// Class <c>PlaneScanSpawnPointHandler</c> is an implementation of <see cref="ISpawnPointHandler"/>
+    /// in which ARPlanes from scanning are used to create spawnPoints on.
+    /// </summary>
     public class PlaneScanSpawnPointHandler : ISpawnPointHandler
     {
         private readonly float gridSpacing;
         private readonly ARPlaneManager planeManager;
+        /// <summary>
+        /// Constructor. Initializes gridSpacing and planeManager.
+        /// </summary>
+        /// <param name="manager">manager which contains the scanned ARPlanes</param>
+        /// <param name="spacing">spacing between spawnPoints</param>
         public PlaneScanSpawnPointHandler(ARPlaneManager manager, float spacing = 0.1f)
         {
             gridSpacing = spacing;
@@ -17,8 +26,7 @@ namespace ObjectGeneration
         /// <summary>
         /// Get a list of planes where objects are allowed to be spawned on.
         /// </summary>
-        /// <param name="planeManager"></param>
-        /// <returns></returns>
+        /// <returns>List of planes on which we are allowed to place objects.</returns>
         private List<ARPlane> GetSpawnPlanes()
         {
             List<ARPlane> validPlanes = new List<ARPlane>();
@@ -33,6 +41,10 @@ namespace ObjectGeneration
             return validPlanes;
         }
 
+        /// <summary>
+        /// Finds and aggregates spawnPoints of all planes in one list.
+        /// </summary>
+        /// <returns>all spawnPoints on ARPlanes.</returns>
         public List<Vector3> GetValidSpawnPoints()
         {
             List<Vector3> spawnPoints = new List<Vector3>();
@@ -45,9 +57,9 @@ namespace ObjectGeneration
         /// <summary>
         /// Divides a plane into a grid, and obtains all points on the intersections
         /// </summary>
-        /// <param name="plane"></param>
-        /// <param name="spacing"></param>
-        /// <returns></returns>
+        /// <param name="plane">Planes with normal vector up.</param>
+        /// <param name="spacing">minimal distance between spawnPoints</param>
+        /// <returns>spawnPoints on the plane</returns>
         private List<Vector3> GetGridPoints(ARPlane plane, float spacing)
         {
             List<Vector3> result = new List<Vector3>();
@@ -69,7 +81,7 @@ namespace ObjectGeneration
                     Ray ray = new Ray(rayOrigin, -plane.normal);
                     RaycastHit hit;
 
-                    //if it hits the plane, we know that the gridpoint is on top of the plane.
+                    //if the ray hits the plane, we know that the gridPoint is on top of the plane.
                     if (Physics.Raycast(ray, out hit, 5))
                         if (hit.collider.gameObject == plane.gameObject)
                             result.Add(gridPoint); 

@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
 using IngredientLists;
+using IngredientPipeLine;
 
 namespace ObjectGeneration
 {
@@ -13,7 +13,6 @@ namespace ObjectGeneration
     /// </summary>
     public class ObjectCreationManager : MonoBehaviour
     {
-        [SerializeField] private ARPlaneManager planeManager;
         [SerializeField] private PolygonManager polygonManager;
         [SerializeField] private GameObject placeButton;
 
@@ -29,11 +28,24 @@ namespace ObjectGeneration
         public void SetSelectedList(IngredientList ingredientList) => selectedList = ingredientList;
 
         /// <summary>
-        /// Tries to place a <paramref name="renderable"/> at <paramref name="position"/>
+        /// Called when the place button is clicked. Manages the conversion of the selected
+        /// IngredientList to renderables, and the placement of the renderables in the scene.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="position"></param>
-        /// <returns></returns>
+        public void OnPlaceButtonClick()
+        {
+            PipelineManager pipelineManager = new();
+            List<Renderable> renderables = pipelineManager.GetRenderableList(selectedList);
+
+            AutoGenerateObjects(renderables);
+        }
+
+        /// <summary>
+        /// Tries to place a <paramref name="renderable"></paramref> at <paramref name="position"></paramref>
+        /// </summary>
+        /// <param name="renderable">Renderable object to place in the scene.</param>
+        /// <param name="position">Exact position at which we will try to place the renderable.</param>
+        /// <param name="polygonPoints">The polygon described by points in which we will try to place.</param>
+        /// <returns>Whether the object has been placed.</returns>
         private bool TryPlaceObject(
             Renderable renderable,
             Vector3 position,
@@ -41,62 +53,50 @@ namespace ObjectGeneration
         {
             // Check if the box of the new object will overlap with any other colliders
             Vector3 boxCenter = position;
-            boxCenter.y += renderable.halfExtents.y;
+            boxCenter.y += renderable.GetHalfExtents().y;
             if (Physics.CheckBox(
                 boxCenter,
-                renderable.halfExtents,
+                renderable.GetHalfExtents(),
                 Quaternion.identity,
                 LayerMask.GetMask("Placed Objects"))) //only check collisions with other materials.
                 return false;
 
             // Check if the collider doesn't cross the polygon border
-            List<Vector3> objectCorners = CalculateColliderCorners(renderable, position);
+            List<Vector3> objectCorners = Renderable.CalculateColliderCorners(renderable, position);
             if (!PolygonHelper.ObjectColliderInPolygon(objectCorners, polygonPoints))
                 return false;
 
             // Adjust object size according to scalar
-            GameObject newObject = Instantiate(renderable.prefab, position, Quaternion.identity);
+            GameObject newObject = Instantiate(renderable.GetPrefab(), position, Quaternion.identity);
             newObject.layer = LayerMask.NameToLayer("Placed Objects");
             newObject.transform.localScale = 
-                new Vector3(renderable.scaling, renderable.scaling, renderable.scaling);
+                new Vector3(renderable.GetScaling(), renderable.GetScaling(), renderable.GetScaling());
 
             // Add collider after changing object size
             BoxCollider bc = newObject.AddComponent<BoxCollider>();
-            //RotateToUser(newObject);
+
             CreateVisualBox(bc);
 
             return true;
         }
 
         /// <summary>
-        /// Called when the place button is clicked. 
+        /// Automatically place objects by trying multiple different spawnPoints
+        /// on a polygon described by points.
         /// </summary>
-        public void OnPlaceButtonClick()
-        {
-            PipelineManager pipelineManager = new();
-            List<Renderable> renderables = pipelineManager.GetRenderableDict(selectedList);
-
-            AutoGenerateObjects(renderables);
-        }
-
-        /// <summary>
-        /// Generates a list of objects given a dictionary of (modelID, Quantity) 
-        /// on a polygon given by points
-        /// </summary>
-        /// <param name="spawnDict"></param>
-        /// <param name="polygon"></param>
+        /// <param name="renderables">All items that we are going to place.</param>
         private void AutoGenerateObjects(List<Renderable> renderables)
         {
             //Polygon from scan:
-            //GameObject polygon = polygonManager.GetPolygon();
-            //List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
+            GameObject polygon = polygonManager.GetPolygon();
+            List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
 
             //Mock polygon:
-            List<Vector3> polygonPoints = PolygonHelper.GetMockPolygon();
+            //List<Vector3> polygonPoints = PolygonHelper.GetMockPolygon();
 
             PolygonSpawnPointHandler spawnPointHandler = new PolygonSpawnPointHandler(polygonPoints);
-
             List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints();
+
             foreach (var renderable in renderables) //prefab iterator
             {
                 float currentRatioUsage = 0;
@@ -105,67 +105,76 @@ namespace ObjectGeneration
 
                 //If we place an object, store its position as key, and the height as value.
                 //If we run out of ground space, we can start stacking the objects at these locations.
-                //this dictionary is reset for each different objects, so that only clones of the same object
-                //can be stacked on eachother.
+                //this dictionary is reset for each different object, so that only clones of the same object
+                //can be stacked on each other.
                 Dictionary<Vector3, float> prefabStacks = new();
 
-                for (int i = 0; i < renderable.quantity; i++) //quantity iterator
+                for (int i = 0; i < renderable.GetQuantity(); i++) //quantity iterator
                     SpawnParticularObj(
                         renderable,
                         validSpawnPoints,
                         ref prefabStacks,
                         availableSurfaceArea,
                         ref currentRatioUsage,
-                        polygonPoints
-                    );
+                        polygonPoints);
             }
         }
 
-        private float EstimateAvailableSurfaceArea(int spawnPoints) =>
-            spawnPoints * 0.1f * 0.1f * 0.9f;
+        /// <summary>
+        /// Estimate the surface area of the spawn polygon by squaring the distance between the points
+        /// and multiplying this by a factor (not all space is usable on a sloped line).
+        /// </summary>
+        /// <param name="spawnPointCount">The amount of spawnPoints</param>
+        /// <returns>Estimated surface area.</returns>
+        private float EstimateAvailableSurfaceArea(int spawnPointCount) =>
+            spawnPointCount * 0.1f * 0.1f * 0.9f;
+
 
 
         /// <summary>
-        /// try to spawn an object, and try to stack if it doesnt fit
+        /// Try to spawn an object, and try to stack if it does not fit.
         /// </summary>
-        /// <param name="objIndex"></param>
-        /// <param name="objAmount"></param>
-        /// <param name="validSpawnPoints"></param>
+        /// <param name="renderable">Renderable to place.</param>
+        /// <param name="validSpawnPoints">All spawnPoints at which it could be placed.</param>
+        /// <param name="objStacks">Dictionary containing location of each instance of the current renderable.</param>
+        /// <param name="availableSurfaceArea">The percentage of surface area that this renderable is allowed to use.</param>
+        /// <param name="currentRatioUsage">The current percentage of surface area used by this renderable.</param>
+        /// <param name="polygonPoints">Polygon to place the object in. Used later on to check if the renderable does not cross polygon border.</param>
         private void SpawnParticularObj(
-            Renderable so,
+            Renderable renderable,
             List<Vector3> validSpawnPoints,
             ref Dictionary<Vector3, float> objStacks,
             float availableSurfaceArea,
             ref float currentRatioUsage,
             List<Vector3> polygonPoints)
         {
-            for (int j = 0; j < validSpawnPoints.Count; j++) //spawn iterator
+            for (int i = 0; i < validSpawnPoints.Count; i++) //spawn iterator
             {
-                float ratioUsage = so.halfExtents.x * so.halfExtents.z * 4 / availableSurfaceArea;
-                if (currentRatioUsage + ratioUsage < so.allowedSurfaceUsage)
+                float ratioUsage = renderable.GetHalfExtents().x * renderable.GetHalfExtents().z * 4 / availableSurfaceArea;
+                if (currentRatioUsage + ratioUsage < renderable.allowedSurfaceUsage)
                 {
-                    bool hasPlaced = TryPlaceObject(so, validSpawnPoints[j], polygonPoints);
+                    bool hasPlaced = TryPlaceObject(renderable, validSpawnPoints[i], polygonPoints);
                     if (hasPlaced)
                     {
-                        float height = validSpawnPoints[j].y + 2 * so.halfExtents.y;
-                        objStacks.Add(validSpawnPoints[j], height);
+                        float height = validSpawnPoints[i].y + 2 * renderable.GetHalfExtents().y;
+                        objStacks.Add(validSpawnPoints[i], height);
                         currentRatioUsage += ratioUsage;
                         return;
                     }
                 }
             }
-            //If the program reaches here, it ran out of "ground space", and will need to stack.
-            TryStack(so, ref objStacks, polygonPoints);
+            //If the program reaches here, it ran out of available "ground space", and will need to stack.
+            TryStack(renderable, ref objStacks, polygonPoints);
         }
 
         /// <summary>
         /// Try to stack the object on one of the stacks in <paramref name="objStacks"/> 
-        /// untill sucessfull or out of stacks.
+        /// until successful or out of stacks.
         /// </summary>
-        /// <param name="renderable">renderable</param>
-        /// <param name="objStacks">dictionary containing locations of instances of this prefab</param>
-        /// <param name="polygonPoints">size of the prefab</param>
-        /// <returns></returns>
+        /// <param name="renderable">Renderable to place.</param>
+        /// <param name="objStacks">Dictionary containing locations of instances of this prefab.</param>
+        /// <param name="polygonPoints">Polygon in which the renderable placed.</param>
+        /// <returns>Whether the stacking was successful.</returns>
         private bool TryStack(
             Renderable renderable,
             ref Dictionary<Vector3, float> objStacks,
@@ -193,7 +202,7 @@ namespace ObjectGeneration
                 //with the additional current object on top
                 //TODO: replace with height from digital twin roomscan.
                 float stackHeight = objStacks[smallestStackPos];
-                float newHeight = stackHeight + renderable.halfExtents.y * 2;
+                float newHeight = stackHeight + renderable.GetHalfExtents().y * 2;
                 const float maxHeight = 3.0f;
                 if (newHeight >= maxHeight)
                 {
@@ -213,14 +222,14 @@ namespace ObjectGeneration
                 else
                     objStacks.Remove(smallestStackPos);
             }
-            //Debug.Log("out of available stacks for this gameobject");
+            //Out of available stacks for this gameObject:
             return false;
         }
 
         /// <summary>
-        /// Render a boxcollider that fades out after some time.
+        /// Render a boxCollider that fades out after some time.
         /// </summary>
-        /// <param name="boxCollider"></param>
+        /// <param name="boxCollider">BoxCollider to visualize.</param>
         public void CreateVisualBox(BoxCollider boxCollider)
         {
             // Create a new GameObject
@@ -255,8 +264,8 @@ namespace ObjectGeneration
         /// Fade out the given <paramref name="target"/> GameObject during <paramref name="duration"/> seconds. 
         /// After this, destroy it.
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="duration"></param>
+        /// <param name="target">BoxCollider to fade out.</param>
+        /// <param name="duration">Time that the animation will take.</param>
         /// <returns></returns>
         public IEnumerator FadeOutAndDestroy(GameObject target, float duration)
         {
@@ -276,51 +285,9 @@ namespace ObjectGeneration
         }
 
         /// <summary>
-        /// Get all four corners of a <paramref name="renderable"/> 
-        /// that is placed at <paramref name="position"/>, so they are global coordinates.
+        /// Rotate a gameObject to face the user.
         /// </summary>
-        /// <param name="renderable"></param>
-        /// <param name="position"></param>
-        /// <returns></returns>
-        private List<Vector3> CalculateColliderCorners(Renderable renderable, Vector3 position)
-        {
-            // Get the size of the BoxCollider
-            Vector3 size = renderable.halfExtents;
-
-            // Calculate the corners
-            return new()
-            {
-                position + new Vector3(-size.x, 0, -size.z),
-                position + new Vector3(size.x, 0, -size.z),
-                position + new Vector3(-size.x, 0, size.z),
-                position + new Vector3(size.x, 0, size.z)
-            };
-        }
-
-        /// <summary>
-        /// The sum of the area of all gameobjects that will be spawned
-        /// </summary>
-        /// <param name="spawnDict"></param>
-        /// <returns></returns>
-        float ComputeSpaceNeeded(List<Renderable> renderables)
-        {
-            //compute the sum of area of all gameobjects that will be spawned.
-            float sumArea = 0;
-            foreach (var renderable in renderables)
-            {
-                int quantity = renderable.quantity;
-                Vector3 halfExtents = renderable.halfExtents;
-                float area = halfExtents.x * halfExtents.z * 4;
-                sumArea += area * quantity;
-            }
-
-            return sumArea;
-        }
-
-        /// <summary>
-        /// Rotate a gameobject to face the user.
-        /// </summary>
-        /// <param name="target">Object to rotate</param>
+        /// <param name="target">Object to rotate.</param>
         private void RotateToUser(GameObject target)
         {
             Vector3 position = target.transform.position;

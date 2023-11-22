@@ -28,8 +28,8 @@ namespace ObjectGeneration
         /// Check if the <paramref name="point"/> is inside of the <paramref name="polygon"/>,
         /// By using a Point-in-polygon (even-odd) algorithm.
         /// </summary>
-        /// <param name="polygon"></param>
-        /// <param name="point"></param>
+        /// <param name="polygon">The polygon described by points.</param>
+        /// <param name="point">The point.</param>
         /// <returns>Whether the <paramref name="point"/> is inside the <paramref name="polygon"/>.</returns>
         private static bool IsPointInsidePolygon(List<Vector3> polygon, Vector3 point)
         {
@@ -51,12 +51,12 @@ namespace ObjectGeneration
         }
 
         /// <summary>
-        /// Check if all four <paramref name="corners"/> are inside of the polygon 
-        /// described by <paramref name="polygonPoints"/>
+        /// Check if all four base <paramref name="corners"/> are inside of the polygon
+        /// described by <paramref name="polygonPoints"/>.
         /// </summary>
-        /// <param name="corners"></param>
-        /// <param name="polygonPoints"></param>
-        /// <returns></returns>
+        /// <param name="corners">Corners of the base of the bounding box of the Object.</param>
+        /// <param name="polygonPoints">Points that describe the polygon.</param>
+        /// <returns>Whether the object is inside the polygon.</returns>
         public static bool ObjectColliderInPolygon(List<Vector3> corners, List<Vector3> polygonPoints)
             => corners.All(corner => IsPointInsidePolygon(polygonPoints, corner));
     }

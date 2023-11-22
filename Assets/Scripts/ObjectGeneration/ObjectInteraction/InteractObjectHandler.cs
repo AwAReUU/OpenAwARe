@@ -1,14 +1,18 @@
 using UnityEngine;
 
 /// <summary>
-/// TODO: implement pop-up screen with information when clicking
-/// on GameObject. Currently this class only colors clicked objects. 
+/// TODO: implement pop-up screen with information when clicking on GameObject.
+/// Currently this class is just placeholder code that colors clicked objects. 
 /// </summary>
 public class InteractObjectHandler : MonoBehaviour
 {
     [SerializeField] private Material black;
     [SerializeField] private Material normal;
 
+    /// <summary>
+    /// Toggle color of clicked object.
+    /// </summary>
+    /// <param name="target">Clicked gameobject</param>
     public void ColorObject(GameObject target)
     {
         if (target.GetComponent<MeshRenderer>().material == black)
@@ -21,12 +25,14 @@ public class InteractObjectHandler : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Enables/disables dataWindow based on its current visibility.
+    /// </summary>
+    /// <param name="target">Clicked gameobject</param>
     public void ToggleDataWindow(GameObject target)
     {
         GameObject dataWindow = target.transform.GetChild(0).gameObject;
-        if (dataWindow.activeSelf)
-            dataWindow.SetActive(false);
-        else
-            dataWindow.SetActive(true);
+        //flip active state
+        dataWindow.SetActive(!dataWindow.activeSelf);
     }
 }

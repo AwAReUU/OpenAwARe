@@ -26,7 +26,7 @@ public class ObjectDestroyer : MonoBehaviour
     /// Obtain all Gameobjects in <paramref name="layer"/>.
     /// </summary>
     /// <param><c>layer</c> is the layer to find all objects from</param>
-    /// <returns>All GameObjects in that layer</returns>
+    /// <returns>All GameObjects in that layer.</returns>
     private GameObject[] FindGameObjectsInLayer(int layer)
     {
         var goArray = FindObjectsOfType(typeof(GameObject)) as GameObject[];
