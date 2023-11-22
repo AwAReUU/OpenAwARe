@@ -35,7 +35,7 @@ public class Navigator : MonoBehaviour
 
     private void DropdownValueChanged(TMP_Dropdown dropdown)
     {
-        SceneSwitcher sceneSwitcher = new SceneSwitcher();
+        SceneSwitcher sceneSwitcher = SceneSwitcher.Get();
         switch (dropdown.value)
         {
             case 0:     // Go to ingredient/recipe manager
