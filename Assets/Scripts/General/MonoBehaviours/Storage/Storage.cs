@@ -1,3 +1,4 @@
+using AwARe.DataStructures;
 using IngredientLists;
 using System;
 using System.Collections;
@@ -12,41 +13,35 @@ namespace AwARe.MonoBehaviours
 {
     public class Storage : MonoBehaviour, Data.IStorage
     {
-        private static Data.Storage data;
+        private static Storage instance;
 
-        public static Data.Storage Data
+        private Data.Storage data;
+
+        public Data.Storage Data
         {
-            get => data ?? LoadStorage();
+            get => data ??= new();
             set => data = value;
-        }
-
-        public static Storage Get() { 
-            var storage = GameObject.FindObjectOfType<Storage>();
-
-            if (storage == null)
-                storage = Instantiate(Resources.Load<Storage>("Prefabs/Storage/Storage"));
-
-            return storage;
         }
 
         private void Awake()
         {
-            // If there is an instance, and it's not me, delete myself.
-            LoadStorage();
-            
-            DontDestroyOnLoad(gameObject);
+            Singleton.Awake(ref instance, this);
+            DontDestroyOnLoad(this.gameObject);
         }
 
-        private static Data.Storage LoadStorage()
+        protected virtual void OnDestroy() =>
+            Singleton.OnDestroy(ref instance, this);
+
+        public IngredientList ActiveIngredientList
         {
-            data = new Data.Storage();
-            return data;
-        }
-
-        public IngredientList ActiveIngredientList 
-        { 
             get => Data.ActiveIngredientList;
             set => Data.ActiveIngredientList = value;
         }
+
+        public static Storage Instantiate() =>
+            new GameObject("Storage").AddComponent<Storage>();
+
+        public static Storage Get() => 
+            Singleton.Get(ref instance, Instantiate);
     }
 }
