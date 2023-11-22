@@ -4,27 +4,17 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.XR.ARCore;
+using UnityEngine.XR.ARFoundation;
 
 public class SceneSwitcher : MonoBehaviour
 {
-    public void ChangeScene()
+    private void ResetARSession()
     {
-        //scene id can be seen in the build manager
-        //blankar is 0, questionnaire is 1
-
-        if (SceneManager.GetActiveScene().name == "BlankAR")
-        {
-            SceneManager.LoadScene(1);
-        }
-        else if (SceneManager.GetActiveScene().name == "QuestionnairePage")
-        {
-            SceneManager.LoadScene(0);
-        }
-
-        // if (SceneManager.GetActiveScene().name == "BlankAR") gameObject.GetComponent<Image>().color = Color.green;
-        // else if (SceneManager.GetActiveScene().name == "QuestionnairePage") gameObject.GetComponent<Image>().color = Color.red;
+        ARSession arSession = GetComponent<ARSession>();
+        if (arSession != null)
+            arSession.Reset();
     }
-
     public void ChangeScene(int index)
     {
         if (SceneManager.sceneCount <= index)
@@ -32,12 +22,14 @@ public class SceneSwitcher : MonoBehaviour
             Debug.Log("Scene " + index + " does not exist.");
             return;
         }
-        
+
+        ResetARSession();
         SceneManager.LoadScene(index);
     }
 
     public void ChangeScene(string name)
     {
+        ResetARSession();
         SceneManager.LoadScene(name);
     }
 }

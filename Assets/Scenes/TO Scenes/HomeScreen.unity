@@ -1813,7 +1813,7 @@ PrefabInstance:
     - target: {fileID: 3343430421643379230, guid: 3aa768d437de079459fa489a47cdb48b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3343430421643379230, guid: 3aa768d437de079459fa489a47cdb48b,
         type: 3}
@@ -1824,7 +1824,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 8014434618012108016}
+      objectReference: {fileID: 8014434618012108017}
     - target: {fileID: 3343430421643379230, guid: 3aa768d437de079459fa489a47cdb48b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1838,12 +1838,12 @@ PrefabInstance:
     - target: {fileID: 3343430421643379230, guid: 3aa768d437de079459fa489a47cdb48b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnButtonNewRoomClick
+      value: ChangeScene
       objectReference: {fileID: 0}
     - target: {fileID: 3343430421643379230, guid: 3aa768d437de079459fa489a47cdb48b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: NavigationScriptTO, Assembly-CSharp
+      value: SceneSwitcher, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3343430421643379230, guid: 3aa768d437de079459fa489a47cdb48b,
         type: 3}
@@ -1853,7 +1853,7 @@ PrefabInstance:
     - target: {fileID: 3343430421643379230, guid: 3aa768d437de079459fa489a47cdb48b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: 
+      value: ARScene
       objectReference: {fileID: 0}
     - target: {fileID: 3343430421643379230, guid: 3aa768d437de079459fa489a47cdb48b,
         type: 3}
@@ -1869,6 +1869,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8014434618012108016}
+    - targetCorrespondingSourceObject: {fileID: 1004542446960334530, guid: 3aa768d437de079459fa489a47cdb48b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8014434618012108017}
   m_SourcePrefab: {fileID: 100100000, guid: 3aa768d437de079459fa489a47cdb48b, type: 3}
 --- !u!224 &8014434618012108014 stripped
 RectTransform:
@@ -1892,6 +1896,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6abf5369e041fb74689459af5f3c6e7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8014434618012108017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8014434618012108015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ef14362c0824f42b568ceadd71d6bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807

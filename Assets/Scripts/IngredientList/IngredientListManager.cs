@@ -99,6 +99,11 @@ namespace IngredientLists
             ingredientScreen.SetActive(true);
         }
 
+        public void ChangeListName(string name)
+        {
+            SelectedList.ChangeName(name);
+        }
+
         /// <summary>
         /// Adds the given ingredient to the ingredient list.
         /// </summary>

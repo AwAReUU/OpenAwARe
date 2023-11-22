@@ -12,6 +12,7 @@ public class PolygonManager : MonoBehaviour
     [SerializeField] private GameObject resetBtn;
     [SerializeField] private GameObject applyBtn;
     [SerializeField] private GameObject confirmBtn;
+    [SerializeField] private GameObject endBtn;
     [SerializeField] private GameObject slider;
 
     public void Apply()
@@ -35,10 +36,17 @@ public class PolygonManager : MonoBehaviour
         this.applyBtn.SetActive(false);
         this.resetBtn.SetActive(false);
         this.confirmBtn.SetActive(false);
+        this.endBtn.SetActive(true);
         this.polygonMesh.SetActive(true);
         this.polygonMesh.GetComponent<PolygonMesh>().SetPolygon(this.polygon.GetComponent<Polygon>().GetPoints());
         this.slider.SetActive(true);
     }
+
+    // public void EndPolyScan()
+    // {
+    //     this.slider.SetActive(false);
+    //     this.endBtn.SetActive(false);
+    // }
 
     public void OnSlider(System.Single height)
     {
