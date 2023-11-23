@@ -1,124 +1,75 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public class Polygon : MonoBehaviour
+public class Polygon
 {
-    [SerializeField] private GameObject applyBtn;
-    [SerializeField] private GameObject pointerObj;
+    /// <summary>
+    /// The points that form the 'corners' of the polygon
+    /// </summary>
+    protected List<Vector3> points;
 
-    private Vector3 pointer = Vector3.zero;
-    private List<Vector3> points = new();
-    private LineRenderer line;
-    private LineRenderer temp_line;
-    private LineRenderer close_line;
-
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// Instantiates a polygon representing (a part of) the floor
+    /// </summary>
+    public Polygon()
     {
-        this.line = this.transform.GetChild(0).GetComponent<LineRenderer>();
-        this.temp_line = this.transform.GetChild(1).GetComponent<LineRenderer>();
-        this.close_line = this.transform.GetChild(2).GetComponent<LineRenderer>();
-        applyBtn.SetActive(false);
+        points = new List<Vector3>();
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Adds the given point to the list of points
+    /// </summary>
+    /// <param name="point">The point to add to the list</param>
+    public void AddPoint(Vector3 point)
     {
-        UpdateCloseLine();
-        UpdateTempLine();
+        points.Add(point);
     }
 
-    public void Reset()
+    /// <summary>
+    /// Removes the last added point from the list of points
+    /// </summary>
+    public void RemoveLastPoint()
     {
-        this.line.loop = false;
-        applyBtn.SetActive(false);
-        this.pointer = Vector3.zero;
-        this.points = new List<Vector3>();
-        this.close_line.gameObject.SetActive(true);
-        this.temp_line.gameObject.SetActive(true);
-        this.UpdateLine();
-        this.UpdateTempLine();
-        this.UpdateCloseLine();
+        if (points.Count > 0)
+        {
+            this.points.RemoveAt(this.points.Count - 1);
+        }
     }
 
-    public void Apply()
-    {
-        applyBtn.SetActive(false);
-        this.line.loop = true;
-        this.close_line.gameObject.SetActive(false);
-        this.temp_line.gameObject.SetActive(false);
-        this.UpdateLine();
-        // this.UpdateTempLine();
-        // this.UpdateCloseLine();
-    }
-
-    public void SetPointer(Vector3 pointer)
-    {
-        this.pointer = pointer;
-    }
-
+    /// <summary>
+    /// Gets the points list in array form
+    /// </summary>
+    /// <returns>An array containing the points of the point lsit</returns>
     public Vector3[] GetPoints()
     {
         return this.points.ToArray();
     }
 
+    /// <summary>
+    /// Gets the points list
+    /// </summary>
+    /// <returns></returns>
     public List<Vector3> GetPointsList()
     {
         return this.points;
     }
 
-    public void AddPoint()
+    /// <summary>
+    /// Returns the amount of points
+    /// </summary>
+    /// <returns></returns>
+    public int AmountOfPoints()
     {
-        applyBtn.SetActive(true);
-        this.points.Add(this.pointer);
-        this.pointerObj.SetActive(false);
-
-        UpdateLine();
+        return points.Count;
     }
 
-    public void RemoveLast()
+    /// <summary>
+    /// Gets the first point from the points list
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 GetFirstPoint()
     {
-        if (this.points.Count > 0)
-        {
-            this.points.RemoveAt(this.points.Count - 1);
-        }
-        UpdateLine();
-    }
-
-    private void UpdateLine()
-    {
-        this.line.positionCount = this.points.Count;
-        this.line.SetPositions(this.points.ToArray());
-    }
-
-    private void UpdateTempLine()
-    {
-        if (this.points.Count > 0)
-        {
-            this.temp_line.positionCount = 2;
-            Vector3[] points = { this.points[^1], this.pointer };
-            this.temp_line.SetPositions(points);
-        }
-        else
-        {
-
-            this.temp_line.positionCount = 0;
-            // this.temp_line.SetPositions(new Vector3[] { });
-        }
-    }
-
-    private void UpdateCloseLine()
-    {
-        if (this.points.Count > 1)
-        {
-            this.close_line.positionCount = 2;
-            Vector3[] points = { this.points[0], this.pointer };
-            this.close_line.SetPositions(points);
-        }
-        else
-        {
-            this.close_line.positionCount = 0;
-        }
+        return points[0];
     }
 }

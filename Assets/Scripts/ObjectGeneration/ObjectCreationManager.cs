@@ -34,7 +34,7 @@ namespace ObjectGeneration
         public void SetSelectedList(IngredientList ingredientList) => SelectedList = ingredientList;
 
         /// <summary>
-        /// Obtain the currently selected ingredientlist from the DontDestroyOnload gameObject.
+        /// Obtain the currently selected ingredientList from the DontDestroyOnload-GameObject.
         /// </summary>
         /// <returns>The ingredient list that was selected by the user</returns>
         private IngredientList RetrieveIngredientlist() => Storage.Get().ActiveIngredientList;
@@ -101,11 +101,11 @@ namespace ObjectGeneration
         private void AutoGenerateObjects(List<Renderable> renderables)
         {
             //Polygon from scan:
-            GameObject polygon = polygonManager.GetPolygon();
-            List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
+            //GameObject polygon = polygonManager.GetPolygon();
+            //List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
 
             //Mock polygon:
-            //List<Vector3> polygonPoints = PolygonHelper.GetMockPolygon();
+            List<Vector3> polygonPoints = polygonManager.GetPolygon().GetPointsList();
 
             PolygonSpawnPointHandler spawnPointHandler = new PolygonSpawnPointHandler(polygonPoints);
             List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints();

@@ -1,60 +1,178 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PolygonManager : MonoBehaviour
 {
-    [SerializeField] private GameObject polygon;
-    [SerializeField] private GameObject polygonMesh;
+    [SerializeField] private PolygonDrawer polygonDrawer;
+    [SerializeField] private PolygonMesh polygonMesh;
     [SerializeField] private PolygonScan scanner;
-    [SerializeField] private GameObject pointerObj;
 
+    [SerializeField] private GameObject createBtn;
     [SerializeField] private GameObject resetBtn;
     [SerializeField] private GameObject applyBtn;
     [SerializeField] private GameObject confirmBtn;
     [SerializeField] private GameObject endBtn;
     [SerializeField] private GameObject slider;
+    [SerializeField] private GameObject pointerObj;
 
-    public void Apply()
+    /// <summary>
+    /// All UI components of the polygon scan
+    /// </summary>
+    List<GameObject> UIObjects;
+
+    private Polygon positivePolygon;
+    private List<Polygon> negativePolygons;
+
+    /// <summary>
+    /// The polygon currently being drawn
+    /// </summary>
+    public Polygon CurrentPolygon { get; private set; }
+
+    public void Start()
     {
-        this.polygon.GetComponent<Polygon>().Apply();
-        this.applyBtn.SetActive(false);
-        this.confirmBtn.SetActive(true);
-        this.scanner.enabled = false;
-        this.pointerObj.SetActive(false);
+        CurrentPolygon = new Polygon();
+
+        positivePolygon = new TestPolygon();
+        negativePolygons = new TestPolygonList();
+
+        polygonDrawer.DrawAllPolygons(positivePolygon, negativePolygons);
+
+        UIObjects = new()
+        {
+            createBtn, resetBtn, confirmBtn, slider, applyBtn, endBtn, pointerObj, scanner.gameObject, polygonMesh.gameObject
+        };
+
+        SwitchToState(State.Default);
     }
 
-    public void Reset()
+    /// <summary>
+    /// Called on reset or create button click; starts a new polygon scan
+    /// </summary>
+    public void StartScanning()
     {
-        this.polygon.GetComponent<Polygon>().Reset();
-        this.scanner.enabled = true;
-        this.pointerObj.SetActive(true);
+        CurrentPolygon = new();
+        polygonDrawer.Reset();
+        SwitchToState(State.Scanning);
     }
 
+    /// <summary>
+    /// Called on apply button click; adds and draws the current polygon
+    /// </summary>
+    public void OnApplyButtonClick()
+    {
+        polygonDrawer.ClearScanningLines();
+        SwitchToState(State.SettingHeight);
+        polygonMesh.SetPolygon(CurrentPolygon.GetPoints());
+
+        if (positivePolygon == null)
+        {
+            positivePolygon = CurrentPolygon;
+            polygonDrawer.DrawPolygon(CurrentPolygon);
+        }
+        else
+        {
+            negativePolygons.Add(CurrentPolygon);
+            polygonDrawer.DrawPolygon(CurrentPolygon, true);
+        }
+    }
+
+    /// <summary>
+    /// Called on confirm button click; sets the height of the polygon
+    /// </summary>
     public void Confirm()
     {
-        this.applyBtn.SetActive(false);
-        this.resetBtn.SetActive(false);
-        this.confirmBtn.SetActive(false);
-        this.endBtn.SetActive(true);
-        this.polygonMesh.SetActive(true);
-        this.polygonMesh.GetComponent<PolygonMesh>().SetPolygon(this.polygon.GetComponent<Polygon>().GetPoints());
-        this.slider.SetActive(true);
+        // TODO: set room height
+        SwitchToState(State.Saving);
     }
 
-    // public void EndPolyScan()
-    // {
-    //     this.slider.SetActive(false);
-    //     this.endBtn.SetActive(false);
-    // }
-
-    public void OnSlider(System.Single height)
+    /// <summary>
+    /// Called on changing the slider; sets the height of the polygon mesh
+    /// </summary>
+    /// <param name="height">Height the slider is currently at</param>
+     public void OnSlider(System.Single height)
     {
-        this.polygonMesh.GetComponent<PolygonMesh>().SetHeight(height);
+        this.polygonMesh.SetHeight(height);
     }
 
-    public GameObject GetPolygon()
+    /// <summary>
+    /// Gets the positive polygon
+    /// </summary>
+    /// <returns></returns>
+    public Polygon GetPolygon()
     {
-        return this.polygon;
+        return this.positivePolygon;
+    }
+
+    /// <summary>
+    /// Gets the list with negative polygons
+    /// </summary>
+    /// <returns></returns>
+    public List<Polygon> GetNegPolygons()
+    {
+        return this.negativePolygons;
+    }
+
+    /// <summary>
+    /// Sets all UIObjects to inactive, then activates all UIObjects of this state
+    /// </summary>
+    /// <param name="toState">Which state the UI should switch to</param>
+    private void SwitchToState(State toState)
+    {
+        foreach(GameObject obj in UIObjects)
+        {
+            obj.SetActive(false);
+        }
+
+        foreach(GameObject obj in GetStateObjects(toState))
+        {
+            obj.SetActive(true);
+        }
+    }
+
+    /// <summary>
+    /// Gets the UI objects that need to be present in this state
+    /// </summary>
+    /// <param name="state"></param>
+    /// <returns></returns>
+    List<GameObject> GetStateObjects(State state)
+    {
+        List<GameObject> objects = new();
+        switch(state)
+        {
+            case State.Default:
+                objects.Add(createBtn);
+                break;
+            case State.Scanning:
+                objects.Add(applyBtn);
+                objects.Add(resetBtn);
+                objects.Add(scanner.gameObject);
+                objects.Add(pointerObj);
+                break;
+            case State.SettingHeight:
+                objects.Add(confirmBtn);
+                objects.Add(slider);
+                objects.Add(polygonMesh.gameObject);
+                break;
+            case State.Saving:
+                objects.Add(createBtn);
+                objects.Add(endBtn);
+                break;
+
+        }
+        return objects;
+    }
+
+    /// <summary>
+    /// The different states within the polygon scanning
+    /// </summary>
+    enum State
+    {
+        Default,
+        Scanning,
+        SettingHeight,
+        Saving
     }
 }

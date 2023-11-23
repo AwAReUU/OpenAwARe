@@ -11,17 +11,8 @@ using UnityEngine.XR.ARFoundation;
 public class PolygonScan : MonoBehaviour
 {
     [SerializeField] private GameObject pointer;
-    [SerializeField] private GameObject polygon;
+    [SerializeField] private PolygonDrawer polygonDrawer;
 
-    private GameObject trackables;
-
-    // Start is called before the first frame update
-    public void Start()
-    {
-        trackables = GameObject.Find("Trackables");
-    }
-
-    // Update is called once per frame
     public void Update()
     {
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
@@ -33,20 +24,20 @@ public class PolygonScan : MonoBehaviour
             // Check if hitpoint is on a horizontal ar plane.
             pointer.transform.position = hitData.point;
 
-            polygon.GetComponent<Polygon>().SetPointer(pointer.transform.position);
+            polygonDrawer.SetPointer(pointer.transform.position);
         }
         else
         {
             // Check if plane and ray are not parrallel.
             if (ray.direction.y != 0)
             {
-                float l = (pointer.transform.position.y - ray.origin.y) / ray.direction.y;
+                float l = (-1.5f - ray.origin.y) / ray.direction.y;
                 // Check if ray is not reversed
                 if (l > 0f)
                 {
                     pointer.transform.position = ray.origin + ray.direction * l;
 
-                    polygon.GetComponent<Polygon>().SetPointer(pointer.transform.position);
+                    polygonDrawer.SetPointer(pointer.transform.position);
                 }
             }
         }
@@ -54,7 +45,7 @@ public class PolygonScan : MonoBehaviour
 
         if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
         {
-            polygon.GetComponent<Polygon>().AddPoint();
+            polygonDrawer.AddPoint();
         }
     }
 
