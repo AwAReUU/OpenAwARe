@@ -14,6 +14,7 @@ public class PolygonManager : MonoBehaviour
     [SerializeField] private GameObject resetBtn;
     [SerializeField] private GameObject applyBtn;
     [SerializeField] private GameObject confirmBtn;
+    [SerializeField] private GameObject endBtn;
     [SerializeField] private GameObject slider;
     [SerializeField] private GameObject pointerObj;
 
@@ -71,6 +72,12 @@ public class PolygonManager : MonoBehaviour
         // TODO: set room height
         SwitchToState(State.Default);
     }
+
+    // public void EndPolyScan()
+    // {
+    //     this.slider.SetActive(false);
+    //     this.endBtn.SetActive(false);
+    // }
 
     public void OnSlider(System.Single height)
     {

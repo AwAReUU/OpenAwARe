@@ -7,15 +7,21 @@ using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using Databases;
 using ResourceLists;
-using AwARe.DataStructures;
+using AwARe.MonoBehaviours;
 using Unity.VisualScripting;
 using IngredientLists;
 
 public class ObjectCreationManager : MonoBehaviour
 {
-    [SerializeField] private ARPlaneManager planeManager;
-    [SerializeField] private PolygonManager polygonManager;
+    private ARPlaneManager planeManager;
+    private PolygonManager polygonManager;
     [SerializeField] private GameObject placeButton;
+
+    private void Awake()
+    {
+        planeManager = FindObjectOfType<ARPlaneManager>();
+        polygonManager = FindObjectOfType<PolygonManager>();
+    }
 
     private IngredientList selectedList { get; set; }
 
@@ -86,8 +92,18 @@ public class ObjectCreationManager : MonoBehaviour
                 return newObject;
             }
         }
-        
+
         return null;
+    }
+
+    private IngredientList RetrieveIngredientlist()
+    {
+        if (Storage.Get().ActiveIngredientList == null)
+        {
+            return new IngredientList("null");
+        }
+        else
+            return Storage.Get().ActiveIngredientList;
     }
 
     /// <summary>
@@ -100,6 +116,9 @@ public class ObjectCreationManager : MonoBehaviour
         List<Vector3> polygonPoints = polygon.GetPointsList();
 
         List<Polygon> negPolygons = polygonManager.GetNegPolygons();
+
+        
+        SetSelectedList(RetrieveIngredientlist());
 
         //Get database
         MockupModelDatabase modelDatabase = new MockupModelDatabase();
@@ -153,7 +172,7 @@ public class ObjectCreationManager : MonoBehaviour
             string modelpath = @"Prefabs/" + modelDatabase.GetModel(kvp.Key).PrefabPath;
             GameObject model = Resources.Load<GameObject>(modelpath);
             Vector3 halfExtents = GetHalfExtents(model);
-            
+
             //dirty temp code so that water doesnt have size 0.
             float realHeight = modelDatabase.GetModel(kvp.Key).RealHeight;
             if (realHeight == 0)
@@ -217,7 +236,7 @@ public class ObjectCreationManager : MonoBehaviour
     private void AutoGenerateObjects(Dictionary<int, SpawnParams> spawnDict, List<Vector3> polygon, List<Polygon> negPolygons)
     {
         // Create spawpointhandler without ARPlanemanager
-        ObjectSpawnPointHandler osph = new(); 
+        ObjectSpawnPointHandler osph = new();
 
         List<Vector3> validSpawnPoints = osph.GetValidSpawnPoints(polygon,negPolygons);
         foreach (var obj in spawnDict) //prefab iterator
@@ -389,7 +408,7 @@ public class ObjectCreationManager : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(scaledEuler);
         target.transform.rotation = targetRotation;
     }
-    
+
     public void CreateVisualBox(BoxCollider boxCollider)
     {
         // Create a new GameObject
@@ -458,7 +477,7 @@ public class ObjectCreationManager : MonoBehaviour
         {
             if (!IsPointInsidePolygon(polygonArea, x))
             {
-                return false; 
+                return false;
             }
         }
 
@@ -470,7 +489,7 @@ public class ObjectCreationManager : MonoBehaviour
         List<Vector3> corners = new();
 
         // Get the size of the BoxCollider
-        Vector3 size = so.halfExtents; 
+        Vector3 size = so.halfExtents;
 
         // Calculate the corners
         corners.Add(position + new Vector3(-size.x, 0, -size.z));
