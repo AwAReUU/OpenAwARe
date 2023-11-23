@@ -19,7 +19,7 @@ namespace IngredientLists
         {
             Button backB = backButton.GetComponent<Button>();
             backB.onClick.AddListener(delegate { OnBackButtonClick(); });
-            backButton.SetActive(true);
+            backButton.SetActive(false);
 
             DisplayLists();
         }
@@ -28,13 +28,15 @@ namespace IngredientLists
         {
             Button backB = backButton.GetComponent<Button>();
             backB.onClick.RemoveAllListeners();
+            backButton.SetActive(true);
+
             RemoveListObjects();
         }
 
         /// <summary>
         /// Creates GameObjects with buttons to select or destroy every ingredient list.
         /// </summary>
-        private void DisplayLists()
+        public void DisplayLists()
         {
             RemoveListObjects();
 
@@ -75,7 +77,7 @@ namespace IngredientLists
         /// <summary>
         /// Calls an instance of ingredientListManager to create a new ingredient list, then displays the new list of ingredient lists.
         /// </summary>
-        private void OnAddListButtonClick()
+        public void OnAddListButtonClick()
         {
             ingredientListManager.CreateList();
             DisplayLists();
