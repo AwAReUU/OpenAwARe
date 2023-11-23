@@ -18,12 +18,18 @@ public class PolygonManager : MonoBehaviour
     [SerializeField] private GameObject slider;
     [SerializeField] private GameObject pointerObj;
 
+    /// <summary>
+    /// All UI components of the polygon scan
+    /// </summary>
     List<GameObject> UIObjects;
 
     private Polygon positivePolygon;
     private List<Polygon> negativePolygons;
 
-    public Polygon CurrentPolygon { get; private set; } // the polygon currently being drawn
+    /// <summary>
+    /// The polygon currently being drawn
+    /// </summary>
+    public Polygon CurrentPolygon { get; private set; }
 
     public void Start()
     {
@@ -42,9 +48,22 @@ public class PolygonManager : MonoBehaviour
         SwitchToState(State.Default);
     }
 
+    /// <summary>
+    /// Called on reset or create button click; starts a new polygon scan
+    /// </summary>
+    public void StartScanning()
+    {
+        CurrentPolygon = new();
+        polygonDrawer.Reset();
+        SwitchToState(State.Scanning);
+    }
+
+    /// <summary>
+    /// Called on apply button click; adds and draws the current polygon
+    /// </summary>
     public void OnApplyButtonClick()
     {
-        polygonDrawer.Apply();
+        polygonDrawer.ClearScanningLines();
         SwitchToState(State.SettingHeight);
         polygonMesh.SetPolygon(CurrentPolygon.GetPoints());
 
@@ -60,40 +79,46 @@ public class PolygonManager : MonoBehaviour
         }
     }
 
-    public void ResetPolygon()
-    {
-        CurrentPolygon = new();
-        polygonDrawer.Reset();
-        SwitchToState(State.Scanning);
-    }
-
+    /// <summary>
+    /// Called on confirm button click; sets the height of the polygon
+    /// </summary>
     public void Confirm()
     {
         // TODO: set room height
         SwitchToState(State.Saving);
     }
 
-    // public void EndPolyScan()
-    // {
-    //     this.slider.SetActive(false);
-    //     this.endBtn.SetActive(false);
-    // }
-
-    public void OnSlider(System.Single height)
+    /// <summary>
+    /// Called on changing the slider; sets the height of the polygon mesh
+    /// </summary>
+    /// <param name="height">Height the slider is currently at</param>
+     public void OnSlider(System.Single height)
     {
         this.polygonMesh.SetHeight(height);
     }
 
+    /// <summary>
+    /// Gets the positive polygon
+    /// </summary>
+    /// <returns></returns>
     public Polygon GetPolygon()
     {
         return this.positivePolygon;
     }
 
+    /// <summary>
+    /// Gets the list with negative polygons
+    /// </summary>
+    /// <returns></returns>
     public List<Polygon> GetNegPolygons()
     {
         return this.negativePolygons;
     }
 
+    /// <summary>
+    /// Sets all UIObjects to inactive, then activates all UIObjects of this state
+    /// </summary>
+    /// <param name="toState">Which state the UI should switch to</param>
     private void SwitchToState(State toState)
     {
         foreach(GameObject obj in UIObjects)
@@ -107,14 +132,11 @@ public class PolygonManager : MonoBehaviour
         }
     }
 
-    enum State
-    {
-        Default,
-        Scanning,
-        SettingHeight,
-        Saving
-    }
-
+    /// <summary>
+    /// Gets the UI objects that need to be present in this state
+    /// </summary>
+    /// <param name="state"></param>
+    /// <returns></returns>
     List<GameObject> GetStateObjects(State state)
     {
         List<GameObject> objects = new();
@@ -141,5 +163,16 @@ public class PolygonManager : MonoBehaviour
 
         }
         return objects;
+    }
+
+    /// <summary>
+    /// The different states within the polygon scanning
+    /// </summary>
+    enum State
+    {
+        Default,
+        Scanning,
+        SettingHeight,
+        Saving
     }
 }

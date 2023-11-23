@@ -13,15 +13,6 @@ public class PolygonScan : MonoBehaviour
     [SerializeField] private GameObject pointer;
     [SerializeField] private PolygonDrawer polygonDrawer;
 
-    private GameObject trackables;
-
-    // Start is called before the first frame update
-    public void Start()
-    {
-        trackables = GameObject.Find("Trackables");
-    }
-
-    // Update is called once per frame
     public void Update()
     {
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
