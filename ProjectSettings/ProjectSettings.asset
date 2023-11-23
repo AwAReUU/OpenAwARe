@@ -828,7 +828,9 @@ PlayerSettings:
   webGLPowerPreference: 2
   scriptingDefineSymbols:
     iPhone: UNITY_XR_ARKIT_LOADER_ENABLED
-  additionalCompilerArguments: {}
+  additionalCompilerArguments:
+    Standalone:
+    - /additionalfile:Assets\Packages\StyleCop\stylecop.json
   platformArchitecture:
     iPhone: 1
   scriptingBackend:
