@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
+using AwARe.MonoBehaviours;
+
 using UnityEngine;
 using IngredientLists;
 using IngredientPipeLine;
@@ -28,11 +31,18 @@ namespace ObjectGeneration
         public void SetSelectedList(IngredientList ingredientList) => selectedList = ingredientList;
 
         /// <summary>
+        /// Obtain the currently selected ingredientlist from the DontDestroyOnload gameObject.
+        /// </summary>
+        /// <returns></returns>
+        private IngredientList RetrieveIngredientlist() => Storage.Get().ActiveIngredientList;
+
+        /// <summary>
         /// Called when the place button is clicked. Manages the conversion of the selected
         /// IngredientList to renderables, and the placement of the renderables in the scene.
         /// </summary>
         public void OnPlaceButtonClick()
-        {
+        {        
+            SetSelectedList(RetrieveIngredientlist());
             PipelineManager pipelineManager = new();
             List<Renderable> renderables = pipelineManager.GetRenderableList(selectedList);
 
