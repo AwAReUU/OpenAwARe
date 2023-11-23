@@ -1,4 +1,5 @@
 using IngredientLists;
+using ObjectGeneration;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -35,7 +36,7 @@ public class Navigator : MonoBehaviour
 
     private void DropdownValueChanged(TMP_Dropdown dropdown)
     {
-        SceneSwitcher sceneSwitcher = new SceneSwitcher();
+        SceneSwitcher sceneSwitcher = SceneSwitcher.Get();
         switch (dropdown.value)
         {
             case 0:     // Go to ingredient/recipe manager
@@ -47,8 +48,9 @@ public class Navigator : MonoBehaviour
                 //FindObjectOfType<ObjectCreationManager>().AutoGenerateObjects(spawnDict);
                 sceneSwitcher.ChangeScene("ObjectGeneration");
                 break;
-            case 2:     // Clear world of generated objects
-                FindObjectOfType<ObjectCreationManager>().DestroyAllObjects();
+            case 2:
+                ObjectDestroyer objectDestroyer = new();
+                objectDestroyer.DestroyAllObjects();
                 break;
             case 3:     // Go to Questionaire / Diary?
                 sceneSwitcher.ChangeScene("QuestionnairePage");

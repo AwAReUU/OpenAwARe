@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/ObjectGeneration/PolygonHelper.cs.meta
+guid: 6659b043cd8018f4cbe7284b28abc30e
+========
 guid: c091d52f007ef994f9d240ec07bea729
+>>>>>>>> Dev/Sprint6:Assets/Scripts/ARScenePhaseManager.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

@@ -31,8 +31,8 @@ namespace Databases
                 new Ingredient(14,      "Pork",  null,  250),
                 new Ingredient(15,      "Duck",  null,  250),
                 new Ingredient(16,      "Milk", 1.04f, null),
-                new Ingredient(17, "Potato",     null,  100),
-                new Ingredient(18, "Beet",       null,  150)
+                new Ingredient(17,    "Potato",  null,  100),
+                new Ingredient(18,      "Beet",  null,  150)
             };
         }
 
