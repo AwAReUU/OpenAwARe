@@ -137,7 +137,7 @@ public class PolygonDrawer : MonoBehaviour
     /// <param name="isNegPolygon">Whether the polygon is negative</param>
     public void DrawPolygon(Polygon newPolygon, bool isNegPolygon = false)
     {
-        GameObject newLineObject = Instantiate(lineObject, gameObject.transform);
+        GameObject newLineObject = Instantiate(lineObject, transform);
         LineRenderer newLine = newLineObject.GetComponent<LineRenderer>();
         if(isNegPolygon)
         {

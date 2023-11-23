@@ -5259,7 +5259,8 @@ PrefabInstance:
       propertyPath: m_text
       value: Questionnaire
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -4052841940317771631, guid: 3aa768d437de079459fa489a47cdb48b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -10159,10 +10160,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1077541983}
-    - targetCorrespondingSourceObject: {fileID: 1004542446960334530, guid: 3aa768d437de079459fa489a47cdb48b,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1077541982}
   m_SourcePrefab: {fileID: 100100000, guid: 3aa768d437de079459fa489a47cdb48b, type: 3}
 --- !u!224 &1077541980 stripped
 RectTransform:
@@ -10176,18 +10173,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1077541979}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1077541982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077541981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87ef14362c0824f42b568ceadd71d6bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1077541983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10343,7 +10328,8 @@ PrefabInstance:
       propertyPath: m_text
       value: Load Room
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -4052841940317771631, guid: 3aa768d437de079459fa489a47cdb48b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -13927,7 +13913,8 @@ PrefabInstance:
       propertyPath: m_text
       value: Settings
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -4052841940317771631, guid: 3aa768d437de079459fa489a47cdb48b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -14160,7 +14147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51de02e0eb10a3a4ebf6c0b54aac3302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  polygonManager: {fileID: 0}
+  polygonManager: {fileID: 744273401}
   placeButton: {fileID: 1518352462}
 --- !u!114 &1535441704
 MonoBehaviour:
@@ -18642,7 +18629,6 @@ GameObject:
   - component: {fileID: 2711088048462286017}
   - component: {fileID: 8710277629913751403}
   - component: {fileID: 3343430421716377055}
-  - component: {fileID: 5170530096467392336}
   - component: {fileID: 216686533}
   - component: {fileID: 216686532}
   m_Layer: 5
@@ -18763,18 +18749,6 @@ MonoBehaviour:
           m_StringArgument: ing
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5170530096467392336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1004542447150500099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87ef14362c0824f42b568ceadd71d6bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7287409285982319293
 GameObject:
   m_ObjectHideFlags: 0
