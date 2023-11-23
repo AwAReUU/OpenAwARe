@@ -6,32 +6,32 @@ using UnityEngine.XR.ARFoundation.VisualScripting;
 public class PolygonDrawer : MonoBehaviour
 {
     [SerializeField] private PolygonManager polygonManager;
+    [SerializeField] private GameObject lineObject; // the object that is instantiated to create the lines
 
-    [SerializeField] private GameObject applyBtn;
-    [SerializeField] private GameObject pointerObj;
-
-
-    [SerializeField] private GameObject lineObject;
-    [SerializeField] private LineRenderer tempLine;
-    [SerializeField] private LineRenderer closeLine;
-
-    private LineRenderer line;
+    private LineRenderer tempLine; // the line from the last polygon point to the current pointer position
+    private LineRenderer closeLine; // the line from the current pointer position to the first polygon point
+    private LineRenderer line; // the line representing the polygon
 
     private Vector3 pointer = Vector3.zero;
 
-    // Start is called before the first frame update
     void Start()
     {
+        tempLine = Instantiate(lineObject, gameObject.transform).GetComponent<LineRenderer>();
+        SetLineColor(tempLine, Color.green);
+        closeLine = Instantiate(lineObject, gameObject.transform).GetComponent<LineRenderer>();
+        SetLineColor(closeLine, Color.green);
         line = lineObject.GetComponent<LineRenderer>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         UpdateCloseLine();
         UpdateTempLine();
     }
 
+    /// <summary>
+    /// Resets all lines
+    /// </summary>
     public void Reset()
     {
         pointer = Vector3.zero;
@@ -40,44 +40,49 @@ public class PolygonDrawer : MonoBehaviour
         closeLine.gameObject.SetActive(true);
     }
 
-    public void Apply()
-    {
-        UpdateLine(line, polygonManager.CurrentPolygon);
-        ClearScanningLines();
-    }
-
+    /// <summary>
+    /// Sets the pointer to the current position
+    /// </summary>
+    /// <param name="pointer"></param>
     public void SetPointer(Vector3 pointer)
     {
         this.pointer = pointer;
     }
 
+    /// <summary>
+    /// Draws the added point of the polygon
+    /// </summary>
     public void AddPoint()
     {
         Polygon polygon = polygonManager.CurrentPolygon;
         polygon.AddPoint(pointer);
-        pointerObj.SetActive(false);
 
         UpdateLine(line, polygon);
     }
 
-    public void RemoveLast()
-    {
-        Polygon polygon = polygonManager.CurrentPolygon;
-        polygon.RemoveLastPoint();
-        UpdateLine(line, polygon);
-    }
+    /// <summary>
+    /// Makes the objects of the scanning lines inactive
+    /// </summary>
     public void ClearScanningLines()
     {
         tempLine.gameObject.SetActive(false);
         closeLine.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Updates the line to match the given polygon
+    /// </summary>
+    /// <param name="line"></param>
+    /// <param name="polygon"></param>
     public void UpdateLine(LineRenderer line, Polygon polygon)
     {
         line.positionCount = polygon.AmountOfPoints();
         line.SetPositions(polygon.GetPoints());
     }
 
+    /// <summary>
+    /// Updates the line from the last polygon point to the current pointer position
+    /// </summary>
     private void UpdateTempLine()
     {
         Polygon polygon = polygonManager.CurrentPolygon;
@@ -90,10 +95,12 @@ public class PolygonDrawer : MonoBehaviour
         else
         {
             tempLine.positionCount = 0;
-            // this.tempLine.SetPositions(new Vector3[] { });
         }
     }
 
+    /// <summary>
+    /// Updates the line from the current pointer position to the first polygon point
+    /// </summary>
     private void UpdateCloseLine()
     {
         Polygon polygon = polygonManager.CurrentPolygon;
@@ -109,6 +116,11 @@ public class PolygonDrawer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Draws the positive polygon and all negative polygons
+    /// </summary>
+    /// <param name="posPolygon"></param>
+    /// <param name="negPolygons"></param>
     public void DrawAllPolygons(Polygon posPolygon, List<Polygon> negPolygons)
     {
         DrawPolygon(posPolygon);
@@ -118,17 +130,30 @@ public class PolygonDrawer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Instantiates a new line and uses it to draw the given polygon
+    /// </summary>
+    /// <param name="newPolygon">The polygon to draw</param>
+    /// <param name="isNegPolygon">Whether the polygon is negative</param>
     public void DrawPolygon(Polygon newPolygon, bool isNegPolygon = false)
     {
         GameObject newLineObject = Instantiate(lineObject, gameObject.transform);
         LineRenderer newLine = newLineObject.GetComponent<LineRenderer>();
         if(isNegPolygon)
         {
-            newLine.startColor = Color.red;
-            newLine.endColor = Color.red;
+            SetLineColor(newLine, Color.red);
         }
         newLine.loop = true;
-        //newPolygon.AddPoint(newPolygon.GetFirstPoint());
         UpdateLine(newLine, newPolygon);
+    }
+
+    /// <summary>
+    /// Sets the start and end color of a line
+    /// </summary>
+    /// <param name="line">The lineRenderer of which the color needs changing</param>
+    /// <param name="color">The color to change to</param>
+    private void SetLineColor(LineRenderer line, Color color)
+    {
+        line.startColor = line.endColor = color;
     }
 }

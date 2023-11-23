@@ -257,12 +257,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2860441}
   m_CullTransparentMesh: 1
---- !u!120 &18133703 stripped
-LineRenderer:
-  m_CorrespondingSourceObject: {fileID: 7613406942604140912, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
-    type: 3}
-  m_PrefabInstance: {fileID: 512199214}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &24330724
 GameObject:
   m_ObjectHideFlags: 0
@@ -3235,7 +3229,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 744273401}
         m_TargetAssemblyTypeName: PolygonManager, Assembly-CSharp
-        m_MethodName: ResetPolygon
+        m_MethodName: StartScanning
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4614,12 +4608,12 @@ PrefabInstance:
         type: 3}
       propertyPath: tempLine
       value: 
-      objectReference: {fileID: 2089200051}
+      objectReference: {fileID: 0}
     - target: {fileID: 2523054796051462468, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
         type: 3}
       propertyPath: closeLine
       value: 
-      objectReference: {fileID: 18133703}
+      objectReference: {fileID: 0}
     - target: {fileID: 2523054796051462468, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
         type: 3}
       propertyPath: lineObject
@@ -4646,7 +4640,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7447238413813914455, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd, type: 3}
+    - {fileID: 1130200987254680990, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd, type: 3}
@@ -10915,7 +10911,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 744273401}
         m_TargetAssemblyTypeName: PolygonManager, Assembly-CSharp
-        m_MethodName: ResetPolygon
+        m_MethodName: StartScanning
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18024,12 +18020,6 @@ RectTransform:
   m_AnchoredPosition: {x: 10, y: -757}
   m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!120 &2089200051 stripped
-LineRenderer:
-  m_CorrespondingSourceObject: {fileID: 6614461975305764114, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
-    type: 3}
-  m_PrefabInstance: {fileID: 512199214}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2095655366
 GameObject:
   m_ObjectHideFlags: 0
