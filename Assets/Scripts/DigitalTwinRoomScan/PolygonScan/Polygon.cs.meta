@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Scripts/DropDownHandlerMainUI.cs.meta
-guid: 4dcc55656579c37439e592eaeb63c581
-========
-guid: d0bfae1a6e3b8497596e34d4c99dc0d8
->>>>>>>> PolygonScanner:Assets/Scripts/DigitalTwinRoomScan/PolygonScan/Polygon.cs.meta
+guid: 352e3864ce906b1439d920a4846c2003
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
