@@ -9,6 +9,10 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.XR.MagicLeap;
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+/// Deprecated, old. some methods in here may be reusable, but this class should not be used ///
+////////////////////////////////////////////////////////////////////////////////////////////////
 public class StartState 
 {
     public PathData GetStartState(Polygon positive, List<Polygon> negatives)

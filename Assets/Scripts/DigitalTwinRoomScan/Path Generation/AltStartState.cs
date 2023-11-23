@@ -54,6 +54,10 @@ public class AltStartState
 
         FillGrid(ref grid, positiveGridLines, negativeGridLines);
 
+
+        //this is probably where to appy erosion
+
+
         //do the thinning until only a skeleton remains
         createGolayElements();
         bool thinning = true;
@@ -564,14 +568,18 @@ public class AltStartState
         return false;
     }
 
-    //create all the 'L Golay' structuring elements used for the thinning operation
+    /// <summary>
+    /// create all the 'L Golay' structuring elements used for the hit-or-miss part of the thinning operation
+    /// </summary>
     private void createGolayElements()
     {
         CreateFrontGolayElements();
         CreateBackGolayElements();
     }
 
-    //initialize the 'foreground' elements for the hit-or-miss operation
+    /// <summary>
+    ///initialize the 'foreground' elements for the hit-or-miss operation
+    /// </summary>
     private void CreateFrontGolayElements()
     {
         bool[,] elem1 = new bool[3, 3] { { false, false, false }, { false, true, false }, { true, true, true } };
@@ -592,7 +600,9 @@ public class AltStartState
         frontGolayElements.Add(elem8);
     }
 
-    //initialize the 'background' elements for the hit-or-miss operation
+    /// <summary>
+    /// initialize the 'background' elements for the hit-or-miss operation
+    /// </summary>
     private void CreateBackGolayElements()
     {
         bool[,] elem1 = new bool[3, 3] { { true, true, true }, { false, false, false }, { false, false, false } };
@@ -640,6 +650,14 @@ public class AltStartState
 
         return transformedPoint;
     }
+
+    private BranchingPathData SkeletonGridToPrePath()
+    {
+
+
+        //temp, fix error
+        return new();
+    }
 }
 
 //'thinning' method
@@ -660,4 +678,7 @@ public class AltStartState
 //tranformation from grid to polygon: move, then shrink / expand
 //how do shrink / expand? matrix transformation? this is a stretch transfrom with x = y parameters. unity has things for this
 
-//joep gaat bezig met de 2d bool array omzetten naar een pathdata
+//todo primary:
+//improve joeps path gen stuff
+//alter pathdata / path-in-between data (related to previous)
+//test things (unit tests, mock data)

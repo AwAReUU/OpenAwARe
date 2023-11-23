@@ -14,6 +14,8 @@ public static class BitmapToPath
             for (int y = 0; y < bitmap.GetLength(1); y++)
             {
                 var neighbours = new List<Vector2Int>();
+                //volgensmij is dit fout, hij kijkt nu niet om zich heen maar 'rechts onder' zich. offset van -1 is nodig,
+                //dus for loops aanpassen dat ze op -1 beginnen en tot 2 eindigen, if u==0 en v==0 aanpassen in de clause
                 for (int u = 0; u < 3; u++)
                 {
                     for (int v = 0; v < 3; v++)
@@ -33,6 +35,9 @@ public static class BitmapToPath
                 }
                 if (bitmap[x, y])
                 {
+                    //what does this to achieve?
+                    //i think this is supposed add something to the neighbour and also create a new entry
+                    //but i dont think thats how the method works
                     links.TryGetValue(new Vector2Int(x, y), out var list);
                     foreach (var nb in neighbours)
                     {
@@ -45,6 +50,9 @@ public static class BitmapToPath
         var path = new LinkedList<Vector2Int>();
         var stack = new Stack<Vector2Int>();
 
+        //this while loop will never be entered as no items are put into the stack before the loop
+        //i think this is supposed to construct the path but i dont think it is done very well?
+        //it does not seem to take into account how 'branches' or 'forks' of the path are filtered
         while (stack.Count != 0)
         {
             var insert = stack.Pop();
@@ -69,4 +77,6 @@ public static class BitmapToPath
 
         return path.ToList();
     }
+
+    //the idea here is good and can be reused, but i think the implementation has a few problems
 }
