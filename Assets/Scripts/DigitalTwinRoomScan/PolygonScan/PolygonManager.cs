@@ -36,7 +36,7 @@ public class PolygonManager : MonoBehaviour
 
         UIObjects = new()
         {
-            createBtn, resetBtn, confirmBtn, slider, applyBtn, pointerObj, scanner.gameObject, polygonMesh.gameObject
+            createBtn, resetBtn, confirmBtn, slider, applyBtn, endBtn, pointerObj, scanner.gameObject, polygonMesh.gameObject
         };
 
         SwitchToState(State.Default);
@@ -70,7 +70,7 @@ public class PolygonManager : MonoBehaviour
     public void Confirm()
     {
         // TODO: set room height
-        SwitchToState(State.Default);
+        SwitchToState(State.Saving);
     }
 
     // public void EndPolyScan()
@@ -111,7 +111,8 @@ public class PolygonManager : MonoBehaviour
     {
         Default,
         Scanning,
-        SettingHeight
+        SettingHeight,
+        Saving
     }
 
     List<GameObject> GetStateObjects(State state)
@@ -133,6 +134,11 @@ public class PolygonManager : MonoBehaviour
                 objects.Add(slider);
                 objects.Add(polygonMesh.gameObject);
                 break;
+            case State.Saving:
+                objects.Add(createBtn);
+                objects.Add(endBtn);
+                break;
+
         }
         return objects;
     }
