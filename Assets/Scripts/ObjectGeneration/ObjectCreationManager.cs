@@ -33,7 +33,7 @@ namespace ObjectGeneration
         /// <summary>
         /// Obtain the currently selected ingredientList from the DontDestroyOnload-GameObject.
         /// </summary>
-        /// <returns>Ingredientlist form the DontDestroyOnLoad-GameObject</returns>
+        /// <returns>IngredientList form the DontDestroyOnLoad-GameObject</returns>
         private IngredientList RetrieveIngredientlist() => Storage.Get().ActiveIngredientList;
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace ObjectGeneration
             //List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
 
             //Mock polygon:
-            List<Vector3> polygonPoints = PolygonHelper.GetMockPolygon();
+            List<Vector3> polygonPoints = polygonManager.GetPolygon().GetPointsList();
 
             PolygonSpawnPointHandler spawnPointHandler = new PolygonSpawnPointHandler(polygonPoints);
             List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints();

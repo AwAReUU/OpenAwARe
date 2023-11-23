@@ -120,7 +120,7 @@ public class PolygonDrawer : MonoBehaviour
 
     public void DrawPolygon(Polygon newPolygon, bool isNegPolygon = false)
     {
-        GameObject newLineObject = Instantiate(lineObject, gameObject.transform);
+        GameObject newLineObject = Instantiate(lineObject, transform);
         LineRenderer newLine = newLineObject.GetComponent<LineRenderer>();
         if(isNegPolygon)
         {
