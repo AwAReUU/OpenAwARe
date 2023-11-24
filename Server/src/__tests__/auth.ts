@@ -48,7 +48,16 @@ test("POST /auth/register", async () => {
     );
 });
 
-// 2) Test login
+// 2) Test login with wrong password
+test("POST /auth/login", async () => {
+  let body = {
+    email: "marvinfisher@outlook.com",
+    password: "54321test",
+  };
+  await api.post("/auth/login").send(body).expect(401);
+});
+
+// 3) Test login with correct password
 test("POST /auth/login", async () => {
   let body = {
     email: "marvinfisher@outlook.com",
@@ -64,7 +73,16 @@ test("POST /auth/login", async () => {
   accessToken = ret.body.accessToken;
 });
 
-// 3) Test refresh login
+// 4) Test refresh login with incorrect token
+test("POST /auth/refreshToken", async () => {
+  let body = {
+    email: "marvinfisher@outlook.com",
+    token: "abcdef",
+  };
+  await api.post("/auth/refreshToken").send(body).expect(400);
+});
+
+// 5) Test refresh login with correct token
 test("POST /auth/refreshToken", async () => {
   let body = {
     email: "marvinfisher@outlook.com",
@@ -79,13 +97,13 @@ test("POST /auth/refreshToken", async () => {
   accessToken = ret.body.accessToken;
 });
 
-// 4) Test check login
+// 6) Test check login
 test("POST /auth/check", async () => {
   let header = refreshToken + " " + accessToken;
   await api.get("/auth/check").set("authorization", header).expect(200);
 });
 
-// 5) Test logout
+// 7) Test logout
 test("DELETE /auth/logout", async () => {
   let body = {
     token: refreshToken,
@@ -93,7 +111,7 @@ test("DELETE /auth/logout", async () => {
   await api.delete("/auth/logout").send(body).expect(204);
 });
 
-// 6) Test login after logout
+// 8) Test login after logout
 // This should work fine! Only after the accessToken is expired, loggin in should be imposible.
 // Read the Security part of the Architecture Document for a detailed explenation.
 test("POST /auth/login", async () => {
@@ -108,7 +126,7 @@ test("POST /auth/login", async () => {
     .expect("Content-Type", /application\/json/);
 });
 
-// 7) Logout again for next test
+// 9) Logout again for next test
 test("DELETE /auth/logout", async () => {
   let body = {
     token: refreshToken,
@@ -116,7 +134,7 @@ test("DELETE /auth/logout", async () => {
   await api.delete("/auth/logout").send(body).expect(204);
 });
 
-// 8) Test refreshToken after logout
+// 10) Test refreshToken after logout
 // This should not work after logout.
 test("POST /auth/refreshToken", async () => {
   let body = {
