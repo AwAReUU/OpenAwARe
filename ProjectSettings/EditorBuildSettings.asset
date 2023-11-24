@@ -5,15 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/BlankAR.unity
-    guid: 6bdce89659816455b9f906fc62d19910
-  - enabled: 0
-    path: Assets/Scenes/QuestionnairePage.unity
-    guid: 3c37a3ca965cd9e42a8d5d39ebc0c08c
   - enabled: 1
-    path: Assets/Scenes/Room_Scan.unity
-    guid: 4e4d56d164d26fb429cf4e7264740ec6
+    path: Assets/Scenes/TO Scenes/ARScene.unity
+    guid: 1ca65f50de7ed884abe6b0f4310e5be6
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
       type: 2}

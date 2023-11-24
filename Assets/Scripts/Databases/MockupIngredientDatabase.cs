@@ -1,48 +1,94 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Xml.Linq;
+using IngredientLists;
 
-public class MockupIngredientDatabase : IIngredientDatabase
+namespace Databases
 {
-    Dictionary<int, Ingredient> database; // (ID , Ingredient)
-
-    public MockupIngredientDatabase()
+    public class MockupIngredientDatabase : IIngredientDatabase
     {
-        database = new()
+        readonly List<Ingredient> ingredientTable;
+
+        public MockupIngredientDatabase()
         {
-            { 0, new Ingredient(0,"banana"    , QuantityType.PCS, new Dictionary<int, float> { {4,1},{6,3}          })},
-            { 1, new Ingredient(1,"strawberry", QuantityType.G  , new Dictionary<int, float> { {5,1},{6,0.2f}          })},
-            { 2, new Ingredient(2,"cow"       , QuantityType.G  , new Dictionary<int, float> { {2,0.5f},{6,5}       })},
-            { 3, new Ingredient(3,"pig"       , QuantityType.G  , new Dictionary<int, float> { {2,1},{3,2}          })},
-            { 4, new Ingredient(4,"chicken"   , QuantityType.G  , new Dictionary<int, float> { {1,1},{6,0.2f}       })},
-            { 5, new Ingredient(5,"water"     , QuantityType.L  , new Dictionary<int, float> { {6,1}                })},
-            { 6, new Ingredient(6,"milk"      , QuantityType.L  , new Dictionary<int, float> { {0,2},{3,3},{5,0.4f} })}
-        };
-    }
-
-    public List<Ingredient> Search(string s)
-    {
-        //TODO
-        return null;
-    }
-
-    public Ingredient GetIngredient(int id)
-    {
-        return database[id];
-    }
-
-    public List<Ingredient> GetIngredients(List<int> ids)
-    {
-        List<Ingredient> ingredients = new();
-        foreach (int id in ids)
-        {
-            ingredients.Add(GetIngredient(id));
+            ingredientTable = new()
+            {
+                new Ingredient( 1,     "Water",  1.0f, null),
+                new Ingredient( 2,     "Apple",  null,  100),
+                new Ingredient( 3,    "Banana",  null,  200),
+                new Ingredient( 4,      "Pear",  null,  150),
+                new Ingredient( 5,  "Mandarin",  null,   60),
+                new Ingredient( 6,    "Orange",  null,  100),
+                new Ingredient( 7,     "Grape",  null,    8),
+                new Ingredient( 8,"Strawberry",  null,    7),
+                new Ingredient( 9,"Kiwi Fruit",  null,   60),
+                new Ingredient(10, "Pineapple",  null, 1000),
+                new Ingredient(11,     "Melon",  null, 1000),
+                new Ingredient(12,      "Beef",  null,  250),
+                new Ingredient(13,   "Chicken",  null,  250),
+                new Ingredient(14,      "Pork",  null,  250),
+                new Ingredient(15,      "Duck",  null,  250),
+                new Ingredient(16,      "Milk", 1.04f, null),
+                new Ingredient(17,    "Potato",  null,  100),
+                new Ingredient(18,      "Beet",  null,  150)
+            };
         }
-        return ingredients;
-    }
 
-    public Dictionary<int, float> GetMaterialIDs(Ingredient ingredient)
-    {
-        return ingredient.Materials;
+        private readonly List<(int, string)> SearchTable = new()
+        {
+            ( 1,         "Water"),
+            ( 2,         "Apple"), ( 2,     "Red Apple"), ( 2,   "Green Apple"), ( 2,    "Fuji Apple"), ( 2,  "Elstar Apple"), ( 2,     "Pink Lady"),
+            ( 3,        "Banana"),
+            ( 4,          "Pear"),
+            ( 5,      "Mandarin"), ( 5,       "Satsuma"),
+            ( 6,        "Orange"), ( 6,     "Tangerine"),
+            ( 7,         "Grape"), ( 7,     "Red Grape"), ( 7,   "White Grape"),
+            ( 8,    "Strawberry"),
+            ( 9,    "Kiwi Fruit"),
+            (10,     "Pineapple"), (10,        "Ananas"),
+            (11,         "Melon"), (11,    "Watermelon"),
+            (12,          "Beef"), (12,         "Steak"), (12,     "Hamburger"),
+            (13,       "Chicken"), (13,  "Chicken Legs"), (13, "Chicken Wings"), (13,    "Drumsticks"),
+            (14,          "Pork"), (14,         "Bacon"), (14,           "Ham"),
+            (15,          "Duck"),
+            (16,          "Milk"),
+            (17, "Potato"),
+            (18, "Beet")
+        };
+
+        public List<Ingredient> Search(string term)
+        {
+            IEnumerable<int> ids = (
+                from (int ID, string Name) s in SearchTable
+                // find the index of the search term in the possible name of the ingredient
+                let index = s.Name.IndexOf(term, System.StringComparison.OrdinalIgnoreCase)
+                // IndexOf returns -1 if not found, filter these out
+                where index > -1
+                // order by the index of the search term, then by name
+                orderby (index, s.Name)
+                select s.ID).Distinct();
+                
+
+            // get the ingredients with these found IDs
+            return GetIngredients(ids);
+        }
+
+        public Ingredient GetIngredient(int id)
+        {
+            // return the first ingredient that matches id, should be the only one since IDs are unique
+            return ingredientTable.First(x => x.ID == id);
+        }
+
+        public List<Ingredient> GetIngredients(IEnumerable<int> ids)
+        {
+            // perform an inner join of ingredient table and ids on ingredientID
+            IEnumerable<Ingredient> ingredients = 
+                from id in ids
+                join ingredient in ingredientTable on id equals ingredient.ID
+                select ingredient;
+            return ingredients.ToList();
+        }
     }
 }

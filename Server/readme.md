@@ -112,11 +112,43 @@ Ip adress: 131.211.32.146:8000
   </tr>
   </tr>
     <tr>
-    <td ><pre>/ingr/modelDimensions</pre></td>
+    <td ><pre>/ingr/getRequirements</pre></td>
+    <td ><b>GET</b></td>
+    <td > <b>body (json):</b> { id }</td>
+    <td > <b>json:</b> { [row] }</td>
+    <td > Get a list of all resources that the ingredient with the given ID requires </td>
+  </tr>
+  </tr>
+    <tr>
+    <td ><pre>/ingr/getResource</pre></td>
+    <td ><b>GET</b></td>
+    <td > <b>body (json):</b> { id }</td>
+    <td > <b>json:</b> { row }</td>
+    <td > Get a full row of the resource with this ID </td>
+  </tr>
+  </tr>
+    <tr>
+    <td ><pre>/ingr/getResourceList</pre></td>
     <td ><b>GET</b></td>
     <td > <b>body (json):</b> { [id] }</td>
     <td > <b>json:</b> { [row] }</td>
-    <td > Get the filepaths, widths, lengths and heights of all models with the IDs in the list </td>
+    <td > Get a full rows of the resources with the IDs in the list </td>
+  </tr>
+  </tr>
+    <tr>
+    <td ><pre>/ingr/getModel</pre></td>
+    <td ><b>GET</b></td>
+    <td > <b>body (json):</b> { id }</td>
+    <td > <b>json:</b> { row }</td>
+    <td > Get a full row of the model with this ID </td>
+  </tr>
+  </tr>
+    <tr>
+    <td ><pre>/ingr/getModelList</pre></td>
+    <td ><b>GET</b></td>
+    <td > <b>body (json):</b> { [id] }</td>
+    <td > <b>json:</b> { [row] }</td>
+    <td > Get a full rows of the models with the IDs in the list </td>
   </tr>
 </tbody>
 </table>

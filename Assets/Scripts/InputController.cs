@@ -11,13 +11,16 @@ using UnityEngine.UIElements;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch;
+using ObjectGeneration;
 
+// Kizi: I changed the ARplanemanager to accept a pointcloud manager for now instead to geenrate the pointcloud for the boundingbox
 public enum InputStates { All, Place, Interact }
-[RequireComponent(typeof(ARRaycastManager), typeof(ARPlaneManager))]
+[RequireComponent(typeof(ARRaycastManager), typeof(ARPointCloudManager))]
+
 public class InputController : MonoBehaviour
 {
     private ARRaycastManager aRRaycastManager;
-    private ARPlaneManager aRPlaneManager;
+    private ARPointCloudManager aRCloudManager;
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();
     private ObjectCreationManager objectCreationManager;
     private InteractObjectHandler interactObjectHandler;
@@ -37,7 +40,7 @@ public class InputController : MonoBehaviour
     private void Awake()
     {
         aRRaycastManager = GetComponent<ARRaycastManager>();
-        aRPlaneManager = GetComponent<ARPlaneManager>();
+        aRCloudManager = GetComponent<ARPointCloudManager>();
         objectCreationManager = GetComponent<ObjectCreationManager>();
         interactObjectHandler = GetComponent<InteractObjectHandler>();
         arCamera = FindObjectOfType<Camera>();
@@ -121,15 +124,15 @@ public class InputController : MonoBehaviour
         }
 
         //* Place new object in world
-        if (inputState == InputStates.Place || inputState == InputStates.All)
-        {
-            if (aRRaycastManager.Raycast(screenPoint, hits, TrackableType.PlaneWithinPolygon))
-            {
-                // foreach (ARRaycastHit hit in hits)
-                //     createObjectHandler.CreateObject(hit);
-                if (hits.Count > 0)
-                    objectCreationManager.TryPlaceObjectOnTouch(hits[0]);
-            }
-        }
+        //if (inputState == InputStates.Place || inputState == InputStates.All)
+        //{
+        //    if (aRRaycastManager.Raycast(screenPoint, hits, TrackableType.PlaneWithinPolygon))
+        //    {
+        //        // foreach (ARRaycastHit hit in hits)
+        //        //     createObjectHandler.CreateObject(hit);
+        //        if (hits.Count > 0)
+        //            objectCreationManager.TryPlaceObjectOnTouch(hits[0]);
+        //    }
+        //}
     }
 }

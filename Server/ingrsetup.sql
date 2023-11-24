@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS Ingredient(
 
 CREATE TABLE IF NOT EXISTS Search(
     IngredientID int NOT NULL,
-    PosName varchar(30) NOT NULL,
-    PRIMARY KEY (IngredientID, PosName),
+    AltName varchar(30) NOT NULL,
+    PRIMARY KEY (IngredientID, AltName),
     CONSTRAINT FK_siid FOREIGN KEY (IngredientID) REFERENCES Ingredient(IngredientID)
 );
 
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS Requires(
 );
 
 CREATE TABLE IF NOT EXISTS Resource(
-    ResourceID int NOT NULL,
+    ResourceID int NOT NULL UNIQUE,
     Name varchar(30),
     Type varchar(14) NOT NULL,
     GramsPerModel int,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS Resource(
 );
 
 CREATE TABLE IF NOT EXISTS Model(
-    ModelID int NOT NULL,
+    ModelID int NOT NULL UNIQUE,
     Type varchar(14) NOT NULL,
     PrefabPath varchar NOT NULL,
     RealLength int,
@@ -171,21 +171,3 @@ INSERT OR IGNORE INTO Requires VALUES (14, 17,   10);
 INSERT OR IGNORE INTO Requires VALUES (15, 17,   10);
 INSERT OR IGNORE INTO Requires VALUES (16, 17,   10);
 
-
--- leaving these old commands here for the distance fields etc.
--- INSERT OR IGNORE INTO  Plant VALUES ( 1, 'G',  100,  10000, 495, 1100, 1100);
--- INSERT OR IGNORE INTO  Plant VALUES ( 2, 'G',  200,  10000, 594, 3658, 3658);
--- INSERT OR IGNORE INTO  Plant VALUES ( 3, 'G',  150,  10000, 495,  600,  600);
--- INSERT OR IGNORE INTO  Plant VALUES ( 4, 'G',   60,   8000, 347, 3658, 3658);
--- INSERT OR IGNORE INTO  Plant VALUES ( 5, 'G',  100,  10000, 347, 3658, 3658);
--- INSERT OR IGNORE INTO  Plant VALUES ( 6, 'G',    8,   5000, 347, 1828, 2438);
--- INSERT OR IGNORE INTO  Plant VALUES ( 7, 'G',    7,    100, 495,  254,  254);
--- INSERT OR IGNORE INTO  Plant VALUES ( 8, 'G',   60,   1000, 495, 4572, 4572);
--- INSERT OR IGNORE INTO  Plant VALUES ( 9, 'G', 1000,   1000, 594,  300, 1500);
--- INSERT OR IGNORE INTO  Plant VALUES (10, 'G', 1000,   5000, 495,  900,  900);
-
--- INSERT OR IGNORE INTO Animal VALUES (11, 'G',  250, 200000, 100, 100);
--- INSERT OR IGNORE INTO Animal VALUES (12, 'G',  250,   2500, 100, 100);
--- INSERT OR IGNORE INTO Animal VALUES (13, 'G',  250,  50000, 100, 100);
--- INSERT OR IGNORE INTO Animal VALUES (14, 'G',  250,   2500, 100, 100);
--- INSERT OR IGNORE INTO Animal VALUES (15, 'L', NULL,   NULL, 100, 100);

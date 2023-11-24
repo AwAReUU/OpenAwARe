@@ -20,13 +20,12 @@ router.get("/search", async (req: any, res: any) => {
         x.*
         FROM Ingredient x
             JOIN
-            (SELECT DISTINCT IngredientID
-                FROM Search s
-                WHERE instr(lower(PosName), lower(?)) > 0
-                ORDER BY instr(lower(s.PosName), lower(?))  
-                LIMIT 10) y
-            ON x.IngredientID = y.IngredientID;`,
-    [query, query],
+            (SELECT DISTINCT IngredientID, instr(lower(AltName), lower(?)) AS Pos
+                FROM Search
+                WHERE Pos > 0) y
+            ON x.IngredientID = y.IngredientID
+            ORDER BY Pos, x.PrefName;`,
+    [query],
     async (error: any, rows: any) => {
       if (error) {
         console.error(error);
