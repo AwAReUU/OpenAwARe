@@ -44,7 +44,7 @@ namespace ObjectGeneration
         /// IngredientList to renderables, and the placement of the renderables in the scene.
         /// </summary>
         public void OnPlaceButtonClick()
-        {        
+        {
             SetSelectedList(RetrieveIngredientlist());
             PipelineManager pipelineManager = new();
             List<Renderable> renderables = pipelineManager.GetRenderableList(SelectedList);
@@ -100,6 +100,8 @@ namespace ObjectGeneration
         /// <param name="renderables">All items that we are going to place.</param>
         private void AutoGenerateObjects(List<Renderable> renderables)
         {
+            if (renderables.Count == 0)
+                return;
             //Polygon from scan:
             //GameObject polygon = polygonManager.GetPolygon();
             //List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
