@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class PathData
 {
-    public List<Vector3> points;
+    public List<(Vector3, Vector3)> edges;
     public float radius;
 }
 
@@ -42,7 +42,7 @@ public class BranchingPathData
     //for me (marco) todo:
     //update on git
     //convert bool array into branchingpathdata
-    //extend endpoint vector shoot to wall thingy
+    //extend endpoint vector shoot to wall thingy (from pathdata or from bool array? from pathdata)
     
     //addnode can (probably) be used to create / initialize branchingpathdata
 

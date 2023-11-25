@@ -1,7 +1,10 @@
 using System;
+using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -68,8 +71,199 @@ public class AltStartState
 
         //at this point, contains the skeleton path as a thin line of booleans
 
+        //do things here convert it to pathdata
+
+        //here we have a pathdata
+
+        //then here we extend pathdata endpoints
+        //ExtendEndPoints(generated pathdata variable name here);
+
         //temp, fix error
         return new PathData();
+    }
+
+    /// <summary>
+    /// extend the enpoints of the path to the walls
+    /// </summary>
+    /// <param name="path">the path from which the endpoints are extended</param>
+    /// <param name="positive">the positive polygon from which the path was made</param>
+    /// <param name="negatives">the list of negative polygons from which the path was made</param>
+    /// <param name="minConsideredPercentage">the percentage of the path from the endpoint to consider when determining the direction in which it should be extended</param>
+    /// <returns>new or altered path</returns>
+    private PathData ExtendEndPoints(PathData path, Polygon positive, List<Polygon> negatives, int minConsideredPercentage)
+    {
+        List<(Vector3, Vector3)> allWalls = GenerateLines(positive);
+        for(int i = 0; i < negatives.Count; i++)
+        {
+            allWalls.Concat(GenerateLines(negatives[i]));
+        }
+
+        List<Vector3> endpoints = new();
+        List<Vector3> junctions = new();
+        Dictionary<Vector3, int> pointFrequencies = new();
+
+        //count how often each point appears in the edges list
+        for(int i = 0; i < path.edges.Count; i++)
+        {
+            Vector3 point1 = path.edges[i].Item1;
+            Vector3 point2 = path.edges[i].Item2;
+
+            if (pointFrequencies.ContainsKey(point1)) pointFrequencies[point1]++;
+            else pointFrequencies.Add(point1, 1);
+            if (pointFrequencies.ContainsKey(point2)) pointFrequencies[point2]++;
+            else pointFrequencies.Add(point2, 1);
+        }
+        //each point that appears only once in the edges list is an endpoint that must potentially be extended
+        //each point that appears more than twice in the edges list is a junction
+        for(int i = 0; i < path.edges.Count; i++)
+        {
+            Vector3 point1 = path.edges[i].Item1;
+            Vector3 point2 = path.edges[i].Item2;
+
+            if (pointFrequencies[point1] == 1 && !endpoints.Contains(point1)) endpoints.Add(point1);
+            if (pointFrequencies[point2] == 1 && !endpoints.Contains(point2)) endpoints.Add(point2);
+
+            if (pointFrequencies[point1] > 2 && !junctions.Contains(point1)) junctions.Add(point1);
+            if (pointFrequencies[point2] > 2 && !junctions.Contains(point2)) junctions.Add(point2);
+        }
+
+        //make subpaths from the endpoints to the junctions. or if there are no junctions, to other endpoints
+        List<PathData> subpaths = new();
+        for(int i = 0; i < endpoints.Count; i++)
+        {
+
+            PathData subpath = new();
+            Vector3 currentpoint = endpoints[i];
+            //keep adding edges to the subpath until we reach a junction or there are no edges left to add
+            while(!junctions.Contains(currentpoint) || subpath.edges.Count == path.edges.Count)
+            {
+                //it should always find either 1 or 2 edges in the list, if it finds more than that, something went wrong with making junctions list
+                List<(Vector3, Vector3)> edgesfound = path.edges.FindAll(res => res.Item1 == currentpoint || res.Item1 == currentpoint);
+
+                //make sure to add the correct edge
+                if(!subpath.edges.Contains(edgesfound[0]))
+                {
+                    subpath.edges.Add(edgesfound[0]);
+                    if (currentpoint == edgesfound[0].Item1) currentpoint = edgesfound[0].Item2;
+                    else currentpoint = edgesfound[0].Item1;
+                }
+                else
+                {
+                    subpath.edges.Add(edgesfound[1]);
+                    if (currentpoint == edgesfound[1].Item1) currentpoint = edgesfound[1].Item2;
+                    else currentpoint = edgesfound[1].Item1;
+                }
+            }
+
+            subpaths.Add(subpath);
+        }
+
+        //do this for every endpoint and subpath, make into for loop
+        for(int i = 0; i < subpaths.Count(); i++)
+        {
+            //compute the totel length of the subpath
+            float totalpathlength = 0;
+            float[] edgelengths = new float[subpaths[i].edges.Count];
+            for(int j = 0; j < subpaths[i].edges.Count; j++)
+            {
+                //use pythagoras to add length of an edge to the total path length
+                float length = (float)Math.Sqrt(Math.Pow(subpaths[i].edges[j].Item2.x - subpaths[i].edges[j].Item1.x, 2) 
+                                              + Math.Pow(subpaths[i].edges[j].Item2.y - subpaths[i].edges[j].Item1.y, 2));
+                totalpathlength += length;
+                edgelengths[j] = length;
+            }
+
+            //compute how much length we are allowed to consider for the linear regression
+            float remaininglength = totalpathlength * minConsideredPercentage / 100;
+            List<Vector3> pathRegressionPoints = new();
+            //the edges are added to the subpaths' list of edges in order from endpoint first, so we do not have to worry about sorting the list here
+            int iterator = 0;
+            while(remaininglength > 0)
+            {
+                if (!pathRegressionPoints.Contains(subpaths[i].edges[iterator].Item1)) pathRegressionPoints.Add(subpaths[i].edges[iterator].Item1);
+                if (!pathRegressionPoints.Contains(subpaths[i].edges[iterator].Item2)) pathRegressionPoints.Add(subpaths[i].edges[iterator].Item2);
+                remaininglength -= edgelengths[iterator];
+                iterator++;
+            }
+            
+            //use linear regression to find intersections on the line we use to extend the path
+            List<Vector3> intersections = LinearRegressionIntersections(pathRegressionPoints, allWalls);
+
+            //find the closest intersection, as this is the wall that we need to extend to
+            Vector3 closest = intersections[0];
+            float closestDist = (float)Math.Sqrt(Math.Pow(intersections[0].x - endpoints[i].x, 2) + Math.Pow(intersections[0].y - endpoints[i].y, 2));
+            for(int j = 1; j < intersections.Count; j++)
+            {
+                //pythagoras again
+                float distance = (float)Math.Sqrt(Math.Pow(intersections[j].x - endpoints[i].x, 2) + Math.Pow(intersections[j].y - endpoints[i].y , 2));
+                if(distance < closestDist)
+                {
+                    closest = intersections[j];
+                    closestDist = distance;
+                }
+            }
+
+            //create and add the new edge that extends the enpoint to the wall
+            (Vector3, Vector3) newEdge = (endpoints[i], closest);
+            path.edges.Add(newEdge);
+        }
+
+        return path;
+    }
+
+    /// <summary>
+    /// use linear regression to find get a new line / ray which is the direction we wish to extend the path in.
+    /// then compute intersections with line segments (the polygon, walls) and return those
+    /// </summary>
+    /// <param name="pathpoints">the points to consider for linear regression</param>
+    /// <param name="walls">the walls to get intersections with</param>
+    /// <returns>a list of intersections with walls</returns>
+    private List<Vector3> LinearRegressionIntersections(List<Vector3> pathpoints, List<(Vector3, Vector3)> walls)
+    {
+        //various data that is needed to perform linear regression, the mathematical sum of various components of the sample:
+        //the sum of the x values, the y values, the x*y values, the X^2 values, the Y^2 values
+        double sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, sumY2 = 0;
+        int n = pathpoints.Count;
+
+        for(int i = 0; i < pathpoints.Count; i++)
+        {
+            sumX += pathpoints[i].x;
+            sumY += pathpoints[i].y;
+            sumXY += pathpoints[i].x * pathpoints[i].y;
+            sumX2 += pathpoints[i].x * pathpoints[i].x;
+            sumY2 += pathpoints[i].y * pathpoints[i].y;
+        }
+
+        //the 2 lines found by linear regression
+        //formula in the form y = m1 * x + b1
+        double m1 = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+        double b1 = (sumY - m1 * sumX) / n;
+        //formula in the form x = m2 * y + b2
+        double m2 = (n * sumXY - sumX * sumY) / (n * sumY2 - sumY * sumY);
+        double b2 = (sumX - m2 * sumY) / n;
+
+        //find the intersections of walls with a line that follows the average of the 2 lines found above
+        List<Vector3> intersections = new();
+        for(int i = 0; i < walls.Count; i++)
+        {
+            Vector3 point1 = walls[i].Item1;
+            Vector3 point2 = walls[i].Item2;
+            //construct the line of the wall segment in the form y = ax + b
+            double a = (point2.y - point1.y) / (point2.x - point1.x);
+            double b = point1.y + a * point1.x;
+
+            //calculate the intersection coordinates of the average 
+            double x = (2 * b - b1 + b2) / (m1 + (1 / m2) - 2 * a);
+            double y = a * x + b;
+
+            //check if the intersection point lies on the wall segment
+            if(x < Math.Min(point1.x, point2.x) || x > Math.Max(point1.x, point2.x) 
+            || y < Math.Min(point1.y, point2.y) || y > Math.Max(point1.y, point2.y)) { continue; }
+
+            intersections.Add(new Vector3((float)x, (float)y));
+        }
+
+        return intersections;
     }
 
     /// <summary>
