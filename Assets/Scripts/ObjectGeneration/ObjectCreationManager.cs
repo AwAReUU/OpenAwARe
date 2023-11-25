@@ -18,24 +18,27 @@ namespace ObjectGeneration
     /// </summary>
     public class ObjectCreationManager : MonoBehaviour
     {
+        /// <summary>
+        /// Used to communicate with the polygon.
+        /// </summary>
         [SerializeField] private PolygonManager polygonManager;
         [SerializeField] private GameObject placeButton;
 
         /// <value>
         /// <c>IngredientList</c> that we are going to render
         /// </value>
-        private IngredientList selectedList { get; set; }
+        private IngredientList SelectedList { get; set; }
 
         /// <summary>
         /// Set the current ingredientList.
         /// </summary>
         /// <param name="ingredientList"><c>IngredientList</c> that we are going to render</param>
-        public void SetSelectedList(IngredientList ingredientList) => selectedList = ingredientList;
+        public void SetSelectedList(IngredientList ingredientList) => SelectedList = ingredientList;
 
         /// <summary>
         /// Obtain the currently selected ingredientList from the DontDestroyOnload-GameObject.
         /// </summary>
-        /// <returns>IngredientList form the DontDestroyOnLoad-GameObject</returns>
+        /// <returns>The ingredient list that was selected by the user</returns>
         private IngredientList RetrieveIngredientlist() => Storage.Get().ActiveIngredientList;
 
         /// <summary>
@@ -46,7 +49,7 @@ namespace ObjectGeneration
         {        
             SetSelectedList(RetrieveIngredientlist());
             PipelineManager pipelineManager = new();
-            List<Renderable> renderables = pipelineManager.GetRenderableList(selectedList);
+            List<Renderable> renderables = pipelineManager.GetRenderableList(SelectedList);
 
             AutoGenerateObjects(renderables);
         }

@@ -57,15 +57,27 @@ namespace ObjectGeneration
         /// </summary>
         /// <returns>The quantity of the current Renderable.</returns>
         public int GetQuantity() => this.quantity;
+
+        /// <summary>
+        /// Return the halfExtents of the current Renderable.
+        /// </summary>
         public Vector3 GetHalfExtents() => this.halfExtents;
+
+        /// <summary>
+        /// Return the scaling of the current Renderable.
+        /// </summary>
         public float GetScaling() => this.scaling;
+
+        /// <summary>
+        /// Return the gameobject prefab of the current Renderable.
+        /// </summary>
         public GameObject GetPrefab() => this.prefab;
 
         /// <summary>
         /// For each unique object, find out the percentage of space it will need.
         /// </summary>
         /// <param name="renderables"></param>
-        /// <returns></returns>
+        /// <returns>the renderables list with surface ratios added</returns>
         public static List<Renderable> SetSurfaceRatios(List<Renderable> renderables)
         {
             //compute the sum of area of all gameObjects that will be spawned.
@@ -93,7 +105,7 @@ namespace ObjectGeneration
         /// </summary>
         /// <param name="renderable">Renderable to find the corners of.</param>
         /// <param name="position">The location in the global coordinate system.</param>
-        /// <returns></returns>
+        /// <returns>the 4 bottom corners of the colliders</returns>
         public static List<Vector3> CalculateColliderCorners(Renderable renderable, Vector3 position)
         {
             // Get the size of the BoxCollider
