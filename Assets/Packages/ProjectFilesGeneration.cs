@@ -10,8 +10,6 @@
  * Inspired by https://github.com/tertle/com.bovinelabs.analyzers/blob/master/BovineLabs.Analyzers/ProjectFilesGeneration.cs
  */
 
-#if UNITY_EDITOR
-
 using System;
 using System.IO;
 using System.Linq;
@@ -72,5 +70,3 @@ namespace AwARe.Packages
         }
     }
 }
-
-#endif
