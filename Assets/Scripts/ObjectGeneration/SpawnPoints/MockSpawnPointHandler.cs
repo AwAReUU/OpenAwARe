@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using RoomScan;
 
 namespace ObjectGeneration
 {
@@ -21,7 +22,7 @@ namespace ObjectGeneration
         /// Just return a hardcoded "fake plane" of spawnpoints
         /// </summary>
         /// <returns>List of all spawnpoints</returns>
-        public List<Vector3> GetValidSpawnPoints()
+        public List<Vector3> GetValidSpawnPoints(Room room)
         {
             List<Vector3> result = new List<Vector3>();
             float y = -0.87f;

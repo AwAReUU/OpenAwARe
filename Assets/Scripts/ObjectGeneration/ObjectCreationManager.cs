@@ -8,6 +8,8 @@ using UnityEngine;
 using IngredientLists;
 using IngredientPipeLine;
 
+using RoomScan;
+
 namespace ObjectGeneration
 {
     /// <summary>
@@ -59,7 +61,7 @@ namespace ObjectGeneration
         private bool TryPlaceObject(
             Renderable renderable,
             Vector3 position,
-            List<Vector3> polygonPoints)
+            Room room)
         {
             // Check if the box of the new object will overlap with any other colliders
             Vector3 boxCenter = position;
@@ -73,7 +75,7 @@ namespace ObjectGeneration
 
             // Check if the collider doesn't cross the polygon border
             List<Vector3> objectCorners = Renderable.CalculateColliderCorners(renderable, position);
-            if (!PolygonHelper.ObjectColliderInPolygon(objectCorners, polygonPoints))
+            if (!PolygonHelper.ObjectColliderInPolygon(objectCorners, room))
                 return false;
 
             // Adjust object size according to scalar
@@ -97,15 +99,8 @@ namespace ObjectGeneration
         /// <param name="renderables">All items that we are going to place.</param>
         private void AutoGenerateObjects(List<Renderable> renderables)
         {
-            //Polygon from scan:
-            //GameObject polygon = polygonManager.GetPolygon();
-            //List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
-
-            //Mock polygon:
-            List<Vector3> polygonPoints = polygonManager.GetPolygon().GetPointsList();
-
-            PolygonSpawnPointHandler spawnPointHandler = new PolygonSpawnPointHandler(polygonPoints);
-            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints();
+            PolygonSpawnPointHandler spawnPointHandler = new PolygonSpawnPointHandler();
+            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(polygonManager.Room);
 
             foreach (var renderable in renderables) //prefab iterator
             {
@@ -126,7 +121,7 @@ namespace ObjectGeneration
                         ref prefabStacks,
                         availableSurfaceArea,
                         ref currentRatioUsage,
-                        polygonPoints);
+                        polygonManager.Room);
             }
         }
 
@@ -156,14 +151,14 @@ namespace ObjectGeneration
             ref Dictionary<Vector3, float> objStacks,
             float availableSurfaceArea,
             ref float currentRatioUsage,
-            List<Vector3> polygonPoints)
+            Room room)
         {
             for (int i = 0; i < validSpawnPoints.Count; i++) //spawn iterator
             {
                 float ratioUsage = renderable.GetHalfExtents().x * renderable.GetHalfExtents().z * 4 / availableSurfaceArea;
                 if (currentRatioUsage + ratioUsage < renderable.allowedSurfaceUsage)
                 {
-                    bool hasPlaced = TryPlaceObject(renderable, validSpawnPoints[i], polygonPoints);
+                    bool hasPlaced = TryPlaceObject(renderable, validSpawnPoints[i], room);
                     if (hasPlaced)
                     {
                         float height = validSpawnPoints[i].y + 2 * renderable.GetHalfExtents().y;
@@ -174,7 +169,7 @@ namespace ObjectGeneration
                 }
             }
             //If the program reaches here, it ran out of available "ground space", and will need to stack.
-            TryStack(renderable, ref objStacks, polygonPoints);
+            TryStack(renderable, ref objStacks, room);
         }
 
         /// <summary>
@@ -188,7 +183,7 @@ namespace ObjectGeneration
         private bool TryStack(
             Renderable renderable,
             ref Dictionary<Vector3, float> objStacks,
-            List<Vector3> polygonPoints)
+            Room room)
         {
             while (objStacks.Keys.ToList().Count > 0)
             {
@@ -223,7 +218,7 @@ namespace ObjectGeneration
                 //Step 3: Test placement on new spot, check for collisions.
                 Vector3 newPos = smallestStackPos;
                 newPos.y = stackHeight;
-                bool hasPlaced = TryPlaceObject(renderable, newPos, polygonPoints);
+                bool hasPlaced = TryPlaceObject(renderable, newPos, room);
                 if (hasPlaced)
                 {
                     objStacks[smallestStackPos] = newHeight;
@@ -310,17 +305,16 @@ namespace ObjectGeneration
         }
 
         //debug method for displaying spawnlocations in scene.
-        //void OnDrawGizmos()
-        //{
-        //    GameObject polygon = polygonManager.GetPolygon();
-        //    List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
+        void OnDrawGizmos()
+        {
+            Room room = polygonManager.Room;
 
-        //    PolygonSpawnPointHandler spawnPointHandler = new(polygonPoints);
-        //    List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints();
+            PolygonSpawnPointHandler spawnPointHandler = new();
+            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room);
 
-        //    Gizmos.color = Color.red;
-        //    foreach (var p in validSpawnPoints)
-        //        Gizmos.DrawSphere(p, 0.05f);
-        //}
+            Gizmos.color = Color.red;
+            foreach (var p in validSpawnPoints)
+                Gizmos.DrawSphere(p, 0.05f);
+        }
     }
 }

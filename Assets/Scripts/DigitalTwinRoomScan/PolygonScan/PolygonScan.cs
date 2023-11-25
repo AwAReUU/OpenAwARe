@@ -1,52 +1,54 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using Unity.VisualScripting;
-using Unity.XR.CoreUtils;
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
-using UnityEngine.XR.ARFoundation;
 
-public class PolygonScan : MonoBehaviour
+namespace RoomScan
 {
-    [SerializeField] private GameObject pointer;
-    [SerializeField] private PolygonDrawer polygonDrawer;
-
-    public void Update()
+    public class PolygonScan : MonoBehaviour
     {
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-        Physics.Raycast(ray, out RaycastHit hitData);
+        [SerializeField] private GameObject pointer;
+        [SerializeField] private PolygonDrawer polygonDrawer;
 
-        if (hitData.transform != null && hitData.transform.gameObject.name.Contains("ARPlane") &&
-                (hitData.normal - Vector3.up).magnitude < 0.05f)
+        public void Update()
         {
-            // Check if hitpoint is on a horizontal ar plane.
-            pointer.transform.position = hitData.point;
+            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+            Physics.Raycast(ray, out RaycastHit hitData);
 
-            polygonDrawer.SetPointer(pointer.transform.position);
-        }
-        else
-        {
-            // Check if plane and ray are not parrallel.
-            if (ray.direction.y != 0)
+            if (hitData.transform != null && hitData.transform.gameObject.name.Contains("ARPlane") &&
+                    (hitData.normal - Vector3.up).magnitude < 0.05f)
             {
-                float l = (-1.5f - ray.origin.y) / ray.direction.y;
-                // Check if ray is not reversed
-                if (l > 0f)
-                {
-                    pointer.transform.position = ray.origin + ray.direction * l;
+                // Check if hitpoint is on a horizontal ar plane.
+                pointer.transform.position = hitData.point;
 
-                    polygonDrawer.SetPointer(pointer.transform.position);
+                polygonDrawer.SetPointer(pointer.transform.position);
+            }
+            else
+            {
+                // Check if plane and ray are not parrallel.
+                if (ray.direction.y != 0)
+                {
+                    float l = (-1.5f - ray.origin.y) / ray.direction.y;
+                    // Check if ray is not reversed
+                    if (l > 0f)
+                    {
+                        pointer.transform.position = ray.origin + ray.direction * l;
+
+                        polygonDrawer.SetPointer(pointer.transform.position);
+                    }
                 }
+            }
+
+
+            if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
+            {
+                polygonDrawer.AddPoint();
             }
         }
 
-
-        if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
-        {
-            polygonDrawer.AddPoint();
-        }
     }
-
 }
