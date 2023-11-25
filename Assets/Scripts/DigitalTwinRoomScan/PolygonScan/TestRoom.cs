@@ -1,11 +1,23 @@
-using System.Collections;
+//*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace RoomScan
 {
+    /// <summary>
+    /// A room filled with pre-defined polygons.
+    /// </summary>
     public class TestRoom : Room
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestRoom"/> class.
+        /// </summary>
         public TestRoom()
         {
             List<Vector3> posPoints = new()
