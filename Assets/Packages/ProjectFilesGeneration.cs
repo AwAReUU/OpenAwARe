@@ -6,66 +6,79 @@
 // \*                                                                                       */
 
 /*
- * TODO: rewrite comment and naming
  * Inspired by https://github.com/tertle/com.bovinelabs.analyzers/blob/master/BovineLabs.Analyzers/ProjectFilesGeneration.cs
  */
 
 #if UNITY_EDITOR
 
-using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using UnityEditor;
 
 namespace AwARe.Packages
 {
+    /// <summary>
+    /// Responsible for adding additional files and other elements to the project file each time Unity updates it.
+    /// For example, the StyleCop settings file is added by this class.
+    /// </summary>
     [InitializeOnLoad]
     public class ProjectFilesGeneration : AssetPostprocessor
     {
         static ProjectFilesGeneration() { }
 
+        /// <summary>
+        /// Runs just after new CSProject file is generated.
+        /// </summary>
+        /// <param name="path">Filepath of the csproj file.</param>
+        /// <param name="contents">Content of the csproj file.</param>
+        /// <returns>The content written to the Writer used.</returns>
         private static string OnGeneratedCSProject(string path, string contents)
         {
-            XDocument xml = XDocument.Parse(contents);
+            // Set file path to additional assembly file
+            string relPath_plus = @"Assets\Packages\AdditionalAssembly.xml";
+            string rootFolder = Directory.GetCurrentDirectory();
+            string path_plus = Path.Combine(rootFolder, relPath_plus);
 
-            UpgradeProjectFile(xml);
+            // Load and parse csproj file (contents) and additional assembly file
+            XDocument doc = XDocument.Parse(contents);
+            XDocument doc_plus = XDocument.Load(path_plus);
+            
+            // Upgrade the csproj content with the additional assembly content
+            UpgradeProjectFile(doc, doc_plus, relPath_plus);
 
-            // Write to the csproj file:
+            // Write new csproj content to the csproj file:
             using Utf8StringWriter str = new();
-            xml.Save(str);
+            doc.Save(str);
             return str.ToString();
         }
 
         /// <summary>
-        ///   Add All extra files to assembly.
+        /// Add all additional elements of the additional assembly file to the csproj project element.
         /// </summary>
-        /// <param name="doc"></param>
-        private static void UpgradeProjectFile(XDocument doc)
+        /// <param name="doc">Content of the csproj file.</param>
+        /// <param name="doc_plus">Content of the additional assembly file.</param>
+        /// <param name="path_plus">File path of the additional assembly file.</param>
+        private static void UpgradeProjectFile(XDocument doc, XDocument doc_plus, string path_plus)
         {
-            XElement projectContentElement = doc.Root;
-            if (projectContentElement == null)
+            // Cop out if project element of additional elements group is missing
+            XElement content = doc.Root;
+            XElement content_plus = doc_plus.Root;
+            if (content == null || content_plus == null)
                 return;
 
-            XNamespace xmlns = projectContentElement.Name.NamespaceName; // do not use var
-            SetJSON(projectContentElement, xmlns);
+            // Add comment before additional elements
+            string comment = "Additional elements loaded from: " + path_plus;
+            content.Add(new XComment(comment));
+
+            // Add each additional element to the project
+            foreach (XElement element in content_plus.Elements())
+                content.Add(element);
         }
 
         /// <summary>
-        ///  Add stylecop.json to csproj.
+        /// Helper class for overwriting csproj file.
         /// </summary>
-        private static void SetJSON(XElement projectContentElement, XNamespace xmlns)
-        {
-            var file = @"Assets\Packages\StyleCop\stylecop.json";
-
-            var itemGroup = new XElement(xmlns + "ItemGroup");
-            var reference = new XElement(xmlns + "AdditionalFiles");
-            reference.Add(new XAttribute("Include", file));
-            itemGroup.Add(reference);
-            projectContentElement.Add(itemGroup);
-        }
-
         private class Utf8StringWriter : StringWriter
         {
             public override Encoding Encoding => Encoding.UTF8;
