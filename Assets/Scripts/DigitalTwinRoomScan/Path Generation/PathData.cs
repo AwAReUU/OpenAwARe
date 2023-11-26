@@ -7,17 +7,25 @@ using UnityEngine;
 public class PathData
 {
     public List<Vector3> points;
-    public List<int> edges;
+    public List<(Vector3, Vector3)> edges;
 
     public float radius;
 
-    public IEnumerable<Tuple<Vector3, Vector3>> Segments()
-    {
-        for (int i = 0; i < edges.Count; i += 2)
-        {
-            yield return new Tuple<Vector3, Vector3>(points[edges[i]], points[edges[i + 1]]);
-        }
-    }
+    // i have altered the edges list so that is is basically this, but also cleaner.
+    // public IEnumerable<(Vector3, Vector3)> Segments()
+    // {
+    //     // //old
+    //     // for (int i = 0; i < edges.Count; i += 2)
+    //     // {
+    //     //     yield return new Tuple<Vector3, Vector3>(points[edges[i]], points[edges[i + 1]]);
+    //     // }
+
+    //     //new
+    //     for(int i = 0; i < edges.Count; i++)
+    //     {
+    //         yield return edges[i];
+    //     }
+    // }
 
     public Mesh CreateMesh(int numSegments)
     {
@@ -28,12 +36,19 @@ public class PathData
         {
             Mesh circle = CircleMesh(points[i], this.radius, numSegments);
             mesh = CombineMeshes(mesh, circle);
-
         }
 
-        for (int i = 0; i < edges.Count; i += 2)
+        // //old
+        // for (int i = 0; i < edges.Count; i += 2)
+        // {
+        //     Mesh segment = this.SegmentMesh(points[edges[i]], points[edges[i + 1]], this.radius);
+        //     mesh = CombineMeshes(mesh, segment);
+        // }
+
+        //new
+        for(int i = 0; i < edges.Count; i++)
         {
-            Mesh segment = this.SegmentMesh(points[edges[i]], points[edges[i + 1]], this.radius);
+            Mesh segment = this.SegmentMesh(edges[i].Item1, edges[i].Item2, this.radius);
             mesh = CombineMeshes(mesh, segment);
         }
 

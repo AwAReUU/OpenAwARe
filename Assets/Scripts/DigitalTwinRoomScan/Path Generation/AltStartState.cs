@@ -72,6 +72,7 @@ public class AltStartState
         //at this point, contains the skeleton path as a thin line of booleans
 
         //do things here convert it to pathdata
+        //make sure to fill both edges and points list
 
         //here we have a pathdata
 

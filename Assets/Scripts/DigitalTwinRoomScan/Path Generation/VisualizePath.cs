@@ -35,7 +35,8 @@ public class VisualizePath : MonoBehaviour
         pathMesh.transform.parent = this.transform;
 
         // Create path lines 
-        foreach (var points in pathData.Segments())
+        //foreach (var points in pathData.Segments()) //old
+        foreach(var points in pathData.edges)         //new
         {
             var segment = new GameObject("PathSegment");
             var line = segment.AddComponent(typeof(LineRenderer)) as LineRenderer;
