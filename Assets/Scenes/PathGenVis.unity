@@ -384,67 +384,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1468014345174919496, guid: 9801c3443a8c94c53bd08d953e7ed7ac,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 9e48ae4daffe10f459359185f95835fe, type: 2}
-    - target: {fileID: 1468014345174919496, guid: 9801c3443a8c94c53bd08d953e7ed7ac,
-        type: 3}
-      propertyPath: m_Parameters.widthMultiplier
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 2724244337188844453, guid: 9801c3443a8c94c53bd08d953e7ed7ac,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: -462981019419857548, guid: 65eb02bed9b334403a108aa99a283202,
-        type: 3}
     - target: {fileID: 3362950275096232928, guid: 9801c3443a8c94c53bd08d953e7ed7ac,
         type: 3}
       propertyPath: m_Name
       value: PathVisualiser
-      objectReference: {fileID: 0}
-    - target: {fileID: 6773528945495692883, guid: 9801c3443a8c94c53bd08d953e7ed7ac,
-        type: 3}
-      propertyPath: radius
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6773528945495692883, guid: 9801c3443a8c94c53bd08d953e7ed7ac,
-        type: 3}
-      propertyPath: numSegments
-      value: 32
-      objectReference: {fileID: 0}
-    - target: {fileID: 6773528945495692883, guid: 9801c3443a8c94c53bd08d953e7ed7ac,
-        type: 3}
-      propertyPath: polygonMesh
-      value: 
-      objectReference: {fileID: -462981019419857548, guid: cc5937c02dc5345d7a8b257d47dac2c2,
-        type: 3}
-    - target: {fileID: 8030314212747557803, guid: 9801c3443a8c94c53bd08d953e7ed7ac,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8249724443403430816, guid: 9801c3443a8c94c53bd08d953e7ed7ac,
-        type: 3}
-      propertyPath: m_CastShadows
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8249724443403430816, guid: 9801c3443a8c94c53bd08d953e7ed7ac,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 39e65939e019548c5a13fcef3927ac38, type: 2}
-    - target: {fileID: 8854174552010142150, guid: 9801c3443a8c94c53bd08d953e7ed7ac,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 36177d644ee75d54eb969aa638671804, type: 2}
-    - target: {fileID: 8854174552010142150, guid: 9801c3443a8c94c53bd08d953e7ed7ac,
-        type: 3}
-      propertyPath: m_Parameters.widthMultiplier
-      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
