@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,10 @@ namespace IngredientLists
         [SerializeField] private IngredientListManager ingredientListManager;
         [SerializeField] private Transform scrollViewContent;
         [SerializeField] private GameObject listItemObject; //list item 'prefab'
+        private int clickCount = 0;
+        private Dictionary<GameObject, Button> checkButtonsDictionary = new Dictionary<GameObject, Button>();
+        private Button selectedCheckButton;
+        private Button selectedBorderButton;
 
         // the objects drawn on screen to display the Lists
         List<GameObject> listObjects = new();
@@ -45,18 +50,29 @@ namespace IngredientLists
                 listItem.SetActive(true);
 
                 // change the text to match the list info
-                Button delButton = listItem.transform.GetChild(1).GetComponent<Button>();
-                Button listButton = listItem.transform.GetChild(0).GetComponent<Button>();
+                Button delButton = listItem.transform.GetChild(4).GetComponent<Button>();
+                Button listButton = listItem.transform.GetChild(2).GetComponent<Button>();
+                Button checkButton = listItem.transform.GetChild(0).GetComponent<Button>();
+                Button editButton = listItem.transform.GetChild(3).GetComponent<Button>();
+                Button borderButton = listItem.transform.GetChild(1).GetComponent<Button>();
+                // checkbutton is first grey
+                checkButton.GetComponent<Image>().color = Color.gray;
+
+
+                checkButtonsDictionary.Add(listItem, checkButton);
+
                 listButton.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text =
                     ingredientList.ListName;
                 listButton.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text =
                     ingredientList.NumberOfIngredients().ToString();
+                
 
                 listObjects.Add(listItem);
 
                 // store i in an int for pass-by value to the lambda expression
-                listButton.onClick.AddListener(() => { OnListButtonClick(ingredientList); });
+                editButton.onClick.AddListener(() => { OnListButtonClick(ingredientList); });
                 delButton.onClick.AddListener(() => { OnDeleteButtonClick(ingredientList); });
+                checkButton.onClick.AddListener(() => { OnCheckButtonClick(checkButton, borderButton); });
             }
         }
 
@@ -79,6 +95,12 @@ namespace IngredientLists
         {
             ingredientListManager.CreateList();
             DisplayLists();
+        }
+
+        public void ChangeColor(Button btn,Color colr)
+        {
+            btn.GetComponent<Image>().color = colr;
+
         }
 
         /// <summary>
@@ -104,5 +126,24 @@ namespace IngredientLists
         {
             //TODO: Open main menu
         }
+
+        public void OnCheckButtonClick(Button btn1, Button btn2)
+        {
+            // Toggle the color of btn1 and the visibility of btn2
+            ChangeColor(btn1, btn1.GetComponent<Image>().color == Color.gray ? Color.green : Color.gray);
+            btn2.gameObject.SetActive(!btn2.gameObject.activeSelf);
+
+            // Deactivate the previously selected check button and its corresponding border button
+            if (selectedCheckButton != null && selectedCheckButton != btn1)
+            {
+                ChangeColor(selectedCheckButton, Color.gray);
+                selectedBorderButton.gameObject.SetActive(false);
+            }
+
+            // Update the currently selected list item
+            selectedCheckButton = btn1;
+            selectedBorderButton = btn2;
+        }
     }
 }
+    
