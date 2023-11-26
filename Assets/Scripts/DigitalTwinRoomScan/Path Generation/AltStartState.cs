@@ -48,7 +48,7 @@ public class AltStartState
             negativeLines.Add(negativeLinesPart);
 
             List<((int, int), (int, int))> negativeGridLinesPart = new();
-            for(int j = 0; j < negativeLinesPart.Count; j++)
+            for (int j = 0; j < negativeLinesPart.Count; j++)
             {
                 negativeGridLinesPart.Add((ToGridSpace(negativeLinesPart[j].Item1), ToGridSpace(negativeLinesPart[j].Item2)));
             }
@@ -62,6 +62,7 @@ public class AltStartState
 
 
         //do the thinning until only a skeleton remains
+        //note: testing in an external duplicate to easily visualize the grid found that this takes a notable bit of time (~approx 15 seconds)
         createGolayElements();
         bool thinning = true;
         while(thinning)
@@ -73,12 +74,12 @@ public class AltStartState
 
         List<(int, int)> prePathDataPoints = new();
         List<((int, int), (int, int))> prePathDataEdges = new();
-        for(int i = 0; i < grid.GetLength(0); i++)
+        for (int i = 0; i < grid.GetLength(0); i++)
         {
-            for(int j = 0; j < grid.GetLength(1); j++)
+            for (int j = 0; j < grid.GetLength(1); j++)
             {
                 bool gridpoint = grid[i, j];
-                if(gridpoint)
+                if (gridpoint)
                 {
                     prePathDataPoints.Add((i, j));
 
@@ -86,7 +87,7 @@ public class AltStartState
                     //we compute in this pattern to prevent adding duplicate edges
 
                     //look right
-                    if(!(i + 1 > grid.GetLength(0) - 1))
+                    if (!(i + 1 > grid.GetLength(0) - 1))
                     {
                         if (grid[i + 1, j]) prePathDataEdges.Add(((i, j), (i + 1, j)));
                     }
@@ -117,12 +118,12 @@ public class AltStartState
         List<Vector3> pathDataPoints = new();
         List<(Vector3, Vector3)> pathDataEdges = new();
 
-        for(int i = 0; i < prePathDataPoints.Count; i++)
+        for (int i = 0; i < prePathDataPoints.Count; i++)
         {
             pathDataPoints.Add(ToPolygonSpace(prePathDataPoints[i]));
         }
 
-        for(int i = 0; i < prePathDataEdges.Count; i++)
+        for (int i = 0; i < prePathDataEdges.Count; i++)
         {
             pathDataEdges.Add((ToPolygonSpace(prePathDataEdges[i].Item1), ToPolygonSpace(prePathDataEdges[i].Item2)));
         }
@@ -148,7 +149,7 @@ public class AltStartState
     private PathData ExtendEndPoints(PathData path, Polygon positive, List<Polygon> negatives, int minConsideredPercentage)
     {
         List<(Vector3, Vector3)> allWalls = GenerateLines(positive);
-        for(int i = 0; i < negatives.Count; i++)
+        for (int i = 0; i < negatives.Count; i++)
         {
             allWalls.Concat(GenerateLines(negatives[i]));
         }
@@ -158,7 +159,7 @@ public class AltStartState
         Dictionary<Vector3, int> pointFrequencies = new();
 
         //count how often each point appears in the edges list
-        for(int i = 0; i < path.edges.Count; i++)
+        for (int i = 0; i < path.edges.Count; i++)
         {
             Vector3 point1 = path.edges[i].Item1;
             Vector3 point2 = path.edges[i].Item2;
@@ -170,7 +171,7 @@ public class AltStartState
         }
         //each point that appears only once in the edges list is an endpoint that must potentially be extended
         //each point that appears more than twice in the edges list is a junction
-        for(int i = 0; i < path.edges.Count; i++)
+        for (int i = 0; i < path.edges.Count; i++)
         {
             Vector3 point1 = path.edges[i].Item1;
             Vector3 point2 = path.edges[i].Item2;
@@ -184,19 +185,19 @@ public class AltStartState
 
         //make subpaths from the endpoints to the junctions. or if there are no junctions, to other endpoints
         List<PathData> subpaths = new();
-        for(int i = 0; i < endpoints.Count; i++)
+        for (int i = 0; i < endpoints.Count; i++)
         {
 
             PathData subpath = new();
             Vector3 currentpoint = endpoints[i];
             //keep adding edges to the subpath until we reach a junction or there are no edges left to add
-            while(!junctions.Contains(currentpoint) || subpath.edges.Count == path.edges.Count)
+            while (!junctions.Contains(currentpoint) || subpath.edges.Count == path.edges.Count)
             {
                 //it should always find either 1 or 2 edges in the list, if it finds more than that, something went wrong with making junctions list
                 List<(Vector3, Vector3)> edgesfound = path.edges.FindAll(res => res.Item1 == currentpoint || res.Item1 == currentpoint);
 
                 //make sure to add the correct edge
-                if(!subpath.edges.Contains(edgesfound[0]))
+                if (!subpath.edges.Contains(edgesfound[0]))
                 {
                     subpath.edges.Add(edgesfound[0]);
                     if (currentpoint == edgesfound[0].Item1) currentpoint = edgesfound[0].Item2;
@@ -214,12 +215,12 @@ public class AltStartState
         }
 
         //do this for every endpoint and subpath, make into for loop
-        for(int i = 0; i < subpaths.Count(); i++)
+        for (int i = 0; i < subpaths.Count(); i++)
         {
             //compute the totel length of the subpath
             float totalpathlength = 0;
             float[] edgelengths = new float[subpaths[i].edges.Count];
-            for(int j = 0; j < subpaths[i].edges.Count; j++)
+            for (int j = 0; j < subpaths[i].edges.Count; j++)
             {
                 //use pythagoras to add length of an edge to the total path length
                 float length = (float)Math.Sqrt(Math.Pow(subpaths[i].edges[j].Item2.x - subpaths[i].edges[j].Item1.x, 2) 
@@ -233,7 +234,7 @@ public class AltStartState
             List<Vector3> pathRegressionPoints = new();
             //the edges are added to the subpaths' list of edges in order from endpoint first, so we do not have to worry about sorting the list here
             int iterator = 0;
-            while(remaininglength > 0)
+            while (remaininglength > 0)
             {
                 if (!pathRegressionPoints.Contains(subpaths[i].edges[iterator].Item1)) pathRegressionPoints.Add(subpaths[i].edges[iterator].Item1);
                 if (!pathRegressionPoints.Contains(subpaths[i].edges[iterator].Item2)) pathRegressionPoints.Add(subpaths[i].edges[iterator].Item2);
@@ -247,7 +248,7 @@ public class AltStartState
             //find the closest intersection, as this is the wall that we need to extend to
             Vector3 closest = intersections[0];
             float closestDist = (float)Math.Sqrt(Math.Pow(intersections[0].x - endpoints[i].x, 2) + Math.Pow(intersections[0].y - endpoints[i].y, 2));
-            for(int j = 1; j < intersections.Count; j++)
+            for (int j = 1; j < intersections.Count; j++)
             {
                 //pythagoras again
                 float distance = (float)Math.Sqrt(Math.Pow(intersections[j].x - endpoints[i].x, 2) + Math.Pow(intersections[j].y - endpoints[i].y , 2));
@@ -280,7 +281,7 @@ public class AltStartState
         double sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, sumY2 = 0;
         int n = pathpoints.Count;
 
-        for(int i = 0; i < pathpoints.Count; i++)
+        for (int i = 0; i < pathpoints.Count; i++)
         {
             sumX += pathpoints[i].x;
             sumY += pathpoints[i].y;
@@ -299,7 +300,7 @@ public class AltStartState
 
         //find the intersections of walls with a line that follows the average of the 2 lines found above
         List<Vector3> intersections = new();
-        for(int i = 0; i < walls.Count; i++)
+        for (int i = 0; i < walls.Count; i++)
         {
             Vector3 point1 = walls[i].Item1;
             Vector3 point2 = walls[i].Item2;
@@ -371,23 +372,23 @@ public class AltStartState
 
         //desired size: ~500 in the longest dimension
         int longestside = 500;
-        if(xDiff > yDiff)
+        if (xDiff > yDiff)
         {
             xlength = longestside;
             ylength = (int)Math.Ceiling(longestside * (yDiff / xDiff));
-            scalefactor = xDiff / xlength;
+            scalefactor = xlength / xDiff;
         }
         else
         {
             ylength = longestside;
             xlength = (int)Math.Ceiling(longestside * (xDiff / yDiff));
-            scalefactor = yDiff / ylength;
+            scalefactor = ylength / yDiff;
         }
 
         //the direction to move in to get from the polygon space to the grid space; addition.
         movetransform = ((-minX) * scalefactor, (-minY) * scalefactor);
 
-        return new bool[xlength,ylength];
+        return new bool[xlength + 1, ylength + 1];
     }
 
     /// <summary>
@@ -399,15 +400,15 @@ public class AltStartState
     private void FillGrid(ref bool[,] grid, List<((int, int), (int, int))> positiveLines, List<List<((int, int), (int, int))>> negativeLines)
     {
         //draw the lines for the positive polygon
-        for(int i = 0; i < positiveLines.Count; i++)
+        for (int i = 0; i < positiveLines.Count; i++)
         {
             DrawLine(ref grid, positiveLines[i]);
         }
 
         //draw the lines for all the negative polygons
-        for(int i = 0; i < negativeLines.Count; i++)
+        for (int i = 0; i < negativeLines.Count; i++)
         {
-            for(int j = 0; j < negativeLines[i].Count; j++)
+            for (int j = 0; j < negativeLines[i].Count; j++)
             {
                 DrawLine(ref grid, negativeLines[i][j]);
             }
@@ -421,7 +422,7 @@ public class AltStartState
         //construct 'center of mass' of positive polygon. we fire a ray in this direction to determine if the point we wish
         //to begin the floodfill from is a valid point
         (int x, int y) avgPositivePoint = (0, 0);
-        for(int i = 0; i < positiveLines.Count; i++)
+        for (int i = 0; i < positiveLines.Count; i++)
         {
             (int x, int y) point = positiveLines[i].Item1;
             avgPositivePoint.x += point.x;
@@ -433,7 +434,7 @@ public class AltStartState
         //are likely to find a valid point.
         bool foundValidPoint = false;
         (int x, int y) foundPoint = (0, 0);
-        for(int i = 0; i < positiveLines.Count; i++)
+        for (int i = 0; i < positiveLines.Count; i++)
         {
             if (foundValidPoint) break;
 
@@ -441,7 +442,7 @@ public class AltStartState
             (int x, int y) originPoint = positiveLines[i].Item1;
 
             //double for loop with x and y is to consider the 8-neighbourhood of the point as origin points.
-            for(int x = -1; x < 2; x++)
+            for (int x = -1; x < 2; x++)
             {
                 if (foundValidPoint) break;
 
@@ -464,7 +465,7 @@ public class AltStartState
 
                     //check if the current point is in a negative polygon. if it is, consider a different point
                     bool inNegative = false;
-                    for(int j = 0; j < negativeLines.Count; j++)
+                    for (int j = 0; j < negativeLines.Count; j++)
                     {
                         //compute the 'center mass' of the current negative polygon
                         (int x, int y) avgNegativePoint = (0, 0);
@@ -485,7 +486,7 @@ public class AltStartState
                     }
 
                     //if all the above checks pass, we have found a valid point
-                    if(!inNegative)
+                    if (!inNegative)
                     {
                         foundValidPoint = true;
                         foundPoint = consideredPoint;
@@ -495,13 +496,25 @@ public class AltStartState
             }
         }
 
+        //TODO FOR BUG FIX
+        //IMPROVE FLOODFILL STARTPOINT FINDING
+        //startpoint is not found right, this causes a game-breaking bug, bugs are bad
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////here//////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         //potentially put a secondary, less efficient method that is guarranteed to find a valid start point (if it exists)
 
         if (foundValidPoint)
         {
             FloodArea(ref grid, foundPoint);
         }
-        else Debug.Log("could not find a valid point to start the floodfill from");
+        else
+        {
+            Debug.Log("could not find a valid point to start the floodfill from. Have you implemented secondary floodfill startpoint finding yet?");
+        } 
     }
 
     //check if a point (rayOrigin) is in a given polygon (list of lines) by counting the number of intersection the ray has with the polygon
@@ -625,7 +638,7 @@ public class AltStartState
     /// <summary>
     /// draw a line of 'true' values between 2 points on a given grid of booleans
     /// </summary>
-    /// <param name="grid">grid of booleans to draw the line one</param>
+    /// <param name="grid">grid of booleans to draw the line on</param>
     /// <param name="linepoints"> line to draw. points are coordinates in the grid </param>
     private void DrawLine(ref bool[,] grid, ((int, int), (int, int)) linepoints)
     {
@@ -713,8 +726,8 @@ public class AltStartState
         if (pos.x - 1 > 0 && pos.x - 1 < width && pos.y > 0 && pos.y < height)
             queue.Enqueue((pos.x - 1, pos.y));
         //enqueue top
-        if (pos.x > 0 && pos.x < width && pos.y + 1 > 0 && pos.y + 1 < height)
-            queue.Enqueue((pos.x, pos.y + 1));
+        if (pos.x > 0 && pos.x < width && pos.y - 1 > 0 && pos.y - 1 < height)
+            queue.Enqueue((pos.x, pos.y - 1));
     }
 
     /// <summary>
@@ -780,36 +793,44 @@ public class AltStartState
 
                 for(int b = 0; b < frontElement.GetLength(0); b++)
                 {
+                    //if frontelement is true, the grid element at this position must also be true for it to be a hit
+                    //if frontelement is false the grid element at this position may be true or false
+                    // if backelement is true, the grid element at this position must be false for it to be a hit
+                    // if backelement is false the grid element at this position may be true or false
+
                     //the position falls outside of the grid and is treated as if the grid there is false
-                    if(x - offset + a < 0 || x - offset + a > grid.GetLength(0) || 
-                       y - offset + b < 0 || y - offset + b > grid.GetLength(1))
+                    if(x - offset + a < 0 || x - offset + a > grid.GetLength(0) - 1 || 
+                       y - offset + b < 0 || y - offset + b > grid.GetLength(1) - 1)
                     {
-                        //if frontelement is true, the grid element at this position must also be true for it to be a hit
-                        //if frontelement is false the grid element at this position may be true or false
+                        //the frontelement check
                         if(frontElement[a, b])
                         {
                             hit = false;
                             break;
                         }
 
-                        //if backelement is true, the grid element at this position must be false for it to be a hit
-                        //if backelement is false the grid element at this position may be true or false
                         //since this place falls outside of the grid and is considered false, it always falls in the background element
+                        //thus we do not need to perform the background element check, since it will always succeed
                     }
-
-                    bool posValue = grid[x - offset + a, y - offset + b];
-
-                    if(frontElement[a, b] && !posValue)
+                    else
                     {
-                        hit = false;
-                        break;
+                        bool posValue = grid[x - offset + a, y - offset + b];
+
+                        //the front element check
+                        if(frontElement[a, b] && !posValue)
+                        {
+                            hit = false;
+                            break;
+                        }
+
+                        //the back element check
+                        if(backElement[a, b] && posValue)
+                        {
+                            hit = false;
+                            break;
+                        }
                     }
 
-                    if(backElement[a, b] && posValue)
-                    {
-                        hit = false;
-                        break;
-                    }
                 }
             }
             if (hit) return true;
