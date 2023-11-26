@@ -74,5 +74,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-# Keep SQL out
+# Keep unwanted Assets out
 /[Aa]ssets/[Pp]lugins/SQLite4Unity3d/
