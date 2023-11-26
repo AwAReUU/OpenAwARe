@@ -71,16 +71,70 @@ public class AltStartState
 
         //at this point, contains the skeleton path as a thin line of booleans
 
-        //do things here convert it to pathdata
-        //make sure to fill both edges and points list
+        List<(int, int)> prePathDataPoints = new();
+        List<((int, int), (int, int))> prePathDataEdges = new();
+        for(int i = 0; i < grid.GetLength(0); i++)
+        {
+            for(int j = 0; j < grid.GetLength(1); j++)
+            {
+                bool gridpoint = grid[i, j];
+                if(gridpoint)
+                {
+                    prePathDataPoints.Add((i, j));
 
-        //here we have a pathdata
+                    //compute edges to the left, to the bottom -left, -middle and -right squares.
+                    //we compute in this pattern to prevent adding duplicate edges
+
+                    //look right
+                    if(!(i + 1 > grid.GetLength(0) - 1))
+                    {
+                        if (grid[i + 1, j]) prePathDataEdges.Add(((i, j), (i + 1, j)));
+                    }
+
+                    //look bottom-left
+                    if (!(i - 1 < 0 || i - 1 > grid.GetLength(0) - 1 || j + 1 > grid.GetLength(1) - 1))
+                    {
+                        if (grid[i - 1, j + 1]) prePathDataEdges.Add(((i, j), (i - 1, j + 1)));
+                    }
+
+                    //look bottom-middle
+                    if (!(j + 1 > grid.GetLength(1) - 1))
+                    {
+                        if (grid[i, j + 1]) prePathDataEdges.Add(((i, j), (i, j + 1)));
+                    }
+
+                    //look bottom-right
+                    if (!(i + 1 > grid.GetLength(0) - 1 || j + 1 > grid.GetLength(1) - 1))
+                    {
+                        if (grid[i + 1, j + 1]) prePathDataEdges.Add(((i, j), (i + 1, j + 1)));
+                    }
+
+                }
+            }
+        }
+      
+        //convert to polygon space
+        List<Vector3> pathDataPoints = new();
+        List<(Vector3, Vector3)> pathDataEdges = new();
+
+        for(int i = 0; i < prePathDataPoints.Count; i++)
+        {
+            pathDataPoints.Add(ToPolygonSpace(prePathDataPoints[i]));
+        }
+
+        for(int i = 0; i < prePathDataEdges.Count; i++)
+        {
+            pathDataEdges.Add((ToPolygonSpace(prePathDataEdges[i].Item1), ToPolygonSpace(prePathDataEdges[i].Item2)));
+        }
+
+        PathData path = new();
+        path.points = pathDataPoints;
+        path.edges = pathDataEdges;
 
         //then here we extend pathdata endpoints
-        //ExtendEndPoints(generated pathdata variable name here);
+        path = ExtendEndPoints(path, positive, negatives, 10);
 
-        //temp, fix error
-        return new PathData();
+        return path;
     }
 
     /// <summary>
@@ -845,35 +899,7 @@ public class AltStartState
 
         return transformedPoint;
     }
-
-    private BranchingPathData SkeletonGridToPrePath()
-    {
-
-
-        //temp, fix error
-        return new();
-    }
 }
 
-//'thinning' method
-//potentially use from BV assignments:
-//drawline method, see 'Assignment 3'
-//floodfill method, see 'Assignment 2'
-//maybe convolve image? for hit/miss transform with thinning
-//ideas:
-//first, create a grid with a certain 'resolution'
-//tranform the polygons such that their points are the same relative to each other, but they also fit in the grid for the drawline method
-//create the grid properly with drawline and floodfill
-//apply thinning with the 'Golay' structuring elements found in BV slides
-//find the path by tracing the thinning residue. potentially make in-between 'node' structure
-//convert the node structure back into a regular path structure (or maybe not, discuss with Joep)
-//transform the path back into 'polygon-space'
-
-//transformation from polygon to grid: polygon: shrink / expand, then move
-//tranformation from grid to polygon: move, then shrink / expand
-//how do shrink / expand? matrix transformation? this is a stretch transfrom with x = y parameters. unity has things for this
-
 //todo primary:
-//improve joeps path gen stuff
-//alter pathdata / path-in-between data (related to previous)
 //test things (unit tests, mock data)
