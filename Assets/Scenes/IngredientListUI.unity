@@ -5979,8 +5979,7 @@ MonoBehaviour:
   saveButton: {fileID: 9030336949489622071, guid: 2435a6a553707404caf64f46b0300d9f,
     type: 3}
   scrollViewContent: {fileID: 247363387}
-  loadListButton: {fileID: 3580337050611761355, guid: 32c2afea339fa0e4d88f5f6fb426ccc6,
-    type: 3}
+  loadListButton: {fileID: 1216686891}
 --- !u!1 &1110935857
 GameObject:
   m_ObjectHideFlags: 0
@@ -8313,6 +8312,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274040169774230440, guid: 2435a6a553707404caf64f46b0300d9f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274040169774230440, guid: 2435a6a553707404caf64f46b0300d9f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274040169774230440, guid: 2435a6a553707404caf64f46b0300d9f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1103772986}
+    - target: {fileID: 7274040169774230440, guid: 2435a6a553707404caf64f46b0300d9f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274040169774230440, guid: 2435a6a553707404caf64f46b0300d9f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSaveButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274040169774230440, guid: 2435a6a553707404caf64f46b0300d9f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: IngredientLists.IngredientListScreen, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274040169774230440, guid: 2435a6a553707404caf64f46b0300d9f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 9030336949489622071, guid: 2435a6a553707404caf64f46b0300d9f,
         type: 3}

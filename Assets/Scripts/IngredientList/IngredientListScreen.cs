@@ -139,7 +139,7 @@ namespace IngredientLists
         /// <summary>
         /// Calls an instance of IngredientListManager to close the IngredientListScreen and go back to the ListsOverviewScreen.
         /// </summary>
-        private void OnSaveButtonClick()
+        public void OnSaveButtonClick()
         {
             ingredientListManager.ChangeToListsOverviewScreen(true);
         }
