@@ -18,6 +18,11 @@ $ npm install
 $ npm run dev
 ```
 
+## Debugging
+
+For testing purposes, you can disable the login authorization for protected routes
+by setting the `VALIDATION` environment variable to "FALSE".
+
 ## Connect
 
 Ip adress: 131.211.32.146:8000

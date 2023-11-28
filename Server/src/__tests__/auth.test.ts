@@ -1,24 +1,10 @@
-import supertest from "supertest";
-import dotenv from "dotenv";
-
-import app from "../app";
 import Database from "../database";
+import { api } from "./setup";
 
 // ----------------------------------------------------------------------------
 
-const api = supertest(app);
-
 let refreshToken: string;
 let accessToken: string;
-
-beforeAll(() => {
-  dotenv.config();
-  Database.testing = true;
-});
-
-afterAll(() => {
-  Database.getInstance().delete();
-});
 
 // 1) Test registering an account
 test("POST /auth/register", async () => {
@@ -100,7 +86,7 @@ test("POST /auth/refreshToken", async () => {
 // 6) Test check login
 test("POST /auth/check", async () => {
   let header = refreshToken + " " + accessToken;
-  await api.get("/auth/check").set("authorization", header).expect(200);
+  await api.get("/auth/check").set("authorization", header).send().expect(200);
 });
 
 // 7) Test logout

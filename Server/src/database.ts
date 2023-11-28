@@ -36,8 +36,6 @@ export default class Database {
                 // Cannot open database
                 console.error(err.message);
                 throw err;
-            } else {
-                console.log("Connected to the user SQLite database.");
             }
         });
 
@@ -46,8 +44,6 @@ export default class Database {
                 // Cannot open database
                 console.error(err.message);
                 throw err;
-            } else {
-                console.log("Connected to the ingredient SQLite database.");
             }
         });
 

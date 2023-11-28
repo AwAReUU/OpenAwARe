@@ -155,6 +155,10 @@ function generateRefreshToken(email: string): string {
 export type ValidatedRequest = Request & { email: string };
 
 export function validateToken(req: Request, res: Response, next: any) {
+  if (process.env.VALIDATION == "FALSE") {
+    return next();
+  }
+
   const header = req.headers["authorization"];
   if (!header) {
     res.status(400).send("Authorization header is missing");
@@ -163,7 +167,7 @@ export function validateToken(req: Request, res: Response, next: any) {
 
   const token = header.split(" ")[1];
 
-  if (token == null) res.sendStatus(400).send("Invalid access token");
+  if (token == null) res.sendStatus(401).send("Invalid access token");
 
   jwt.verify(
     token,
