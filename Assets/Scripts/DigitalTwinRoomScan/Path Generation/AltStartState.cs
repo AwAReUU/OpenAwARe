@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -63,6 +64,15 @@ public class AltStartState
 
         //do the thinning until only a skeleton remains
         //note: testing in an external duplicate to easily visualize the grid found that this takes a notable bit of time (~approx 15 seconds)
+        //current thinning gives wacky lines to corners
+        //these lines seem perfectly normal for the expected output of the algorithm
+        //but they are somehwat undesired
+        //potential solutions:
+        //1: just leave them. they're not THAT bad
+        //2: before thinning (and after initial erosion) apply erosion again until something dissapears
+        //   then do thinning with the state it was right before the thing disappears
+        //3: wacky ray-shoot / line detection elimination. probably the most robust if implemented, but hardest / most time consuming to implement
+        //4: 
         createGolayElements();
         bool thinning = true;
         while(thinning)
@@ -418,94 +428,33 @@ public class AltStartState
         //we need to fill this outline
 
         //floodfill from a position in the positive polygon, but outside negative polygons
-
-        //construct 'center of mass' of positive polygon. we fire a ray in this direction to determine if the point we wish
-        //to begin the floodfill from is a valid point
-        (int x, int y) avgPositivePoint = (0, 0);
-        for (int i = 0; i < positiveLines.Count; i++)
-        {
-            (int x, int y) point = positiveLines[i].Item1;
-            avgPositivePoint.x += point.x;
-            avgPositivePoint.y += point.y;
-        }
-        avgPositivePoint = (avgPositivePoint.x / positiveLines.Count, avgPositivePoint.y / positiveLines.Count);
-
-        //find a valid point. We consider the 8-neighbourhood of each cornerpoint of the positive polygon as these
-        //are likely to find a valid point.
         bool foundValidPoint = false;
         (int x, int y) foundPoint = (0, 0);
-        for (int i = 0; i < positiveLines.Count; i++)
+
+        for(int x = 0; x < grid.GetLength(0); x++)
         {
             if (foundValidPoint) break;
 
-            //the point from which to grab the 8-neighbourhood
-            (int x, int y) originPoint = positiveLines[i].Item1;
-
-            //double for loop with x and y is to consider the 8-neighbourhood of the point as origin points.
-            for (int x = -1; x < 2; x++)
+            for(int y = 0; y < grid.GetLength(1); y++)
             {
-                if (foundValidPoint) break;
+                //we cannot begin a floodfill from a point that is true
+                if (grid[x, y]) continue;
 
-                for (int y = -1; y < 2; y++)
+                //check if current point is in positive polygon. if not, continue
+                if (!CheckInPolygon(positiveLines, (x, y))) continue;
+
+                //check if current point is in a negative polygon. if yes, continue
+                for(int i = 0; i < negativeLines.Count; i++)
                 {
-                    if (foundValidPoint) break;
-
-                    //the point we are currently considering
-                    (int x, int y) consideredPoint = (originPoint.x + x, originPoint.y + y);
-
-                    //if the current point in consideration lies in an invalid place, consider a different point
-                    if (consideredPoint.x < 0 || consideredPoint.x > grid.GetLength(0) ||
-                        consideredPoint.y < 0 || consideredPoint.y > grid.GetLength(1) || (x == 0 && y == 0)) continue;
-
-                    //check if the current point is in the positive polygon. if not, consider a different point
-                    if (!CheckInPolygon(positiveLines, consideredPoint, avgPositivePoint))
-                    {
-                        continue;
-                    }
-
-                    //check if the current point is in a negative polygon. if it is, consider a different point
-                    bool inNegative = false;
-                    for (int j = 0; j < negativeLines.Count; j++)
-                    {
-                        //compute the 'center mass' of the current negative polygon
-                        (int x, int y) avgNegativePoint = (0, 0);
-                        for (int z = 0; z < negativeLines[j].Count; z++)
-                        {
-                            (int x, int y) point = negativeLines[j][z].Item1;
-                            avgNegativePoint.x += point.x;
-                            avgNegativePoint.y += point.y;
-                        }
-                        avgNegativePoint = (avgNegativePoint.x / negativeLines[j].Count, avgNegativePoint.y / negativeLines[j].Count);
-
-                        //check if the origin is in the current negative polygon
-                        if (CheckInPolygon(negativeLines[j], consideredPoint, avgNegativePoint))
-                        {
-                            inNegative = true;
-                            break;
-                        }
-                    }
-
-                    //if all the above checks pass, we have found a valid point
-                    if (!inNegative)
-                    {
-                        foundValidPoint = true;
-                        foundPoint = consideredPoint;
-                        break;
-                    }
+                    if (CheckInPolygon(negativeLines[i], (x, y))) continue;
                 }
+
+                //if the loop makes it past all of the above checks, we have found a valid point
+                foundValidPoint = true;
+                foundPoint = (x, y);
+                break;
             }
         }
-
-        //TODO FOR BUG FIX
-        //IMPROVE FLOODFILL STARTPOINT FINDING
-        //startpoint is not found right, this causes a game-breaking bug, bugs are bad
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////here//////////////////////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        //potentially put a secondary, less efficient method that is guarranteed to find a valid start point (if it exists)
 
         if (foundValidPoint)
         {
@@ -513,126 +462,65 @@ public class AltStartState
         }
         else
         {
-            Debug.Log("could not find a valid point to start the floodfill from. Have you implemented secondary floodfill startpoint finding yet?");
+            Debug.Log("could not find a valid point to start the floodfill from. Likely the positive polygon is entirely occluded by one or more negative polygons");
         } 
     }
 
-    //check if a point (rayOrigin) is in a given polygon (list of lines) by counting the number of intersection the ray has with the polygon
-
     /// <summary>
-    /// check if a point is in a polygon (represented as a list of lines) by counting the number of intersections
-    /// a ray shot from the point to the destination has with the lines.
+    /// check if a point is in a polygon (represented as a list of lines)
+    /// done by shooting a ray to the right from the point and counting the number of intersections with polygon edges
     /// </summary>
     /// <param name="lines">list of lines that make up the polygon</param>
     /// <param name="point">point to check if it is inside the polygon</param>
-    /// <param name="rayDestination">direction to shoot the ray in from the point. in most cases, you want this to be the center of the polygon</param>
     /// <returns>true if the point lies inside the polygon, false otherwise</returns>
-    private bool CheckInPolygon(List<((int, int), (int, int))> lines, (int x, int y) point, (int x, int y) rayDestination)
+    private bool CheckInPolygon(List<((int x, int y) p1, (int x, int y) p2)> polygonwalls, (int x, int y) point)
     {
-        (Vector3, Vector3) ray = (new Vector3(point.x, point.y), new Vector3(rayDestination.x, rayDestination.y));
+        List<(double x, double y)> intersections = new();
 
-        int intersections = 0;
-        for (int j = 0; j < lines.Count; j++)
+        for(int i = 0; i < polygonwalls.Count; i++)
         {
-            bool intersects;
-            Vector3 lineStart = new Vector3(lines[j].Item1.Item1, lines[j].Item1.Item2);
-            Vector3 lineEnd = new Vector3(lines[j].Item2.Item1, lines[j].Item2.Item2);
+            double intersecty = point.y;
+            double intersectx;
 
-            //use mode 2 as we shoot a ray out of a point, looking for intersections with finite line segments
-            _ = IntersectionPoint(ray.Item1, ray.Item2, lineStart, lineEnd, out intersects, 2);
-            if (intersects) intersections++;
+            double divider = polygonwalls[i].p2.x - polygonwalls[i].p1.x;
+            if (divider == 0)
+            {
+                intersectx = polygonwalls[i].p2.x;
+            }
+            else
+            {
+                double a = (polygonwalls[i].p2.y - polygonwalls[i].p1.y) / divider;
+                //if a is 0, the ray and the wall are parallel and they dont intersect
+                if (a == 0) continue;
+                double b = polygonwalls[i].p1.x * a + polygonwalls[i].p1.y;
+                intersectx = (point.y - b) / a;
+            }
+            //check that the intersection point lies on the ray we shot, continue if it doesn't
+            if (intersectx < point.x) continue;
+
+            //check that the intersection point lies on the wall, continue if it doesn't
+            if (intersectx < Math.Min(polygonwalls[i].p1.x, polygonwalls[i].p2.x) || intersectx > Math.Max(polygonwalls[i].p1.x, polygonwalls[i].p2.x)
+             || intersecty < Math.Min(polygonwalls[i].p1.y, polygonwalls[i].p2.y) || intersecty > Math.Max(polygonwalls[i].p1.y, polygonwalls[i].p2.y)) { continue; }
+
+            //if the intersection point is the exact endpoint of a wall, this causes problems. cancel the whole operation
+            //we cannot be sure if it lies inside or outside the polygon
+            if ((intersectx, intersecty) == polygonwalls[i].p1 || (intersectx, intersecty) == polygonwalls[i].p2)
+            {
+                return false;
+            }
+
+            //add this intersection to the list if it is a new one
+            if (!intersections.Contains((intersectx, intersecty)))
+            {
+                intersections.Add((intersectx, intersecty));
+            }
         }
 
-        //if the number of intersections is even, the origin point is outside of the polygon
-        if (intersections % 2 == 0)
+        if(intersections.Count % 2 == 0)
         {
             return false;
         }
-
-        return true;
-    }
-
-    /// <summary>
-    /// Calculate the intersection point of 2 lines or rays
-    /// </summary>
-    /// <param name="l1p1">line 1 point 1</param>
-    /// <param name="l1p2">line 1 point 2</param>
-    /// <param name="l2p1">line 2 point 1</param>
-    /// <param name="l2p2">line 2 point 2</param>
-    /// <param name="intersects"> returned bool that determines if the lines intersect. </param>
-    /// <param name="mode"> the mode of the method, defaults to 0.
-    /// in mode 0, both lines provided are treated as finite lines in both directions
-    /// in mode 1, line 1 is treated as finite in both directions but line 2 is treated as infinite in both directions
-    /// in mode 2, line 1 is infinite in the direction of point 2, but finite in the direction of point 1. line 1 is finite in both directions
-    /// in mode 3, both lines are  infinite in the direction of point 2, but finite in the direction of point 1.
-    /// in mode 4, both lines are  infinite in both directions.
-    /// </param>
-    /// <returns> point of intersection </returns>
-    private Vector3 IntersectionPoint(Vector3 l1p1, Vector3 l1p2, Vector3 l2p1, Vector3 l2p2, out bool intersects, byte mode = 0)
-    {
-        double dx1 = l1p2.x - l1p1.x;
-        double dy1 = l1p2.y - l1p1.y;
-        double dx2 = l2p2.x - l2p1.x;
-        double dy2 = l2p2.y - l2p1.y;
-
-        double divider = dx2 * dy1 - dy2 * dx1;
-
-        if (divider == 0)
-        {
-            //lines are parallel and thus don't intersect
-            intersects = false;
-            return Vector3.zero;
-        }
-
-        double t1 = ((l1p1.x - l2p1.x) * dy2 + (l2p1.y - l1p1.y) * dx2) / divider;
-        double t2 = ((l1p1.x - l2p1.x) * dy1 + (l2p1.y - l1p1.y) * dx1) / divider;
-
-        //potential bug: intinite / finite in the wrong direction
-
-        switch (mode)
-        {
-            //both lines are finite in both directions
-            case 0:
-                if (!(t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1))
-                {
-                    intersects = false;
-                    return Vector3.zero;
-                }
-                break;
-            //line 1 is finite in both directions. line 2 is infinite in both directions
-            case 1:
-                if (!(t1 >= 0 && t1 <= 1))
-                {
-                    intersects = false;
-                    return Vector3.zero;
-                }
-                break;
-            //line 1 is infinite only in the direction of point 2. line 2 is finite in both directions
-            case 2:
-                if (!(t1 >= 0 && t2 >= 0 && t2 <= 1))
-                {
-                    intersects = false;
-                    return Vector3.zero;
-                }
-                break;
-            //both lines are infinite only in the direction of point 2.
-            case 3:
-                if (!(t1 >= 0 && t2 >= 0))
-                {
-                    intersects = false;
-                    return Vector3.zero;
-                }
-                break;
-            //both lines are infinite in both directions
-            case 4:
-                break;
-        }
-
-        intersects = true;
-        float intersectx = (float)(l1p1.x + t1 * dx1);
-        float intersecty = (float)(l1p1.y + t1 * dy1);
-        Vector3 intersectionPoint = new Vector3(intersectx, intersecty);
-        return intersectionPoint;
+        else return true;
     }
 
     /// <summary>
@@ -854,7 +742,7 @@ public class AltStartState
     {
         bool[,] elem1 = new bool[3, 3] { { false, false, false }, { false, true, false }, { true, true, true } };
         frontGolayElements.Add(elem1);
-        bool[,] elem2 = new bool[3, 3] { { false, false, false }, { true, true, false }, { true, true, false } };
+        bool[,] elem2 = new bool[3, 3] { { false, false, false }, { true, true, false }, { true, true, false } };   
         frontGolayElements.Add(elem2);
         bool[,] elem3 = new bool[3, 3] { { true, false, false }, { true, true, false }, { true, false, false} };
         frontGolayElements.Add(elem3);
@@ -877,19 +765,19 @@ public class AltStartState
     {
         bool[,] elem1 = new bool[3, 3] { { true, true, true }, { false, false, false }, { false, false, false } };
         backGolayElements.Add(elem1);
-        bool[,] elem2 = new bool[3, 3] { { false, true, false }, { false, false, true }, { false, false, false } };
+        bool[,] elem2 = new bool[3, 3] { { false, true, true }, { false, false, true }, { false, false, false } };
         backGolayElements.Add(elem2);
         bool[,] elem3 = new bool[3, 3] { { false, false, true }, { false, false, true }, { false, false, true } };
         backGolayElements.Add(elem3);
-        bool[,] elem4 = new bool[3, 3] { { false, false, false }, { false, false, true }, { false, true, false } };
+        bool[,] elem4 = new bool[3, 3] { { false, false, false }, { false, false, true }, { false, true, true } };
         backGolayElements.Add(elem4);
         bool[,] elem5 = new bool[3, 3] { { false, false, false }, { false, false, false }, { true, true, true } };
         backGolayElements.Add(elem5);
-        bool[,] elem6 = new bool[3, 3] { { false, false, false }, { true, false, false }, { false, true, false } };
+        bool[,] elem6 = new bool[3, 3] { { false, false, false }, { true, false, false }, { true, true, false } };
         backGolayElements.Add(elem6);
         bool[,] elem7 = new bool[3, 3] { { true, false, false }, { true, false, false }, { true, false, false } };
         backGolayElements.Add(elem7);
-        bool[,] elem8 = new bool[3, 3] { { false, true, false }, { true, false, false }, { false, false, false } };
+        bool[,] elem8 = new bool[3, 3] { { true, true, false }, { true, false, false }, { false, false, false } };
         backGolayElements.Add(elem8);
     }
 
