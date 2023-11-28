@@ -22,7 +22,8 @@ namespace IngredientLists
         [SerializeField] private GameObject saveButton;
         [SerializeField] private Transform scrollViewContent;
         [SerializeField] private GameObject loadListButton;
- 
+       
+
         private void OnEnable()
         {
             backButton.SetActive(true);
@@ -151,6 +152,8 @@ namespace IngredientLists
         {
             ingredientListManager.ChangeToListsOverviewScreen(false);
         }
+
+
 
         /// <summary>
         /// Calls an instance of IngredientListManager to close the IngredientListScreen and open the SearchScreen to add a new ingredient.
