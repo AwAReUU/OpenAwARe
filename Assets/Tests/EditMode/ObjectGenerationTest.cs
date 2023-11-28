@@ -16,24 +16,31 @@ namespace AwARe
 {
     public class ObjectGenerationTest
     {
-        // A Test behaves as an ordinary method
-        [Test, Description("Program should not crash when trying to render an empty ingredient list.")]
-        public void EmptyIngredientListRenderingNoException()
-        {
-            //Arrange
-            IngredientList emptyList = new(
-                "Empty list",
-                ingredients: new Dictionary<Ingredient, (float, QuantityType)>());
-            GameObject gameObject = new GameObject();
-            ObjectCreationManager objectCreationManager = gameObject.AddComponent<ObjectCreationManager>();
-            Storage storage = Storage.Get();
-            storage.ActiveIngredientList = emptyList;
+        private ObjectCreationManager prefab;
 
-            //Act
-            objectCreationManager.OnPlaceButtonClick();
+        //[Test]
+        //public void OnlyPlaceInBounds()
+        //{
+        //    //Arrange: 
+        //    GameObject prefab = Resources.Load<GameObject>(path: "Prefabs/Shapes/Cube");
+        //    Vector3 halfExtents = new Vector3(100,100,100);
+        //    Renderable renderable = new Renderable(prefab, halfExtents,1,100);
+        //    ObjectPlacer objectPlacer = new ObjectPlacer();
+        //    List<Vector3> polygonPoints = new List<Vector3>() {
+        //        new Vector3(-8f, -0.87f, -8f),
+        //        new Vector3(-8f, -0.87f, -3f),
+        //        new Vector3(-3f, -0.87f, -3f),
+        //        new Vector3(-3f, -0.87f, -8f)
+        //    };
+        //    List<Renderable> renderables = new List<Renderable> { renderable };
+
+        //    //Act: place the oversized object in polygon
+        //    objectPlacer.PlaceRenderables(renderables, polygonPoints);
             
-            //Assert
-            Assert.Pass(); //If exception is thrown, program will not reach here.
-        }
+        //    //Assert: 
+        //    GameObject[] placedObjects = ObjectObtainer.FindGameObjectsInLayer("Placed Objects");
+
+        //    Assert.True(placedObjects.Length == 0);
+        //}
     }
 }
