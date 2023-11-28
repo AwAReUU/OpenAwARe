@@ -1,5 +1,6 @@
-import express, { Response, Request } from "express";
+import express from "express";
 import Database from "../database";
+import { validateToken } from "./auth";
 
 // ----------------------------------------------------------------------------
 
@@ -11,12 +12,12 @@ let router = express.Router();
 // {
 //      query:          string
 // }
-router.get("/search", async (req: any, res: any) => {
+router.get("/search", validateToken, async (req: any, res: any) => {
   const query = req.body.query;
 
   let db = Database.getInstance().ingrdb();
   db.all(
-    `SELECT
+    `SELECT DISTINCT
         x.*
         FROM Ingredient x
             JOIN
@@ -42,7 +43,7 @@ router.get("/search", async (req: any, res: any) => {
 // {
 //      id:          int
 // }
-router.get("/getIngredient", async (req: any, res: any) => {
+router.get("/getIngredient", validateToken, async (req: any, res: any) => {
   const id = req.body.id;
 
   let db = Database.getInstance().ingrdb();
@@ -65,13 +66,19 @@ router.get("/getIngredient", async (req: any, res: any) => {
 // {
 //      ids:          [int]
 // }
-router.get("/getIngredientList", async (req: any, res: any) => {
+router.get("/getIngredientList", validateToken, async (req: any, res: any) => {
   const ids = req.body.ids;
 
   let db = Database.getInstance().ingrdb();
 
   db.all(
-    `SELECT * FROM Ingredient WHERE IngredientID IN (`+ ids.map(function(){ return '?' }).join(',') +`);`,
+    `SELECT * FROM Ingredient WHERE IngredientID IN (` +
+    ids
+      .map(function() {
+        return "?";
+      })
+      .join(",") +
+    `);`,
     ids,
     async (error: any, rows: any) => {
       if (error) {
@@ -88,7 +95,7 @@ router.get("/getIngredientList", async (req: any, res: any) => {
 // {
 //      id:          int
 // }
-router.get("/getRequirements", async (req: any, res: any) => {
+router.get("/getRequirements", validateToken, async (req: any, res: any) => {
   const id = req.body.id;
 
   let db = Database.getInstance().ingrdb();
@@ -105,14 +112,13 @@ router.get("/getRequirements", async (req: any, res: any) => {
   );
 });
 
-
 // Get Resource
 //
 // # Body
 // {
 //      id:          int
 // }
-router.get("/getResource", async (req: any, res: any) => {
+router.get("/getResource", validateToken, async (req: any, res: any) => {
   const id = req.body.id;
 
   let db = Database.getInstance().ingrdb();
@@ -135,13 +141,19 @@ router.get("/getResource", async (req: any, res: any) => {
 // {
 //      ids:          [int]
 // }
-router.get("/getResourceList", async (req: any, res: any) => {
+router.get("/getResourceList", validateToken, async (req: any, res: any) => {
   const ids = req.body.ids;
 
   let db = Database.getInstance().ingrdb();
 
   db.all(
-    `SELECT * FROM Resource WHERE ResourceID IN (`+ ids.map(function(){ return '?' }).join(',') +`);`,
+    `SELECT * FROM Resource WHERE ResourceID IN (` +
+    ids
+      .map(function() {
+        return "?";
+      })
+      .join(",") +
+    `);`,
     ids,
     async (error: any, rows: any) => {
       if (error) {
@@ -158,7 +170,7 @@ router.get("/getResourceList", async (req: any, res: any) => {
 // {
 //      id:          int
 // }
-router.get("/getModel", async (req: any, res: any) => {
+router.get("/getModel", validateToken, async (req: any, res: any) => {
   const id = req.body.id;
 
   let db = Database.getInstance().ingrdb();
@@ -181,13 +193,19 @@ router.get("/getModel", async (req: any, res: any) => {
 // {
 //      ids:          [int]
 // }
-router.get("/getModelList", async (req: any, res: any) => {
+router.get("/getModelList", validateToken, async (req: any, res: any) => {
   const ids = req.body.ids;
 
   let db = Database.getInstance().ingrdb();
 
   db.all(
-    `SELECT * FROM Model WHERE ModelID IN (`+ ids.map(function(){ return '?' }).join(',') +`);`,
+    `SELECT * FROM Model WHERE ModelID IN (` +
+    ids
+      .map(function() {
+        return "?";
+      })
+      .join(",") +
+    `);`,
     ids,
     async (error: any, rows: any) => {
       if (error) {

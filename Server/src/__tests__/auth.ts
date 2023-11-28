@@ -1,4 +1,4 @@
-import supertest, { Request } from "supertest";
+import supertest from "supertest";
 import dotenv from "dotenv";
 
 import app from "../app";
