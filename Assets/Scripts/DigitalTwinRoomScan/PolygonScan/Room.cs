@@ -17,11 +17,13 @@ namespace RoomScan
         /// <summary>
         /// Gets or sets the polygon covering the entire room.
         /// </summary>
+        /// <value>The polygon covering the entire room.</value>
         public Polygon PositivePolygon { get; set; }
 
         /// <summary>
         /// Gets or sets the list of polygons that have to be 'cut out' of the positive polygon (e.g. tables).
         /// </summary>
+        /// /// <value>The polygons that have to be 'cut out' of the positive polygon.</value>
         public List<Polygon> NegativePolygons { get; set; }
 
         /// <summary>
@@ -44,7 +46,8 @@ namespace RoomScan
         }
 
         /// <summary>
-        /// Add a polygon to the room; if it is the forst polygon it is the positive polygon, otherwise it is a negative polygon.
+        /// Add a polygon to the room; if it is the first polygon it is the positive polygon,
+        /// otherwise it is a negative polygon.
         /// </summary>
         /// <param name="polygon">The polygon to add to the room.</param>
         public void AddPolygon(Polygon polygon)

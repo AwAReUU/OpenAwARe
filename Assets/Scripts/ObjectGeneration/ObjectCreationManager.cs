@@ -25,20 +25,20 @@ namespace ObjectGeneration
         [SerializeField] private GameObject placeButton;
 
         /// <value>
-        /// <c>IngredientList</c> that we are going to render
+        /// <c>IngredientList</c> that we are going to render.
         /// </value>
         private IngredientList SelectedList { get; set; }
 
         /// <summary>
         /// Set the current ingredientList.
         /// </summary>
-        /// <param name="ingredientList"><c>IngredientList</c> that we are going to render</param>
+        /// <param name="ingredientList"><c>IngredientList</c> that we are going to render.</param>
         public void SetSelectedList(IngredientList ingredientList) => SelectedList = ingredientList;
 
         /// <summary>
         /// Obtain the currently selected ingredientList from the DontDestroyOnload-GameObject.
         /// </summary>
-        /// <returns>The ingredient list that was selected by the user</returns>
+        /// <returns>The ingredient list that was selected by the user.</returns>
         private IngredientList RetrieveIngredientlist() => Storage.Get().ActiveIngredientList;
 
         /// <summary>
@@ -55,11 +55,11 @@ namespace ObjectGeneration
         }
 
         /// <summary>
-        /// Tries to place a <paramref name="renderable"></paramref> at <paramref name="position"></paramref>
+        /// Tries to place a <paramref name="renderable"></paramref> at <paramref name="position"></paramref>.
         /// </summary>
         /// <param name="renderable">Renderable object to place in the scene.</param>
         /// <param name="position">Exact position at which we will try to place the renderable.</param>
-        /// <param name="polygonPoints">The polygon described by points in which we will try to place.</param>
+        /// <param name="room">The room containing the polygons in which we will try to place.</param>
         /// <returns>Whether the object has been placed.</returns>
         private bool TryPlaceObject(
             Renderable renderable,
@@ -132,7 +132,7 @@ namespace ObjectGeneration
         /// Estimate the surface area of the spawn polygon by squaring the distance between the points
         /// and multiplying this by a factor (not all space is usable on a sloped line).
         /// </summary>
-        /// <param name="spawnPointCount">The amount of spawnPoints</param>
+        /// <param name="spawnPointCount">The amount of spawnPoints.</param>
         /// <returns>Estimated surface area.</returns>
         private float EstimateAvailableSurfaceArea(int spawnPointCount) =>
             spawnPointCount * 0.1f * 0.1f * 0.9f;
@@ -147,7 +147,7 @@ namespace ObjectGeneration
         /// <param name="objStacks">Dictionary containing location of each instance of the current renderable.</param>
         /// <param name="availableSurfaceArea">The percentage of surface area that this renderable is allowed to use.</param>
         /// <param name="currentRatioUsage">The current percentage of surface area used by this renderable.</param>
-        /// <param name="polygonPoints">Polygon to place the object in. Used later on to check if the renderable does not cross polygon border.</param>
+        /// <param name="room">Room to place the object in. Used later on to check if the renderable does not cross polygon borders.</param>
         private void SpawnParticularObj(
             Renderable renderable,
             List<Vector3> validSpawnPoints,
@@ -181,7 +181,7 @@ namespace ObjectGeneration
         /// </summary>
         /// <param name="renderable">Renderable to place.</param>
         /// <param name="objStacks">Dictionary containing locations of instances of this prefab.</param>
-        /// <param name="polygonPoints">Polygon in which the renderable placed.</param>
+        /// <param name="room">Room in which the renderables are placed.</param>
         /// <returns>Whether the stacking was successful.</returns>
         private bool TryStack(
             Renderable renderable,

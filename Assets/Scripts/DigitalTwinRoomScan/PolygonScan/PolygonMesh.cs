@@ -1,10 +1,19 @@
-using System.Collections;
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace RoomScan
 {
+    /// <summary>
+    /// The mesh representing the polygon; used to set the height.
+    /// </summary>
     public class PolygonMesh : MonoBehaviour
     {
         private float height = 1f;
@@ -12,20 +21,28 @@ namespace RoomScan
 
         void Start()
         {
-            this.CreateMesh();
-            this.SetHeight(1f);
+            CreateMesh();
+            SetHeight(1f);
         }
 
+        /// <summary>
+        /// Set the height of the mesh.
+        /// </summary>
+        /// <param name="height">The height the mesh should be set to.</param>
         public void SetHeight(float height)
         {
             this.height = height;
-            this.CreateMesh();
+            CreateMesh();
         }
 
+        /// <summary>
+        /// Sets the local polygon to the given list of points.
+        /// </summary>
+        /// <param name="points">An array of points representing the polygon.</param>
         public void SetPolygon(Vector3[] points)
         {
-            this.polygon = points.ToList();
-            this.CreateMesh();
+            polygon = points.ToList();
+            CreateMesh();
         }
 
         private void CreateMesh()
@@ -33,11 +50,11 @@ namespace RoomScan
             List<Vector3> vertices = new();
             List<int> triangles = new();
 
-            int n = this.polygon.Count * 2;
-            for (int i = 0; i < this.polygon.Count; i++)
+            int n = polygon.Count * 2;
+            for (int i = 0; i < polygon.Count; i++)
             {
-                vertices.Add(this.polygon[i]);
-                vertices.Add(this.polygon[i] + new Vector3(0f, this.height, 0f));
+                vertices.Add(polygon[i]);
+                vertices.Add(polygon[i] + new Vector3(0f, height, 0f));
 
                 int j = i * 2;
                 triangles.Add(j);
@@ -48,10 +65,12 @@ namespace RoomScan
                 triangles.Add((j + 2) % n);
             }
 
-            Mesh mesh = new Mesh();
-            mesh.vertices = vertices.ToArray();
-            mesh.triangles = triangles.ToArray();
-            this.gameObject.GetComponent<MeshFilter>().mesh = mesh;
+            Mesh mesh = new()
+            {
+                vertices = vertices.ToArray(),
+                triangles = triangles.ToArray()
+            };
+            gameObject.GetComponent<MeshFilter>().mesh = mesh;
         }
 
     }

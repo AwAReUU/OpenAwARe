@@ -1,4 +1,4 @@
-//*                                                                                       *\
+// /*                                                                                       *\
 //     This program has been developed by students from the bachelor Computer Science at
 //     Utrecht University within the Software Project course.
 //
@@ -54,10 +54,10 @@ namespace RoomScan
         }
 
         /// <summary>
-        /// Creates a polygon and fills its points list with the given points
+        /// Creates a polygon and fills its points list with the given points.
         /// </summary>
-        /// <param name="points">The points of which the polygon consists</param>
-        /// <returns>The polygon consisting of the given points</returns>
+        /// <param name="points">The points of which the polygon consists.</param>
+        /// <returns>The polygon consisting of the given points.</returns>
         Polygon CreatePolygon(List<Vector3> points)
         {
             Polygon polygon = new();

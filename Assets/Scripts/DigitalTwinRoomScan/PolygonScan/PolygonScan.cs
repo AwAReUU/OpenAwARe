@@ -9,12 +9,15 @@ using UnityEngine;
 
 namespace RoomScan
 {
+    /// <summary>
+    /// Handles scanning the polygon.
+    /// </summary>
     public class PolygonScan : MonoBehaviour
     {
         [SerializeField] private GameObject pointer;
         [SerializeField] private PolygonDrawer polygonDrawer;
 
-        public void Update()
+        void Update()
         {
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
             Physics.Raycast(ray, out RaycastHit hitData);
@@ -44,7 +47,8 @@ namespace RoomScan
             }
 
 
-            if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
+            if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+                || Input.GetMouseButtonDown(0))
             {
                 polygonDrawer.AddPoint();
             }

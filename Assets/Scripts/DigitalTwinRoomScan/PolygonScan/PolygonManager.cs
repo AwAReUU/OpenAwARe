@@ -5,15 +5,14 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using AwARe;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace RoomScan
 {
+    /// <summary>
+    /// Contains the Room and handles the different states within the polygon scanning.
+    /// </summary>
     public class PolygonManager : MonoBehaviour
     {
         [SerializeField] private PolygonDrawer polygonDrawer;
@@ -42,20 +41,23 @@ namespace RoomScan
         /// <summary>
         /// Gets the polygon currently being drawn.
         /// </summary>
+        /// <value>The polygon currently being drawn.</value>
         public Polygon CurrentPolygon { get; private set; }
 
-        public void Start()
+        void Start()
         {
             CurrentPolygon = new Polygon();
 
-            //Room = new TestRoom();
-
-            //polygonDrawer.DrawRoomPolygons(Room);
             Room = new Room();
+
+            // Use the code below to use the test room
+            //Room = new TestRoom();
+            //polygonDrawer.DrawRoomPolygons(Room);
 
             UIObjects = new()
             {
-                createBtn, resetBtn, confirmBtn, slider, applyBtn, endBtn, pointerObj, scanner.gameObject, polygonMesh.gameObject
+                createBtn, resetBtn, confirmBtn, slider, applyBtn, endBtn,
+                pointerObj, scanner.gameObject, polygonMesh.gameObject
             };
 
             SwitchToState(State.Default);
@@ -97,7 +99,7 @@ namespace RoomScan
         /// Called on changing the slider; sets the height of the polygon mesh.
         /// </summary>
         /// <param name="height">Height the slider is currently at.</param>
-        public void OnSlider(System.Single height)
+        public void OnSlider(float height)
         {
             this.polygonMesh.SetHeight(height);
         }
@@ -123,7 +125,7 @@ namespace RoomScan
         /// Gets the UI objects that need to be present in this state.
         /// </summary>
         /// <param name="state">A state of the scanning process.</param>
-        /// <returns></returns>
+        /// <returns>A list of UI objects that need to be present in the given state.</returns>
         List<GameObject> GetStateObjects(State state)
         {
             List<GameObject> objects = new();

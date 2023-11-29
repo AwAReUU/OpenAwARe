@@ -10,6 +10,9 @@ using UnityEngine;
 
 namespace RoomScan
 {
+    /// <summary>
+    /// A polygon representing (a part of) the floor.
+    /// </summary>
     public class Polygon
     {
         /// <summary>
@@ -18,8 +21,9 @@ namespace RoomScan
         protected List<Vector3> points;
 
         /// <summary>
-        /// Instantiates a polygon representing (a part of) the floor.
+        /// Initializes a new instance of the <see cref="Polygon"/> class.
         /// </summary>
+        /// <param name="points">A list of pre-defined points of which the polygon consists.</param>
         public Polygon(List<Vector3> points = null)
         {
             if (points == null)
@@ -29,16 +33,16 @@ namespace RoomScan
         }
 
         /// <summary>
-        /// Adds the given point to the list of points
+        /// Adds the given point to the list of points.
         /// </summary>
-        /// <param name="point">The point to add to the list</param>
+        /// <param name="point">The point to add to the list.</param>
         public void AddPoint(Vector3 point)
         {
             points.Add(point);
         }
 
         /// <summary>
-        /// Removes the last added point from the list of points
+        /// Removes the last added point from the list of points.
         /// </summary>
         public void RemoveLastPoint()
         {
@@ -49,45 +53,45 @@ namespace RoomScan
         }
 
         /// <summary>
-        /// Gets the points list in array form
+        /// Gets the points list in array form.
         /// </summary>
-        /// <returns>An array containing the points of the point lsit</returns>
+        /// <returns>An array containing the points of the point lsit.</returns>
         public Vector3[] GetPoints()
         {
             return this.points.ToArray();
         }
 
         /// <summary>
-        /// Gets the points list
+        /// Gets the points list.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The points list.</returns>
         public List<Vector3> GetPointsList()
         {
             return this.points;
         }
 
         /// <summary>
-        /// Returns the amount of points
+        /// Returns the amount of points of the polygon.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The amount of point.</returns>
         public int AmountOfPoints()
         {
             return points.Count;
         }
 
         /// <summary>
-        /// Gets the first point from the points list
+        /// Gets the first point from the points list.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The first point.</returns>
         public Vector3 GetFirstPoint()
         {
             return points[0];
         }
 
         /// <summary>
-        /// Whether the polygon has any points.
+        /// Whether the polygon is empty.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True if the polygon has no points, false otherwise.</returns>
         public bool IsEmptyPolygon()
         {
             return points.Count == 0;

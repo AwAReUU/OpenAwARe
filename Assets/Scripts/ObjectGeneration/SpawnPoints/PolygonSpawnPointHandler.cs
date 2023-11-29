@@ -1,6 +1,13 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
+using System.Collections.Generic;
 using RoomScan;
+using UnityEngine;
 
 namespace ObjectGeneration
 {
@@ -11,9 +18,8 @@ namespace ObjectGeneration
     public class PolygonSpawnPointHandler : ISpawnPointHandler
     {
         /// <summary>
-        /// Constructor. Initializes gridSpacing and polygonPoints.
+        /// Initializes a new instance of the <see cref="PolygonSpawnPointHandler"/> class.
         /// </summary>
-        /// <param name="polygon">A polygon described by a list of points.</param>
         /// <param name="spacing">Spacing between spawnPoints.</param>
         public PolygonSpawnPointHandler(float spacing = 0.1f)
         {
@@ -25,18 +31,19 @@ namespace ObjectGeneration
         /// <summary>
         /// Call the parameterized method "GetGridPoints" to obtain spawnPoints.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="room">The room in which the objects will be spawned.</param>
+        /// <returns>A list of spawnpoints on which the objects are allowed to be spawned.</returns>
         public List<Vector3> GetValidSpawnPoints(Room room) => GetGridPoints(room, gridSpacing);
 
         /// <summary>
         /// Create a 2d bounding box around the polygon points.
         /// </summary>
         /// <param name="polygon">The polygon to obtain the bounding box of.</param>
-        /// <returns>Bounding box of the polygon</returns>
+        /// <returns>Bounding box of the polygon.</returns>
         private Bounds CalculateBounds(Polygon polygon)
         {
             List<Vector3> points = polygon.GetPointsList();
-            Bounds bounds = new Bounds(points[0], Vector3.zero);
+            Bounds bounds = new(points[0], Vector3.zero);
             foreach (var point in points)
             {
                 bounds.Encapsulate(point);
@@ -47,7 +54,7 @@ namespace ObjectGeneration
         /// <summary>
         /// Create a grid of points on the plane.
         /// </summary>
-        /// <param name="polygon">Polygon to get spawnPoints from.</param>
+        /// <param name="room">Room to get spawnPoints from.</param>
         /// <param name="spacing">Distance between spawnPoints.</param>
         /// <returns>List of spawnPoints.</returns>
         private List<Vector3> GetGridPoints(Room room, float spacing)
@@ -67,10 +74,11 @@ namespace ObjectGeneration
             {
                 for (float z = bounds.min.z; z <= bounds.max.z; z += spacing)
                 {
-                    Vector3 gridPoint = new Vector3(x, y, z);
+                    Vector3 gridPoint = new(x, y, z);
 
                     // Check if the grid point is inside the polygon
-                    if (PolygonHelper.IsPointInsidePolygon(posPolygon, gridPoint) && PolygonHelper.PointNotInPolygons(room.NegativePolygons, gridPoint))
+                    if (PolygonHelper.IsPointInsidePolygon(posPolygon, gridPoint) 
+                        && PolygonHelper.PointNotInPolygons(room.NegativePolygons, gridPoint))
                         result.Add(gridPoint);
                 }
             }

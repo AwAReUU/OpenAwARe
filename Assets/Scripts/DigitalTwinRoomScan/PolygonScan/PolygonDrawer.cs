@@ -5,10 +5,7 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation.VisualScripting;
 
 namespace RoomScan
 {
@@ -39,7 +36,7 @@ namespace RoomScan
         }
 
         /// <summary>
-        /// Resets all lines
+        /// Resets all lines.
         /// </summary>
         public void Reset()
         {
@@ -52,7 +49,7 @@ namespace RoomScan
         /// <summary>
         /// Sets the pointer to the current position.
         /// </summary>
-        /// <param name="pointer"></param>
+        /// <param name="pointer">Where the AR camera is pointing to.</param>
         public void SetPointer(Vector3 pointer)
         {
             this.pointer = pointer;
@@ -81,8 +78,8 @@ namespace RoomScan
         /// <summary>
         /// Updates the line to match the given polygon.
         /// </summary>
-        /// <param name="line"></param>
-        /// <param name="polygon"></param>
+        /// <param name="line">The line that needs to be updated.</param>
+        /// <param name="polygon">The polygon that the line should represent.</param>
         public void UpdateLine(LineRenderer line, Polygon polygon)
         {
             line.positionCount = polygon.AmountOfPoints();
@@ -90,7 +87,7 @@ namespace RoomScan
         }
 
         /// <summary>
-        /// Updates the line from the last polygon point to the current pointer position
+        /// Updates the line from the last polygon point to the current pointer position.
         /// </summary>
         private void UpdateTempLine()
         {
@@ -108,7 +105,7 @@ namespace RoomScan
         }
 
         /// <summary>
-        /// Updates the line from the current pointer position to the first polygon point
+        /// Updates the line from the current pointer position to the first polygon point.
         /// </summary>
         private void UpdateCloseLine()
         {
@@ -128,6 +125,7 @@ namespace RoomScan
         /// <summary>
         /// Draws the positive polygon and all negative polygons of a room.
         /// </summary>
+        /// <param name="room">The room to draw.</param>
         public void DrawRoomPolygons(Room room)
         {
             DrawPolygon(room.PositivePolygon);
@@ -138,10 +136,10 @@ namespace RoomScan
         }
 
         /// <summary>
-        /// Instantiates a new line and uses it to draw the given polygon
+        /// Instantiates a new line and uses it to draw the given polygon.
         /// </summary>
-        /// <param name="newPolygon">The polygon to draw</param>
-        /// <param name="isNegPolygon">Whether the polygon is negative</param>
+        /// <param name="newPolygon">The polygon to draw.</param>
+        /// <param name="isNegPolygon">Whether the polygon is negative.</param>
         public void DrawPolygon(Polygon newPolygon, bool isNegPolygon = false)
         {
             GameObject newLineObject = Instantiate(lineObject, transform);
@@ -155,10 +153,10 @@ namespace RoomScan
         }
 
         /// <summary>
-        /// Sets the start and end color of a line
+        /// Sets the start and end color of a line.
         /// </summary>
-        /// <param name="line">The lineRenderer of which the color needs changing</param>
-        /// <param name="color">The color to change to</param>
+        /// <param name="line">The lineRenderer of which the color needs changing.</param>
+        /// <param name="color">The color to change to.</param>
         private void SetLineColor(LineRenderer line, Color color)
         {
             line.startColor = line.endColor = color;
