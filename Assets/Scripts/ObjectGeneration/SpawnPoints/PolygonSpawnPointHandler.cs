@@ -42,7 +42,7 @@ namespace ObjectGeneration
         /// <returns>Bounding box of the polygon.</returns>
         private Bounds CalculateBounds(Polygon polygon)
         {
-            List<Vector3> points = polygon.GetPointsList();
+            List<Vector3> points = polygon.Points;
             Bounds bounds = new(points[0], Vector3.zero);
             foreach (var point in points)
             {

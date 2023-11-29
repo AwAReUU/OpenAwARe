@@ -32,15 +32,9 @@ namespace RoomScan
         /// </summary>
         List<GameObject> UIObjects;
 
-        /// <summary>
-        /// Gets the Room represented by the polygons.
-        /// </summary>
         /// <value>A Room represented by the polygons.</value>
         public Room Room { get; private set; }
 
-        /// <summary>
-        /// Gets the polygon currently being drawn.
-        /// </summary>
         /// <value>The polygon currently being drawn.</value>
         public Polygon CurrentPolygon { get; private set; }
 

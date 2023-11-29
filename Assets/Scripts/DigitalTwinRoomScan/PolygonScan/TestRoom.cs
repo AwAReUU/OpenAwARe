@@ -20,7 +20,7 @@ namespace RoomScan
         /// </summary>
         public TestRoom()
         {
-            List<Vector3> posPoints = new()
+            List<Vector3> positivePoints = new()
             {
                 new Vector3(-5,-1.5f,-5),
                 new Vector3(5,-1.5f,-4),
@@ -28,7 +28,7 @@ namespace RoomScan
                 new Vector3(-4,-1.5f,6)
             };
 
-            List<Vector3> neg1Points = new()
+            List<Vector3> negativePoints1 = new()
             {
                 new Vector3(0,-1.5f,0),
                 new Vector3(1,-1.5f,0),
@@ -36,7 +36,7 @@ namespace RoomScan
                 new Vector3(0,-1.5f,2)
             };
 
-            List<Vector3> neg2Points = new()
+            List<Vector3> negativePoints2 = new()
             {
                 new Vector3(-3,-1.5f,-3),
                 new Vector3(-2,-1.5f,-3),
@@ -45,11 +45,11 @@ namespace RoomScan
                 new Vector3(-2.8f,-1.5f,-1.3f)
             };
 
-            PositivePolygon = CreatePolygon(posPoints);
+            PositivePolygon = CreatePolygon(positivePoints);
             NegativePolygons = new()
             {
-                CreatePolygon(neg1Points),
-                CreatePolygon(neg2Points)
+                CreatePolygon(negativePoints1),
+                CreatePolygon(negativePoints2)
             };
         }
 
