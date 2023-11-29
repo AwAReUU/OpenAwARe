@@ -47,14 +47,15 @@ namespace ObjectGeneration
             List<Renderable> renderables = new PipelineManager().GetRenderableList(SelectedList);
             List<Vector3> polygonPoints = polygonManager.GetPolygon().GetPointsList();
 
-            OnPlaceButtonClick(renderables, polygonPoints);
+            PlaceRenderables(renderables, polygonPoints);
         }
 
         /// <summary>
-        /// Called when the place button is clicked. Manages the conversion of the selected
-        /// IngredientList to renderables, and the placement of the renderables in the scene.
+        /// Try to place all <paramref name="renderables"/> inside of the <paramref name="polygonPoints"/>.
         /// </summary>
-        public void OnPlaceButtonClick(List<Renderable> renderables, List<Vector3> polygonPoints) =>
+        /// <param name="renderables">Objects to place in the polygon.</param>
+        /// <param name="polygonPoints">Polygon described by points to place the objects in.</param>
+        public void PlaceRenderables(List<Renderable> renderables, List<Vector3> polygonPoints) =>
             new ObjectPlacer().PlaceRenderables(renderables, polygonPoints);
 
         /// <summary>

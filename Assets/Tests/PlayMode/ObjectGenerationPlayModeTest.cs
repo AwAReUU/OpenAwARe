@@ -60,7 +60,7 @@ namespace AwARe
             List<Vector3> polygonPoints = PolygonHelper.GetMockPolygon();
 
             //act: Try place Renderable in the polygon.
-            objectCreationManager.OnPlaceButtonClick(renderables, polygonPoints);
+            objectCreationManager.PlaceRenderables(renderables, polygonPoints);
 
             //assert: The amount of placed objects did not change.
             //yield return new WaitForSeconds(1);
@@ -77,7 +77,7 @@ namespace AwARe
             List<Vector3> polygonPoints = PolygonHelper.GetMockPolygon();
 
             //act: Place the renderable
-            objectCreationManager.OnPlaceButtonClick(renderables, polygonPoints);
+            objectCreationManager.PlaceRenderables(renderables, polygonPoints);
 
             //assert: There is one Renderable in the scene.
             yield return null;
@@ -85,7 +85,7 @@ namespace AwARe
             Assert.True(placedObjects.Length == 1);
         }
 
-        [UnityTest]
+        [UnityTest, Description("Makes sure that the ObjectObtainer works")]
         public IEnumerator ObjectObtainerWorks()
         {
             //Arrange: Create a gameObject in a layer.
@@ -101,7 +101,7 @@ namespace AwARe
             Assert.True(obtainedObjectsBefore == null && obtainedObjectsAfter.Length == 1);
         }
 
-        [UnityTest]
+        [UnityTest, Description("Makes sure that the ObjectDestroyer works")]
         public IEnumerator ObjectDestroyerWorks()
         {          
             //Arrange: Create an empty gameObject in a layer.
