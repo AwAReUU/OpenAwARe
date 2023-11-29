@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 using AwARe.MonoBehaviours;
 
@@ -47,8 +44,7 @@ namespace ObjectGeneration
         public void OnPlaceButtonClick()
         {
             SetSelectedList(RetrieveIngredientlist());
-            PipelineManager pipelineManager = new();
-            List<Renderable> renderables = pipelineManager.GetRenderableList(SelectedList);
+            List<Renderable> renderables = new PipelineManager().GetRenderableList(SelectedList);
             List<Vector3> polygonPoints = polygonManager.GetPolygon().GetPointsList();
 
             OnPlaceButtonClick(renderables, polygonPoints);
@@ -58,11 +54,8 @@ namespace ObjectGeneration
         /// Called when the place button is clicked. Manages the conversion of the selected
         /// IngredientList to renderables, and the placement of the renderables in the scene.
         /// </summary>
-        public void OnPlaceButtonClick(List<Renderable> renderables, List<Vector3> polygonPoints)
-        {
-            ObjectPlacer objectPlacer = new ObjectPlacer();
-            objectPlacer.PlaceRenderables(renderables, polygonPoints);
-        }
+        public void OnPlaceButtonClick(List<Renderable> renderables, List<Vector3> polygonPoints) =>
+            new ObjectPlacer().PlaceRenderables(renderables, polygonPoints);
 
         /// <summary>
         /// Rotate a gameObject to face the user.

@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace ObjectGeneration
 {
+    /// <summary>
+    /// Class <c>ObjectObtainer</c> is used to find all gameObjects in a given layer.
+    /// </summary>
     public class ObjectObtainer : MonoBehaviour
     {
         /// <summary>
