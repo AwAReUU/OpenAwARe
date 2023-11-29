@@ -48,9 +48,10 @@ namespace RoomScan
         {
             CurrentPolygon = new Polygon();
 
-            Room = new TestRoom();
+            //Room = new TestRoom();
 
-            polygonDrawer.DrawRoomPolygons(Room);
+            //polygonDrawer.DrawRoomPolygons(Room);
+            Room = new Room();
 
             UIObjects = new()
             {
@@ -79,7 +80,7 @@ namespace RoomScan
             SwitchToState(State.SettingHeight);
             polygonMesh.SetPolygon(CurrentPolygon.GetPoints());
 
-            polygonDrawer.DrawPolygon(CurrentPolygon, Room.PositivePolygon != null);
+            polygonDrawer.DrawPolygon(CurrentPolygon, !Room.PositivePolygon.IsEmptyPolygon());
             Room.AddPolygon(CurrentPolygon);
         }
 

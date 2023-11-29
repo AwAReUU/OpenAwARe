@@ -83,5 +83,14 @@ namespace RoomScan
         {
             return points[0];
         }
+
+        /// <summary>
+        /// Whether the polygon has any points.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsEmptyPolygon()
+        {
+            return points.Count == 0;
+        }
     }
 }

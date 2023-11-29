@@ -49,7 +49,7 @@ namespace RoomScan
         /// <param name="polygon">The polygon to add to the room.</param>
         public void AddPolygon(Polygon polygon)
         {
-            if (PositivePolygon == null)
+            if (PositivePolygon.IsEmptyPolygon())
             {
                 PositivePolygon = polygon;
             }
