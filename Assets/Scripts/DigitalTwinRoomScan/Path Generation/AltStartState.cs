@@ -24,10 +24,19 @@ public class AltStartState
     /// <param name="positive">the polygon whose volume represents the area where you can walk</param>
     /// <param name="negatives">list of polygons whose volume represent the area where you cannot walk</param>
     /// <returns>a 'pathdata' which represents a path through the room</returns>
+    /// bug: wack path als de negative polygon de positive polygon overlapt
+    /// solution: alter de manier waarop de grid wordt gemaakt:
+    /// nu: draw positive lines, draw negative lines, find point, floodfill
+    /// alternative: draw positive lines, find point floodfill. then foreach negative: carve negative lines, find point, reverse floodfill
     public PathData GetStartState(Polygon positive, List<Polygon> negatives)
     {
         //determine the grid. still empty. also initalizes the scalefactor and movetransform variables.
         bool[,] grid = MakeGrid(positive);
+
+        for(int i = 0; i < positive.GetPointsList().Count; i++)
+        {
+            Debug.Log("Point " + i + ": " + positive.GetPointsList()[i].x + ", " + positive.GetPointsList()[i].y);
+        }
 
         List<((int, int), (int, int))> positiveGridLines = new();
         List<List<((int, int), (int, int))>> negativeGridLines = new();
@@ -142,8 +151,19 @@ public class AltStartState
         path.points = pathDataPoints;
         path.edges = pathDataEdges;
 
+        //check if there are points in the edges that are not in the points list
+        //debug results say no comments, so all points that are part of an edge are part of the points list
+        for(int i = 0; i < pathDataEdges.Count; i++)
+        {
+            Vector3 point1 = pathDataEdges[i].Item1;
+            Vector3 point2 = pathDataEdges[i].Item1;
+
+            if (!pathDataPoints.Contains(point1)) Debug.Log("point 1 not found in points list");
+            if (!pathDataPoints.Contains(point2)) Debug.Log("point 2 not found in points list");
+        }
+
         //then here we extend pathdata endpoints
-        path = ExtendEndPoints(path, positive, negatives, 10);
+        //path = ExtendEndPoints(path, positive, negatives, 10);
 
         return path;
     }
@@ -193,6 +213,10 @@ public class AltStartState
             if (pointFrequencies[point2] > 2 && !junctions.Contains(point2)) junctions.Add(point2);
         }
 
+        Debug.Log("#edges: " + path.edges.Count);
+        Debug.Log("#junctions: " + junctions.Count);
+        Debug.Log("#endpoints: " + endpoints.Count);
+
         //make subpaths from the endpoints to the junctions. or if there are no junctions, to other endpoints
         List<PathData> subpaths = new();
         for (int i = 0; i < endpoints.Count; i++)
@@ -204,7 +228,7 @@ public class AltStartState
             while (!junctions.Contains(currentpoint) || subpath.edges.Count == path.edges.Count)
             {
                 //it should always find either 1 or 2 edges in the list, if it finds more than that, something went wrong with making junctions list
-                List<(Vector3, Vector3)> edgesfound = path.edges.FindAll(res => res.Item1 == currentpoint || res.Item1 == currentpoint);
+                List<(Vector3, Vector3)> edgesfound = path.edges.FindAll(res => res.Item1 == currentpoint || res.Item2 == currentpoint);
 
                 //make sure to add the correct edge
                 if (!subpath.edges.Contains(edgesfound[0]))
@@ -215,10 +239,23 @@ public class AltStartState
                 }
                 else
                 {
-                    subpath.edges.Add(edgesfound[1]);
+                    subpath.edges.Add(edgesfound[1]); //error here
+                    //this means that it found a point with only one edge
+                    //but also, that edge is already on the path
+                    //how can dis be?
+                    //only option i can think of is a path consisting of 2 points but then the while loop would stop so no option either.
+                    //was debugging this, last thing done: check of alle points van edges wel in de points list zitten. they are
+                    //to do next: maybe leave out endpoint extension, en maak eerst de demo video / demo
                     if (currentpoint == edgesfound[1].Item1) currentpoint = edgesfound[1].Item2;
                     else currentpoint = edgesfound[1].Item1;
                 }
+
+                //possible problems:
+                //incorrect path (edges/points list)
+                //incorrect endpoints / junctions list
+                //huh.mp4?
+
+
             }
 
             subpaths.Add(subpath);
@@ -317,6 +354,7 @@ public class AltStartState
             //construct the line of the wall segment in the form y = ax + b
             double a = (point2.y - point1.y) / (point2.x - point1.x);
             double b = point1.y + a * point1.x;
+            //this b may be wrong,                double b = polygonwalls[i].p1.y - polygonwalls[i].p1.x * a; reference.
 
             //calculate the intersection coordinates of the average 
             double x = (2 * b - b1 + b2) / (m1 + (1 / m2) - 2 * a);
@@ -415,26 +453,11 @@ public class AltStartState
             DrawLine(ref grid, positiveLines[i]);
         }
 
-        //draw the lines for all the negative polygons
-        for (int i = 0; i < negativeLines.Count; i++)
-        {
-            for (int j = 0; j < negativeLines[i].Count; j++)
-            {
-                DrawLine(ref grid, negativeLines[i][j]);
-            }
-        }
-
-        //at this point we have an outline of the walkable space in the grid
-        //we need to fill this outline
-
-        //floodfill from a position in the positive polygon, but outside negative polygons
-        bool foundValidPoint = false;
-        (int x, int y) foundPoint = (0, 0);
+        //floodfill from a position in the positive polygon
+        List<(int x, int y)> foundPoints = new();
 
         for(int x = 0; x < grid.GetLength(0); x++)
         {
-            if (foundValidPoint) break;
-
             for(int y = 0; y < grid.GetLength(1); y++)
             {
                 //we cannot begin a floodfill from a point that is true
@@ -443,27 +466,64 @@ public class AltStartState
                 //check if current point is in positive polygon. if not, continue
                 if (!CheckInPolygon(positiveLines, (x, y))) continue;
 
-                //check if current point is in a negative polygon. if yes, continue
-                for(int i = 0; i < negativeLines.Count; i++)
-                {
-                    if (CheckInPolygon(negativeLines[i], (x, y))) continue;
-                }
-
                 //if the loop makes it past all of the above checks, we have found a valid point
-                foundValidPoint = true;
-                foundPoint = (x, y);
-                break;
+                foundPoints.Add((x, y));
             }
         }
 
-        if (foundValidPoint)
+        //floodfill the positive polygon
+        if (foundPoints.Count > 0)
         {
-            FloodArea(ref grid, foundPoint);
+            for (int i = 0; i < foundPoints.Count; i++)
+            {
+                FloodArea(ref grid, foundPoints[i]);
+            }
         }
         else
         {
-            Debug.Log("could not find a valid point to start the floodfill from. Likely the positive polygon is entirely occluded by one or more negative polygons");
-        } 
+            Debug.Log("could not find a valid point in the positive polygon to start the floodfill from.");
+        }
+
+        //carve out the negative polygons
+        for (int n = 0; n < negativeLines.Count; n++)
+        {
+            foundPoints = new();
+
+            //carve out the lines for the current negative polygon
+            for (int i = 0; i < negativeLines[n].Count; i++)
+            {
+                DrawLine(ref grid, negativeLines[n][i], true);
+            }
+
+            //find the valid points in the current negative polygon
+            for (int x = 0; x < grid.GetLength(0); x++)
+            {
+                for (int y = 0; y < grid.GetLength(1); y++)
+                {
+                    //we cannot begin a floodfill from a point that is false
+                    if (!grid[x, y]) continue;
+
+                    //check if current point is in a negative polygon. if not, continue
+                    if (!CheckInPolygon(negativeLines[n], (x, y))) continue;
+
+                    //if the loop makes it past all of the above checks, we have found a valid point
+                    foundPoints.Add((x, y));
+                }
+            }
+
+            //flood-erase the negative polygon
+            if(foundPoints.Count > 0)
+            {
+                for (int i = 0; i < foundPoints.Count; i++)
+                {
+                    FloodArea(ref grid, foundPoints[i], true);
+                }
+            }
+            else
+            {
+                Debug.Log("Could not find a valid point to start the flood-erase from in negative polygon " + n);
+            }
+        }
     }
 
     /// <summary>
@@ -492,7 +552,7 @@ public class AltStartState
                 double a = (polygonwalls[i].p2.y - polygonwalls[i].p1.y) / divider;
                 //if a is 0, the ray and the wall are parallel and they dont intersect
                 if (a == 0) continue;
-                double b = polygonwalls[i].p1.x * a + polygonwalls[i].p1.y;
+                double b = polygonwalls[i].p1.y - polygonwalls[i].p1.x * a;
                 intersectx = (point.y - b) / a;
             }
             //check that the intersection point lies on the ray we shot, continue if it doesn't
@@ -528,7 +588,7 @@ public class AltStartState
     /// </summary>
     /// <param name="grid">grid of booleans to draw the line on</param>
     /// <param name="linepoints"> line to draw. points are coordinates in the grid </param>
-    private void DrawLine(ref bool[,] grid, ((int, int), (int, int)) linepoints)
+    private void DrawLine(ref bool[,] grid, ((int, int), (int, int)) linepoints, bool carve = false)
     {
         int x1 = linepoints.Item1.Item1;
         int y1 = linepoints.Item1.Item2;
@@ -555,15 +615,31 @@ public class AltStartState
         for (int x = Math.Min(x1, x2); x < Math.Max(x1, x2); x++)
         {
             float y = a * x + b;
-            if (y - (int)y > 0.5) grid[x, (int)(y + 1)] = true;
-            else grid[x, (int)y] = true;
+            if(carve)
+            {
+                if (y - (int)y > 0.5) grid[x, (int)(y + 1)] = false;
+                else grid[x, (int)y] = false;
+            }
+            else
+            {
+                if (y - (int)y > 0.5) grid[x, (int)(y + 1)] = true;
+                else grid[x, (int)y] = true;
+            } 
         }
 
         for (int y = Math.Min(y1, y2); y < Math.Max(y1, y2); y++)
         {
             float x = c * y + d;
-            if (x - (int)x > 0.5) grid[(int)(x + 1), y] = true;
-            else grid[(int)x, y] = true;
+            if(carve)
+            {
+                if (x - (int)x > 0.5) grid[(int)(x + 1), y] = false;
+                else grid[(int)x, y] = false;
+            }
+            else
+            {
+                if (x - (int)x > 0.5) grid[(int)(x + 1), y] = true;
+                else grid[(int)x, y] = true;
+            }
         }
     }
 
@@ -574,7 +650,8 @@ public class AltStartState
     /// </summary>
     /// <param name="grid">the array of booleans to flood</param>
     /// <param name="startpos">the position in the grid to start from</param>
-    private void FloodArea(ref bool[,] grid, (int, int) startpos)
+    /// <param name="reverse">if true, will 'reverse' floodfill. instead of filling areas with true, fills them with false</param>
+    private void FloodArea(ref bool[,] grid, (int, int) startpos, bool reverse = false)
     {
         int width = grid.GetLength(0);
         int height = grid.GetLength(1);
@@ -585,10 +662,21 @@ public class AltStartState
         while (queue.Count > 0)
         {
             (int x, int y) current = queue.Dequeue();
-            if(!grid[current.x, current.y])
+            if (reverse)
             {
-                grid[current.x, current.y] = true;
-                EnqueueNeighbors(ref queue, current, width, height);
+                if(grid[current.x, current.y])
+                {
+                    grid[current.x, current.y] = false;
+                    EnqueueNeighbors(ref queue, current, width, height);
+                }
+            }
+            else
+            {
+                if (!grid[current.x, current.y])
+                {
+                    grid[current.x, current.y] = true;
+                    EnqueueNeighbors(ref queue, current, width, height);
+                }
             }
         }
     }
@@ -620,37 +708,41 @@ public class AltStartState
 
     /// <summary>
     /// applies one iteration of the thinning operation to the given grid and returns it
+    /// one iteration in the case means one 'thin' with each Golay element
     /// </summary>
     /// <param name="grid">the grid to thin</param>
     /// <param name="changed">will be set to true if the grid was thinned. will be set to false if the grid wasn't changed</param>
     /// <returns>the thinned grid</returns>
-    private bool[,] ThinnedGrid(bool[,] grid, out bool changed)
+    public bool[,] ThinnedGrid(bool[,] grid, out bool changed)
     {
         bool[,] res = new bool[grid.GetLength(0), grid.GetLength(1)];
         changed = false;
 
-        for(int x = 0; x < grid.GetLength(0); x++)
+        for (int i = 0; i < frontGolayElements.Count; i++)
         {
-            for(int y = 0; y < grid.GetLength(1); y++)
+            for (int x = 0; x < grid.GetLength(0); x++)
             {
-                //if the grid is false in this position, it will remain false
-                if(!grid[x, y])
+                for (int y = 0; y < grid.GetLength(1); y++)
                 {
-                    res[x, y] = false;
-                    continue;
-                }
+                    if (!grid[x, y])
+                    {
+                        res[x, y] = false;
+                        continue;
+                    }
 
-                //if i have a hit in this position, it will be set to false
-                if(CheckHitorMiss(grid, x, y))
-                {
-                    res[x, y] = false;
-                    changed = true;
-                    continue;
-                }
+                    //if i have a hit in this position, it will be set to false
+                    if (CheckHitorMiss(grid, x, y, i))
+                    {
+                        res[x, y] = false;
+                        changed = true;
+                        continue;
+                    }
 
-                //if i dont have a hit the grid keeps its old value
-                res[x, y] = grid[x, y];
+                    //if i dont have a hit the grid keeps its old value (which should be true
+                    res[x, y] = grid[x, y];
+                }
             }
+            grid = res;
         }
         return res;
     }
@@ -663,67 +755,65 @@ public class AltStartState
     /// <param name="x">the x position of the point in the grid to check</param>
     /// <param name="y">the y position of the point in the grid to check</param>
     /// <returns></returns>
-    private bool CheckHitorMiss(bool[,] grid, int x, int y)
+    public bool CheckHitorMiss(bool[,] grid, int x, int y, int elementNumber)
     {
         //front- and backGolayElements should have the same number of entries. if not, something went very wrong somehow
-        for (int i = 0; i < frontGolayElements.Count; i++)
+
+        //3x3 elements
+        bool[,] frontElement = frontGolayElements[elementNumber];
+        bool[,] backElement = backGolayElements[elementNumber];
+
+        int offset = frontElement.GetLength(0) / 2;
+
+        bool hit = true;
+        for (int a = 0; a < frontElement.GetLength(0); a++)
         {
-            //3x3 elements
-            bool[,] frontElement = frontGolayElements[i];
-            bool[,] backElement = backGolayElements[i];
+            if (!hit) break;
 
-            int offset = frontElement.GetLength(0) / 2;
-
-            bool hit = true;
-            for (int a = 0; a < frontElement.GetLength(0); a++)
+            for (int b = 0; b < frontElement.GetLength(1); b++)
             {
-                if (!hit) break;
+                //if frontelement is true, the grid element at this position must also be true for it to be a hit
+                //if frontelement is false the grid element at this position may be true or false
+                // if backelement is true, the grid element at this position must be false for it to be a hit
+                // if backelement is false the grid element at this position may be true or false
 
-                for(int b = 0; b < frontElement.GetLength(0); b++)
+                //the position falls outside of the grid and is treated as if the grid there is false
+                if (x - offset + a < 0 || x - offset + a > grid.GetLength(0) - 1 ||
+                   y - offset + b < 0 || y - offset + b > grid.GetLength(1) - 1)
                 {
-                    //if frontelement is true, the grid element at this position must also be true for it to be a hit
-                    //if frontelement is false the grid element at this position may be true or false
-                    // if backelement is true, the grid element at this position must be false for it to be a hit
-                    // if backelement is false the grid element at this position may be true or false
-
-                    //the position falls outside of the grid and is treated as if the grid there is false
-                    if(x - offset + a < 0 || x - offset + a > grid.GetLength(0) - 1 || 
-                       y - offset + b < 0 || y - offset + b > grid.GetLength(1) - 1)
+                    //the frontelement check
+                    if (frontElement[a, b])
                     {
-                        //the frontelement check
-                        if(frontElement[a, b])
-                        {
-                            hit = false;
-                            break;
-                        }
-
-                        //since this place falls outside of the grid and is considered false, it always falls in the background element
-                        //thus we do not need to perform the background element check, since it will always succeed
-                    }
-                    else
-                    {
-                        bool posValue = grid[x - offset + a, y - offset + b];
-
-                        //the front element check
-                        if(frontElement[a, b] && !posValue)
-                        {
-                            hit = false;
-                            break;
-                        }
-
-                        //the back element check
-                        if(backElement[a, b] && posValue)
-                        {
-                            hit = false;
-                            break;
-                        }
+                        hit = false;
+                        break;
                     }
 
+                    //since this place falls outside of the grid and is considered false, it always falls in the background element
+                    //thus we do not need to perform the background element check, since it will always succeed
                 }
+                else
+                {
+                    bool posValue = grid[x - offset + a, y - offset + b];
+
+                    //the front element check
+                    if (frontElement[a, b] && !posValue)
+                    {
+                        hit = false;
+                        break;
+                    }
+
+                    //the back element check
+                    if (backElement[a, b] && posValue)
+                    {
+                        hit = false;
+                        break;
+                    }
+                }
+
             }
-            if (hit) return true;
         }
-        return false;
+        if (hit) return true;
+        else return false;
     }
 
     /// <summary>
@@ -811,4 +901,8 @@ public class AltStartState
 }
 
 //todo primary:
-//test things (unit tests, mock data)
+//change y and z cords in my code so that is no weird conversion is needed in the visualiser code
+//clean up code (comments enzo)
+//improve visualisatie zodat je ook negative polygons kan tekenen voordat je het pad bepaald
+//improve performance
+//test things (unit tests)

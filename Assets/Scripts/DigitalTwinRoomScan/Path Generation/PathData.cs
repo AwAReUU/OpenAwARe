@@ -11,6 +11,12 @@ public class PathData
 
     public float radius;
 
+    public PathData()
+    {
+        points = new();
+        edges = new();
+    }
+
     // i have altered the edges list so that is is basically this, but also cleaner.
     // public IEnumerable<(Vector3, Vector3)> Segments()
     // {
