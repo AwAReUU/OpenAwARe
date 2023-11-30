@@ -4,19 +4,18 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Animal
-  - ObjectCreationManager
+  - RootObject
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Placed Objects
+  - 
   - Water
   - UI
-  - Ingredient
-  - MyUI
   - 
-  - Planes
+  - 
+  - 
+  - 
   - 
   - 
   - 

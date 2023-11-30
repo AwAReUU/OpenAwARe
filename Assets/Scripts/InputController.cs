@@ -49,8 +49,8 @@ public class InputController : MonoBehaviour
 
     private void OnEnable()
     {
-        EnhancedTouch.TouchSimulation.Enable();
         EnhancedTouch.EnhancedTouchSupport.Enable();
+        EnhancedTouch.TouchSimulation.Enable();
         //EnhancedTouch.Touch.onFingerDown += FingerDown;
     }
 
