@@ -18,24 +18,32 @@ export async function get_authorization_header(): Promise<string> {
   if (authorization_header != null) {
     return authorization_header;
   }
-  let register_body = {
+  let account_details = {
     firstName: "Test",
     lastName: "Account",
     email: "testaccount@outlook.com",
     password: "123test",
     confirm_password: "123test",
   };
-  await api.post("/auth/register").send(register_body).then();
+  await api.post("/auth/register").send(account_details).then();
 
-  let body = {
+  let login_data = {
     email: "testaccount@outlook.com",
     password: "123test",
   };
-  let ret: any = await api.post("/auth/login").send(body).then();
+  let ret: any = await api.post("/auth/login").send(login_data).then();
 
   let refreshToken = ret.body.refreshToken;
   let accessToken = ret.body.accessToken;
   authorization_header = refreshToken + " " + accessToken;
 
   return authorization_header;
+}
+
+export function isNumber(n: any) {
+  return /^-?[\d.]+(?:e-?\d+)?$/.test(n);
+}
+
+export function isUnsignedInteger(n: any) {
+  return /^\d+$/.test(n);
 }

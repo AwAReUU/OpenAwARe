@@ -11,7 +11,6 @@ export const api = supertest(app);
 beforeAll(() => {
   dotenv.config();
   Database.testing = true;
-  // This will run before all tests for each test module.
 
   // Make sure validation is enabled
   process.env.VALIDATION = "TRUE";

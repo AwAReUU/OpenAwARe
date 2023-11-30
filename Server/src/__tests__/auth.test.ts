@@ -98,7 +98,7 @@ test("DELETE /auth/logout", async () => {
 });
 
 // 8) Test login after logout
-// This should work fine! Only after the accessToken is expired, loggin in should be imposible.
+// This should work. Only after the accessToken is expired, loggin in should be imposible.
 // Read the Security part of the Architecture Document for a detailed explanation.
 test("POST /auth/login", async () => {
   let body = {
