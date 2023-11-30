@@ -16,7 +16,7 @@ namespace ObjectGeneration
     /// <c>PolygonHelper</c> is a class that contains some helper methods 
     /// for object generation using the polygon method.
     /// </summary>
-    class PolygonHelper
+    public class PolygonHelper
     {
         /// <summary>
         /// Check if the <paramref name="point"/> is inside of the <paramref name="polygon"/>,
