@@ -61,7 +61,7 @@ public class PolygonManager : MonoBehaviour
             polygonDrawer.DrawPolygon(CurrentPolygon, true);
         }
 
-        AltStartState startstate = new();
+        StartState startstate = new();
         PathData path = startstate.GetStartState(positivePolygon, negativePolygons);
 
         VisualizePath visualizer = (VisualizePath)pathVisualiser.GetComponent("VisualizePath");
