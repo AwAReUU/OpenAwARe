@@ -71,7 +71,7 @@ namespace IngredientLists
             ingredientListManager.ChangeListName(newName);
         }
 
-        private void CreateSelectedListGameObject() 
+        private void CreateSelectedListGameObject()
         {
             Storage storage = Storage.Get();
 
