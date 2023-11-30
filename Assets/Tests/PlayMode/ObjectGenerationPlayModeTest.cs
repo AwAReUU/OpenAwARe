@@ -13,6 +13,8 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
 
+using RoomScan;
+
 namespace AwARe
 {
     /// <summary>
@@ -57,10 +59,9 @@ namespace AwARe
         {
             //arrange: Create a polygon and a big Renderable.
             List<Renderable> renderables = GetSingleRenderable(100f);
-            List<Vector3> polygonPoints = PolygonHelper.GetMockPolygon();
 
             //act: Try place Renderable in the polygon.
-            objectCreationManager.PlaceRenderables(renderables, polygonPoints);
+            objectCreationManager.PlaceRenderables(renderables, new TestRoom());
 
             //assert: The amount of placed objects did not change.
             //yield return new WaitForSeconds(1);
@@ -74,10 +75,9 @@ namespace AwARe
         {
             //arrange: Create a polygon and a small Renderable.
             List<Renderable> renderables = GetSingleRenderable(0.1f);
-            List<Vector3> polygonPoints = PolygonHelper.GetMockPolygon();
 
             //act: Place the renderable
-            objectCreationManager.PlaceRenderables(renderables, polygonPoints);
+            objectCreationManager.PlaceRenderables(renderables, new TestRoom());
 
             //assert: There is one Renderable in the scene.
             yield return null;
