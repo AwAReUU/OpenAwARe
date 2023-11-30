@@ -73,12 +73,12 @@ router.get("/getIngredientList", validateToken, async (req: any, res: any) => {
 
   db.all(
     `SELECT * FROM Ingredient WHERE IngredientID IN (` +
-    ids
-      .map(function() {
-        return "?";
-      })
-      .join(",") +
-    `);`,
+      ids
+        .map(function () {
+          return "?";
+        })
+        .join(",") +
+      `);`,
     ids,
     async (error: any, rows: any) => {
       if (error) {
@@ -101,7 +101,7 @@ router.get("/getRequirements", validateToken, async (req: any, res: any) => {
   let db = Database.getInstance().ingrdb();
 
   db.all(
-    `SELECT * FROM TABLE Requires WHERE IngredientID = ?;`,
+    `SELECT * FROM Requires WHERE IngredientID = ?;`,
     [id],
     async (error: any, rows: any) => {
       if (error) {
@@ -124,7 +124,7 @@ router.get("/getResource", validateToken, async (req: any, res: any) => {
   let db = Database.getInstance().ingrdb();
 
   db.get(
-    `SELECT * FROM TABLE Resource WHERE ResourceID = ?;`,
+    `SELECT * FROM Resource WHERE ResourceID = ?;`,
     [id],
     async (error: any, row: any) => {
       if (error) {
@@ -148,12 +148,12 @@ router.get("/getResourceList", validateToken, async (req: any, res: any) => {
 
   db.all(
     `SELECT * FROM Resource WHERE ResourceID IN (` +
-    ids
-      .map(function() {
-        return "?";
-      })
-      .join(",") +
-    `);`,
+      ids
+        .map(function () {
+          return "?";
+        })
+        .join(",") +
+      `);`,
     ids,
     async (error: any, rows: any) => {
       if (error) {
@@ -176,7 +176,7 @@ router.get("/getModel", validateToken, async (req: any, res: any) => {
   let db = Database.getInstance().ingrdb();
 
   db.get(
-    `SELECT * FROM TABLE Model WHERE ModelID = ?;`,
+    `SELECT * FROM Model WHERE ModelID = ?;`,
     [id],
     async (error: any, row: any) => {
       if (error) {
@@ -200,12 +200,12 @@ router.get("/getModelList", validateToken, async (req: any, res: any) => {
 
   db.all(
     `SELECT * FROM Model WHERE ModelID IN (` +
-    ids
-      .map(function() {
-        return "?";
-      })
-      .join(",") +
-    `);`,
+      ids
+        .map(function () {
+          return "?";
+        })
+        .join(",") +
+      `);`,
     ids,
     async (error: any, rows: any) => {
       if (error) {
