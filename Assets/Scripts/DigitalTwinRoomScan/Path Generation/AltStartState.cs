@@ -12,8 +12,9 @@ using UnityEngine.UIElements;
 
 public class AltStartState
 {
-    float scalefactor;
-    (float, float) movetransform;
+    float scaleFactor;
+    (float, float) moveTransform;
+    float averageHeight;
 
     List<bool[,]> frontGolayElements = new();
     List<bool[,]> backGolayElements = new();
@@ -73,15 +74,8 @@ public class AltStartState
 
         //do the thinning until only a skeleton remains
         //note: testing in an external duplicate to easily visualize the grid found that this takes a notable bit of time (~approx 15 seconds)
-        //current thinning gives wacky lines to corners
-        //these lines seem perfectly normal for the expected output of the algorithm
-        //but they are somehwat undesired
-        //potential solutions:
-        //1: just leave them. they're not THAT bad
-        //2: before thinning (and after initial erosion) apply erosion again until something dissapears
-        //   then do thinning with the state it was right before the thing disappears
-        //3: wacky ray-shoot / line detection elimination. probably the most robust if implemented, but hardest / most time consuming to implement
-        //4: 
+        //thinning can probably be done in parallel to significantly speed this up, but need to figure out how to do this.
+        //current thinning gives lines to corners, these need to be dealt with in the post-startstate algorithm
         createGolayElements();
         bool thinning = true;
         while(thinning)
@@ -151,23 +145,12 @@ public class AltStartState
         path.points = pathDataPoints;
         path.edges = pathDataEdges;
 
-        //check if there are points in the edges that are not in the points list
-        //debug results say no comments, so all points that are part of an edge are part of the points list
-        for(int i = 0; i < pathDataEdges.Count; i++)
-        {
-            Vector3 point1 = pathDataEdges[i].Item1;
-            Vector3 point2 = pathDataEdges[i].Item1;
-
-            if (!pathDataPoints.Contains(point1)) Debug.Log("point 1 not found in points list");
-            if (!pathDataPoints.Contains(point2)) Debug.Log("point 2 not found in points list");
-        }
-
-        //then here we extend pathdata endpoints
-        //path = ExtendEndPoints(path, positive, negatives, 10);
-
         return path;
     }
 
+    //endpoint extension turned out to be unnessecairy
+    //this still uses the old coordinates, so y and z values still need to be swapped if the code is to be used again
+    #region endpointExtension
     /// <summary>
     /// extend the enpoints of the path to the walls
     /// </summary>
@@ -243,19 +226,14 @@ public class AltStartState
                     //this means that it found a point with only one edge
                     //but also, that edge is already on the path
                     //how can dis be?
-                    //only option i can think of is a path consisting of 2 points but then the while loop would stop so no option either.
+                    //only option i can think of is a path consisting of 2 points (1 edge) but then the while should stop it
                     //was debugging this, last thing done: check of alle points van edges wel in de points list zitten. they are
-                    //to do next: maybe leave out endpoint extension, en maak eerst de demo video / demo
                     if (currentpoint == edgesfound[1].Item1) currentpoint = edgesfound[1].Item2;
                     else currentpoint = edgesfound[1].Item1;
                 }
-
                 //possible problems:
                 //incorrect path (edges/points list)
                 //incorrect endpoints / junctions list
-                //huh.mp4?
-
-
             }
 
             subpaths.Add(subpath);
@@ -369,6 +347,7 @@ public class AltStartState
 
         return intersections;
     }
+    #endregion
 
     /// <summary>
     /// turns the polygon into a list of its line segments signified by start and endpoint
@@ -380,7 +359,7 @@ public class AltStartState
         List<(Vector3, Vector3)> results = new();
         List<Vector3> points = polygon.GetPoints().ToList();
         //add a duplicate of the first point to the end of the list
-        points.Add(new Vector3(points[0].x, points[0].y));
+        points.Add(new Vector3(points[0].x, points[0].y, points[0].z));
 
         for (int i = 0; i < points.Count - 1; i++)
         {
@@ -392,6 +371,7 @@ public class AltStartState
 
     /// <summary>
     /// creates an empty grid of booleans with its size based on the size of a given polygon
+    /// also initalizes the movetransform, averageheight and scalefactor variables
     /// </summary>
     /// <param name="polygon">the polygon from which to create the grid</param>
     /// <returns>2d array of booleans that are set to false</returns>
@@ -401,42 +381,49 @@ public class AltStartState
         Vector3[] points = polygon.GetPoints();
 
         float minX = points[0].x;
-        float minY = points[0].y;
+        float minZ = points[0].z;
         float maxX = points[0].x;
-        float maxY = points[0].y;
+        float maxZ = points[0].z;
         for(int i = 1; i < points.Length; i++)
         {
             if (points[i].x < minX) minX = points[i].x;
             if (points[i].x > maxX) maxX = points[i].x;
-            if (points[i].y < minY) minY = points[i].y;
-            if (points[i].y > maxY) maxY = points[i].y;
+            if (points[i].z < minZ) minZ = points[i].z;
+            if (points[i].z > maxZ) maxZ = points[i].z;
+        }
+
+        //compute the average heigh of the polygon for later use
+        averageHeight = 0;
+        for(int i = 0; i < points.Length; i++)
+        {
+            averageHeight += points[i].y / points.Length;
         }
 
         float xDiff = maxX - minX;
-        float yDiff = maxY - minY;
+        float zDiff = maxZ - minZ;
 
         int xlength;
-        int ylength;
+        int zlength;
 
         //desired size: ~500 in the longest dimension
         int longestside = 500;
-        if (xDiff > yDiff)
+        if (xDiff > zDiff)
         {
             xlength = longestside;
-            ylength = (int)Math.Ceiling(longestside * (yDiff / xDiff));
-            scalefactor = xlength / xDiff;
+            zlength = (int)Math.Ceiling(longestside * (zDiff / xDiff));
+            scaleFactor = xlength / xDiff;
         }
         else
         {
-            ylength = longestside;
-            xlength = (int)Math.Ceiling(longestside * (xDiff / yDiff));
-            scalefactor = ylength / yDiff;
+            zlength = longestside;
+            xlength = (int)Math.Ceiling(longestside * (xDiff / zDiff));
+            scaleFactor = zlength / zDiff;
         }
 
         //the direction to move in to get from the polygon space to the grid space; addition.
-        movetransform = ((-minX) * scalefactor, (-minY) * scalefactor);
+        moveTransform = ((-minX) * scaleFactor, (-minZ) * scaleFactor);
 
-        return new bool[xlength + 1, ylength + 1];
+        return new bool[xlength + 1, zlength + 1];
     }
 
     /// <summary>
@@ -460,7 +447,7 @@ public class AltStartState
         {
             for(int y = 0; y < grid.GetLength(1); y++)
             {
-                //we cannot begin a floodfill from a point that is true
+                //it is useless to set a point that is already true to true
                 if (grid[x, y]) continue;
 
                 //check if current point is in positive polygon. if not, continue
@@ -471,17 +458,10 @@ public class AltStartState
             }
         }
 
-        //floodfill the positive polygon
-        if (foundPoints.Count > 0)
+        //fill in the positive polygon
+        for (int i = 0; i < foundPoints.Count; i++)
         {
-            for (int i = 0; i < foundPoints.Count; i++)
-            {
-                FloodArea(ref grid, foundPoints[i]);
-            }
-        }
-        else
-        {
-            Debug.Log("could not find a valid point in the positive polygon to start the floodfill from.");
+            grid[foundPoints[i].x, foundPoints[i].y] = true;
         }
 
         //carve out the negative polygons
@@ -495,15 +475,15 @@ public class AltStartState
                 DrawLine(ref grid, negativeLines[n][i], true);
             }
 
-            //find the valid points in the current negative polygon
+            //find the points in the current negative polygon
             for (int x = 0; x < grid.GetLength(0); x++)
             {
                 for (int y = 0; y < grid.GetLength(1); y++)
                 {
-                    //we cannot begin a floodfill from a point that is false
+                    //it is useless to set a point that is already false to false
                     if (!grid[x, y]) continue;
 
-                    //check if current point is in a negative polygon. if not, continue
+                    //check if current point is in the negative polygon. if not, continue
                     if (!CheckInPolygon(negativeLines[n], (x, y))) continue;
 
                     //if the loop makes it past all of the above checks, we have found a valid point
@@ -511,17 +491,10 @@ public class AltStartState
                 }
             }
 
-            //flood-erase the negative polygon
-            if(foundPoints.Count > 0)
+            //erase the points that lie in the negative polygon
+            for (int i = 0; i < foundPoints.Count; i++)
             {
-                for (int i = 0; i < foundPoints.Count; i++)
-                {
-                    FloodArea(ref grid, foundPoints[i], true);
-                }
-            }
-            else
-            {
-                Debug.Log("Could not find a valid point to start the flood-erase from in negative polygon " + n);
+                grid[foundPoints[i].x, foundPoints[i].y] = false;
             }
         }
     }
@@ -590,6 +563,8 @@ public class AltStartState
     /// <param name="linepoints"> line to draw. points are coordinates in the grid </param>
     private void DrawLine(ref bool[,] grid, ((int, int), (int, int)) linepoints, bool carve = false)
     {
+        bool setToValue = !carve;
+
         int x1 = linepoints.Item1.Item1;
         int y1 = linepoints.Item1.Item2;
         int x2 = linepoints.Item2.Item1;
@@ -614,35 +589,44 @@ public class AltStartState
 
         for (int x = Math.Min(x1, x2); x < Math.Max(x1, x2); x++)
         {
+            if (x < 0 || x > grid.GetLength(0)) continue;
+
             float y = a * x + b;
-            if(carve)
+            if (y - (int)y > 0.5)
             {
-                if (y - (int)y > 0.5) grid[x, (int)(y + 1)] = false;
-                else grid[x, (int)y] = false;
+                if (y + 1 < 0 || y + 1 > grid.GetLength(1)) continue;
+                grid[x, (int)(y + 1)] = setToValue;
             }
             else
             {
-                if (y - (int)y > 0.5) grid[x, (int)(y + 1)] = true;
-                else grid[x, (int)y] = true;
-            } 
+                if (y < 0 || y > grid.GetLength(1)) continue;
+                grid[x, (int)y] = setToValue;
+            }
         }
 
         for (int y = Math.Min(y1, y2); y < Math.Max(y1, y2); y++)
         {
+            if (y < 0 || y > grid.GetLength(1)) continue;
+
             float x = c * y + d;
-            if(carve)
+            if (x - (int)x > 0.5)
             {
-                if (x - (int)x > 0.5) grid[(int)(x + 1), y] = false;
-                else grid[(int)x, y] = false;
+                if (x + 1 < 0 || x + 1 > grid.GetLength(0)) continue;
+                grid[(int)(x + 1), y] = setToValue;
             }
             else
             {
-                if (x - (int)x > 0.5) grid[(int)(x + 1), y] = true;
-                else grid[(int)x, y] = true;
+                if (x < 0 || x > grid.GetLength(0)) continue;
+                grid[(int)x, y] = setToValue;
             }
         }
     }
 
+    //floodfill was used to fill in the grid lines that were drawn
+    //however, sometimes more more that 1 enclosed area was formed by drawing these lines
+    //this was problematic and we now had to find all the valid points to start the fill from
+    //so it became more efficient to set each of those points directly than to floodfill from each of them
+    #region floodfill
     /// <summary>
     /// flood an area of the grid with 'true' from a given start position. 
     /// it is assumed that there is a boundary of 'true' values surrounding the startpoint
@@ -705,6 +689,7 @@ public class AltStartState
         if (pos.x > 0 && pos.x < width && pos.y - 1 > 0 && pos.y - 1 < height)
             queue.Enqueue((pos.x, pos.y - 1));
     }
+    #endregion
 
     /// <summary>
     /// applies one iteration of the thinning operation to the given grid and returns it
@@ -774,8 +759,8 @@ public class AltStartState
             {
                 //if frontelement is true, the grid element at this position must also be true for it to be a hit
                 //if frontelement is false the grid element at this position may be true or false
-                // if backelement is true, the grid element at this position must be false for it to be a hit
-                // if backelement is false the grid element at this position may be true or false
+                //if backelement is true, the grid element at this position must be false for it to be a hit
+                //if backelement is false the grid element at this position may be true or false
 
                 //the position falls outside of the grid and is treated as if the grid there is false
                 if (x - offset + a < 0 || x - offset + a > grid.GetLength(0) - 1 ||
@@ -816,6 +801,8 @@ public class AltStartState
         else return false;
     }
 
+    //the code relating to the structuring elements used in the hit-or-miss operation
+    #region structuringElements
     /// <summary>
     /// create all the 'L Golay' structuring elements used for the hit-or-miss part of the thinning operation
     /// </summary>
@@ -870,6 +857,7 @@ public class AltStartState
         bool[,] elem8 = new bool[3, 3] { { true, true, false }, { true, false, false }, { false, false, false } };
         backGolayElements.Add(elem8);
     }
+    #endregion
 
     /// <summary>
     /// transform a 'polygon space' point into 'grid space'
@@ -878,11 +866,11 @@ public class AltStartState
     /// <returns>the transformed point </returns>
     private (int, int) ToGridSpace(Vector3 point)
     {
-        Matrix4x4 scale = Matrix4x4.Scale(new Vector3(scalefactor, scalefactor, 1));
+        Matrix4x4 scale = Matrix4x4.Scale(new Vector3(scaleFactor, 1, scaleFactor));
         Vector3 transformedPoint = scale.MultiplyPoint3x4(point);
-        Vector3 movedpoint = new Vector3(transformedPoint.x + movetransform.Item1, transformedPoint.y + movetransform.Item2);
+        Vector3 movedpoint = new Vector3(transformedPoint.x + moveTransform.Item1, 1, transformedPoint.z + moveTransform.Item2);
 
-        return ((int)Math.Round(movedpoint.x), (int)Math.Round(movedpoint.y));
+        return ((int)Math.Round(movedpoint.x), (int)Math.Round(movedpoint.z));
     }
 
     /// <summary>
@@ -892,8 +880,8 @@ public class AltStartState
     /// <returns>the transformed point </returns>
     private Vector3 ToPolygonSpace((int, int) point)
     {
-        Vector3 movedpoint = new Vector3(point.Item1 - movetransform.Item1, point.Item2 - movetransform.Item2);
-        Matrix4x4 scale = Matrix4x4.Scale(new Vector3(1 / scalefactor, 1 / scalefactor, 1));
+        Vector3 movedpoint = new Vector3(point.Item1 - moveTransform.Item1, averageHeight, point.Item2 - moveTransform.Item2);
+        Matrix4x4 scale = Matrix4x4.Scale(new Vector3(1 / scaleFactor, 1, 1 / scaleFactor));
         Vector3 transformedPoint = scale.MultiplyPoint3x4(movedpoint);
 
         return transformedPoint;
@@ -901,7 +889,7 @@ public class AltStartState
 }
 
 //todo primary:
-//change y and z cords in my code so that is no weird conversion is needed in the visualiser code
+//change y and z cords in my code so that is no weird conversion is needed in the visualiser code       //done
 //clean up code (comments enzo)
 //improve visualisatie zodat je ook negative polygons kan tekenen voordat je het pad bepaald
 //improve performance

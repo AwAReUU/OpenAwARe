@@ -61,46 +61,11 @@ public class PolygonManager : MonoBehaviour
             polygonDrawer.DrawPolygon(CurrentPolygon, true);
         }
 
-        //do path gen en visualise here
-
-        //create a copy with swapped y and z
-        Polygon poscopy = new();
-        List<Vector3> pospolypoints = positivePolygon.GetPointsList();
-        float pathheight = 0;
-        for (int i = 0; i < pospolypoints.Count; i++)
-        {
-            poscopy.AddPoint(new Vector3(pospolypoints[i].x, pospolypoints[i].z));
-            pathheight = pospolypoints[i].y;
-        }
-        List<Polygon> negcopies = new();
-        for(int i = 0; i < negativePolygons.Count; i++)
-        {
-            Polygon negcopy = new();
-            List<Vector3> negpolypoints = negativePolygons[i].GetPointsList();
-            for(int j = 0; j < negpolypoints.Count; j++)
-            {
-                negcopy.AddPoint(new Vector3(negpolypoints[j].x, negpolypoints[j].z));
-            }
-            negcopies.Add(negcopy);
-        }
-
         AltStartState startstate = new();
-        PathData path = startstate.GetStartState(poscopy, negcopies);
-
-        //swap y and z back
-        PathData pathcopy = new();
-        for(int i = 0; i < path.points.Count; i++)
-        {
-            pathcopy.points.Add(new Vector3(path.points[i].x, 0, path.points[i].y));
-        }
-        for(int i = 0; i < path.edges.Count; i++)
-        {
-            pathcopy.edges.Add((new Vector3(path.edges[i].Item1.x, pathheight, path.edges[i].Item1.y),
-                                new Vector3(path.edges[i].Item2.x, pathheight, path.edges[i].Item2.y)));
-        }
+        PathData path = startstate.GetStartState(positivePolygon, negativePolygons);
 
         VisualizePath visualizer = (VisualizePath)pathVisualiser.GetComponent("VisualizePath");
-        visualizer.SetPath(pathcopy);
+        visualizer.SetPath(path);
         visualizer.Visualize();
     }
 
