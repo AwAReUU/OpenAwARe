@@ -1,3 +1,6 @@
+UnityEditor:
+InterActObjectHandler script given as variable to inputController.
+
 Delete?:
 /omnisharp.json
 /awARe.sln.DotSettings
