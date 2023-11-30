@@ -1,5 +1,13 @@
-﻿using System.Collections.Generic;
+﻿// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
+using System.Collections.Generic;
 using System.Linq;
+using RoomScan;
 using UnityEngine;
 
 namespace ObjectGeneration
@@ -11,35 +19,23 @@ namespace ObjectGeneration
     public class PolygonHelper
     {
         /// <summary>
-        /// Get a fake hardcoded polygon for testing/debugging purposes.
-        /// </summary>
-        /// <returns>Hardcoded polygon</returns>
-        public static List<Vector3> GetMockPolygon()
-        {
-            return new List<Vector3>() {
-                new Vector3(-8f, -0.87f, -8f),
-                new Vector3(-8f, -0.87f, -3f),
-                new Vector3(-3f, -0.87f, -3f),
-                new Vector3(-3f, -0.87f, -8f)
-            };
-        }
-
-        /// <summary>
         /// Check if the <paramref name="point"/> is inside of the <paramref name="polygon"/>,
-        /// By using a Point-in-polygon (even-odd) algorithm.
+        /// by using a Point-in-polygon (even-odd) algorithm.
         /// </summary>
         /// <param name="polygon">The polygon described by points.</param>
         /// <param name="point">The point.</param>
         /// <returns>Whether the <paramref name="point"/> is inside the <paramref name="polygon"/>.</returns>
-        private static bool IsPointInsidePolygon(List<Vector3> polygon, Vector3 point)
+        public static bool IsPointInsidePolygon(Polygon polygon, Vector3 point)
         {
-            bool isInside = false;
-            int j = polygon.Count - 1;
+            List<Vector3> polygonPoints = polygon.Points;
 
-            for (int i = 0; i < polygon.Count; i++)
+            bool isInside = false;
+            int j = polygonPoints.Count - 1;
+
+            for (int i = 0; i < polygonPoints.Count; i++)
             {
-                Vector3 pi = polygon[i];
-                Vector3 pj = polygon[j];
+                Vector3 pi = polygonPoints[i];
+                Vector3 pj = polygonPoints[j];
 
                 if (pi.z < point.z && pj.z >= point.z || pj.z < point.z && pi.z >= point.z)
                     if (pi.x + (point.z - pi.z) / (pj.z - pi.z) * (pj.x - pi.x) < point.x) //crossproduct
@@ -51,13 +47,28 @@ namespace ObjectGeneration
         }
 
         /// <summary>
+        /// Check if the point is not inside of any of the given polygons.
+        /// </summary>
+        /// <param name="polygons">The polygons the point should not be in.</param>
+        /// <param name="point">The point to check.</param>
+        /// <returns>Whether the point is inside of any of the given polygons.</returns>
+        public static bool PointNotInPolygons(List<Polygon> polygons, Vector3 point)
+        {
+            foreach (Polygon polygon in polygons)
+            {
+                if (IsPointInsidePolygon(polygon, point)) return false;
+            }
+            return true;
+        }
+
+        /// <summary>
         /// Check if all four base <paramref name="corners"/> are inside of the polygon
         /// described by <paramref name="polygonPoints"/>.
         /// </summary>
         /// <param name="corners">Corners of the base of the bounding box of the Object.</param>
-        /// <param name="polygonPoints">Points that describe the polygon.</param>
-        /// <returns>Whether the object is inside the polygon.</returns>
-        public static bool ObjectColliderInPolygon(List<Vector3> corners, List<Vector3> polygonPoints)
-            => corners.All(corner => IsPointInsidePolygon(polygonPoints, corner));
+        /// <param name="room">The room.</param>
+        /// <returns>Whether the object is inside the positive polygon and outside the negative polygons.</returns>
+        public static bool ObjectColliderInPolygon(List<Vector3> corners, Room room)
+            => corners.All(corner => IsPointInsidePolygon(room.PositivePolygon, corner) && PointNotInPolygons(room.NegativePolygons, corner));
     }
 }

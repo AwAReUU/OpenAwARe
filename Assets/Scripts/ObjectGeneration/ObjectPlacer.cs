@@ -1,3 +1,4 @@
+using RoomScan;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,30 +9,30 @@ namespace ObjectGeneration
     public class ObjectPlacer
     {
         /// <summary>
-        /// Tries to place a <paramref name="renderable"></paramref> at <paramref name="position"></paramref>
+        /// Tries to place a <paramref name="renderable"></paramref> at <paramref name="position"></paramref>.
         /// </summary>
         /// <param name="renderable">Renderable object to place in the scene.</param>
         /// <param name="position">Exact position at which we will try to place the renderable.</param>
-        /// <param name="polygonPoints">The polygon described by points in which we will try to place.</param>
+        /// <param name="room">The room containing the polygons in which we will try to place.</param>
         /// <returns>Whether the object has been placed.</returns>
         private bool TryPlaceObject(
             Renderable renderable,
             Vector3 position,
-            List<Vector3> polygonPoints)
+            Room room)
         {
             // Check if the box of the new object will overlap with any other colliders
             Vector3 boxCenter = position;
             boxCenter.y += renderable.GetHalfExtents().y;
             if (Physics.CheckBox(
-                    boxCenter,
-                    renderable.GetHalfExtents(),
-                    Quaternion.identity,
-                    LayerMask.GetMask("Placed Objects"))) //only check collisions with other materials.
+                boxCenter,
+                renderable.GetHalfExtents(),
+                Quaternion.identity,
+                LayerMask.GetMask("Placed Objects"))) //only check collisions with other materials.
                 return false;
 
             // Check if the collider doesn't cross the polygon border
             List<Vector3> objectCorners = Renderable.CalculateColliderCorners(renderable, position);
-            if (!PolygonHelper.ObjectColliderInPolygon(objectCorners, polygonPoints))
+            if (!PolygonHelper.ObjectColliderInPolygon(objectCorners, room))
                 return false;
 
             // Adjust object size according to scalar
@@ -44,6 +45,7 @@ namespace ObjectGeneration
             BoxCollider bc = newObject.AddComponent<BoxCollider>();
 
             BoxCollidervisualizer visualBox = new(bc);
+
             return true;
         }
 
@@ -52,8 +54,8 @@ namespace ObjectGeneration
         /// on a polygon described by points.
         /// </summary>
         /// <param name="renderables">All items that we are going to place.</param>
-        /// <param name="polygonPoints">Polygon to place the renderables in.</param>
-        public void PlaceRenderables(List<Renderable> renderables, List<Vector3> polygonPoints)
+        /// <param name="room">Room to place the renderables in.</param>
+        public void PlaceRenderables(List<Renderable> renderables, Room room)
         {
             if (renderables.Count == 0)
                 return;
@@ -64,8 +66,8 @@ namespace ObjectGeneration
             //Mock polygon:
             //List<Vector3> polygonPoints = polygonManager.GetPolygon().GetPointsList();
 
-            PolygonSpawnPointHandler spawnPointHandler = new PolygonSpawnPointHandler(polygonPoints);
-            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints();
+            PolygonSpawnPointHandler spawnPointHandler = new PolygonSpawnPointHandler();
+            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room);
 
             foreach (var renderable in renderables) //prefab iterator
             {
@@ -86,7 +88,7 @@ namespace ObjectGeneration
                         ref prefabStacks,
                         availableSurfaceArea,
                         ref currentRatioUsage,
-                        polygonPoints);
+                        room);
             }
         }
 
@@ -99,8 +101,6 @@ namespace ObjectGeneration
         private float EstimateAvailableSurfaceArea(int spawnPointCount) =>
             spawnPointCount * 0.1f * 0.1f * 0.9f;
 
-
-
         /// <summary>
         /// Try to spawn an object, and try to stack if it does not fit.
         /// </summary>
@@ -109,21 +109,21 @@ namespace ObjectGeneration
         /// <param name="objStacks">Dictionary containing location of each instance of the current renderable.</param>
         /// <param name="availableSurfaceArea">The percentage of surface area that this renderable is allowed to use.</param>
         /// <param name="currentRatioUsage">The current percentage of surface area used by this renderable.</param>
-        /// <param name="polygonPoints">Polygon to place the object in. Used later on to check if the renderable does not cross polygon border.</param>
+        /// <param name="room">Room to place the object in. Used later on to check if the renderable does not cross polygon borders.</param>
         private void SpawnRenderable(
             Renderable renderable,
             List<Vector3> validSpawnPoints,
             ref Dictionary<Vector3, float> objStacks,
             float availableSurfaceArea,
             ref float currentRatioUsage,
-            List<Vector3> polygonPoints)
+            Room room)
         {
             for (int i = 0; i < validSpawnPoints.Count; i++) //spawn iterator
             {
                 float ratioUsage = renderable.GetHalfExtents().x * renderable.GetHalfExtents().z * 4 / availableSurfaceArea;
                 if (currentRatioUsage + ratioUsage < renderable.allowedSurfaceUsage)
                 {
-                    bool hasPlaced = TryPlaceObject(renderable, validSpawnPoints[i], polygonPoints);
+                    bool hasPlaced = TryPlaceObject(renderable, validSpawnPoints[i], room);
                     if (hasPlaced)
                     {
                         float height = validSpawnPoints[i].y + 2 * renderable.GetHalfExtents().y;
@@ -133,9 +133,8 @@ namespace ObjectGeneration
                     }
                 }
             }
-
             //If the program reaches here, it ran out of available "ground space", and will need to stack.
-            TryStack(renderable, ref objStacks, polygonPoints);
+            TryStack(renderable, ref objStacks, room);
         }
 
         /// <summary>
@@ -144,12 +143,12 @@ namespace ObjectGeneration
         /// </summary>
         /// <param name="renderable">Renderable to place.</param>
         /// <param name="objStacks">Dictionary containing locations of instances of this prefab.</param>
-        /// <param name="polygonPoints">Polygon in which the renderable placed.</param>
+        /// <param name="room">Room in which the renderables are placed.</param>
         /// <returns>Whether the stacking was successful.</returns>
         private bool TryStack(
             Renderable renderable,
             ref Dictionary<Vector3, float> objStacks,
-            List<Vector3> polygonPoints)
+            Room room)
         {
             while (objStacks.Keys.ToList().Count > 0)
             {
@@ -164,7 +163,6 @@ namespace ObjectGeneration
                         smallestStackPos = kvp.Key;
                     }
                 }
-
                 if (smallestStackHeight == float.MaxValue) //error scenario
                     return false;
 
@@ -185,7 +183,7 @@ namespace ObjectGeneration
                 //Step 3: Test placement on new spot, check for collisions.
                 Vector3 newPos = smallestStackPos;
                 newPos.y = stackHeight;
-                bool hasPlaced = TryPlaceObject(renderable, newPos, polygonPoints);
+                bool hasPlaced = TryPlaceObject(renderable, newPos, room);
                 if (hasPlaced)
                 {
                     objStacks[smallestStackPos] = newHeight;
@@ -194,7 +192,6 @@ namespace ObjectGeneration
                 else
                     objStacks.Remove(smallestStackPos);
             }
-
             //Out of available stacks for this gameObject:
             return false;
         }
