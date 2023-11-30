@@ -108,10 +108,60 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3887108096450022881, guid: 1fde0af1f3f62ab42b52eb326c823c7c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887108096450022881, guid: 1fde0af1f3f62ab42b52eb326c823c7c,
+        type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887108096450022881, guid: 1fde0af1f3f62ab42b52eb326c823c7c,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887108096450022881, guid: 1fde0af1f3f62ab42b52eb326c823c7c,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887108096450022881, guid: 1fde0af1f3f62ab42b52eb326c823c7c,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189340766757437002, guid: 1fde0af1f3f62ab42b52eb326c823c7c,
+        type: 3}
+      propertyPath: m_text
+      value: amount...
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189340766757437002, guid: 1fde0af1f3f62ab42b52eb326c823c7c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189340766757437002, guid: 1fde0af1f3f62ab42b52eb326c823c7c,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189340766757437002, guid: 1fde0af1f3f62ab42b52eb326c823c7c,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189340766757437002, guid: 1fde0af1f3f62ab42b52eb326c823c7c,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8656272725491736856, guid: 1fde0af1f3f62ab42b52eb326c823c7c,
         type: 3}
       propertyPath: m_Name
-      value: InputField
+      value: InputField Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

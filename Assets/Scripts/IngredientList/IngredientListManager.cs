@@ -1,6 +1,7 @@
 using Databases;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace IngredientLists
 {
@@ -17,6 +18,7 @@ namespace IngredientLists
         [SerializeField] private GameObject ingredientListScreen; // displays the list of ingredients
         [SerializeField] private GameObject searchScreen;         // for searching new ingredients to add to the list
         [SerializeField] private GameObject ingredientScreen;     // for altering the quantity(type) of an ingredient & displays information about the ingredient 
+        public event Action OnIngredientListChanged;
 
         IIngredientDatabase ingredientDatabase;
 
@@ -44,6 +46,11 @@ namespace IngredientLists
             SelectedList = list;
 
             ingredientListScreen.SetActive(true);
+        }
+
+        private void NotifyListChanged()
+        {
+            OnIngredientListChanged?.Invoke();
         }
 
         /// <summary>
@@ -92,7 +99,9 @@ namespace IngredientLists
         /// <param name="ingredient"> The ingredient that is to be added </param>
         public void AddIngredient(Ingredient ingredient, float quantity)
         {
+            
             SelectedList.AddIngredient(ingredient, quantity);
+            NotifyListChanged();
         }
 
         /// <summary>
@@ -101,7 +110,9 @@ namespace IngredientLists
         /// <param name="ingredient"> The ingredient that is to be deleted </param>
         public void DeleteIngredient(Ingredient ingredient)
         {
+            
             SelectedList.RemoveIngredient(ingredient);
+            NotifyListChanged();
         }
 
         /// <summary>
@@ -111,7 +122,9 @@ namespace IngredientLists
         /// <param name="newType"> New quantity type of the ingredient </param>
         public void UpdateIngredient(float newQuantity, QuantityType newType)
         {
+            
             SelectedList.UpdateIngredient(SelectedIngredient, newQuantity, newType);
+            NotifyListChanged();
         }
 
         /// <summary>

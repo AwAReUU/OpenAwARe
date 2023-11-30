@@ -12,10 +12,12 @@ namespace IngredientLists
         [SerializeField] private IngredientListManager ingredientListManager;
         [SerializeField] private Transform scrollViewContent;
         [SerializeField] private GameObject listItemObject; //list item 'prefab'
+        [SerializeField] private GameObject popupScreen;
         private int clickCount = 0;
         private Dictionary<GameObject, Button> checkButtonsDictionary = new Dictionary<GameObject, Button>();
         private Button selectedCheckButton;
         private Button selectedBorderButton;
+       
 
         // the objects drawn on screen to display the Lists
         List<GameObject> listObjects = new();
@@ -97,6 +99,11 @@ namespace IngredientLists
             DisplayLists();
         }
 
+        /// <summary>
+        /// Calls the image of a button and changes it's color
+        /// </summary>
+        /// <param name="btn"> the button that changes color </param>
+        /// <param name="colr"> the color that the button changes into </param>
         public void ChangeColor(Button btn,Color colr)
         {
             btn.GetComponent<Image>().color = colr;
@@ -104,13 +111,35 @@ namespace IngredientLists
         }
 
         /// <summary>
-        /// Calls an instance of ingredientListManager to delete the given ingredient list, then displays the new list of ingredient lists.
+        /// Calls an instance of ingredientListManager which is used by the DeletePopUp method which interacts 
+        ///  with the popupScreen elements which are set to active in this method.
         /// </summary>
         /// <param name="list"> The ingredient list that is to be deleted </param>
         private void OnDeleteButtonClick(IngredientList list)
         {
-            ingredientListManager.DeleteList(list);
-            DisplayLists();
+            popupScreen.SetActive(true);
+            DeletePopUp(list);
+        }
+
+        /// <summary>
+        /// Calls an instance of ingredientListManager, if the user clicks the yes button on the pop-up they confirm the deletion and  deletes the given ingredient list.
+        /// The pop-up screen also dissapears.
+        /// If the user clicks the no button on the pop-up the pop-up screen dissapears. 
+        /// </summary>
+        /// <param name="list"> The ingredient list that is to be deleted </param>
+        private void DeletePopUp(IngredientList list)
+        {
+            Button yesButton = popupScreen.transform.GetChild(2).GetComponent<Button>();
+            Button noButton = popupScreen.transform.GetChild(1).GetComponent<Button>();
+           
+
+            yesButton.onClick.AddListener(() => {
+                ingredientListManager.DeleteList(list);
+                DisplayLists();
+                popupScreen.SetActive(false);   
+            });
+            noButton.onClick.AddListener(() => {popupScreen.SetActive(false); });
+         
         }
 
         /// <summary>
@@ -127,6 +156,12 @@ namespace IngredientLists
             //TODO: Open main menu
         }
 
+        /// <summary>
+        /// Toggles the color and visibility of two buttons, representing a check button and its corresponding border button.
+        /// Also checking if there are buttons that have been previously checked and activating them
+        /// </summary>
+        /// <param name="btn1"> The check button to be toggled. </param>
+        /// <param name="btn2"> The corresponding border button to be toggled.
         public void OnCheckButtonClick(Button btn1, Button btn2)
         {
             // Toggle the color of btn1 and the visibility of btn2
