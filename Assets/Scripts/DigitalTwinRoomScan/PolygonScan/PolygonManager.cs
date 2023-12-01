@@ -38,7 +38,7 @@ public class PolygonManager : MonoBehaviour
 
         UIObjects = new()
         {
-            createBtn, resetBtn, confirmBtn, slider, applyBtn, endBtn, pointerObj, scanner.gameObject, polygonMesh.gameObject
+            createBtn, resetBtn, confirmBtn, slider, applyBtn, endBtn, pointerObj, scanner.gameObject, polygonMesh.gameObject, pathVisualiser
         };
 
         SwitchToState(State.Default);
@@ -61,6 +61,10 @@ public class PolygonManager : MonoBehaviour
             polygonDrawer.DrawPolygon(CurrentPolygon, true);
         }
 
+    }
+
+    public void GenerateAndDrawPath()
+    {
         StartState startstate = new();
         PathData path = startstate.GetStartState(positivePolygon, negativePolygons);
 
@@ -137,11 +141,13 @@ public class PolygonManager : MonoBehaviour
                 objects.Add(resetBtn);
                 objects.Add(scanner.gameObject);
                 objects.Add(pointerObj);
+                objects.Add(pathVisualiser);
                 break;
             case State.SettingHeight:
                 objects.Add(confirmBtn);
                 objects.Add(slider);
                 objects.Add(polygonMesh.gameObject);
+                objects.Add(pathVisualiser);
                 break;
             case State.Saving:
                 objects.Add(createBtn);
