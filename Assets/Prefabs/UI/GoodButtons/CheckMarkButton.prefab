@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3307857425887078857
+--- !u!1001 &7305581234620903708
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -108,10 +108,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2526314499844748391, guid: 2f50b78a4aac5cd48b8ce88f09c7f47a,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.1733179
+      objectReference: {fileID: 0}
+    - target: {fileID: 2526314499844748391, guid: 2f50b78a4aac5cd48b8ce88f09c7f47a,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.8584906
+      objectReference: {fileID: 0}
+    - target: {fileID: 2526314499844748391, guid: 2f50b78a4aac5cd48b8ce88f09c7f47a,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.33390525
+      objectReference: {fileID: 0}
     - target: {fileID: 3717797220941408252, guid: 2f50b78a4aac5cd48b8ce88f09c7f47a,
         type: 3}
       propertyPath: m_Name
-      value: RoundButton
+      value: CheckMarkButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

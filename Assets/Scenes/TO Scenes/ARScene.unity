@@ -6060,6 +6060,7 @@ MonoBehaviour:
   ingredientListScreen: {fileID: 828592512}
   searchScreen: {fileID: 1540540227}
   ingredientScreen: {fileID: 636720264}
+  generalPopup: {fileID: 0}
 --- !u!4 &634747210
 Transform:
   m_ObjectHideFlags: 0
@@ -7406,6 +7407,7 @@ MonoBehaviour:
   saveButton: {fileID: 1344302688}
   scrollViewContent: {fileID: 1385483925}
   loadListButton: {fileID: 1443264870}
+  popupScreen: {fileID: 0}
 --- !u!224 &828592514
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7668,52 +7670,14 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1555087121853402132, guid: a55bcf4bd3de8234b98369b5473f31a5,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 852208876}
-    - targetCorrespondingSourceObject: {fileID: 1555087121853402132, guid: a55bcf4bd3de8234b98369b5473f31a5,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 852208877}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a55bcf4bd3de8234b98369b5473f31a5, type: 3}
 --- !u!224 &852208874 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8780071742689551910, guid: a55bcf4bd3de8234b98369b5473f31a5,
+  m_CorrespondingSourceObject: {fileID: 4214420512263766338, guid: a55bcf4bd3de8234b98369b5473f31a5,
     type: 3}
   m_PrefabInstance: {fileID: 852208873}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &852208875 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1555087121853402132, guid: a55bcf4bd3de8234b98369b5473f31a5,
-    type: 3}
-  m_PrefabInstance: {fileID: 852208873}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &852208876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 852208875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6abf5369e041fb74689459af5f3c6e7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &852208877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 852208875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87ef14362c0824f42b568ceadd71d6bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &862931201
 GameObject:
   m_ObjectHideFlags: 0
@@ -8661,7 +8625,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 931732227}
+      objectReference: {fileID: 0}
     - target: {fileID: 6775265897339285552, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -8685,37 +8649,14 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4703911314341273196, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 931732227}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ba55e57d56f01040b58dfdc0044f5ec, type: 3}
 --- !u!224 &931732225 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1881196710140279754, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
+  m_CorrespondingSourceObject: {fileID: 7061043267433575324, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
     type: 3}
   m_PrefabInstance: {fileID: 931732224}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &931732226 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4703911314341273196, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
-    type: 3}
-  m_PrefabInstance: {fileID: 931732224}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &931732227
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 931732226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82d0150704a21004e9632d939647f913, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  popupPanel: {fileID: 1639480553}
 --- !u!1 &944169431
 GameObject:
   m_ObjectHideFlags: 0
@@ -15228,7 +15169,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1692205054}
+      objectReference: {fileID: 0}
     - target: {fileID: 6775265897339285552, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -15252,37 +15193,14 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4703911314341273196, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1692205054}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ba55e57d56f01040b58dfdc0044f5ec, type: 3}
 --- !u!224 &1692205052 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1881196710140279754, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
+  m_CorrespondingSourceObject: {fileID: 7061043267433575324, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
     type: 3}
   m_PrefabInstance: {fileID: 1692205051}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1692205053 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4703911314341273196, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
-    type: 3}
-  m_PrefabInstance: {fileID: 1692205051}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1692205054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1692205053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82d0150704a21004e9632d939647f913, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  popupPanel: {fileID: 1639480553}
 --- !u!1001 &1701698317
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17148,6 +17066,9 @@ MonoBehaviour:
   ingredientListManager: {fileID: 634747209}
   scrollViewContent: {fileID: 41421449}
   listItemObject: {fileID: 1649120895}
+  questionButton: {fileID: 0}
+  sortingButton: {fileID: 0}
+  popupScreen: {fileID: 0}
 --- !u!114 &1978099199
 MonoBehaviour:
   m_ObjectHideFlags: 0
