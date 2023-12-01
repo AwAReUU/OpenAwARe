@@ -5,11 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Animal
+  - ObjectCreationManager
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Material2
+  - Placed Objects
   - Water
   - UI
   - Ingredient

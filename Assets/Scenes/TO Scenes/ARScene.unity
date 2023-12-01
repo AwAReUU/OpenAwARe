@@ -257,12 +257,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2860441}
   m_CullTransparentMesh: 1
---- !u!120 &18133703 stripped
-LineRenderer:
-  m_CorrespondingSourceObject: {fileID: 7613406942604140912, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
-    type: 3}
-  m_PrefabInstance: {fileID: 512199214}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &24330724
 GameObject:
   m_ObjectHideFlags: 0
@@ -3235,7 +3229,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 744273401}
         m_TargetAssemblyTypeName: PolygonManager, Assembly-CSharp
-        m_MethodName: ResetPolygon
+        m_MethodName: StartScanning
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4614,12 +4608,12 @@ PrefabInstance:
         type: 3}
       propertyPath: tempLine
       value: 
-      objectReference: {fileID: 2089200051}
+      objectReference: {fileID: 0}
     - target: {fileID: 2523054796051462468, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
         type: 3}
       propertyPath: closeLine
       value: 
-      objectReference: {fileID: 18133703}
+      objectReference: {fileID: 0}
     - target: {fileID: 2523054796051462468, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
         type: 3}
       propertyPath: lineObject
@@ -4646,7 +4640,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7447238413813914455, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd, type: 3}
+    - {fileID: 1130200987254680990, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd, type: 3}
@@ -5263,7 +5259,8 @@ PrefabInstance:
       propertyPath: m_text
       value: Questionnaire
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -4052841940317771631, guid: 3aa768d437de079459fa489a47cdb48b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -9847,7 +9844,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1021139787}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c091d52f007ef994f9d240ec07bea729, type: 3}
+  m_Script: {fileID: 11500000, guid: 6659b043cd8018f4cbe7284b28abc30e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   phasePolyScan: {fileID: 1406738428}
@@ -10168,10 +10165,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1077541983}
-    - targetCorrespondingSourceObject: {fileID: 1004542446960334530, guid: 3aa768d437de079459fa489a47cdb48b,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1077541982}
   m_SourcePrefab: {fileID: 100100000, guid: 3aa768d437de079459fa489a47cdb48b, type: 3}
 --- !u!224 &1077541980 stripped
 RectTransform:
@@ -10185,18 +10178,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1077541979}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1077541982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077541981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87ef14362c0824f42b568ceadd71d6bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1077541983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10352,7 +10333,8 @@ PrefabInstance:
       propertyPath: m_text
       value: Load Room
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -4052841940317771631, guid: 3aa768d437de079459fa489a47cdb48b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -10920,7 +10902,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 744273401}
         m_TargetAssemblyTypeName: PolygonManager, Assembly-CSharp
-        m_MethodName: ResetPolygon
+        m_MethodName: StartScanning
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13937,7 +13919,8 @@ PrefabInstance:
       propertyPath: m_text
       value: Settings
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -4052841940317771631, guid: 3aa768d437de079459fa489a47cdb48b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -14170,6 +14153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51de02e0eb10a3a4ebf6c0b54aac3302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  polygonManager: {fileID: 744273401}
   placeButton: {fileID: 1518352462}
 --- !u!114 &1535441704
 MonoBehaviour:
@@ -15031,8 +15015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1760703bbd54c04488a8d10600262ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PlanePrefab: {fileID: 5753267805425949751, guid: d97b9c0b26e58f9418e6f9984c2c5157,
-    type: 3}
+  m_PlanePrefab: {fileID: 0}
   m_DetectionMode: 1
 --- !u!114 &1659859603
 MonoBehaviour:
@@ -18110,12 +18093,6 @@ RectTransform:
   m_AnchoredPosition: {x: 10, y: -757}
   m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!120 &2089200051 stripped
-LineRenderer:
-  m_CorrespondingSourceObject: {fileID: 6614461975305764114, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
-    type: 3}
-  m_PrefabInstance: {fileID: 512199214}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2095655366
 GameObject:
   m_ObjectHideFlags: 0
@@ -18737,7 +18714,6 @@ GameObject:
   - component: {fileID: 2711088048462286017}
   - component: {fileID: 8710277629913751403}
   - component: {fileID: 3343430421716377055}
-  - component: {fileID: 5170530096467392336}
   - component: {fileID: 216686533}
   - component: {fileID: 216686532}
   m_Layer: 5
@@ -18858,18 +18834,6 @@ MonoBehaviour:
           m_StringArgument: ing
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5170530096467392336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1004542447150500099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87ef14362c0824f42b568ceadd71d6bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7287409285982319293
 GameObject:
   m_ObjectHideFlags: 0
