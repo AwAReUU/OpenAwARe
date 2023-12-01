@@ -41,10 +41,6 @@ namespace IngredientLists
             ListName = name;
         }
 
-        public void ChangeName(string name)
-        {
-            ListName = name;
-        }
 
         public void AddIngredient(Ingredient ingredient, float quantity, QuantityType type = QuantityType.G)
         {

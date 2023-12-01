@@ -74,15 +74,10 @@ namespace IngredientLists
         private void OnLoadListButtonClick()
         {
             //ingredientListManager.CloseListScreen();
-            CreateSelectedListGameObject();
+            //CreateSelectedListGameObject();
             //backButton.SetActive(false);
         }
 
-        public void OnChangeListName()
-        {
-            string newName = listTitle.GetComponent<TMP_InputField>().text;
-            ingredientListManager.ChangeListName(newName);
-        }
 
         /// <summary>
         /// Changes the name of the list to the name that is put into the inputfield in unity
@@ -93,12 +88,6 @@ namespace IngredientLists
             ingredientListManager.ChangeListName(newName);
         }
 
-        private void CreateSelectedListGameObject() 
-        {
-            Storage storage = Storage.Get();
-
-            storage.ActiveIngredientList = ingredientListManager.SelectedList;
-        }
         
         /// <summary>
         /// the variable changesmade is switched to true because a change is made in the list
