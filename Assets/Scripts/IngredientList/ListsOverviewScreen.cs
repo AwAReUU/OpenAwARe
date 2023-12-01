@@ -12,8 +12,9 @@ namespace IngredientLists
         [SerializeField] private IngredientListManager ingredientListManager;
         [SerializeField] private Transform scrollViewContent;
         [SerializeField] private GameObject listItemObject; //list item 'prefab'
+        [SerializeField] private GameObject questionButton;
+        [SerializeField] private GameObject sortingButton; 
         [SerializeField] private GameObject popupScreen;
-        private int clickCount = 0;
         private Dictionary<GameObject, Button> checkButtonsDictionary = new Dictionary<GameObject, Button>();
         private Button selectedCheckButton;
         private Button selectedBorderButton;
@@ -25,7 +26,11 @@ namespace IngredientLists
         private void OnEnable()
         {
             Button backB = backButton.GetComponent<Button>();
+            Button questionB = questionButton.GetComponent<Button>();
+            Button sortingB = sortingButton.GetComponent<Button>();
             backB.onClick.AddListener(delegate { OnBackButtonClick(); });
+            questionB.onClick.AddListener(delegate { ingredientListManager.PopUpOn(); });
+            sortingB.onClick.AddListener(delegate { ingredientListManager.PopUpOn(); });
             backButton.SetActive(true);
 
             DisplayLists();
@@ -34,7 +39,12 @@ namespace IngredientLists
         private void OnDisable()
         {
             Button backB = backButton.GetComponent<Button>();
+            Button questionB = questionButton.GetComponent<Button>();
+            Button sortingB = sortingButton.GetComponent<Button>();
             backB.onClick.RemoveAllListeners();
+            questionB.onClick.RemoveAllListeners();
+            sortingB.onClick.RemoveAllListeners();
+
             RemoveListObjects();
         }
 

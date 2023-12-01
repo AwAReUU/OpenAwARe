@@ -74,12 +74,18 @@ namespace IngredientLists
             backButton.SetActive(false);
         }
 
+        /// <summary>
+        /// Changes the name of the list to the name that is put into the inputfield in unity
+        /// </summary>
         public void OnChangeListName()
         {
             string newName = listTitle.GetComponent<TMP_InputField>().text;
             ingredientListManager.ChangeListName(newName);
         }
 
+        /// <summary>
+        /// the variable changesmade is switched to true because a change is made in the list
+        /// </summary>
         private void HandleChangesMade()
         {
             changesMade = true;
@@ -202,8 +208,6 @@ namespace IngredientLists
             keepeditButton.onClick.AddListener(() => { popupScreen.SetActive(false); });
 
         }
-
-
 
         /// <summary>
         /// Calls an instance of IngredientListManager to close the IngredientListScreen and open the SearchScreen to add a new ingredient.

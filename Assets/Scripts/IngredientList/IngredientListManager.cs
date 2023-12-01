@@ -17,7 +17,8 @@ namespace IngredientLists
         [SerializeField] private GameObject listsOverviewScreen;  // displays the list of ingredient Lists
         [SerializeField] private GameObject ingredientListScreen; // displays the list of ingredients
         [SerializeField] private GameObject searchScreen;         // for searching new ingredients to add to the list
-        [SerializeField] private GameObject ingredientScreen;     // for altering the quantity(type) of an ingredient & displays information about the ingredient 
+        [SerializeField] private GameObject ingredientScreen;     // for altering the quantity(type) of an ingredient & displays information about the ingredient
+        [SerializeField] private GameObject generalPopup;         // for when a feature is not implemented
         public event Action OnIngredientListChanged;
 
         IIngredientDatabase ingredientDatabase;
@@ -115,10 +116,16 @@ namespace IngredientLists
             NotifyListChanged();
         }
 
+        /// <summary>
+        /// Changes the name of a list into it's newly give name
+        /// </summary>
+        /// <param name="name"> The name that is to be given to the list </param>
         public void ChangeListName(string name)
         {
             SelectedList.ChangeName(name);
+            NotifyListChanged();
         }
+
         /// <summary>
         /// Sets the quantity and type of the currently selected ingredient inside the IngredientList to the given quantity and type and saves the ingredient list.
         /// </summary>
@@ -150,6 +157,22 @@ namespace IngredientLists
         {
             Lists.Remove(list);
             fileHandler.SaveLists(Lists);
+        }
+
+        /// <summary>
+        /// Shows the popup
+        /// </summary>
+        public void PopUpOn()
+        {
+            this.generalPopup.SetActive(true);
+
+        }
+        /// <summary>
+        /// removes the popup
+        /// </summary>
+        public void PopUpOff()
+        {
+            this.generalPopup.SetActive(false);
         }
     }
 }
