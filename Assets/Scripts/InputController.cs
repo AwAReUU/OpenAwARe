@@ -11,6 +11,7 @@ using UnityEngine.UIElements;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch;
+using ObjectGeneration;
 
 // Kizi: I changed the ARplanemanager to accept a pointcloud manager for now instead to geenrate the pointcloud for the boundingbox
 public enum InputStates { All, Place, Interact }

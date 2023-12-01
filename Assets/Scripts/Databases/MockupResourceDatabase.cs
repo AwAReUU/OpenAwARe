@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using ResourceLists;
+using IngredientPipeLine;
 
 namespace Databases
 {
@@ -28,9 +28,9 @@ namespace Databases
                 new Resource(14,       "Pork",  ResourceType.Animal,  50000, 4),
                 new Resource(15,       "Duck",  ResourceType.Animal,   2500, 5),
                 new Resource(16,       "Milk",  ResourceType.Animal,   null, 8),
-                new Resource(17,      "Wheat",  ResourceType.Plant,      80, 7),
+                new Resource(17,      "Wheat",  ResourceType.Plant,      500, 7),
                 new Resource(18,     "Potato",  ResourceType.Plant,    1000, 9),
-                new Resource(19,     "Potato",  ResourceType.Plant,     150, 10)
+                new Resource(19,     "Beet",  ResourceType.Plant,     250, 10)
             };
         }
 

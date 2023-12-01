@@ -1,5 +1,8 @@
 using System.Linq;
 using System.Collections.Generic;
+
+using AwARe.MonoBehaviours;
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -71,7 +74,14 @@ namespace IngredientLists
         private void OnLoadListButtonClick()
         {
             //ingredientListManager.CloseListScreen();
-            backButton.SetActive(false);
+            CreateSelectedListGameObject();
+            //backButton.SetActive(false);
+        }
+
+        public void OnChangeListName()
+        {
+            string newName = listTitle.GetComponent<TMP_InputField>().text;
+            ingredientListManager.ChangeListName(newName);
         }
 
         /// <summary>
@@ -83,6 +93,13 @@ namespace IngredientLists
             ingredientListManager.ChangeListName(newName);
         }
 
+        private void CreateSelectedListGameObject() 
+        {
+            Storage storage = Storage.Get();
+
+            storage.ActiveIngredientList = ingredientListManager.SelectedList;
+        }
+        
         /// <summary>
         /// the variable changesmade is switched to true because a change is made in the list
         /// </summary>

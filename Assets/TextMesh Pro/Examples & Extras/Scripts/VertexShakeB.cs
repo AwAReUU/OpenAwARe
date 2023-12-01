@@ -134,7 +134,7 @@ namespace TMPro.Examples
                         // Setup the matrix for the scale change.
                         matrix = Matrix4x4.TRS(Vector3.one, Quaternion.identity, Vector3.one * randomScale);
 
-                        // Apply the scale change relative to the center of each character.
+                        // OnApplyButtonClick the scale change relative to the center of each character.
                         copyOfVertices[materialIndex][vertexIndex + 0] = matrix.MultiplyPoint3x4(copyOfVertices[materialIndex][vertexIndex + 0]);
                         copyOfVertices[materialIndex][vertexIndex + 1] = matrix.MultiplyPoint3x4(copyOfVertices[materialIndex][vertexIndex + 1]);
                         copyOfVertices[materialIndex][vertexIndex + 2] = matrix.MultiplyPoint3x4(copyOfVertices[materialIndex][vertexIndex + 2]);
@@ -156,7 +156,7 @@ namespace TMPro.Examples
                         // Setup the matrix rotation.
                         matrix = Matrix4x4.TRS(Vector3.one, rotation, Vector3.one);
 
-                        // Apply the matrix TRS to the individual characters relative to the center of the current line.
+                        // OnApplyButtonClick the matrix TRS to the individual characters relative to the center of the current line.
                         copyOfVertices[materialIndex][vertexIndex + 0] = matrix.MultiplyPoint3x4(copyOfVertices[materialIndex][vertexIndex + 0]);
                         copyOfVertices[materialIndex][vertexIndex + 1] = matrix.MultiplyPoint3x4(copyOfVertices[materialIndex][vertexIndex + 1]);
                         copyOfVertices[materialIndex][vertexIndex + 2] = matrix.MultiplyPoint3x4(copyOfVertices[materialIndex][vertexIndex + 2]);
