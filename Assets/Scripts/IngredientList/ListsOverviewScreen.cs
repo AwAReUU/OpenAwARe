@@ -15,6 +15,7 @@ namespace IngredientLists
         [SerializeField] private GameObject questionButton;
         [SerializeField] private GameObject sortingButton; 
         [SerializeField] private GameObject popupScreen;
+        [SerializeField] private GameObject NottherepopupScreen;
         private Dictionary<GameObject, Button> checkButtonsDictionary = new Dictionary<GameObject, Button>();
         private Button selectedCheckButton;
         private Button selectedBorderButton;
@@ -29,8 +30,8 @@ namespace IngredientLists
             Button questionB = questionButton.GetComponent<Button>();
             Button sortingB = sortingButton.GetComponent<Button>();
             backB.onClick.AddListener(delegate { OnBackButtonClick(); });
-            questionB.onClick.AddListener(delegate { ingredientListManager.PopUpOn(); });
-            sortingB.onClick.AddListener(delegate { ingredientListManager.PopUpOn(); });
+            questionB.onClick.AddListener(delegate { ingredientListManager.PopUpOn(NottherepopupScreen); });
+            sortingB.onClick.AddListener(delegate { ingredientListManager.PopUpOn(NottherepopupScreen); });
             backButton.SetActive(true);
 
             DisplayLists();

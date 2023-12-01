@@ -19,7 +19,7 @@ namespace IngredientLists
         [SerializeField] private GameObject ingredientListScreen; // displays the list of ingredients
         [SerializeField] private GameObject searchScreen;         // for searching new ingredients to add to the list
         [SerializeField] private GameObject ingredientScreen;     // for altering the quantity(type) of an ingredient & displays information about the ingredient
-        [SerializeField] private GameObject generalPopup;         // for when a feature is not implemented
+        
         public event Action OnIngredientListChanged;
 
         IIngredientDatabase ingredientDatabase;
@@ -175,17 +175,18 @@ namespace IngredientLists
         /// <summary>
         /// Shows the popup
         /// </summary>
-        public void PopUpOn()
+        public void PopUpOn(GameObject popup)
         {
-            this.generalPopup.SetActive(true);
+            Debug.Log("PopUpOn() called");
+            popup.SetActive(true);
 
         }
         /// <summary>
         /// removes the popup
         /// </summary>
-        public void PopUpOff()
+        public void PopUpOff(GameObject popup)
         {
-            this.generalPopup.SetActive(false);
+           popup.SetActive(false);
         }
     }
 }
