@@ -115,6 +115,10 @@ namespace IngredientLists
             NotifyListChanged();
         }
 
+        public void ChangeListName(string name)
+        {
+            SelectedList.ChangeName(name);
+        }
         /// <summary>
         /// Sets the quantity and type of the currently selected ingredient inside the IngredientList to the given quantity and type and saves the ingredient list.
         /// </summary>

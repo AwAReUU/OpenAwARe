@@ -74,6 +74,12 @@ namespace IngredientLists
             backButton.SetActive(false);
         }
 
+        public void OnChangeListName()
+        {
+            string newName = listTitle.GetComponent<TMP_InputField>().text;
+            ingredientListManager.ChangeListName(newName);
+        }
+
         private void HandleChangesMade()
         {
             changesMade = true;
