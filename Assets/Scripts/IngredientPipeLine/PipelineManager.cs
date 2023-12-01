@@ -10,7 +10,7 @@ namespace IngredientPipeLine
     /// Class <c>PipeLineManager</c> is responsible for managing the entire pipeline from ingredientList
     /// to List of renderables.
     /// </summary>
-    internal class PipelineManager
+    public class PipelineManager
     {
         private readonly IModelDatabase modelDatabase;
         /// <summary>
