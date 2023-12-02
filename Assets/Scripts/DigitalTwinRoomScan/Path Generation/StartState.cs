@@ -446,7 +446,7 @@ namespace RoomScan
                             continue;
                         }
 
-                        //if i dont have a hit the grid keeps its old value (which should be true
+                        //if i dont have a hit the grid keeps its old value (which should be true)
                         res[x, y] = grid[x, y];
                     }
                 }
@@ -610,7 +610,7 @@ namespace RoomScan
         }
         #endregion
 
-        //unused code
+        //unused code that may still prove useful in the future
         #region Old
 
         //endpoint extension turned out to be unnessecairy

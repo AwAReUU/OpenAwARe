@@ -17,22 +17,6 @@ public class PathData
         edges = new();
     }
 
-    // i have altered the edges list so that is is basically this, but also cleaner.
-    // public IEnumerable<(Vector3, Vector3)> Segments()
-    // {
-    //     // //old
-    //     // for (int i = 0; i < edges.Count; i += 2)
-    //     // {
-    //     //     yield return new Tuple<Vector3, Vector3>(points[edges[i]], points[edges[i + 1]]);
-    //     // }
-
-    //     //new
-    //     for(int i = 0; i < edges.Count; i++)
-    //     {
-    //         yield return edges[i];
-    //     }
-    // }
-
     public Mesh CreateMesh(int numSegments)
     {
 
@@ -44,14 +28,6 @@ public class PathData
             mesh = CombineMeshes(mesh, circle);
         }
 
-        // //old
-        // for (int i = 0; i < edges.Count; i += 2)
-        // {
-        //     Mesh segment = this.SegmentMesh(points[edges[i]], points[edges[i + 1]], this.radius);
-        //     mesh = CombineMeshes(mesh, segment);
-        // }
-
-        //new
         for(int i = 0; i < edges.Count; i++)
         {
             Mesh segment = this.SegmentMesh(edges[i].Item1, edges[i].Item2, this.radius);
