@@ -32,7 +32,7 @@ namespace RoomScan
         [SerializeField] private GameObject endBtn;
         [SerializeField] private GameObject slider;
         [SerializeField] private GameObject pointerObj;
-        [SerializeField] private GameObject pathVisualiser;
+// TODO TEMP        [SerializeField] private GameObject pathVisualiser;
 
         /// <summary>
         /// All UI components of the polygon scan.
@@ -58,7 +58,7 @@ namespace RoomScan
             UIObjects = new()
             {
                 createBtn, resetBtn, confirmBtn, slider, applyBtn, endBtn,
-                pointerObj, scanner.gameObject, polygonMesh.gameObject, pathVisualiser
+                pointerObj, scanner.gameObject, polygonMesh.gameObject   // TODO TEMP   , pathVisualiser
             };
 
             SwitchToState(State.Default);
@@ -110,9 +110,9 @@ namespace RoomScan
             StartState startstate = new();
             PathData path = startstate.GetStartState(Room.PositivePolygon, Room.NegativePolygons);
 
-            VisualizePath visualizer = (VisualizePath)pathVisualiser.GetComponent("VisualizePath");
-            visualizer.SetPath(path);
-            visualizer.Visualize();
+// TODO TEMP            VisualizePath visualizer = (VisualizePath)pathVisualiser.GetComponent("VisualizePath");
+// TODO TEMP            visualizer.SetPath(path);
+// TODO TEMP            visualizer.Visualize();
         }
 
         /// <summary>
@@ -174,13 +174,13 @@ namespace RoomScan
                     objects.Add(resetBtn);
                     objects.Add(scanner.gameObject);
                     objects.Add(pointerObj);
-                    objects.Add(pathVisualiser);
+// TODO TEMP                    objects.Add(pathVisualiser);
                 break;
                 case State.SettingHeight:
                     objects.Add(confirmBtn);
                     objects.Add(slider);
                     objects.Add(polygonMesh.gameObject);
-                    objects.Add(pathVisualiser);
+// TODO TEMP                    objects.Add(pathVisualiser);
                 break;
                 case State.Saving:
                     objects.Add(createBtn);

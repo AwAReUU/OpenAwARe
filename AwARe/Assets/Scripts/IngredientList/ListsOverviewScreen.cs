@@ -29,9 +29,9 @@ namespace IngredientLists
             Button backB = backButton.GetComponent<Button>();
             Button questionB = questionButton.GetComponent<Button>();
             Button sortingB = sortingButton.GetComponent<Button>();
-            backB.onClick.AddListener(delegate { OnBackButtonClick(); });
-            questionB.onClick.AddListener(delegate { ingredientListManager.PopUpOn(NottherepopupScreen); });
-            sortingB.onClick.AddListener(delegate { ingredientListManager.PopUpOn(NottherepopupScreen); });
+            backB.onClick.AddListener(OnBackButtonClick);
+            questionB.onClick.AddListener(() => ingredientListManager.PopUpOn(NottherepopupScreen));
+            sortingB.onClick.AddListener(() => ingredientListManager.PopUpOn(NottherepopupScreen));
             backButton.SetActive(true);
 
             DisplayLists();
