@@ -48,7 +48,7 @@ namespace ObjectGeneration
             if (room == null)
                 return;
 
-            PlaceRenderables(renderables, polygonManager.Room);
+            PlaceRenderables(renderables, room);
         }
 
         /// <summary>
