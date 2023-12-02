@@ -37,7 +37,7 @@ namespace AwARe.Packages
         private static string OnGeneratedCSProject(string path, string contents)
         {
             // Set file path to additional assembly file
-            const string FILEPATH_PLUS = @"Assets\Packages\AdditionalAssembly.xml";
+            const string FILEPATH_PLUS = @"Assets\FirstParty\Assembly\AdditionalAssembly.xml";
             string rootFolder = Directory.GetCurrentDirectory();
             string path_plus = Path.Combine(rootFolder, FILEPATH_PLUS);
 
