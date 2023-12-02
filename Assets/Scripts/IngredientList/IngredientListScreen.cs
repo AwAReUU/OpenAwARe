@@ -7,15 +7,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
 namespace IngredientLists
 {
     public class IngredientListScreen : MonoBehaviour
     {
         [SerializeField] private IngredientListManager ingredientListManager;
+       
 
         // the objects drawn on screen to display the list
         List<GameObject> ingredientObjects = new();
         GameObject addIngredientObj;
+        private bool changesMade = false;
+        private bool isPopupActive = false;
 
         // (assigned within unity)
         [SerializeField] private GameObject backButton;
@@ -25,9 +29,14 @@ namespace IngredientLists
         [SerializeField] private GameObject saveButton;
         [SerializeField] private Transform scrollViewContent;
         [SerializeField] private GameObject loadListButton;
- 
+        [SerializeField] private GameObject popupScreen;
+        
+
+
         private void OnEnable()
         {
+            
+            popupScreen.SetActive(false);
             backButton.SetActive(true);
             Button backB = backButton.GetComponent<Button>();
             backB.onClick.AddListener(delegate { OnBackButtonClick(); });
@@ -38,11 +47,14 @@ namespace IngredientLists
             Button loadB = loadListButton.GetComponent<Button>();
             loadB.onClick.AddListener(delegate { OnLoadListButtonClick(); });
 
+            ingredientListManager.OnIngredientListChanged += HandleChangesMade;
+
             DisplayList();
         }
 
         private void OnDisable()
         {
+            
             Button backB = backButton.GetComponent<Button>();
             backB.onClick.RemoveAllListeners();
 
@@ -53,6 +65,8 @@ namespace IngredientLists
             loadB.onClick.RemoveAllListeners();
 
             RemoveIngredientObjects();
+
+            ingredientListManager.OnIngredientListChanged += HandleChangesMade;
         }
 
         /// <summary>
@@ -61,22 +75,30 @@ namespace IngredientLists
         private void OnLoadListButtonClick()
         {
             //ingredientListManager.CloseListScreen();
-            CreateSelectedListGameObject();
+            //CreateSelectedListGameObject();
             //backButton.SetActive(false);
         }
 
+
+        /// <summary>
+        /// Changes the name of the list to the name that is put into the inputfield in unity
+        /// </summary>
         public void OnChangeListName()
         {
             string newName = listTitle.GetComponent<TMP_InputField>().text;
             ingredientListManager.ChangeListName(newName);
         }
 
-        private void CreateSelectedListGameObject()
-        {
-            Storage storage = Storage.Get();
 
-            storage.ActiveIngredientList = ingredientListManager.SelectedList;
+        
+        /// <summary>
+        /// the variable changesmade is switched to true because a change is made in the list
+        /// </summary>
+        private void HandleChangesMade()
+        {
+            changesMade = true;
         }
+
         
         /// <summary>
         /// Creates GameObjects with an "edit" and "delete" button for all the ingredients in this is List and adds them to the ScrollView 
@@ -155,17 +177,44 @@ namespace IngredientLists
         /// <summary>
         /// Calls an instance of IngredientListManager to close the IngredientListScreen and go back to the ListsOverviewScreen.
         /// </summary>
-        private void OnSaveButtonClick()
+        public void OnSaveButtonClick()
         {
             ingredientListManager.ChangeToListsOverviewScreen(true);
         }
 
         /// <summary>
-        /// Calls an instance of IngredientListManager to close the IngredientListScreen and go back to the ListsOverviewScreen.
+        /// Calls PopUpChoices when a list has been edited to warn the user if they really want to go back or if no editing has happend
+        /// an instance of IngredientListManager is called to close the IngredientListScreen and go back to the ListsOverviewScreen.
         /// </summary>
         private void OnBackButtonClick()
         {
-            ingredientListManager.ChangeToListsOverviewScreen(false);
+            if (changesMade)
+            {
+                PopUpChoices();
+            }
+            else
+            {
+                ingredientListManager.ChangeToListsOverviewScreen(false);
+            }
+            changesMade = false; // Reset changesMade after handling the back button
+        }
+
+
+        /// <summary>
+        /// if the user clicks the save button then the progress gets saved and the user returns to the overviewscreen
+        /// if the user clicks the don't save button the progress doesn't get saved and the user returns to the overviewscreen
+        /// if the user clicks the continue editing button the popup dissapears
+        /// </summary>
+        private void PopUpChoices()
+        {
+            popupScreen.SetActive(true);
+            Button saveButton = popupScreen.transform.GetChild(1).GetComponent<Button>();
+            Button dontsaveButton = popupScreen.transform.GetChild(2).GetComponent<Button>();
+            Button keepeditButton = popupScreen.transform.GetChild(3).GetComponent<Button>();
+            saveButton.onClick.AddListener(() => { ingredientListManager.ChangeToListsOverviewScreen(true); });
+            dontsaveButton.onClick.AddListener(() => { ingredientListManager.ChangeToListsOverviewScreen(false); });
+            keepeditButton.onClick.AddListener(() => { popupScreen.SetActive(false); });
+
         }
 
         /// <summary>

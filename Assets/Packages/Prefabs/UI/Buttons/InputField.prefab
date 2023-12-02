@@ -354,7 +354,7 @@ GameObject:
   - component: {fileID: 5059344884142767112}
   - component: {fileID: 2603807902268586140}
   m_Layer: 5
-  m_Name: InputField (TMP)
+  m_Name: InputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -401,7 +401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9339623, g: 0.83201844, b: 0.0652011, a: 1}
+  m_Color: {r: 1, g: 0.779591, b: 0.14117646, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

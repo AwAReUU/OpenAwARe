@@ -20,6 +20,7 @@ namespace IngredientLists
         private Ingredient selectedIngredient;
         private float selectedIngredientQuantity;
         private QuantityType selectedIngredientQType;
+        
 
         void OnEnable()
         {
@@ -57,6 +58,7 @@ namespace IngredientLists
 ;
         }
 
+
         /// <summary>
         /// Updates the current ingredient with values from inputs
         /// </summary>
@@ -86,6 +88,7 @@ namespace IngredientLists
 
             ingredientListManager.UpdateIngredient(parsedQty, parsedQType);
             ingredientListManager.ChangeToIngredientListScreen(ingredientListManager.SelectedList, this.gameObject);
+            
         }
 
         /// <summary>
