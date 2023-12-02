@@ -36,11 +36,11 @@ namespace IngredientLists
         {
             return Ingredients.Count;
         }
-
         public void ChangeName(string name)
         {
             ListName = name;
         }
+
 
         public void AddIngredient(Ingredient ingredient, float quantity, QuantityType type = QuantityType.G)
         {

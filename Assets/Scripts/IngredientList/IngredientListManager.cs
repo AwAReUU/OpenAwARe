@@ -1,6 +1,7 @@
 using Databases;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using UnityEngine.UIElements;
 
 namespace IngredientLists
@@ -17,7 +18,9 @@ namespace IngredientLists
         [SerializeField] private GameObject listsOverviewScreen;  // displays the list of ingredient Lists
         [SerializeField] private GameObject ingredientListScreen; // displays the list of ingredients
         [SerializeField] private GameObject searchScreen;         // for searching new ingredients to add to the list
-        [SerializeField] private GameObject ingredientScreen;     // for altering the quantity(type) of an ingredient & displays information about the ingredient 
+        [SerializeField] private GameObject ingredientScreen;     // for altering the quantity(type) of an ingredient & displays information about the ingredient
+        
+        public event Action OnIngredientListChanged;
 
         IIngredientDatabase ingredientDatabase;
 
@@ -57,6 +60,11 @@ namespace IngredientLists
             SelectedList = list;
 
             ingredientListScreen.SetActive(true);
+        }
+
+        private void NotifyListChanged()
+        {
+            OnIngredientListChanged?.Invoke();
         }
 
         /// <summary>
@@ -99,18 +107,15 @@ namespace IngredientLists
             ingredientScreen.SetActive(true);
         }
 
-        public void ChangeListName(string name)
-        {
-            SelectedList.ChangeName(name);
-        }
-
         /// <summary>
         /// Adds the given ingredient to the ingredient list.
         /// </summary>
         /// <param name="ingredient"> The ingredient that is to be added </param>
         public void AddIngredient(Ingredient ingredient, float quantity)
         {
+            
             SelectedList.AddIngredient(ingredient, quantity);
+            NotifyListChanged();
         }
 
         /// <summary>
@@ -119,7 +124,19 @@ namespace IngredientLists
         /// <param name="ingredient"> The ingredient that is to be deleted </param>
         public void DeleteIngredient(Ingredient ingredient)
         {
+            
             SelectedList.RemoveIngredient(ingredient);
+            NotifyListChanged();
+        }
+
+        /// <summary>
+        /// Changes the name of a list into it's newly give name
+        /// </summary>
+        /// <param name="name"> The name that is to be given to the list </param>
+        public void ChangeListName(string name)
+        {
+            SelectedList.ChangeName(name);
+            NotifyListChanged();
         }
 
         /// <summary>
@@ -129,7 +146,9 @@ namespace IngredientLists
         /// <param name="newType"> New quantity type of the ingredient </param>
         public void UpdateIngredient(float newQuantity, QuantityType newType)
         {
+            
             SelectedList.UpdateIngredient(SelectedIngredient, newQuantity, newType);
+            NotifyListChanged();
         }
 
         /// <summary>
@@ -151,6 +170,23 @@ namespace IngredientLists
         {
             Lists.Remove(list);
             fileHandler.SaveLists(Lists);
+        }
+
+        /// <summary>
+        /// Shows the popup
+        /// </summary>
+        public void PopUpOn(GameObject popup)
+        {
+            Debug.Log("PopUpOn() called");
+            popup.SetActive(true);
+
+        }
+        /// <summary>
+        /// removes the popup
+        /// </summary>
+        public void PopUpOff(GameObject popup)
+        {
+           popup.SetActive(false);
         }
     }
 }
