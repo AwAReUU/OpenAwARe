@@ -1021,7 +1021,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1224871334}
   m_HandleRect: {fileID: 1224871333}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1551,6 +1551,7 @@ MonoBehaviour:
   saveButton: {fileID: 443625057}
   scrollViewContent: {fileID: 1027262536}
   loadListButton: {fileID: 367094929}
+  popupScreen: {fileID: 0}
 --- !u!224 &295363186
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1563,12 +1564,12 @@ RectTransform:
   m_LocalScale: {x: 0.9999853, y: 0.9999853, z: 0.9999853}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1567205753}
   - {fileID: 1976664648}
   - {fileID: 443625058}
   - {fileID: 1798087780}
   - {fileID: 1524809135}
   - {fileID: 367094933}
+  - {fileID: 1567205753}
   m_Father: {fileID: 834410980}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3809,7 +3810,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 662d2c2d426c9b249a98a22998a3dcd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popupPanel: {fileID: 1453130309}
   unFoldBtn: {fileID: 832407152}
   unFoldBtns: {fileID: 832407152}
 --- !u!1 &834410976
@@ -6292,10 +6292,10 @@ RectTransform:
   m_LocalScale: {x: 0.9999853, y: 0.9999853, z: 0.9999853}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1715512002}
   - {fileID: 108534337}
   - {fileID: 1403119057}
   - {fileID: 1571198628}
+  - {fileID: 1715512002}
   m_Father: {fileID: 834410980}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6319,6 +6319,12 @@ MonoBehaviour:
   ingredientListManager: {fileID: 546424033}
   scrollViewContent: {fileID: 125124363}
   listItemObject: {fileID: 1489510585}
+  questionButton: {fileID: 108534338}
+  sortingButton: {fileID: 1715512003}
+  popupScreen: {fileID: 7447958915897657463, guid: d08e0364e556efa46ab85bffaee04bc5,
+    type: 3}
+  NottherepopupScreen: {fileID: 1066758894886938012, guid: ceaa643e0c4229c4b8a52796f887105d,
+    type: 3}
 --- !u!114 &1462813908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7234,7 +7240,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1567205755}
+      objectReference: {fileID: 0}
     - target: {fileID: 6775265897339285552, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -7258,37 +7264,14 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4703911314341273196, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1567205755}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ba55e57d56f01040b58dfdc0044f5ec, type: 3}
 --- !u!224 &1567205753 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1881196710140279754, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
+  m_CorrespondingSourceObject: {fileID: 7061043267433575324, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
     type: 3}
   m_PrefabInstance: {fileID: 1567205752}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1567205754 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4703911314341273196, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
-    type: 3}
-  m_PrefabInstance: {fileID: 1567205752}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1567205755
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1567205754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82d0150704a21004e9632d939647f913, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  popupPanel: {fileID: 1453130309}
 --- !u!1 &1571198627
 GameObject:
   m_ObjectHideFlags: 0
@@ -8185,7 +8168,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1715512004}
+      objectReference: {fileID: 0}
     - target: {fileID: 6775265897339285552, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -8209,37 +8192,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4703911314341273196, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1715512004}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ba55e57d56f01040b58dfdc0044f5ec, type: 3}
 --- !u!224 &1715512002 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1881196710140279754, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
+  m_CorrespondingSourceObject: {fileID: 7061043267433575324, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
     type: 3}
   m_PrefabInstance: {fileID: 1715512001}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1715512003 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 4703911314341273196, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
+  m_CorrespondingSourceObject: {fileID: 3660506296988606503, guid: 7ba55e57d56f01040b58dfdc0044f5ec,
     type: 3}
   m_PrefabInstance: {fileID: 1715512001}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1715512004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1715512003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82d0150704a21004e9632d939647f913, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  popupPanel: {fileID: 1453130309}
 --- !u!1 &1779475690
 GameObject:
   m_ObjectHideFlags: 0
