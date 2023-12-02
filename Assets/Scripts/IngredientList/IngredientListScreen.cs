@@ -89,6 +89,7 @@ namespace IngredientLists
             ingredientListManager.ChangeListName(newName);
         }
 
+
         
         /// <summary>
         /// the variable changesmade is switched to true because a change is made in the list
