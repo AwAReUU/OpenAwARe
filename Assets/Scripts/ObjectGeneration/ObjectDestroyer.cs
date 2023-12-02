@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+
+using ObjectGeneration;
+
 using UnityEngine;
 
 /// <summary>
@@ -13,30 +16,11 @@ public class ObjectDestroyer : MonoBehaviour
     /// </summary>
     public void DestroyAllObjects()
     {
-        int layer = LayerMask.NameToLayer("Placed Objects");
-        GameObject[] generatedObjects = FindGameObjectsInLayer(layer);
+        GameObject[] generatedObjects = ObjectObtainer.FindGameObjectsInLayer("Placed Objects");
         if (generatedObjects == null)
             return;
 
         foreach (GameObject target in generatedObjects)
             Destroy(target);
-    }
-
-    /// <summary>
-    /// Obtain all Gameobjects in <paramref name="layer"/>.
-    /// </summary>
-    /// <param><c>layer</c> is the layer to find all objects from</param>
-    /// <returns>All GameObjects in that layer.</returns>
-    private GameObject[] FindGameObjectsInLayer(int layer)
-    {
-        var goArray = FindObjectsOfType(typeof(GameObject)) as GameObject[];
-        var goList = new List<GameObject>();
-        for (int i = 0; i < goArray.Length; i++)
-            if (goArray[i].layer == layer)
-                goList.Add(goArray[i]);
-
-        if (goList.Count == 0)
-            return null;
-        return goList.ToArray();
     }
 }

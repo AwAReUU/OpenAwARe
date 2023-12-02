@@ -8,7 +8,7 @@ namespace ObjectGeneration
     /// <c>Renderable</c> is a class that contains properties
     /// we need to render a specific gameObject
     /// </summary>
-    class Renderable
+    public class Renderable
     {
         /// <value>
         /// The amount of this renderable to render

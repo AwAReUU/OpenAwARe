@@ -5,12 +5,14 @@ using System.Linq;
 
 using AwARe.DataTypes;
 using IngredientLists;
+using RoomScan;
 
 namespace AwARe.DataStructures
 {
     public interface IStorage
     {
         public IngredientList ActiveIngredientList { get; set; }
+        public Room ActiveRoom { get; set; }
     }
 
     public class Storage
@@ -18,6 +20,7 @@ namespace AwARe.DataStructures
         public Storage() { }
 
         public IngredientList ActiveIngredientList { get; set; }
+        public Room ActiveRoom { get; set; }
 
     }
 

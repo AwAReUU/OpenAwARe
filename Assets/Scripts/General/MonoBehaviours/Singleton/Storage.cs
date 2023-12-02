@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 
 using UnityEngine;
 using Data = AwARe.DataStructures;
+using RoomScan;
 
 namespace AwARe.MonoBehaviours
 {
@@ -36,6 +37,12 @@ namespace AwARe.MonoBehaviours
         {
             get => Data.ActiveIngredientList;
             set => Data.ActiveIngredientList = value;
+        }
+        
+        public Room ActiveRoom
+        {
+            get => Data.ActiveRoom;
+            set => Data.ActiveRoom = value;
         }
 
         public static Storage Instantiate() =>

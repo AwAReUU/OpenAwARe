@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using RoomScan;
 
 namespace ObjectGeneration
 {
@@ -8,6 +9,6 @@ namespace ObjectGeneration
     /// </summary>
     public interface ISpawnPointHandler
     {
-        public List<Vector3> GetValidSpawnPoints();
+        public List<Vector3> GetValidSpawnPoints(Room room);
     }
 }

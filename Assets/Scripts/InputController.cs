@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Mathematics;
+//using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -49,8 +49,8 @@ public class InputController : MonoBehaviour
 
     private void OnEnable()
     {
-        EnhancedTouch.TouchSimulation.Enable();
         EnhancedTouch.EnhancedTouchSupport.Enable();
+        EnhancedTouch.TouchSimulation.Enable();
         //EnhancedTouch.Touch.onFingerDown += FingerDown;
     }
 

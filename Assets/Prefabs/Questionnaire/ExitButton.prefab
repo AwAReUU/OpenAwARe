@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 7068309396910732466}
   - component: {fileID: 1819549920238226027}
   - component: {fileID: 2940313054245779259}
-  - component: {fileID: 876588889763428575}
+  - component: {fileID: -5131718529400644202}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -256,19 +256,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 876588889763428575}
-        m_TargetAssemblyTypeName: SceneSwitcher, Assembly-CSharp
-        m_MethodName: ChangeScene
+      - m_Target: {fileID: -5131718529400644202}
+        m_TargetAssemblyTypeName: SwitchSceneButton, Scripts
+        m_MethodName: LoadScene
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: BlankAR
+          m_StringArgument: Home
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &876588889763428575
+--- !u!114 &-5131718529400644202
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -277,6 +277,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7572607050577593510}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87ef14362c0824f42b568ceadd71d6bd, type: 3}
+  m_Script: {fileID: 11500000, guid: 85a97a468aa41dd44af7c16b0478fa4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scene: 1

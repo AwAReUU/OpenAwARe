@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ShowHideBtns : MonoBehaviour
 {
-    [SerializeField] private GameObject popupPanel;
     [SerializeField] private GameObject unFoldBtn;
     [SerializeField] private GameObject unFoldBtns;
 
@@ -14,7 +13,6 @@ public class ShowHideBtns : MonoBehaviour
     // and has a method for showing the buttons 
     void Start()
     {
-        this.popupPanel.SetActive(false);
         this.unFoldBtn.SetActive(false);
         this.unFoldBtns.SetActive(false);
     }
@@ -23,11 +21,5 @@ public class ShowHideBtns : MonoBehaviour
     {
         this.unFoldBtn.SetActive(true);
         this.unFoldBtns.SetActive(true);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
