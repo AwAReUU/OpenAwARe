@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/FirstParty/Application/Scenes/TO Scenes/ARScene.unity
     guid: 1ca65f50de7ed884abe6b0f4310e5be6
   - enabled: 0
-    path: Assets/FirstParty/Application/Scenes/TestScene.unity
+    path: Assets/FirstParty/Application/Scenes/Temporary/TestScene.unity
     guid: 6cd0a7294773c2f4aa1ec4db51cff54e
   - enabled: 0
     path: Assets/FirstParty/Application/Scenes/TO Scenes/IngredientListUI.unity
