@@ -1021,7 +1021,7 @@ GameObject:
   - component: {fileID: 8897080471941364235}
   - component: {fileID: 3689957842862168529}
   - component: {fileID: 2778344405669129788}
-  - component: {fileID: 4414758883862856202}
+  - component: {fileID: 7833461944041287664}
   m_Layer: 5
   m_Name: Submit Button
   m_TagString: Untagged
@@ -1131,16 +1131,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4414758883862856202}
-        m_TargetAssemblyTypeName: TempExitScript, Assembly-CSharp
-        m_MethodName: BackToHome
-        m_Mode: 1
+      - m_Target: {fileID: 7833461944041287664}
+        m_TargetAssemblyTypeName: SwitchSceneButton, Scripts
+        m_MethodName: LoadScene
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Home
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2778344405669129788
@@ -1169,7 +1169,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &4414758883862856202
+--- !u!114 &7833461944041287664
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1178,6 +1178,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7978906884852995942}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7805cbb9a8dc3ea4883e2c95c34d77eb, type: 3}
+  m_Script: {fileID: 11500000, guid: 85a97a468aa41dd44af7c16b0478fa4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scene: 1

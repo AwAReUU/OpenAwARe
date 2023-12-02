@@ -6,7 +6,13 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
+
+using AwARe.DataStructures;
+using AwARe.MonoBehaviours;
+
 using UnityEngine;
+
+using Storage = AwARe.MonoBehaviours.Storage;
 
 namespace RoomScan
 {
@@ -58,7 +64,7 @@ namespace RoomScan
         }
 
         /// <summary>
-        /// Called on reset or create button click; starts a new polygon scan.
+        /// Starts a new polygon scan.
         /// </summary>
         public void StartScanning()
         {
@@ -66,6 +72,23 @@ namespace RoomScan
             polygonDrawer.Reset();
             SwitchToState(State.Scanning);
         }
+
+        /// <summary>
+        /// Called on create button click; Starts a new polygon scan.
+        /// </summary>
+        public void OnCreateButtonClick() =>
+            StartScanning();
+
+
+        /// <summary>
+        /// Called on reset button click; Clears the room and starts a new polygon scan.
+        /// </summary>
+        public void OnResetButtonClick()
+        {
+            Room = new Room();
+            StartScanning();
+        }
+
 
         /// <summary>
         /// Called on apply button click; adds and draws the current polygon.
@@ -83,7 +106,7 @@ namespace RoomScan
         /// <summary>
         /// Called on confirm button click; sets the height of the polygon.
         /// </summary>
-        public void Confirm()
+        public void OnConfirmButtonClick()
         {
             // TODO: set room height
             SwitchToState(State.Saving);
@@ -93,9 +116,15 @@ namespace RoomScan
         /// Called on changing the slider; sets the height of the polygon mesh.
         /// </summary>
         /// <param name="height">Height the slider is currently at.</param>
-        public void OnSlider(float height)
+        public void OnHeightSliderChanged(float height)
         {
             this.polygonMesh.SetHeight(height);
+        }
+
+        public void OnSaveButtonClick()
+        {
+            Storage.Get().ActiveRoom = Room;
+            SceneSwitcher.Get().LoadScene("Home");
         }
 
         /// <summary>

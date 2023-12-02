@@ -7952,7 +7952,7 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5627204401335585431, guid: 5f4116a10b9170b42be6319825bd4daa,
+    - target: {fileID: 562720440133558543OnConfirmButtonClick: 5f4116a10b9170b42be6319825bd4daa,
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 160
@@ -14367,7 +14367,7 @@ MonoBehaviour:
     topRight: {r: 1, g: 1, b: 1, a: 1}
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
+ OnHeightSliderChangedolorGradientPreset: {fileID: 0}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}

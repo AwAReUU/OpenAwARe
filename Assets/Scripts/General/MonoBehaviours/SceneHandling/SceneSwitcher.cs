@@ -116,4 +116,5 @@ public class SceneSwitcher : MonoBehaviour
 /// All standard scenes used across the application.
 /// Centralizes modifications to scene navigation.
 /// </summary>
+[Serializable]
 public enum AppScene { Start, Home, AR, RoomScan, IngredientList, Questionnaire, Settings }

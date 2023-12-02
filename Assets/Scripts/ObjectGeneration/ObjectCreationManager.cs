@@ -16,10 +16,6 @@ namespace ObjectGeneration
     /// </summary>
     public class ObjectCreationManager : MonoBehaviour
     {
-        /// <summary>
-        /// Used to communicate with the polygon.
-        /// </summary>
-        [SerializeField] private PolygonManager polygonManager;
         //[SerializeField] private GameObject placeButton;
 
         /// <value>
@@ -48,6 +44,9 @@ namespace ObjectGeneration
             SetSelectedList(RetrieveIngredientlist());
 
             List<Renderable> renderables = new PipelineManager().GetRenderableList(SelectedList);
+            Room room = Storage.Get().ActiveRoom;
+            if (room == null)
+                return;
 
             PlaceRenderables(renderables, polygonManager.Room);
         }
@@ -75,10 +74,12 @@ namespace ObjectGeneration
             target.transform.rotation = targetRotation;
         }
 
-        //debug method for displaying spawnlocations in scene.
+        //debug method for displaying spawn locations in scene.
         void OnDrawGizmos()
         {
-            Room room = polygonManager.Room;
+            Room room = Storage.Get().ActiveRoom;
+            if (room == null)
+                return;
 
             PolygonSpawnPointHandler spawnPointHandler = new();
             List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room);
