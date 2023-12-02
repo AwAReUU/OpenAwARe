@@ -19,7 +19,7 @@ using UnityEditor;
 namespace AwARe.Packages
 {
     /// <summary>
-    /// Responsible for adding additional files and other elements to the project file each time Unity updates it.
+    /// Responsible for adding additional files and other elements to the project file each time Unity updates it. <br/>
     /// For example, the StyleCop settings file is added by this class.
     /// </summary>
     [InitializeOnLoad]
@@ -28,7 +28,8 @@ namespace AwARe.Packages
         static ProjectFilesGeneration() { }
 
         /// <summary>
-        /// Runs just after new CSProject file is generated.
+        /// Runs just after new CSProject file is generated. <br/>
+        /// Adds additional assemblies to the new CSProject file specified in <c>AdditionalAssembly.xml</c>".
         /// </summary>
         /// <param name="path">Filepath of the csproj file.</param>
         /// <param name="contents">Content of the csproj file.</param>
@@ -36,21 +37,21 @@ namespace AwARe.Packages
         private static string OnGeneratedCSProject(string path, string contents)
         {
             // Set file path to additional assembly file
-            string relPath_plus = @"Assets\Packages\AdditionalAssembly.xml";
+            const string FILEPATH_PLUS = @"Assets\Packages\AdditionalAssembly.xml";
             string rootFolder = Directory.GetCurrentDirectory();
-            string path_plus = Path.Combine(rootFolder, relPath_plus);
+            string path_plus = Path.Combine(rootFolder, FILEPATH_PLUS);
 
             // Load and parse csproj file (contents) and additional assembly file
             XDocument doc = XDocument.Parse(contents);
             XDocument doc_plus = XDocument.Load(path_plus);
             
             // Upgrade the csproj content with the additional assembly content
-            UpgradeProjectFile(doc, doc_plus, relPath_plus);
+            UpgradeProjectFile(doc, doc_plus, FILEPATH_PLUS);
 
             // Write new csproj content to the csproj file:
-            using Utf8StringWriter str = new();
-            doc.Save(str);
-            return str.ToString();
+            using Utf8StringWriter stringWriter = new();
+            doc.Save(stringWriter);
+            return stringWriter.ToString();
         }
 
         /// <summary>
