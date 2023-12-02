@@ -1,6 +1,6 @@
 -- Table Creation
 CREATE TABLE IF NOT EXISTS User (
-    UserID int NOT NULL UNIQUE,
+    UserID INTEGER,
     FirstName varchar NOT NULL,
     LastName varchar NOT NULL,
     Email varchar NOT NULL UNIQUE,

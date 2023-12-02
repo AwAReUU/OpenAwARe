@@ -1,16 +1,27 @@
 ## How to run
 
-1. Install dependencies:
+1. Navigate to directory:
+
+```console
+$ cd {repository}/Server
+```
+
+2. Install dependencies:
 
 ```console
 $ npm install
 ```
 
-2. Start the server:
+3. Start the server:
 
 ```console
 $ npm run dev
 ```
+
+## Debugging
+
+For testing purposes, you can disable the login authorization for protected routes
+by setting the `VALIDATION` environment variable to "FALSE".
 
 ## Connect
 
@@ -18,7 +29,7 @@ Ip adress: 131.211.32.146:8000
 
 ## Routes
 
-### Authentication: */auth*
+### Authentication: _/auth_
 
 <table >
 <thead>
@@ -54,7 +65,7 @@ Ip adress: 131.211.32.146:8000
   </tr>
   <tr>
     <td ><pre>/auth/logout</pre></td>
-    <td ><b>POST</b></td>
+    <td ><b>DELETE</b></td>
     <td > <b>body (json):</b> { token }</td>
     <td >-</td>
     <td > Logout </td>
@@ -69,8 +80,7 @@ Ip adress: 131.211.32.146:8000
 </tbody>
 </table>
 
-### Ingredients: */ingr*
-
+### Ingredients: _/ingr_
 
 <table >
 <thead>
