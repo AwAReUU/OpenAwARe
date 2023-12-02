@@ -26,6 +26,7 @@ namespace RoomScan
         [SerializeField] private GameObject endBtn;
         [SerializeField] private GameObject slider;
         [SerializeField] private GameObject pointerObj;
+        [SerializeField] private GameObject pathVisualiser;
 
         /// <summary>
         /// All UI components of the polygon scan.
@@ -51,7 +52,7 @@ namespace RoomScan
             UIObjects = new()
             {
                 createBtn, resetBtn, confirmBtn, slider, applyBtn, endBtn,
-                pointerObj, scanner.gameObject, polygonMesh.gameObject
+                pointerObj, scanner.gameObject, polygonMesh.gameObject, pathVisualiser
             };
 
             SwitchToState(State.Default);
@@ -78,6 +79,17 @@ namespace RoomScan
 
             polygonDrawer.DrawPolygon(CurrentPolygon, !Room.PositivePolygon.IsEmptyPolygon());
             Room.AddPolygon(CurrentPolygon);
+            GenerateAndDrawPath();
+        }
+
+        public void GenerateAndDrawPath()
+        {
+            StartState startstate = new();
+            PathData path = startstate.GetStartState(Room.PositivePolygon, Room.NegativePolygons);
+
+            VisualizePath visualizer = (VisualizePath)pathVisualiser.GetComponent("VisualizePath");
+            visualizer.SetPath(path);
+            visualizer.Visualize();
         }
 
         /// <summary>
@@ -133,12 +145,14 @@ namespace RoomScan
                     objects.Add(resetBtn);
                     objects.Add(scanner.gameObject);
                     objects.Add(pointerObj);
-                    break;
+                    objects.Add(pathVisualiser);
+                break;
                 case State.SettingHeight:
                     objects.Add(confirmBtn);
                     objects.Add(slider);
                     objects.Add(polygonMesh.gameObject);
-                    break;
+                    objects.Add(pathVisualiser);
+                break;
                 case State.Saving:
                     objects.Add(createBtn);
                     objects.Add(endBtn);
