@@ -1,19 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
-using AwARe.MonoBehaviours;
+using IL = AwARe.IngredientList.Logic;
+using AwARe.IngredientList.Logic;
+using AwARe.InterScenes.Objects;
+using AwARe.ObjectGeneration;
+using AwARe.ResourcePipeline.Objects;
+using AwARe.RoomScan.Polygons.Logic;
 
 using NUnit.Framework;
-using ObjectGeneration;
-using IngredientLists;
-
-using IngredientPipeLine;
 
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
-
-using RoomScan;
 
 namespace AwARe
 {
@@ -41,7 +40,7 @@ namespace AwARe
         public IEnumerator EmptyIngredientListRenderingNoCrash()
         {
             //Arrange: Create empty ingredientList, and get objectCreationManager.
-            IngredientList emptyList = new(
+            IL.IngredientList emptyList = new(
                "Empty list",
                 ingredients: new Dictionary<Ingredient, (float, QuantityType)>());
             Storage storage = Storage.Get();

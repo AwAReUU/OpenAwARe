@@ -1,0 +1,2 @@
+Object Generation needs cleaning.
+Positioning and Instantiation needs to be seperated just like Logic and Objects.

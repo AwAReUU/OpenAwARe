@@ -1,6 +1,6 @@
 {
     "name": "Scripts",
-    "rootNamespace": "",
+    "rootNamespace": "AwARe",
     "references": [
         "GUID:a9420e37d7990b54abdef6688edbe313",
         "GUID:cdb8859fb0a09423cb297e38fa65bd99",
