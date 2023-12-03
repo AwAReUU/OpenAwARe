@@ -48,5 +48,5 @@ namespace AwARe.Notifications.Logic
             Debug.Log("Editor Notification received!");
         }
     }
-#endif
 }
+#endif
