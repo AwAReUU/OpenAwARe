@@ -256,7 +256,8 @@ namespace AwARe.RoomScan.Path
             //fill in the positive polygon
             for (int i = 0; i < foundPoints.Count; i++)
             {
-                grid[foundPoints[i].x, foundPoints[i].y] = true;
+                //grid[foundPoints[i].x, foundPoints[i].y] = true;
+                FloodArea(ref grid, (foundPoints[i].x, foundPoints[i].y));
             }
 
             //carve out the negative polygons
@@ -289,7 +290,8 @@ namespace AwARe.RoomScan.Path
                 //erase the points that lie in the negative polygon
                 for (int i = 0; i < foundPoints.Count; i++)
                 {
-                    grid[foundPoints[i].x, foundPoints[i].y] = false;
+                    //grid[foundPoints[i].x, foundPoints[i].y] = false;
+                    FloodArea(ref grid, (foundPoints[i].x, foundPoints[i].y), true);
                 }
             }
         }
@@ -555,6 +557,73 @@ namespace AwARe.RoomScan.Path
             return transformedPoint;
         }
 
+        //floodfill is used to fill in the positive or carve out the negative polygons
+        #region floodfill
+        /// <summary>
+        /// flood an area of the grid with 'true' from a given start position. 
+        /// it is assumed that there is a boundary of 'true' values surrounding the startpoint
+        /// if there isn't, the entire grid will be flooded with true
+        /// </summary>
+        /// <param name="grid">the array of booleans to flood</param>
+        /// <param name="startpos">the position in the grid to start from</param>
+        /// <param name="reverse">if true, will 'reverse' floodfill. instead of filling areas with true, fills them with false</param>
+        private void FloodArea(ref bool[,] grid, (int, int) startpos, bool reverse = false)
+        {
+            int width = grid.GetLength(0);
+            int height = grid.GetLength(1);
+
+            Queue<(int, int)> queue = new Queue<(int, int)>();
+            queue.Enqueue(startpos);
+
+            while (queue.Count > 0)
+            {
+                (int x, int y) current = queue.Dequeue();
+                if (reverse)
+                {
+                    if (grid[current.x, current.y])
+                    {
+                        grid[current.x, current.y] = false;
+                        EnqueueNeighbors(ref queue, current, width, height);
+                    }
+                }
+                else
+                {
+                    if (!grid[current.x, current.y])
+                    {
+                        grid[current.x, current.y] = true;
+                        EnqueueNeighbors(ref queue, current, width, height);
+                    }
+                }
+            }
+        }
+
+        //enqueue the 4 neighbours of a given position into the given queue if possible
+
+        /// <summary>
+        /// enqueue the 4 neighbours of a given position into the given queue if possible
+        /// </summary>
+        /// <param name="queue">the queue to put neighbours in</param>
+        /// <param name="pos">the position to get neighbours from</param>
+        /// <param name="width">the maximum width of the grid. neighbour positions beyond this poitn will not be enqueued</param>
+        /// <param name="height">the maximum height of the grid. neighbour positions beyond this point will not be enqueued</param>
+        private void EnqueueNeighbors(ref Queue<(int, int)> queue, (int x, int y) pos, int width, int height)
+        {
+            //enqueue right
+            if (pos.x + 1 > 0 && pos.x + 1 < width && pos.y > 0 && pos.y < height)
+                queue.Enqueue((pos.x + 1, pos.y));
+            //enqueue bottom
+            if (pos.x > 0 && pos.x < width && pos.y + 1 > 0 && pos.y + 1 < height)
+                queue.Enqueue((pos.x, pos.y + 1));
+            //enqueue left
+            if (pos.x - 1 > 0 && pos.x - 1 < width && pos.y > 0 && pos.y < height)
+                queue.Enqueue((pos.x - 1, pos.y));
+            //enqueue top
+            if (pos.x > 0 && pos.x < width && pos.y - 1 > 0 && pos.y - 1 < height)
+                queue.Enqueue((pos.x, pos.y - 1));
+        }
+        #endregion
+
+
         //the code relating to the structuring elements used in the hit-or-miss operation
         #region structuringElements
         /// <summary>
@@ -816,82 +885,23 @@ namespace AwARe.RoomScan.Path
         //     return intersections;
         // }
         #endregion
-
-        //floodfill was used to fill in the grid lines that were drawn
-        //however, sometimes more more that 1 enclosed area was formed by drawing these lines
-        //this was problematic and we now had to find all the valid points to start the fill from
-        //so it became more efficient to set each of those points directly than to floodfill from each of them
-        #region floodfill
-        // /// <summary>
-        // /// flood an area of the grid with 'true' from a given start position. 
-        // /// it is assumed that there is a boundary of 'true' values surrounding the startpoint
-        // /// if there isn't, the entire grid will be flooded with true
-        // /// </summary>
-        // /// <param name="grid">the array of booleans to flood</param>
-        // /// <param name="startpos">the position in the grid to start from</param>
-        // /// <param name="reverse">if true, will 'reverse' floodfill. instead of filling areas with true, fills them with false</param>
-        // private void FloodArea(ref bool[,] grid, (int, int) startpos, bool reverse = false)
-        // {
-        //     int width = grid.GetLength(0);
-        //     int height = grid.GetLength(1);
-
-        //     Queue<(int, int)> queue = new Queue<(int, int)>();
-        //     queue.Enqueue(startpos);
-
-        //     while (queue.Count > 0)
-        //     {
-        //         (int x, int y) current = queue.Dequeue();
-        //         if (reverse)
-        //         {
-        //             if (grid[current.x, current.y])
-        //             {
-        //                 grid[current.x, current.y] = false;
-        //                 EnqueueNeighbors(ref queue, current, width, height);
-        //             }
-        //         }
-        //         else
-        //         {
-        //             if (!grid[current.x, current.y])
-        //             {
-        //                 grid[current.x, current.y] = true;
-        //                 EnqueueNeighbors(ref queue, current, width, height);
-        //             }
-        //         }
-        //     }
-        // }
-
-        // //enqueue the 4 neighbours of a given position into the given queue if possible
-
-        // /// <summary>
-        // /// enqueue the 4 neighbours of a given position into the given queue if possible
-        // /// </summary>
-        // /// <param name="queue">the queue to put neighbours in</param>
-        // /// <param name="pos">the position to get neighbours from</param>
-        // /// <param name="width">the maximum width of the grid. neighbour positions beyond this poitn will not be enqueued</param>
-        // /// <param name="height">the maximum height of the grid. neighbour positions beyond this point will not be enqueued</param>
-        // private void EnqueueNeighbors(ref Queue<(int, int)> queue, (int x, int y) pos, int width, int height)
-        // {
-        //     //enqueue right
-        //     if (pos.x + 1 > 0 && pos.x + 1 < width && pos.y > 0 && pos.y < height)
-        //         queue.Enqueue((pos.x + 1, pos.y));
-        //     //enqueue bottom
-        //     if (pos.x > 0 && pos.x < width && pos.y + 1 > 0 && pos.y + 1 < height)
-        //         queue.Enqueue((pos.x, pos.y + 1));
-        //     //enqueue left
-        //     if (pos.x - 1 > 0 && pos.x - 1 < width && pos.y > 0 && pos.y < height)
-        //         queue.Enqueue((pos.x - 1, pos.y));
-        //     //enqueue top
-        //     if (pos.x > 0 && pos.x < width && pos.y - 1 > 0 && pos.y - 1 < height)
-        //         queue.Enqueue((pos.x, pos.y - 1));
-        // }
-        #endregion
-
         #endregion
     }
 }
 
 //todo primary:
+//moet toch floodfill
 //improve visualisatie zodat je ook negative polygons kan tekenen voordat je het pad bepaald
 //for above: zorg dat de path gen gebeurt bij de click van een andere button dan de autocomplete button
 //improve performance
 //test things (unit tests)
+
+
+//how to remove corner line things
+//start from corner, remove points and keep removing until you find a junction?
+//problem: many, many points are a junctions due to the way junctions are made
+//until i find a 'superjunction' with >= 4 points?
+//until i find a 'relative superjunction' with more points than the previous x points?
+//hough line detection, lines through corners get pruned?
+//additional 'hit or miss' or thinning with new special elements        problem non-perfectly diagonal lines
+//hough line detection zou evt ook een cleaner path kunnen maken
