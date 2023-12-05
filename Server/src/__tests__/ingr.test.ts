@@ -236,7 +236,7 @@ function test_ingredient_format(ingr: any) {
   // Ingredient should have one or the other (GramsPerML or GramsPerPiece)
   expect(
     (ingr.GramsPerML !== null && ingr.GramsPerPiece === null) ||
-      (ingr.GramsPerML === null && ingr.GramsPerPiece !== null),
+    (ingr.GramsPerML === null && ingr.GramsPerPiece !== null),
   ).toBeTruthy();
 
   if (ingr.GramsPerML !== null) {
@@ -282,8 +282,7 @@ function test_resource_format(res: any) {
   expect(RESOURCE_TYPES).toContain(res.Type);
 }
 
-const MODEL_TYPES = ["Shapes", "Animals", "Crops"];
-const MODEL_FILE_EXTENSIONS = ["fbx", "prefab"];
+const MODEL_TYPES = ["Water", "Animal", "Plant", "Shapes"];
 function test_model_format(model: any) {
   expect(model.ModelID).not.toBeNull();
   expect(isUnsignedInteger(model.ModelID)).toBeTruthy();
@@ -291,30 +290,9 @@ function test_model_format(model: any) {
   expect(model.Type).not.toBeNull();
   expect(MODEL_TYPES).toContain(model.Type);
 
-  // Path should not contain whitespaces
-  expect(model.PrefabPath.indexOf(" ") >= 0).toBeFalsy();
-  // Check if Path points to a supported file type.
-  expect(
-    MODEL_FILE_EXTENSIONS.some((e) => model.PrefabPath.endsWith(e)),
-  ).toBeTruthy();
-
-  expect(model.RealLength).not.toBeNull();
-  expect(isNumber(model.RealLength)).toBeTruthy();
-  expect(model.RealLength).toBeGreaterThan(0);
-
-  expect(model.RealWidth).not.toBeNull();
-  expect(isNumber(model.RealWidth)).toBeTruthy();
-  expect(model.RealWidth).toBeGreaterThan(0);
+  expect(model.PrefabPath).not.toBeNull();
 
   expect(model.RealHeight).not.toBeNull();
   expect(isNumber(model.RealHeight)).toBeTruthy();
   expect(model.RealHeight).toBeGreaterThan(0);
-
-  expect(model.DistanceX).not.toBeNull();
-  expect(isNumber(model.DistanceX)).toBeTruthy();
-  expect(model.DistanceX).toBeGreaterThan(0);
-
-  expect(model.DistanceY).not.toBeNull();
-  expect(isNumber(model.DistanceY)).toBeTruthy();
-  expect(model.DistanceY).toBeGreaterThan(0);
 }

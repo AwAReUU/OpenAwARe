@@ -37,11 +37,7 @@ CREATE TABLE IF NOT EXISTS Model(
     ModelID int NOT NULL UNIQUE,
     Type varchar(14) NOT NULL,
     PrefabPath varchar NOT NULL,
-    RealLength int,
-    RealWidth int,
     RealHeight int,
-    DistanceX int,
-    DistanceY int,
     PRIMARY KEY(ModelID)
 );
 
@@ -102,13 +98,13 @@ INSERT OR IGNORE INTO Search VALUES (14,           'Ham');
 INSERT OR IGNORE INTO Search VALUES (15,          'Duck');
 INSERT OR IGNORE INTO Search VALUES (16,          'Milk');
 
-INSERT OR IGNORE INTO Model VALUES (1,  'Shapes',         'Cube.prefab', NULL, NULL, NULL, NULL, NULL);
-INSERT OR IGNORE INTO Model VALUES (2, 'Animals',       'CowBIW.prefab', NULL, NULL, NULL, NULL, NULL);
-INSERT OR IGNORE INTO Model VALUES (3, 'Animals', 'ChickenBrown.prefab', NULL, NULL, NULL, NULL, NULL);
-INSERT OR IGNORE INTO Model VALUES (4, 'Animals',          'Pig.prefab', NULL, NULL, NULL, NULL, NULL);
-INSERT OR IGNORE INTO Model VALUES (5, 'Animals',    'DuckWhite.prefab', NULL, NULL, NULL, NULL, NULL);
-INSERT OR IGNORE INTO Model VALUES (6,   'Crops',            'grap.fbx', NULL, NULL, NULL, NULL, NULL);
-INSERT OR IGNORE INTO Model VALUES (7,   'Crops',          'wheat1.fbx', NULL, NULL, NULL, NULL, NULL);
+INSERT OR IGNORE INTO Model VALUES (1,  'Shapes',         'Cube.prefab', 1.0 );
+INSERT OR IGNORE INTO Model VALUES (2, 'Animal',       'CowBIW.prefab', 1.5 );
+INSERT OR IGNORE INTO Model VALUES (3, 'Animal', 'ChickenBrown.prefab', 0.5 );
+INSERT OR IGNORE INTO Model VALUES (4, 'Animal',          'Pig.prefab', 0.94 );
+INSERT OR IGNORE INTO Model VALUES (5, 'Animal',    'DuckWhite.prefab', 0.39 );
+INSERT OR IGNORE INTO Model VALUES (6,   'Plant',            'grap.fbx', 1.0 );
+INSERT OR IGNORE INTO Model VALUES (7,   'Plant',          'wheat1.fbx', 1.2 );
 
 INSERT OR IGNORE INTO Resource VALUES ( 1,      'Water',  'Water',   NULL, 1); -- model set to cube
 INSERT OR IGNORE INTO Resource VALUES ( 2,      'Apple',  'Plant',  10000, 7); -- all fruits set to grape
