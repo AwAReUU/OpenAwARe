@@ -1,7 +1,16 @@
-using System.Collections.Generic;
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
 
+using System;
+using System.Collections.Generic;
+using AwARe.InterScenes.Objects;
 using UnityEngine;
 using UnityEngine.UI;
+using IL = AwARe.IngredientList.Logic;
 
 namespace AwARe.IngredientList.Objects
 {
@@ -83,9 +92,9 @@ namespace AwARe.IngredientList.Objects
                 listObjects.Add(listItem);
 
                 // store i in an int for pass-by value to the lambda expression
-                editButton.onClick.AddListener(() => { OnListButtonClick(ingredientList); });
-                delButton.onClick.AddListener(() => { OnDeleteButtonClick(ingredientList); });
-                checkButton.onClick.AddListener(() => { OnCheckButtonClick(checkButton, borderButton); });
+                editButton.onClick.AddListener(() => OnListButtonClick(ingredientList));
+                delButton.onClick.AddListener(() => OnDeleteButtonClick(ingredientList));
+                checkButton.onClick.AddListener(() => OnCheckButtonClick(checkButton, borderButton, ingredientList));
             }
         }
 
@@ -164,7 +173,8 @@ namespace AwARe.IngredientList.Objects
 
         private void OnBackButtonClick()
         {
-            //TODO: Open main menu
+            SceneSwitcher.Get().LoadScene("Home");
+            Debug.Log(Storage.Get().ActiveIngredientList.ListName);
         }
 
         /// <summary>
@@ -173,22 +183,33 @@ namespace AwARe.IngredientList.Objects
         /// </summary>
         /// <param name="btn1"> The check button to be toggled. </param>
         /// <param name="btn2"> The corresponding border button to be toggled.
-        public void OnCheckButtonClick(Button btn1, Button btn2)
+        public void OnCheckButtonClick(Button btn1, Button btn2, IL.IngredientList list)
         {
-            // Toggle the color of btn1 and the visibility of btn2
-            ChangeColor(btn1, btn1.GetComponent<Image>().color == Color.gray ? Color.green : Color.gray);
-            btn2.gameObject.SetActive(!btn2.gameObject.activeSelf);
-
-            // Deactivate the previously selected check button and its corresponding border button
-            if (selectedCheckButton != null && selectedCheckButton != btn1)
+            if (selectedCheckButton != null)
             {
+                // Turn off previous buttons
                 ChangeColor(selectedCheckButton, Color.gray);
                 selectedBorderButton.gameObject.SetActive(false);
             }
 
-            // Update the currently selected list item
-            selectedCheckButton = btn1;
-            selectedBorderButton = btn2;
+            if (btn1 == selectedCheckButton)
+            {
+                // Set active list to empty
+                Storage.Get().ActiveIngredientList = new("Empty");
+            }
+            else
+            {
+                // Set active list
+                Storage.Get().ActiveIngredientList = list;
+
+                // Select new active buttons
+                selectedCheckButton = btn1;
+                selectedBorderButton = btn2;
+                
+                // Turn on new buttons
+                ChangeColor(selectedCheckButton,  Color.green );
+                selectedBorderButton.gameObject.SetActive(true);
+            }
         }
     }
 }
