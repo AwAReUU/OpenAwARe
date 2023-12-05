@@ -2,6 +2,7 @@ import express, { Response, Request } from "express";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import Database from "../database";
+import { validPassword, assert_res, validName, validEmail } from "../util";
 
 // ----------------------------------------------------------------------------
 
@@ -18,42 +19,94 @@ let router = express.Router();
 //      confirmPassword:    string
 // }
 router.post("/register", async (req: any, res: any) => {
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  let password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
-  const email = req.body.email;
-
-  if (password != confirmPassword) {
-    res.status(401).send("Passwords don't match");
-    return;
-  }
-
-  password = await bcrypt.hash(confirmPassword, 10);
-
-  let db = Database.getInstance().userdb();
-  db.get(
-    "SELECT Email FROM User WHERE Email = ?",
-    [email],
-    async (error: any, row: any) => {
-      if (error) {
-        console.error(error);
-      }
-      if (row) {
-        // User already exists
-        res
-          .status(401)
-          .send("Email adress is already used for a different account");
+    // Input sanitization
+    if (
+        [
+            assert_res(
+                res,
+                req.body.firstName != null,
+                "firstName is missing from the request body"
+            ),
+            assert_res(
+                res,
+                validName(req.body.firstName),
+                "firstName is incorrectly formatted."
+            ),
+            assert_res(
+                res,
+                req.body.lastName != null,
+                "lastName is missing from the request body"
+            ),
+            assert_res(
+                res,
+                validName(req.body.lastName),
+                "lastName is incorrectly formatted."
+            ),
+            assert_res(
+                res,
+                req.body.email != null,
+                "email is missing from the request body"
+            ),
+            assert_res(
+                res,
+                validEmail(req.body.email),
+                "email is incorrectly formatted."
+            ),
+            assert_res(
+                res,
+                req.body.password != null,
+                "password is missing from the request body"
+            ),
+            assert_res(
+                res,
+                validPassword(req.body.password),
+                "Password must contain at least eight characters, one letter and one number"
+            ),
+            assert_res(
+                res,
+                req.body.confirmPassword != null,
+                "confirmPassword is missing from the request body"
+            ),
+            assert_res(
+                res,
+                req.body.password == req.body.confirmPassword,
+                "Password and confirmPassword must be the same"
+            ),
+        ].some((x) => !x)
+    )
         return;
-      } else {
-        db.run(
-          "INSERT INTO User (UserID, FirstName, LastName, Password, Email) VALUES (NULL, ?, ?, ?, ?)",
-          [firstName, lastName, password, email],
-        );
-        res.status(201).send("Registration successful");
-      }
-    },
-  );
+
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    let password = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
+    const email = req.body.email;
+
+    password = await bcrypt.hash(confirmPassword, 10);
+
+    let db = Database.getInstance().userdb();
+    db.get(
+        "SELECT Email FROM User WHERE Email = ?",
+        [email],
+        async (error: any, row: any) => {
+            if (error) {
+                console.error(error);
+            }
+            if (row) {
+                // User already exists
+                res.status(401).send(
+                    "Email adress is already used for a different account"
+                );
+                return;
+            } else {
+                db.run(
+                    "INSERT INTO User (UserID, FirstName, LastName, Password, Email) VALUES (NULL, ?, ?, ?, ?)",
+                    [firstName, lastName, password, email]
+                );
+                res.status(201).send("Registration successful");
+            }
+        }
+    );
 });
 
 // Login
@@ -64,32 +117,53 @@ router.post("/register", async (req: any, res: any) => {
 //      password:   string
 // }
 router.post("/login", async (req: any, res: any) => {
-  const email: string = req.body.email;
-  const password: string = req.body.password;
+    // Input sanitization
+    if (
+        [
+            assert_res(
+                res,
+                req.body.email != null,
+                "email is missing from the request body"
+            ),
+            assert_res(
+                res,
+                req.body.password != null,
+                "password is missing from the request body"
+            ),
+        ].some((x) => !x)
+    )
+        return;
+    const email: string = req.body.email;
+    const password: string = req.body.password;
 
-  let db = Database.getInstance().userdb();
-  db.get(
-    "SELECT Password FROM User WHERE Email = ?",
-    [email],
-    async (error: any, row: any) => {
-      if (error) {
-        console.error(error);
-      }
-      if (row.Password) {
-        if (await bcrypt.compare(password, row.Password)) {
-          // Login successful
-          const accessToken = generateAccessToken(email);
-          const refreshToken = generateRefreshToken(email);
+    let db = Database.getInstance().userdb();
+    db.get(
+        "SELECT Password FROM User WHERE Email = ?",
+        [email],
+        async (error: any, row: any) => {
+            if (error) {
+                console.error(error);
+            }
+            if (row.Password) {
+                if (await bcrypt.compare(password, row.Password)) {
+                    // Login successful
+                    const accessToken = generateAccessToken(email);
+                    const refreshToken = generateRefreshToken(email);
 
-          res.json({ accessToken: accessToken, refreshToken: refreshToken });
-        } else {
-          res.status(401).send("Failed to login. Wrong email/password.");
+                    res.json({
+                        accessToken: accessToken,
+                        refreshToken: refreshToken,
+                    });
+                } else {
+                    res.status(401).send(
+                        "Failed to login. Wrong email/password."
+                    );
+                }
+            } else {
+                res.status(401).send("Failed to login. Wrong email/password.");
+            }
         }
-      } else {
-        res.status(401).send("Failed to login. Wrong email/password.");
-      }
-    },
-  );
+    );
 });
 
 // Refresh login session
@@ -100,16 +174,33 @@ router.post("/login", async (req: any, res: any) => {
 //      email: string
 // }
 router.post("/refreshToken", (req, res) => {
-  if (!refreshTokens.includes(req.body.token))
-    res.status(400).send("Refresh Token Invalid");
+    // Input sanitization
+    if (
+        [
+            assert_res(
+                res,
+                req.body.email != null,
+                "email is missing from the request body"
+            ),
+            assert_res(
+                res,
+                req.body.token != null,
+                "token is missing from the request body"
+            ),
+        ].some((x) => !x)
+    )
+        return;
 
-  // Remove the old token
-  refreshTokens = refreshTokens.filter((t) => t != req.body.token);
+    if (!refreshTokens.includes(req.body.token))
+        res.status(400).send("Refresh Token Invalid");
 
-  const accessToken = generateAccessToken(req.body.email);
-  const refreshToken = generateRefreshToken(req.body.email);
+    // Remove the old token
+    refreshTokens = refreshTokens.filter((t) => t != req.body.token);
 
-  res.json({ accessToken: accessToken, refreshToken: refreshToken });
+    const accessToken = generateAccessToken(req.body.email);
+    const refreshToken = generateRefreshToken(req.body.email);
+
+    res.json({ accessToken: accessToken, refreshToken: refreshToken });
 });
 
 // Logout
@@ -119,69 +210,81 @@ router.post("/refreshToken", (req, res) => {
 //      token: string,
 // }
 router.delete("/logout", (req, res) => {
-  // Remove the old token
-  refreshTokens = refreshTokens.filter((t) => {
-    return t != req.body.token;
-  });
+    // Input sanitization
+    if (
+        [
+            assert_res(
+                res,
+                req.body.token != null,
+                "token is missing from the request body"
+            ),
+        ].some((x) => !x)
+    )
+        return;
 
-  res.status(204).send("Logged out!");
+    // Remove the old token
+    refreshTokens = refreshTokens.filter((t) => {
+        return t != req.body.token;
+    });
+
+    res.status(204).send("Logged out!");
 });
 
 router.get("/check", validateToken, (_req, res) => {
-  res.send("Logged in");
+    res.send("Logged in");
 });
 
 function generateAccessToken(email: string): string {
-  return jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET!, {
-    expiresIn: "15m",
-  });
+    return jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET!, {
+        expiresIn: "15m",
+    });
 }
 
 let refreshTokens: string[] = [];
 function generateRefreshToken(email: string): string {
-  const refreshToken = jwt.sign(
-    { email: email },
-    process.env.REFRESH_TOKEN_SECRET!,
-    {
-      expiresIn: "20m",
-    },
-  );
+    const refreshToken = jwt.sign(
+        { email: email },
+        process.env.REFRESH_TOKEN_SECRET!,
+        {
+            expiresIn: "20m",
+        }
+    );
 
-  refreshTokens.push(refreshToken);
+    refreshTokens.push(refreshToken);
 
-  return refreshToken;
+    return refreshToken;
 }
 
 export type ValidatedRequest = Request & { email: string };
 
 export function validateToken(req: Request, res: Response, next: any) {
-  if (process.env.VALIDATION == "FALSE") {
-    return next();
-  }
+    if (process.env.VALIDATION == "FALSE") {
+        return next();
+    }
 
-  const header = req.headers["authorization"];
-  if (!header) {
-    res.status(400).send("Authorization header is missing");
-    return;
-  }
-
-  const token = header.split(" ")[1];
-
-  if (token == null) res.sendStatus(401).send("Invalid access token");
-
-  jwt.verify(
-    token,
-    process.env.ACCESS_TOKEN_SECRET!,
-    (err: any, email: any) => {
-      if (err) {
-        res.status(403).send("Token invalid");
+    const header = req.headers["authorization"];
+    if (!header) {
+        res.status(400).send("Authorization header is missing");
         return;
-      }
+    }
 
-      (req as ValidatedRequest).email = email;
-      next();
-    },
-  );
+    const token = header.split(" ")[1];
+
+    if (token == null) res.sendStatus(401).send("Invalid access token");
+
+    jwt.verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET!,
+        (err: any, email: any) => {
+            if (err) {
+                res.status(403).send("Token invalid");
+                return;
+            }
+
+            (req as ValidatedRequest).email = email;
+            next();
+        }
+    );
 }
 
 export default router;

@@ -22,14 +22,14 @@ export async function get_authorization_header(): Promise<string> {
     firstName: "Test",
     lastName: "Account",
     email: "testaccount@outlook.com",
-    password: "123test",
-    confirmPassword: "123test",
+    password: "1234test",
+    confirmPassword: "1234test",
   };
   await api.post("/auth/register").send(account_details).then();
 
   let login_data = {
     email: "testaccount@outlook.com",
-    password: "123test",
+    password: "1234test",
   };
   let ret: any = await api.post("/auth/login").send(login_data).then();
 

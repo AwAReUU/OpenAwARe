@@ -1,6 +1,7 @@
 import express from "express";
 import Database from "../database";
 import { validateToken } from "./auth";
+import { validPassword, assert_res, validName, validEmail } from "../util";
 
 // ----------------------------------------------------------------------------
 
@@ -13,11 +14,23 @@ let router = express.Router();
 //      query:          string
 // }
 router.get("/search", validateToken, async (req: any, res: any) => {
-  const query = req.body.query;
+    // Input sanitization
+    if (
+        [
+            assert_res(
+                res,
+                req.body.query != null,
+                "query is missing from the request body"
+            ),
+        ].some((x) => !x)
+    )
+        return;
 
-  let db = Database.getInstance().ingrdb();
-  db.all(
-    `SELECT DISTINCT
+    const query = req.body.query;
+
+    let db = Database.getInstance().ingrdb();
+    db.all(
+        `SELECT DISTINCT
         x.*
         FROM Ingredient x
             JOIN
@@ -26,15 +39,15 @@ router.get("/search", validateToken, async (req: any, res: any) => {
                 WHERE Pos > 0) y
             ON x.IngredientID = y.IngredientID
             ORDER BY Pos, x.PrefName;`,
-    [query],
-    async (error: any, rows: any) => {
-      if (error) {
-        console.error(error);
-      }
-      // send back JSON with rows
-      res.status(200).json(rows);
-    },
-  );
+        [query],
+        async (error: any, rows: any) => {
+            if (error) {
+                console.error(error);
+            }
+            // send back JSON with rows
+            res.status(200).json(rows);
+        }
+    );
 });
 
 // Get Ingredient
@@ -44,20 +57,32 @@ router.get("/search", validateToken, async (req: any, res: any) => {
 //      id:          int
 // }
 router.get("/getIngredient", validateToken, async (req: any, res: any) => {
-  const id = req.body.id;
+    // Input sanitization
+    if (
+        [
+            assert_res(
+                res,
+                req.body.id != null,
+                "id is missing from the request body"
+            ),
+        ].some((x) => !x)
+    )
+        return;
 
-  let db = Database.getInstance().ingrdb();
+    const id = req.body.id;
 
-  db.get(
-    `SELECT * FROM Ingredient WHERE IngredientID = ?;`,
-    [id],
-    async (error: any, row: any) => {
-      if (error) {
-        console.error(error);
-      }
-      res.status(200).json(row);
-    },
-  );
+    let db = Database.getInstance().ingrdb();
+
+    db.get(
+        `SELECT * FROM Ingredient WHERE IngredientID = ?;`,
+        [id],
+        async (error: any, row: any) => {
+            if (error) {
+                console.error(error);
+            }
+            res.status(200).json(row);
+        }
+    );
 });
 
 // Get IngredientList
@@ -67,26 +92,38 @@ router.get("/getIngredient", validateToken, async (req: any, res: any) => {
 //      ids:          [int]
 // }
 router.get("/getIngredientList", validateToken, async (req: any, res: any) => {
-  const ids = req.body.ids;
+    // Input sanitization
+    if (
+        [
+            assert_res(
+                res,
+                req.body.ids != null,
+                "ids is missing from the request body"
+            ),
+        ].some((x) => !x)
+    )
+        return;
 
-  let db = Database.getInstance().ingrdb();
+    const ids = req.body.ids;
 
-  db.all(
-    `SELECT * FROM Ingredient WHERE IngredientID IN (` +
-      ids
-        .map(function () {
-          return "?";
-        })
-        .join(",") +
-      `);`,
-    ids,
-    async (error: any, rows: any) => {
-      if (error) {
-        console.error(error);
-      }
-      res.status(200).json(rows);
-    },
-  );
+    let db = Database.getInstance().ingrdb();
+
+    db.all(
+        `SELECT * FROM Ingredient WHERE IngredientID IN (` +
+            ids
+                .map(function () {
+                    return "?";
+                })
+                .join(",") +
+            `);`,
+        ids,
+        async (error: any, rows: any) => {
+            if (error) {
+                console.error(error);
+            }
+            res.status(200).json(rows);
+        }
+    );
 });
 
 // Get Resource Requirements
@@ -96,20 +133,32 @@ router.get("/getIngredientList", validateToken, async (req: any, res: any) => {
 //      id:          int
 // }
 router.get("/getRequirements", validateToken, async (req: any, res: any) => {
-  const id = req.body.id;
+    // Input sanitization
+    if (
+        [
+            assert_res(
+                res,
+                req.body.id != null,
+                "id is missing from the request body"
+            ),
+        ].some((x) => !x)
+    )
+        return;
 
-  let db = Database.getInstance().ingrdb();
+    const id = req.body.id;
 
-  db.all(
-    `SELECT * FROM Requires WHERE IngredientID = ?;`,
-    [id],
-    async (error: any, rows: any) => {
-      if (error) {
-        console.error(error);
-      }
-      res.status(200).json(rows);
-    },
-  );
+    let db = Database.getInstance().ingrdb();
+
+    db.all(
+        `SELECT * FROM Requires WHERE IngredientID = ?;`,
+        [id],
+        async (error: any, rows: any) => {
+            if (error) {
+                console.error(error);
+            }
+            res.status(200).json(rows);
+        }
+    );
 });
 
 // Get Resource
@@ -119,20 +168,32 @@ router.get("/getRequirements", validateToken, async (req: any, res: any) => {
 //      id:          int
 // }
 router.get("/getResource", validateToken, async (req: any, res: any) => {
-  const id = req.body.id;
+    // Input sanitization
+    if (
+        [
+            assert_res(
+                res,
+                req.body.id != null,
+                "id is missing from the request body"
+            ),
+        ].some((x) => !x)
+    )
+        return;
 
-  let db = Database.getInstance().ingrdb();
+    const id = req.body.id;
 
-  db.get(
-    `SELECT * FROM Resource WHERE ResourceID = ?;`,
-    [id],
-    async (error: any, row: any) => {
-      if (error) {
-        console.error(error);
-      }
-      res.status(200).json(row);
-    },
-  );
+    let db = Database.getInstance().ingrdb();
+
+    db.get(
+        `SELECT * FROM Resource WHERE ResourceID = ?;`,
+        [id],
+        async (error: any, row: any) => {
+            if (error) {
+                console.error(error);
+            }
+            res.status(200).json(row);
+        }
+    );
 });
 
 // Get ResourceList
@@ -142,26 +203,38 @@ router.get("/getResource", validateToken, async (req: any, res: any) => {
 //      ids:          [int]
 // }
 router.get("/getResourceList", validateToken, async (req: any, res: any) => {
-  const ids = req.body.ids;
+    // Input sanitization
+    if (
+        [
+            assert_res(
+                res,
+                req.body.ids != null,
+                "ids is missing from the request body"
+            ),
+        ].some((x) => !x)
+    )
+        return;
 
-  let db = Database.getInstance().ingrdb();
+    const ids = req.body.ids;
 
-  db.all(
-    `SELECT * FROM Resource WHERE ResourceID IN (` +
-      ids
-        .map(function () {
-          return "?";
-        })
-        .join(",") +
-      `);`,
-    ids,
-    async (error: any, rows: any) => {
-      if (error) {
-        console.error(error);
-      }
-      res.status(200).json(rows);
-    },
-  );
+    let db = Database.getInstance().ingrdb();
+
+    db.all(
+        `SELECT * FROM Resource WHERE ResourceID IN (` +
+            ids
+                .map(function () {
+                    return "?";
+                })
+                .join(",") +
+            `);`,
+        ids,
+        async (error: any, rows: any) => {
+            if (error) {
+                console.error(error);
+            }
+            res.status(200).json(rows);
+        }
+    );
 });
 
 // Get Model
@@ -171,20 +244,32 @@ router.get("/getResourceList", validateToken, async (req: any, res: any) => {
 //      id:          int
 // }
 router.get("/getModel", validateToken, async (req: any, res: any) => {
-  const id = req.body.id;
+    // Input sanitization
+    if (
+        [
+            assert_res(
+                res,
+                req.body.id != null,
+                "id is missing from the request body"
+            ),
+        ].some((x) => !x)
+    )
+        return;
 
-  let db = Database.getInstance().ingrdb();
+    const id = req.body.id;
 
-  db.get(
-    `SELECT * FROM Model WHERE ModelID = ?;`,
-    [id],
-    async (error: any, row: any) => {
-      if (error) {
-        console.error(error);
-      }
-      res.status(200).json(row);
-    },
-  );
+    let db = Database.getInstance().ingrdb();
+
+    db.get(
+        `SELECT * FROM Model WHERE ModelID = ?;`,
+        [id],
+        async (error: any, row: any) => {
+            if (error) {
+                console.error(error);
+            }
+            res.status(200).json(row);
+        }
+    );
 });
 
 // Get ModelList
@@ -194,26 +279,38 @@ router.get("/getModel", validateToken, async (req: any, res: any) => {
 //      ids:          [int]
 // }
 router.get("/getModelList", validateToken, async (req: any, res: any) => {
-  const ids = req.body.ids;
+    // Input sanitization
+    if (
+        [
+            assert_res(
+                res,
+                req.body.ids != null,
+                "ids is missing from the request body"
+            ),
+        ].some((x) => !x)
+    )
+        return;
 
-  let db = Database.getInstance().ingrdb();
+    const ids = req.body.ids;
 
-  db.all(
-    `SELECT * FROM Model WHERE ModelID IN (` +
-      ids
-        .map(function () {
-          return "?";
-        })
-        .join(",") +
-      `);`,
-    ids,
-    async (error: any, rows: any) => {
-      if (error) {
-        console.error(error);
-      }
-      res.status(200).json(rows);
-    },
-  );
+    let db = Database.getInstance().ingrdb();
+
+    db.all(
+        `SELECT * FROM Model WHERE ModelID IN (` +
+            ids
+                .map(function () {
+                    return "?";
+                })
+                .join(",") +
+            `);`,
+        ids,
+        async (error: any, rows: any) => {
+            if (error) {
+                console.error(error);
+            }
+            res.status(200).json(rows);
+        }
+    );
 });
 
 export default router;

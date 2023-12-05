@@ -12,8 +12,8 @@ test("POST /auth/register", async () => {
     firstName: "Marvin",
     lastName: "Fisher",
     email: "marvinfisher@outlook.com",
-    password: "123test",
-    confirmPassword: "123test",
+    password: "1234test",
+    confirmPassword: "1234test",
   };
   await api.post("/auth/register").send(body).expect(201);
 
@@ -47,7 +47,7 @@ test("POST /auth/login", async () => {
 test("POST /auth/login", async () => {
   let body = {
     email: "marvinfisher@outlook.com",
-    password: "123test",
+    password: "1234test",
   };
   let ret: any = await api
     .post("/auth/login")
@@ -103,7 +103,7 @@ test("DELETE /auth/logout", async () => {
 test("POST /auth/login", async () => {
   let body = {
     email: "marvinfisher@outlook.com",
-    password: "123test",
+    password: "1234test",
   };
   await api
     .post("/auth/login")
