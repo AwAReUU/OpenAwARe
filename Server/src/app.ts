@@ -8,7 +8,16 @@ import ingr from "./routes/ingr";
 // ----------------------------------------------------------------------------
 
 const app: Express = express();
+
 app.use(bodyParser.json());
+
+app.use(function(error: any, req: any, res: any, next: any) {
+  if (error instanceof SyntaxError) {
+    res.status(400).send("SyntaxError: request is not formatted correctly.");
+  } else {
+    next();
+  }
+});
 
 // ----------------------------------------------------------------------------
 // Routes:

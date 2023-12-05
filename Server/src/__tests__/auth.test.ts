@@ -13,7 +13,7 @@ test("POST /auth/register", async () => {
     lastName: "Fisher",
     email: "marvinfisher@outlook.com",
     password: "123test",
-    confirm_password: "123test",
+    confirmPassword: "123test",
   };
   await api.post("/auth/register").send(body).expect(201);
 

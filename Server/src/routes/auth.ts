@@ -21,7 +21,7 @@ router.post("/register", async (req: any, res: any) => {
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   let password = req.body.password;
-  const confirmPassword = req.body.confirm_password;
+  const confirmPassword = req.body.confirmPassword;
   const email = req.body.email;
 
   if (password != confirmPassword) {

@@ -23,7 +23,7 @@ export async function get_authorization_header(): Promise<string> {
     lastName: "Account",
     email: "testaccount@outlook.com",
     password: "123test",
-    confirm_password: "123test",
+    confirmPassword: "123test",
   };
   await api.post("/auth/register").send(account_details).then();
 
