@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace AwARe.ObjectGeneration
 {
+    /// <summary>
+    /// Functionality to visualize BoxColliders.
+    /// </summary>
     internal class BoxCollidervisualizer
     {
         public BoxCollidervisualizer(BoxCollider boxCollider)
@@ -15,6 +18,9 @@ namespace AwARe.ObjectGeneration
         }
     }
 
+    /// <summary>
+    /// Holds functionality to create & destroy visualizations of boxcolliders.
+    /// </summary>
     internal class BoxColliderHelperMonoBehaviour : MonoBehaviour
     {
         /// <summary>
