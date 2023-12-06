@@ -121,7 +121,7 @@ namespace AwARe.ResourcePipeline.Objects
         public static Vector3 GetHalfExtents(GameObject prefab)
         {
             //Temporarily instantiate the object to get the BoxCollider size
-            GameObject tempObj = Object.Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject tempObj = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity);
             BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
             Vector3 halfExtents = tempCollider.size / 2;
             Object.Destroy(tempObj);
