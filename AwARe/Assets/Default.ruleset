@@ -169,7 +169,7 @@
     <Rule Id="SA1642" Action="Info" />
     <Rule Id="SA1643" Action="Info" />
     <Rule Id="SA1648" Action="Info" />
-    <Rule Id="SA1649" Action="Info" />
+    <Rule Id="SA1649" Action="None" />
     <Rule Id="SA1651" Action="Info" />
   </Rules>
 </RuleSet>

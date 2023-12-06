@@ -11,6 +11,9 @@ using UnityEngine;
 
 namespace AwARe.NotImplemented.Objects
 {
+    /// <summary>
+    /// A Singleton MonoBehaviour which handles code or other behaviour which has no implementation as of yet.
+    /// </summary>
     public class NotImplementedHandler : MonoBehaviour
     {
         // Singleton instance
@@ -22,6 +25,9 @@ namespace AwARe.NotImplemented.Objects
         // Active GameObjects
         private GameObject activePopUp;
 
+        /// <summary>
+        /// Called when the script instance is being loaded.
+        /// </summary>
         private void Awake()
         {
             // Setup singleton behaviour
@@ -30,7 +36,10 @@ namespace AwARe.NotImplemented.Objects
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(supportCanvas);
         }
-
+        
+        /// <summary>
+        /// Called when the behaviour component is destroyed.
+        /// </summary>
         private void OnDestroy() =>
             Singleton.OnDestroy(ref instance, this);
     
@@ -53,9 +62,15 @@ namespace AwARe.NotImplemented.Objects
             return me.AddComponent<NotImplementedHandler>();
         }
 
+        /// <summary>
+        /// Show the Not Implemented popup.
+        /// </summary>
         public void ShowPopUp() =>
             activePopUp = activePopUp != null ? activePopUp : Instantiate(popUpPrefab, supportCanvas.transform);
-
+        
+        /// <summary>
+        /// Hide the Not Implemented popup.
+        /// </summary>
         public void HidePopUp()
         {
             Destroy(activePopUp);

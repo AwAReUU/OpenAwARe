@@ -6,6 +6,7 @@ namespace AwARe.Data.Objects
 {
     public class ChunkGridContainer : Container
     {
+        /// <inheritdoc/>
         protected override void SetLocalTransform()
         {
             IChunkGridSize chunkGridSize = childObject.GetComponent<IChunkGridSize>();
