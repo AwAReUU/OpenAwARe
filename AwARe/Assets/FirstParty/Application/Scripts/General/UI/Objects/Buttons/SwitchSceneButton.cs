@@ -5,8 +5,8 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using UnityEngine;
 using AwARe.InterScenes.Objects;
+using UnityEngine;
 
 namespace AwARe.UI.Objects
 {
