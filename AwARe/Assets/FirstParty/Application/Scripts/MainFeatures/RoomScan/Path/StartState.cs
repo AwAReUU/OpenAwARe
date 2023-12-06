@@ -63,8 +63,9 @@ namespace AwARe.RoomScan.Path
 
             FillGrid(ref grid, positiveGridLines, negativeGridLines);
 
-
-            //this is probably where to appy erosion
+            //apply erosion
+            ErosionHandler erosionHandler = new ErosionHandler();
+            grid = erosionHandler.Erode(grid);
 
 
             //do the thinning until only a skeleton remains
