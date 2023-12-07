@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 3130361372940350609}
   - component: {fileID: 1167350272124628781}
   - component: {fileID: 1988636762807350087}
-  - component: {fileID: 8089664170585981777}
+  - component: {fileID: 7184048270590408921}
   m_Layer: 0
   m_Name: Question
   m_TagString: Untagged
@@ -253,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
---- !u!114 &8089664170585981777
+--- !u!114 &7184048270590408921
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -262,15 +262,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5911877008007044621}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd724bdb1b39e7d45b1e6007fa1ab6e5, type: 3}
+  m_Script: {fileID: 11500000, guid: f5d81277017493f4f9b1b68e8ef6206a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textinputTemplate: {fileID: 81021089696624334, guid: 3d2e09a28d4fcae4987611965c424449,
+  titleContainer: {fileID: 1460768206500026677}
+  textInputPrefab: {fileID: 81021089696624334, guid: 3d2e09a28d4fcae4987611965c424449,
     type: 3}
-  checkboxTemplate: {fileID: 8709589544301645250, guid: b708beae8a32a464f953c9057e7b68ac,
+  checkBoxPrefab: {fileID: 8709589544301645250, guid: b708beae8a32a464f953c9057e7b68ac,
     type: 3}
-  radiobuttonTemplate: {fileID: 8484771393697543975, guid: 62aef72e7c4aac045b37cd6a4941b43a,
+  radioButtonPrefab: {fileID: 8484771393697543975, guid: 62aef72e7c4aac045b37cd6a4941b43a,
     type: 3}
-  title: {fileID: 1460768206500026677}
-  ifyesQuestions: []
-  answerOptions: []
+  ifYesQuestions: []

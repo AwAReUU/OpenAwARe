@@ -26,7 +26,7 @@ namespace AwARe.Questionnaire.Objects
         /// <value>
         /// The type of the question (radio, checkbox, textbox).
         /// </value>
-        public string optiontype;
+        public string optionType;
         /// <value>
         /// The text next to the answer option.
         /// </value>

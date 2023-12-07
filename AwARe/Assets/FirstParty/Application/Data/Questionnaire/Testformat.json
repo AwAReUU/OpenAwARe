@@ -1,145 +1,145 @@
 {
-    "questionnairetitle":"sample title",
-    "questionnairedescription":"sample description",
+    "questionnaireTitle":"sample title",
+    "questionnaireDescription":"sample description",
     "questions":
     [
         {
-            "questiontitle":"How you doing?",
-            "ifyes": false,
-            "answeroptions":
+            "questionTitle":"How you doing?",
+            "ifYes": false,
+            "answerOptions":
             [
                 {
-                    "optiontype":"radio",
-                    "optiontext":"Excellent"
+                    "optionType":"radio",
+                    "optionText":"Excellent"
                 },
                 {
-                    "optiontype":"radio",
-                    "optiontext":"Splendid"
+                    "optionType":"radio",
+                    "optionText":"Splendid"
                 },
                 {
-                    "optiontype":"radio",
-                    "optiontext":"Awful"
+                    "optionType":"radio",
+                    "optionText":"Awful"
                 },
                 {
-                    "optiontype":"radio",
-                    "optiontext":"Awful"
+                    "optionType":"radio",
+                    "optionText":"Awful"
                 }
             ]
         },
         {
-            "questiontitle":"Which of the following is true?",
-            "ifyes": false,
-            "answeroptions":
+            "questionTitle":"Which of the following is true?",
+            "ifYes": false,
+            "answerOptions":
             [
                 {
-                    "optiontype":"checkbox",
-                    "optiontext":"1+1=2"
+                    "optionType":"checkbox",
+                    "optionText":"1+1=2"
                 },
                 {
-                    "optiontype":"checkbox",
-                    "optiontext":"2+2=4"
+                    "optionType":"checkbox",
+                    "optionText":"2+2=4"
                 },
                 {
-                    "optiontype":"checkbox",
-                    "optiontext":"2+4=3"
+                    "optionType":"checkbox",
+                    "optionText":"2+4=3"
                 }
             ]
         },
         {
-            "questiontitle":"Type something in the box",
-            "ifyes": false,
-            "answeroptions":
+            "questionTitle":"Type something in the box",
+            "ifYes": false,
+            "answerOptions":
             [
                 {
-                    "optiontype":"textbox",
-                    "optiontext":"maybe some lorem ipsum?"
+                    "optionType":"textbox",
+                    "optionText":"maybe some lorem ipsum?"
                 }
             ]
         },
         {
-            "questiontitle":"How you doing?",
-            "ifyes": false,
-            "answeroptions":
+            "questionTitle":"How you doing?",
+            "ifYes": false,
+            "answerOptions":
             [
                 {
-                    "optiontype":"radio",
-                    "optiontext":"Excellent"
+                    "optionType":"radio",
+                    "optionText":"Excellent"
                 },
                 {
-                    "optiontype":"radio",
-                    "optiontext":"Splendid"
+                    "optionType":"radio",
+                    "optionText":"Splendid"
                 },
                 {
-                    "optiontype":"radio",
-                    "optiontext":"Meh"
+                    "optionType":"radio",
+                    "optionText":"Meh"
                 },
                 {
-                    "optiontype":"radio",
-                    "optiontext":"Awful"
+                    "optionType":"radio",
+                    "optionText":"Awful"
                 }
             ]
         },
         {
-            "questiontitle": "Are you human?",
-            "ifyes": true,
-            "ifyestrigger":0,
-            "answeroptions": 
+            "questionTitle": "Are you human?",
+            "ifYes": true,
+            "ifYestrigger":0,
+            "answerOptions": 
             [
                 {
-                    "optiontype": "radio",
-                    "optiontext": "Yes"
+                    "optionType": "radio",
+                    "optionText": "Yes"
                 },
                 {
-                    "optiontype": "radio",
-                    "optiontext": "No"
+                    "optionType": "radio",
+                    "optionText": "No"
                 }
             ],
-            "ifyesquestions":
+            "ifYesquestions":
             [
                 {
-                    "questiontitle": "What kind of human?",
-                    "ifyes": false,
-                    "answeroptions": 
+                    "questionTitle": "What kind of human?",
+                    "ifYes": false,
+                    "answerOptions": 
                     [
                         {
-                            "optiontype": "radio",
-                            "optiontext": "Tasty one"
+                            "optionType": "radio",
+                            "optionText": "Tasty one"
                         },
                         {
-                            "optiontype": "radio",
-                            "optiontext": "Stinky one"
+                            "optionType": "radio",
+                            "optionText": "Stinky one"
                         },
                         {
-                            "optiontype": "radio",
-                            "optiontext": "Tall one"
+                            "optionType": "radio",
+                            "optionText": "Tall one"
                         }
                     ]
                 },
                 {
-                    "questiontitle": "What is your favorite color?",
-                    "ifyes": false,
-                    "answeroptions": [
+                    "questionTitle": "What is your favorite color?",
+                    "ifYes": false,
+                    "answerOptions": [
                         {
-                            "optiontype": "radio",
-                            "optiontext": "Blue"
+                            "optionType": "radio",
+                            "optionText": "Blue"
                         },
                         {
-                            "optiontype": "radio",
-                            "optiontext": "Yellow"
+                            "optionType": "radio",
+                            "optionText": "Yellow"
                         }
                     ]
                 },
                 {
-                    "questiontitle": "Are you sure you are a human?",
-                    "ifyes": false,
-                    "answeroptions": [
+                    "questionTitle": "Are you sure you are a human?",
+                    "ifYes": false,
+                    "answerOptions": [
                         {
-                            "optiontype": "radio",
-                            "optiontext": "Absolutely"
+                            "optionType": "radio",
+                            "optionText": "Absolutely"
                         },
                         {
-                            "optiontype": "radio",
-                            "optiontext": "No, i lied"
+                            "optionType": "radio",
+                            "optionText": "No, i lied"
                         }
                     ]
                 }

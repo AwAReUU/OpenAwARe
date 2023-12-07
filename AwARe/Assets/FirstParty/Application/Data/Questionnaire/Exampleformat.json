@@ -1,62 +1,62 @@
 {
-    "questionnairetitle": "sample title",
-    "questionnairedescription": "sample description",
+    "questionnaireTitle": "sample title",
+    "questionnaireDescription": "sample description",
     "questions": [
         {
-            "questiontitle": "Which of the following is true?",
-            "answeroptions": [
+            "questionTitle": "Which of the following is true?",
+            "answerOptions": [
                 {
-                    "optiontype": "checkbox",
-                    "optiontext": "1+1=2"
+                    "optionType": "checkbox",
+                    "optionText": "1+1=2"
                 },
                 {
-                    "optiontype": "checkbox",
-                    "optiontext": "2+2=4"
+                    "optionType": "checkbox",
+                    "optionText": "2+2=4"
                 },
                 {
-                    "optiontype": "checkbox",
-                    "optiontext": "2+4=3"
+                    "optionType": "checkbox",
+                    "optionText": "2+4=3"
                 }
             ]
         },
         {
-            "questiontitle": "What is your favorite piece of music?",
-            "answeroptions": [
+            "questionTitle": "What is your favorite piece of music?",
+            "answerOptions": [
                 {
-                    "optiontype": "textbox",
-                    "optiontext": "Type your answer here"
+                    "optionType": "textbox",
+                    "optionText": "Type your answer here"
                 }
             ]
         },
         {
-            "questiontitle": "Have you eaten today?",
-            "ifyes": true,
-            "ifyestrigger": 0,
-            "answeroptions": [
+            "questionTitle": "Have you eaten today?",
+            "ifYes": true,
+            "ifYestrigger": 0,
+            "answerOptions": [
                 {
-                    "optiontype": "radio",
-                    "optiontext": "Yes"
+                    "optionType": "radio",
+                    "optionText": "Yes"
                 },
                 {
-                    "optiontype": "radio",
-                    "optiontext": "No"
+                    "optionType": "radio",
+                    "optionText": "No"
                 }
             ],
-            "ifyesquestions":[
+            "ifYesQuestions":[
                 {
-                    "questiontitle": "What did you eat?",
-                    "answeroptions": [
+                    "questionTitle": "What did you eat?",
+                    "answerOptions": [
                         {
-                            "optiontype": "radio",
-                            "optiontext": "Bananas"
+                            "optionType": "radio",
+                            "optionText": "Bananas"
                         },
                         {
-                            "optiontype": "radio",
-                            "optiontext": "Spaghetti"
+                            "optionType": "radio",
+                            "optionText": "Spaghetti"
                         },
                         {
-                            "optiontype": "radio",
-                            "optiontext": "Beans"
+                            "optionType": "radio",
+                            "optionText": "Beans"
                         }
                     ]
                 }

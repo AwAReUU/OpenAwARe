@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-
 using TMPro;
-
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -16,8 +14,10 @@ namespace AwARe.Questionnaire.Objects
         [SerializeField] private GameObject questionPrefab;
 
         [SerializeField] private GameObject submitButton;
+        [SerializeField] private GameObject questionCreatorPrefab;
+        //[SerializeField] private GameObject questionTemplate;
         private List<GameObject> questions;
-  
+
         void Awake()
         {
             questions = new List<GameObject>();
@@ -33,28 +33,36 @@ namespace AwARe.Questionnaire.Objects
             this.description.text = description;
         }
 
-        //create a new question gameobject from its data class and returns it
+        // Instantiate a QuestionCreator and use it to create a new question
         public GameObject AddQuestion(QuestionData data)
         {
-            //instantiate the template
-            var questionObject = Instantiate(questionPrefab, questionsWindow);
-            questionObject.SetActive(true);
-            questions.Add(questionObject);
+            // Instantiate the QuestionCreator prefab
+            GameObject questionCreatorObject = Instantiate(questionCreatorPrefab);
+            QuestionCreator questionCreator = questionCreatorObject.GetComponent<QuestionCreator>();
 
-            // Set the title, questionnaire it belongs to, and if its an 'if yes' question
-            //'if yes' questions show more questions when 'yes' is answer to them
-            var questionscript = question.gameObject.GetComponent<QuestionCreator>();
+            // Set the title and if-yes information
+            questionCreator.SetTitle(data.questionTitle);
+            questionCreator.SetIfyes(data.ifYes, data.ifYesTrigger);
+
+            // Instantiate the template
+            //GameObject questionTemp = Instantiate(questionTemplate);
+            questionCreatorObject.transform.SetParent(gameObject.transform.Find("Question Scroller/Content"));
+            questionCreatorObject.SetActive(true);
+            questions.Add(questionCreatorObject.gameObject);
+
+            // Set the title and questionnaire information using the instantiated QuestionCreator
+            var questionscript = questionCreatorObject.GetComponent<QuestionCreator>();
             questionscript.SetTitle(data.questionTitle);
             questionscript.SetIfyes(data.ifYes, data.ifYesTrigger);
 
-            //add each answer option to the question
+            // Add each answer option to the question using the instantiated QuestionCreator
             foreach (AnswerOptionData answer in data.answerOptions)
             {
-                questionscript.AddAnswerOption(answer);
+                questionCreator.AddAnswerOption(answer);
             }
 
-            //add the questions to be shown if yes is answered to the questionnaire, and hides them
-            if(data.ifYes)
+            // Add the questions to be shown if yes is answered to the questionnaire, and hide them
+            if (data.ifYes)
             {
                 foreach (QuestionData ifyesQuestionData in data.ifYesQuestions)
                 {
@@ -64,7 +72,7 @@ namespace AwARe.Questionnaire.Objects
                 }
             }
 
-            return questionObject;
+            return questionCreatorObject;
         }
 
         private void AddAnswer(AnswerOptionData data, Question question)

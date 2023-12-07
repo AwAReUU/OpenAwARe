@@ -53,7 +53,7 @@
 //            answerOptionStates[optionNumber] = value;
 //            if (answerOptionStates[ifyesTrigger])
 //            {
-//                foreach(GameObject ifyesQuestion in ifyesQuestions)
+//                foreach (GameObject ifyesQuestion in ifyesQuestions)
 //                {
 //                    ifyesQuestion.SetActive(true);
 //                }
