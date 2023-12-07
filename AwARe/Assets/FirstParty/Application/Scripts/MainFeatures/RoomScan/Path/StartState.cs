@@ -13,7 +13,6 @@ using UnityEngine.UIElements;
 
 namespace AwARe.RoomScan.Path
 {
-
     public class StartState
     {
         float scaleFactor;
@@ -247,68 +246,32 @@ namespace AwARe.RoomScan.Path
             int cols = grid.GetLength(1);
             int gridSize = rows * cols;
 
-            bool[,] oldGrid = grid;
-            NativeArray<bool> toNativeGrid = new NativeArray<bool>(gridSize, Allocator.TempJob);
             NativeArray<bool> resultGrid = new NativeArray<bool>(gridSize, Allocator.TempJob);
             NativeArray<((int x, int y) p1, (int x, int y) p2)> polygonLines =
                 new NativeArray<((int x, int y) p1, (int x, int y) p2)>(positiveLines.Count, Allocator.TempJob);
-
-            for (int x = 0; x < rows; x++)
-            {
-                for (int y = 0; y < cols; y++)
-                {
-                    int index = x * cols + y;
-                    toNativeGrid[index] = oldGrid[x, y];
-                }
-            }
 
             for (int i = 0; i < positiveLines.Count; i++)
             {
                 polygonLines[i] = positiveLines[i];
             }
 
-            CheckInPolygonJob job = new CheckInPolygonJob()
+            CheckInPolygonJob positivePolygonCheckJob = new CheckInPolygonJob()
             {
-                nativeGrid = toNativeGrid, columns = grid.GetLength(1), checkPositivePolygon = true, polygonWalls = polygonLines,
+                nativeGrid = ToNativeGrid(grid),
+                columns = grid.GetLength(1),
+                checkPositivePolygon = true,
+                polygonWalls = polygonLines,
+
                 nativeResultGrid = resultGrid
             };
 
-            JobHandle jobHandle = job.Schedule(gridSize, 10);
+            JobHandle posPolCheckJobHandle = positivePolygonCheckJob.Schedule(gridSize, 64);
 
-            jobHandle.Complete();
+            posPolCheckJobHandle.Complete();
 
-            for (int i = 0; i < gridSize; i++)
-            {
-                int x = i / cols;
-                int y = i % cols;
-                grid[x, y] = job.nativeResultGrid[i];
-            }
+            polygonLines.Dispose();
 
-            /*
-            //floodfill from a position in the positive polygon
-            List<(int x, int y)> foundPoints = new();
-            
-            for (int x = 0; x < grid.GetLength(0); x++)
-            {
-                for (int y = 0; y < grid.GetLength(1); y++)
-                {
-                    //it is useless to set a point that is already true to true
-                    if (grid[x, y]) continue;
-
-                    //check if current point is in positive polygon. if not, continue
-                    if (!CheckInPolygon(positiveLines, (x, y))) continue;
-
-                    //if the loop makes it past all of the above checks, we have found a valid point
-                    foundPoints.Add((x, y));
-                }
-            }
-            
-            //fill in the positive polygon
-            for (int i = 0; i < foundPoints.Count; i++)
-            {
-                grid[foundPoints[i].x, foundPoints[i].y] = true;
-            }
-            */
+            grid = ToGrid(resultGrid, rows, cols);
 
             List<(int x, int y)> foundPoints = new();
             //carve out the negative polygons
@@ -321,7 +284,7 @@ namespace AwARe.RoomScan.Path
                 {
                     DrawLine(ref grid, negativeLines[n][i], true);
                 }
-
+                /*
                 //find the points in the current negative polygon
                 for (int x = 0; x < grid.GetLength(0); x++)
                 {
@@ -343,64 +306,39 @@ namespace AwARe.RoomScan.Path
                 {
                     grid[foundPoints[i].x, foundPoints[i].y] = false;
                 }
+                */
+
+                NativeArray<bool> negResultGrid = new NativeArray<bool>(gridSize, Allocator.TempJob);
+                NativeArray<((int x, int y) p1, (int x, int y) p2)> negPolygonLines =
+                    new NativeArray<((int x, int y) p1, (int x, int y) p2)>(negativeLines[n].Count, Allocator.TempJob);
+
+                for (int i = 0; i < negativeLines[n].Count; i++)
+                {
+                    negPolygonLines[i] = negativeLines[n][i];
+                }
+
+                CheckInPolygonJob negativePolygonCheckJob = new CheckInPolygonJob()
+                {
+                    nativeGrid = resultGrid,
+                    columns = grid.GetLength(1),
+                    checkPositivePolygon = true,
+                    polygonWalls = negPolygonLines,
+
+                    nativeResultGrid = negResultGrid
+                };
+
+                JobHandle negPolCheckJobHandle = negativePolygonCheckJob.Schedule(gridSize, 64);
+
+                negPolCheckJobHandle.Complete();
+
+                grid = ToGrid(negativePolygonCheckJob.nativeResultGrid, rows, cols);
+
+                resultGrid = negResultGrid;
+
+                negPolygonLines.Dispose();
+                negResultGrid.Dispose();
             }
-        }
-
-        /// <summary>
-        /// check if a point is in a polygon (represented as a list of lines)
-        /// done by shooting a ray to the right from the point and counting the number of intersections with polygon edges
-        /// </summary>
-        /// <param name="lines">list of lines that make up the polygon</param>
-        /// <param name="point">point to check if it is inside the polygon</param>
-        /// <returns>true if the point lies inside the polygon, false otherwise</returns>
-        private bool CheckInPolygon(List<((int x, int y) p1, (int x, int y) p2)> polygonwalls, (int x, int y) point)
-        {
-            List<(double x, double y)> intersections = new();
-
-            for (int i = 0; i < polygonwalls.Count; i++)
-            {
-                double intersecty = point.y;
-                double intersectx;
-
-                double divider = polygonwalls[i].p2.x - polygonwalls[i].p1.x;
-                if (divider == 0)
-                {
-                    intersectx = polygonwalls[i].p2.x;
-                }
-                else
-                {
-                    double a = (polygonwalls[i].p2.y - polygonwalls[i].p1.y) / divider;
-                    //if a is 0, the ray and the wall are parallel and they dont intersect
-                    if (a == 0) continue;
-                    double b = polygonwalls[i].p1.y - polygonwalls[i].p1.x * a;
-                    intersectx = (point.y - b) / a;
-                }
-                //check that the intersection point lies on the ray we shot, continue if it doesn't
-                if (intersectx < point.x) continue;
-
-                //check that the intersection point lies on the wall, continue if it doesn't
-                if (intersectx < Math.Min(polygonwalls[i].p1.x, polygonwalls[i].p2.x) || intersectx > Math.Max(polygonwalls[i].p1.x, polygonwalls[i].p2.x)
-                 || intersecty < Math.Min(polygonwalls[i].p1.y, polygonwalls[i].p2.y) || intersecty > Math.Max(polygonwalls[i].p1.y, polygonwalls[i].p2.y)) { continue; }
-
-                //if the intersection point is the exact endpoint of a wall, this causes problems. cancel the whole operation
-                //we cannot be sure if it lies inside or outside the polygon
-                if ((intersectx, intersecty) == polygonwalls[i].p1 || (intersectx, intersecty) == polygonwalls[i].p2)
-                {
-                    return false;
-                }
-
-                //add this intersection to the list if it is a new one
-                if (!intersections.Contains((intersectx, intersecty)))
-                {
-                    intersections.Add((intersectx, intersecty));
-                }
-            }
-
-            if (intersections.Count % 2 == 0)
-            {
-                return false;
-            }
-            else return true;
+            resultGrid.Dispose();
         }
 
         /// <summary>
@@ -664,6 +602,41 @@ namespace AwARe.RoomScan.Path
             backGolayElements.Add(elem8);
         }
         #endregion
+
+        private NativeArray<bool> ToNativeGrid(bool[,] grid)
+        {
+            int rows = grid.GetLength(0);
+            int cols = grid.GetLength(1);
+            int gridSize = rows * cols;
+
+            NativeArray<bool> toNativeGrid = new NativeArray<bool>(gridSize, Allocator.TempJob);
+
+            for (int x = 0; x < rows; x++)
+            {
+                for (int y = 0; y < cols; y++)
+                {
+                    int index = x * cols + y;
+                    toNativeGrid[index] = grid[x, y];
+                }
+            }
+
+            return toNativeGrid;
+        }
+
+        private bool[,] ToGrid(NativeArray<bool> nativeArray, int rows, int columns)
+        {
+            bool[,] toGrid = new bool[rows, columns];
+            int gridSize = nativeArray.Length;
+
+            for (int i = 0; i < gridSize; i++)
+            {
+                int x = i / columns;
+                int y = i % columns;
+                toGrid[x, y] = nativeArray[i];
+            }
+
+            return toGrid;
+        }
 
         //unused code that may still prove useful in the future
         #region Old
@@ -957,9 +930,9 @@ namespace AwARe.RoomScan.Path
             if (nativeGrid[index] == checkPositivePolygon) return;
             int x = index / columns;
             int y = index % columns;
-            if (CheckInPolygon(polygonWalls, (x, y)) != checkPositivePolygon) return;
+            if (CheckInPolygon(polygonWalls, (x, y)) == false) return;
 
-            nativeResultGrid[index] = true;
+            nativeResultGrid[index] = checkPositivePolygon;
         }
 
         /// <summary>

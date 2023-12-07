@@ -27,6 +27,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private PolygonDrawer polygonDrawer;
         [SerializeField] private PolygonMesh polygonMesh;
         [SerializeField] private PolygonScan scanner;
+        [SerializeField] private VisualizePath pathVisualizer;
 
         [SerializeField] private GameObject createBtn;
         [SerializeField] private GameObject resetBtn;
@@ -113,9 +114,13 @@ namespace AwARe.RoomScan.Polygons.Objects
             StartState startstate = new();
             PathData path = startstate.GetStartState(Room.PositivePolygon, Room.NegativePolygons);
 
-// TODO TEMP            VisualizePath visualizer = (VisualizePath)pathVisualiser.GetComponent("VisualizePath");
-// TODO TEMP            visualizer.SetPath(path);
-// TODO TEMP            visualizer.Visualize();
+            VisualizePath visualizer = (VisualizePath)pathVisualizer.GetComponent("VisualizePath");
+            visualizer.SetPath(path);
+            visualizer.Visualize();
+
+            // TODO TEMP            VisualizePath visualizer = (VisualizePath)pathVisualiser.GetComponent("VisualizePath");
+            // TODO TEMP            visualizer.SetPath(path);
+            // TODO TEMP            visualizer.Visualize();
         }
 
         /// <summary>
