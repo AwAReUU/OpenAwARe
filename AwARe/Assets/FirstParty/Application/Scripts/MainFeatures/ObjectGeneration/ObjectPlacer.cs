@@ -56,14 +56,14 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <param name="renderables">All items that we are going to place.</param>
         /// <param name="room">Room to place the renderables in.</param>
-        public void PlaceRenderables(List<Renderable> renderables, Room room)
+        public void PlaceRenderables(List<Renderable> renderables, Room room, Mesh path)
         {
             if (renderables.Count == 0)
                 return;
 
             // 1. Get valid spawnpoints
             PolygonSpawnPointHandler spawnPointHandler = new PolygonSpawnPointHandler();
-            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room);
+            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room, path);
 
             // 2. Initialize clusters where one object of each group is placed
             Dictionary<Renderable, Vector3> initialSpawnsDictionary = InitializeClusters(validSpawnPoints, renderables, room);
