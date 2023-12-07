@@ -13,6 +13,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
+using System.Runtime.InteropServices;
 
 namespace AwARe
 {
@@ -49,7 +50,7 @@ namespace AwARe
             //Act & Assert: Retrieve ingredientList from storage, convert to list of renderables,
             //and place the renderables.
             Assert.DoesNotThrow(() => objectCreationManager.OnPlaceButtonClick());
-            
+
             yield return null;
         }
 
@@ -60,7 +61,7 @@ namespace AwARe
             List<Renderable> renderables = GetSingleRenderable(100f);
 
             //act: Try place Renderable in the polygon.
-            objectCreationManager.PlaceRenderables(renderables, new TestRoom());
+            objectCreationManager.PlaceRenderables(renderables, new TestRoom(), new Mesh());
 
             //assert: The amount of placed objects did not change.
             //yield return new WaitForSeconds(1);
@@ -76,7 +77,7 @@ namespace AwARe
             List<Renderable> renderables = GetSingleRenderable(0.1f);
 
             //act: Place the renderable
-            objectCreationManager.PlaceRenderables(renderables, new TestRoom());
+            objectCreationManager.PlaceRenderables(renderables, new TestRoom(), new Mesh());
 
             //assert: There is one Renderable in the scene.
             yield return null;
@@ -95,14 +96,14 @@ namespace AwARe
 
             //Act: Count the amount of objects in the layer.
             GameObject[] obtainedObjectsAfter = ObjectObtainer.FindGameObjectsInLayer(layer);
-            
+
             //Assert: The amount of gameObjects in the layer changed after creating the object.
             Assert.True(obtainedObjectsBefore == null && obtainedObjectsAfter.Length == 1);
         }
 
         [UnityTest, Description("Makes sure that the ObjectDestroyer works")]
         public IEnumerator ObjectDestroyerWorks()
-        {          
+        {
             //Arrange: Create an empty gameObject in a layer.
             string layer = "Placed Objects";
             GameObject _ = new GameObject { layer = LayerMask.NameToLayer(layer) };
@@ -110,7 +111,7 @@ namespace AwARe
 
             //Act: Destroy the object, and obtain the objects in the previously mentioned layer.
             new GameObject().AddComponent<ObjectDestroyer>().DestroyAllObjects();
-            
+
             yield return null;
             GameObject[] obtainedObjectsAfter = ObjectObtainer.FindGameObjectsInLayer(layer);
 
@@ -128,7 +129,7 @@ namespace AwARe
             GameObject model = Resources.Load<GameObject>(@"Models/Shapes/Cube");
 
             Vector3 halfExtents = PipelineManager.GetHalfExtents(model);
-            halfExtents *= scale; 
+            halfExtents *= scale;
             Renderable renderable = new(model, halfExtents, 1, scale);
             List<Renderable> renderables = new() { renderable };
             renderables = Renderable.SetSurfaceRatios(renderables);

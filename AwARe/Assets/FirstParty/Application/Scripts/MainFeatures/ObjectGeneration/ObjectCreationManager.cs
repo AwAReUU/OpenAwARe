@@ -6,6 +6,7 @@ using Rooms = AwARe.RoomScan.Polygons.Logic;
 using Ingredients = AwARe.IngredientList.Logic;
 
 using UnityEngine;
+using AwARe.RoomScan.Path;
 
 namespace AwARe.ObjectGeneration
 {
@@ -21,6 +22,11 @@ namespace AwARe.ObjectGeneration
         /// <c>IngredientList</c> that we are going to render.
         /// </value>
         private Ingredients.IngredientList SelectedList { get; set; }
+
+        /// <value>
+        /// <c>path</c> the Mesh from the generated path.
+        /// </value>
+        private Mesh pathMesh { get; set; } = new Mesh(); // Empty mesh for now. Once Path gen. is done, generate the mesh from PathData.
 
         /// <summary>
         /// Set the current ingredientList.
@@ -54,7 +60,11 @@ namespace AwARe.ObjectGeneration
 
             polygonDrawer.DrawRoomPolygons(room);
 
-            PlaceRenderables(renderables, room);
+            // TODO:
+            // Once pathgen is done, create mesh from PathData
+            // this.pathMesh = pathData.CreateMesh()
+
+            PlaceRenderables(renderables, room, this.pathMesh);
         }
 
         /// <summary>
@@ -62,8 +72,8 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <param name="renderables">Objects to place in the polygon.</param>
         /// <param name="room">Room consisting of polygons to place the objects in.</param>
-        public void PlaceRenderables(List<Renderable> renderables, Rooms.Room room) =>
-            new ObjectPlacer().PlaceRenderables(renderables, room);
+        public void PlaceRenderables(List<Renderable> renderables, Rooms.Room room, Mesh pathMesh) =>
+            new ObjectPlacer().PlaceRenderables(renderables, room, pathMesh);
 
         /// <summary>
         /// Rotate a gameObject to face the user.
@@ -88,7 +98,7 @@ namespace AwARe.ObjectGeneration
                 return;
 
             PolygonSpawnPointHandler spawnPointHandler = new();
-            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room);
+            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room, this.pathMesh);
 
             Gizmos.color = Color.red;
             foreach (var p in validSpawnPoints)

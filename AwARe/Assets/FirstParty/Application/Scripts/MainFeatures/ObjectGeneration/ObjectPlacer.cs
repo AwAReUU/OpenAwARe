@@ -56,7 +56,7 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <param name="renderables">All items that we are going to place.</param>
         /// <param name="room">Room to place the renderables in.</param>
-        public void PlaceRenderables(List<Renderable> renderables, Room room)
+        public void PlaceRenderables(List<Renderable> renderables, Room room, Mesh path)
         {
             if (renderables.Count == 0)
                 return;
@@ -68,7 +68,7 @@ namespace AwARe.ObjectGeneration
             //List<Vector3> polygonPoints = polygonManager.GetPolygon().GetPointsList();
 
             PolygonSpawnPointHandler spawnPointHandler = new PolygonSpawnPointHandler();
-            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room);
+            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room, path);
 
             foreach (var renderable in renderables) //prefab iterator
             {
