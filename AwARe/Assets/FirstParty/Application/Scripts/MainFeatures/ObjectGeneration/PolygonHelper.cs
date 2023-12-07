@@ -73,8 +73,8 @@ namespace AwARe.ObjectGeneration
         public static bool IsPointInsidePath(Mesh path, Vector3 point)
         {
             // Create Mesh Collider
-            var obj = new GameObject("PathCollider");
-            var collider = obj.AddComponent<MeshCollider>();
+            var colliderObj = new GameObject("PathCollider");
+            var collider = colliderObj.AddComponent<MeshCollider>();
             collider.sharedMesh = path;
 
             // Cast ray on collider
@@ -84,7 +84,7 @@ namespace AwARe.ObjectGeneration
                 hit = raycastHit.transform.name == "PathCollider";
             }
 
-            GameObject.Destroy(obj);
+            GameObject.Destroy(colliderObj);
 
             return hit;
         }

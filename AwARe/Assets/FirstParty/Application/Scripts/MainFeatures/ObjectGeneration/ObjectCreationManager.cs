@@ -6,7 +6,6 @@ using Rooms = AwARe.RoomScan.Polygons.Logic;
 using Ingredients = AwARe.IngredientList.Logic;
 
 using UnityEngine;
-using AwARe.RoomScan.Path;
 
 namespace AwARe.ObjectGeneration
 {

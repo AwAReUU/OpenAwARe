@@ -6,7 +6,6 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
-using System.IO;
 using AwARe.Data.Logic;
 using AwARe.RoomScan.Polygons.Logic;
 
@@ -82,7 +81,8 @@ namespace AwARe.ObjectGeneration
 
                     // Check if the grid point is inside the polygon
                     if (PolygonHelper.IsPointInsidePolygon(posPolygon, gridPoint)
-                        && PolygonHelper.PointNotInPolygons(room.NegativePolygons, gridPoint) && !PolygonHelper.IsPointInsidePath(path, gridPoint))
+                        && PolygonHelper.PointNotInPolygons(room.NegativePolygons, gridPoint) 
+                        && !PolygonHelper.IsPointInsidePath(path, gridPoint))
                         result.Add(gridPoint);
                 }
             }
