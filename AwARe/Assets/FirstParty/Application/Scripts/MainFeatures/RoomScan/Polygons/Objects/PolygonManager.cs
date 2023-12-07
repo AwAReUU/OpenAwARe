@@ -105,7 +105,13 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             polygonDrawer.DrawPolygon(CurrentPolygon, !Room.PositivePolygon.IsEmptyPolygon());
             Room.AddPolygon(CurrentPolygon);
-            GenerateAndDrawPath();
+
+            for(int i = 0; i < CurrentPolygon.Points.Count; i++)
+            {
+                Debug.Log(CurrentPolygon.Points[i]);
+            }
+
+            //GenerateAndDrawPath();
         }
 
         public void GenerateAndDrawPath()
