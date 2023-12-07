@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,8 +75,7 @@ namespace AwARe.RoomScan.Path
 
 
             ErosionHandler erosionHandler = new ErosionHandler();
-            grid = erosionHandler.Erode(grid);
-
+            grid = erosionHandler.Erode(grid, 30);
 
             //do the thinning until only a skeleton remains
             //note: testing in an external duplicate to easily visualize the grid found that this takes a notable bit of time (~approx 15 seconds)
@@ -81,6 +87,8 @@ namespace AwARe.RoomScan.Path
             {
                 grid = ThinnedGrid(grid, out thinning);
             }
+
+            PostFiltering(ref grid, 50);
 
             //at this point, grid contains the skeleton path as a thin line of booleans
             //now we need to convert this to a pathdata
@@ -205,19 +213,26 @@ namespace AwARe.RoomScan.Path
             int zlength;
 
             //desired size: ~500 in the longest dimension
-            int longestside = 500;
-            if (xDiff > zDiff)
-            {
-                xlength = longestside;
-                zlength = (int)Math.Ceiling(longestside * (zDiff / xDiff));
-                scaleFactor = xlength / xDiff;
-            }
-            else
-            {
-                zlength = longestside;
-                xlength = (int)Math.Ceiling(longestside * (xDiff / zDiff));
-                scaleFactor = zlength / zDiff;
-            }
+            // int longestside = 500;
+            // if (xDiff > zDiff)
+            // {
+            //     xlength = longestside;
+            //     zlength = (int)Math.Ceiling(longestside * (zDiff / xDiff));
+            //     scaleFactor = xlength / xDiff;
+            // }
+            // else
+            // {
+            //     zlength = longestside;
+            //     xlength = (int)Math.Ceiling(longestside * (xDiff / zDiff));
+            //     scaleFactor = zlength / zDiff;
+            // }
+
+            //testing revealed that unity-vector3 points acquired relate to the real world on a 1:100 scale (in centimeters)
+            //so a difference of 0.01 in vector3 coords equated to 1 centimeter in the real world
+            scaleFactor = 100;
+            xlength = (int)Math.Round(xDiff * scaleFactor);
+            zlength = (int)Math.Round(zDiff * scaleFactor);
+
 
             //the direction to move in to get from the polygon space to the grid space; addition.
             moveTransform = ((-minX) * scaleFactor, (-minZ) * scaleFactor);
@@ -531,6 +546,126 @@ namespace AwARe.RoomScan.Path
             }
             if (hit) return true;
             else return false;
+        }
+
+        /// <summary>
+        /// removes path branches that are too short
+        /// </summary>
+        /// <param name="grid">the grid containing the skeleton path</param>
+        /// <param name="treshold">the minimum length a branch must have in pixels. shorter branches will be removed</param>
+        public void PostFiltering(ref bool[,] grid, int treshold)
+        {
+            List<(int, int)> endpoints = new List<(int, int)>();
+            List<(int, int)> junctions = new List<(int, int)>();
+
+            //find the endpoints and junctions
+            for (int x = 0; x < grid.GetLength(0); x++)
+            {
+                for (int y = 0; y < grid.GetLength(1); y++)
+                {
+                    //if the pixel we are looking at is false, we do not need to potentially set it to false
+                    if (!grid[x, y]) continue;
+
+                    //'roll out' the gridpoints surrounding the current point
+                    bool[] rolledoutneighbours = new bool[9];
+
+                    //look up-left
+                    if (!(x - 1 < 0 || y - 1 < 0))
+                    {
+                        rolledoutneighbours[0] = grid[x - 1, y - 1];
+                        rolledoutneighbours[8] = grid[x - 1, y - 1];    //add a copy of the first point looked at to the end
+                    }
+                    //look up
+                    if (!(y - 1 < 0)) rolledoutneighbours[1] = grid[x, y - 1];
+                    //look up-right
+                    if (!(x + 1 > grid.GetLength(0) || y - 1 < 0)) rolledoutneighbours[2] = grid[x + 1, y - 1];
+                    //look right
+                    if (!(x + 1 > grid.GetLength(0))) rolledoutneighbours[3] = grid[x + 1, y];
+                    //look bottom-right
+                    if (!(x + 1 > grid.GetLength(0) || y + 1 > grid.GetLength(1))) rolledoutneighbours[4] = grid[x + 1, y + 1];
+                    //look bottom
+                    if (!(y + 1 > grid.GetLength(1))) rolledoutneighbours[5] = grid[x, y + 1];
+                    //look bottom-left
+                    if (!(x - 1 < 0 || y + 1 > grid.GetLength(1))) rolledoutneighbours[6] = grid[x - 1, y + 1];
+                    //look left
+                    if (!(x - 1 < 0)) rolledoutneighbours[7] = grid[x - 1, y];
+
+                    //count number branching paths coming from this pixel by looking at the number of changes from true to false
+                    int numberofbranches = 0;
+                    for (int i = 0; i < 8; i++)
+                    {
+                        if (rolledoutneighbours[i] && !rolledoutneighbours[i + 1]) numberofbranches++;
+                    }
+
+                    if (numberofbranches == 1) endpoints.Add((x, y));
+                    else if (numberofbranches > 2) junctions.Add((x, y));
+                }
+            }
+
+            //find the subpaths and remove any that are too short
+            for (int i = 0; i < endpoints.Count; i++)
+            {
+                Queue<(int, int)> queue = new Queue<(int, int)>();
+                queue.Enqueue(endpoints[i]);
+                List<(int x, int y)> consideredpoints = new List<(int x, int y)>();
+                consideredpoints.Add(endpoints[i]);
+                bool stop = false;
+
+                while (queue.Count > 0 && !stop)
+                {
+                    (int x, int y) currentpoint = queue.Dequeue();
+                    List<(int x, int y)> addedpoints = new List<(int x, int y)>();
+
+                    //consider points in the 8-neighbourhood
+                    for (int x = -1; x < 2; x++)
+                    {
+                        if (stop) break;
+
+                        for (int y = -1; y < 2; y++)
+                        {
+                            (int x, int y) consideredpoint = (currentpoint.x + x, currentpoint.y + y);
+
+                            //various checks to see if the point is valid.
+                            //checks if it is true, in bounds, not already considered and 
+                            if (consideredpoint == currentpoint) continue;
+                            if (consideredpoint.x < 0 || consideredpoint.x > grid.GetLength(0)
+                            || consideredpoint.y < 0 || consideredpoint.y > grid.GetLength(1)) continue;
+                            if (!grid[consideredpoint.x, consideredpoint.y]) continue;
+                            if (consideredpoints.Contains(consideredpoint)) continue;
+
+                            //if we reach a junction, the path is complete
+                            if (junctions.Contains(consideredpoint))
+                            {
+                                //remove other points considered this round to avoid problems
+                                for (int j = 0; j < addedpoints.Count; j++)
+                                {
+                                    consideredpoints.Remove(addedpoints[j]);
+                                }
+                                stop = true;
+                                break;
+                            }
+
+                            queue.Enqueue(consideredpoint);
+                            consideredpoints.Add(consideredpoint);
+                            addedpoints.Add(consideredpoint);
+                        }
+                    }
+                }
+
+                //delete the found subpath / points als de length te klein is.
+                //length is detemerined using the euclidian distance between de endpoint and junction this line spans, since lines are mostly straight
+
+                float par1 = (consideredpoints[consideredpoints.Count - 1].x - consideredpoints[0].x);
+                float par2 = (consideredpoints[consideredpoints.Count - 1].x - consideredpoints[0].y);
+                double distance = Math.Sqrt((par1 * par1) + (par2 * par2));
+                if (distance < treshold)
+                {
+                    for (int j = 0; j < consideredpoints.Count; j++)
+                    {
+                        grid[consideredpoints[j].x, consideredpoints[j].y] = false;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -891,6 +1026,8 @@ namespace AwARe.RoomScan.Path
         #endregion
         #endregion
     }
+
+    #region erosion
     public class ErosionHandler
     {
         /// <summary>
@@ -898,9 +1035,9 @@ namespace AwARe.RoomScan.Path
         /// </summary>
         /// <param name="input">The binary bitmap to be eroded.</param>
         /// <returns>The eroded bitmap.</returns>
-        public bool[,] Erode(bool[,] input)
+        public bool[,] Erode(bool[,] input, int elemsize)
         {
-            bool[,] structuringElement = GetStructuringElement(30);
+            bool[,] structuringElement = GetStructuringElement(elemsize);
 
             // Construct funcArray for Scan
             Func<bool, bool> funcArrayfunc(bool v_element) =>
@@ -1026,6 +1163,7 @@ namespace AwARe.RoomScan.Path
             };
         }
     }
+    #endregion
 }
 
 
