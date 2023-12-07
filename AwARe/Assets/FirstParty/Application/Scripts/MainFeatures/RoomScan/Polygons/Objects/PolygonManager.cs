@@ -120,7 +120,7 @@ namespace AwARe.RoomScan.Polygons.Objects
                 Debug.Log(CurrentPolygon.Points[i]);
             }
 
-            //GenerateAndDrawPath();
+            GenerateAndDrawPath();
         }
 
         public void GenerateAndDrawPath()

@@ -20,9 +20,9 @@ namespace AwARe.RoomScan.Path
         /// </summary>
         /// <param name="input">The binary bitmap to be eroded.</param>
         /// <returns>The eroded bitmap.</returns>
-        public bool[,] Erode(bool[,] input)
+        public bool[,] Erode(bool[,] input, int elemsize)
         {
-            bool[,] structuringElement = GetStructuringElement(30);
+            bool[,] structuringElement = GetStructuringElement(elemsize);
 
             // Construct funcArray for Scan
             Func<bool, bool> funcArrayfunc(bool v_element) =>
