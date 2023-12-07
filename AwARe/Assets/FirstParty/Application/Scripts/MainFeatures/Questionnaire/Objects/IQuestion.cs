@@ -1,7 +1,13 @@
+using System;
 using System.Collections.Generic;
+
+using AwARe.Questionnaire.Data;
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
+using Object = UnityEngine.Object;
 
 namespace AwARe.Questionnaire.Objects
 {
@@ -31,20 +37,20 @@ namespace AwARe.Questionnaire.Objects
 
         public void AddAnswerOption(AnswerOptionData answerOptionData)
         {
-            AnswerOption answerOption = CreateAnswerOption(answerOptionData.optionType);
+            AnswerOption answerOption = CreateAnswerOption((OptionType)Enum.Parse(typeof(OptionType), answerOptionData.optionType));
             GameObject newOption = answerOption.GetAnswerOption(answerOptionData.optionText);
             answerOptions.Add(newOption);
         }
 
-        private AnswerOption CreateAnswerOption(string optionType)
+        private AnswerOption CreateAnswerOption(OptionType optionType)
         {
             switch (optionType)
             {
-                case "radio":
+                case OptionType.Radio:
                     return new RadioAnswerOption(gameObject, radioButtonPrefab);
-                case "checkbox":
+                case OptionType.Checkbox:
                     return new CheckBoxAnswerOption(gameObject, checkBoxPrefab);
-                case "textbox":
+                case OptionType.Textbox:
                     return new TextAnswerOption(gameObject, textInputPrefab);
                 default:
                     throw new System.ArgumentException("Invalid option type: " + optionType);
@@ -84,18 +90,13 @@ namespace AwARe.Questionnaire.Objects
         protected GameObject owner;
         protected GameObject questionPrefab; // Added field
 
-        public AnswerOption(GameObject owner, GameObject questionPrefab)
+        protected AnswerOption(GameObject owner, GameObject questionPrefab)
         {
             this.owner = owner;
             this.questionPrefab = questionPrefab;
         }
 
         public abstract GameObject GetAnswerOption(string title);
-        public void SetQuestionPrefab(GameObject questionPrefab) // Added method
-        {
-            this.questionPrefab = questionPrefab;
-        }
-
         protected void InitializeAnswerOption(GameObject option, string labelText)
         {
             option.SetActive(true);
@@ -126,7 +127,7 @@ namespace AwARe.Questionnaire.Objects
 
     public class RadioAnswerOption : AnswerOption
     {
-        private ToggleGroup radiobuttonGroup;
+        private readonly ToggleGroup radiobuttonGroup;
 
         public RadioAnswerOption(GameObject owner, GameObject questionPrefab) : base(owner, questionPrefab)
         {

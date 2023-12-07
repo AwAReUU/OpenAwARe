@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+using AwARe.Questionnaire.Data;
 
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -22,15 +21,12 @@ namespace AwARe.Questionnaire.Objects
         //in the future, this obviously has to change
         void Start()
         {
-            var data = QuestionnaireFromFile("Exampleformat");
-            if(data != null)
-                questionnaire = MakeQuestionnaire(data);
+            QuestionnaireFromFile("Testformat");
         }
 
         public QuestionnaireData QuestionnaireFromFile(string filename)
         {
             data = JsonUtility.FromJson<QuestionnaireData>(jsonfile.text);
-
             if (data != null)
                 return data;
 
@@ -39,16 +35,17 @@ namespace AwARe.Questionnaire.Objects
         }
 
         //makes a questionnaire object and returns it
-        private GameObject MakeQuestionnaire(QuestionnaireData data)
+        private GameObject MakeQuestionnaire(QuestionnaireData questionnaireData)
         {
-            var questionnaireObject = Instantiate(questionnairePrefab, subcanvas);
+            GameObject questionnaireObject = Instantiate(questionnaireTemplate, gameObject.transform, false);
             questionnaireObject.SetActive(true);
 
-            var questionnaire = questionnaireObject.gameObject.GetComponent<Questionnaire>();
-            questionnaire.SetTitle(data.questionnairetitle);
-            questionnaire.SetDescription(data.questionnairedescription);
-            foreach(QuestionData question in data.questions)
-                questionnaire.AddQuestion(question);
+            Questionnaire questionnaireScript = questionnaireObject.gameObject.GetComponent<Questionnaire>();
+            questionnaireScript.SetTitle(questionnaireData.questionnaireTitle);
+            questionnaireScript.SetDescription(questionnaireData.questionnaireDescription);
+
+            foreach(QuestionData question in questionnaireData.questions)
+                questionnaireScript.AddQuestion(question);
 
             return questionnaireObject;
         }

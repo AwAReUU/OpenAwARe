@@ -1,10 +1,16 @@
 using System.Collections.Generic;
+
+using AwARe.Questionnaire.Data;
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace AwARe.Questionnaire.Objects
 {
+    /// <summary>
+    /// Class <c>Questionnaire</c> is responsible for managing and displaying a questionnaire in the UI.
+    /// </summary>
     public class Questionnaire : MonoBehaviour
     {
 
@@ -15,7 +21,6 @@ namespace AwARe.Questionnaire.Objects
 
         [SerializeField] private GameObject submitButton;
         [SerializeField] private GameObject questionCreatorPrefab;
-        //[SerializeField] private GameObject questionTemplate;
         private List<GameObject> questions;
 
         void Awake()
@@ -23,80 +28,70 @@ namespace AwARe.Questionnaire.Objects
             questions = new List<GameObject>();
         }
 
-        public void SetTitle(string title)
-        {
-            this.title.text = title;
-        }
+        /// <summary>
+        /// Set the title of the questionnaire in the UI.
+        /// </summary>
+        /// <param name="questionnaireTitle">Title to set to the UI.</param>
+        public void SetTitle(string title) => this.title.text = title;
+        /// <summary>
+        /// Set the description of the questionnaire in the UI.
+        /// </summary>
+        /// <param name="questionnaireDescription">Description to set in the UI.</param>
+        public void SetDescription(string description) => this.description.text = description;
 
-        public void SetDescription(string description)
-        {
-            this.description.text = description;
-        }
 
-        // Instantiate a QuestionCreator and use it to create a new question
+        /// <summary>
+        /// Instantiate a questionCreator and use it to create a new question.
+        /// </summary>
+        /// <param name="data">Data containing the information about the question to be added.</param>
+        /// <returns>The instantiated questionCreatorObject.</returns>
         public GameObject AddQuestion(QuestionData data)
         {
             // Instantiate the QuestionCreator prefab
-            GameObject questionCreatorObject = Instantiate(questionCreatorPrefab);
+            GameObject questionCreatorObject = InstantiateQuestionCreator();
             QuestionCreator questionCreator = questionCreatorObject.GetComponent<QuestionCreator>();
 
-            // Set the title and if-yes information
-            questionCreator.SetTitle(data.questionTitle);
-            questionCreator.SetIfyes(data.ifYes, data.ifYesTrigger);
+            // Set the title and if-yes information using the instantiated QuestionCreator
+            ConfigureQuestionCreator(questionCreator, data);
 
-            // Instantiate the template
-            //GameObject questionTemp = Instantiate(questionTemplate);
+            // Instantiate the template and set its parent
             questionCreatorObject.transform.SetParent(gameObject.transform.Find("Question Scroller/Content"));
             questionCreatorObject.SetActive(true);
             questions.Add(questionCreatorObject.gameObject);
 
-            // Set the title and questionnaire information using the instantiated QuestionCreator
-            var questionscript = questionCreatorObject.GetComponent<QuestionCreator>();
-            questionscript.SetTitle(data.questionTitle);
-            questionscript.SetIfyes(data.ifYes, data.ifYesTrigger);
-
             // Add each answer option to the question using the instantiated QuestionCreator
-            foreach (AnswerOptionData answer in data.answerOptions)
-            {
-                questionCreator.AddAnswerOption(answer);
-            }
+            AddAnswerOptions(questionCreator, data);
 
             // Add the questions to be shown if yes is answered to the questionnaire, and hide them
-            if (data.ifYes)
-            {
-                foreach (QuestionData ifyesQuestionData in data.ifYesQuestions)
-                {
-                    var ifyesQuestion = AddQuestion(ifyesQuestionData);
-                    ifyesQuestion.SetActive(false);
-                    questionscript.ifYesQuestions.Add(ifyesQuestion);
-                }
-            }
+            HandleIfYesQuestions(questionCreator, data);
 
             return questionCreatorObject;
         }
 
-        private void AddAnswer(AnswerOptionData data, Question question)
+        private GameObject InstantiateQuestionCreator() => Instantiate(questionCreatorPrefab);
+
+        private void ConfigureQuestionCreator(QuestionCreator questionCreator, QuestionData data)
         {
-            switch (data.optiontype)
+            questionCreator.SetTitle(data.questionTitle);
+            questionCreator.SetIfyes(data.ifYes, data.ifYesTrigger);
+        }
+
+        private void AddAnswerOptions(QuestionCreator questionCreator, QuestionData data)
+        {
+            foreach (AnswerOptionData answer in data.answerOptions)
+                questionCreator.AddAnswerOption(answer);
+        }
+
+        private void HandleIfYesQuestions(QuestionCreator questionCreator, QuestionData data)
+        {
+            if (!data.ifYes) return;
+
+            foreach (QuestionData ifyesQuestionData in data.ifYesQuestions)
             {
-                case "radio":
-                    question.AddRadiobutton(data.optiontext);
-                    break;
-                case "checkbox":
-                    question.AddCheckbox(data.optiontext);
-                    break;
-                case "textbox":
-                    question.AddTextinput(data.optiontext);
-                    break;
+                var ifyesQuestion = AddQuestion(ifyesQuestionData);
+                ifyesQuestion.SetActive(false);
+                questionCreator.ifYesQuestions.Add(ifyesQuestion);
             }
         }
-
-        private void AddIfYesQuestion(QuestionData data, Question question)
-        {
-            var ifyesQuestion = AddQuestion(data);
-            ifyesQuestion.SetActive(false);
-            question.ifyesQuestions.Add(ifyesQuestion);
-        }
-
     }
 }

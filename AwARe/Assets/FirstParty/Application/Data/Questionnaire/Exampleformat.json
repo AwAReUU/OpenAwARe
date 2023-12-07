@@ -6,15 +6,15 @@
             "questionTitle": "Which of the following is true?",
             "answerOptions": [
                 {
-                    "optionType": "checkbox",
+                    "optionType": "Checkbox",
                     "optionText": "1+1=2"
                 },
                 {
-                    "optionType": "checkbox",
+                    "optionType": "Checkbox",
                     "optionText": "2+2=4"
                 },
                 {
-                    "optionType": "checkbox",
+                    "optionType": "Checkbox",
                     "optionText": "2+4=3"
                 }
             ]
@@ -23,7 +23,7 @@
             "questionTitle": "What is your favorite piece of music?",
             "answerOptions": [
                 {
-                    "optionType": "textbox",
+                    "optionType": "Textbox",
                     "optionText": "Type your answer here"
                 }
             ]
@@ -31,14 +31,14 @@
         {
             "questionTitle": "Have you eaten today?",
             "ifYes": true,
-            "ifYestrigger": 0,
+            "ifYesTrigger": 0,
             "answerOptions": [
                 {
-                    "optionType": "radio",
+                    "optionType": "Radio",
                     "optionText": "Yes"
                 },
                 {
-                    "optionType": "radio",
+                    "optionType": "Radio",
                     "optionText": "No"
                 }
             ],
@@ -47,15 +47,15 @@
                     "questionTitle": "What did you eat?",
                     "answerOptions": [
                         {
-                            "optionType": "radio",
+                            "optionType": "Radio",
                             "optionText": "Bananas"
                         },
                         {
-                            "optionType": "radio",
+                            "optionType": "Radio",
                             "optionText": "Spaghetti"
                         },
                         {
-                            "optionType": "radio",
+                            "optionType": "Radio",
                             "optionText": "Beans"
                         }
                     ]
