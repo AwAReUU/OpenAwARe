@@ -36,6 +36,8 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private GameObject endBtn;
         [SerializeField] private GameObject slider;
         [SerializeField] private GameObject pointerObj;
+
+        private bool scanning = false;
 // TODO TEMP        [SerializeField] private GameObject pathVisualiser;
 
         /// <summary>
@@ -66,6 +68,12 @@ namespace AwARe.RoomScan.Polygons.Objects
             };
 
             SwitchToState(State.Default);
+        }
+
+        void Update()
+        {
+            if (scanning)
+                polygonDrawer.ScanningPolygon = CurrentPolygon;
         }
 
         /// <summary>
@@ -106,6 +114,12 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             polygonDrawer.DrawPolygon(CurrentPolygon, !Room.PositivePolygon.IsEmptyPolygon());
             Room.AddPolygon(CurrentPolygon);
+
+            for(int i = 0; i < CurrentPolygon.Points.Count; i++)
+            {
+                Debug.Log(CurrentPolygon.Points[i]);
+            }
+
             GenerateAndDrawPath();
         }
 
@@ -117,10 +131,6 @@ namespace AwARe.RoomScan.Polygons.Objects
             VisualizePath visualizer = (VisualizePath)pathVisualizer.GetComponent("VisualizePath");
             visualizer.SetPath(path);
             visualizer.Visualize();
-
-            // TODO TEMP            VisualizePath visualizer = (VisualizePath)pathVisualiser.GetComponent("VisualizePath");
-            // TODO TEMP            visualizer.SetPath(path);
-            // TODO TEMP            visualizer.Visualize();
         }
 
         /// <summary>
@@ -162,6 +172,11 @@ namespace AwARe.RoomScan.Polygons.Objects
             {
                 obj.SetActive(true);
             }
+
+            // if the new state is scanning, set scanning to true, otherwise to false
+            scanning = toState == State.Scanning;
+
+            polygonDrawer.ScanningPolygon = null;
         }
 
         /// <summary>
