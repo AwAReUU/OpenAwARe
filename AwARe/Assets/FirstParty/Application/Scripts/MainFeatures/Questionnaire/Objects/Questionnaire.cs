@@ -15,6 +15,7 @@ namespace AwARe.Questionnaire.Objects
         [SerializeField] private Transform questionsWindow;
         [SerializeField] private GameObject questionPrefab;
 
+        [SerializeField] private GameObject submitButton;
         private List<GameObject> questions;
   
         void Awake()
@@ -42,19 +43,26 @@ namespace AwARe.Questionnaire.Objects
 
             // Set the title, questionnaire it belongs to, and if its an 'if yes' question
             //'if yes' questions show more questions when 'yes' is answer to them
-            var question = questionObject.gameObject.GetComponent<Question>();
-            question.SetTitle(data.questiontitle);
-            question.SetIfyes(data.ifyes, data.ifyestrigger);
-            question.SetParentQuestionnaire(this);
+            var questionscript = question.gameObject.GetComponent<QuestionCreator>();
+            questionscript.SetTitle(data.questionTitle);
+            questionscript.SetIfyes(data.ifYes, data.ifYesTrigger);
 
             //add each answer option to the question
-            foreach (AnswerOptionData answer in data.answeroptions)
-                AddAnswer(answer, question);
+            foreach (AnswerOptionData answer in data.answerOptions)
+            {
+                questionscript.AddAnswerOption(answer);
+            }
 
             //add the questions to be shown if yes is answered to the questionnaire, and hides them
-            List<QuestionData> ifYesQuestions = data.ifyes ? data.ifyesquestions : new();
-            foreach (QuestionData ifYesData in ifYesQuestions)
-                AddIfYesQuestion(ifYesData, question);
+            if(data.ifYes)
+            {
+                foreach (QuestionData ifyesQuestionData in data.ifYesQuestions)
+                {
+                    var ifyesQuestion = AddQuestion(ifyesQuestionData);
+                    ifyesQuestion.SetActive(false);
+                    questionscript.ifYesQuestions.Add(ifyesQuestion);
+                }
+            }
 
             return questionObject;
         }

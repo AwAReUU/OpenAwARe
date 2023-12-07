@@ -53,32 +53,6 @@ namespace AwARe.Questionnaire.Objects
             return questionnaireObject;
         }
     }
-
-    //intermediary data holder classes
-    [Serializable]
-    public class QuestionnaireData
-    {
-        public string questionnairetitle;
-        public string questionnairedescription;
-        public List<QuestionData> questions;
-    }
-
-    [Serializable]
-    public class AnswerOptionData
-    {
-        public string optiontype;
-        public string optiontext;
-    }
-
-    [Serializable]
-    public class QuestionData
-    {
-        public string questiontitle;
-        public bool ifyes;
-        public int ifyestrigger;
-        public List<QuestionData> ifyesquestions;
-        public List<AnswerOptionData> answeroptions;
-    }
 }
 
 

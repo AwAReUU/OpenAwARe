@@ -11,7 +11,7 @@ namespace AwARe.Questionnaire.Objects
         //notifies the question that this answer option is now yes or no, true or false
         public void NotifyChange()
         {
-            question.GetComponent<Question>().ChangeIfyesState(optionNumber, gameObject.GetComponent<Toggle>().isOn);
+            question.GetComponent<QuestionCreator>().ChangeIfyesState(optionNumber, gameObject.GetComponent<Toggle>().isOn);
         }
 
         public void setQuestion(GameObject question)
