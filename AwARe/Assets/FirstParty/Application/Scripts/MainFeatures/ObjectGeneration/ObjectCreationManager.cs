@@ -26,7 +26,7 @@ namespace AwARe.ObjectGeneration
         /// <value>
         /// <c>path</c> the Mesh from the generated path.
         /// </value>
-        private Mesh pathMesh { get; set; } = new Mesh(); // Empty mesh for now. Once Path gen. is done, generate the mesh from PathData.
+        private Mesh pathMesh { get; set; }
 
         /// <summary>
         /// Set the current ingredientList.
@@ -44,6 +44,10 @@ namespace AwARe.ObjectGeneration
         /// The polygon drawer.
         /// </summary>
         [SerializeField] private RoomScan.Polygons.Objects.PolygonDrawer polygonDrawer;
+        
+        void Awake() {
+            this.pathMesh = new Mesh(); // Empty mesh for now. Once Path gen. is done, generate the mesh from PathData.
+        }
 
         /// <summary>
         /// Called when the place button is clicked. Manages the conversion of the selected
