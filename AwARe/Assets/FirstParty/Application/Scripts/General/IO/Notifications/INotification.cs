@@ -5,13 +5,12 @@ using UnityEngine;
 
 namespace AwARe.Notifications
 {
+    /// <summary>
+    /// abstract class from which platform-specific notifications are derived
+    /// contains several abstract methods which define required behavior
+    /// </summary>
     public abstract class Notification
     {
-        // protected DateTime fireTime;
-        // protected string title;
-        // protected string body;
-        // protected string questionnaire;
-
         public abstract void SetFireTime(DateTime time);
         public abstract void SetTitle(string title);
         public abstract void Setbody(string body);

@@ -41,7 +41,7 @@ namespace AwARe.RoomScan.Path
 
             for (int i = 0; i < positive.GetPoints().Length; i++)
             {
-                Debug.Log("Point " + i + ": " + positive.GetPoints()[i].x + ", " + positive.GetPoints()[i].y);
+                Debug.Log("Point " + i + ": " + positive.GetPoints()[i].x + ", " + positive.GetPoints()[i].z);
             }
 
             List<((int, int), (int, int))> positiveGridLines = new();

@@ -11,6 +11,7 @@
 
 #if UNITY_EDITOR
 
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Linq;
@@ -68,6 +69,10 @@ namespace AwARe.Packages
             if (content == null || content_plus == null)
                 return;
 
+            // Correct xml name spaces
+            XNamespace xmlns = content.GetDefaultNamespace();
+            AdjustNameSpaces(content_plus, xmlns);
+
             // Add comment before additional elements
             string comment = "Additional elements loaded from: " + path_plus;
             content.Add(new XComment(comment));
@@ -75,6 +80,17 @@ namespace AwARe.Packages
             // Add each additional element to the project
             foreach (XElement element in content_plus.Elements())
                 content.Add(element);
+        }
+
+        /// <summary>
+        /// Adjust all namespaces in <c>content</c> to match <c>xmlns</c>.
+        /// </summary>
+        /// <param name="content">The root element.</param>
+        /// <param name="xmlns">The namespace to adopt.</param>
+        private static void AdjustNameSpaces(XElement content, XNamespace xmlns)
+        {
+            foreach (XElement element in content.DescendantsAndSelf())
+                element.Name = xmlns + element.Name.LocalName;
         }
 
         /// <summary>

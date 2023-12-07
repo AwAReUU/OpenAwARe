@@ -35,6 +35,11 @@ namespace AwARe.ObjectGeneration
         private Ingredients.IngredientList RetrieveIngredientlist() => Storage.Get().ActiveIngredientList;
 
         /// <summary>
+        /// The polygon drawer.
+        /// </summary>
+        [SerializeField] private RoomScan.Polygons.Objects.PolygonDrawer polygonDrawer;
+
+        /// <summary>
         /// Called when the place button is clicked. Manages the conversion of the selected
         /// IngredientList to renderables, and the placement of the renderables in the scene.
         /// </summary>
@@ -46,6 +51,8 @@ namespace AwARe.ObjectGeneration
             Rooms.Room room = Storage.Get().ActiveRoom;
             if (room == null)
                 return;
+
+            polygonDrawer.DrawRoomPolygons(room);
 
             PlaceRenderables(renderables, room);
         }

@@ -7,7 +7,7 @@ namespace AwARe.Data.Objects
 {
     public class VoxelMapSpawner : CompositeSpawner
     {
-        public VoxelMapSpawner(global::AwARe.Data.Logic.ChunkGrid<VoxelInfo> chunkGrid, GameObject chunkGridPrefab, GameObject boundingBoxPrefab)
+        public VoxelMapSpawner(Logic.ChunkGrid<VoxelInfo> chunkGrid, GameObject chunkGridPrefab, GameObject boundingBoxPrefab)
         {
             // Get spawners and factories
             var chunkGridSpawner = new ChunkGridSpawner<VoxelInfo>(chunkGridPrefab, chunkGrid);

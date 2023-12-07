@@ -1,7 +1,12 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
-
 using UnityEngine;
-
 using Object = UnityEngine.Object;
 
 namespace AwARe.Logic
@@ -27,12 +32,30 @@ namespace AwARe.Logic
     }
     */
 
+    /// <summary>
+    /// Utility class for Singleton behaviour.
+    /// </summary>
     public static class Singleton
     {
+        /// <summary>
+        /// Get the current instance or create and assign a new instance if null.
+        /// </summary>
+        /// <typeparam name="T">A Unity Singleton type.</typeparam>
+        /// <param name="instance">A reference to the instance member.</param>
+        /// <param name="instantiate">An instantiation callback.</param>
+        /// <returns>The current instance.</returns>
         public static T Get<T>(ref T instance, Func<T> instantiate)
             where T : MonoBehaviour =>
             instance ??= instantiate();
 
+        /// <summary>
+        /// Behaviour on <c>Awake</c>.
+        /// Destroys self if an instance is already available.
+        /// Assigns instance to self if no instance is recorded as of yet.
+        /// </summary>
+        /// <typeparam name="T">A Unity Singleton type.</typeparam>
+        /// <param name="instance">A reference to the instance member.</param>
+        /// <param name="me">Current MonoBehaviour handled.</param>
         public static void Awake<T>(ref T instance, T me)
             where T : MonoBehaviour
         {
@@ -41,7 +64,14 @@ namespace AwARe.Logic
             else
                 instance = me;
         }
-
+        
+        /// <summary>
+        /// Behaviour on <c>Awake</c>.
+        /// Sets current instance to null if the referred to instance is destroyed.
+        /// </summary>
+        /// <typeparam name="T">A Unity Singleton type.</typeparam>
+        /// <param name="instance">A reference to the instance member.</param>
+        /// <param name="me">Current MonoBehaviour handled.</param>
         public static void OnDestroy<T>(ref T instance, T me)
             where T : MonoBehaviour
         {

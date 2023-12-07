@@ -79,7 +79,7 @@ namespace AwARe.ResourcePipeline.Objects
             List<Renderable> Renderables = new();
             foreach ((int modelId, int quantity) in quantityDictionary)
             {
-                GameObject prefab = GetPrefabFromPath(@"Prefabs/" + modelDatabase.GetModel(modelId).PrefabPath);
+                GameObject prefab = GetPrefabFromPath(@"Models/" + modelDatabase.GetModel(modelId).PrefabPath);
                 Vector3 halfExtents = GetHalfExtents(prefab);
 
                 //dirty temp code so that water does not have size 0.
@@ -121,7 +121,7 @@ namespace AwARe.ResourcePipeline.Objects
         public static Vector3 GetHalfExtents(GameObject prefab)
         {
             //Temporarily instantiate the object to get the BoxCollider size
-            GameObject tempObj = Object.Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject tempObj = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity);
             BoxCollider tempCollider = tempObj.AddComponent<BoxCollider>();
             Vector3 halfExtents = tempCollider.size / 2;
             Object.Destroy(tempObj);

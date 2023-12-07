@@ -5,10 +5,8 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,10 +22,17 @@ namespace AwARe.InterScenes.Objects
         // Initial scenes to load.
         [SerializeField] private string firstScene;
         [SerializeField] private List<string> supportScenes;
-
+        
+        /// <summary>
+        /// Called when the script instance is being loaded.
+        /// </summary>
         private void Awake() =>
             StartCoroutine(LoadScenes());
 
+        /// <summary>
+        /// Loads and activates the starting scene(s).
+        /// </summary>
+        /// <returns>An IEnumerator for its coroutine.</returns>
         private IEnumerator LoadScenes()
         {
             // Perform all loads.

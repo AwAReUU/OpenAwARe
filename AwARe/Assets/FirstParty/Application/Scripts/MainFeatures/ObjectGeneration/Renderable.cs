@@ -13,7 +13,7 @@ namespace AwARe.ObjectGeneration
         /// <value>
         /// The amount of this renderable to render
         /// </value>
-        private int quantity { get; set; }
+        public int quantity { get; set; }
 
         /// <value>
         /// The percentage of surface area that this object is allowed to use.
@@ -35,6 +35,16 @@ namespace AwARe.ObjectGeneration
         /// </value>
         private float scaling { get; set; }
 
+        /// <value>
+        /// The current percentage of surface area used by this renderable.
+        /// </value>
+        public float currentRatioUsage { get; set; }
+
+        /// <value>
+        /// Dictionary containing locations of instances of this renderable & the stacked height at that point. 
+        /// </value>
+        public Dictionary<Vector3, float> objStacks { get; set; }
+
         /// <summary>
         /// Construct a new Renderable. Note that we do not fill in the allowedSurfaceUsage yet, since this
         /// is based on the sum of all renderables.
@@ -50,6 +60,8 @@ namespace AwARe.ObjectGeneration
             this.prefab = prefab;
             this.halfExtents = halfExtents;
             this.scaling = scaling;
+            this.currentRatioUsage = 0;
+            this.objStacks = new();
         }
 
         /// <summary>

@@ -27,6 +27,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private PolygonDrawer polygonDrawer;
         [SerializeField] private PolygonMesh polygonMesh;
         [SerializeField] private PolygonScan scanner;
+        [SerializeField] private VisualizePath pathVisualizer;
 
         [SerializeField] private GameObject createBtn;
         [SerializeField] private GameObject resetBtn;
@@ -35,6 +36,8 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private GameObject endBtn;
         [SerializeField] private GameObject slider;
         [SerializeField] private GameObject pointerObj;
+
+        private bool scanning = false;
 // TODO TEMP        [SerializeField] private GameObject pathVisualiser;
 
         /// <summary>
@@ -65,6 +68,12 @@ namespace AwARe.RoomScan.Polygons.Objects
             };
 
             SwitchToState(State.Default);
+        }
+
+        void Update()
+        {
+            if (scanning)
+                polygonDrawer.ScanningPolygon = CurrentPolygon;
         }
 
         /// <summary>
@@ -119,9 +128,9 @@ namespace AwARe.RoomScan.Polygons.Objects
             StartState startstate = new();
             PathData path = startstate.GetStartState(Room.PositivePolygon, Room.NegativePolygons);
 
-// TODO TEMP            VisualizePath visualizer = (VisualizePath)pathVisualiser.GetComponent("VisualizePath");
-// TODO TEMP            visualizer.SetPath(path);
-// TODO TEMP            visualizer.Visualize();
+            VisualizePath visualizer = (VisualizePath)pathVisualizer.GetComponent("VisualizePath");
+            visualizer.SetPath(path);
+            visualizer.Visualize();
         }
 
         /// <summary>
@@ -163,6 +172,11 @@ namespace AwARe.RoomScan.Polygons.Objects
             {
                 obj.SetActive(true);
             }
+
+            // if the new state is scanning, set scanning to true, otherwise to false
+            scanning = toState == State.Scanning;
+
+            polygonDrawer.ScanningPolygon = null;
         }
 
         /// <summary>

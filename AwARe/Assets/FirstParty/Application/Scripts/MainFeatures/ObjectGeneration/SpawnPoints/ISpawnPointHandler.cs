@@ -11,6 +11,9 @@ namespace AwARe.ObjectGeneration
     /// </summary>
     public interface ISpawnPointHandler
     {
+        /// <summary>
+        /// returns a list of spawnpoints on which the objects are allowed to be spawned.
+        /// </summary>
         public List<Vector3> GetValidSpawnPoints(Room room);
     }
 }

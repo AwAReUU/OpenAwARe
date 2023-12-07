@@ -51,8 +51,8 @@ namespace AwARe.ObjectGeneration
         }
 
         /// <summary>
-        /// Automatically place objects by trying multiple different spawnPoints
-        /// on a polygon described by points.
+        /// Automatically place a list of renderables by first initializing a clulster for each renderable. 
+        /// After the cluster have been initialized, each 'round' one object of each renderable will be added to the cluster until there are no objects left. 
         /// </summary>
         /// <param name="renderables">All items that we are going to place.</param>
         /// <param name="room">Room to place the renderables in.</param>
@@ -60,39 +60,149 @@ namespace AwARe.ObjectGeneration
         {
             if (renderables.Count == 0)
                 return;
-            //Polygon from scan:
-            //GameObject polygon = polygonManager.GetPolygon();
-            //List<Vector3> polygonPoints = polygon.GetComponent<Polygon>().GetPointsList();
 
-            //Mock polygon:
-            //List<Vector3> polygonPoints = polygonManager.GetPolygon().GetPointsList();
-
+            // 1. Get valid spawnpoints
             PolygonSpawnPointHandler spawnPointHandler = new PolygonSpawnPointHandler();
             List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room);
 
-            foreach (var renderable in renderables) //prefab iterator
+            // 2. Initialize clusters where one object of each group is placed
+            Dictionary<Renderable, Vector3> initialSpawnsDictionary = InitializeClusters(validSpawnPoints, renderables, room);
+
+            // 3. Each 'round' spawn or stack one of each renderable that has 'quantity > 0' 
+            bool allQuantitiesZero = false;
+            while (!allQuantitiesZero)
             {
-                float currentRatioUsage = 0;
-                float availableSurfaceArea = EstimateAvailableSurfaceArea(validSpawnPoints.Count);
-                //float spaceNeeded = ComputeSpaceNeeded(spawnDict);
+                allQuantitiesZero = true;
+                foreach (var x in initialSpawnsDictionary)
+                {
+                    Renderable renderable = x.Key;
+                    Vector3 initialSpawnPoint = x.Value;
 
-                //If we place an object, store its position as key, and the height as value.
-                //If we run out of ground space, we can start stacking the objects at these locations.
-                //this dictionary is reset for each different object, so that only clones of the same object
-                //can be stacked on each other.
-                Dictionary<Vector3, float> prefabStacks = new();
+                    // Check if there are still objects to spawn
+                    if (renderable.GetQuantity() > 0)
+                    {
+                        float currentRatioUsage = renderable.currentRatioUsage;
+                        float availableSurfaceArea = EstimateAvailableSurfaceArea(validSpawnPoints.Count);
+                        Dictionary<Vector3, float> objStacks = renderable.objStacks;
 
-                for (int i = 0; i < renderable.GetQuantity(); i++) //quantity iterator
-                    SpawnRenderable(
-                        renderable,
-                        validSpawnPoints,
-                        ref prefabStacks,
-                        availableSurfaceArea,
-                        ref currentRatioUsage,
-                        room);
+                        bool placed = TrySpawnOrStackRenderable(
+                            renderable,
+                            initialSpawnPoint, 
+                            validSpawnPoints, 
+                            availableSurfaceArea, 
+                            room);
+
+                        if (placed) 
+                            renderable.quantity -= 1;
+                        else{
+                            renderable.quantity -= 1; // prevent infinite loop 
+                            Debug.Log("Could not place this object");
+                        }
+                            
+
+                        // keep looping while there are objects to be spawned 
+                        if (renderable.GetQuantity() > 0)
+                            allQuantitiesZero = false;
+                    }
+                }
             }
         }
 
+        /// <summary>
+        /// Tries to spawn one object of a given renderable. If it could not be placed on the ground it will try to stack. 
+        /// </summary>
+        /// <param name="renderable">The specific renderable we are going to place.</param>
+        /// <param name="initialSpawnPoint">The initial spawn point for the cluster of this renderable.</param>
+        /// <param name="validSpawnPoints">All spawnPoints at which it could be placed.</param>
+        /// <param name="availableSurfaceArea">The percentage of surface area that this renderable is allowed to use.</param>
+        /// <param name="room">Room to place the renderables in.</param>
+        /// <returns>Whether the object could either be placed on the ground or stacked.</returns>
+        private bool TrySpawnOrStackRenderable(Renderable renderable, Vector3 initialSpawnPoint, List<Vector3> validSpawnPoints, float availableSurfaceArea, Room room)
+        {
+            // sort available spawn points by closest distance to initial spawn point
+            validSpawnPoints = SortClosestSpawnPointsByDistance(initialSpawnPoint, validSpawnPoints);
+            
+            foreach (var point in validSpawnPoints)
+            {
+                // check if area-ratio is allowed 
+                float ratioUsage = renderable.GetHalfExtents().x * renderable.GetHalfExtents().z * 4 / availableSurfaceArea;
+                if (renderable.currentRatioUsage + ratioUsage < renderable.allowedSurfaceUsage)
+                {
+                    // try placing
+                    bool hasPlaced = TryPlaceObject(renderable, point, room);
+                    if (hasPlaced)
+                    {
+                        float height = point.y + 2 * renderable.GetHalfExtents().y;
+                        renderable.currentRatioUsage += ratioUsage;
+                        renderable.objStacks.Add(point, height);
+                        return true;
+                    }
+                    else {} // try again at next closest spawn point
+                }
+            }
+
+            return TryStack(renderable, room);
+        }
+
+        
+
+
+        /// <summary>
+        /// Try to stack the object on one of the objStacks in the given renderable until successful or out of stacks.
+        /// </summary>
+        /// <param name="renderable">Renderable to place.</param>
+        /// <param name="polygonPoints">Polygon in which the renderable should be placed.</param>
+        /// <returns>Whether the stacking was successful.</returns>
+        private bool TryStack(
+            Renderable renderable,
+            Room room)
+        {
+            while (renderable.objStacks.Keys.ToList().Count > 0) 
+            {
+                // 1. find the smallest stack.
+                float smallestStackHeight = float.MaxValue;
+                Vector3 smallestStackPos = Vector3.zero;
+                foreach (KeyValuePair<Vector3, float> kvp in renderable.objStacks)
+                {
+                    if (kvp.Value < smallestStackHeight)
+                    {
+                        smallestStackHeight = kvp.Value;
+                        smallestStackPos = kvp.Key;
+                    }
+                }
+                if (smallestStackHeight == float.MaxValue) //error scenario
+                {
+                    return false;
+                } 
+
+                // 2. check if it doesnt reach through the roof.
+                float stackHeight = renderable.objStacks[smallestStackPos];
+                float newHeight = stackHeight + renderable.GetHalfExtents().y * 2 + 0.05f;
+                float maxHeight = 100.0f;
+                if (newHeight > maxHeight) //prevent placement if this stack will reach higher than 'x' meters with the additional current object on top
+                {
+                    renderable.objStacks.Remove(smallestStackPos);
+                    return false;
+                }
+
+                // 3. Test placement on new spot, check for collisions.
+                Vector3 newPos = smallestStackPos;
+                newPos.y = stackHeight + 0.05f;
+                bool hasPlaced = TryPlaceObject(renderable, newPos, room);
+                if (hasPlaced)
+                {
+                    renderable.objStacks[smallestStackPos] = newHeight;
+                    return true;
+                }
+                else
+                    renderable.objStacks.Remove(smallestStackPos);
+            }
+
+
+            //Out of available stacks for this gameObject:
+            return false;
+        }
+        
         /// <summary>
         /// Estimate the surface area of the spawn polygon by squaring the distance between the points
         /// and multiplying this by a factor (not all space is usable on a sloped line).
@@ -103,98 +213,62 @@ namespace AwARe.ObjectGeneration
             spawnPointCount * 0.1f * 0.1f * 0.9f;
 
         /// <summary>
-        /// Try to spawn an object, and try to stack if it does not fit.
+        /// Spawns one object of each renderable at a valid spawnoint. The initial objects are spawned as far apart from eachother as possible.
         /// </summary>
-        /// <param name="renderable">Renderable to place.</param>
-        /// <param name="validSpawnPoints">All spawnPoints at which it could be placed.</param>
-        /// <param name="objStacks">Dictionary containing location of each instance of the current renderable.</param>
-        /// <param name="availableSurfaceArea">The percentage of surface area that this renderable is allowed to use.</param>
-        /// <param name="currentRatioUsage">The current percentage of surface area used by this renderable.</param>
-        /// <param name="room">Room to place the object in. Used later on to check if the renderable does not cross polygon borders.</param>
-        private void SpawnRenderable(
-            Renderable renderable,
-            List<Vector3> validSpawnPoints,
-            ref Dictionary<Vector3, float> objStacks,
-            float availableSurfaceArea,
-            ref float currentRatioUsage,
-            Room room)
+        /// <param name="spawnPoints">All the allowed spawn points in the polygon.</param>
+        /// <param name="renderables">All of the renderables that need to be spawned.</param>
+        /// <param name="polygonPoints">The points that describe the user-created polygon.</param>
+        /// <returns>A dictionary of the initial cluster spawnpoint for each renderable (Renderable, InitialSpawnPoint).</returns>
+        private Dictionary<Renderable, Vector3> InitializeClusters(List<Vector3> spawnPoints, List<Renderable> renderables, Room room)
         {
-            for (int i = 0; i < validSpawnPoints.Count; i++) //spawn iterator
+            Dictionary<Renderable, Vector3> initialSpawns = new Dictionary<Renderable, Vector3>();
+            foreach (var renderable in renderables)
             {
-                float ratioUsage = renderable.GetHalfExtents().x * renderable.GetHalfExtents().z * 4 / availableSurfaceArea;
-                if (currentRatioUsage + ratioUsage < renderable.allowedSurfaceUsage)
+                // sort all spawnpoint with furthest distance to other initial spawnpoints first 
+                List<Vector3> sortedSpawnPoints = SortFurthestSpawnPointsByDistance(spawnPoints, initialSpawns.Values.ToList());
+                foreach (var point in sortedSpawnPoints)
                 {
-                    bool hasPlaced = TryPlaceObject(renderable, validSpawnPoints[i], room);
-                    if (hasPlaced)
+                    if (TryPlaceObject(renderable, point, room))
                     {
-                        float height = validSpawnPoints[i].y + 2 * renderable.GetHalfExtents().y;
-                        objStacks.Add(validSpawnPoints[i], height);
-                        currentRatioUsage += ratioUsage;
-                        return;
+                        renderable.quantity -= 1; // remove one renderable if the initial object is spawned
+                        initialSpawns.Add(renderable, point);
+                        break; // Exit the loop once a valid point is found
                     }
                 }
+
+                if (!initialSpawns.ContainsKey(renderable))
+                {
+                    // Handle the case where no valid initial spawn point could be found
+                    Debug.Log("NO AVAILABLE INITIAL SPAWN POINT!!!");
+                }
             }
-            //If the program reaches here, it ran out of available "ground space", and will need to stack.
-            TryStack(renderable, ref objStacks, room);
+
+            return initialSpawns;
         }
 
         /// <summary>
-        /// Try to stack the object on one of the stacks in <paramref name="objStacks"/> 
-        /// until successful or out of stacks.
+        /// Sorts the list of available spawnpoints by furthest distance from the already occupied spawnpoints. 
         /// </summary>
-        /// <param name="renderable">Renderable to place.</param>
-        /// <param name="objStacks">Dictionary containing locations of instances of this prefab.</param>
-        /// <param name="room">Room in which the renderables are placed.</param>
-        /// <returns>Whether the stacking was successful.</returns>
-        private bool TryStack(
-            Renderable renderable,
-            ref Dictionary<Vector3, float> objStacks,
-            Room room)
+        /// <param name="validSpawnPoints">All the allowed spawnpoints in the polygon.</param>
+        /// <param name="occupiedPoints">All of the already occupied spawn points.</param>
+        /// <returns>The list of spawnpoints sorted by furthest distance from the occupied points.</returns>
+        private List<Vector3> SortFurthestSpawnPointsByDistance(List<Vector3> validSpawnPoints, List<Vector3> occupiedPoints)
         {
-            while (objStacks.Keys.ToList().Count > 0)
-            {
-                //Step 1: find the smallest stack.
-                float smallestStackHeight = float.MaxValue;
-                Vector3 smallestStackPos = Vector3.zero;
-                foreach (KeyValuePair<Vector3, float> kvp in objStacks)
-                {
-                    if (kvp.Value < smallestStackHeight)
-                    {
-                        smallestStackHeight = kvp.Value;
-                        smallestStackPos = kvp.Key;
-                    }
-                }
-                if (smallestStackHeight == float.MaxValue) //error scenario
-                    return false;
+            return validSpawnPoints.OrderByDescending(
+                point => occupiedPoints.Count > 0 ? 
+                        occupiedPoints.Min(occupied => Vector3.Distance(point, occupied)) : 
+                        float.MaxValue).ToList();
+        }
 
-                //step 2: check if it doesnt reach through the roof.
-
-                //prevent placement if that stack will reach higher than 3 meters
-                //with the additional current object on top
-                //TODO: replace with height from digital twin roomscan.
-                float stackHeight = objStacks[smallestStackPos];
-                float newHeight = stackHeight + renderable.GetHalfExtents().y * 2;
-                const float maxHeight = 3.0f;
-                if (newHeight >= maxHeight)
-                {
-                    objStacks.Remove(smallestStackPos);
-                    return false;
-                }
-
-                //Step 3: Test placement on new spot, check for collisions.
-                Vector3 newPos = smallestStackPos;
-                newPos.y = stackHeight;
-                bool hasPlaced = TryPlaceObject(renderable, newPos, room);
-                if (hasPlaced)
-                {
-                    objStacks[smallestStackPos] = newHeight;
-                    return true;
-                }
-                else
-                    objStacks.Remove(smallestStackPos);
-            }
-            //Out of available stacks for this gameObject:
-            return false;
+        /// <summary>
+        /// Sorts the list of available spawnpoints by shortest distance from the initial spawnpoint. 
+        /// </summary>
+        /// <param name="initialSpawnPoint">The initial spawnpoint.</param>
+        /// <param name="validSpawnPoints">All the allowed spawnpoints in the polygon.</param>
+        /// <returns>The list of spawnpoints sorted by shortest distance from the initial spawnpoint.</returns>
+        private List<Vector3> SortClosestSpawnPointsByDistance(Vector3 initialSpawnPoint, List<Vector3> validSpawnPoints)
+        {
+            return validSpawnPoints.OrderBy(point => Vector3.Distance(initialSpawnPoint, point)).ToList();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace AwARe
         private ObjectCreationManager objectCreationManager;
 
         [OneTimeSetUp, Description("Load the test scene once.")]
-        public void OneTimeSetup() => SceneManager.LoadScene("Scenes/TestScene");
+        public void OneTimeSetup() => SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/ObjectGeneration");
 
 
         [UnitySetUp, Description("Reset the scene before each test. Obtain the objectCreationManager")]
@@ -125,7 +125,7 @@ namespace AwARe
         /// <returns>Singleton list containing a renderable Cube.</returns>
         private List<Renderable> GetSingleRenderable(float scale)
         {
-            GameObject model = Resources.Load<GameObject>(@"Prefabs/Shapes/Cube");
+            GameObject model = Resources.Load<GameObject>(@"Models/Shapes/Cube");
 
             Vector3 halfExtents = PipelineManager.GetHalfExtents(model);
             halfExtents *= scale; 
