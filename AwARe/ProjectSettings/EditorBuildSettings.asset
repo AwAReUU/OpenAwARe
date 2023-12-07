@@ -20,10 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/FirstParty/Application/Scenes/AppScenes/AR.unity
     guid: de6c425a00fa3dc4b987464025ff5192
-  - enabled: 1
+  - enabled: 0
     path: Assets/FirstParty/Application/Scenes/AppScenes/ObjectGeneration.unity
     guid: a4f7d46cc0cd5f44f89748e0ba281d4f
-  - enabled: 1
+  - enabled: 0
     path: Assets/FirstParty/Application/Scenes/AppScenes/ObjectInteraction.unity
     guid: ac16c2c50d78ad844a02c514830be62c
   - enabled: 1
