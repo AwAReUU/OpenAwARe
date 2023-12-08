@@ -9,14 +9,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using AwARe.Data.Logic;
 
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Burst;
 
+using AwARe.Data.Logic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
 namespace AwARe.RoomScan.Path
 {
@@ -33,6 +34,8 @@ namespace AwARe.RoomScan.Path
         List<bool[,]> frontGolayElements = new();
         List<bool[,]> backGolayElements = new();
 
+        private float startTime;
+
         /// <summary>
         /// Create a path from a given positive polygon and list of negative polygons that represent the room
         /// </summary>
@@ -41,12 +44,14 @@ namespace AwARe.RoomScan.Path
         /// <returns>a 'pathdata' which represents a path through the room</returns>
         public PathData GetStartState(Polygon positive, List<Polygon> negatives)
         {
+            startTime = Time.realtimeSinceStartup;
+
             //determine the grid. still empty. also initalizes the scalefactor and movetransform variables.
             bool[,] grid = MakeGrid(positive);
 
             for (int i = 0; i < positive.GetPoints().Length; i++)
             {
-                Debug.Log("Point " + i + ": " + positive.GetPoints()[i].x + ", " + positive.GetPoints()[i].z);
+                Debug.Log("Point " + i + ": " + positive.GetPoints()[i].x + ", 0, " + positive.GetPoints()[i].z);
             }
 
             List<((int, int), (int, int))> positiveGridLines = new();
@@ -73,28 +78,32 @@ namespace AwARe.RoomScan.Path
                 {
                     negativeGridLinesPart.Add((ToGridSpace(negativeLinesPart[j].Item1), ToGridSpace(negativeLinesPart[j].Item2)));
                 }
+
                 negativeGridLines.Add(negativeGridLinesPart);
             }
 
             FillGrid(ref grid, positiveGridLines, negativeGridLines);
 
+            PrintTime("erosionStart");
 
             ErosionHandler erosionHandler = new ErosionHandler();
             grid = erosionHandler.Erode(grid, 30);
+
+            PrintTime("erosionEnd");
 
             //do the thinning until only a skeleton remains
             //note: testing in an external duplicate to easily visualize the grid found that this takes a notable bit of time (~approx 15 seconds)
             //thinning can probably be done in parallel to significantly speed this up, but need to figure out how to do this.
             //current thinning gives lines to corners, these need to be dealt with in the post-startstate algorithm
             createGolayElements();
+            PrintTime("thinningStart");
             bool thinning = true;
-            while (thinning)
-            {
-                grid = ThinnedGrid(grid, out thinning);
-            }
+            while (thinning) { grid = ThinnedGrid(grid, out thinning); }
 
+            PrintTime("thinningEnd");
             PostFiltering(ref grid, 50);
 
+            PrintTime("filterEnd");
             //at this point, grid contains the skeleton path as a thin line of booleans
             //now we need to convert this to a pathdata
 
@@ -144,10 +153,7 @@ namespace AwARe.RoomScan.Path
             List<Vector3> pathDataPoints = new();
             List<(Vector3, Vector3)> pathDataEdges = new();
 
-            for (int i = 0; i < prePathDataPoints.Count; i++)
-            {
-                pathDataPoints.Add(ToPolygonSpace(prePathDataPoints[i]));
-            }
+            for (int i = 0; i < prePathDataPoints.Count; i++) { pathDataPoints.Add(ToPolygonSpace(prePathDataPoints[i])); }
 
             for (int i = 0; i < prePathDataEdges.Count; i++)
             {
@@ -173,10 +179,7 @@ namespace AwARe.RoomScan.Path
             //add a duplicate of the first point to the end of the list
             points.Add(new Vector3(points[0].x, points[0].y, points[0].z));
 
-            for (int i = 0; i < points.Count - 1; i++)
-            {
-                results.Add((points[i], points[i + 1]));
-            }
+            for (int i = 0; i < points.Count - 1; i++) { results.Add((points[i], points[i + 1])); }
 
             return results;
         }
@@ -206,31 +209,13 @@ namespace AwARe.RoomScan.Path
 
             //compute the average heigh of the polygon for later use
             averageHeight = 0;
-            for (int i = 0; i < points.Length; i++)
-            {
-                averageHeight += points[i].y / points.Length;
-            }
+            for (int i = 0; i < points.Length; i++) { averageHeight += points[i].y / points.Length; }
 
             float xDiff = maxX - minX;
             float zDiff = maxZ - minZ;
 
             int xlength;
             int zlength;
-
-            //desired size: ~500 in the longest dimension
-            // int longestside = 500;
-            // if (xDiff > zDiff)
-            // {
-            //     xlength = longestside;
-            //     zlength = (int)Math.Ceiling(longestside * (zDiff / xDiff));
-            //     scaleFactor = xlength / xDiff;
-            // }
-            // else
-            // {
-            //     zlength = longestside;
-            //     xlength = (int)Math.Ceiling(longestside * (xDiff / zDiff));
-            //     scaleFactor = zlength / zDiff;
-            // }
 
             //testing revealed that unity-vector3 points acquired relate to the real world on a 1:100 scale (in centimeters)
             //so a difference of 0.01 in vector3 coords equated to 1 centimeter in the real world
@@ -245,8 +230,6 @@ namespace AwARe.RoomScan.Path
             return new bool[xlength + 1, zlength + 1];
         }
 
-        
-
         /// <summary>
         /// Fill an empty grid of booleans with the projection of the walkable space. these booleans are set to true
         /// </summary>
@@ -256,10 +239,9 @@ namespace AwARe.RoomScan.Path
         private void FillGrid(ref bool[,] grid, List<((int, int), (int, int))> positiveLines, List<List<((int, int), (int, int))>> negativeLines)
         {
             //draw the lines for the positive polygon
-            for (int i = 0; i < positiveLines.Count; i++)
-            {
-                DrawLine(ref grid, positiveLines[i]);
-            }
+            for (int i = 0; i < positiveLines.Count; i++) { DrawLine(ref grid, positiveLines[i]); }
+
+            List<(int x, int y)> foundPoints = new();
 
             int rows = grid.GetLength(0);
             int cols = grid.GetLength(1);
@@ -269,10 +251,14 @@ namespace AwARe.RoomScan.Path
             NativeArray<((int x, int y) p1, (int x, int y) p2)> polygonLines =
                 new NativeArray<((int x, int y) p1, (int x, int y) p2)>(positiveLines.Count, Allocator.TempJob);
 
-            for (int i = 0; i < positiveLines.Count; i++)
-            {
-                polygonLines[i] = positiveLines[i];
-            }
+
+            NativeArray<bool> result = new NativeArray<bool>(gridSize, Allocator.Temp);
+
+            for (int i = 0; i < positiveLines.Count; i++) { polygonLines[i] = positiveLines[i]; }
+
+
+            for (int i = 0; i < result.Length; i++)
+                result[i] = false;
 
             CheckInPolygonJob positivePolygonCheckJob = new CheckInPolygonJob()
             {
@@ -281,7 +267,8 @@ namespace AwARe.RoomScan.Path
                 checkPositivePolygon = true,
                 polygonWalls = polygonLines,
 
-                nativeResultGrid = resultGrid
+                //nativeResultGrid = resultGrid
+                result = resultGrid
             };
 
             JobHandle posPolCheckJobHandle = positivePolygonCheckJob.Schedule(gridSize, 64);
@@ -290,20 +277,50 @@ namespace AwARe.RoomScan.Path
 
             polygonLines.Dispose();
 
-            grid = ToGrid(resultGrid, rows, cols);
+            for (int i = 0; i < resultGrid.Length; i++)
+            {
+                int x = i / cols;
+                int y = i % cols;
+                if (resultGrid[i])
+                    foundPoints.Add((x, y));
+            }
 
+            resultGrid.Dispose();
+
+            /*
+            //floodfill from a position in the positive polygon
             List<(int x, int y)> foundPoints = new();
+
+            for (int x = 0; x < grid.GetLength(0); x++)
+            {
+                for (int y = 0; y < grid.GetLength(1); y++)
+                {
+                    //it is useless to set a point that is already true to true
+                    if (grid[x, y]) continue;
+
+                    //check if current point is in positive polygon. if not, continue
+                    if (!CheckInPolygon(positiveLines, (x, y))) continue;
+
+                    //if the loop makes it past all of the above checks, we have found a valid point
+                    foundPoints.Add((x, y));
+                }
+            }
+            */
+            //fill in the positive polygon
+            for (int i = 0; i < foundPoints.Count; i++)
+            {
+                //grid[foundPoints[i].x, foundPoints[i].y] = true;
+                FloodArea(ref grid, (foundPoints[i].x, foundPoints[i].y));
+            }
+
             //carve out the negative polygons
             for (int n = 0; n < negativeLines.Count; n++)
             {
                 foundPoints = new();
 
                 //carve out the lines for the current negative polygon
-                for (int i = 0; i < negativeLines[n].Count; i++)
-                {
-                    DrawLine(ref grid, negativeLines[n][i], true);
-                }
-                /*
+                for (int i = 0; i < negativeLines[n].Count; i++) { DrawLine(ref grid, negativeLines[n][i], true); }
+
                 //find the points in the current negative polygon
                 for (int x = 0; x < grid.GetLength(0); x++)
                 {
@@ -326,39 +343,90 @@ namespace AwARe.RoomScan.Path
                     //grid[foundPoints[i].x, foundPoints[i].y] = false;
                     FloodArea(ref grid, (foundPoints[i].x, foundPoints[i].y), true);
                 }
-                */
+            }
+        }
 
-                NativeArray<bool> negResultGrid = new NativeArray<bool>(gridSize, Allocator.TempJob);
-                NativeArray<((int x, int y) p1, (int x, int y) p2)> negPolygonLines =
-                    new NativeArray<((int x, int y) p1, (int x, int y) p2)>(negativeLines[n].Count, Allocator.TempJob);
+        private NativeArray<bool> ToNativeGrid(bool[,] grid)
+        {
+            int rows = grid.GetLength(0);
+            int cols = grid.GetLength(1);
+            int gridSize = rows * cols;
 
-                for (int i = 0; i < negativeLines[n].Count; i++)
+            NativeArray<bool> toNativeGrid = new NativeArray<bool>(gridSize, Allocator.TempJob);
+
+            for (int x = 0; x < rows; x++)
+            {
+                for (int y = 0; y < cols; y++)
                 {
-                    negPolygonLines[i] = negativeLines[n][i];
+                    int index = x * cols + y;
+                    toNativeGrid[index] = grid[x, y];
+                }
+            }
+
+            return toNativeGrid;
+        }
+
+        private bool[,] ToGrid(NativeArray<bool> nativeArray, int rows, int columns)
+        {
+            bool[,] toGrid = new bool[rows, columns];
+            int gridSize = nativeArray.Length;
+
+            for (int i = 0; i < gridSize; i++)
+            {
+                int x = i / columns;
+                int y = i % columns;
+                toGrid[x, y] = nativeArray[i];
+            }
+
+            return toGrid;
+        }
+
+        /// <summary>
+        /// check if a point is in a polygon (represented as a list of lines)
+        /// done by shooting a ray to the right from the point and counting the number of intersections with polygon edges
+        /// </summary>
+        /// <param name="lines">list of lines that make up the polygon</param>
+        /// <param name="point">point to check if it is inside the polygon</param>
+        /// <returns>true if the point lies inside the polygon, false otherwise</returns>
+        private bool CheckInPolygon(List<((int x, int y) p1, (int x, int y) p2)> polygonwalls, (int x, int y) point)
+        {
+            List<(double x, double y)> intersections = new();
+
+            for (int i = 0; i < polygonwalls.Count; i++)
+            {
+                double intersecty = point.y;
+                double intersectx;
+
+                double divider = polygonwalls[i].p2.x - polygonwalls[i].p1.x;
+                if (divider == 0) { intersectx = polygonwalls[i].p2.x; }
+                else
+                {
+                    double a = (polygonwalls[i].p2.y - polygonwalls[i].p1.y) / divider;
+                    //if a is 0, the ray and the wall are parallel and they dont intersect
+                    if (a == 0) continue;
+                    double b = polygonwalls[i].p1.y - polygonwalls[i].p1.x * a;
+                    intersectx = (int)Math.Round((point.y - b) / a);
                 }
 
-                CheckInPolygonJob negativePolygonCheckJob = new CheckInPolygonJob()
-                {
-                    nativeGrid = resultGrid,
-                    columns = grid.GetLength(1),
-                    checkPositivePolygon = true,
-                    polygonWalls = negPolygonLines,
+                //check that the intersection point lies on the ray we shot, continue if it doesn't
+                if (intersectx < point.x) continue;
 
-                    nativeResultGrid = negResultGrid
-                };
+                //check that the intersection point lies on the wall, continue if it doesn't
+                if (intersectx < Math.Min(polygonwalls[i].p1.x, polygonwalls[i].p2.x) ||
+                    intersectx > Math.Max(polygonwalls[i].p1.x, polygonwalls[i].p2.x)
+                    || intersecty < Math.Min(polygonwalls[i].p1.y, polygonwalls[i].p2.y) ||
+                    intersecty > Math.Max(polygonwalls[i].p1.y, polygonwalls[i].p2.y)) { continue; }
 
-                JobHandle negPolCheckJobHandle = negativePolygonCheckJob.Schedule(gridSize, 64);
+                //if the intersection point is the exact endpoint of a wall, this causes problems. cancel the whole operation
+                //we cannot be sure if it lies inside or outside the polygon
+                if ((intersectx, intersecty) == polygonwalls[i].p1 || (intersectx, intersecty) == polygonwalls[i].p2) { return false; }
 
-                negPolCheckJobHandle.Complete();
-
-                grid = ToGrid(negativePolygonCheckJob.nativeResultGrid, rows, cols);
-
-                resultGrid = negResultGrid;
-
-                negPolygonLines.Dispose();
-                negResultGrid.Dispose();
+                //add this intersection to the list if it is a new one
+                if (!intersections.Contains((intersectx, intersecty))) { intersections.Add((intersectx, intersecty)); }
             }
-            resultGrid.Dispose();
+
+            if (intersections.Count % 2 == 0) { return false; }
+            else return true;
         }
 
         /// <summary>
@@ -436,36 +504,126 @@ namespace AwARe.RoomScan.Path
         /// <returns>the thinned grid</returns>
         public bool[,] ThinnedGrid(bool[,] grid, out bool changed)
         {
-            bool[,] res = new bool[grid.GetLength(0), grid.GetLength(1)];
             changed = false;
 
             for (int i = 0; i < frontGolayElements.Count; i++)
             {
-                for (int x = 0; x < grid.GetLength(0); x++)
+                /*
+                int rows = grid.GetLength(0);
+                int cols = grid.GetLength(1);
+
+                NativeArray<bool> resArray = new NativeArray<bool>(rows*cols, Allocator.Temp);
+
+                Parallel.For(
+                    0,
+                    rows,
+                    x =>
+                    {
+                        Parallel.For(
+                            0,
+                            cols,
+                            y =>
+                            {
+                                if (!grid[x, y])
+                                {
+                                    resArray[x * cols + y] = false;
+                                }
+                                //if i have a hit in this position, it will be set to false
+                                else if (CheckHitorMiss(grid, x, y, i))
+                                {
+                                    resArray[x * cols + y] = false;
+                                    hasChanged = true;
+                                }
+                                else
+                                {
+                                    //if i dont have a hit the grid keeps its old value (which should be true)
+                                    resArray[x * cols + y] = grid[x, y];
+                                }
+                            });
+                    });
+                */
+                /*
+                for(int x = 0; x < grid.GetLength(0); x++)
                 {
                     for (int y = 0; y < grid.GetLength(1); y++)
                     {
                         if (!grid[x, y])
                         {
                             res[x, y] = false;
-                            continue;
                         }
-
                         //if i have a hit in this position, it will be set to false
-                        if (CheckHitorMiss(grid, x, y, i))
+                        else if (CheckHitorMiss(grid, x, y, i))
                         {
                             res[x, y] = false;
-                            changed = true;
-                            continue;
+                            hasChanged = true;
                         }
-
-                        //if i dont have a hit the grid keeps its old value (which should be true)
-                        res[x, y] = grid[x, y];
+                        else
+                        {
+                            //if i dont have a hit the grid keeps its old value (which should be true)
+                            res[x, y] = grid[x, y];
+                        }
                     }
                 }
-                grid = res;
+                */
+
+                
+                int rows = grid.GetLength(0);
+                int cols = grid.GetLength(1);
+                int gridSize = rows * cols;
+
+                NativeArray<bool> resultGrid = new NativeArray<bool>(gridSize, Allocator.TempJob);
+
+                NativeArray<bool> frontElement = new NativeArray<bool>(ToNativeGrid(frontGolayElements[i]), Allocator.TempJob);
+                NativeArray<bool> backElement = new NativeArray<bool>(ToNativeGrid(backGolayElements[i]), Allocator.TempJob);
+
+                int elementLength = frontGolayElements[i].GetLength(0);
+
+                CheckHitOrMissJob hitOrMissCheckJob = new CheckHitOrMissJob()
+                {
+                    nativeGrid = ToNativeGrid(grid),
+                    columns = cols,
+                    rows = rows,
+                    frontElement = frontElement,
+                    backElement = backElement,
+                    elementLength = elementLength,
+
+                    result = resultGrid
+                };
+
+                JobHandle hitOrMissCheckJobHandle = hitOrMissCheckJob.Schedule(gridSize, 64);
+
+                hitOrMissCheckJobHandle.Complete();
+
+                bool[,] resGrid = ToGrid(resultGrid, rows, cols);
+
+                if (!changed)
+                    changed = !EqualArrays(grid, resGrid);
+
+                frontElement.Dispose();
+                backElement.Dispose();
+
+                Array.Copy(resGrid, grid, grid.Length);
+                resultGrid.Dispose();
+                
+                //Array.Copy(ToGrid(resArray, rows, cols), grid, grid.Length);
             }
-            return res;
+
+            //changed = hasChanged;
+            return grid;
+        }
+
+        private bool EqualArrays(bool[,] a, bool[,] b)
+        {
+            if(a.Length != b.Length) return false;
+            for (int i = 0; i < a.GetLength(0); i++)
+            {
+                for (int j = 0; j < a.GetLength(1); j++)
+                {
+                    if (!(a[i,j] == b[i,j]))
+                        return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -500,7 +658,7 @@ namespace AwARe.RoomScan.Path
 
                     //the position falls outside of the grid and is treated as if the grid there is false
                     if (x - offset + a < 0 || x - offset + a > grid.GetLength(0) - 1 ||
-                       y - offset + b < 0 || y - offset + b > grid.GetLength(1) - 1)
+                        y - offset + b < 0 || y - offset + b > grid.GetLength(1) - 1)
                     {
                         //the frontelement check
                         if (frontElement[a, b])
@@ -533,6 +691,7 @@ namespace AwARe.RoomScan.Path
 
                 }
             }
+
             if (hit) return true;
             else return false;
         }
@@ -562,8 +721,9 @@ namespace AwARe.RoomScan.Path
                     if (!(x - 1 < 0 || y - 1 < 0))
                     {
                         rolledoutneighbours[0] = grid[x - 1, y - 1];
-                        rolledoutneighbours[8] = grid[x - 1, y - 1];    //add a copy of the first point looked at to the end
+                        rolledoutneighbours[8] = grid[x - 1, y - 1]; //add a copy of the first point looked at to the end
                     }
+
                     //look up
                     if (!(y - 1 < 0)) rolledoutneighbours[1] = grid[x, y - 1];
                     //look up-right
@@ -618,7 +778,7 @@ namespace AwARe.RoomScan.Path
                             //checks if it is true, in bounds, not already considered and 
                             if (consideredpoint == currentpoint) continue;
                             if (consideredpoint.x < 0 || consideredpoint.x > grid.GetLength(0)
-                            || consideredpoint.y < 0 || consideredpoint.y > grid.GetLength(1)) continue;
+                                || consideredpoint.y < 0 || consideredpoint.y > grid.GetLength(1)) continue;
                             if (!grid[consideredpoint.x, consideredpoint.y]) continue;
                             if (consideredpoints.Contains(consideredpoint)) continue;
 
@@ -626,10 +786,8 @@ namespace AwARe.RoomScan.Path
                             if (junctions.Contains(consideredpoint))
                             {
                                 //remove other points considered this round to avoid problems
-                                for (int j = 0; j < addedpoints.Count; j++)
-                                {
-                                    consideredpoints.Remove(addedpoints[j]);
-                                }
+                                for (int j = 0; j < addedpoints.Count; j++) { consideredpoints.Remove(addedpoints[j]); }
+
                                 stop = true;
                                 break;
                             }
@@ -645,14 +803,11 @@ namespace AwARe.RoomScan.Path
                 //length is detemerined using the euclidian distance between de endpoint and junction this line spans, since lines are mostly straight
 
                 float par1 = (consideredpoints[consideredpoints.Count - 1].x - consideredpoints[0].x);
-                float par2 = (consideredpoints[consideredpoints.Count - 1].x - consideredpoints[0].y);
+                float par2 = (consideredpoints[consideredpoints.Count - 1].y - consideredpoints[0].y);
                 double distance = Math.Sqrt((par1 * par1) + (par2 * par2));
                 if (distance < treshold)
                 {
-                    for (int j = 0; j < consideredpoints.Count; j++)
-                    {
-                        grid[consideredpoints[j].x, consideredpoints[j].y] = false;
-                    }
+                    for (int j = 0; j < consideredpoints.Count; j++) { grid[consideredpoints[j].x, consideredpoints[j].y] = false; }
                 }
             }
         }
@@ -686,7 +841,9 @@ namespace AwARe.RoomScan.Path
         }
 
         //floodfill is used to fill in the positive or carve out the negative polygons
+
         #region floodfill
+
         /// <summary>
         /// flood an area of the grid with 'true' from a given start position. 
         /// it is assumed that there is a boundary of 'true' values surrounding the startpoint
@@ -749,11 +906,14 @@ namespace AwARe.RoomScan.Path
             if (pos.x > 0 && pos.x < width && pos.y - 1 > 0 && pos.y - 1 < height)
                 queue.Enqueue((pos.x, pos.y - 1));
         }
+
         #endregion
 
 
         //the code relating to the structuring elements used in the hit-or-miss operation
+
         #region structuringElements
+
         /// <summary>
         /// create all the 'L Golay' structuring elements used for the hit-or-miss part of the thinning operation
         /// </summary>
@@ -808,321 +968,12 @@ namespace AwARe.RoomScan.Path
             bool[,] elem8 = new bool[3, 3] { { true, true, false }, { true, false, false }, { false, false, false } };
             backGolayElements.Add(elem8);
         }
+
         #endregion
 
-        private NativeArray<bool> ToNativeGrid(bool[,] grid)
+        void PrintTime(string s)
         {
-            int rows = grid.GetLength(0);
-            int cols = grid.GetLength(1);
-            int gridSize = rows * cols;
-
-            NativeArray<bool> toNativeGrid = new NativeArray<bool>(gridSize, Allocator.TempJob);
-
-            for (int x = 0; x < rows; x++)
-            {
-                for (int y = 0; y < cols; y++)
-                {
-                    int index = x * cols + y;
-                    toNativeGrid[index] = grid[x, y];
-                }
-            }
-
-            return toNativeGrid;
-        }
-
-        private bool[,] ToGrid(NativeArray<bool> nativeArray, int rows, int columns)
-        {
-            bool[,] toGrid = new bool[rows, columns];
-            int gridSize = nativeArray.Length;
-
-            for (int i = 0; i < gridSize; i++)
-            {
-                int x = i / columns;
-                int y = i % columns;
-                toGrid[x, y] = nativeArray[i];
-            }
-
-            return toGrid;
-        }
-
-        //unused code that may still prove useful in the future
-        #region Old
-
-        //endpoint extension turned out to be unnessecairy
-        //this still uses the old coordinates, so y and z values still need to be swapped if the code is to be used again
-        #region endpointExtension
-        // /// <summary>
-        // /// extend the enpoints of the path to the walls
-        // /// </summary>
-        // /// <param name="path">the path from which the endpoints are extended</param>
-        // /// <param name="positive">the positive polygon from which the path was made</param>
-        // /// <param name="negatives">the list of negative polygons from which the path was made</param>
-        // /// <param name="minConsideredPercentage">the percentage of the path from the endpoint to consider when determining the direction in which it should be extended</param>
-        // /// <returns>new or altered path</returns>
-        // private PathData ExtendEndPoints(PathData path, Polygon positive, List<Polygon> negatives, int minConsideredPercentage)
-        // {
-        //     List<(Vector3, Vector3)> allWalls = GenerateLines(positive);
-        //     for (int i = 0; i < negatives.Count; i++)
-        //     {
-        //         allWalls.Concat(GenerateLines(negatives[i]));
-        //     }
-
-        //     List<Vector3> endpoints = new();
-        //     List<Vector3> junctions = new();
-        //     Dictionary<Vector3, int> pointFrequencies = new();
-
-        //     //count how often each point appears in the edges list
-        //     for (int i = 0; i < path.edges.Count; i++)
-        //     {
-        //         Vector3 point1 = path.edges[i].Item1;
-        //         Vector3 point2 = path.edges[i].Item2;
-
-        //         if (pointFrequencies.ContainsKey(point1)) pointFrequencies[point1]++;
-        //         else pointFrequencies.Add(point1, 1);
-        //         if (pointFrequencies.ContainsKey(point2)) pointFrequencies[point2]++;
-        //         else pointFrequencies.Add(point2, 1);
-        //     }
-        //     //each point that appears only once in the edges list is an endpoint that must potentially be extended
-        //     //each point that appears more than twice in the edges list is a junction
-        //     for (int i = 0; i < path.edges.Count; i++)
-        //     {
-        //         Vector3 point1 = path.edges[i].Item1;
-        //         Vector3 point2 = path.edges[i].Item2;
-
-        //         if (pointFrequencies[point1] == 1 && !endpoints.Contains(point1)) endpoints.Add(point1);
-        //         if (pointFrequencies[point2] == 1 && !endpoints.Contains(point2)) endpoints.Add(point2);
-
-        //         if (pointFrequencies[point1] > 2 && !junctions.Contains(point1)) junctions.Add(point1);
-        //         if (pointFrequencies[point2] > 2 && !junctions.Contains(point2)) junctions.Add(point2);
-        //     }
-
-        //     Debug.Log("#edges: " + path.edges.Count);
-        //     Debug.Log("#junctions: " + junctions.Count);
-        //     Debug.Log("#endpoints: " + endpoints.Count);
-
-        //     //make subpaths from the endpoints to the junctions. or if there are no junctions, to other endpoints
-        //     List<PathData> subpaths = new();
-        //     for (int i = 0; i < endpoints.Count; i++)
-        //     {
-
-        //         PathData subpath = new();
-        //         Vector3 currentpoint = endpoints[i];
-        //         //keep adding edges to the subpath until we reach a junction or there are no edges left to add
-        //         while (!junctions.Contains(currentpoint) || subpath.edges.Count == path.edges.Count)
-        //         {
-        //             //it should always find either 1 or 2 edges in the list, if it finds more than that, something went wrong with making junctions list
-        //             List<(Vector3, Vector3)> edgesfound = path.edges.FindAll(res => res.Item1 == currentpoint || res.Item2 == currentpoint);
-
-        //             //make sure to add the correct edge
-        //             if (!subpath.edges.Contains(edgesfound[0]))
-        //             {
-        //                 subpath.edges.Add(edgesfound[0]);
-        //                 if (currentpoint == edgesfound[0].Item1) currentpoint = edgesfound[0].Item2;
-        //                 else currentpoint = edgesfound[0].Item1;
-        //             }
-        //             else
-        //             {
-        //                 subpath.edges.Add(edgesfound[1]); //error here
-        //                 //this means that it found a point with only one edge
-        //                 //but also, that edge is already on the path
-        //                 //how can dis be?
-        //                 //only option i can think of is a path consisting of 2 points (1 edge) but then the while should stop it
-        //                 //was debugging this, last thing done: check of alle points van edges wel in de points list zitten. they are
-        //                 if (currentpoint == edgesfound[1].Item1) currentpoint = edgesfound[1].Item2;
-        //                 else currentpoint = edgesfound[1].Item1;
-        //             }
-        //             //possible problems:
-        //             //incorrect path (edges/points list)
-        //             //incorrect endpoints / junctions list
-        //         }
-
-        //         subpaths.Add(subpath);
-        //     }
-
-        //     //do this for every endpoint and subpath, make into for loop
-        //     for (int i = 0; i < subpaths.Count(); i++)
-        //     {
-        //         //compute the totel length of the subpath
-        //         float totalpathlength = 0;
-        //         float[] edgelengths = new float[subpaths[i].edges.Count];
-        //         for (int j = 0; j < subpaths[i].edges.Count; j++)
-        //         {
-        //             //use pythagoras to add length of an edge to the total path length
-        //             float length = (float)Math.Sqrt(Math.Pow(subpaths[i].edges[j].Item2.x - subpaths[i].edges[j].Item1.x, 2)
-        //                                           + Math.Pow(subpaths[i].edges[j].Item2.y - subpaths[i].edges[j].Item1.y, 2));
-        //             totalpathlength += length;
-        //             edgelengths[j] = length;
-        //         }
-
-        //         //compute how much length we are allowed to consider for the linear regression
-        //         float remaininglength = totalpathlength * minConsideredPercentage / 100;
-        //         List<Vector3> pathRegressionPoints = new();
-        //         //the edges are added to the subpaths' list of edges in order from endpoint first, so we do not have to worry about sorting the list here
-        //         int iterator = 0;
-        //         while (remaininglength > 0)
-        //         {
-        //             if (!pathRegressionPoints.Contains(subpaths[i].edges[iterator].Item1)) pathRegressionPoints.Add(subpaths[i].edges[iterator].Item1);
-        //             if (!pathRegressionPoints.Contains(subpaths[i].edges[iterator].Item2)) pathRegressionPoints.Add(subpaths[i].edges[iterator].Item2);
-        //             remaininglength -= edgelengths[iterator];
-        //             iterator++;
-        //         }
-
-        //         //use linear regression to find intersections on the line we use to extend the path
-        //         List<Vector3> intersections = LinearRegressionIntersections(pathRegressionPoints, allWalls);
-
-        //         //find the closest intersection, as this is the wall that we need to extend to
-        //         Vector3 closest = intersections[0];
-        //         float closestDist = (float)Math.Sqrt(Math.Pow(intersections[0].x - endpoints[i].x, 2) + Math.Pow(intersections[0].y - endpoints[i].y, 2));
-        //         for (int j = 1; j < intersections.Count; j++)
-        //         {
-        //             //pythagoras again
-        //             float distance = (float)Math.Sqrt(Math.Pow(intersections[j].x - endpoints[i].x, 2) + Math.Pow(intersections[j].y - endpoints[i].y, 2));
-        //             if (distance < closestDist)
-        //             {
-        //                 closest = intersections[j];
-        //                 closestDist = distance;
-        //             }
-        //         }
-
-        //         //create and add the new edge that extends the enpoint to the wall
-        //         (Vector3, Vector3) newEdge = (endpoints[i], closest);
-        //         path.edges.Add(newEdge);
-        //     }
-
-        //     return path;
-        // }
-
-        // /// <summary>
-        // /// use linear regression to find get a new line / ray which is the direction we wish to extend the path in.
-        // /// then compute intersections with line segments (the polygon, walls) and return those
-        // /// </summary>
-        // /// <param name="pathpoints">the points to consider for linear regression</param>
-        // /// <param name="walls">the walls to get intersections with</param>
-        // /// <returns>a list of intersections with walls</returns>
-        // private List<Vector3> LinearRegressionIntersections(List<Vector3> pathpoints, List<(Vector3, Vector3)> walls)
-        // {
-        //     //various data that is needed to perform linear regression, the mathematical sum of various components of the sample:
-        //     //the sum of the x values, the y values, the x*y values, the X^2 values, the Y^2 values
-        //     double sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, sumY2 = 0;
-        //     int n = pathpoints.Count;
-
-        //     for (int i = 0; i < pathpoints.Count; i++)
-        //     {
-        //         sumX += pathpoints[i].x;
-        //         sumY += pathpoints[i].y;
-        //         sumXY += pathpoints[i].x * pathpoints[i].y;
-        //         sumX2 += pathpoints[i].x * pathpoints[i].x;
-        //         sumY2 += pathpoints[i].y * pathpoints[i].y;
-        //     }
-
-        //     //the 2 lines found by linear regression
-        //     //formula in the form y = m1 * x + b1
-        //     double m1 = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-        //     double b1 = (sumY - m1 * sumX) / n;
-        //     //formula in the form x = m2 * y + b2
-        //     double m2 = (n * sumXY - sumX * sumY) / (n * sumY2 - sumY * sumY);
-        //     double b2 = (sumX - m2 * sumY) / n;
-
-        //     //find the intersections of walls with a line that follows the average of the 2 lines found above
-        //     List<Vector3> intersections = new();
-        //     for (int i = 0; i < walls.Count; i++)
-        //     {
-        //         Vector3 point1 = walls[i].Item1;
-        //         Vector3 point2 = walls[i].Item2;
-        //         //construct the line of the wall segment in the form y = ax + b
-        //         double a = (point2.y - point1.y) / (point2.x - point1.x);
-        //         double b = point1.y + a * point1.x;
-        //         //this b may be wrong,                double b = polygonwalls[i].p1.y - polygonwalls[i].p1.x * a; reference.
-
-        //         //calculate the intersection coordinates of the average 
-        //         double x = (2 * b - b1 + b2) / (m1 + (1 / m2) - 2 * a);
-        //         double y = a * x + b;
-
-        //         //check if the intersection point lies on the wall segment
-        //         if (x < Math.Min(point1.x, point2.x) || x > Math.Max(point1.x, point2.x)
-        //         || y < Math.Min(point1.y, point2.y) || y > Math.Max(point1.y, point2.y)) { continue; }
-
-        //         intersections.Add(new Vector3((float)x, (float)y));
-        //     }
-
-        //     return intersections;
-        // }
-        #endregion
-        #endregion
-    }
-
-    //[BurstCompile]
-    public struct CheckInPolygonJob : IJobParallelFor
-    {
-        [ReadOnly] public NativeArray<bool> nativeGrid;
-        [ReadOnly] public int columns;
-        [ReadOnly] public bool checkPositivePolygon;
-        [ReadOnly] public NativeArray<((int x, int y) p1, (int x, int y) p2)> polygonWalls;
-
-        [WriteOnly] public NativeArray<bool> nativeResultGrid;
-
-        public void Execute(int index)
-        {
-
-            if (nativeGrid[index] == checkPositivePolygon) return;
-            int x = index / columns;
-            int y = index % columns;
-            if (CheckInPolygon(polygonWalls, (x, y)) == false) return;
-
-            nativeResultGrid[index] = checkPositivePolygon;
-        }
-
-        /// <summary>
-        /// check if a point is in a polygon (represented as a list of lines)
-        /// done by shooting a ray to the right from the point and counting the number of intersections with polygon edges
-        /// </summary>
-        /// <param name="lines">list of lines that make up the polygon</param>
-        /// <param name="point">point to check if it is inside the polygon</param>
-        /// <returns>true if the point lies inside the polygon, false otherwise</returns>
-        private bool CheckInPolygon(NativeArray<((int x, int y) p1, (int x, int y) p2)> polygonwalls, (int x, int y) point)
-        {
-            List<(double x, double y)> intersections = new();
-
-            for (int i = 0; i < polygonwalls.Length; i++)
-            {
-                double intersecty = point.y;
-                double intersectx;
-
-                double divider = polygonwalls[i].p2.x - polygonwalls[i].p1.x;
-                if (divider == 0)
-                {
-                    intersectx = polygonwalls[i].p2.x;
-                }
-                else
-                {
-                    double a = (polygonwalls[i].p2.y - polygonwalls[i].p1.y) / divider;
-                    //if a is 0, the ray and the wall are parallel and they dont intersect
-                    if (a == 0) continue;
-                    double b = polygonwalls[i].p1.y - polygonwalls[i].p1.x * a;
-                    intersectx = (point.y - b) / a;
-                }
-                //check that the intersection point lies on the ray we shot, continue if it doesn't
-                if (intersectx < point.x) continue;
-
-                //check that the intersection point lies on the wall, continue if it doesn't
-                if (intersectx < Math.Min(polygonwalls[i].p1.x, polygonwalls[i].p2.x) || intersectx > Math.Max(polygonwalls[i].p1.x, polygonwalls[i].p2.x)
-                 || intersecty < Math.Min(polygonwalls[i].p1.y, polygonwalls[i].p2.y) || intersecty > Math.Max(polygonwalls[i].p1.y, polygonwalls[i].p2.y)) { continue; }
-
-                //if the intersection point is the exact endpoint of a wall, this causes problems. cancel the whole operation
-                //we cannot be sure if it lies inside or outside the polygon
-                if ((intersectx, intersecty) == polygonwalls[i].p1 || (intersectx, intersecty) == polygonwalls[i].p2)
-                {
-                    return false;
-                }
-
-                //add this intersection to the list if it is a new one
-                if (!intersections.Contains((intersectx, intersecty)))
-                {
-                    intersections.Add((intersectx, intersecty));
-                }
-            }
-
-            return intersections.Count % 2 != 0;
+            Debug.Log(s + ": " + (Time.realtimeSinceStartup - startTime).ToString());
         }
     }
 }
@@ -1139,3 +990,10 @@ namespace AwARe.RoomScan.Path
 
 //scale testing met debug log seems to be about 1:100 scale, 61 cm meetlat vierkant gaat in ongeveer 0.61 increments. dus 1 vector3 = 1 meter
 //make polygon 'real-scale' hiermee in plaats van set length 500?
+
+//'merge' / collapse corner noodles that share the same junction to a straighter line? could be cool
+
+
+//todo primary new:
+//'merge' / collapse corner noodles 
+//clean up polygonmanager en scene

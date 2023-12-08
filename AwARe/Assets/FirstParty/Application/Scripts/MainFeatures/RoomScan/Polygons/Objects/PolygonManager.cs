@@ -126,7 +126,30 @@ namespace AwARe.RoomScan.Polygons.Objects
         public void GenerateAndDrawPath()
         {
             StartState startstate = new();
-            PathData path = startstate.GetStartState(Room.PositivePolygon, Room.NegativePolygons);
+
+            bool useTestPol = true;
+            //PathData path = startstate.GetStartState(Room.PositivePolygon, Room.NegativePolygons);
+            
+            List<Vector3> points = new()
+            {
+                new Vector3(0.3290718f, 0, -1.92463f),
+                new Vector3(-0.5819738f, 0, -2.569284f),
+                new Vector3(3.357841f, 0, -3.58952f),
+                new Vector3(3.824386f, 0, -2.0016f),
+            };
+
+            Polygon testPolygon = new Polygon(points);
+
+            PathData path;
+            if (useTestPol)
+            {
+                path = startstate.GetStartState(testPolygon, Room.NegativePolygons);
+                polygonDrawer.DrawPolygon(testPolygon);
+            }
+            else
+            { 
+                path = startstate.GetStartState(Room.PositivePolygon, Room.NegativePolygons);
+            }
 
             VisualizePath visualizer = (VisualizePath)pathVisualizer.GetComponent("VisualizePath");
             visualizer.SetPath(path);
