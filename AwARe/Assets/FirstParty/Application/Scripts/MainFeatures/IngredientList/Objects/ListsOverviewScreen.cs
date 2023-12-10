@@ -5,14 +5,10 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System;
 using System.Collections.Generic;
 using AwARe.InterScenes.Objects;
-using UnityEditorInternal.VersionControl;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
-using IL = AwARe.IngredientList.Logic;
 
 namespace AwARe.IngredientList.Objects
 {

@@ -46,7 +46,7 @@ namespace AwARe.InterScenes.Objects
             var objects = me.scene.GetRootGameObjects();
             foreach (var obj in objects)
                 if (obj != me)
-                    obj.transform.parent = me.transform;
+                    obj.transform.SetParent(me.transform);
         }
     }
 }

@@ -41,7 +41,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             if (canvas != null)
             {
-                ui.transform.parent = sceneCanvas;
+                ui.transform.SetParent(sceneCanvas, false);
                 Destroy(canvas);
             }
         }
