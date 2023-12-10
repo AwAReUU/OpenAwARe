@@ -14,6 +14,6 @@ namespace AwARe.ObjectGeneration
         /// <summary>
         /// returns a list of spawnpoints on which the objects are allowed to be spawned.
         /// </summary>
-        public List<Vector3> GetValidSpawnPoints(Room room);
+        public List<Vector3> GetValidSpawnPoints(Room room, Mesh path);
     }
 }

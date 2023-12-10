@@ -52,18 +52,22 @@ namespace AwARe.ObjectGeneration
 
         /// <summary>
         /// Automatically place a list of renderables by first initializing a clulster for each renderable. 
-        /// After the cluster have been initialized, each 'round' one object of each renderable will be added to the cluster until there are no objects left. 
+        /// After the cluster have been initialized
+        /// each 'round' one object of each renderable will be added to the cluster until there are no objects left. 
         /// </summary>
         /// <param name="renderables">All items that we are going to place.</param>
         /// <param name="room">Room to place the renderables in.</param>
-        public void PlaceRenderables(List<Renderable> renderables, Room room)
+        public void PlaceRenderables(
+            List<Renderable> renderables, 
+            Room room, 
+            Mesh path)
         {
             if (renderables.Count == 0)
                 return;
 
             // 1. Get valid spawnpoints
             PolygonSpawnPointHandler spawnPointHandler = new PolygonSpawnPointHandler();
-            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room);
+            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room, path);
 
             // 2. Initialize clusters where one object of each group is placed
             Dictionary<Renderable, Vector3> initialSpawnsDictionary = InitializeClusters(validSpawnPoints, renderables, room);
@@ -73,37 +77,27 @@ namespace AwARe.ObjectGeneration
             while (!allQuantitiesZero)
             {
                 allQuantitiesZero = true;
-                foreach (var x in initialSpawnsDictionary)
+                foreach ((Renderable renderable, Vector3 initialSpawnPoint) in initialSpawnsDictionary)
                 {
-                    Renderable renderable = x.Key;
-                    Vector3 initialSpawnPoint = x.Value;
-
                     // Check if there are still objects to spawn
+                    if (renderable.GetQuantity() <= 0)
+                        continue;
+                        
+                    float availableSurfaceArea = EstimateAvailableSurfaceArea(validSpawnPoints.Count);
+
+                    bool placed = TrySpawnOrStackRenderable(
+                        renderable,
+                        initialSpawnPoint,
+                        validSpawnPoints,
+                        availableSurfaceArea,
+                        room);
+
+                    renderable.quantity -= 1;
+                    if (!placed) Debug.Log("Could not place this object");
+
+                    // keep looping while there are objects to be spawned 
                     if (renderable.GetQuantity() > 0)
-                    {
-                        float currentRatioUsage = renderable.currentRatioUsage;
-                        float availableSurfaceArea = EstimateAvailableSurfaceArea(validSpawnPoints.Count);
-                        Dictionary<Vector3, float> objStacks = renderable.objStacks;
-
-                        bool placed = TrySpawnOrStackRenderable(
-                            renderable,
-                            initialSpawnPoint, 
-                            validSpawnPoints, 
-                            availableSurfaceArea, 
-                            room);
-
-                        if (placed) 
-                            renderable.quantity -= 1;
-                        else{
-                            renderable.quantity -= 1; // prevent infinite loop 
-                            Debug.Log("Could not place this object");
-                        }
-                            
-
-                        // keep looping while there are objects to be spawned 
-                        if (renderable.GetQuantity() > 0)
-                            allQuantitiesZero = false;
-                    }
+                        allQuantitiesZero = false;
                 }
             }
         }
@@ -117,7 +111,12 @@ namespace AwARe.ObjectGeneration
         /// <param name="availableSurfaceArea">The percentage of surface area that this renderable is allowed to use.</param>
         /// <param name="room">Room to place the renderables in.</param>
         /// <returns>Whether the object could either be placed on the ground or stacked.</returns>
-        private bool TrySpawnOrStackRenderable(Renderable renderable, Vector3 initialSpawnPoint, List<Vector3> validSpawnPoints, float availableSurfaceArea, Room room)
+        private bool TrySpawnOrStackRenderable(
+            Renderable renderable, 
+            Vector3 initialSpawnPoint, 
+            List<Vector3> validSpawnPoints, 
+            float availableSurfaceArea, 
+            Room room)
         {
             // sort available spawn points by closest distance to initial spawn point
             validSpawnPoints = SortClosestSpawnPointsByDistance(initialSpawnPoint, validSpawnPoints);
@@ -151,7 +150,7 @@ namespace AwARe.ObjectGeneration
         /// Try to stack the object on one of the objStacks in the given renderable until successful or out of stacks.
         /// </summary>
         /// <param name="renderable">Renderable to place.</param>
-        /// <param name="polygonPoints">Polygon in which the renderable should be placed.</param>
+        /// <param name="room">Room to place the renderables in.</param>
         /// <returns>Whether the stacking was successful.</returns>
         private bool TryStack(
             Renderable renderable,
@@ -179,7 +178,8 @@ namespace AwARe.ObjectGeneration
                 float stackHeight = renderable.objStacks[smallestStackPos];
                 float newHeight = stackHeight + renderable.GetHalfExtents().y * 2 + 0.05f;
                 float maxHeight = 100.0f;
-                if (newHeight > maxHeight) //prevent placement if this stack will reach higher than 'x' meters with the additional current object on top
+                //prevent placement if this stack will reach higher than 'x' meters with the additional current object on top
+                if (newHeight > maxHeight) 
                 {
                     renderable.objStacks.Remove(smallestStackPos);
                     return false;
@@ -217,9 +217,12 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <param name="spawnPoints">All the allowed spawn points in the polygon.</param>
         /// <param name="renderables">All of the renderables that need to be spawned.</param>
-        /// <param name="polygonPoints">The points that describe the user-created polygon.</param>
+        /// <param name="room">Room to place the renderables in.</param>
         /// <returns>A dictionary of the initial cluster spawnpoint for each renderable (Renderable, InitialSpawnPoint).</returns>
-        private Dictionary<Renderable, Vector3> InitializeClusters(List<Vector3> spawnPoints, List<Renderable> renderables, Room room)
+        private Dictionary<Renderable, Vector3> InitializeClusters(
+            List<Vector3> spawnPoints, 
+            List<Renderable> renderables, 
+            Room room)
         {
             Dictionary<Renderable, Vector3> initialSpawns = new Dictionary<Renderable, Vector3>();
             foreach (var renderable in renderables)
@@ -252,7 +255,9 @@ namespace AwARe.ObjectGeneration
         /// <param name="validSpawnPoints">All the allowed spawnpoints in the polygon.</param>
         /// <param name="occupiedPoints">All of the already occupied spawn points.</param>
         /// <returns>The list of spawnpoints sorted by furthest distance from the occupied points.</returns>
-        private List<Vector3> SortFurthestSpawnPointsByDistance(List<Vector3> validSpawnPoints, List<Vector3> occupiedPoints)
+        private List<Vector3> SortFurthestSpawnPointsByDistance(
+            List<Vector3> validSpawnPoints, 
+            List<Vector3> occupiedPoints)
         {
             return validSpawnPoints.OrderByDescending(
                 point => occupiedPoints.Count > 0 ? 
@@ -266,7 +271,9 @@ namespace AwARe.ObjectGeneration
         /// <param name="initialSpawnPoint">The initial spawnpoint.</param>
         /// <param name="validSpawnPoints">All the allowed spawnpoints in the polygon.</param>
         /// <returns>The list of spawnpoints sorted by shortest distance from the initial spawnpoint.</returns>
-        private List<Vector3> SortClosestSpawnPointsByDistance(Vector3 initialSpawnPoint, List<Vector3> validSpawnPoints)
+        private List<Vector3> SortClosestSpawnPointsByDistance(
+            Vector3 initialSpawnPoint, 
+            List<Vector3> validSpawnPoints)
         {
             return validSpawnPoints.OrderBy(point => Vector3.Distance(initialSpawnPoint, point)).ToList();
         }

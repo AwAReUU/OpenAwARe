@@ -65,6 +65,31 @@ namespace AwARe.ObjectGeneration
         }
 
         /// <summary>
+        /// Check if the point lies inside the path.
+        /// </summary>
+        /// <param name="path">The path Mesh.</param>
+        /// <param name="point">The point to do the test on. </param>
+        /// <returns>Whether the point lies inside the path. </returns>
+        public static bool IsPointInsidePath(Mesh path, Vector3 point)
+        {
+            // Create Mesh Collider
+            var colliderObj = new GameObject("PathCollider");
+            var collider = colliderObj.AddComponent<MeshCollider>();
+            collider.sharedMesh = path;
+
+            // Cast ray on collider
+            bool hit = false;
+            if (Physics.Raycast(new Vector3(point.x, 10f, point.z), Vector3.down, out RaycastHit raycastHit))
+            {
+                hit = raycastHit.transform.name == "PathCollider";
+            }
+
+            GameObject.Destroy(colliderObj);
+
+            return hit;
+        }
+
+        /// <summary>
         /// Check if all four base <paramref name="corners"/> are inside of the polygon
         /// described by <paramref name="polygonPoints"/>.
         /// </summary>
