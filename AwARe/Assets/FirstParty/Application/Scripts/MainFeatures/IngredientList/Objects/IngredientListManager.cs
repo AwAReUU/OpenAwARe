@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AwARe.Database;
 using AwARe.Database.Logic;
 using AwARe.IngredientList.Logic;
+using AwARe.InterScenes.Objects;
 
 using UnityEngine;
 
@@ -12,10 +13,15 @@ namespace AwARe.IngredientList.Objects
     public class IngredientListManager : MonoBehaviour
     {
         public List<Logic.IngredientList> Lists { get; private set; }
+        
+        public int IndexList { get; private set; } = -1;
+        public Logic.IngredientList CheckedList { get; private set; } = null;
 
         public Logic.IngredientList SelectedList { get; private set; } = null;
 
         public Ingredient SelectedIngredient { get; private set; } = null;
+
+        public bool ChangesMade { get; private set; }
 
         // objects assigned within unity
         [SerializeField] private GameObject listsOverviewScreen;  // displays the list of ingredient Lists
@@ -34,6 +40,7 @@ namespace AwARe.IngredientList.Objects
             ingredientDatabase = new MockupIngredientDatabase();
             fileHandler = new IngredientFileHandler(ingredientDatabase);
             Lists = fileHandler.ReadFile();
+
             if(Lists.Count == 0)
             {
                 Dictionary<Ingredient, (float, QuantityType)> exampleRecipe = new()
@@ -45,6 +52,12 @@ namespace AwARe.IngredientList.Objects
 
                 Lists.Add(new Logic.IngredientList("Steak+", exampleRecipe));
                 fileHandler.SaveLists(Lists);
+            }
+
+            if (Lists.Count > 0)
+            {
+                IndexList = 0;
+                CheckedList = Lists[0];
             }
 
             listsOverviewScreen.SetActive(true);
@@ -67,6 +80,7 @@ namespace AwARe.IngredientList.Objects
 
         private void NotifyListChanged()
         {
+            ChangesMade = true;
             OnIngredientListChanged?.Invoke();
         }
 
@@ -74,17 +88,29 @@ namespace AwARe.IngredientList.Objects
         /// Closes the IngredientListScreen, calls the fileHandler to either save all lists or load the old lists, and opens the ListsOverviewScreen.
         /// </summary>
         /// <param name="save"> Whether or not to save the changes made to the currently selected IngredientList </param>
-        public void ChangeToListsOverviewScreen(bool save)
+        public void ChangeToListsOverviewScreen()
         {
             ingredientListScreen.SetActive(false);
-
-            if (save)
-                fileHandler.SaveLists(Lists);
-            else
-                Lists = fileHandler.ReadFile();
             SelectedList = null;
-
             listsOverviewScreen.SetActive(true);
+        }
+
+        /// <summary>
+        /// Save all lists.
+        /// </summary>
+        public void SaveLists()
+        {
+            fileHandler.SaveLists(Lists);
+            ChangesMade = false;
+        }
+
+        /// <summary>
+        /// Save all lists.
+        /// </summary>
+        public void LoadLists()
+        {
+            Lists = fileHandler.ReadFile();
+            ChangesMade = false;
         }
 
         /// <summary>
@@ -94,6 +120,13 @@ namespace AwARe.IngredientList.Objects
         {
             ingredientListScreen.SetActive(false);
             searchScreen.SetActive(true);
+        }
+
+        public void CheckList(int index, Logic.IngredientList list)
+        {
+            IndexList = index;
+            CheckedList = list;
+            Storage.Get().ActiveIngredientList = list;
         }
 
         /// <summary>
