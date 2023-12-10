@@ -127,7 +127,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             StartState startstate = new();
 
-            bool useTestPol = true;
+            bool useTestPol = false;
             //PathData path = startstate.GetStartState(Room.PositivePolygon, Room.NegativePolygons);
             
             List<Vector3> points = new()

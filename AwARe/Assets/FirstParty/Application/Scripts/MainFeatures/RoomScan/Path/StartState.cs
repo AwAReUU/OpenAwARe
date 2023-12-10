@@ -17,6 +17,7 @@ using Unity.Burst;
 using AwARe.Data.Logic;
 using UnityEngine;
 using System.Collections.Concurrent;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace AwARe.RoomScan.Path
@@ -82,7 +83,9 @@ namespace AwARe.RoomScan.Path
                 negativeGridLines.Add(negativeGridLinesPart);
             }
 
+            PrintTime("fillStart");
             FillGrid(ref grid, positiveGridLines, negativeGridLines);
+            PrintTime("fillEnd");
 
             PrintTime("erosionStart");
 
@@ -107,11 +110,14 @@ namespace AwARe.RoomScan.Path
             //at this point, grid contains the skeleton path as a thin line of booleans
             //now we need to convert this to a pathdata
 
+            int rows = grid.GetLength(0);
+            int cols = grid.GetLength(1);
+
             List<(int, int)> prePathDataPoints = new();
             List<((int, int), (int, int))> prePathDataEdges = new();
-            for (int i = 0; i < grid.GetLength(0); i++)
+            for (int i = 0; i < rows; i++)
             {
-                for (int j = 0; j < grid.GetLength(1); j++)
+                for (int j = 0; j < cols; j++)
                 {
                     bool gridpoint = grid[i, j];
                     if (gridpoint)
@@ -122,25 +128,25 @@ namespace AwARe.RoomScan.Path
                         //we compute in this pattern to prevent adding duplicate edges
 
                         //look right
-                        if (!(i + 1 > grid.GetLength(0) - 1))
+                        if (!(i + 1 > rows - 1))
                         {
                             if (grid[i + 1, j]) prePathDataEdges.Add(((i, j), (i + 1, j)));
                         }
 
                         //look bottom-left
-                        if (!(i - 1 < 0 || i - 1 > grid.GetLength(0) - 1 || j + 1 > grid.GetLength(1) - 1))
+                        if (!(i - 1 < 0 || i - 1 > rows - 1 || j + 1 > cols - 1))
                         {
                             if (grid[i - 1, j + 1]) prePathDataEdges.Add(((i, j), (i - 1, j + 1)));
                         }
 
                         //look bottom-middle
-                        if (!(j + 1 > grid.GetLength(1) - 1))
+                        if (!(j + 1 > cols - 1))
                         {
                             if (grid[i, j + 1]) prePathDataEdges.Add(((i, j), (i, j + 1)));
                         }
 
                         //look bottom-right
-                        if (!(i + 1 > grid.GetLength(0) - 1 || j + 1 > grid.GetLength(1) - 1))
+                        if (!(i + 1 > rows - 1 || j + 1 > cols - 1))
                         {
                             if (grid[i + 1, j + 1]) prePathDataEdges.Add(((i, j), (i + 1, j + 1)));
                         }
@@ -153,7 +159,7 @@ namespace AwARe.RoomScan.Path
             List<Vector3> pathDataPoints = new();
             List<(Vector3, Vector3)> pathDataEdges = new();
 
-            for (int i = 0; i < prePathDataPoints.Count; i++) { pathDataPoints.Add(ToPolygonSpace(prePathDataPoints[i])); }
+            foreach ((int, int) point in prePathDataPoints) { pathDataPoints.Add(ToPolygonSpace(point)); }
 
             for (int i = 0; i < prePathDataEdges.Count; i++)
             {
@@ -619,81 +625,11 @@ namespace AwARe.RoomScan.Path
             {
                 for (int j = 0; j < a.GetLength(1); j++)
                 {
-                    if (!(a[i,j] == b[i,j]))
+                    if (a[i,j] != b[i,j])
                         return false;
                 }
             }
             return true;
-        }
-
-        /// <summary>
-        /// check wether a given position on the grid is a hit or a miss for the thinning operation
-        /// uses the 'L Golay' structuring elements to check this.
-        /// </summary>
-        /// <param name="grid">the grid to check in</param>
-        /// <param name="x">the x position of the point in the grid to check</param>
-        /// <param name="y">the y position of the point in the grid to check</param>
-        /// <returns></returns>
-        public bool CheckHitorMiss(bool[,] grid, int x, int y, int elementNumber)
-        {
-            //front- and backGolayElements should have the same number of entries. if not, something went very wrong somehow
-
-            //3x3 elements
-            bool[,] frontElement = frontGolayElements[elementNumber];
-            bool[,] backElement = backGolayElements[elementNumber];
-
-            int offset = frontElement.GetLength(0) / 2;
-
-            bool hit = true;
-            for (int a = 0; a < frontElement.GetLength(0); a++)
-            {
-                if (!hit) break;
-
-                for (int b = 0; b < frontElement.GetLength(1); b++)
-                {
-                    //if frontelement is true, the grid element at this position must also be true for it to be a hit
-                    //if frontelement is false the grid element at this position may be true or false
-                    //if backelement is true, the grid element at this position must be false for it to be a hit
-                    //if backelement is false the grid element at this position may be true or false
-
-                    //the position falls outside of the grid and is treated as if the grid there is false
-                    if (x - offset + a < 0 || x - offset + a > grid.GetLength(0) - 1 ||
-                        y - offset + b < 0 || y - offset + b > grid.GetLength(1) - 1)
-                    {
-                        //the frontelement check
-                        if (frontElement[a, b])
-                        {
-                            hit = false;
-                            break;
-                        }
-
-                        //since this place falls outside of the grid and is considered false, it always falls in the background element
-                        //thus we do not need to perform the background element check, since it will always succeed
-                    }
-                    else
-                    {
-                        bool posValue = grid[x - offset + a, y - offset + b];
-
-                        //the front element check
-                        if (frontElement[a, b] && !posValue)
-                        {
-                            hit = false;
-                            break;
-                        }
-
-                        //the back element check
-                        if (backElement[a, b] && posValue)
-                        {
-                            hit = false;
-                            break;
-                        }
-                    }
-
-                }
-            }
-
-            if (hit) return true;
-            else return false;
         }
 
         /// <summary>

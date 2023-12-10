@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
+using UnityEngine.Windows;
+
 
 namespace AwARe.RoomScan.Path
 {
@@ -178,6 +180,61 @@ namespace AwARe.RoomScan.Path
             }
 
             return hit;
+        }
+    }
+
+    public struct ErosionScanJob : IJobParallelFor
+    {
+        [ReadOnly] public NativeArray<bool> input;
+        [ReadOnly] public int elemSize;
+        [ReadOnly] public int rows;
+        [ReadOnly] public int columns;
+        [ReadOnly] public int elemDiv;
+
+        //[WriteOnly] public NativeArray<bool> nativeResultGrid;
+        [WriteOnly] public NativeArray<bool> result;
+
+        public void Execute(int index)
+        {
+            Func<(int, int), bool> inputFunction = GetInputFunction(input, rows, columns);
+
+            // Perform function on cell
+            result[index] = All(index, inputFunction);
+        }
+
+        /// <summary>
+        /// Checks whether all elements in the input are true.
+        /// </summary>
+        /// <param name="input">A 2D boolean array.</param>
+        /// <returns>Whether all elements in the input array are true.</returns>
+        private bool All(int index, Func<(int, int), bool> inputFunction)
+        {
+            int x = index / columns;
+            int y = index % columns;
+
+            // If one element is false, return false, otherwise return true.
+            for (int i = 0, x_2 = x - elemDiv; i < elemSize; i++, x_2++)
+                for (int j = 0, y_2 = y - elemDiv; j < elemSize; j++, y_2++)
+                {
+                    if(!inputFunction((x_2, y_2)))
+                        return false;
+                }
+            return true;
+        }
+
+        /// <summary>
+        /// Uses an array to create a function for determining the value of a bit in the bitmap.
+        /// </summary>
+        /// <param name="input">The array.</param>
+        /// <returns>A function that will return false if the values are outside the boundary, or returns the value otherwise.</returns>
+        private Func<(int, int), bool> GetInputFunction(NativeArray<bool> input, int rows, int columns)
+        {
+            return ((int, int) xy) =>
+            {
+                (int x, int y) = xy;
+                bool inBounds = (x >= 0) && (x < rows) && (y >= 0) && (y < columns);
+                return inBounds && input[x * columns + y];
+            };
         }
     }
 }
