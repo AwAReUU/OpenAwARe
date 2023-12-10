@@ -6,6 +6,8 @@
 // \*                                                                                       */
 
 using AwARe.RoomScan.Path.Jobs;
+using System;
+using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
 
@@ -58,14 +60,15 @@ namespace AwARe.RoomScan.Path
 
             return output;
         }
+
         /// <summary>
         /// If 
         /// </summary>
         /// <returns></returns>
-        public bool[,] LargestShape(bool[,] input)
+        public bool[,] KeepLargestShape(bool[,] input)
         {
-            bool[,] neighbourhood = GetStructuringElement(3);
-            FloodFill(input, neighbourhood, out int[,] labeled, out int nro_shapes);
+            int neighbourRange = 3;
+            FloodFill(input, neighbourRange, out int[,] labeled, out int nro_shapes);
 
             int[] count = CountShapeSize(labeled, nro_shapes);
 
@@ -91,7 +94,7 @@ namespace AwARe.RoomScan.Path
             return output;
         }
 
-        protected int[] CountShapeSize(int[,] labeled, int nro_shapes)
+        private int[] CountShapeSize(int[,] labeled, int nro_shapes)
         {
             int[] count = new int[nro_shapes];
 
@@ -108,31 +111,32 @@ namespace AwARe.RoomScan.Path
             return count;
         }
 
-        public void FloodFill(bool[,] input, bool[,] neighbourhood, out int[,] output, out int nro_shapes)
+        private void FloodFill(bool[,] input, int neighbourRange, out int[,] output, out int nro_shapes)
         {
             nro_shapes = 0;
-            int l_x = input.GetLength(0), l_y = input.GetLength(1);
+
+            int rows = input.GetLength(0);
+            int columns = input.GetLength(1);
 
             // Assign all non-shape pixels 0 and all shape pixels -1 (to assign later)
-            output = new int[l_x, l_y];
-            for (int i = 0; i < l_x; i++)
+            output = new int[rows, columns];
+            for (int i = 0; i < rows; i++)
             {
-                for (int j = 0; j < l_y; j++)
+                for (int j = 0; j < columns; j++)
                 {
                     output[i, j] = input[i, j] ? -1 : 0;
                 }
             }
 
             // Treat out of bound as non-shape pixels
-            // var outputFunction = GetInputFunction(output);
             var outputFunction = GetInputIntFunction(output);
 
-            // Iterate over all cells
-            int hs_x = neighbourhood.GetLength(0), hs_y = neighbourhood.GetLength(1);
-            int hs_x_2 = hs_x / 2, hs_y_2 = hs_y / 2;
+            int halfNeighbourRange = neighbourRange / 2;
             Stack<(int, int)> stack = new Stack<(int, int)>();
-            for (int x = 0; x < l_x; x++)
-                for (int y = 0; y < l_y; y++)
+
+            // Iterate over all cells
+            for (int x = 0; x < rows; x++)
+                for (int y = 0; y < columns; y++)
                 {
                     // Check if there is an unfilled shape
                     if (outputFunction((x, y)) != -1)
@@ -151,9 +155,9 @@ namespace AwARe.RoomScan.Path
                         (int p_x, int p_y) = point;
 
                         // Check all neighbours for unassigned shape pixels
-                        for (int i = 0, s_x = p_x - hs_x_2; i < hs_x; i++, s_x++)
-                            for (int j = 0, s_y = p_y - hs_y_2; j < hs_y; j++, s_y++)
-                                if (neighbourhood[i, j] && outputFunction((s_x, s_y)) == -1)
+                        for (int i = 0, s_x = p_x - halfNeighbourRange; i < neighbourRange; i++, s_x++)
+                            for (int j = 0, s_y = p_y - halfNeighbourRange; j < neighbourRange; j++, s_y++)
+                                if (outputFunction((s_x, s_y)) == -1)
                                 {
                                     // label this pixel and push it on stack to continue flooding later
                                     output[s_x, s_y] = label;
@@ -163,7 +167,7 @@ namespace AwARe.RoomScan.Path
                 }
         }
 
-        public Func<(int, int), int> GetInputIntFunction(int[,] input)
+        private Func<(int, int), int> GetInputIntFunction(int[,] input)
         {
             int l_x = input.GetLength(0), l_y = input.GetLength(1);
             return ((int, int) xy) =>

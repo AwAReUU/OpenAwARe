@@ -58,6 +58,10 @@ namespace AwARe.RoomScan.Path
             grid = erosionHandler.Erode(grid, 30);
             PrintTime("erosionEnd");
 
+            PrintTime("largestShapeStart");
+            grid = erosionHandler.KeepLargestShape(grid);
+            PrintTime("largestShapeEnd");
+
             //do the thinning until only a skeleton remains
             PrintTime("thinningStart");
             ThinningHandler thinningHandler = new();
@@ -65,6 +69,7 @@ namespace AwARe.RoomScan.Path
             while (thinning) { grid = thinningHandler.ThinnedGrid(grid, out thinning); }
             PrintTime("thinningEnd");
 
+            PrintTime("filterStart");
             PostFilteringHandler postFilteringHandler = new();
             postFilteringHandler.PostFiltering(ref grid, 50);
             PrintTime("filterEnd");

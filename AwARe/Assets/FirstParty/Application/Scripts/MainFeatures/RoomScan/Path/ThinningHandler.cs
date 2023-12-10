@@ -17,7 +17,7 @@ namespace AwARe.RoomScan.Path
     /// <summary>
     /// Handles everything regarding thinning of the bitmap representing the room.
     /// </summary>
-    public class ThinningHandler : MonoBehaviour
+    public class ThinningHandler
     {
         readonly List<bool[,]> frontGolayElements = new();
         readonly List<bool[,]> backGolayElements = new();
