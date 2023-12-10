@@ -490,6 +490,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6410367022116038371}
     m_Modifications:
+    - target: {fileID: 828788397996420797, guid: 71f2957f66f8aea43bcdd536f68e3f12,
+        type: 3}
+      propertyPath: m_text
+      value: Ingredient Name
+      objectReference: {fileID: 0}
+    - target: {fileID: 828788397996420797, guid: 71f2957f66f8aea43bcdd536f68e3f12,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 828788397996420797, guid: 71f2957f66f8aea43bcdd536f68e3f12,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3279973949097933473, guid: 71f2957f66f8aea43bcdd536f68e3f12,
         type: 3}
       propertyPath: m_Pivot.x
@@ -589,6 +604,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842449929461922961, guid: 71f2957f66f8aea43bcdd536f68e3f12,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 430
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074487369282404107, guid: 71f2957f66f8aea43bcdd536f68e3f12,
+        type: 3}
+      propertyPath: m_text
+      value: g
       objectReference: {fileID: 0}
     - target: {fileID: 6198029867288483474, guid: 71f2957f66f8aea43bcdd536f68e3f12,
         type: 3}

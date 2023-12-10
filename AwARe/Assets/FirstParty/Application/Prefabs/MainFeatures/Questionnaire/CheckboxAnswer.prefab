@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 9112711928132652112}
   - component: {fileID: 7244758055109380159}
   m_Layer: 5
-  m_Name: CheckboxTemplate
+  m_Name: CheckboxAnswer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,9 +247,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 720, y: -721.65}
+  m_AnchoredPosition: {x: 169.64, y: -686.65}
   m_SizeDelta: {x: 915.5, y: 70}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &8640946958140664856
 MonoBehaviour:
   m_ObjectHideFlags: 0
