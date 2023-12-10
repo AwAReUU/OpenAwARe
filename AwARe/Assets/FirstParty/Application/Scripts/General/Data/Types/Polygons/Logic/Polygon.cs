@@ -16,7 +16,6 @@ namespace AwARe.Data.Logic
     /// </summary>
     public class Polygon
     {
-        /// <value>The points that form the 'corners' of the polygon.</value>
         public List<Vector3> Points {  get; protected set; }
 
         /// <summary>
@@ -71,5 +70,15 @@ namespace AwARe.Data.Logic
         /// </summary>
         /// <returns>True if the polygon has no points, false otherwise.</returns>
         public bool IsEmptyPolygon() => Points.Count == 0;
+
+        public string ToJson()
+        {
+            return JsonUtility.ToJson(this);
+        }
+
+        public static Polygon FromJson(string json)
+        {
+            return JsonUtility.FromJson<Polygon>(json);
+        }
     }
 }

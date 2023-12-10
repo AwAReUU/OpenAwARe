@@ -188,6 +188,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EditButton
       objectReference: {fileID: 0}
+    - target: {fileID: 8980748246101415105, guid: 152030122762b4c41942881d143c2e11,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

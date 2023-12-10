@@ -5,6 +5,7 @@ using Ingredients = AwARe.IngredientList.Logic;
 using AwARe.Logic;
 
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace AwARe.InterScenes.Objects
 {
@@ -18,6 +19,21 @@ namespace AwARe.InterScenes.Objects
         {
             get => data ??= new();
             set => data = value;
+        }
+        
+        // Save and load anchor ID
+        public string SavedAnchorId
+        {
+            get => Data.SavedAnchorId;
+            set => Data.SavedAnchorId = value;
+        }
+
+        // Save and load polygon as JSON
+        // Save and load polygon JSON
+        public Dictionary<string, string> SavedPolygons
+        {
+            get => Data.SavedPolygons ??= new Dictionary<string, string>();
+            set => Data.SavedPolygons = value;
         }
 
         private void Awake()

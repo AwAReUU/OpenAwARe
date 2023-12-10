@@ -164,5 +164,12 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             line.startColor = line.endColor = color;
         }
+        public void MovePolygon(Vector3 newPosition)
+        {
+            // Move the polygon to the specified position
+            line.transform.position = newPosition;
+            closeLine.transform.position = newPosition;
+            tempLine.transform.position = newPosition;
+        }
     }
 }

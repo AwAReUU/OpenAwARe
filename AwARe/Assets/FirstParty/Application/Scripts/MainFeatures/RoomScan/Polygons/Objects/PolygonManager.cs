@@ -16,6 +16,8 @@ using AwARe.RoomScan.Polygons.Logic;
 using UnityEngine;
 
 using Storage = AwARe.InterScenes.Objects.Storage;
+using UnityEngine.XR.ARFoundation;
+
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
@@ -24,11 +26,13 @@ namespace AwARe.RoomScan.Polygons.Objects
     /// </summary>
     public class PolygonManager : MonoBehaviour
     {
+        [SerializeField] private ARAnchorManager anchorManager;
         [SerializeField] private PolygonDrawer polygonDrawer;
         [SerializeField] private PolygonMesh polygonMesh;
         [SerializeField] private PolygonScan scanner;
 
         [SerializeField] private GameObject createBtn;
+        [SerializeField] private GameObject loadBtn;
         [SerializeField] private GameObject resetBtn;
         [SerializeField] private GameObject applyBtn;
         [SerializeField] private GameObject confirmBtn;
@@ -60,7 +64,7 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             UIObjects = new()
             {
-                createBtn, resetBtn, confirmBtn, slider, applyBtn, endBtn,
+                createBtn,loadBtn, resetBtn, confirmBtn, slider, applyBtn, endBtn,
                 pointerObj, scanner.gameObject, polygonMesh.gameObject   // TODO TEMP   , pathVisualiser
             };
 
@@ -83,6 +87,8 @@ namespace AwARe.RoomScan.Polygons.Objects
         public void OnCreateButtonClick() =>
             StartScanning();
 
+        public void OnLoadButtonClick() =>
+              LoadAnchor(Storage.Get().SavedAnchorId);
 
         /// <summary>
         /// Called on reset button click; Clears the room and starts a new polygon scan.
@@ -105,6 +111,10 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             polygonDrawer.DrawPolygon(CurrentPolygon, !Room.PositivePolygon.IsEmptyPolygon());
             Room.AddPolygon(CurrentPolygon);
+
+            // Save the anchor for the current polygon
+            SaveAnchor(CurrentPolygon);
+
             GenerateAndDrawPath();
         }
 
@@ -125,6 +135,105 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             // TODO: set room height
             SwitchToState(State.Saving);
+        }
+
+        private void SaveAnchor(Polygon polygon)
+        {
+            if (polygon == null)
+            {
+                // Log an error or handle the case where the polygon is null
+                Debug.LogError("Cannot save anchor for a null polygon.");
+                return;
+            }
+
+            Vector3 anchorPosition = polygon.GetFirstPoint();
+
+            Quaternion anchorRotation = Quaternion.identity;
+
+            // Create Pose using position and rotation
+            Pose anchorPose = new Pose(anchorPosition, anchorRotation);
+
+            // Ensure anchorManager is not null
+            if (anchorManager == null)
+            {
+                Debug.LogError("ARAnchorManager is null. Make sure it is assigned in the inspector.");
+                return;
+            }
+
+            // Create and attach ARAnchor to the ARAnchorManager
+            ARAnchor anchor = anchorManager.AddAnchor(anchorPose);
+
+            // Check if the anchor is null (AddAnchor can fail)
+            if (anchor == null)
+            {
+                // Log an error or handle the case where the anchor creation fails
+                Debug.LogError("Failed to create anchor.");
+                return;
+            }
+
+            // Ensure Storage.Get() and SavedPolygons are not null
+            var storage = Storage.Get();
+            if (storage == null || storage.SavedPolygons == null)
+            {
+                Debug.LogError("Storage or SavedPolygons is null. Make sure it is properly initialized.");
+                return;
+            }
+
+            // Get the unique identifier of the anchor
+            string anchorId = anchor.trackableId.ToString();
+
+            // Save the anchor's unique identifier for later retrieval
+            storage.SavedAnchorId = anchorId;
+
+            // Serialize the polygon to JSON
+            string polygonJson = polygon.ToJson();
+
+            // Save the anchor ID and corresponding polygon JSON to the dictionary
+            storage.SavedPolygons[anchorId] = polygonJson;
+
+        }
+
+        // Function to load the anchor and reposition the polygon
+        private void LoadAnchor(string anchorId)
+        {
+
+            if (!string.IsNullOrEmpty(anchorId))
+            {
+                ARAnchor anchor = null;
+
+                // Iterate over the trackables to find the anchor by trackableId
+                foreach (var trackable in anchorManager.trackables)
+                {
+                    if (trackable.trackableId.ToString() == anchorId)
+                    {
+                        anchor = (ARAnchor)trackable;
+                        break;
+                    }
+                }
+
+                if (anchor != null)
+                {
+                    // Move the polygon to the saved anchor position
+                    Vector3 savedPosition = anchor.transform.position;
+                    polygonDrawer.MovePolygon(savedPosition);
+
+                    // Retrieve the saved polygon JSON from the dictionary
+                    if (Storage.Get().SavedPolygons.TryGetValue(anchorId, out string polygonJson))
+                    {
+                        // Deserialize the polygon and update the current polygon
+                        Polygon savedPolygon = Polygon.FromJson(polygonJson);
+                        CurrentPolygon = savedPolygon;
+                    }
+                    else
+                    {
+                        // Handle case where saved polygon data is not found
+                    }
+                }
+                else
+                {
+                    // Handle case where anchor could not be resolved (perhaps it was removed or not created)
+                }
+            }
         }
 
         /// <summary>
@@ -171,6 +280,7 @@ namespace AwARe.RoomScan.Polygons.Objects
             {
                 case State.Default:
                     objects.Add(createBtn);
+                    objects.Add(loadBtn);
                     break;
                 case State.Scanning:
                     objects.Add(applyBtn);
