@@ -61,10 +61,6 @@ namespace AwARe.RoomScan.Path
             return output;
         }
 
-        /// <summary>
-        /// If 
-        /// </summary>
-        /// <returns></returns>
         public bool[,] KeepLargestShape(bool[,] input)
         {
             int neighbourRange = 3;

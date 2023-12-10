@@ -40,14 +40,7 @@ namespace AwARe.RoomScan.Path
             NativeArray<((int x, int y) p1, (int x, int y) p2)> polygonLines =
                 new(positiveLines.Count, Allocator.TempJob);
 
-
-            NativeArray<bool> result = new(gridSize, Allocator.Temp);
-
             for (int i = 0; i < positiveLines.Count; i++) { polygonLines[i] = positiveLines[i]; }
-
-
-            for (int i = 0; i < result.Length; i++)
-                result[i] = false;
 
             CheckInPolygonJob positivePolygonCheckJob = new()
             {
