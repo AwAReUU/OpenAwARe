@@ -125,10 +125,9 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         public void GenerateAndDrawPath()
         {
-            StartState startstate = new();
+            PathGenerator startstate = new();
 
-            bool useTestPol = false;
-            //PathData path = startstate.GetStartState(Room.PositivePolygon, Room.NegativePolygons);
+            bool useTestPol = true;
             
             List<Vector3> points = new()
             {
@@ -143,12 +142,12 @@ namespace AwARe.RoomScan.Polygons.Objects
             PathData path;
             if (useTestPol)
             {
-                path = startstate.GetStartState(testPolygon, Room.NegativePolygons);
+                path = startstate.GeneratePath(testPolygon, Room.NegativePolygons);
                 polygonDrawer.DrawPolygon(testPolygon);
             }
             else
             { 
-                path = startstate.GetStartState(Room.PositivePolygon, Room.NegativePolygons);
+                path = startstate.GeneratePath(Room.PositivePolygon, Room.NegativePolygons);
             }
 
             VisualizePath visualizer = (VisualizePath)pathVisualizer.GetComponent("VisualizePath");

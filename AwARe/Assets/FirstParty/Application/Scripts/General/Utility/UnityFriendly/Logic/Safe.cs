@@ -8,9 +8,9 @@ namespace AwARe.Logic
     public static class Safe
     {
         /// <summary>
-        /// Implements a Unity safe version of x ??= y
+        /// Implements a Unity safe version of x ??= y.
         /// </summary>
-        /// <typeparam name="T">Any Type</typeparam>
+        /// <typeparam name="T">Any Type.</typeparam>
         /// <param name="field">Reference to x. </param>
         /// <param name="remedy">Get-function to obtain y. </param>
         /// <returns></returns>
