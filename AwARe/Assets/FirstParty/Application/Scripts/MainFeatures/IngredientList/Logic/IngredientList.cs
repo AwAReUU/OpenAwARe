@@ -56,6 +56,20 @@ namespace AwARe.IngredientList.Logic
         {
             Ingredients[ingredient] = (quantity, type);
         }
+
+        public class Entree
+        {
+            public Ingredient ingredient;
+            public float quantity;
+            public QuantityType type;
+
+            public Entree(Ingredient ingredient, float quantity, QuantityType type)
+            {
+                this.ingredient = ingredient;
+                this.quantity = quantity;
+                this.type = type;
+            }
+        }
     }
 
     public class Ingredient : IEquatable<Ingredient>
@@ -75,18 +89,24 @@ namespace AwARe.IngredientList.Logic
             this.GramsPerML = gramsPerML;
             this.GramsPerPiece = gramsPerPiece;
         }
+        
+        // whether ML is a valid quantity type for this ingredient
+        public bool QuantityPossible(QuantityType type) =>
+            type switch
+            {
+                QuantityType.G   => true,
+                QuantityType.ML  => GramsPerML != null,
+                QuantityType.PCS => GramsPerPiece != null,
+                _                => false
+            };
 
         // whether ML is a valid quantity type for this ingredient
-        public bool MLQuantityPossible()
-        {
-            return !(GramsPerML == null);
-        }
+        public bool MLQuantityPossible() =>
+            QuantityPossible(QuantityType.ML);
 
         // whether pieces is a valid quantity type for this ingredient
-        public bool PieceQuantityPossible()
-        {
-            return !(GramsPerPiece == null);
-        }
+        public bool PieceQuantityPossible() =>
+            QuantityPossible(QuantityType.PCS);
 
         // Converts the given quantity to the number of grams of this ingredient, given the quantity type
         public float GetNumberOfGrams(float quantity, QuantityType fromType)

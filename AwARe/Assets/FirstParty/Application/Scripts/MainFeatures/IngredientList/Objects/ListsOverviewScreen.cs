@@ -23,7 +23,7 @@ namespace AwARe.IngredientList.Objects
         [SerializeField] private GameObject listItemObject; //list item 'prefab'
 
         // the objects drawn on screen to display the Lists
-        List<ListItem> listItems = new();
+        List<ListItem> lists = new();
 
         private void OnEnable()
         {
@@ -32,7 +32,7 @@ namespace AwARe.IngredientList.Objects
 
         private void OnDisable()
         {
-            RemoveListObjects();
+            RemoveLists();
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace AwARe.IngredientList.Objects
         /// </summary>
         public void DisplayLists()
         {
-            RemoveListObjects();
+            RemoveLists();
 
             foreach (Logic.IngredientList ingredientList in manager.Lists)
             {
@@ -50,24 +50,24 @@ namespace AwARe.IngredientList.Objects
 
                 // Set the ingredients of the item and keep track of it.
                 ListItem item = itemObject.GetComponent<ListItem>();
-                item.SetList(listItems.Count, ingredientList);
-                listItems.Add(item);
+                item.SetItem(lists.Count, ingredientList);
+                lists.Add(item);
             }
 
             int checkIndex = manager.IndexList;
-            if(checkIndex >= 0 && checkIndex < listItems.Count)
-                listItems[checkIndex].Check(true);
+            if(checkIndex >= 0 && checkIndex < lists.Count)
+                lists[checkIndex].Check(true);
 
         }
 
         /// <summary>
         /// Destroys all currently displayed GameObjects in the ScrollView.
         /// </summary>
-        private void RemoveListObjects()
+        private void RemoveLists()
         {
-            foreach (ListItem o in listItems)
+            foreach (ListItem o in lists)
                 Destroy(o.gameObject);
-            listItems = new();
+            lists.Clear();
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace AwARe.IngredientList.Objects
         /// Calls an instance of manager to close this screen and open the IngredientListScreen of the given ingredient list.
         /// </summary>
         /// <param name="list"> The ingredient list that was selected </param>
-        public void OnListButtonClick(Logic.IngredientList list)
+        public void OnItemClick(Logic.IngredientList list)
         {
             manager.ChangeToIngredientListScreen(list, this.gameObject);
         }
@@ -107,8 +107,8 @@ namespace AwARe.IngredientList.Objects
                 return;
 
             // Switch active buttons
-            listItems[previousIndex].Check(false);
-            listItems[index].Check(true);
+            lists[previousIndex].Check(false);
+            lists[index].Check(true);
 
             // Change active list
             manager.CheckList(index, list);

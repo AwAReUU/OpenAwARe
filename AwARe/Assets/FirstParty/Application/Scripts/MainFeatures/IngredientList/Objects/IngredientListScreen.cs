@@ -15,8 +15,7 @@ namespace AwARe.IngredientList.Objects
         [FormerlySerializedAs("ingredientListManager")][SerializeField] private IngredientListManager manager;
 
         // the objects drawn on screen to display the list
-        List<GameObject> ingredientObjects = new();
-
+        List<GameObject> ingredients = new();
 
         // (assigned within unity)
         [SerializeField] private GameObject deleteListPopup;
@@ -27,13 +26,14 @@ namespace AwARe.IngredientList.Objects
 
         private void OnEnable()
         {
+            deleteListPopup.SetActive(false);
             unsavedChangesPopup.SetActive(false);
-            DisplayList();
+            DisplayIngredients();
         }
 
         private void OnDisable()
         {
-            RemoveIngredientObjects();
+            RemoveIngredients();
         }
 
         /// <summary>
@@ -49,9 +49,9 @@ namespace AwARe.IngredientList.Objects
         /// Creates GameObjects with an "edit" and "delete" button for all the ingredients in this is List and adds them to the ScrollView 
         /// and adds an "Add Ingredient" button to the end of the ScrollView.
         /// </summary>
-        private void DisplayList()
+        private void DisplayIngredients()
         {
-            RemoveIngredientObjects();
+            RemoveIngredients();
 
             // display list name
             listTitle.text = manager.SelectedList.ListName;
@@ -63,30 +63,30 @@ namespace AwARe.IngredientList.Objects
                 GameObject itemObject = Instantiate(listItemTemplate, listItemTemplate.transform.parent);
                 itemObject.SetActive(true);
                 var item = itemObject.GetComponent<IngredientListItem>();
-                item.SetIngredient(ingredient, quantity, quantityType);
-                ingredientObjects.Add(itemObject);
+                item.SetItem(new(ingredient, quantity, quantityType));
+                ingredients.Add(itemObject);
             }
 
             addButton.transform.SetAsLastSibling();
         }
 
         /// <summary>
-        /// Destroys all objects in the scrollview and empties ingredientObjects.
+        /// Destroys all objects in the scrollview and empties ingredients.
         /// </summary>
-        private void RemoveIngredientObjects()
+        private void RemoveIngredients()
         {
-            foreach (GameObject o in ingredientObjects)
+            foreach (GameObject o in ingredients)
                 Destroy(o);
-            ingredientObjects = new();
+            ingredients.Clear();
         }
 
         /// <summary>
         /// Calls an instance of IngredientListManager to change to the IngredientScreen of the ingredient that was selected.
         /// </summary>
         /// <param name="ingredient"> The ingredient of which the button is clicked </param>
-        public void OnIngredientButtonClick(Ingredient ingredient)
+        public void OnItemClick(Logic.IngredientList.Entree entree)
         {
-            manager.ChangeToIngredientScreen(ingredient, this.gameObject);
+            manager.ChangeToIngredientScreen(entree, false, this.gameObject);
         }
         
         /// <summary>
@@ -105,7 +105,7 @@ namespace AwARe.IngredientList.Objects
         public void OnDeleteItemButtonClick(Ingredient ingredient)
         {
             manager.DeleteIngredient(ingredient);
-            DisplayList();
+            DisplayIngredients();
         }
 
         public void DeleteList()
@@ -150,7 +150,7 @@ namespace AwARe.IngredientList.Objects
         /// </summary>
         public void Leave()
         {
-            RemoveIngredientObjects();
+            RemoveIngredients();
             manager.ChangeToListsOverviewScreen();
         }
 

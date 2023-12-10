@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using static AwARe.IngredientList.Logic.IngredientList;
 
 namespace AwARe.IngredientList.Objects
 {
@@ -14,9 +15,7 @@ namespace AwARe.IngredientList.Objects
     {
         [SerializeField] private IngredientListScreen screen;
 
-        private Ingredient ingredient;
-        private float quantity;
-        private QuantityType type;
+        private Entree entree;
 
         // (assigned within unity)
         [SerializeField] private TextMeshProUGUI ingredientLabel;
@@ -26,11 +25,9 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Changes the name of the list to the name that is put into the inputfield in unity
         /// </summary>
-        public void SetIngredient(Ingredient ingredient, float quantity, QuantityType type)
+        public void SetItem(Entree entree)
         {
-            this.ingredient = ingredient;
-            this.quantity = quantity;
-            this.type = type;
+            this.entree = entree;
             DisplayItem();
         }
         
@@ -41,24 +38,24 @@ namespace AwARe.IngredientList.Objects
         private void DisplayItem()
         {
             // change the text to match the ingredient info
-            gameObject.name =  ingredient.Name;
-            ingredientLabel.text = ingredient.Name;
-            quantityLabel.text = quantity.ToString();
-            quantityTypeLabel.text = type.ToString();
+            gameObject.name =  entree.ingredient.Name;
+            ingredientLabel.text = entree.ingredient.Name;
+            quantityLabel.text = entree.quantity.ToString();
+            quantityTypeLabel.text = entree.type.ToString();
         }
 
         /// <summary>
         /// Calls an instance of IngredientListManager to delete the given ingredient from the ingredient list, then displays the updated list.
         /// </summary>
         /// <param name="ingredient"> The Ingredient that will be deleted from the list </param>
-        public void OnIngredientButtonClick() =>
-            screen.OnIngredientButtonClick(ingredient);
+        public void OnItemClick() =>
+            screen.OnItemClick(entree);
 
         /// <summary>
         /// Calls an instance of IngredientListManager to delete the given ingredient from the ingredient list, then displays the updated list.
         /// </summary>
         /// <param name="ingredient"> The Ingredient that will be deleted from the list </param>
         public void OnDeleteButtonClick() =>
-            screen.OnDeleteItemButtonClick(ingredient);
+            screen.OnDeleteItemButtonClick(entree.ingredient);
     }
 }

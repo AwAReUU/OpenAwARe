@@ -34,7 +34,7 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// TODO
         /// </summary>
-        public void SetList(int index, Logic.IngredientList list)
+        public void SetItem(int index, Logic.IngredientList list)
         {
             this.index = index;
             this.list = list;
@@ -68,7 +68,7 @@ namespace AwARe.IngredientList.Objects
         public void OnCheckButtonClick() =>
             screen.OnCheckButtonClick(index, list);
 
-        public void OnListButtonClick() =>
-            screen.OnListButtonClick(list);
+        public void OnItemClick() =>
+            screen.OnItemClick(list);
     }
 }

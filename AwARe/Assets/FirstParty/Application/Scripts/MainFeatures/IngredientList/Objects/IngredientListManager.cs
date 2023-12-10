@@ -5,42 +5,46 @@ using AwARe.Database;
 using AwARe.Database.Logic;
 using AwARe.IngredientList.Logic;
 using AwARe.InterScenes.Objects;
-
 using UnityEngine;
+using UnityEngine.Windows;
+using static AwARe.IngredientList.Logic.IngredientList;
 
 namespace AwARe.IngredientList.Objects
 {
     public class IngredientListManager : MonoBehaviour
     {
-        public List<Logic.IngredientList> Lists { get; private set; }
-        
-        public int IndexList { get; private set; } = -1;
-        public Logic.IngredientList CheckedList { get; private set; } = null;
-
-        public Logic.IngredientList SelectedList { get; private set; } = null;
-
-        public Ingredient SelectedIngredient { get; private set; } = null;
-
-        public bool ChangesMade { get; private set; }
 
         // objects assigned within unity
         [SerializeField] private GameObject listsOverviewScreen;  // displays the list of ingredient Lists
         [SerializeField] private GameObject ingredientListScreen; // displays the list of ingredients
         [SerializeField] private GameObject searchScreen;         // for searching new ingredients to add to the list
         [SerializeField] private GameObject ingredientScreen;     // for altering the quantity(type) of an ingredient & displays information about the ingredient
-        
-        public event Action OnIngredientListChanged;
-
-        IIngredientDatabase ingredientDatabase;
 
         IngredientFileHandler fileHandler;
 
+        public List<Logic.IngredientList> Lists { get; private set; }
+
+        public int IndexList { get; private set; } = -1;
+        public Logic.IngredientList CheckedList { get; private set; } = null;
+
+        public Logic.IngredientList SelectedList { get; private set; } = null;
+
+        public Entree SelectedEntree { get; private set; } = new (null, 0, QuantityType.G);
+        public bool SelectedIsNew { get; private set; } = true;
+
+        public bool ChangesMade { get; private set; }
+
+        public List<Ingredient> SearchResults { get; private set; } = new();
+
+        public IIngredientDatabase IngredientDatabase { get; private set; }
+
         private void Awake()
         {
-            ingredientDatabase = new MockupIngredientDatabase();
-            fileHandler = new IngredientFileHandler(ingredientDatabase);
+            IngredientDatabase = new MockupIngredientDatabase();
+            fileHandler = new IngredientFileHandler(IngredientDatabase);
             Lists = fileHandler.ReadFile();
 
+            // Set AVG default list.
             if(Lists.Count == 0)
             {
                 Dictionary<Ingredient, (float, QuantityType)> exampleRecipe = new()
@@ -53,7 +57,8 @@ namespace AwARe.IngredientList.Objects
                 Lists.Add(new Logic.IngredientList("Steak+", exampleRecipe));
                 fileHandler.SaveLists(Lists);
             }
-
+            
+            // Set default checked list.
             if (Lists.Count > 0)
             {
                 IndexList = 0;
@@ -63,20 +68,7 @@ namespace AwARe.IngredientList.Objects
             listsOverviewScreen.SetActive(true);
         }
 
-        /// <summary>
-        /// Closes the previous screen, selects the given ingredient list and opens the IngredientListScreen.
-        /// </summary>
-        /// <param name="list"> The ingredientList of which the IngredientListScreen is opened </param>
-        /// <param name="fromScreen"> The screen from which the IngredientListScreen is opened </param>
-        public void ChangeToIngredientListScreen(Logic.IngredientList list, GameObject fromScreen)
-        {
-            fromScreen.SetActive(false);
-
-            SelectedIngredient = null;
-            SelectedList = list;
-
-            ingredientListScreen.SetActive(true);
-        }
+        public event Action OnIngredientListChanged;
 
         private void NotifyListChanged()
         {
@@ -93,6 +85,44 @@ namespace AwARe.IngredientList.Objects
             ingredientListScreen.SetActive(false);
             SelectedList = null;
             listsOverviewScreen.SetActive(true);
+        }
+
+        /// <summary>
+        /// Closes the previous screen, selects the given ingredient list and opens the IngredientListScreen.
+        /// </summary>
+        /// <param name="list"> The ingredientList of which the IngredientListScreen is opened </param>
+        /// <param name="fromScreen"> The screen from which the IngredientListScreen is opened </param>
+        public void ChangeToIngredientListScreen(Logic.IngredientList list, GameObject fromScreen)
+        {
+            fromScreen.SetActive(false);
+
+            SelectedEntree = null;
+            SelectedList = list;
+            ingredientListScreen.SetActive(true);
+        }
+
+        /// <summary>
+        /// Closes the IngredientListScreen and opens the SearchScreen.
+        /// </summary>
+        public void ChangeToSearchScreen()
+        {
+            ingredientListScreen.SetActive(false);
+            searchScreen.SetActive(true);
+        }
+
+        /// <summary>
+        /// Closes the previous screen, selects the given ingredient and opens its respective IngredientScreen.
+        /// </summary>
+        /// <param name="ingredient"> The ingredient of which the ingredient screen is opened </param>
+        /// <param name="fromScreen"> The screen from which the Ingredient Screen is opened </param>
+        public void ChangeToIngredientScreen(Entree entree, bool isNew, GameObject fromScreen)
+        {
+            fromScreen.SetActive(false);
+
+            SelectedEntree = entree;
+            SelectedIsNew = isNew;
+
+            ingredientScreen.SetActive(true);
         }
 
         /// <summary>
@@ -113,78 +143,11 @@ namespace AwARe.IngredientList.Objects
             ChangesMade = false;
         }
 
-        /// <summary>
-        /// Closes the IngredientListScreen and opens the SearchScreen.
-        /// </summary>
-        public void ChangeToSearchScreen()
-        {
-            ingredientListScreen.SetActive(false);
-            searchScreen.SetActive(true);
-        }
-
         public void CheckList(int index, Logic.IngredientList list)
         {
             IndexList = index;
             CheckedList = list;
             Storage.Get().ActiveIngredientList = list;
-        }
-
-        /// <summary>
-        /// Closes the previous screen, selects the given ingredient and opens its respective IngredientScreen.
-        /// </summary>
-        /// <param name="ingredient"> The ingredient of which the ingredient screen is opened </param>
-        /// <param name="fromScreen"> The screen from which the Ingredient Screen is opened </param>
-        public void ChangeToIngredientScreen(Ingredient ingredient, GameObject fromScreen)
-        {
-            fromScreen.SetActive(false);
-
-            SelectedIngredient = ingredient;
-
-            ingredientScreen.SetActive(true);
-        }
-
-        /// <summary>
-        /// Adds the given ingredient to the ingredient list.
-        /// </summary>
-        /// <param name="ingredient"> The ingredient that is to be added </param>
-        public void AddIngredient(Ingredient ingredient, float quantity)
-        {
-            
-            SelectedList.AddIngredient(ingredient, quantity);
-            NotifyListChanged();
-        }
-
-        /// <summary>
-        /// Removes the given ingredient from the ingredient list.
-        /// </summary>
-        /// <param name="ingredient"> The ingredient that is to be deleted </param>
-        public void DeleteIngredient(Ingredient ingredient)
-        {
-            
-            SelectedList.RemoveIngredient(ingredient);
-            NotifyListChanged();
-        }
-
-        /// <summary>
-        /// Changes the name of a list into it's newly give name
-        /// </summary>
-        /// <param name="name"> The name that is to be given to the list </param>
-        public void ChangeListName(string name)
-        {
-            SelectedList.ChangeName(name);
-            NotifyListChanged();
-        }
-
-        /// <summary>
-        /// Sets the quantity and type of the currently selected ingredient inside the IngredientList to the given quantity and type and saves the ingredient list.
-        /// </summary>
-        /// <param name="newQuantity"> new quantity of the ingredient </param>
-        /// <param name="newType"> New quantity type of the ingredient </param>
-        public void UpdateIngredient(float newQuantity, QuantityType newType)
-        {
-            
-            SelectedList.UpdateIngredient(SelectedIngredient, newQuantity, newType);
-            NotifyListChanged();
         }
 
         /// <summary>
@@ -209,20 +172,71 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Shows the popup
+        /// Adds the given ingredient to the ingredient list.
         /// </summary>
-        public void PopUpOn(GameObject popup)
+        /// <param name="ingredient"> The ingredient that is to be added </param>
+        public void AddIngredient(Ingredient ingredient, float quantity, QuantityType type)
         {
-            Debug.Log("PopUpOn() called");
-            popup.SetActive(true);
+            SelectedList.AddIngredient(ingredient, quantity, type);
+            NotifyListChanged();
+        }
 
-        }
         /// <summary>
-        /// removes the popup
+        /// Changes the name of a list into it's newly give name
         /// </summary>
-        public void PopUpOff(GameObject popup)
+        /// <param name="name"> The name that is to be given to the list </param>
+        public void ChangeListName(string name)
         {
-           popup.SetActive(false);
+            SelectedList.ChangeName(name);
+            NotifyListChanged();
         }
+
+        /// <summary>
+        /// Removes the given ingredient from the ingredient list.
+        /// </summary>
+        /// <param name="ingredient"> The ingredient that is to be deleted </param>
+        public void DeleteIngredient(Ingredient ingredient)
+        {
+            SelectedList.RemoveIngredient(ingredient);
+            NotifyListChanged();
+        }
+
+        /// <summary>
+        /// Sets the quantity and type of the currently selected ingredient inside the IngredientList to the given quantity and type and saves the ingredient list.
+        /// </summary>
+        /// <param name="newQuantity"> new quantity of the ingredient </param>
+        /// <param name="newType"> New quantity type of the ingredient </param>
+        public void UpdateIngredient(float newQuantity, QuantityType newType)
+        {
+            SelectedList.UpdateIngredient(SelectedEntree.ingredient, newQuantity, newType);
+            NotifyListChanged();
+        }
+
+        public void ConvertToQuantity(Ingredient ingredient, string quantityS, string typeS, out float quantity, out QuantityType type)
+        {
+            // try converting the quantity string to a Quantity
+            if (!float.TryParse(quantityS, out quantity))
+            {
+                throw new Exception("Cannot convert string to Quantity.");
+            }
+
+            // try converting the quantity type string to a QuantityType
+            if (!Enum.TryParse(typeS, out type))
+            {
+                throw new Exception("Cannot convert string to QuantityType.");
+            }
+
+            // check whether the quantity type is valid for this ingredient
+            if (!ingredient.QuantityPossible(type))
+            {
+                throw new Exception("Chosen QuantityType not available for this ingredient.");
+            }
+        }
+
+        /// <summary>
+        /// Finds all ingredients in the database that match with the text entered in the searchbar and displays the results.
+        /// </summary>
+        public List<Ingredient> SearchIngredient(string term) =>
+            SearchResults = IngredientDatabase.Search(term);
     }
 }
