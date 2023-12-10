@@ -375,6 +375,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Navi
       objectReference: {fileID: 0}
+    - target: {fileID: 1039970193019735141, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5209836605827169839, guid: 23b8a78ada484394780c76a671db8dfe,
         type: 3}
       propertyPath: m_Pivot.x
@@ -473,6 +478,11 @@ PrefabInstance:
     - target: {fileID: 5209836605827169839, guid: 23b8a78ada484394780c76a671db8dfe,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5855061226671799859, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8291613909701360760, guid: 23b8a78ada484394780c76a671db8dfe,
