@@ -14,7 +14,7 @@ namespace AwARe.Questionnaire.Objects
         private QuestionnaireData data;
 
         [SerializeField] private GameObject questionnairePrefab;
-        [SerializeField] private Transform canvas;
+        [SerializeField] private Transform subcanvas;
         [SerializeField] TextAsset jsonfile;
         private GameObject questionnaire;
 
@@ -41,7 +41,7 @@ namespace AwARe.Questionnaire.Objects
         //makes a questionnaire object and returns it
         private GameObject MakeQuestionnaire(QuestionnaireData data)
         {
-            var questionnaireObject = Instantiate(questionnairePrefab, canvas);
+            var questionnaireObject = Instantiate(questionnairePrefab, subcanvas);
             questionnaireObject.SetActive(true);
 
             var questionnaire = questionnaireObject.gameObject.GetComponent<Questionnaire>();
