@@ -80,7 +80,6 @@ namespace AwARe.IngredientList.Objects
                 // checkbutton is first grey
                 checkButton.GetComponent<Image>().color = Color.gray;
 
-
                 checkButtonsDictionary.Add(listItem, checkButton);
 
                 listButton.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text =

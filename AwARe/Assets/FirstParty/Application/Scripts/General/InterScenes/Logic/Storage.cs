@@ -12,7 +12,8 @@ namespace AwARe.InterScenes.Logic
         public Rooms.Room ActiveRoom { get; set; }
   
         public string SavedAnchorId { get; set; }
-        public Dictionary<string, string> SavedPolygons { get; set; }
+        public Dictionary<int, string> SavedPolygons { get; set; }
+        public string SavedPolygonKey { get; set; }
 
     }
 

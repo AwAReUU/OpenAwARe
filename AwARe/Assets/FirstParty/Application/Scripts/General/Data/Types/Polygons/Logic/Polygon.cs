@@ -16,7 +16,7 @@ namespace AwARe.Data.Logic
     /// </summary>
     public class Polygon
     {
-        public List<Vector3> Points {  get; protected set; }
+        public List<Vector3> Points;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Polygon"/> class.

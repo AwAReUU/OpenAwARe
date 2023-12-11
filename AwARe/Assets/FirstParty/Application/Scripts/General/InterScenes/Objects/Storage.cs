@@ -28,11 +28,18 @@ namespace AwARe.InterScenes.Objects
             set => Data.SavedAnchorId = value;
         }
 
+        public string SavedPolygonKey
+        {
+            get => Data.SavedPolygonKey;
+            set => Data.SavedPolygonKey = value;
+        }
+
         // Save and load polygon as JSON
         // Save and load polygon JSON
-        public Dictionary<string, string> SavedPolygons
+        // Save and load polygon JSON using a Dictionary with integer keys
+        public Dictionary<int, string> SavedPolygons
         {
-            get => Data.SavedPolygons ??= new Dictionary<string, string>();
+            get => Data.SavedPolygons ??= new Dictionary<int, string>();
             set => Data.SavedPolygons = value;
         }
 

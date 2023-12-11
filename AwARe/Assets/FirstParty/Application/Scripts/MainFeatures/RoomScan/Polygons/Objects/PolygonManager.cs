@@ -17,7 +17,7 @@ using UnityEngine;
 
 using Storage = AwARe.InterScenes.Objects.Storage;
 using UnityEngine.XR.ARFoundation;
-
+using UnityEngine.UI;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
@@ -30,7 +30,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private PolygonDrawer polygonDrawer;
         [SerializeField] private PolygonMesh polygonMesh;
         [SerializeField] private PolygonScan scanner;
-
+        [SerializeField] private GameObject saveBtns;
         [SerializeField] private GameObject createBtn;
         [SerializeField] private GameObject loadBtn;
         [SerializeField] private GameObject resetBtn;
@@ -39,6 +39,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private GameObject endBtn;
         [SerializeField] private GameObject slider;
         [SerializeField] private GameObject pointerObj;
+        [SerializeField] private GameObject loadBtns;
 // TODO TEMP        [SerializeField] private GameObject pathVisualiser;
 
         /// <summary>
@@ -64,11 +65,27 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             UIObjects = new()
             {
-                createBtn,loadBtn, resetBtn, confirmBtn, slider, applyBtn, endBtn,
+                createBtn,loadBtn, saveBtns, loadBtns, resetBtn, confirmBtn, slider, applyBtn, endBtn,
                 pointerObj, scanner.gameObject, polygonMesh.gameObject   // TODO TEMP   , pathVisualiser
             };
 
             SwitchToState(State.Default);
+
+            Button sav1Btn = saveBtns.transform.GetChild(0).GetComponent<Button>();
+            Button sav2Btn = saveBtns.transform.GetChild(1).GetComponent<Button>();
+            Button sav3Btn = saveBtns.transform.GetChild(2).GetComponent<Button>();
+
+            Button load1Btn = loadBtns.transform.GetChild(0).GetComponent<Button>();
+            Button load2Btn = loadBtns.transform.GetChild(1).GetComponent<Button>();
+            Button load3Btn = loadBtns.transform.GetChild(2).GetComponent<Button>();
+
+            sav1Btn.onClick.AddListener(() => SavePolygonInSlot(CurrentPolygon,1));
+            sav2Btn.onClick.AddListener(() =>  SavePolygonInSlot(CurrentPolygon,2));
+            sav3Btn.onClick.AddListener(() =>  SavePolygonInSlot(CurrentPolygon,3));
+
+            load1Btn.onClick.AddListener(() => LoadPolygonFromSlot(1));
+            load2Btn.onClick.AddListener(() => LoadPolygonFromSlot(2));
+            load3Btn.onClick.AddListener(() => LoadPolygonFromSlot(3));
         }
 
         /// <summary>
@@ -87,8 +104,10 @@ namespace AwARe.RoomScan.Polygons.Objects
         public void OnCreateButtonClick() =>
             StartScanning();
 
-        public void OnLoadButtonClick() =>
-              LoadAnchor(Storage.Get().SavedAnchorId);
+        public void OnLoadButtonClick()
+        {
+            loadBtns.SetActive(true);
+        }
 
         /// <summary>
         /// Called on reset button click; Clears the room and starts a new polygon scan.
@@ -112,8 +131,7 @@ namespace AwARe.RoomScan.Polygons.Objects
             polygonDrawer.DrawPolygon(CurrentPolygon, !Room.PositivePolygon.IsEmptyPolygon());
             Room.AddPolygon(CurrentPolygon);
 
-            // Save the anchor for the current polygon
-            SaveAnchor(CurrentPolygon);
+
 
             GenerateAndDrawPath();
         }
@@ -137,104 +155,42 @@ namespace AwARe.RoomScan.Polygons.Objects
             SwitchToState(State.Saving);
         }
 
-        private void SaveAnchor(Polygon polygon)
+        private void SavePolygonInSlot(Polygon polygon, int slotIndex)
         {
-            if (polygon == null)
-            {
-                // Log an error or handle the case where the polygon is null
-                Debug.LogError("Cannot save anchor for a null polygon.");
-                return;
-            }
-
-            Vector3 anchorPosition = polygon.GetFirstPoint();
-
-            Quaternion anchorRotation = Quaternion.identity;
-
-            // Create Pose using position and rotation
-            Pose anchorPose = new Pose(anchorPosition, anchorRotation);
-
-            // Ensure anchorManager is not null
-            if (anchorManager == null)
-            {
-                Debug.LogError("ARAnchorManager is null. Make sure it is assigned in the inspector.");
-                return;
-            }
-
-            // Create and attach ARAnchor to the ARAnchorManager
-            ARAnchor anchor = anchorManager.AddAnchor(anchorPose);
-
-            // Check if the anchor is null (AddAnchor can fail)
-            if (anchor == null)
-            {
-                // Log an error or handle the case where the anchor creation fails
-                Debug.LogError("Failed to create anchor.");
-                return;
-            }
-
-            // Ensure Storage.Get() and SavedPolygons are not null
-            var storage = Storage.Get();
-            if (storage == null || storage.SavedPolygons == null)
-            {
-                Debug.LogError("Storage or SavedPolygons is null. Make sure it is properly initialized.");
-                return;
-            }
-
-            // Get the unique identifier of the anchor
-            string anchorId = anchor.trackableId.ToString();
-
-            // Save the anchor's unique identifier for later retrieval
-            storage.SavedAnchorId = anchorId;
-
-            // Serialize the polygon to JSON
             string polygonJson = polygon.ToJson();
+            Storage.Get().SavedPolygons[slotIndex] = polygonJson;
 
-            // Save the anchor ID and corresponding polygon JSON to the dictionary
-            storage.SavedPolygons[anchorId] = polygonJson;
+            // Log the saved key for debugging
+            Debug.Log($"Saved polygon in slot {slotIndex}");
 
         }
 
+        
         // Function to load the anchor and reposition the polygon
-        private void LoadAnchor(string anchorId)
+        private void LoadPolygonFromSlot(int slotIndex)
         {
-
-            if (!string.IsNullOrEmpty(anchorId))
+            if (Storage.Get().SavedPolygons.TryGetValue(slotIndex, out string polygonJson))
             {
-                ARAnchor anchor = null;
+                Polygon loadedPolygon = Polygon.FromJson(polygonJson);
 
-                // Iterate over the trackables to find the anchor by trackableId
-                foreach (var trackable in anchorManager.trackables)
+                if (loadedPolygon != null && loadedPolygon.AmountOfPoints() > 0)
                 {
-                    if (trackable.trackableId.ToString() == anchorId)
-                    {
-                        anchor = (ARAnchor)trackable;
-                        break;
-                    }
-                }
-
-                if (anchor != null)
-                {
-                    // Move the polygon to the saved anchor position
-                    Vector3 savedPosition = anchor.transform.position;
+                    Vector3 savedPosition = loadedPolygon.GetFirstPoint();
                     polygonDrawer.MovePolygon(savedPosition);
-
-                    // Retrieve the saved polygon JSON from the dictionary
-                    if (Storage.Get().SavedPolygons.TryGetValue(anchorId, out string polygonJson))
-                    {
-                        // Deserialize the polygon and update the current polygon
-                        Polygon savedPolygon = Polygon.FromJson(polygonJson);
-                        CurrentPolygon = savedPolygon;
-                    }
-                    else
-                    {
-                        // Handle case where saved polygon data is not found
-                    }
                 }
                 else
                 {
-                    // Handle case where anchor could not be resolved (perhaps it was removed or not created)
+                    Debug.LogError("Loaded polygon is invalid.");
                 }
             }
+            else
+            {
+                Debug.LogError($"Polygon not found in slot {slotIndex}");
+            }
+
+
         }
+        
 
         /// <summary>
         /// Called on changing the slider; sets the height of the polygon mesh.
@@ -247,8 +203,8 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         public void OnSaveButtonClick()
         {
-            Storage.Get().ActiveRoom = Room;
-            SceneSwitcher.Get().LoadScene("Home");
+            saveBtns.SetActive(true);
+
         }
 
         /// <summary>
@@ -283,6 +239,7 @@ namespace AwARe.RoomScan.Polygons.Objects
                     objects.Add(loadBtn);
                     break;
                 case State.Scanning:
+                    objects.Add(loadBtn);
                     objects.Add(applyBtn);
                     objects.Add(resetBtn);
                     objects.Add(scanner.gameObject);
