@@ -74,6 +74,7 @@ namespace AwARe.Questionnaire.Data
     {
         Radio,
         Checkbox,
-        Textbox
+        Textbox,
+        Error
     }
 }

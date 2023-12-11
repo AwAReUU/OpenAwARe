@@ -82,7 +82,7 @@
         {
             "questionTitle": "Are you human?",
             "ifYes": true,
-            "ifYestrigger":0,
+            "ifYesTrigger": 0,
             "answerOptions": 
             [
                 {
@@ -94,7 +94,7 @@
                     "optionText": "No"
                 }
             ],
-            "ifYesquestions":
+            "ifYesQuestions":
             [
                 {
                     "questionTitle": "What kind of human?",

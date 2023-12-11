@@ -21,8 +21,11 @@ namespace AwARe.Questionnaire.Objects
 
         [SerializeField] private GameObject submitButton;
         [SerializeField] private GameObject questionCreatorPrefab;
-        private List<GameObject> questions;
+        private List<GameObject> questions { get; set; }
 
+        /// <summary>
+        /// Initialize a new Questionnnaire.
+        /// </summary>
         void Awake()
         {
             questions = new List<GameObject>();
@@ -48,11 +51,11 @@ namespace AwARe.Questionnaire.Objects
         public GameObject AddQuestion(QuestionData data)
         {
             // Instantiate the QuestionCreator prefab
-            GameObject questionCreatorObject = InstantiateQuestionCreator();
-            QuestionCreator questionCreator = questionCreatorObject.GetComponent<QuestionCreator>();
+            GameObject questionCreatorObject = Instantiate(questionCreatorPrefab);
+            Question question = questionCreatorObject.GetComponent<Question>();
 
             // Set the title and if-yes information using the instantiated QuestionCreator
-            ConfigureQuestionCreator(questionCreator, data);
+            ConfigureQuestionCreator(question, data);
 
             // Instantiate the template and set its parent
             questionCreatorObject.transform.SetParent(gameObject.transform.Find("Question Scroller/Content"));
@@ -60,29 +63,37 @@ namespace AwARe.Questionnaire.Objects
             questions.Add(questionCreatorObject.gameObject);
 
             // Add each answer option to the question using the instantiated QuestionCreator
-            AddAnswerOptions(questionCreator, data);
+            AddAnswerOptions(question, data);
 
             // Add the questions to be shown if yes is answered to the questionnaire, and hide them
-            HandleIfYesQuestions(questionCreator, data);
+            AddIfYesQuestions(question, data);
 
             return questionCreatorObject;
         }
 
-        private GameObject InstantiateQuestionCreator() => Instantiate(questionCreatorPrefab);
-
-        private void ConfigureQuestionCreator(QuestionCreator questionCreator, QuestionData data)
+        private void ConfigureQuestionCreator(Question question, QuestionData data)
         {
-            questionCreator.SetTitle(data.questionTitle);
-            questionCreator.SetIfyes(data.ifYes, data.ifYesTrigger);
+            question.SetTitle(data.questionTitle);
+            question.SetIfyes(data.ifYes, data.ifYesTrigger);
         }
 
-        private void AddAnswerOptions(QuestionCreator questionCreator, QuestionData data)
+        /// <summary>
+        /// Add a single answer option, using "QuestionData" to the given "Question".
+        /// </summary>
+        /// <param name="question">The question to add the new answer option to.</param>
+        /// <param name="data">The data needed to construct the new answer option.</param>
+        private void AddAnswerOptions(Question question, QuestionData data)
         {
             foreach (AnswerOptionData answer in data.answerOptions)
-                questionCreator.AddAnswerOption(answer);
+                question.AddAnswerOption(answer);
         }
 
-        private void HandleIfYesQuestions(QuestionCreator questionCreator, QuestionData data)
+        /// <summary>
+        /// Adds all IfYesQuestions of <paramref name="data"/> to <paramref name="question"/> if they exist.
+        /// </summary>
+        /// <param name="questionCreator">The Question instance triggering the "ifYes" condition.</param>
+        /// <param name="data">The QuestionData containing information about the "ifYes" condition and associated questions.</param>
+        private void AddIfYesQuestions(Question question, QuestionData data)
         {
             if (!data.ifYes) return;
 
@@ -90,7 +101,7 @@ namespace AwARe.Questionnaire.Objects
             {
                 var ifyesQuestion = AddQuestion(ifyesQuestionData);
                 ifyesQuestion.SetActive(false);
-                questionCreator.ifYesQuestions.Add(ifyesQuestion);
+                question.ifYesQuestions.Add(ifyesQuestion);
             }
         }
     }
