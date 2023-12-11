@@ -1,37 +1,44 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections.Generic;
-
-using AwARe.Database;
-using AwARe.Database.Logic;
 using AwARe.IngredientList.Logic;
-
 using TMPro;
-
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace AwARe.IngredientList.Objects
 {
+    /// <summary>
+    /// An UI Element displaying and managing the search screen.
+    /// </summary>
     public class SearchScreen : MonoBehaviour
     {
-        [FormerlySerializedAs("ingredientListManager")][SerializeField] private IngredientListManager manager;
-
+        // The parent element
+        [SerializeField] private IngredientListManager manager; // TODO: Replace with parent UI element. (For division of responsibilities)
+        
+        // UI elements to control
         [SerializeField] private TMP_InputField searchBar;
-        [SerializeField] private GameObject itemTemplate;
-
-        private List<GameObject> results = new();
-
+        [SerializeField] private GameObject resultTemplate;
+        
+        // Tracked UI elements
+        private readonly List<GameObject> results = new();
+        
         /// <summary>
-        /// Creates new GameObjects for every ingredient in the search results.
+        /// Corrects this UI element to represent data.
         /// </summary>
         private void DisplayResults()
         {
+            // Empties the old results display.
             RemoveResults();
 
-            // create a new object for every search result
+            // Create a new object for every search result
             foreach (Ingredient result in manager.SearchResults)
             {
-                GameObject itemObject = Instantiate(itemTemplate, itemTemplate.transform.parent);
+                GameObject itemObject = Instantiate(resultTemplate, resultTemplate.transform.parent);
                 itemObject.SetActive(true);
                 results.Add(itemObject);
                 var item = itemObject.GetComponent<SearchItem>();
@@ -40,7 +47,7 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Destroys all displayed ingredient objects.
+        /// Destroys all displayed result objects.
         /// </summary>
         private void RemoveResults()
         {

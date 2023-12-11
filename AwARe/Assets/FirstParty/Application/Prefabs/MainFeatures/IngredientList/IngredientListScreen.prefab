@@ -655,12 +655,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8176642326186587694}
   - {fileID: 7005066130830567117}
   - {fileID: 3790449741823283875}
   - {fileID: 7483800195723672074}
   - {fileID: 1138781866533079307}
   - {fileID: 459884862949141436}
-  - {fileID: 8176642326186587694}
   - {fileID: 7540385183832118156}
   - {fileID: 2437337914832109887}
   m_Father: {fileID: 0}
@@ -683,11 +683,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
+  listTitle: {fileID: 3363227687964240787}
+  ingredientTemplate: {fileID: 7175322502307009760}
+  addButton: {fileID: 6132369888723568377}
   deleteListPopup: {fileID: 1310388697574734829}
   unsavedChangesPopup: {fileID: 6582171555233966430}
-  listTitle: {fileID: 3363227687964240787}
-  listItemTemplate: {fileID: 7175322502307009760}
-  addButton: {fileID: 6132369888723568377}
 --- !u!1 &9082073775795881489
 GameObject:
   m_ObjectHideFlags: 0

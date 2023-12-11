@@ -212,7 +212,16 @@ namespace AwARe.IngredientList.Objects
             NotifyListChanged();
         }
 
-        public void ConvertToQuantity(Ingredient ingredient, string quantityS, string typeS, out float quantity, out QuantityType type)
+        /// <summary>
+        /// Reads/Parses the quantity and quantity type.
+        /// </summary>
+        /// <param name="ingredient">The ingredient which quantities to read.</param>
+        /// <param name="quantityS">The quantity as a string.</param>
+        /// <param name="typeS">The quantity type as a string.</param>
+        /// <param name="quantity">The quantity as a number.</param>
+        /// <param name="type">The quantity type as a type/enum.</param>
+        /// <exception cref="Exception"></exception>
+        public void ReadQuantity(Ingredient ingredient, string quantityS, string typeS, out float quantity, out QuantityType type)
         {
             // try converting the quantity string to a Quantity
             if (!float.TryParse(quantityS, out quantity))

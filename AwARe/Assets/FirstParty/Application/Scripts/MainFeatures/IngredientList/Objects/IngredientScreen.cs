@@ -1,27 +1,36 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using AwARe.IngredientList.Logic;
-
 using TMPro;
-
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace AwARe.IngredientList.Objects
 {
+    /// <summary>
+    /// An UI Element displaying and managing the single ingredient screen.
+    /// </summary>
     public class IngredientScreen : MonoBehaviour
     {
-        [FormerlySerializedAs("ingredientListManager")][SerializeField] private IngredientListManager manager;
-
+        // The parent element
+        [SerializeField] private IngredientListManager manager;
+        
+        // UI elements to control
         [SerializeField] private GameObject ingredientNameField;
         [SerializeField] private TMP_InputField quantityField;
         [SerializeField] private TMP_Dropdown typeDropdown;
-
+        
+        // The data represented/edited
         private Logic.IngredientList.Entree entree;
-        private bool isNew;
+        private bool isNew; // TODO: Should be managed outside UI
 
         private void OnEnable()
         {
@@ -32,7 +41,7 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Initializes the quantityTypeDropdown
+        /// Sets/corrects all UI elements on screen.
         /// </summary>
         private void SetElements()
         {
@@ -50,7 +59,7 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Updates the current ingredient with values from inputs
+        /// Updates the current ingredient with values from inputs.
         /// </summary>
         public void OnConfirmClick()
         {
@@ -58,11 +67,13 @@ namespace AwARe.IngredientList.Objects
             string quantityS = quantityField.text;
             string typeS = typeDropdown.value.ToString();
 
-            manager.ConvertToQuantity(ingredient, quantityS, typeS, out float quantity, out QuantityType type);
+            manager.ReadQuantity(ingredient, quantityS, typeS, out float quantity, out QuantityType type);
+
             if(isNew)
                 manager.AddIngredient(ingredient, quantity, type);
             else
                 manager.UpdateIngredient(quantity, type);
+
             manager.ChangeToIngredientListScreen(manager.SelectedList, this.gameObject);
         }
 

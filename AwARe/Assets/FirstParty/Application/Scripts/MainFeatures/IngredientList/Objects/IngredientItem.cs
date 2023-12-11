@@ -1,30 +1,36 @@
-using System.Collections.Generic;
-
-using AwARe.IngredientList.Logic;
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
 
 using TMPro;
-
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 using static AwARe.IngredientList.Logic.IngredientList;
 
 namespace AwARe.IngredientList.Objects
 {
+    /// <summary>
+    /// An UI Element displaying an ingredient within a list.
+    /// </summary>
     public class IngredientListItem : MonoBehaviour
     {
+        // The parent element
         [SerializeField] private IngredientListScreen screen;
 
-        private Entree entree;
-
-        // (assigned within unity)
+        // UI elements to control
         [SerializeField] private TextMeshProUGUI ingredientLabel;
         [SerializeField] private TextMeshProUGUI quantityLabel;
         [SerializeField] private TextMeshProUGUI quantityTypeLabel;
 
+        // The data represented.
+        private Entree entree;
+        
         /// <summary>
-        /// Changes the name of the list to the name that is put into the inputfield in unity
+        /// Sets this item to represent the given entree.
         /// </summary>
+        /// <param name="entree">The entree represented.</param>
         public void SetItem(Entree entree)
         {
             this.entree = entree;
@@ -32,8 +38,7 @@ namespace AwARe.IngredientList.Objects
         }
         
         /// <summary>
-        /// Creates GameObjects with an "edit" and "delete" button for all the ingredients in this is List and adds them to the ScrollView 
-        /// and adds an "Add Ingredient" button to the end of the ScrollView.
+        /// Corrects this UI element to represent its data.
         /// </summary>
         private void DisplayItem()
         {
@@ -47,14 +52,14 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Calls an instance of IngredientListManager to delete the given ingredient from the ingredient list, then displays the updated list.
         /// </summary>
-        /// <param name="ingredient"> The Ingredient that will be deleted from the list </param>
+        /// <param name="ingredient"> The Ingredient that will be deleted from the list. </param>
         public void OnItemClick() =>
             screen.OnItemClick(entree);
 
         /// <summary>
         /// Calls an instance of IngredientListManager to delete the given ingredient from the ingredient list, then displays the updated list.
         /// </summary>
-        /// <param name="ingredient"> The Ingredient that will be deleted from the list </param>
+        /// <param name="ingredient"> The Ingredient that will be deleted from the list. </param>
         public void OnDeleteButtonClick() =>
             screen.OnDeleteItemButtonClick(entree.ingredient);
     }

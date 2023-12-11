@@ -13,27 +13,35 @@ namespace AwARe.IngredientList.Objects
 {
     public class ListItem : MonoBehaviour
     {
+        // The parent element
         [SerializeField] private ListsOverviewScreen screen;
-
-        private Logic.IngredientList list;
-        private int index;
-
-        // (assigned within unity)
+        
+        // UI elements to control
         [SerializeField] private TextMeshProUGUI nameLabel;
         [SerializeField] private TextMeshProUGUI quantityLabel;
         [SerializeField] private Image checkButton;
         [SerializeField] private GameObject checkHighlight;
+        
+        // Options parameters
         [SerializeField] private Color checkOnColor;
-        private Color checkOffColor;
+        
+        // The data represented.
+        private Logic.IngredientList list;
+        private int index;                  // TODO: Overhaul IngredientList and find listItems by some IngredientList.ID instead
 
+        // Other parameters and data.
+        private Color checkOffColor;
+        
         private void Awake()
         {
             checkOffColor = checkButton.color;
         }
-
+        
         /// <summary>
-        /// TODO
+        /// Sets this item to represent the given result.
         /// </summary>
+        /// <param name="index">The index in the item list.</param>
+        /// <param name="list">The new ingredient list represented.</param>
         public void SetItem(int index, Logic.IngredientList list)
         {
             this.index = index;
@@ -42,7 +50,7 @@ namespace AwARe.IngredientList.Objects
         }
         
         /// <summary>
-        /// TODO
+        /// Corrects this UI element to represent its data.
         /// </summary>
         private void DisplayItem()
         {
@@ -50,7 +58,10 @@ namespace AwARe.IngredientList.Objects
             nameLabel.text = list.ListName;
             quantityLabel.text = list.NumberOfIngredients().ToString();
         }
-
+        
+        /// <summary>
+        /// Corrects this UI element to represent its selection.
+        /// </summary>
         public void Check(bool check)
         {
             if (check)
@@ -64,10 +75,18 @@ namespace AwARe.IngredientList.Objects
                 checkHighlight.SetActive(false);
             }
         }
-
+        
+        /// <summary>
+        /// Bound to the UI element. <br/>
+        /// Passes the button press and its data to the parent.
+        /// </summary>
         public void OnCheckButtonClick() =>
             screen.OnCheckButtonClick(index, list);
-
+        
+        /// <summary>
+        /// Bound to the UI element. <br/>
+        /// Passes the button press and its data to the parent.
+        /// </summary>
         public void OnItemClick() =>
             screen.OnItemClick(list);
     }

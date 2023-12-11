@@ -1,28 +1,37 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections.Generic;
-
 using AwARe.IngredientList.Logic;
-
 using TMPro;
-
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace AwARe.IngredientList.Objects
 {
+    /// <summary>
+    /// An UI Element displaying and managing the ingredient list screen.
+    /// </summary>
     public class IngredientListScreen : MonoBehaviour
     {
-        [FormerlySerializedAs("ingredientListManager")][SerializeField] private IngredientListManager manager;
+        // The parent element
+        [SerializeField] private IngredientListManager manager;
 
         // the objects drawn on screen to display the list
-        List<GameObject> ingredients = new();
-
-        // (assigned within unity)
+        
+        // UI elements to control/copy
+        [SerializeField] private TMP_InputField listTitle;
+        [SerializeField] private GameObject ingredientTemplate;
+        [SerializeField] private GameObject addButton;
         [SerializeField] private GameObject deleteListPopup;
         [SerializeField] private GameObject unsavedChangesPopup;
-        [SerializeField] private TMP_InputField listTitle;
-        [SerializeField] private GameObject listItemTemplate;
-        [SerializeField] private GameObject addButton;
+
+        // Tracked UI elements
+        readonly List<GameObject> ingredients = new();
 
         private void OnEnable()
         {
@@ -37,7 +46,7 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Changes the name of the list to the name that is put into the inputfield in unity
+        /// Changes the name of the list to the name that is put into the inputfield in unity.
         /// </summary>
         public void OnChangeListName()
         {
@@ -60,7 +69,7 @@ namespace AwARe.IngredientList.Objects
             foreach (var (ingredient, (quantity, quantityType)) in manager.SelectedList.Ingredients)
             {
                 // create a new list item to display this ingredient
-                GameObject itemObject = Instantiate(listItemTemplate, listItemTemplate.transform.parent);
+                GameObject itemObject = Instantiate(ingredientTemplate, ingredientTemplate.transform.parent);
                 itemObject.SetActive(true);
                 var item = itemObject.GetComponent<IngredientListItem>();
                 item.SetItem(new(ingredient, quantity, quantityType));
@@ -81,9 +90,9 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Calls an instance of IngredientListManager to change to the IngredientScreen of the ingredient that was selected.
+        /// Change to the IngredientScreen of the item that was selected.
         /// </summary>
-        /// <param name="ingredient"> The ingredient of which the button is clicked </param>
+        /// <param name="entree"> The ingredient, quantity and quantity type of the item. </param>
         public void OnItemClick(Logic.IngredientList.Entree entree)
         {
             manager.ChangeToIngredientScreen(entree, false, this.gameObject);
@@ -92,7 +101,7 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Calls an instance of IngredientListManager to delete the given ingredient from the ingredient list, then displays the updated list.
         /// </summary>
-        /// <param name="ingredient"> The Ingredient that will be deleted from the list </param>
+        /// <param name="ingredient"> The Ingredient that will be deleted from the list. </param>
         public void OnDeleteButtonClick()
         {
             deleteListPopup.SetActive(true);
@@ -101,22 +110,31 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Calls an instance of IngredientListManager to delete the given ingredient from the ingredient list, then displays the updated list.
         /// </summary>
-        /// <param name="ingredient"> The Ingredient that will be deleted from the list </param>
+        /// <param name="ingredient"> The Ingredient that will be deleted from the list. </param>
         public void OnDeleteItemButtonClick(Ingredient ingredient)
         {
             manager.DeleteIngredient(ingredient);
             DisplayIngredients();
         }
 
+        /// <summary>
+        /// Delete the currently viewed list.
+        /// </summary>
         public void DeleteList()
         {
             manager.DeleteList(manager.SelectedList);
             Leave();
         }
-
+        
+        /// <summary>
+        /// Save changes made.
+        /// </summary>
         public void Save() =>
             manager.SaveLists();
-
+        
+        /// <summary>
+        /// Discard changes made.
+        /// </summary>
         public void Discard() =>
             manager.LoadLists();
 
@@ -132,12 +150,18 @@ namespace AwARe.IngredientList.Objects
                 Leave();
         }
 
+        /// <summary>
+        /// Discard changes made and leave this screen.
+        /// </summary>
         public void DiscardAndLeave()
         {
             Discard();
             Leave();
         }
-
+        
+        /// <summary>
+        /// Save changes made and leave this screen.
+        /// </summary>
         public void SaveAndLeave()
         {
             Save();
@@ -145,8 +169,7 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Calls PopUpChoices when a list has been edited to warn the user if they really want to go back or if no editing has happend
-        /// an instance of IngredientListManager is called to close the IngredientListScreen and go back to the ListsOverviewScreen.
+        /// Clean-up and got back to the lists overview screen.
         /// </summary>
         public void Leave()
         {

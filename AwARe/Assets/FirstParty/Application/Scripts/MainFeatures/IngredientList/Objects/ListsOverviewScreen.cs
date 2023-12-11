@@ -8,18 +8,22 @@
 using System.Collections.Generic;
 using AwARe.InterScenes.Objects;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AwARe.IngredientList.Objects
 {
+    /// <summary>
+    /// An UI Element displaying and managing the list overview screen.
+    /// </summary>
     public class ListsOverviewScreen : MonoBehaviour
     {
-        // (assigned within unity)
-        [FormerlySerializedAs("ingredientListManager")][SerializeField] private IngredientListManager manager;
+        // The parent element
+        [SerializeField] private IngredientListManager manager;
+        
+        // UI elements to control/copy
         [SerializeField] private GameObject listItemObject; //list item 'prefab'
-
-        // the objects drawn on screen to display the Lists
-        List<ListItem> lists = new();
+        
+        // Tracked UI elements
+        readonly List<ListItem> lists = new();
 
         private void OnEnable()
         {
@@ -78,23 +82,25 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Calls an instance of manager to close this screen and open the IngredientListScreen of the given ingredient list.
         /// </summary>
-        /// <param name="list"> The ingredient list that was selected </param>
+        /// <param name="list"> The ingredient list that was selected. </param>
         public void OnItemClick(Logic.IngredientList list)
         {
             manager.ChangeToIngredientListScreen(list, this.gameObject);
         }
 
+        /// <summary>
+        /// Loads the Home scene.
+        /// </summary>
         public void OnBackButtonClick()
         {
             SceneSwitcher.Get().LoadScene("Home");
         }
 
         /// <summary>
-        /// Toggles the color and visibility of two buttons, representing a check button and its corresponding border button.
-        /// Also checking if there are buttons that have been previously checked and activating them
+        /// Unchecks the previous item and checks the given.
         /// </summary>
-        /// <param name="btn1"> The check button to be toggled. </param>
-        /// <param name="btn2"> The corresponding border button to be toggled.
+        /// <param name="index"> The index of the item to check/select. </param>
+        /// <param name="list"> The list of the item to check/select. </param>
         public void OnCheckButtonClick(int index, Logic.IngredientList list)
         {
             // Check if button was not already checked.
