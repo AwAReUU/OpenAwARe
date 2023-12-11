@@ -6,12 +6,24 @@ using UnityEngine;
 
 namespace AwARe.RoomScan.Path
 {
+    /// <summary>
+    /// This class hold the data for a generated path.
+    /// </summary>
     [Serializable]
     public class PathData
     {
+        /// <value>
+        /// Each node on the path.
+        /// </value>
         public List<Vector3> points;
+        /// <value>
+        /// Each segment/edge of the path.
+        /// </value>
         public List<(Vector3, Vector3)> edges;
 
+        /// <value>
+        /// The radius around the skeleton of the path.
+        /// </value>
         public float radius;
 
         public PathData()
@@ -20,6 +32,12 @@ namespace AwARe.RoomScan.Path
             edges = new();
         }
 
+        /// <summary>
+        /// Create a Mesh of the path including the radius around it.
+        /// </summary>
+        /// <return>
+        /// Return the Mesh
+        /// </return>
         public Mesh CreateMesh(int numSegments)
         {
 
@@ -40,6 +58,12 @@ namespace AwARe.RoomScan.Path
             return mesh;
         }
 
+        /// <summary>
+        /// A helper method to combine two meshes into a single mesh.
+        /// </summary>
+        /// <return>
+        /// Return the combined mesh
+        /// </return>
         private Mesh CombineMeshes(Mesh mesh1, Mesh mesh2)
         {
             var vertices = mesh1.vertices.ToList();
@@ -59,6 +83,14 @@ namespace AwARe.RoomScan.Path
             return combined;
         }
 
+        /// <summary>
+        /// Creates a Circle Mesh around a center with the given radius.
+        /// The mesh consists of a given number of triangles. 
+        /// Use a higher number of segments to create a smoother circle.
+        /// </summary>
+        /// <return>
+        /// Returns the circle mesh.
+        /// </return>
         private Mesh CircleMesh(Vector3 center, float radius, int numSegments)
         {
             var vertices = new List<Vector3>();
@@ -91,6 +123,13 @@ namespace AwARe.RoomScan.Path
             return circle;
         }
 
+
+        /// <summary>
+        /// Creates a (rotated)rectangle between two points with a width of two times the given radius.
+        /// </summary>
+        /// <return>
+        /// Returns the Mesh
+        /// </return>
         private Mesh SegmentMesh(Vector3 start, Vector3 end, float radius)
         {
             var vertices = new List<Vector3>();

@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * To be altered/correct.
+ */
+
 namespace AwARe.UI.Objects
 {
     public class PopUpScript : MonoBehaviour

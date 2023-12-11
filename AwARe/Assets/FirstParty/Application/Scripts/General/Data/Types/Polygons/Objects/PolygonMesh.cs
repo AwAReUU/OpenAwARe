@@ -17,9 +17,19 @@ namespace AwARe.Data.Objects
     /// </summary>
     public class PolygonMesh : MonoBehaviour
     {
+        /// <value>
+        /// The height of the polygon in meters.
+        /// </value>
         private float height = 1f;
+
+        /// <value>
+        /// The polygon that is the base of the Mesh
+        /// </value>
         private List<Vector3> polygon = new();
 
+        /// <summary>
+        /// On start create the Mesh and set the starting height to 1.
+        /// </summary>
         void Start()
         {
             CreateMesh();
@@ -46,6 +56,9 @@ namespace AwARe.Data.Objects
             CreateMesh();
         }
 
+        /// <summary>
+        /// Create the mesh from the polygon base.
+        /// </summary>        
         private void CreateMesh()
         {
             List<Vector3> vertices = new();
@@ -54,6 +67,8 @@ namespace AwARe.Data.Objects
             int n = polygon.Count * 2;
             for (int i = 0; i < polygon.Count; i++)
             {
+                // Create a vertical plane (wall) for each polygon segment:
+                
                 vertices.Add(polygon[i]);
                 vertices.Add(polygon[i] + new Vector3(0f, height, 0f));
 
