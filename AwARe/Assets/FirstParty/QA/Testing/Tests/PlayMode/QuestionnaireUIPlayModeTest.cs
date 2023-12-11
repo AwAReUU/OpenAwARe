@@ -21,7 +21,7 @@ public class QuestionnaireTests
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         yield return null; //skip one frame to ensure the scene has been reloaded.
         questionnaireConstructor = GameObject.Find("QuestionnaireConstructor").GetComponent<QuestionnaireConstructor>();
-        TextAsset testFormat = Resources.Load<TextAsset>("Data/Questionnaire/Testformat");
+        //TextAsset testFormat = Resources.Load<TextAsset>("Data/Questionnaire/Testformat");
     }
 
 
@@ -43,24 +43,6 @@ public class QuestionnaireTests
 
         //Assert: Is the first question equal to the created question?
         Assert.IsTrue(emptyQuestionnaire.transform.Find("Question Scroller/Content").GetChild(0).gameObject == question);
-    }
-
-    [Test]
-    public void TestCheckBoxCreation()
-    {
-        //todo
-    }
-
-    [Test]
-    public void TestRadioButtonCreation()
-    {
-        //todo
-    }
-
-    [Test]
-    public void TestTextInputCreation()
-    {
-        //todo
     }
 }
 
@@ -153,5 +135,44 @@ public class QuestionnaireMockJsonTests
         //        //Assert.IsTrue(question.transform.GetChild(j).gameObject.GetComponent<OptionInfoHolder>().GetOptionNumber() == j - 1);
         //    }
         //}
+    }
+
+    [UnityTest, Description("Test whether all checkboxes are created. (And not too many!)")]
+    public IEnumerator TestCheckBoxCreation()
+    {
+        //Arrange: Create constructor
+        mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab);
+        //Act: Initialize the questions.
+        GameObject _ = mockQuestionnaireConstructor.QuestionnaireFromJsonString();
+        yield return null;
+        //Act: Count the checkBoxes.
+        GameObject[] checkboxes = GameObject.FindGameObjectsWithTag("CheckBox");
+        Assert.True(checkboxes.Length == 6);
+    }
+
+    [UnityTest, Description("Test whether all radioButtons are created. (And not too many!)")]
+    public IEnumerator TestRadioButtonCreation()
+    {
+        //Arrange: Create constructor
+        mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab);
+        //Act: Initialize the questions.
+        GameObject _ = mockQuestionnaireConstructor.QuestionnaireFromJsonString();
+        yield return null;
+        //Act: Count the radioButtons.
+        GameObject[] radioButtons = GameObject.FindGameObjectsWithTag("RadioButton");
+        Assert.True(radioButtons.Length == 12);
+    }
+
+    [UnityTest, Description("Test whether all inputFields are created. (And not too many!)")]
+    public IEnumerator TestInputFieldCreation()
+    {
+        //Arrange: Create constructor
+        mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab);
+        //Act: Initialize the questions.
+        GameObject _ = mockQuestionnaireConstructor.QuestionnaireFromJsonString();
+        yield return null;
+        //Act: Count the inputFields.
+        GameObject[] inputFields = GameObject.FindGameObjectsWithTag("InputField");
+        Assert.True(inputFields.Length == 2);
     }
 }

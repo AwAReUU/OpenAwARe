@@ -41,12 +41,10 @@ namespace AwARe.Questionnaire.Objects
             option.SetActive(true);
             option.transform.SetParent(questionGameObject.transform);
 
-            ToggleHandler toggleHandler = option.GetComponent<ToggleHandler>();
-            if (toggleHandler != null)
-            {
-                toggleHandler.setQuestion(questionGameObject);
-                option.transform.Find("Label").GetComponent<TextMeshProUGUI>().text = labelText;
-            }
+            IfYesToggleHandler iIfYesToggleHandler = option.GetComponent<IfYesToggleHandler>();
+            if (iIfYesToggleHandler == null) return;
+            iIfYesToggleHandler.setQuestion(question);
+            option.transform.Find("Label").GetComponent<TextMeshProUGUI>().text = labelText;
         }
     }
 
@@ -74,6 +72,7 @@ namespace AwARe.Questionnaire.Objects
             InitializeAnswerOption(inputField, placeholderText);
             inputField.transform.Find("Text Area/Placeholder").GetComponent<TextMeshProUGUI>().text =
                 placeholderText;
+            inputField.tag = "InputField";
             return inputField;
         }
     }
@@ -94,11 +93,9 @@ namespace AwARe.Questionnaire.Objects
             : base(questionGameObject, questionPrefab)
         {
             radiobuttonGroup = questionGameObject.GetComponent<ToggleGroup>();
-            if (radiobuttonGroup == null)
-            {
-                radiobuttonGroup = questionGameObject.AddComponent<ToggleGroup>();
-                radiobuttonGroup.allowSwitchOff = true;
-            }
+            if (radiobuttonGroup != null) return;
+            radiobuttonGroup = questionGameObject.AddComponent<ToggleGroup>();
+            radiobuttonGroup.allowSwitchOff = true;
         }
 
         /// <summary>
@@ -112,6 +109,7 @@ namespace AwARe.Questionnaire.Objects
             radioButton.GetComponent<Toggle>().group = radiobuttonGroup;
             InitializeAnswerOption(radioButton, labelText);
             radioButton.transform.Find("Label").GetComponent<TextMeshProUGUI>().text = labelText;
+            radioButton.tag = "RadioButton";
             return radioButton;
         }
     }
@@ -139,6 +137,7 @@ namespace AwARe.Questionnaire.Objects
             GameObject checkbox = Object.Instantiate(questionPrefab);
             InitializeAnswerOption(checkbox, labelText);
             checkbox.transform.Find("Label").GetComponent<TextMeshProUGUI>().text = labelText;
+            checkbox.tag = "CheckBox";
             return checkbox;
         }
     }
