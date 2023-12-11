@@ -18,7 +18,7 @@ namespace AwARe.Questionnaire.Objects
 
         private List<GameObject> answerOptions { get; set; }
         public List<bool> answerOptionStates { get; set; }
-        public int answerOptionNumberCounter { get; set; }
+        public int answerOptionNumberCounter = 0;
         public int ifYesTrigger { get; private set; }
         public bool ifYes { get; private set; }
         public List<GameObject> ifYesQuestions { get; set; }
@@ -51,9 +51,10 @@ namespace AwARe.Questionnaire.Objects
             switch (optionType)
             {
                 case OptionType.Radio:
-                    return new RadioAnswerOption(gameObject, radioButtonPrefab);
+                    Debug.Log("asnwer" + answerOptionNumberCounter);
+                    return new RadioAnswerOption(gameObject, radioButtonPrefab, answerOptionNumberCounter++);
                 case OptionType.Checkbox:
-                    return new CheckBoxAnswerOption(gameObject, checkBoxPrefab);
+                    return new CheckBoxAnswerOption(gameObject, checkBoxPrefab, answerOptionNumberCounter++);
                 case OptionType.Textbox:
                     return new TextAnswerOption(gameObject, textInputPrefab);
                 case OptionType.Error:

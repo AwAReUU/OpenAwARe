@@ -14,13 +14,12 @@ namespace AwARe.Questionnaire.Objects
         public void NotifyChange() =>
             question.GetComponent<Question>().ChangeIfyesState(optionNumber, gameObject.GetComponent<Toggle>().isOn);
 
-        public void setQuestion(GameObject question) => this.question = question;
+        public void SetQuestion(GameObject question) => this.question = question;
 
         //should be called exactly once per answer option object, when it is created by te question
-        public void setNumber(ref int optionNumber)
+        public void AssignIndex(int optionIndex)
         {
-            this.optionNumber = optionNumber;
-            optionNumber++;
+            this.optionIndex = optionIndex;
         }
     }
 }
