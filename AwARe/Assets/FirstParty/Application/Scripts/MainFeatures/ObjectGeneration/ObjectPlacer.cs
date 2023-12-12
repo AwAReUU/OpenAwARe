@@ -53,7 +53,7 @@ namespace AwARe.ObjectGeneration
         /// <summary>
         /// Automatically place a list of renderables by first initializing a clulster for each renderable. 
         /// After the cluster have been initialized
-        /// each 'round' one object of each renderable will be added to the cluster until there are no objects left. 
+        /// each 'round' one object of the renderable with the lowest area usage will be generated. 
         /// </summary>
         /// <param name="renderables">All items that we are going to place.</param>
         /// <param name="room">Room to place the renderables in.</param>
@@ -77,26 +77,25 @@ namespace AwARe.ObjectGeneration
             while (!allQuantitiesZero)
             {
                 allQuantitiesZero = true;
-                foreach ((Renderable renderable, Vector3 initialSpawnPoint) in initialSpawnsDictionary)
+                Renderable renderableToPlace = GetRenderableWithLowestAreaUsage(initialSpawnsDictionary.Keys.ToList());
+
+                if (renderableToPlace != null && renderableToPlace.GetQuantity() > 0)
                 {
-                    // Check if there are still objects to spawn
-                    if (renderable.GetQuantity() <= 0)
-                        continue;
-                        
                     float availableSurfaceArea = EstimateAvailableSurfaceArea(validSpawnPoints.Count);
+                    Vector3 initialSpawnPoint = initialSpawnsDictionary[renderableToPlace];
 
                     bool placed = TrySpawnOrStackRenderable(
-                        renderable,
+                        renderableToPlace,
                         initialSpawnPoint,
                         validSpawnPoints,
                         availableSurfaceArea,
                         room);
 
-                    renderable.quantity -= 1;
+                    renderableToPlace.quantity -= 1;
                     if (!placed) Debug.Log("Could not place this object");
 
-                    // keep looping while there are objects to be spawned 
-                    if (renderable.GetQuantity() > 0)
+                    // Check if there are any renderables left to spawn
+                    if (initialSpawnsDictionary.Keys.Any(r => r.GetQuantity() > 0))
                         allQuantitiesZero = false;
                 }
             }
