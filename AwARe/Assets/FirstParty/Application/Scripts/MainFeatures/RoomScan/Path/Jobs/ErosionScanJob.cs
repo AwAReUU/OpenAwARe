@@ -6,6 +6,7 @@
 // \*                                                                                       */
 
 using System;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 
@@ -14,6 +15,7 @@ namespace AwARe.RoomScan.Path.Jobs
     /// <summary>
     /// Job for calculating eroded value of a cell.
     /// </summary>
+    [BurstCompile]
     public struct ErosionScanJob : IJobParallelFor
     {
         /// <summary> The input array. </summary>
@@ -37,9 +39,7 @@ namespace AwARe.RoomScan.Path.Jobs
         /// <inheritdoc/>
         public void Execute(int index)
         {
-            Func<(int, int), bool> inputFunction = GetInputFunction(input, rows, columns);
-
-            result[index] = All(index, inputFunction);
+            result[index] = All(index);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace AwARe.RoomScan.Path.Jobs
         /// <param name="index">The index of the cell that is being checked.</param>
         /// <param name="inputFunction">The function that is applied to the cells to determine their value.</param>
         /// <returns>False if any value within the range is false, true otherwise.</returns>
-        private readonly bool All(int index, Func<(int, int), bool> inputFunction)
+        private readonly bool All(int index)
         {
             int x = index / columns;
             int y = index % columns;
@@ -57,30 +57,21 @@ namespace AwARe.RoomScan.Path.Jobs
             for (int i = 0, x_2 = x - halfRange; i < range; i++, x_2++)
                 for (int j = 0, y_2 = y - halfRange; j < range; j++, y_2++)
                 {
-                    if (!inputFunction((x_2, y_2)))
+                    if (!(InBounds(x_2, y_2) && input[x_2 * columns + y_2]))
                         return false;
                 }
             return true;
         }
 
         /// <summary>
-        /// Uses an array to create a function for determining the value of a bit in the bitmap.
+        /// Check whether the points is within the boundaries of the grid.
         /// </summary>
-        /// <param name="input">The array.</param>
-        /// <param name="rows">The number of rows in the grid.</param>
-        /// <param name="columns">The number of columns in the grid.</param>
-        /// <returns>A function that will return false if the values are outside the boundary, or returns the value otherwise.</returns>
-        private readonly Func<(int, int), bool> GetInputFunction(NativeArray<bool> input, int rows, int columns)
+        /// <param name="x">The x-coordinate of the point.</param>
+        /// <param name="y">The y-coordinate of the point.</param>
+        /// <returns>Whether the points is within the boundaries of the grid.</returns>
+        private readonly bool InBounds(int x, int y)
         {
-            return ((int, int) xy) =>
-            {
-                (int x, int y) = xy;
-
-                // Check whether the value is inside the boundary
-                bool inBounds = (x >= 0) && (x < rows) && (y >= 0) && (y < columns);
-
-                return inBounds && input[x * columns + y];
-            };
+            return ((x >= 0) && (x < rows) && (y >= 0) && (y < columns));
         }
     }
 }

@@ -7,12 +7,15 @@
 
 using Unity.Collections;
 using Unity.Jobs;
+using Unity.Burst;
+using Unity.Burst.CompilerServices;
 
 namespace AwARe.RoomScan.Path.Jobs
 {
     /// <summary>
     /// Job for checking whether a given grid point is a hit or miss for the thinning operation.
     /// </summary>
+    [BurstCompile]
     public struct CheckHitOrMissJob : IJobParallelFor
     {
         /// <summary> The input grid. </summary>
@@ -39,6 +42,7 @@ namespace AwARe.RoomScan.Path.Jobs
         /// <inheritdoc/>
         public void Execute(int index)
         {
+            //Aliasing.ExpectNotAliased(nativeGrid, result);
             if (!nativeGrid[index])
             {
                 result[index] = false;

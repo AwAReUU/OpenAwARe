@@ -7,16 +7,17 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
 using Unity.Collections;
 using Unity.Jobs;
-
-
+using Unity.Burst;
 namespace AwARe.RoomScan.Path.Jobs
 {
-    //[Unity.Burst.BurstCompile]
     /// <summary>
     /// Job for checking whether a point is inside the polygon.
     /// </summary>
+    [BurstCompile]
     public struct CheckInPolygonJob : IJobParallelFor
     {
         /// <summary> The input array. </summary>
@@ -42,7 +43,6 @@ namespace AwARe.RoomScan.Path.Jobs
             int y = index % columns;
             if (CheckInPolygon(polygonWalls, (x, y)) == false) return;
 
-            //nativeResultGrid[index] = checkPositivePolygon;
             result[index] = true;
         }
 
@@ -55,7 +55,9 @@ namespace AwARe.RoomScan.Path.Jobs
         /// <returns>true if the point lies inside the polygon, false otherwise.</returns>
         private readonly bool CheckInPolygon(NativeArray<((int x, int y) p1, (int x, int y) p2)> polygonWalls, (int x, int y) point)
         {
-            List<(double x, double y)> intersections = new();
+            NativeArray<(double x, double y)> intersections = new(polygonWalls.Length, Allocator.Temp);
+
+            int numberOfIntersections = 0;
 
             for (int i = 0; i < polygonWalls.Length; i++)
             {
@@ -87,10 +89,32 @@ namespace AwARe.RoomScan.Path.Jobs
                 if ((intersectx, intersecty) == polygonWalls[i].p1 || (intersectx, intersecty) == polygonWalls[i].p2) { return false; }
 
                 //add this intersection to the list if it is a new one
-                if (!intersections.Contains((intersectx, intersecty))) { intersections.Add((intersectx, intersecty)); }
+                if (NotInIntersections((intersectx, intersecty), intersections))
+                {
+                    intersections[numberOfIntersections] = (intersectx, intersecty);
+                    numberOfIntersections++;
+                }
             }
 
-            return intersections.Count % 2 != 0;
+            bool uneven = numberOfIntersections % 2 != 0;
+            intersections.Dispose();
+            return uneven;
+        }
+
+        /// <summary>
+        /// Checks whether the intersection point is already present in the array of intersections.
+        /// </summary>
+        /// <param name="intersection">The point to check.</param>
+        /// <param name="intersections">The previously found intersections.</param>
+        /// <returns>Whether the intersection point is already present in the array of intersections.</returns>
+        private readonly bool NotInIntersections((double x, double y) intersection, NativeArray<(double x, double y)> intersections)
+        {
+            foreach (var i in intersections)
+            {
+                if (i == intersection)
+                    return false;
+            }
+            return true;
         }
     }
 }
