@@ -48,5 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a00bb68cc2e0a834dba8337e3f9e806e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpPrefab: {fileID: 815723606512412213, guid: e4a69dbf0d74785489aa34475e13cf83,
+  popUpPrefab: {fileID: 8865148051615116771, guid: 221f6fe3e47f6124ebf40802a41aa4b1,
     type: 3}
+  supportCanvas: {fileID: 0}
