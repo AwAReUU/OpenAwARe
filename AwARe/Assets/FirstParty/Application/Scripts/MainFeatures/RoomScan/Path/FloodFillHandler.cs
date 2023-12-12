@@ -36,6 +36,8 @@ namespace AwARe.RoomScan.Path
             int cols = grid.GetLength(1);
             int gridSize = rows * cols;
 
+            NativeArray<bool> nativeGrid = GridConverter.ToNativeGrid(grid);
+
             NativeArray<bool> resultGrid = new(gridSize, Allocator.TempJob);
             NativeArray<((int x, int y) p1, (int x, int y) p2)> polygonLines =
                 new(positiveLines.Count, Allocator.TempJob);
@@ -44,7 +46,7 @@ namespace AwARe.RoomScan.Path
 
             CheckInPolygonJob positivePolygonCheckJob = new()
             {
-                nativeGrid = GridConverter.ToNativeGrid(grid),
+                nativeGrid = nativeGrid,
                 columns = grid.GetLength(1),
                 checkPositivePolygon = true,
                 polygonWalls = polygonLines,
@@ -57,6 +59,7 @@ namespace AwARe.RoomScan.Path
 
             posPolCheckJobHandle.Complete();
 
+            nativeGrid.Dispose();
             polygonLines.Dispose();
 
             for (int i = 0; i < resultGrid.Length; i++)

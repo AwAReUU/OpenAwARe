@@ -50,8 +50,8 @@ namespace AwARe.RoomScan.Path
                 NativeArray<bool> nativeGrid = GridConverter.ToNativeGrid(grid);
                 NativeArray<bool> resultGrid = new(gridSize, Allocator.TempJob);
 
-                NativeArray<bool> frontElement = new(GridConverter.ToNativeGrid(frontGolayElements[i]), Allocator.TempJob);
-                NativeArray<bool> backElement = new(GridConverter.ToNativeGrid(backGolayElements[i]), Allocator.TempJob);
+                NativeArray<bool> frontElement = GridConverter.ToNativeGrid(frontGolayElements[i]);
+                NativeArray<bool> backElement = GridConverter.ToNativeGrid(backGolayElements[i]);
 
                 int elementLength = frontGolayElements[i].GetLength(0);
 

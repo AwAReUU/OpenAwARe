@@ -42,11 +42,11 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        /// Checks whether all elements in the input are true.
+        /// Keep the largest of any disconnected shapes.
         /// </summary>
-        /// <param name="input">A 2D boolean array.</param>
-        /// <returns>Whether all elements in the input array are true.</returns>
-        private bool All(bool[,] input)
+        /// <param name="input">The grid of which the largest shape must be kept.</param>
+        /// <returns>The grid with the smaller disconnected shapes removed.</returns>
+        public bool[,] KeepLargestShape(bool[,] input)
         {
             // If one element is false, return false, otherwise return true.
             for (int i = 0; i < input.GetLength(0); i++)
@@ -57,11 +57,12 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        /// Get the values the neighbourhood around a cell need to be in order for the cell's value to be true.
+        /// Count the size of the different shapes.
         /// </summary>
-        /// <param name="range">The size of the neighbourhood.</param>
-        /// <returns>A 2D array with the size of the range filled with true values.</returns>
-        private bool[,] GetStructuringElement(int range)
+        /// <param name="labeled">The labeled grid.</param>
+        /// <param name="nro_shapes">The amount of different shapes in the grid.</param>
+        /// <returns>An array with the sizes of the different shapes.</returns>
+        private int[] CountShapeSize(int[,] labeled, int nro_shapes)
         {
             bool[,] structuringElement = new bool[range, range];
             for (int i = 0; i < range; i++)
