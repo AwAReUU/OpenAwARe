@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -45,7 +52,7 @@ namespace Tests
         [Test, Description("Ingredient.GetNumberOfGrams correctly converts quantity from ML to G.")]
         [TestCase( 0f, 11f, ExpectedResult = 0f)]
         [TestCase(11f,  0f, ExpectedResult = 0f)]
-        [TestCase(11f, 11f, ExpectedResult = 11f)]
+        [TestCase(11f, 11f, ExpectedResult = 121f)]
         public float Test_GetNumberOfGrams_ML(float quantity, float gramsPerML)
         {
             //Arrange: Create an ingredient with the given gramsPerML conversion rate.

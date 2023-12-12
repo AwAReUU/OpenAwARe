@@ -1,0 +1,770 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoverageSession xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="0.0.0.0">
+  <Summary numSequencePoints="166" visitedSequencePoints="11" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="6.63" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="3" numClasses="21" visitedMethods="5" numMethods="41" />
+  <Modules>
+    <Module>
+      <Summary numSequencePoints="1" visitedSequencePoints="1" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="100.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="1" numClasses="1" visitedMethods="1" numMethods="1" />
+      <ModuleTime>0001-01-01T00:00:00</ModuleTime>
+      <ModuleName>EditMode</ModuleName>
+      <Files>
+        <File uid="36" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/QA/Testing/Tests/EditMode/IngredientListUnitTests.cs" />
+      </Files>
+      <Classes>
+        <Class>
+          <Summary numSequencePoints="1" visitedSequencePoints="1" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="100.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="1" numClasses="1" visitedMethods="1" numMethods="1" />
+          <FullName>Tests.IngredientListTests</FullName>
+          <Methods>
+            <Method visited="true" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="100.0" branchCoverage="0" crapScore="0" isConstructor="true" isStatic="true" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="1" visitedSequencePoints="1" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="100.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken>100663320</MetadataToken>
+              <Name>static Tests.IngredientListTests::IngredientListTests()</Name>
+              <FileRef uid="36" />
+              <SequencePoints>
+                <SequencePoint vc="1" uspid="2479" ordinal="0" offset="0" sl="334" sc="9" el="334" ec="9" bec="0" bev="0" fileid="36" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+      </Classes>
+    </Module>
+    <Module>
+      <Summary numSequencePoints="164" visitedSequencePoints="9" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="5.49" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="1" numClasses="19" visitedMethods="3" numMethods="39" />
+      <ModuleTime>0001-01-01T00:00:00</ModuleTime>
+      <ModuleName>Scripts</ModuleName>
+      <Files>
+        <File uid="37" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/Temporary/ARScenePhaseManager.cs" />
+        <File uid="38" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/Temporary/CameraMovement.cs" />
+        <File uid="39" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/Temporary/DevScreenSelectorHandler.cs" />
+        <File uid="40" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/Temporary/NavigationScriptTO.cs" />
+        <File uid="41" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/Temporary/ObjectDataWindow.cs" />
+        <File uid="42" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/RoomScan/Polygons/Objects/PolygonDrawer.cs" />
+        <File uid="43" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/RoomScan/Polygons/Objects/PolygonManager.cs" />
+        <File uid="44" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/RoomScan/Polygons/Objects/PolygonScan.cs" />
+        <File uid="45" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/RoomScan/Polygons/Logic/Room.cs" />
+        <File uid="46" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/RoomScan/Polygons/Logic/TestRoom.cs" />
+        <File uid="47" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/RoomScan/Path/ErosionHandler.cs" />
+        <File uid="48" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/RoomScan/Path/PathData.cs" />
+        <File uid="49" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/RoomScan/Path/StartState.cs" />
+        <File uid="50" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/RoomScan/Path/VisualizePath.cs" />
+        <File uid="51" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ResourcePipeline/Objects/PipelineManager.cs" />
+        <File uid="52" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ResourcePipeline/Logic/ModelCalculator.cs" />
+        <File uid="53" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ResourcePipeline/Logic/ModelDictionary.cs" />
+        <File uid="54" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ResourcePipeline/Logic/ResourceCalculator.cs" />
+        <File uid="55" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ResourcePipeline/Logic/ResourceDictionary.cs" />
+        <File uid="56" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/Questionnaire/Objects/Question.cs" />
+        <File uid="57" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/Questionnaire/Objects/Questionnaire.cs" />
+        <File uid="58" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/Questionnaire/Objects/QuestionnaireConstructor.cs" />
+        <File uid="59" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/Questionnaire/Objects/ToggleHandler.cs" />
+        <File uid="60" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ObjectInteraction/Objects/InteractObjectHandler.cs" />
+        <File uid="61" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ObjectGeneration/BoxColliderHelper.cs" />
+        <File uid="62" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ObjectGeneration/ObjectCreationManager.cs" />
+        <File uid="63" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ObjectGeneration/ObjectDestroyer.cs" />
+        <File uid="64" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ObjectGeneration/ObjectObtainer.cs" />
+        <File uid="65" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ObjectGeneration/ObjectPlacer.cs" />
+        <File uid="66" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ObjectGeneration/PolygonHelper.cs" />
+        <File uid="67" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ObjectGeneration/Renderable.cs" />
+        <File uid="68" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ObjectGeneration/SpawnPoints/MockSpawnPointHandler.cs" />
+        <File uid="69" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ObjectGeneration/SpawnPoints/PolygonSpawnPointHandler.cs" />
+        <File uid="70" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/IngredientList/Objects/IngredientListManager.cs" />
+        <File uid="71" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/IngredientList/Objects/IngredientListScreen.cs" />
+        <File uid="72" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/IngredientList/Objects/IngredientScreen.cs" />
+        <File uid="73" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/IngredientList/Objects/ListsOverviewScreen.cs" />
+        <File uid="74" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/IngredientList/Objects/SearchScreen.cs" />
+        <File uid="75" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/IngredientList/Logic/IngredientFileHandler.cs" />
+        <File uid="76" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/IngredientList/Logic/IngredientList.cs" />
+        <File uid="77" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/Utility/Visualizers/PointClouds/ARMath.cs" />
+        <File uid="78" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/Utility/Visualizers/PointClouds/ARPointCloudManagerVisualizer.cs" />
+        <File uid="79" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/Utility/Visualizers/PointClouds/ARPointCloudVisualizer.cs" />
+        <File uid="80" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/Utility/Visualizers/PointClouds/BasicVisualizers.cs" />
+        <File uid="81" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/Utility/Visualizers/Special/GroupVisualizers.cs" />
+        <File uid="82" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/Utility/Singleton/Logic/Singleton.cs" />
+        <File uid="83" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/Utility/UnityFriendly/Logic/Safe.cs" />
+        <File uid="84" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/Utility/Containers/Objects/Container.cs" />
+        <File uid="85" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/Utility/Containers/Objects/ContainerSpawner.cs" />
+        <File uid="86" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/Utility/Spawners/Objects/BasicSpawners.cs" />
+        <File uid="87" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/UI/Objects/Buttons/ActivityToggle.cs" />
+        <File uid="88" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/UI/Objects/Buttons/ShowHideBtns.cs" />
+        <File uid="89" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/UI/Objects/Buttons/SwitchSceneButton.cs" />
+        <File uid="90" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/UI/Objects/PopUps/PopUp.cs" />
+        <File uid="91" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/NotImplemented/Objects/NotImplemented.cs" />
+        <File uid="92" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/NotImplemented/Objects/NotImplementedHandler.cs" />
+        <File uid="93" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/IO/Server/Objects/ClientBehaviour.cs" />
+        <File uid="94" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/IO/Server/Logic/Client.cs" />
+        <File uid="95" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/IO/Notifications/Objects/NotificationScheduler.cs" />
+        <File uid="96" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/IO/Notifications/Logic/EditorNotif.cs" />
+        <File uid="97" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/IO/Input/Objects/InputController.cs" />
+        <File uid="98" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/IO/Database/Logic/MockupIngredientDatabase.cs" />
+        <File uid="99" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/IO/Database/Logic/MockupIngrToResDatabase.cs" />
+        <File uid="100" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/IO/Database/Logic/MockupModelDatabase.cs" />
+        <File uid="101" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/IO/Database/Logic/MockupResourceDatabase.cs" />
+        <File uid="102" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/InterScenes/Objects/ARSecretary.cs" />
+        <File uid="103" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/InterScenes/Objects/SceneObjectsBundler.cs" />
+        <File uid="104" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/InterScenes/Objects/SceneSecretary.cs" />
+        <File uid="105" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/InterScenes/Objects/SceneSwitcher.cs" />
+        <File uid="106" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/InterScenes/Objects/StartLoader.cs" />
+        <File uid="107" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/InterScenes/Objects/Storage.cs" />
+        <File uid="108" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/InterScenes/Logic/Storage.cs" />
+        <File uid="109" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/Data/Types/Polygons/Objects/PolygonMesh.cs" />
+        <File uid="110" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/Application/Scripts/General/Data/Types/Polygons/Logic/Polygon.cs" />
+      </Files>
+      <Classes>
+        <Class>
+          <Summary numSequencePoints="9" visitedSequencePoints="9" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="100.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="1" numClasses="1" visitedMethods="3" numMethods="3" />
+          <FullName>AwARe.IngredientList.Logic.Ingredient</FullName>
+          <Methods>
+            <Method visited="true" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="100.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="true" isSetter="false">
+              <Summary numSequencePoints="1" visitedSequencePoints="1" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="100.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken>100663628</MetadataToken>
+              <Name>System.Int32 AwARe.IngredientList.Logic.Ingredient::get_ID()</Name>
+              <FileRef uid="76" />
+              <SequencePoints>
+                <SequencePoint vc="3" uspid="4683" ordinal="0" offset="0" sl="63" sc="25" el="63" ec="25" bec="0" bev="0" fileid="76" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="true" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="100.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="1" visitedSequencePoints="1" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="100.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken>100663638</MetadataToken>
+              <Name>System.Int32 AwARe.IngredientList.Logic.Ingredient::GetHashCode()</Name>
+              <FileRef uid="76" />
+              <SequencePoints>
+                <SequencePoint vc="3" uspid="4705" ordinal="0" offset="0" sl="115" sc="46" el="115" ec="46" bec="0" bev="0" fileid="76" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="true" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="100.0" branchCoverage="0" crapScore="0" isConstructor="true" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="7" visitedSequencePoints="7" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="100.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken>100663632</MetadataToken>
+              <Name>AwARe.IngredientList.Logic.Ingredient::Ingredient(System.Int32, System.String, System.Nullable[Single], System.Nullable[Single])</Name>
+              <FileRef uid="76" />
+              <SequencePoints>
+                <SequencePoint vc="3" uspid="4706" ordinal="0" offset="0" sl="71" sc="9" el="71" ec="9" bec="0" bev="0" fileid="76" />
+                <SequencePoint vc="3" uspid="4707" ordinal="0" offset="7" sl="72" sc="9" el="72" ec="9" bec="0" bev="0" fileid="76" />
+                <SequencePoint vc="3" uspid="4708" ordinal="0" offset="8" sl="73" sc="13" el="73" ec="13" bec="0" bev="0" fileid="76" />
+                <SequencePoint vc="3" uspid="4709" ordinal="0" offset="15" sl="74" sc="13" el="74" ec="13" bec="0" bev="0" fileid="76" />
+                <SequencePoint vc="3" uspid="4710" ordinal="0" offset="22" sl="75" sc="13" el="75" ec="13" bec="0" bev="0" fileid="76" />
+                <SequencePoint vc="3" uspid="4711" ordinal="0" offset="29" sl="76" sc="13" el="76" ec="13" bec="0" bev="0" fileid="76" />
+                <SequencePoint vc="3" uspid="4712" ordinal="0" offset="37" sl="77" sc="9" el="77" ec="9" bec="0" bev="0" fileid="76" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="6" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="1" />
+          <FullName>AwARe.Visualizers.ARPointCloudInfo[Pos,Id,Conf]</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="true" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="6" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663642</MetadataToken>
+              <Name>AwARe.Visualizers.ARPointCloudInfo[Pos,Id,Conf]::ARPointCloudInfo(Pos, Id, Conf)</Name>
+              <FileRef uid="77" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4713" ordinal="0" offset="0" sl="15" sc="0" el="15" ec="0" bec="0" bev="0" fileid="77" />
+                <SequencePoint vc="0" uspid="4714" ordinal="0" offset="7" sl="16" sc="0" el="16" ec="0" bec="0" bev="0" fileid="77" />
+                <SequencePoint vc="0" uspid="4715" ordinal="0" offset="8" sl="17" sc="0" el="17" ec="0" bec="0" bev="0" fileid="77" />
+                <SequencePoint vc="0" uspid="4716" ordinal="0" offset="15" sl="18" sc="0" el="18" ec="0" bec="0" bev="0" fileid="77" />
+                <SequencePoint vc="0" uspid="4717" ordinal="0" offset="22" sl="19" sc="0" el="19" ec="0" bec="0" bev="0" fileid="77" />
+                <SequencePoint vc="0" uspid="4718" ordinal="0" offset="29" sl="20" sc="0" el="20" ec="0" bec="0" bev="0" fileid="77" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="17" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="3" />
+          <FullName>AwARe.Visualizers.GroupVisualizer[In]</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="7" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663665</MetadataToken>
+              <Name>System.Void AwARe.Visualizers.GroupVisualizer[In]::Visualize()</Name>
+              <FileRef uid="81" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4857" ordinal="0" offset="0" sl="18" sc="0" el="18" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4858" ordinal="0" offset="1" sl="19" sc="0" el="19" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4859" ordinal="0" offset="18" sl="20" sc="0" el="20" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4860" ordinal="0" offset="22" sl="21" sc="0" el="21" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4861" ordinal="0" offset="43" sl="20" sc="0" el="20" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4862" ordinal="0" offset="47" sl="20" sc="0" el="20" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4863" ordinal="0" offset="55" sl="22" sc="0" el="22" ec="0" bec="0" bev="0" fileid="81" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="6" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663666</MetadataToken>
+              <Name>System.Void AwARe.Visualizers.GroupVisualizer[In]::Visualize()</Name>
+              <FileRef uid="81" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4864" ordinal="0" offset="0" sl="25" sc="0" el="25" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4865" ordinal="0" offset="1" sl="26" sc="0" el="26" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4866" ordinal="0" offset="5" sl="27" sc="0" el="27" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4867" ordinal="0" offset="19" sl="26" sc="0" el="26" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4868" ordinal="0" offset="23" sl="26" sc="0" el="26" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4869" ordinal="0" offset="38" sl="28" sc="0" el="28" ec="0" bec="0" bev="0" fileid="81" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="true" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="4" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663664</MetadataToken>
+              <Name>AwARe.Visualizers.GroupVisualizer[In]::GroupVisualizer()</Name>
+              <FileRef uid="81" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4870" ordinal="0" offset="0" sl="12" sc="0" el="12" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4871" ordinal="0" offset="7" sl="13" sc="0" el="13" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4872" ordinal="0" offset="8" sl="14" sc="0" el="14" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4873" ordinal="0" offset="15" sl="15" sc="0" el="15" ec="0" bec="0" bev="0" fileid="81" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="24" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="3" />
+          <FullName>AwARe.Visualizers.TrackableCollectionVisualizer[In]</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="14" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663668</MetadataToken>
+              <Name>System.Void AwARe.Visualizers.TrackableCollectionVisualizer[In]::Visualize(UnityEngine.XR.ARFoundation.TrackableCollection[In])</Name>
+              <FileRef uid="81" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4874" ordinal="0" offset="0" sl="41" sc="0" el="41" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4875" ordinal="0" offset="1" sl="42" sc="0" el="42" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4876" ordinal="0" offset="10" sl="43" sc="0" el="43" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4877" ordinal="0" offset="53" sl="44" sc="0" el="44" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4878" ordinal="0" offset="55" sl="45" sc="0" el="45" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4879" ordinal="0" offset="56" sl="45" sc="0" el="45" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4880" ordinal="0" offset="66" sl="45" sc="0" el="45" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4881" ordinal="0" offset="75" sl="46" sc="0" el="46" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4882" ordinal="0" offset="76" sl="47" sc="0" el="47" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4883" ordinal="0" offset="93" sl="47" sc="0" el="47" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4884" ordinal="0" offset="95" sl="48" sc="0" el="48" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4885" ordinal="0" offset="111" sl="49" sc="0" el="49" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4886" ordinal="0" offset="112" sl="45" sc="0" el="45" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4887" ordinal="0" offset="121" sl="50" sc="0" el="50" ec="0" bec="0" bev="0" fileid="81" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="6" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663669</MetadataToken>
+              <Name>System.Void AwARe.Visualizers.TrackableCollectionVisualizer[In]::Visualize()</Name>
+              <FileRef uid="81" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4888" ordinal="0" offset="0" sl="52" sc="0" el="52" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4889" ordinal="0" offset="1" sl="53" sc="0" el="53" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4890" ordinal="0" offset="5" sl="54" sc="0" el="54" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4891" ordinal="0" offset="19" sl="53" sc="0" el="53" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4892" ordinal="0" offset="23" sl="53" sc="0" el="53" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4893" ordinal="0" offset="38" sl="55" sc="0" el="55" ec="0" bec="0" bev="0" fileid="81" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="true" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="4" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663667</MetadataToken>
+              <Name>AwARe.Visualizers.TrackableCollectionVisualizer[In]::TrackableCollectionVisualizer()</Name>
+              <FileRef uid="81" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4894" ordinal="0" offset="0" sl="35" sc="0" el="35" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4895" ordinal="0" offset="7" sl="36" sc="0" el="36" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4896" ordinal="0" offset="8" sl="37" sc="0" el="37" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4897" ordinal="0" offset="15" sl="38" sc="0" el="38" ec="0" bec="0" bev="0" fileid="81" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="10" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="3" />
+          <FullName>AwARe.Visualizers.IgnoreOnNullVisualizer[In]</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="5" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663671</MetadataToken>
+              <Name>System.Void AwARe.Visualizers.IgnoreOnNullVisualizer[In]::Visualize(System.Nullable[In])</Name>
+              <FileRef uid="81" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4898" ordinal="0" offset="0" sl="69" sc="0" el="69" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4899" ordinal="0" offset="1" sl="70" sc="0" el="70" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4900" ordinal="0" offset="15" sl="71" sc="0" el="71" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4901" ordinal="0" offset="17" sl="72" sc="0" el="72" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4902" ordinal="0" offset="36" sl="73" sc="0" el="73" ec="0" bec="0" bev="0" fileid="81" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="1" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663672</MetadataToken>
+              <Name>System.Void AwARe.Visualizers.IgnoreOnNullVisualizer[In]::Visualize()</Name>
+              <FileRef uid="81" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4903" ordinal="0" offset="0" sl="75" sc="0" el="75" ec="0" bec="0" bev="0" fileid="81" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="true" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="4" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663670</MetadataToken>
+              <Name>AwARe.Visualizers.IgnoreOnNullVisualizer[In]::IgnoreOnNullVisualizer(AwARe.Visualizers.IVisualizer[In])</Name>
+              <FileRef uid="81" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4904" ordinal="0" offset="0" sl="63" sc="0" el="63" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4905" ordinal="0" offset="7" sl="64" sc="0" el="64" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4906" ordinal="0" offset="8" sl="65" sc="0" el="65" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4907" ordinal="0" offset="15" sl="66" sc="0" el="66" ec="0" bec="0" bev="0" fileid="81" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="13" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="3" />
+          <FullName>AwARe.Visualizers.HideOnNullVisualizer[In]</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="8" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663674</MetadataToken>
+              <Name>System.Void AwARe.Visualizers.HideOnNullVisualizer[In]::Visualize(System.Nullable[In])</Name>
+              <FileRef uid="81" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4908" ordinal="0" offset="0" sl="89" sc="0" el="89" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4909" ordinal="0" offset="1" sl="90" sc="0" el="90" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4910" ordinal="0" offset="12" sl="91" sc="0" el="91" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4911" ordinal="0" offset="26" sl="92" sc="0" el="92" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4912" ordinal="0" offset="27" sl="93" sc="0" el="93" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4913" ordinal="0" offset="39" sl="94" sc="0" el="94" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4914" ordinal="0" offset="41" sl="97" sc="0" el="97" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4915" ordinal="0" offset="60" sl="98" sc="0" el="98" ec="0" bec="0" bev="0" fileid="81" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="1" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663675</MetadataToken>
+              <Name>System.Void AwARe.Visualizers.HideOnNullVisualizer[In]::Visualize()</Name>
+              <FileRef uid="81" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4916" ordinal="0" offset="0" sl="100" sc="0" el="100" ec="0" bec="0" bev="0" fileid="81" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="true" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="4" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663673</MetadataToken>
+              <Name>AwARe.Visualizers.HideOnNullVisualizer[In]::HideOnNullVisualizer(AwARe.Visualizers.IVisualizer[In])</Name>
+              <FileRef uid="81" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4917" ordinal="0" offset="0" sl="83" sc="0" el="83" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4918" ordinal="0" offset="7" sl="84" sc="0" el="84" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4919" ordinal="0" offset="8" sl="85" sc="0" el="85" ec="0" bec="0" bev="0" fileid="81" />
+                <SequencePoint vc="0" uspid="4920" ordinal="0" offset="15" sl="86" sc="0" el="86" ec="0" bec="0" bev="0" fileid="81" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="10" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="3" />
+          <FullName>AwARe.Logic.Singleton</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="true" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="1" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663676</MetadataToken>
+              <Name>static T AwARe.Logic.Singleton::Get[T](, System.Func[T])</Name>
+              <FileRef uid="82" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4921" ordinal="0" offset="0" sl="49" sc="0" el="49" ec="0" bec="0" bev="0" fileid="82" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="true" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="5" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663677</MetadataToken>
+              <Name>static System.Void AwARe.Logic.Singleton::Awake[T](, T)</Name>
+              <FileRef uid="82" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4922" ordinal="0" offset="0" sl="61" sc="0" el="61" ec="0" bec="0" bev="0" fileid="82" />
+                <SequencePoint vc="0" uspid="4923" ordinal="0" offset="1" sl="62" sc="0" el="62" ec="0" bec="0" bev="0" fileid="82" />
+                <SequencePoint vc="0" uspid="4924" ordinal="0" offset="49" sl="63" sc="0" el="63" ec="0" bec="0" bev="0" fileid="82" />
+                <SequencePoint vc="0" uspid="4925" ordinal="0" offset="68" sl="65" sc="0" el="65" ec="0" bec="0" bev="0" fileid="82" />
+                <SequencePoint vc="0" uspid="4926" ordinal="0" offset="75" sl="66" sc="0" el="66" ec="0" bec="0" bev="0" fileid="82" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="true" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="4" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663678</MetadataToken>
+              <Name>static System.Void AwARe.Logic.Singleton::OnDestroy[T](, T)</Name>
+              <FileRef uid="82" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4927" ordinal="0" offset="0" sl="77" sc="0" el="77" ec="0" bec="0" bev="0" fileid="82" />
+                <SequencePoint vc="0" uspid="4928" ordinal="0" offset="1" sl="78" sc="0" el="78" ec="0" bec="0" bev="0" fileid="82" />
+                <SequencePoint vc="0" uspid="4929" ordinal="0" offset="27" sl="79" sc="0" el="79" ec="0" bec="0" bev="0" fileid="82" />
+                <SequencePoint vc="0" uspid="4930" ordinal="0" offset="34" sl="80" sc="0" el="80" ec="0" bec="0" bev="0" fileid="82" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="1" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="1" />
+          <FullName>AwARe.Logic.Safe</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="true" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="1" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663679</MetadataToken>
+              <Name>static T AwARe.Logic.Safe::Load[T](, System.Func[T])</Name>
+              <FileRef uid="83" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="4931" ordinal="0" offset="0" sl="18" sc="0" el="18" ec="0" bec="0" bev="0" fileid="83" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="6" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="2" />
+          <FullName>AwARe.Server.Logic.Client</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="true" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="3" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663744</MetadataToken>
+              <Name>static AwARe.Server.Logic.Request[B] AwARe.Server.Logic.Client::Post[B](System.String, B)</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5042" ordinal="0" offset="0" sl="244" sc="0" el="244" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5043" ordinal="0" offset="1" sl="245" sc="0" el="245" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5044" ordinal="0" offset="12" sl="246" sc="0" el="246" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="true" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="3" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663745</MetadataToken>
+              <Name>static AwARe.Server.Logic.Request[B] AwARe.Server.Logic.Client::Get[B](System.String, B)</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5045" ordinal="0" offset="0" sl="249" sc="0" el="249" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5046" ordinal="0" offset="1" sl="250" sc="0" el="250" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5047" ordinal="0" offset="12" sl="251" sc="0" el="251" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="28" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="6" />
+          <FullName>AwARe.Server.Logic.Request[B]</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="4" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663747</MetadataToken>
+              <Name>AwARe.Server.Logic.Request[B] AwARe.Server.Logic.Request[B]::Then(System.Action[Dictionary`2])</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5054" ordinal="0" offset="0" sl="281" sc="0" el="281" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5055" ordinal="0" offset="1" sl="282" sc="0" el="282" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5056" ordinal="0" offset="8" sl="283" sc="0" el="283" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5057" ordinal="0" offset="12" sl="284" sc="0" el="284" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="4" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663748</MetadataToken>
+              <Name>AwARe.Server.Logic.Request[B] AwARe.Server.Logic.Request[B]::Catch(System.Action[Exception])</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5058" ordinal="0" offset="0" sl="287" sc="0" el="287" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5059" ordinal="0" offset="1" sl="288" sc="0" el="288" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5060" ordinal="0" offset="8" sl="289" sc="0" el="289" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5061" ordinal="0" offset="12" sl="290" sc="0" el="290" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="7" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663749</MetadataToken>
+              <Name>System.Void AwARe.Server.Logic.Request[B]::Send()</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5062" ordinal="0" offset="0" sl="293" sc="0" el="293" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5063" ordinal="0" offset="1" sl="294" sc="0" el="294" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5064" ordinal="0" offset="21" sl="297" sc="0" el="297" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5065" ordinal="0" offset="28" sl="298" sc="0" el="298" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5066" ordinal="0" offset="30" sl="300" sc="0" el="300" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5067" ordinal="0" offset="37" sl="301" sc="0" el="301" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5068" ordinal="0" offset="39" sl="303" sc="0" el="303" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="3" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663750</MetadataToken>
+              <Name>System.Void AwARe.Server.Logic.Request[B]::Post()</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5069" ordinal="0" offset="0" sl="306" sc="0" el="306" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5070" ordinal="0" offset="1" sl="307" sc="0" el="307" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5071" ordinal="0" offset="36" sl="308" sc="0" el="308" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="3" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663751</MetadataToken>
+              <Name>System.Void AwARe.Server.Logic.Request[B]::Get()</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5072" ordinal="0" offset="0" sl="311" sc="0" el="311" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5073" ordinal="0" offset="1" sl="312" sc="0" el="312" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5074" ordinal="0" offset="36" sl="313" sc="0" el="313" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="true" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="7" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663746</MetadataToken>
+              <Name>AwARe.Server.Logic.Request[B]::Request(AwARe.Server.Logic.RequestType, System.String, B)</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5075" ordinal="0" offset="0" sl="271" sc="0" el="271" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5076" ordinal="0" offset="37" sl="273" sc="0" el="273" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5077" ordinal="0" offset="44" sl="274" sc="0" el="274" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5078" ordinal="0" offset="45" sl="275" sc="0" el="275" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5079" ordinal="0" offset="52" sl="276" sc="0" el="276" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5080" ordinal="0" offset="59" sl="277" sc="0" el="277" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5081" ordinal="0" offset="66" sl="278" sc="0" el="278" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="1" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="1" />
+          <FullName>AwARe.InterScenes.Objects.ARSecretary</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="1" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663813</MetadataToken>
+              <Name>T AwARe.InterScenes.Objects.ARSecretary::GetComponent[T]()</Name>
+              <FileRef uid="102" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5230" ordinal="0" offset="0" sl="68" sc="0" el="68" ec="0" bec="0" bev="0" fileid="102" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="4" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="1" />
+          <FullName>AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass16_0[B]</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="4" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663967</MetadataToken>
+              <Name>System.Void AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass16_0[B]::&lt;SendPostRequest&gt;b__0(System.Threading.Tasks.TaskCompletionSource[Boolean])</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5494" ordinal="0" offset="20" sl="195" sc="0" el="195" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5495" ordinal="0" offset="21" sl="196" sc="0" el="196" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5496" ordinal="0" offset="73" sl="201" sc="0" el="201" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5497" ordinal="0" offset="124" sl="213" sc="0" el="213" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="9" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="2" />
+          <FullName>AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass16_1[B]</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="5" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663969</MetadataToken>
+              <Name>System.Void AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass16_1[B]::&lt;SendPostRequest&gt;b__1(Proyecto26.ResponseHelper)</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5498" ordinal="0" offset="0" sl="202" sc="0" el="202" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5499" ordinal="0" offset="1" sl="203" sc="0" el="203" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5500" ordinal="0" offset="13" sl="204" sc="0" el="204" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5501" ordinal="0" offset="31" sl="206" sc="0" el="206" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5502" ordinal="0" offset="44" sl="207" sc="0" el="207" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="4" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663970</MetadataToken>
+              <Name>System.Void AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass16_1[B]::&lt;SendPostRequest&gt;b__2(System.Exception)</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5503" ordinal="0" offset="0" sl="208" sc="0" el="208" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5504" ordinal="0" offset="1" sl="209" sc="0" el="209" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5505" ordinal="0" offset="19" sl="211" sc="0" el="211" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5506" ordinal="0" offset="32" sl="212" sc="0" el="212" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="4" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="1" />
+          <FullName>AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass17_0[B]</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="4" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663972</MetadataToken>
+              <Name>System.Void AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass17_0[B]::&lt;SendGetRequest&gt;b__0(System.Threading.Tasks.TaskCompletionSource[Boolean])</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5507" ordinal="0" offset="20" sl="219" sc="0" el="219" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5508" ordinal="0" offset="21" sl="220" sc="0" el="220" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5509" ordinal="0" offset="73" sl="225" sc="0" el="225" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5510" ordinal="0" offset="124" sl="237" sc="0" el="237" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="9" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="2" />
+          <FullName>AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass17_1[B]</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="5" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663974</MetadataToken>
+              <Name>System.Void AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass17_1[B]::&lt;SendGetRequest&gt;b__1(Proyecto26.ResponseHelper)</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5511" ordinal="0" offset="0" sl="226" sc="0" el="226" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5512" ordinal="0" offset="1" sl="227" sc="0" el="227" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5513" ordinal="0" offset="13" sl="228" sc="0" el="228" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5514" ordinal="0" offset="31" sl="230" sc="0" el="230" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5515" ordinal="0" offset="44" sl="231" sc="0" el="231" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="4" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663975</MetadataToken>
+              <Name>System.Void AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass17_1[B]::&lt;SendGetRequest&gt;b__2(System.Exception)</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5516" ordinal="0" offset="0" sl="232" sc="0" el="232" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5517" ordinal="0" offset="1" sl="233" sc="0" el="233" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5518" ordinal="0" offset="19" sl="235" sc="0" el="235" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5519" ordinal="0" offset="32" sl="236" sc="0" el="236" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="5" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="1" />
+          <FullName>AwARe.Server.Logic.Client&lt;AwaitRSGPromise&gt;d__15[T]</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="5" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663982</MetadataToken>
+              <Name>System.Void AwARe.Server.Logic.Client&lt;AwaitRSGPromise&gt;d__15[T]::MoveNext()</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5533" ordinal="0" offset="14" sl="182" sc="0" el="182" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5534" ordinal="0" offset="15" sl="187" sc="0" el="187" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5535" ordinal="0" offset="26" sl="188" sc="0" el="188" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5536" ordinal="0" offset="44" sl="189" sc="0" el="189" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5537" ordinal="0" offset="189" sl="190" sc="0" el="190" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="3" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="1" />
+          <FullName>AwARe.Server.Logic.Client&lt;SendGetRequest&gt;d__17[B]</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="3" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663991</MetadataToken>
+              <Name>System.Void AwARe.Server.Logic.Client&lt;SendGetRequest&gt;d__17[B]::MoveNext()</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5548" ordinal="0" offset="96" sl="217" sc="0" el="217" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5549" ordinal="0" offset="97" sl="218" sc="0" el="218" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5550" ordinal="0" offset="239" sl="238" sc="0" el="238" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="3" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="1" />
+          <FullName>AwARe.Server.Logic.Client&lt;SendPostRequest&gt;d__16[B]</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="3" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663994</MetadataToken>
+              <Name>System.Void AwARe.Server.Logic.Client&lt;SendPostRequest&gt;d__16[B]::MoveNext()</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5551" ordinal="0" offset="96" sl="193" sc="0" el="193" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5552" ordinal="0" offset="97" sl="194" sc="0" el="194" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5553" ordinal="0" offset="239" sl="214" sc="0" el="214" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="2" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="1" />
+          <FullName>AwARe.Server.Logic.Request[B]/&lt;&gt;c</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="2" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken>100663998</MetadataToken>
+              <Name>System.Void AwARe.Server.Logic.Request[B]/&lt;&gt;c::&lt;.ctor&gt;b__5_0(System.Exception)</Name>
+              <FileRef uid="94" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5554" ordinal="0" offset="0" sl="271" sc="0" el="271" ec="0" bec="0" bev="0" fileid="94" />
+                <SequencePoint vc="0" uspid="5555" ordinal="0" offset="1" sl="271" sc="0" el="271" ec="0" bec="0" bev="0" fileid="94" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+      </Classes>
+    </Module>
+    <Module>
+      <Summary numSequencePoints="1" visitedSequencePoints="1" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="100.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="1" numClasses="1" visitedMethods="1" numMethods="1" />
+      <ModuleTime>0001-01-01T00:00:00</ModuleTime>
+      <ModuleName>PlayMode</ModuleName>
+      <Files>
+        <File uid="111" fullPath="C:/Users/Nathan/Documents/GitHub/AwARe/AwARe/Assets/FirstParty/QA/Testing/Tests/PlayMode/ObjectGenerationPlayModeTest.cs" />
+      </Files>
+      <Classes>
+        <Class>
+          <Summary numSequencePoints="1" visitedSequencePoints="1" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="100.0" branchCoverage="0.0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="1" numClasses="1" visitedMethods="1" numMethods="1" />
+          <FullName>AwARe.ObjectGenerationPlayModeTest</FullName>
+          <Methods>
+            <Method visited="true" cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="100.0" branchCoverage="0" crapScore="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="1" visitedSequencePoints="1" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="100.0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken>100663299</MetadataToken>
+              <Name>System.Void AwARe.ObjectGenerationPlayModeTest::OneTimeSetup()</Name>
+              <FileRef uid="111" />
+              <SequencePoints>
+                <SequencePoint vc="1" uspid="5631" ordinal="0" offset="0" sl="27" sc="39" el="27" ec="39" bec="0" bev="0" fileid="111" />
+              </SequencePoints>
+              <BranchPoints />
+            </Method>
+          </Methods>
+        </Class>
+      </Classes>
+    </Module>
+  </Modules>
+</CoverageSession>
