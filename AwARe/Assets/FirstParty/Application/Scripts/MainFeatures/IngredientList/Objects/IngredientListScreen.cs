@@ -9,6 +9,15 @@ using UnityEngine.UI;
 
 namespace AwARe.IngredientList.Objects
 {
+    /// <summary>
+    /// <para>
+    ///     Handles the UI of the IngredientList screen.
+    /// </para>
+    /// <para>
+    ///     Shows an overview of all <see cref="Ingredient"/>s in an <see cref="IngredientList"/>
+    ///     and allows the editing of ListName and selection of Ingredients to edit.
+    /// </para>
+    /// </summary>
     public class IngredientListScreen : MonoBehaviour
     {
         [SerializeField] private IngredientListManager ingredientListManager;
@@ -34,7 +43,6 @@ namespace AwARe.IngredientList.Objects
 
         private void OnEnable()
         {
-            
             popupScreen.SetActive(false);
             backButton.SetActive(true);
             Button backB = backButton.GetComponent<Button>();
@@ -53,7 +61,6 @@ namespace AwARe.IngredientList.Objects
 
         private void OnDisable()
         {
-            
             Button backB = backButton.GetComponent<Button>();
             backB.onClick.RemoveAllListeners();
 
@@ -80,7 +87,7 @@ namespace AwARe.IngredientList.Objects
 
 
         /// <summary>
-        /// Changes the name of the list to the name that is put into the inputfield in unity
+        /// Changes the name of the list to the name that is put into the InputField in Unity.
         /// </summary>
         public void OnChangeListName()
         {
@@ -91,7 +98,7 @@ namespace AwARe.IngredientList.Objects
 
         
         /// <summary>
-        /// the variable changesmade is switched to true because a change is made in the list
+        /// Switches changesMade to true. Can be called when changes are made to the list.
         /// </summary>
         private void HandleChangesMade()
         {
@@ -141,7 +148,7 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Destroys all objects in the scrollview and empties ingredientObjects.
+        /// Destroys all objects in the ScrollView and empties ingredientObjects.
         /// </summary>
         private void RemoveIngredientObjects()
         {
@@ -200,9 +207,10 @@ namespace AwARe.IngredientList.Objects
 
 
         /// <summary>
-        /// if the user clicks the save button then the progress gets saved and the user returns to the overviewscreen
-        /// if the user clicks the don't save button the progress doesn't get saved and the user returns to the overviewscreen
-        /// if the user clicks the continue editing button the popup dissapears
+        /// Activates a PopUp screen with 3 different options:
+        /// If the user clicks the "save" button then the progress gets saved and the user returns to the overview screen;
+        /// If the user clicks the "don't save" button the progress doesn't get saved and the user returns to the overview screen;
+        /// If the user clicks the "continue editing" button the popup disappears.
         /// </summary>
         private void PopUpChoices()
         {
@@ -213,7 +221,6 @@ namespace AwARe.IngredientList.Objects
             saveButton.onClick.AddListener(() => { ingredientListManager.ChangeToListsOverviewScreen(true); });
             dontsaveButton.onClick.AddListener(() => { ingredientListManager.ChangeToListsOverviewScreen(false); });
             keepeditButton.onClick.AddListener(() => { popupScreen.SetActive(false); });
-
         }
 
         /// <summary>
