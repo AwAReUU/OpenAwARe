@@ -75,7 +75,7 @@ public class QuestionnaireMockJsonTests
     }
 
     [UnityTest, Description("Check whether an empty json object crashes the program.")]
-    public IEnumerator TestEmptyJsonObjectNoCrash()
+    public IEnumerator Test_EmptyJsonObject_NoCrash()
     {
         TextAsset newText = new("{}");
         mockQuestionnaireConstructor.InitializeFields(newText, questionnairePrefab);
@@ -85,7 +85,7 @@ public class QuestionnaireMockJsonTests
     }
 
     [UnityTest, Description("Check whether a completely empty file crashes the program.")]
-    public IEnumerator TestEmptyStringJsonNoCrash()
+    public IEnumerator Test_EmptyStringJson_NoCrash()
     {
         //TODO: Improve our code so this does not fail.
         TextAsset newText = new("");
@@ -96,7 +96,7 @@ public class QuestionnaireMockJsonTests
     }
 
     [UnityTest, Description("Test whether the questions are stored in the right order.")]
-    public IEnumerator TestValidQuestionOrder()
+    public IEnumerator Test_ValidQuestionOrder()
     {
         //Arrange: Create a questionnaire with questions from the testFormat.
         GameObject[] questions = new GameObject[8];
@@ -138,7 +138,7 @@ public class QuestionnaireMockJsonTests
     }
 
     [UnityTest, Description("Test whether all checkboxes are created. (And not too many!)")]
-    public IEnumerator TestCheckBoxCreation()
+    public IEnumerator Test_CheckBoxCreation()
     {
         //Arrange: Create constructor
         mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab);
@@ -151,7 +151,7 @@ public class QuestionnaireMockJsonTests
     }
 
     [UnityTest, Description("Test whether all radioButtons are created. (And not too many!)")]
-    public IEnumerator TestRadioButtonCreation()
+    public IEnumerator Test_RadioButtonCreation()
     {
         //Arrange: Create constructor
         mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab);
@@ -164,7 +164,7 @@ public class QuestionnaireMockJsonTests
     }
 
     [UnityTest, Description("Test whether all inputFields are created. (And not too many!)")]
-    public IEnumerator TestInputFieldCreation()
+    public IEnumerator Test_InputFieldCreation()
     {
         //Arrange: Create constructor
         mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab);

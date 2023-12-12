@@ -26,7 +26,7 @@ namespace AwARe.Questionnaire.Objects
         /// <summary>
         /// Initialize a new Questionnnaire.
         /// </summary>
-        void Awake()
+        private void Awake()
         {
             questions = new List<GameObject>();
         }
@@ -54,8 +54,8 @@ namespace AwARe.Questionnaire.Objects
             GameObject questionCreatorObject = Instantiate(questionCreatorPrefab);
             Question question = questionCreatorObject.GetComponent<Question>();
 
-            // Set the title and if-yes information using the instantiated QuestionCreator
-            ConfigureQuestionCreator(question, data);
+            question.SetTitle(data.questionTitle);
+            question.SetIfYes(data.ifYes, data.ifYesTrigger);
 
             // Instantiate the template and set its parent
             questionCreatorObject.transform.SetParent(gameObject.transform.Find("Question Scroller/Content"));
@@ -89,19 +89,19 @@ namespace AwARe.Questionnaire.Objects
         }
 
         /// <summary>
-        /// Adds all IfYesQuestions of <paramref name="data"/> to <paramref name="question"/> if they exist.
+        /// Adds all IfYesQuestions from <paramref name="data"/> to <paramref name="question"/> if they exist.
         /// </summary>
-        /// <param name="questionCreator">The Question instance triggering the "ifYes" condition.</param>
+        /// <param name="question">The Question instance triggering the "ifYes" condition.</param>
         /// <param name="data">The QuestionData containing information about the "ifYes" condition and associated questions.</param>
         private void AddIfYesQuestions(Question question, QuestionData data)
         {
             if (!data.ifYes) return;
 
-            foreach (QuestionData ifyesQuestionData in data.ifYesQuestions)
+            foreach (QuestionData ifYesQuestionData in data.ifYesQuestions)
             {
-                var ifyesQuestion = AddQuestion(ifyesQuestionData);
-                ifyesQuestion.SetActive(false);
-                question.ifYesQuestions.Add(ifyesQuestion);
+                GameObject ifYesQuestion = AddQuestion(ifYesQuestionData);
+                ifYesQuestion.SetActive(false);
+                question.ifYesQuestions.Add(ifYesQuestion);
             }
         }
     }

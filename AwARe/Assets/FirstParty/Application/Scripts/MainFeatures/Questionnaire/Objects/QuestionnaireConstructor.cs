@@ -19,8 +19,9 @@ namespace AwARe.Questionnaire.Objects
         /// </value>
         private QuestionnaireData Data { get; set; }
 
-        //currently, start only loads the test questionnaire from a json file
-        //in the future, this obviously has to change
+        /// <summary>
+        /// Create a questionnaire from json string.
+        /// </summary>
         private void Start()
         {
             QuestionnaireFromJsonString(jsonFile.text);
@@ -29,17 +30,19 @@ namespace AwARe.Questionnaire.Objects
         /// <summary>
         /// Convert <paramref name="jsonText"/> to data object and creates a questionnaire out of it.
         /// </summary>
-        /// <returns>A questionnaire gameobject.</returns>
+        /// <returns>A questionnaire GameObject.</returns>
         public GameObject QuestionnaireFromJsonString(string jsonText)
         {
             Data = JsonUtility.FromJson<QuestionnaireData>(jsonText);
             return Data == null ? null : MakeQuestionnaire(Data);
         }
-        public GameObject QuestionnaireFromJsonString()
-        {
-            Data = JsonUtility.FromJson<QuestionnaireData>(jsonFile.text);
-            return Data == null ? null : MakeQuestionnaire(Data);
-        }
+        /// <summary>
+        /// Convert Json string from the SerializeField TextAsset to data object
+        /// and create a questionnaire out of it.
+        /// </summary>
+        /// <returns>A questionnaire GameObject.</returns>
+        public GameObject QuestionnaireFromJsonString() => QuestionnaireFromJsonString(jsonFile.text);
+
 
         /// <summary>
         /// Makes a questionnaire object and returns it.

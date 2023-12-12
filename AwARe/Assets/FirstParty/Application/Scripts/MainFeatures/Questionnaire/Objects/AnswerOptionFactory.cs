@@ -8,20 +8,20 @@ namespace AwARe.Questionnaire.Objects
     /// <summary>
     /// Class <c>AnswerOptionFactory</c> is a base class for creation answer option objects.
     /// </summary>
-    public abstract class AnswerOptionFactory
+    public abstract class AnswerOptionSpawner
     {
-        protected GameObject questionGameObject;
-        protected GameObject questionPrefab;
+        protected GameObject question;
+        protected GameObject answerOptionPrefab;
 
         /// <summary>
-        /// Constructor. Used to create a new <see cref="AnswerOptionFactory"/>.
+        /// Constructor. Used to create a new <see cref="AnswerOptionSpawner"/>.
         /// </summary>
-        /// <param name="owner">Parent container.</param>
-        /// <param name="questionPrefab">Prefab containing elements needed for creating a question.</param>
-        protected AnswerOptionFactory(GameObject questionGameObject, GameObject questionPrefab)
+        /// <param name="question">Parent container.</param>
+        /// <param name="anwerOptionPrefab">Prefab for the AnwerOption to be generated.</param>
+        protected AnswerOptionSpawner(GameObject question, GameObject answerOptionPrefab)
         {
-            this.questionGameObject = questionGameObject;
-            this.questionPrefab = questionPrefab;
+            this.question = question;
+            this.answerOptionPrefab = answerOptionPrefab;
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         /// <param name="title">The title of the question. (The question itself)</param>
         /// <returns>An answer option GameObject.</returns>
-        public abstract GameObject GetAnswerOption(string title);
+        public abstract GameObject CreateAnswerOption(string title);
 
         /// <summary>
         /// Initializes some common properties of an answer option GameObject.
@@ -45,20 +45,19 @@ namespace AwARe.Questionnaire.Objects
             option.transform.Find("Label").GetComponent<TextMeshProUGUI>().text = labelText;
         }
 
-        protected void AddToToggleHandler(GameObject option, int answerOptionNumberCounter)
+        protected void AddToToggleHandler(GameObject option, int answerOptionIndex)
         {
             ToggleHandler toggleHandler = option.GetComponent<ToggleHandler>();
-            if (toggleHandler == null)
-                return;
+            if (toggleHandler == null) return;
             toggleHandler.SetQuestion(question);
-            toggleHandler.AssignIndex(answerOptionNumberCounter);
+            toggleHandler.AssignIndex(answerOptionIndex);
         }
     }
 
     /// <summary>
     /// Represents an answer option that displays a text input field.
     /// </summary>
-    public class TextAnswerOption : AnswerOptionFactory
+    public class TextAnswerOption : AnswerOptionSpawner
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TextAnswerOption"/> class.
@@ -73,9 +72,9 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         /// <param name="placeholderText">Placeholdertext will be present in the field before the user answers.</param>
         /// <returns></returns>
-        public override GameObject GetAnswerOption(string placeholderText)
+        public override GameObject CreateAnswerOption(string placeholderText)
         {
-            GameObject inputField = Object.Instantiate(questionPrefab);
+            GameObject inputField = Object.Instantiate(answerOptionPrefab);
             InitializeAnswerOption(inputField, placeholderText);
             inputField.transform.Find("Text Area/Placeholder").GetComponent<TextMeshProUGUI>().text =
                 placeholderText;
@@ -87,20 +86,21 @@ namespace AwARe.Questionnaire.Objects
     /// <summary>
     /// Represents an answer option that displays RadioButtons.
     /// </summary>
-    public class RadioAnswerOption : AnswerOptionFactory
+    public class RadioAnswerOption : AnswerOptionSpawner
     {
         private readonly ToggleGroup radiobuttonGroup;
-        private int _answerOptionNumberCounter;
+        private readonly int thisAnswerOptionIndex;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RadioAnswerOption"/> class.
         /// </summary>
         /// <param name="questionGameObject">The parent questionGameObject that owns the answer option.</param>
         /// <param name="questionPrefab">The prefab used to create answer option GameObjects.</param>
-        public RadioAnswerOption(GameObject questionGameObject, GameObject questionPrefab, int answerOptionNumberCounter)
+        /// <param name="answerOptionIndex">The index that this specific answer option will have.</param>
+        public RadioAnswerOption(GameObject questionGameObject, GameObject questionPrefab, int answerOptionIndex)
             : base(questionGameObject, questionPrefab)
         {
-            _answerOptionNumberCounter = answerOptionNumberCounter;
+            thisAnswerOptionIndex = answerOptionIndex;
 
             radiobuttonGroup = questionGameObject.GetComponent<ToggleGroup>();
             if (radiobuttonGroup != null) return;
@@ -113,13 +113,12 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         /// <param name="labelText">Text to put next to the RadioButton.</param>
         /// <returns></returns>
-        public override GameObject GetAnswerOption(string labelText)
+        public override GameObject CreateAnswerOption(string labelText)
         {
-            GameObject radioButton = Object.Instantiate(questionPrefab);
+            GameObject radioButton = Object.Instantiate(answerOptionPrefab);
             radioButton.GetComponent<Toggle>().group = radiobuttonGroup;
             InitializeAnswerOption(radioButton, labelText);
-            Debug.Log("Adding answerop " + _answerOptionNumberCounter);
-            AddToToggleHandler(radioButton, _answerOptionNumberCounter);
+            AddToToggleHandler(radioButton, thisAnswerOptionIndex);
             radioButton.transform.Find("Label").GetComponent<TextMeshProUGUI>().text = labelText;
             radioButton.tag = "RadioButton";
             return radioButton;
@@ -128,19 +127,20 @@ namespace AwARe.Questionnaire.Objects
     /// <summary>
     /// Represents an answer option that displays CheckBoxes.
     /// </summary>
-    public class CheckBoxAnswerOption : AnswerOptionFactory
+    public class CheckBoxAnswerOption : AnswerOptionSpawner
     {
-        private int _answerOptionNumberCounter;
+        private readonly int thisAnswerOptionIndex;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckBoxAnswerOption"/> class.
         /// </summary>
         /// <param name="questionGameObject">The parent questionGameObject that owns the answer option.</param>
         /// <param name="questionPrefab">The prefab used to create answer option GameObjects.</param>
-        public CheckBoxAnswerOption(GameObject questionGameObject, GameObject questionPrefab, int answerOptionNumberCounter)
+        /// <param name="answerOptionIndex">The index that this specific answer option will have.</param>
+        public CheckBoxAnswerOption(GameObject questionGameObject, GameObject questionPrefab, int answerOptionIndex)
             : base(questionGameObject, questionPrefab)
         {
-            _answerOptionNumberCounter = answerOptionNumberCounter;
+            thisAnswerOptionIndex = answerOptionIndex;
         }
 
         /// <summary>
@@ -148,11 +148,11 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         /// <param name="labelText">Text to put next to the CheckBox.</param>
         /// <returns></returns>
-        public override GameObject GetAnswerOption(string labelText)
+        public override GameObject CreateAnswerOption(string labelText)
         {
-            GameObject checkbox = Object.Instantiate(questionPrefab);
+            GameObject checkbox = Object.Instantiate(answerOptionPrefab);
             InitializeAnswerOption(checkbox, labelText);
-            AddToToggleHandler(checkbox, _answerOptionNumberCounter);
+            AddToToggleHandler(checkbox, thisAnswerOptionIndex);
             checkbox.transform.Find("Label").GetComponent<TextMeshProUGUI>().text = labelText;
             checkbox.tag = "CheckBox";
             return checkbox;
