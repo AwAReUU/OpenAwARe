@@ -20,8 +20,9 @@ namespace AwARe.RoomScan.Path
         /// removes path branches that are too short.
         /// </summary>
         /// <param name="grid">the grid containing the skeleton path.</param>
-        /// <param name="treshold">the minimum length a branch must have in pixels. shorter branches will be removed.</param>
-        public void PostFiltering(ref bool[,] grid, int treshold)
+        /// <param name="cutTreshold">the minimum length a branch must have in pixels. shorter branches will be removed.</param>
+        /// <param name="mergeTreshold">the second minimum length a branch must have in pixels. shorter branches will be merged if not removed.</param>
+        public void PostFiltering(ref bool[,] grid, int cutTreshold, int mergeTreshold)
         {
             List<(int, int)> endpoints = new();
             List<(int, int)> junctions = new();
@@ -71,6 +72,10 @@ namespace AwARe.RoomScan.Path
                 }
             }
 
+            //alter this second loop to first find all subpaths, then add a third loop to do removing and merging.
+
+            List<List<(int x, int y)>> subPaths = new List<List<(int x, int y)>>();
+
             //find the subpaths and remove any that are too short
             for (int i = 0; i < endpoints.Count; i++)
             {
@@ -110,6 +115,9 @@ namespace AwARe.RoomScan.Path
                                 //remove other points considered this round to avoid problems
                                 for (int j = 0; j < addedPoints.Count; j++) { consideredPoints.Remove(addedPoints[j]); }
 
+                                //add the junction to the subpath
+                                consideredPoints.Add(consideredPoint);
+
                                 stop = true;
                                 break;
                             }
@@ -121,16 +129,81 @@ namespace AwARe.RoomScan.Path
                     }
                 }
 
-                //delete the found subpath / points als de length te klein is.
-                //length is detemerined using the euclidian distance between de endpoint and junction this line spans, since lines are mostly straight
+                //if stop isn't true, we haven't found a junction and as such not a true subpath
+                if (!stop) continue;
 
-                float par1 = (consideredPoints[consideredPoints.Count - 1].x - consideredPoints[0].x);
-                float par2 = (consideredPoints[consideredPoints.Count - 1].y - consideredPoints[0].y);
+                //delete the found subpath / points if it is too short
+                //length is detemerined using the euclidian distance between the endpoint and junction this line spans, since lines are mostly straight
+                //if not deleted, put it in to list of subpaths to potentially merge
+                float par1 = consideredPoints[consideredPoints.Count - 1].x - consideredPoints[0].x;
+                float par2 = consideredPoints[consideredPoints.Count - 1].y - consideredPoints[0].y;
+
                 double distance = Math.Sqrt((par1 * par1) + (par2 * par2));
-                if (distance < treshold)
+                if (distance < cutTreshold)
                 {
-                    for (int j = 0; j < consideredPoints.Count; j++) { grid[consideredPoints[j].x, consideredPoints[j].y] = false; }
+                    for (int j = 0; j < consideredPoints.Count; j++)
+                    { 
+                        //do not cut away the junction, but do cut away all other points
+                        if (junctions.Contains(consideredPoints[j])) continue; 
+                        grid[consideredPoints[j].x, consideredPoints[j].y] = false;
+                    }
                 }
+                else
+                {
+                    subPaths.Add(consideredPoints);
+                }
+            }
+
+
+            //find all subpaths that share a junction and merge them if they aren't long enough
+            for (int i = 0; i < junctions.Count; i++)
+            {
+                List<List<(int x, int y)>> sharedPaths = new List<List<(int x, int y)>>();
+
+                //find all subpaths that have this junction
+                for (int j = 0; j < subPaths.Count; j++)
+                {
+                    //the last point added to a subpath should be a junction, check if it is the current junction
+                    if (subPaths[j][subPaths[j].Count - 1] == junctions[i])
+                    {
+                        //check if the path is short enough to be merged
+                        //add it to the list of t-be merged paths if it is.
+                        float par1 = subPaths[j][0].x - subPaths[j][subPaths[j].Count - 1].x;
+                        float par2 = subPaths[j][0].y - subPaths[j][subPaths[j].Count - 1].y;
+                        double distance = Math.Sqrt((par1 * par1) + (par2 * par2));
+                        if (distance < mergeTreshold)
+                        {
+                            sharedPaths.Add(subPaths[j]);
+                        }
+                    }
+                }
+
+                //we cannot merge 0 or 1 paths.
+                if (sharedPaths.Count <= 1) continue;
+
+                //point to draw to is the average of endpoint of the subpaths.
+                (int x, int y) secondPoint = (0, 0);
+                for (int j = 0; j < sharedPaths.Count; j++)
+                {
+                    secondPoint.x += sharedPaths[j][0].x;
+                    secondPoint.y += sharedPaths[j][0].y;
+                }
+                secondPoint.x = secondPoint.x / sharedPaths.Count;
+                secondPoint.y = secondPoint.y / sharedPaths.Count;
+
+                //remove the subpaths that are merged from the grid
+                for (int j = 0; j < sharedPaths.Count; j++)
+                {
+                    for (int f = 0; f < sharedPaths[j].Count; f++)
+                    {
+                        //do not remove the junction, but do remove all other points
+                        if (junctions.Contains(sharedPaths[j][f])) continue;
+                        grid[sharedPaths[j][f].x, sharedPaths[j][f].y] = false;
+                    }
+                }
+
+                //draw the new merged subpath
+                LineDrawer.DrawLine(ref grid, (junctions[i], secondPoint));
             }
         }
     }

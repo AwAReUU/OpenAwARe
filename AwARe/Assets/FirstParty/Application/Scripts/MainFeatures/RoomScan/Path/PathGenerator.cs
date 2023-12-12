@@ -71,7 +71,7 @@ namespace AwARe.RoomScan.Path
 
             PrintTime("filterStart");
             PostFilteringHandler postFilteringHandler = new();
-            postFilteringHandler.PostFiltering(ref grid, 50);
+            postFilteringHandler.PostFiltering(ref grid, CentimetersToPixels(50), CentimetersToPixels(100));
             PrintTime("filterEnd");
 
             //at this point, grid contains the skeleton path as a thin line of booleans
@@ -82,11 +82,13 @@ namespace AwARe.RoomScan.Path
 
         /// <summary>
         /// creates an empty grid of booleans with its size based on the size of a given polygon
+        /// if the given polygon is too large, the size of the grid will be capped.
         /// also initalizes the movetransform, averageheight and scalefactor variables.
         /// </summary>
         /// <param name="polygon">the polygon from which to create the grid.</param>
+        /// <param name="maxgridsize">the maximum size the grid is allowed to have in either dimension</param>
         /// <returns>2d array of booleans that are set to false.</returns>
-        private bool[,] CreateGrid(Polygon polygon)
+        private bool[,] CreateGrid(Polygon polygon, int maxgridsize = 500)
         {
             //determine the maximum height and width of the polygon
             Vector3[] points = polygon.GetPoints();
@@ -119,6 +121,21 @@ namespace AwARe.RoomScan.Path
             xlength = (int)Math.Round(xDiff * scaleFactor);
             zlength = (int)Math.Round(zDiff * scaleFactor);
 
+            if (xlength > maxgridsize || zlength > maxgridsize)
+            {
+                if (xDiff > zDiff)
+                {
+                    xlength = maxgridsize;
+                    zlength = (int)Math.Ceiling(maxgridsize * (zDiff / xDiff));
+                    scaleFactor = xlength / xDiff;
+                }
+                else
+                {
+                    zlength = maxgridsize;
+                    xlength = (int)Math.Ceiling(maxgridsize * (xDiff / zDiff));
+                    scaleFactor = zlength / zDiff;
+                }
+            }
 
             //the direction to move in to get from the polygon space to the grid space; addition.
             moveTransform = ((-minX) * scaleFactor, (-minZ) * scaleFactor);
@@ -209,6 +226,7 @@ namespace AwARe.RoomScan.Path
 
             return transformedPoint;
         }
+        private int CentimetersToPixels(int cm) => (int)((float)cm / 100f * scaleFactor);
 
         /// <summary>
         /// Convert the grid to a PathData.
@@ -294,7 +312,7 @@ namespace AwARe.RoomScan.Path
 }
 
 
-//todo primary:
+// todo primary:
 //improve visualisatie zodat je ook negative polygons kan tekenen voordat je het pad bepaald
 //for above: zorg dat de path gen gebeurt bij de click van een andere button dan de autocomplete button
 //improve performance
@@ -310,5 +328,10 @@ namespace AwARe.RoomScan.Path
 
 
 //todo primary new:
-//'merge' / collapse corner noodles 
+//'merge' / collapse corner noodles     //done
 //clean up polygonmanager en scene
+
+//fix bug: floodfill startpoint finding
+//issue: 0.5 drawline offset?
+//idea: in plaats van math ray cast, ga vanaf de pixel stappen naar rechts (+x) en tel het aantal keren dat de state changed van true naar false? 
+//has issues tho

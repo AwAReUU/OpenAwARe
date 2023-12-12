@@ -47,6 +47,7 @@ namespace AwARe.RoomScan.Path
                 int cols = grid.GetLength(1);
                 int gridSize = rows * cols;
 
+                NativeArray<bool> nativeGrid = GridConverter.ToNativeGrid(grid);
                 NativeArray<bool> resultGrid = new(gridSize, Allocator.TempJob);
 
                 NativeArray<bool> frontElement = new(GridConverter.ToNativeGrid(frontGolayElements[i]), Allocator.TempJob);
@@ -56,7 +57,7 @@ namespace AwARe.RoomScan.Path
 
                 CheckHitOrMissJob hitOrMissCheckJob = new()
                 {
-                    nativeGrid = GridConverter.ToNativeGrid(grid),
+                    nativeGrid = nativeGrid,
                     columns = cols,
                     rows = rows,
                     frontElement = frontElement,
@@ -75,6 +76,7 @@ namespace AwARe.RoomScan.Path
                 if (!changed)
                     changed = !EqualArrays(grid, resGrid);
 
+                nativeGrid.Dispose();
                 frontElement.Dispose();
                 backElement.Dispose();
 

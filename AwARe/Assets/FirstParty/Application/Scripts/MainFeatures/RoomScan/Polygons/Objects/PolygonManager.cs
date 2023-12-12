@@ -127,14 +127,21 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             PathGenerator startstate = new();
 
-            bool useTestPol = false;
+            bool useTestPol = true;
             
             List<Vector3> points = new()
             {
-                new Vector3(0.3290718f, 0, -1.92463f),
-                new Vector3(-0.5819738f, 0, -2.569284f),
-                new Vector3(3.357841f, 0, -3.58952f),
-                new Vector3(3.824386f, 0, -2.0016f),
+                //new Vector3(0.3290718f, 0, -1.92463f),
+                //new Vector3(-0.5819738f, 0, -2.569284f),
+                //new Vector3(3.357841f, 0, -3.58952f),
+                //new Vector3(3.824386f, 0, -2.0016f),
+
+                new Vector3(-3.330043f, 0, -3.042626f),
+                new Vector3(-2.702615f, 0, -5.299197f),
+                new Vector3(-1.407629f, 0, -4.649026f),
+                new Vector3(-0.4994112f, 0, -2.780823f),
+                new Vector3(-2.009388f, 0, -0.5163946f),
+
             };
 
             Polygon testPolygon = new Polygon(points);

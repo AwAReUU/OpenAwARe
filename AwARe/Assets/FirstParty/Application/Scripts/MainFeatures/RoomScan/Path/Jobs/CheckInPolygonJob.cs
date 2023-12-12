@@ -72,11 +72,15 @@ namespace AwARe.RoomScan.Path.Jobs
                     //if a is 0, the ray and the wall are parallel and they dont intersect
                     if (a == 0) continue;
                     double b = polygonWalls[i].p1.y - polygonWalls[i].p1.x * a;
-                    intersectx = (int)Math.Round((point.y - b) / a);
+
+                    //rounding to integer in the same way DrawLine does it
+                    double preintersectx = (point.y - b) / a;
+                    if (preintersectx - (int)preintersectx > 0.5) intersectx = (int)(preintersectx + 1);
+                    else intersectx = (int)preintersectx;
                 }
 
                 //check that the intersection point lies on the ray we shot, continue if it doesn't
-                if (intersectx < point.x) continue;
+                if (intersectx <= point.x) continue;
 
                 //check that the intersection point lies on the wall, continue if it doesn't
                 if (intersectx < Math.Min(polygonWalls[i].p1.x, polygonWalls[i].p2.x) ||
