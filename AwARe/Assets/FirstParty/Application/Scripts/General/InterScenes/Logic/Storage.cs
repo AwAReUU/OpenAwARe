@@ -11,9 +11,7 @@ namespace AwARe.InterScenes.Logic
         public Ingredients.IngredientList ActiveIngredientList { get; set; }
         public Rooms.Room ActiveRoom { get; set; }
   
-        public string SavedAnchorId { get; set; }
-        public Dictionary<int, string> SavedPolygons { get; set; }
-        public string SavedPolygonKey { get; set; }
+      
 
     }
 

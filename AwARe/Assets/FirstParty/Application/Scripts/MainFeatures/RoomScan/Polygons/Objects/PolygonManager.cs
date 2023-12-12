@@ -18,6 +18,8 @@ using UnityEngine;
 using Storage = AwARe.InterScenes.Objects.Storage;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.UI;
+using AwARe.IngredientList.Logic;
+using System.IO;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
@@ -31,6 +33,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private PolygonMesh polygonMesh;
         [SerializeField] private PolygonScan scanner;
         [SerializeField] private GameObject saveBtns;
+        [SerializeField] private GameObject saveBtn;
         [SerializeField] private GameObject createBtn;
         [SerializeField] private GameObject loadBtn;
         [SerializeField] private GameObject resetBtn;
@@ -52,12 +55,15 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         /// <value>The polygon currently being drawn.</value>
         public Polygon CurrentPolygon { get; private set; }
+        private PolygonDrawer polydrawer;
 
+        
         void Start()
         {
             CurrentPolygon = new Polygon();
 
             Room = new Room();
+          
 
             // Use the code below to use the test room
             //Room = new TestRoom();
@@ -78,14 +84,15 @@ namespace AwARe.RoomScan.Polygons.Objects
             Button load1Btn = loadBtns.transform.GetChild(0).GetComponent<Button>();
             Button load2Btn = loadBtns.transform.GetChild(1).GetComponent<Button>();
             Button load3Btn = loadBtns.transform.GetChild(2).GetComponent<Button>();
+            
 
-            sav1Btn.onClick.AddListener(() => SavePolygonInSlot(CurrentPolygon,1));
-            sav2Btn.onClick.AddListener(() =>  SavePolygonInSlot(CurrentPolygon,2));
-            sav3Btn.onClick.AddListener(() =>  SavePolygonInSlot(CurrentPolygon,3));
+            sav1Btn.onClick.AddListener(() => SavePolygon(1));
+            sav2Btn.onClick.AddListener(() => SavePolygon(2));
+            sav3Btn.onClick.AddListener(() => SavePolygon(3));
 
-            load1Btn.onClick.AddListener(() => LoadPolygonFromSlot(1));
-            load2Btn.onClick.AddListener(() => LoadPolygonFromSlot(2));
-            load3Btn.onClick.AddListener(() => LoadPolygonFromSlot(3));
+            load1Btn.onClick.AddListener(() => LoadPolygon(1));
+            load2Btn.onClick.AddListener(() => LoadPolygon(2));
+            load3Btn.onClick.AddListener(() => LoadPolygon(3));
         }
 
         /// <summary>
@@ -153,44 +160,69 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             // TODO: set room height
             SwitchToState(State.Saving);
-        }
+            // Set color for the finished polygon
+            Color polygonColor = Color.green; // You can choose any color
+            polygonMesh.SetPolygonColor(polygonColor);
 
-        private void SavePolygonInSlot(Polygon polygon, int slotIndex)
-        {
-            string polygonJson = polygon.ToJson();
-            Storage.Get().SavedPolygons[slotIndex] = polygonJson;
-
-            // Log the saved key for debugging
-            Debug.Log($"Saved polygon in slot {slotIndex}");
+            // Assuming you have a method to apply the color to the mesh
+            polygonMesh.ApplyColorToMesh();
 
         }
-
         
-        // Function to load the anchor and reposition the polygon
-        private void LoadPolygonFromSlot(int slotIndex)
+        public void SavePolygon(int slotIndex)
         {
-            if (Storage.Get().SavedPolygons.TryGetValue(slotIndex, out string polygonJson))
-            {
-                Polygon loadedPolygon = Polygon.FromJson(polygonJson);
+            PolygonSaveLoadManager saveLoadManager = FindObjectOfType<PolygonSaveLoadManager>();
+            Debug.Log($"Directory Path before save: {saveLoadManager.DirectoryPath}");
 
-                if (loadedPolygon != null && loadedPolygon.AmountOfPoints() > 0)
+            // Save the current polygon to JSON
+            string polygonJson = CurrentPolygon.ToJson();
+            Debug.Log($"JSON Content to Save: {polygonJson}");
+
+            // Save the polygon using the save load manager
+            saveLoadManager.SaveDataToJson($"PolygonSlot{slotIndex}", polygonJson);
+            Debug.Log($"Saved polygon in slot {slotIndex}");
+        }
+
+        public void LoadPolygon(int slotIndex)
+        {
+            PolygonSaveLoadManager saveLoadManager = FindObjectOfType<PolygonSaveLoadManager>();
+            Debug.Log($"Directory Path before load: {saveLoadManager.DirectoryPath}");
+
+            // Check if the file exists before attempting to load
+            string filePath = $"PolygonSlot{slotIndex}.json";
+            string fullPath = System.IO.Path.Combine(saveLoadManager.DirectoryPath, filePath);
+
+            if (File.Exists(fullPath))
+            {
+                // Load the polygon JSON using the save load manager
+                string loadedPolygonJson = saveLoadManager.LoadDataFromJson<string>($"PolygonSlot{slotIndex}");
+                Debug.Log($"Loaded JSON: {loadedPolygonJson}");
+
+                if (!string.IsNullOrEmpty(loadedPolygonJson))
                 {
-                    Vector3 savedPosition = loadedPolygon.GetFirstPoint();
-                    polygonDrawer.MovePolygon(savedPosition);
+                    // Deserialize the JSON to a Polygon
+                    Polygon loadedPolygon = Polygon.FromJson(loadedPolygonJson);
+
+                    if (loadedPolygon != null && loadedPolygon.AmountOfPoints() > 0)
+                    {
+                        // Draw the loaded polygon
+                        polydrawer.DrawPolygon(loadedPolygon);
+                    }
+                    else
+                    {
+                        Debug.LogError("Loaded polygon is invalid.");
+                    }
                 }
                 else
                 {
-                    Debug.LogError("Loaded polygon is invalid.");
+                    Debug.LogError($"Loaded polygon JSON is null or empty.");
                 }
             }
             else
             {
                 Debug.LogError($"Polygon not found in slot {slotIndex}");
             }
-
-
         }
-        
 
         /// <summary>
         /// Called on changing the slider; sets the height of the polygon mesh.
@@ -201,10 +233,15 @@ namespace AwARe.RoomScan.Polygons.Objects
             this.polygonMesh.SetHeight(height);
         }
 
+        public void OnEndButtonClick ()
+        {
+            //Storage.Get().ActiveRoom = Room;
+            SceneSwitcher.Get().LoadScene("Home");
+
+        }
         public void OnSaveButtonClick()
         {
             saveBtns.SetActive(true);
-
         }
 
         /// <summary>
@@ -255,6 +292,7 @@ namespace AwARe.RoomScan.Polygons.Objects
                 case State.Saving:
                     objects.Add(createBtn);
                     objects.Add(endBtn);
+                    objects.Add(saveBtn);
                     break;
 
             }

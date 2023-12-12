@@ -5,7 +5,9 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+
 using System.Collections.Generic;
+
 
 using UnityEngine;
 
@@ -14,20 +16,23 @@ namespace AwARe.Data.Logic
     /// <summary>
     /// A polygon representing (a part of) the floor.
     /// </summary>
+    /// 
+    [System.Serializable]
     public class Polygon
+
     {
         public List<Vector3> Points;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Polygon"/> class.
-        /// </summary>
-        /// <param name="points">A list of pre-defined points of which the polygon consists.</param>
-        public Polygon(List<Vector3> points = null)
+        // Default constructor
+        public Polygon()
         {
-            if (points == null)
-                Points = new List<Vector3>();
-            else
-                Points = points;
+            Points = new List<Vector3>();
+        }
+        
+        // Parameterized constructor
+        public Polygon(List<Vector3> points)
+        {
+            Points = points ?? new List<Vector3>();
         }
 
         /// <summary>
@@ -79,6 +84,12 @@ namespace AwARe.Data.Logic
         public static Polygon FromJson(string json)
         {
             return JsonUtility.FromJson<Polygon>(json);
+        }
+
+        public class Test : MonoBehaviour
+        {
+
+            public Polygon polygon;
         }
     }
 }

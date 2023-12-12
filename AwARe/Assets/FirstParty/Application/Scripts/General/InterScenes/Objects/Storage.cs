@@ -21,32 +21,13 @@ namespace AwARe.InterScenes.Objects
             set => data = value;
         }
         
-        // Save and load anchor ID
-        public string SavedAnchorId
-        {
-            get => Data.SavedAnchorId;
-            set => Data.SavedAnchorId = value;
-        }
-
-        public string SavedPolygonKey
-        {
-            get => Data.SavedPolygonKey;
-            set => Data.SavedPolygonKey = value;
-        }
-
-        // Save and load polygon as JSON
-        // Save and load polygon JSON
-        // Save and load polygon JSON using a Dictionary with integer keys
-        public Dictionary<int, string> SavedPolygons
-        {
-            get => Data.SavedPolygons ??= new Dictionary<int, string>();
-            set => Data.SavedPolygons = value;
-        }
+        
 
         private void Awake()
         {
             Singleton.Awake(ref instance, this);
             DontDestroyOnLoad(this.gameObject);
+            Debug.Log("Storage - Awake");
         }
 
         protected virtual void OnDestroy() =>
