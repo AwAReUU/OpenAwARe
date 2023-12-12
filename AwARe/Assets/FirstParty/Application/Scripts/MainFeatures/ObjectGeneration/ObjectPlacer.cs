@@ -72,7 +72,7 @@ namespace AwARe.ObjectGeneration
             // 2. Initialize clusters where one object of each group is placed
             Dictionary<Renderable, Vector3> initialSpawnsDictionary = InitializeClusters(validSpawnPoints, renderables, room);
 
-            // 3. Each 'round' spawn or stack one of each renderable that has 'quantity > 0' 
+            // 3. Each 'round' spawn or stack one of the renderables with the lowest area usage.
             bool allQuantitiesZero = false;
             while (!allQuantitiesZero)
             {
@@ -276,6 +276,19 @@ namespace AwARe.ObjectGeneration
             List<Vector3> validSpawnPoints)
         {
             return validSpawnPoints.OrderBy(point => Vector3.Distance(initialSpawnPoint, point)).ToList();
+        }
+
+        /// <summary>
+        /// Calculates the renderable with the lowest area in use from the given list of renderables. 
+        /// </summary>
+        /// <param name="renderables">All the renderables that will be taken into the calculation.</param>
+        /// <returns>The renderable with the lowest area usage.</returns>
+        private Renderable GetRenderableWithLowestAreaUsage(List<Renderable> renderables)
+        {
+            return renderables
+                .Where(r => r.GetQuantity() > 0)
+                .OrderBy(r => r.currentRatioUsage)
+                .FirstOrDefault();
         }
     }
 }
