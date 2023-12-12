@@ -6,6 +6,11 @@ using Rooms = AwARe.RoomScan.Polygons.Logic;
 using Ingredients = AwARe.IngredientList.Logic;
 
 using UnityEngine;
+using AwARe.RoomScan.Polygons.Logic;
+using System;
+using AwARe.ResourcePipeline.Logic;
+using System.Linq;
+using UnityEngine.InputSystem.EnhancedTouch;
 
 namespace AwARe.ObjectGeneration
 {
@@ -16,6 +21,11 @@ namespace AwARe.ObjectGeneration
     public class ObjectCreationManager : MonoBehaviour
     {
         //[SerializeField] private GameObject placeButton;
+
+        /// <value>
+        /// used to clear the scene from previously generated objects.
+        /// </value>
+        private ObjectDestroyer destroy = new();
 
         /// <value>
         /// <c>IngredientList</c> that we are going to render.
@@ -67,7 +77,13 @@ namespace AwARe.ObjectGeneration
             // Once pathgen is done, create mesh from PathData
             // this.pathMesh = pathData.CreateMesh()
 
-            PlaceRenderables(renderables, room, this.pathMesh);
+            float roomSpace        = room.PositivePolygon.PolygonArea();
+            float renderablesSpace = ComputeRenderableSpaceNeeded(renderables);
+
+            // Divide renderables in seperate rooms when there is not enough space 
+            if (renderablesSpace > roomSpace) 
+                PlaceRoom(true);
+            else PlaceRenderables(renderables, room, this.pathMesh);
         }
 
         /// <summary>
@@ -75,8 +91,31 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <param name="renderables">Objects to place in the polygon.</param>
         /// <param name="room">Room consisting of polygons to place the objects in.</param>
-        public void PlaceRenderables(List<Renderable> renderables, Rooms.Room room, Mesh pathMesh) =>
+        public void PlaceRenderables(List<Renderable> renderables, Rooms.Room room, Mesh pathMesh) 
+        {
+            // clear the scene of any previously instantiated GameObjects 
+            destroy.DestroyAllObjects();
             new ObjectPlacer().PlaceRenderables(renderables, room, pathMesh);
+        }
+        
+        /// <summary>
+        /// Tries to place a partial list of renderables by distributing renderables in two seperate rooms.
+        /// </summary>
+        /// <param name="isFirstRoom">Serves as a 'switch' between the two rooms.</param>
+        public void PlaceRoom(bool isFirstRoom)
+        {
+            SetSelectedList(RetrieveIngredientlist());
+            List<Renderable> renderables = new PipelineManager().GetRenderableList(SelectedList);
+
+            if (isFirstRoom) 
+                renderables = renderables.Where(renderable => renderable.resourceType == ResourceType.Animal ||
+                                                              renderable.resourceType == ResourceType.Water).ToList();
+            else 
+                renderables = renderables.Where(renderable => renderable.resourceType == ResourceType.Plant).ToList();
+
+            Rooms.Room room = Storage.Get().ActiveRoom;
+            PlaceRenderables(renderables, room, this.pathMesh);
+        }
 
         /// <summary>
         /// Rotate a gameObject to face the user.
@@ -91,6 +130,19 @@ namespace AwARe.ObjectGeneration
             Vector3 scaledEuler = Vector3.Scale(targetRotationEuler, target.transform.up.normalized);
             Quaternion targetRotation = Quaternion.Euler(scaledEuler);
             target.transform.rotation = targetRotation;
+        }
+
+        /// <summary>
+        /// Returns the total area that all given renderables will cover.
+        /// </summary>
+        /// <param name="renderables">All the renderables that will be included in the calculation.</param>
+        private float ComputeRenderableSpaceNeeded(List<Renderable> renderables)
+        {
+            float sumArea = 0;
+            foreach (var renderable in renderables) 
+                sumArea += renderable.ComputeSpaceNeeded();
+            
+            return sumArea;
         }
 
         //debug method for displaying spawn locations in scene.
