@@ -47,11 +47,10 @@ namespace AwARe.RoomScan.Path
             CheckInPolygonJob positivePolygonCheckJob = new()
             {
                 nativeGrid = nativeGrid,
-                columns = grid.GetLength(1),
+                columns = cols,
                 checkPositivePolygon = true,
                 polygonWalls = polygonLines,
 
-                //nativeResultGrid = resultGrid
                 result = resultGrid
             };
 
@@ -87,21 +86,39 @@ namespace AwARe.RoomScan.Path
                 //carve out the lines for the current negative polygon
                 for (int i = 0; i < negativeLines[n].Count; i++) { LineDrawer.DrawLine(ref grid, negativeLines[n][i], true); }
 
-                //find the points in the current negative polygon
-                for (int x = 0; x < grid.GetLength(0); x++)
+                nativeGrid = GridConverter.ToNativeGrid(grid);
+
+                resultGrid = new(gridSize, Allocator.TempJob);
+                polygonLines = new(negativeLines[n].Count, Allocator.TempJob);
+
+                for (int i = 0; i < negativeLines[n].Count; i++) { polygonLines[i] = negativeLines[n][i]; }
+
+                CheckInPolygonJob negativePolygonCheckJob = new()
                 {
-                    for (int y = 0; y < grid.GetLength(1); y++)
-                    {
-                        //it is useless to set a point that is already false to false
-                        if (!grid[x, y]) continue;
+                    nativeGrid = nativeGrid,
+                    columns = cols,
+                    checkPositivePolygon = false,
+                    polygonWalls = polygonLines,
 
-                        //check if current point is in the negative polygon. if not, continue
-                        if (!CheckInPolygon(negativeLines[n], (x, y))) continue;
+                    result = resultGrid
+                };
 
-                        //if the loop makes it past all of the above checks, we have found a valid point
+                JobHandle negPolCheckJobHandle = negativePolygonCheckJob.Schedule(gridSize, 64);
+
+                negPolCheckJobHandle.Complete();
+
+                nativeGrid.Dispose();
+                polygonLines.Dispose();
+
+                for (int i = 0; i < resultGrid.Length; i++)
+                {
+                    int x = i / cols;
+                    int y = i % cols;
+                    if (resultGrid[i])
                         foundPoints.Add((x, y));
-                    }
                 }
+
+                resultGrid.Dispose();
 
                 //erase the points that lie in the negative polygon
                 for (int i = 0; i < foundPoints.Count; i++)
@@ -110,54 +127,6 @@ namespace AwARe.RoomScan.Path
                     FloodArea(ref grid, (foundPoints[i].x, foundPoints[i].y), true);
                 }
             }
-        }
-
-        /// <summary>
-        /// check if a point is in a polygon (represented as a list of lines)
-        /// done by shooting a ray to the right from the point and counting the number of intersections with polygon edges.
-        /// </summary>
-        /// <param name="polygonWalls">List of lines that make up the polygon.</param>
-        /// <param name="point">Point to check if it is inside the polygon.</param>
-        /// <returns>True if the point lies inside the polygon, false otherwise.</returns>
-        private bool CheckInPolygon(List<((int x, int y) p1, (int x, int y) p2)> polygonWalls, (int x, int y) point)
-        {
-            List<(double x, double y)> intersections = new();
-
-            for (int i = 0; i < polygonWalls.Count; i++)
-            {
-                double intersecty = point.y;
-                double intersectx;
-
-                double divider = polygonWalls[i].p2.x - polygonWalls[i].p1.x;
-                if (divider == 0) { intersectx = polygonWalls[i].p2.x; }
-                else
-                {
-                    double a = (polygonWalls[i].p2.y - polygonWalls[i].p1.y) / divider;
-                    //if a is 0, the ray and the wall are parallel and they dont intersect
-                    if (a == 0) continue;
-                    double b = polygonWalls[i].p1.y - polygonWalls[i].p1.x * a;
-                    intersectx = (int)Math.Round((point.y - b) / a);
-                }
-
-                //check that the intersection point lies on the ray we shot, continue if it doesn't
-                if (intersectx < point.x) continue;
-
-                //check that the intersection point lies on the wall, continue if it doesn't
-                if (intersectx < Math.Min(polygonWalls[i].p1.x, polygonWalls[i].p2.x) ||
-                    intersectx > Math.Max(polygonWalls[i].p1.x, polygonWalls[i].p2.x)
-                    || intersecty < Math.Min(polygonWalls[i].p1.y, polygonWalls[i].p2.y) ||
-                    intersecty > Math.Max(polygonWalls[i].p1.y, polygonWalls[i].p2.y)) { continue; }
-
-                //if the intersection point is the exact endpoint of a wall, this causes problems. cancel the whole operation
-                //we cannot be sure if it lies inside or outside the polygon
-                if ((intersectx, intersecty) == polygonWalls[i].p1 || (intersectx, intersecty) == polygonWalls[i].p2) { return false; }
-
-                //add this intersection to the list if it is a new one
-                if (!intersections.Contains((intersectx, intersecty))) { intersections.Add((intersectx, intersecty)); }
-            }
-
-            if (intersections.Count % 2 == 0) { return false; }
-            else return true;
         }
 
         //floodfill is used to fill in the positive or carve out the negative polygons

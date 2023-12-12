@@ -82,15 +82,17 @@ namespace AwARe.RoomScan.Path
 
                 Array.Copy(resGrid, grid, grid.Length);
                 resultGrid.Dispose();
-
-                //Array.Copy(ToGrid(resArray, rows, cols), grid, grid.Length);
             }
 
-            //changed = hasChanged;
             return grid;
         }
 
-
+        /// <summary>
+        /// Checks whether two arrays are exactly equal.
+        /// </summary>
+        /// <param name="a">The first array.</param>
+        /// <param name="b">The second array.</param>
+        /// <returns>Whether the arrays are exactly the same.</returns>
         private bool EqualArrays(bool[,] a, bool[,] b)
         {
             if (a.Length != b.Length) return false;

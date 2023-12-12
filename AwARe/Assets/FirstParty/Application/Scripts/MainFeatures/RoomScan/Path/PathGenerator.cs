@@ -306,7 +306,7 @@ namespace AwARe.RoomScan.Path
         /// <param name="s">The string to print with the time.</param>
         private void PrintTime(string s)
         {
-            Debug.Log(s + ": " + (Time.realtimeSinceStartup - startTime).ToString());
+            Debug.Log(s + ": " + (Time.realtimeSinceStartup - startTime));
         }
     }
 }
