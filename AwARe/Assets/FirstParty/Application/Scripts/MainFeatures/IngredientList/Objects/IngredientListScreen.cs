@@ -92,10 +92,10 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Change to the IngredientScreen of the item that was selected.
         /// </summary>
-        /// <param name="entree"> The ingredient, quantity and quantity type of the item. </param>
-        public void OnItemClick(Logic.IngredientList.Entree entree)
+        /// <param name="entry"> The ingredient, quantity and quantity type of the item. </param>
+        public void OnItemClick(Logic.IngredientList.Entry entry)
         {
-            manager.ChangeToIngredientScreen(entree, false, this.gameObject);
+            manager.ChangeToIngredientScreen(entry, false, this.gameObject);
         }
         
         /// <summary>

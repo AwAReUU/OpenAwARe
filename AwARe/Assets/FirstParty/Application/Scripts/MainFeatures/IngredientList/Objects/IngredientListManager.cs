@@ -1,12 +1,17 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
 using System.Collections.Generic;
-
 using AwARe.Database;
 using AwARe.Database.Logic;
 using AwARe.IngredientList.Logic;
 using AwARe.InterScenes.Objects;
 using UnityEngine;
-using UnityEngine.Windows;
 using static AwARe.IngredientList.Logic.IngredientList;
 
 namespace AwARe.IngredientList.Objects
@@ -29,7 +34,7 @@ namespace AwARe.IngredientList.Objects
 
         public Logic.IngredientList SelectedList { get; private set; } = null;
 
-        public Entree SelectedEntree { get; private set; } = new (null, 0, QuantityType.G);
+        public Entry SelectedEntry { get; private set; } = new (null, 0, QuantityType.G);
         public bool SelectedIsNew { get; private set; } = true;
 
         public bool ChangesMade { get; private set; }
@@ -79,7 +84,6 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Closes the IngredientListScreen, calls the fileHandler to either save all lists or load the old lists, and opens the ListsOverviewScreen.
         /// </summary>
-        /// <param name="save"> Whether or not to save the changes made to the currently selected IngredientList </param>
         public void ChangeToListsOverviewScreen()
         {
             ingredientListScreen.SetActive(false);
@@ -90,13 +94,13 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Closes the previous screen, selects the given ingredient list and opens the IngredientListScreen.
         /// </summary>
-        /// <param name="list"> The ingredientList of which the IngredientListScreen is opened </param>
-        /// <param name="fromScreen"> The screen from which the IngredientListScreen is opened </param>
+        /// <param name="list"> The ingredientList of which the IngredientListScreen is opened. </param>
+        /// <param name="fromScreen"> The screen from which the IngredientListScreen is opened. </param>
         public void ChangeToIngredientListScreen(Logic.IngredientList list, GameObject fromScreen)
         {
             fromScreen.SetActive(false);
 
-            SelectedEntree = null;
+            SelectedEntry = null;
             SelectedList = list;
             ingredientListScreen.SetActive(true);
         }
@@ -113,13 +117,14 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Closes the previous screen, selects the given ingredient and opens its respective IngredientScreen.
         /// </summary>
-        /// <param name="ingredient"> The ingredient of which the ingredient screen is opened </param>
-        /// <param name="fromScreen"> The screen from which the Ingredient Screen is opened </param>
-        public void ChangeToIngredientScreen(Entree entree, bool isNew, GameObject fromScreen)
+        /// <param name="entry">The selected entree of the ingredient list.</param>
+        /// <param name="isNew">True if the entree is not added to the selected ingredient list yet.</param>
+        /// <param name="fromScreen"> The screen from which the Ingredient Screen is opened. </param>
+        public void ChangeToIngredientScreen(Entry entry, bool isNew, GameObject fromScreen)
         {
             fromScreen.SetActive(false);
 
-            SelectedEntree = entree;
+            SelectedEntry = entry;
             SelectedIsNew = isNew;
 
             ingredientScreen.SetActive(true);
@@ -164,7 +169,7 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Removes the given list from the overview and calls the fileHandler to save all lists.
         /// </summary>
-        /// <param name="list"></param>
+        /// <param name="list">The list to remove.</param>
         public void DeleteList(Logic.IngredientList list)
         {
             Lists.Remove(list);
@@ -174,7 +179,9 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Adds the given ingredient to the ingredient list.
         /// </summary>
-        /// <param name="ingredient"> The ingredient that is to be added </param>
+        /// <param name="ingredient"> The ingredient that is to be added. </param>
+        /// <param name="quantity"> The amount/quantity to add. </param>
+        /// <param name="type"> The type of the quantity. </param>
         public void AddIngredient(Ingredient ingredient, float quantity, QuantityType type)
         {
             SelectedList.AddIngredient(ingredient, quantity, type);
@@ -182,9 +189,9 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Changes the name of a list into it's newly give name
+        /// Changes the name of a list into it's newly give name.
         /// </summary>
-        /// <param name="name"> The name that is to be given to the list </param>
+        /// <param name="name"> The name that is to be given to the list. </param>
         public void ChangeListName(string name)
         {
             SelectedList.ChangeName(name);
@@ -194,7 +201,7 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Removes the given ingredient from the ingredient list.
         /// </summary>
-        /// <param name="ingredient"> The ingredient that is to be deleted </param>
+        /// <param name="ingredient"> The ingredient that is to be deleted. </param>
         public void DeleteIngredient(Ingredient ingredient)
         {
             SelectedList.RemoveIngredient(ingredient);
@@ -204,11 +211,11 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Sets the quantity and type of the currently selected ingredient inside the IngredientList to the given quantity and type and saves the ingredient list.
         /// </summary>
-        /// <param name="newQuantity"> new quantity of the ingredient </param>
-        /// <param name="newType"> New quantity type of the ingredient </param>
+        /// <param name="newQuantity"> new quantity of the ingredient. </param>
+        /// <param name="newType"> New quantity type of the ingredient. </param>
         public void UpdateIngredient(float newQuantity, QuantityType newType)
         {
-            SelectedList.UpdateIngredient(SelectedEntree.ingredient, newQuantity, newType);
+            SelectedList.UpdateIngredient(SelectedEntry.ingredient, newQuantity, newType);
             NotifyListChanged();
         }
 
@@ -220,7 +227,7 @@ namespace AwARe.IngredientList.Objects
         /// <param name="typeS">The quantity type as a string.</param>
         /// <param name="quantity">The quantity as a number.</param>
         /// <param name="type">The quantity type as a type/enum.</param>
-        /// <exception cref="Exception"></exception>
+        /// <exception cref="Exception">Throw exception when parsing or result type is invalid.</exception>
         public void ReadQuantity(Ingredient ingredient, string quantityS, string typeS, out float quantity, out QuantityType type)
         {
             // try converting the quantity string to a Quantity
@@ -243,8 +250,10 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Finds all ingredients in the database that match with the text entered in the searchbar and displays the results.
+        /// Finds all ingredients in the database that match with the text entered in the search bar and displays the results.
         /// </summary>
+        /// <param name="term">The search term.</param>
+        /// <returns>The search results.</returns>
         public List<Ingredient> SearchIngredient(string term) =>
             SearchResults = IngredientDatabase.Search(term);
     }

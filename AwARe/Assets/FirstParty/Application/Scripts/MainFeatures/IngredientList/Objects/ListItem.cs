@@ -1,16 +1,19 @@
-using System;
-using System.Collections.Generic;
-
-using AwARe.IngredientList.Logic;
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
 
 using TMPro;
-
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace AwARe.IngredientList.Objects
 {
+    /// <summary>
+    /// An UI Element displaying a single list.
+    /// </summary>
     public class ListItem : MonoBehaviour
     {
         // The parent element
@@ -62,6 +65,7 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Corrects this UI element to represent its selection.
         /// </summary>
+        /// <param name="check">True to check, false to uncheck.</param>
         public void Check(bool check)
         {
             if (check)

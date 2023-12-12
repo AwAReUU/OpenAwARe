@@ -25,15 +25,15 @@ namespace AwARe.IngredientList.Objects
         [SerializeField] private TextMeshProUGUI quantityTypeLabel;
 
         // The data represented.
-        private Entree entree;
+        private Entry entry;
         
         /// <summary>
-        /// Sets this item to represent the given entree.
+        /// Sets this item to represent the given entry.
         /// </summary>
-        /// <param name="entree">The entree represented.</param>
-        public void SetItem(Entree entree)
+        /// <param name="entry">The entry represented.</param>
+        public void SetItem(Entry entry)
         {
-            this.entree = entree;
+            this.entry = entry;
             DisplayItem();
         }
         
@@ -43,24 +43,22 @@ namespace AwARe.IngredientList.Objects
         private void DisplayItem()
         {
             // change the text to match the ingredient info
-            gameObject.name =  entree.ingredient.Name;
-            ingredientLabel.text = entree.ingredient.Name;
-            quantityLabel.text = entree.quantity.ToString();
-            quantityTypeLabel.text = entree.type.ToString();
+            gameObject.name =  entry.ingredient.Name;
+            ingredientLabel.text = entry.ingredient.Name;
+            quantityLabel.text = entry.quantity.ToString();
+            quantityTypeLabel.text = entry.type.ToString();
         }
 
         /// <summary>
         /// Calls an instance of IngredientListManager to delete the given ingredient from the ingredient list, then displays the updated list.
         /// </summary>
-        /// <param name="ingredient"> The Ingredient that will be deleted from the list. </param>
         public void OnItemClick() =>
-            screen.OnItemClick(entree);
+            screen.OnItemClick(entry);
 
         /// <summary>
         /// Calls an instance of IngredientListManager to delete the given ingredient from the ingredient list, then displays the updated list.
         /// </summary>
-        /// <param name="ingredient"> The Ingredient that will be deleted from the list. </param>
         public void OnDeleteButtonClick() =>
-            screen.OnDeleteItemButtonClick(entree.ingredient);
+            screen.OnDeleteItemButtonClick(entry.ingredient);
     }
 }

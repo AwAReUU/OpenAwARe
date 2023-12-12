@@ -57,18 +57,43 @@ namespace AwARe.IngredientList.Logic
             Ingredients[ingredient] = (quantity, type);
         }
 
-        public class Entree
+        /// <summary>
+        /// Represents a single entry in the ingredient list.
+        /// This implementation allows expansion without breaking dependent types and members.
+        /// </summary>
+        public class Entry
         {
+            // Contents/Data
             public Ingredient ingredient;
             public float quantity;
             public QuantityType type;
 
-            public Entree(Ingredient ingredient, float quantity, QuantityType type)
+            /// <summary>
+            /// Constructs a Ingredient List entry.
+            /// </summary>
+            /// <param name="ingredient">The ingredient component.</param>
+            /// <param name="quantity">The quantity component.</param>
+            /// <param name="type">The type of the quantity.</param>
+            public Entry(Ingredient ingredient, float quantity, QuantityType type)
             {
                 this.ingredient = ingredient;
                 this.quantity = quantity;
                 this.type = type;
             }
+
+            /// <summary>
+            /// Converts tuples to explicit entry types.
+            /// </summary>
+            /// <param name="entry">The tuple representing on entry.</param>
+            public static implicit operator Entry((Ingredient, float, QuantityType) entry) =>
+                new(entry.Item1, entry.Item2, entry.Item3);
+            
+            /// <summary>
+            /// Converts entry types to tuple form.
+            /// </summary>
+            /// <param name="entry">The entry instance.</param>
+            public static implicit operator (Ingredient, float, QuantityType)(Entry entry) =>
+                (entry.ingredient, entry.quantity, entry.type);
         }
     }
 
@@ -90,7 +115,11 @@ namespace AwARe.IngredientList.Logic
             this.GramsPerPiece = gramsPerPiece;
         }
         
-        // whether ML is a valid quantity type for this ingredient
+        /// <summary>
+        /// Verifies if the given quantity type is valid for this ingredient.
+        /// </summary>
+        /// <param name="type">The quantity type</param>
+        /// <returns>True if quantity type is valid.</returns>
         public bool QuantityPossible(QuantityType type) =>
             type switch
             {

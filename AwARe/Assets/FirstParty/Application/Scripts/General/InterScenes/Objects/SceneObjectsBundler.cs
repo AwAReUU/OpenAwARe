@@ -11,7 +11,7 @@ namespace AwARe.InterScenes.Objects
 {
     /// <summary>
     /// A behaviour for an object that takes all root objects of a scene and bundles them together under itself. <br/>
-    /// This calls is mostly used to simulate loading and unloading of scenes.
+    /// This class is mostly used to simulate loading and unloading of scenes.
     /// </summary>
     public class SceneObjectsBundler : MonoBehaviour
     {

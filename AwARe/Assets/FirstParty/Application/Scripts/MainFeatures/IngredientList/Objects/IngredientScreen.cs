@@ -29,12 +29,12 @@ namespace AwARe.IngredientList.Objects
         [SerializeField] private TMP_Dropdown typeDropdown;
         
         // The data represented/edited
-        private Logic.IngredientList.Entree entree;
+        private Logic.IngredientList.Entry entry;
         private bool isNew; // TODO: Should be managed outside UI
 
         private void OnEnable()
         {
-            entree = manager.SelectedEntree;
+            entry = manager.SelectedEntry;
             isNew = manager.SelectedIsNew;
 
             SetElements();
@@ -46,7 +46,7 @@ namespace AwARe.IngredientList.Objects
         private void SetElements()
         {
             // Set name label
-            ingredientNameField.GetComponent<TMP_Text>().text = entree.ingredient.Name;
+            ingredientNameField.GetComponent<TMP_Text>().text = entry.ingredient.Name;
             
             // Set dropdown options
             List<string> options = Enum.GetNames(typeof(QuantityType)).ToList();
@@ -54,8 +54,8 @@ namespace AwARe.IngredientList.Objects
             typeDropdown.AddOptions(options);
 
             // Set default values
-            quantityField.text = entree.quantity.ToString();
-            typeDropdown.value = (int)entree.type;
+            quantityField.text = entry.quantity.ToString();
+            typeDropdown.value = (int)entry.type;
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace AwARe.IngredientList.Objects
         /// </summary>
         public void OnConfirmClick()
         {
-            Ingredient ingredient = entree.ingredient;
+            Ingredient ingredient = entry.ingredient;
             string quantityS = quantityField.text;
             string typeS = typeDropdown.value.ToString();
 
