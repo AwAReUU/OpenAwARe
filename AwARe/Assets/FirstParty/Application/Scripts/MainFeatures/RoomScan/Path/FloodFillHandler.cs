@@ -30,8 +30,6 @@ namespace AwARe.RoomScan.Path
             //draw the lines for the positive polygon
             for (int i = 0; i < positiveLines.Count; i++) { LineDrawer.DrawLine(ref grid, positiveLines[i]); }
 
-            List<(int x, int y)> foundPoints = new();
-
             int rows = grid.GetLength(0);
             int cols = grid.GetLength(1);
             int gridSize = rows * cols;
@@ -66,23 +64,15 @@ namespace AwARe.RoomScan.Path
                 int x = i / cols;
                 int y = i % cols;
                 if (resultGrid[i])
-                    foundPoints.Add((x, y));
+                    //fill in the positive polygon
+                    FloodArea(ref grid, (x, y));
             }
 
             resultGrid.Dispose();
 
-            //fill in the positive polygon
-            for (int i = 0; i < foundPoints.Count; i++)
-            {
-                //grid[foundPoints[i].x, foundPoints[i].y] = true;
-                FloodArea(ref grid, (foundPoints[i].x, foundPoints[i].y));
-            }
-
             //carve out the negative polygons
             for (int n = 0; n < negativeLines.Count; n++)
             {
-                foundPoints = new();
-
                 //carve out the lines for the current negative polygon
                 for (int i = 0; i < negativeLines[n].Count; i++) { LineDrawer.DrawLine(ref grid, negativeLines[n][i], true); }
 
@@ -115,17 +105,11 @@ namespace AwARe.RoomScan.Path
                     int x = i / cols;
                     int y = i % cols;
                     if (resultGrid[i])
-                        foundPoints.Add((x, y));
+                        //erase the points that lie in the negative polygon
+                        FloodArea(ref grid, (x, y), true);
                 }
 
                 resultGrid.Dispose();
-
-                //erase the points that lie in the negative polygon
-                for (int i = 0; i < foundPoints.Count; i++)
-                {
-                    //grid[foundPoints[i].x, foundPoints[i].y] = false;
-                    FloodArea(ref grid, (foundPoints[i].x, foundPoints[i].y), true);
-                }
             }
         }
 

@@ -48,12 +48,31 @@ namespace AwARe.RoomScan.Path
         /// <returns>The grid with the smaller disconnected shapes removed.</returns>
         public bool[,] KeepLargestShape(bool[,] input)
         {
-            // If one element is false, return false, otherwise return true.
-            for (int i = 0; i < input.GetLength(0); i++)
-                for (int j = 0; j < input.GetLength(0); j++)
-                    if (!input[i, j])
-                        return false;
-            return true;
+            int neighbourRange = 3;
+            IntFloodFill(input, neighbourRange, out int[,] labeled, out int nro_shapes);
+
+            int[] count = CountShapeSize(labeled, nro_shapes);
+
+            int max = 0, arg_max = 0;
+            for (int i = 0; i < count.Length; i++)
+            {
+                if (max < count[i])
+                {
+                    max = count[i];
+                    arg_max = i;
+                }
+            }
+
+            int largest_label = arg_max + 1;
+            bool[,] output = new bool[input.GetLength(0), input.GetLength(1)];
+            for (int i = 0; i < labeled.GetLength(0); i++)
+            {
+                for (int j = 0; j < labeled.GetLength(1); j++)
+                {
+                    output[i, j] = labeled[i, j] == largest_label;
+                }
+            }
+            return output;
         }
 
         /// <summary>
@@ -74,12 +93,13 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        /// Applies the function func over the input array.
+        /// Fill the grid with integers.
         /// </summary>
-        /// <param name="input">The array that the function should be applied to.</param>
-        /// <param name="func">The function that is applied to the input array.</param>
-        /// <returns>The function that remains after applying func to the input array.</returns>
-        private Func<bool, bool>[,] Map(bool[,] input, Func<bool, Func<bool, bool>> func)
+        /// <param name="input">The array to fill.</param>
+        /// <param name="neighbourRange">The range in which the neighbours should be checked.</param>
+        /// <param name="output">The output array.</param>
+        /// <param name="nro_shapes">The amount of different shapes in the grid.</param>
+        private void IntFloodFill(bool[,] input, int neighbourRange, out int[,] output, out int nro_shapes)
         {
             // Iterate over all cells
             int l_x = input.GetLength(0), l_y = input.GetLength(1);
@@ -97,48 +117,12 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        /// Scans the grid and determines the value of each cell.
+        /// Get the function that returns either the input value or zero based on
+        /// whether the point is inside the bound of the grid.
         /// </summary>
-        /// <param name="inputSize">The dimensions of the input array.</param>
-        /// <param name="inputFunction">Function to determine the input for the funcArray function.</param>
-        /// <param name="funcArray">A 2D array of functions to apply over the input.</param>
-        /// <param name="combineFunc">Function that determines whether the cell is true.</param>
-        /// <returns>The array with the scan results.</returns>
-        private bool[,] Scan(
-            (int, int) inputSize,
-            Func<(int, int), bool> inputFunction,
-            Func<bool, bool>[,] funcArray,
-            Func<bool[,], bool> combineFunc)
-        {
-            // Iterate over all cells
-            (int l_x, int l_y) = inputSize;
-            int hs_x = funcArray.GetLength(0), hs_y = funcArray.GetLength(1);
-            int hs_x_2 = hs_x / 2, hs_y_2 = hs_y / 2;
-            bool[,] output = new bool[l_x, l_y];
-            var subArray = new bool[hs_x, hs_y];
-            for (int x = 0; x < l_x; x++)
-            {
-                for (int y = 0; y < l_y; y++)
-                {
-                    // Get subarray
-                    for (int i = 0, x_2 = x - hs_x_2; i < hs_x; i++, x_2++)
-                        for (int j = 0, y_2 = y - hs_y_2; j < hs_y; j++, y_2++)
-                            subArray[i, j] = funcArray[i, j](inputFunction((x_2, y_2)));
-
-                    // Perform function on cell
-                    output[x, y] = combineFunc(subArray);
-                }
-            }
-
-            return output;
-        }
-
-        /// <summary>
-        /// Uses an array to create a function for determining the value of a bit in the bitmap.
-        /// </summary>
-        /// <param name="input">The array.</param>
-        /// <returns>A function that will return false if the values are outside the boundary, or returns the value otherwise.</returns>
-        private Func<(int, int), bool> GetInputFunction(bool[,] input)
+        /// <param name="input">The input array.</param>
+        /// <returns>A functions that checks whether the input value is in bounds, returning either the value or zero.</returns>
+        private Func<(int, int), int> GetInputIntFunction(int[,] input)
         {
             int l_x = input.GetLength(0), l_y = input.GetLength(1);
             return ((int, int) xy) =>
