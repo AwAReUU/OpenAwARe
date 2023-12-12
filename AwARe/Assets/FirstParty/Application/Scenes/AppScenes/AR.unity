@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51de02e0eb10a3a4ebf6c0b54aac3302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  polygonDrawer: {fileID: 551238368}
 --- !u!4 &126117687
 Transform:
   m_ObjectHideFlags: 0
@@ -167,6 +168,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &551238368 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2523054796051462468, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+    type: 3}
+  m_PrefabInstance: {fileID: 2133954414}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0bfae1a6e3b8497596e34d4c99dc0d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &611523465
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -608,6 +621,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1666961450}
+  - component: {fileID: 1666961451}
   m_Layer: 5
   m_Name: FoldingButtons
   m_TagString: Untagged
@@ -640,6 +654,18 @@ RectTransform:
   m_AnchoredPosition: {x: -1.9280396, y: 5.7884216}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1666961451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666961449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aadec9f8359a664dab907c6dfcfdc04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1783811110
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -803,6 +829,74 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6771182850067713548}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2133954414
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2019343613700676284, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.1018934
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019343613700676284, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.87269235
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019343613700676284, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.0723915
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019343613700676284, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019343613700676284, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019343613700676284, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019343613700676284, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019343613700676284, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019343613700676284, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019343613700676284, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2548462417406896888, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd,
+        type: 3}
+      propertyPath: m_Name
+      value: PolygonDrawer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 72e9b8d28f9f24f5486687cdf4d4fbcd, type: 3}
 --- !u!224 &354526543859493538
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1150,6 +1244,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1974972460}
     m_Modifications:
+    - target: {fileID: 567239631829989802, guid: f7ee261fe74c24244bc1ce78d49f774a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1666961451}
     - target: {fileID: 2197644547302264373, guid: f7ee261fe74c24244bc1ce78d49f774a,
         type: 3}
       propertyPath: m_Name
@@ -1255,11 +1354,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3059447223441092698, guid: f7ee261fe74c24244bc1ce78d49f774a,
-        type: 3}
-      propertyPath: foldableBtns
-      value: 
-      objectReference: {fileID: 1666961449}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1472,3 +1566,4 @@ SceneRoots:
   - {fileID: 1498580057}
   - {fileID: 126117687}
   - {fileID: 354526543859493538}
+  - {fileID: 2133954414}

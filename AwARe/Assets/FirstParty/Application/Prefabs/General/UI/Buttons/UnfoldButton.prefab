@@ -195,23 +195,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3042431949178982499, guid: 2f50b78a4aac5cd48b8ce88f09c7f47a,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 3059447223441092698}
-    - target: {fileID: 3042431949178982499, guid: 2f50b78a4aac5cd48b8ce88f09c7f47a,
-        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3042431949178982499, guid: 2f50b78a4aac5cd48b8ce88f09c7f47a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnFoldableButtonClick
+      value: Toggle
       objectReference: {fileID: 0}
     - target: {fileID: 3042431949178982499, guid: 2f50b78a4aac5cd48b8ce88f09c7f47a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AwARe.UI.Objects.FoldableButton, Scripts
+      value: AwARe.UI.Objects.ActivityToggle, Scripts
       objectReference: {fileID: 0}
     - target: {fileID: 3042431949178982499, guid: 2f50b78a4aac5cd48b8ce88f09c7f47a,
         type: 3}
@@ -230,32 +225,8 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2357093317600229840}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3717797220941408252, guid: 2f50b78a4aac5cd48b8ce88f09c7f47a,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3059447223441092698}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f50b78a4aac5cd48b8ce88f09c7f47a, type: 3}
---- !u!1 &2197644547302264373 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3717797220941408252, guid: 2f50b78a4aac5cd48b8ce88f09c7f47a,
-    type: 3}
-  m_PrefabInstance: {fileID: 3307857425887078857}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3059447223441092698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2197644547302264373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aadec9f8359a664dab907c6dfcfdc04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foldBtn: {fileID: 2197644547302264373}
-  foldableBtns: {fileID: 0}
 --- !u!224 &2875707952184510473 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 724885926674325952, guid: 2f50b78a4aac5cd48b8ce88f09c7f47a,

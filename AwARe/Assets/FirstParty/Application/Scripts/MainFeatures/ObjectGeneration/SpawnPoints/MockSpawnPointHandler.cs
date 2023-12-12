@@ -35,7 +35,7 @@ namespace AwARe.ObjectGeneration
         /// Just return a hardcoded "fake plane" of spawnpoints.
         /// </summary>
         /// <returns>List of all spawnpoints.</returns>
-        public List<Vector3> GetValidSpawnPoints(Room room)
+        public List<Vector3> GetValidSpawnPoints(Room room, Mesh path)
         {
             List<Vector3> result = new();
             float y = -0.87f;

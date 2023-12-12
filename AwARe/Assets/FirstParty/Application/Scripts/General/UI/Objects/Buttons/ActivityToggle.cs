@@ -5,30 +5,19 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using Ingredients = AwARe.IngredientList.Logic;
-using Rooms = AwARe.RoomScan.Polygons.Logic;
+using UnityEngine;
 
-namespace AwARe.InterScenes.Logic
+namespace AwARe.UI.Objects
 {
-    
     /// <summary>
-    /// The in-between-scenes stored data.
+    /// Attach a toggle to the activity state of its object.
     /// </summary>
-    public class Storage : IStorage
+    public class ActivityToggle : MonoBehaviour
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Storage"/> class.
+        /// Flip the activity of this GameObject.
         /// </summary>
-        public Storage() { }
-
-        /// <inheritdoc/>
-        public Ingredients.IngredientList ActiveIngredientList { get; set; }
-        
-        /// <inheritdoc/>
-        public Rooms.Room ActiveRoom { get; set; }
-  
-      
-
+        public void Toggle() =>
+            gameObject.SetActive(!gameObject.activeInHierarchy);
     }
-
 }
