@@ -15,11 +15,11 @@ namespace Tests
     public class IngredientTests
     {
         [Test, Description("Type conversion to ML is not possible if gramsPerML is null.")]
-        [TestCase(null, ExpectedResult = false)]
-        [TestCase(-1f, ExpectedResult = true)]
-        [TestCase(0f, ExpectedResult = true)]
-        [TestCase(1f, ExpectedResult = true)]
-        public bool TestIngredientMLQuantityPossible(float? gramsPerML)
+        [TestCase(null, ExpectedResult = false)] // gramsPerML = null is used to indicate conversion is not possible.
+        [TestCase(-1f, ExpectedResult = true)] // negative gramsPerML is currently possible, but is actually physically impossible IRL.
+        [TestCase( 0f, ExpectedResult = true)] // gramsPerML = 0 is currently possible, but is also physically impossible IRL.
+        [TestCase( 1f, ExpectedResult = true)] // positive gramsPerML should always be possible.
+        public bool Test_MLQuantityPossible(float? gramsPerML)
         {
             //Arrange: Create a Test Ingredient with the given conversion rate.
             Ingredient ingredient = new Ingredient(1, "test", gramsPerML: gramsPerML);
@@ -29,11 +29,11 @@ namespace Tests
         }
 
         [Test, Description("Type conversion to ML is not possible if gramsPerML is null.")]
-        [TestCase(null, ExpectedResult = false)]
-        [TestCase(-1f, ExpectedResult = true)]
-        [TestCase(0f, ExpectedResult = true)]
-        [TestCase(1f, ExpectedResult = true)]
-        public bool TestIngredientPieceQuantityPossible(float? gramsPerPiece)
+        [TestCase(null, ExpectedResult = false)] // gramsPerPiece = null is used to indicate conversion is not possible.
+        [TestCase(-1f, ExpectedResult = true)] // negative gramsPerPiece is currently possible, but is actually physically impossible IRL.
+        [TestCase( 0f, ExpectedResult = true)] // gramsPerPiece = 0 is currently possible, but is also physically impossible IRL.
+        [TestCase( 1f, ExpectedResult = true)] // positive gramsPerPiece should always be possible.
+        public bool Test_PieceQuantityPossible(float? gramsPerPiece)
         {
             //Arrange: Create a Test Ingredient with the given conversion rate.
             Ingredient ingredient = new Ingredient(1, "test", gramsPerPiece: gramsPerPiece);
@@ -43,10 +43,10 @@ namespace Tests
         }
 
         [Test, Description("Ingredient.GetNumberOfGrams correctly converts quantity from ML to G.")]
-        [TestCase(0f, 1f, ExpectedResult = 0f)]
-        [TestCase(1f, 0f, ExpectedResult = 0f)]
-        [TestCase(1f, 1f, ExpectedResult = 1f)]
-        public float TestGetGramsFromML(float quantity, float gramsPerML)
+        [TestCase( 0f, 11f, ExpectedResult = 0f)]
+        [TestCase(11f,  0f, ExpectedResult = 0f)]
+        [TestCase(11f, 11f, ExpectedResult = 11f)]
+        public float Test_GetNumberOfGrams_ML(float quantity, float gramsPerML)
         {
             //Arrange: Create an ingredient with the given gramsPerML conversion rate.
             Ingredient ingr = new Ingredient(1, "test", gramsPerML: gramsPerML);
@@ -56,22 +56,24 @@ namespace Tests
         }
 
         [Test, Description("Ingredient.GetNumberOfGrams correctly throws an exception if gramsPerML is null.")]
-        public void TestGetGramsFromMLNull()
+        public void Test_GetNumberOfGrams_ML_Null()
         {
+            //Arrange: Create an ingredient with the given gramsPerML conversion rate.
             Ingredient ingr = new Ingredient(1, "test", gramsPerML: null);
 
+            //Act and Assert: Try to get the number of grams using this conversion rate and Assert that it throws an Exception.
             Assert.Throws<NullReferenceException>(delegate {
                 ingr.GetNumberOfGrams(1f, QuantityType.ML);
             });
         }
 
         [Test, Description("Ingredient.GetNumberOfGrams correctly converts quantity from ML to G.")]
-        [TestCase(0f, 1f, ExpectedResult = 0f)]
-        [TestCase(1f, 0f, ExpectedResult = 0f)]
-        [TestCase(1f, 1f, ExpectedResult = 1f)]
-        public float TestGetGramsFromPCS(float quantity, float gramsPerPiece)
+        [TestCase( 0f, 11f, ExpectedResult = 0f)]
+        [TestCase(11f,  0f, ExpectedResult = 0f)]
+        [TestCase(11f, 11f, ExpectedResult = 121f)]
+        public float Test_GetNumberOfGrams_PCS(float quantity, float gramsPerPiece)
         {
-            //Arrange: Create an ingredient with the given gramsPerML conversion rate.
+            //Arrange: Create an ingredient with the given gramsPerPiece conversion rate.
             Ingredient ingr = new Ingredient(1, "test", gramsPerPiece: gramsPerPiece);
 
             //Act and Assert:
@@ -79,10 +81,12 @@ namespace Tests
         }
 
         [Test, Description("Ingredient.GetNumberOfGrams correctly throws an exception if gramsPerML is null.")]
-        public void TestGetGramsFromPCSNull()
+        public void Test_GetNumberOfGrams_PCS_Null()
         {
+            //Arrange: Create an ingredient with the given gramsPerPiece conversion rate.
             Ingredient ingr = new Ingredient(1, "test", gramsPerPiece: null);
 
+            //Act and Assert: Try to get the number of grams using this conversion rate and Assert that it throws an Exception.
             Assert.Throws<NullReferenceException>(delegate {
                 ingr.GetNumberOfGrams(1f, QuantityType.PCS);
             });
@@ -93,7 +97,7 @@ namespace Tests
         [TestCase(1, "Orange", 1, "Apple", ExpectedResult = true)]
         [TestCase(1, "Orange", 2, "Orange", ExpectedResult = false)]
         [TestCase(1, "Orange", 2, "Apple", ExpectedResult = false)]
-        public bool TestIngredientEquality(int id1, string name1, int id2, string name2)
+        public bool Test_Equals_Ingredient(int id1, string name1, int id2, string name2)
         {
             //Arrange: Create Ingredients with the given parameters
             Ingredient ingredient1 = new(id1, name1);
@@ -101,6 +105,36 @@ namespace Tests
 
             //Assert: Ingredient 1 Equals Ingredient 2 if and only if id1 == id2.
             return ingredient1.Equals(ingredient2);
+        }
+
+        [Test, Description("Two Ingredients are Equal if and only if their IDs are Equal")]
+        [TestCase(1, "Orange", 1, "Orange", ExpectedResult = false)]
+        [TestCase(1, "Orange", 1, "Apple", ExpectedResult = false)]
+        [TestCase(1, "Orange", 2, "Orange", ExpectedResult = false)]
+        [TestCase(1, "Orange", 2, "Apple", ExpectedResult = false)]
+        public bool Test_Equals_Object(int id1, string name1, int id2, string name2)
+        {
+            //Arrange: Create an Ingredient and a non-Ingredient object with the given parameters
+            Ingredient ingredient1 = new(id1, name1);
+            GenericObject ingredient2 = new GenericObject(id2, name2);
+
+            //Assert: Ingredient 1 Equals Ingredient 2 if and only if id1 == id2.
+            return ingredient1.Equals(ingredient2);
+        }
+
+        /// <summary>
+        /// An object class that has properties ID and Name, just like Ingredient. Used to test Ingredient.Equals(object obj).
+        /// </summary>
+        private class GenericObject
+        {
+            public int ID;
+            public string Name;
+
+            public GenericObject(int id, string name)
+            {
+                this.ID = id;
+                this.Name = name;
+            }
         }
     }
 
@@ -110,7 +144,7 @@ namespace Tests
     public class IngredientListTests
     {
         [Test, Description("The IngredientList constructor creates a new, empty Dictionary if no Dictionary is passed.")]
-        public void TestIngredientListConstructorNull()
+        public void Test_Constructor_ingredientsNull()
         {
             //Arrange: Create a new IngredientList using the constructor without ingredients.
             IngredientList list = new("testList");
@@ -121,9 +155,9 @@ namespace Tests
 
         [Test, Description("IngredientList.GetQuantity() returns the right quantity of the given ingredient.")]
         [TestCase(-100f)]
-        [TestCase(0f)]
-        [TestCase(100f)]
-        public void TestGetQuantity(
+        [TestCase(   0f)]
+        [TestCase( 100f)]
+        public void Test_GetQuantity(
             float quantity)
         {
             //Arrange: Create a test Ingredient, add it to a Dictionary with the given quantity in the value,
@@ -131,7 +165,7 @@ namespace Tests
             Ingredient ingredient = new(1, "test");
             Dictionary<Ingredient, (float, QuantityType)> ingredients = new()
             {
-                { ingredient,(quantity,QuantityType.G) }
+                { ingredient, (quantity, QuantityType.G) }
             };
             IngredientList list = new("testList", ingredients);
 
@@ -143,7 +177,7 @@ namespace Tests
         [TestCase(QuantityType.G)]
         [TestCase(QuantityType.ML)]
         [TestCase(QuantityType.PCS)]
-        public void TestGetQuantityType(
+        public void Test_GetQuantityType(
             QuantityType quantityType)
         {
             //Arrange: Create a test Ingredient, add it to a Dictionary with the given quantity type in the value,
@@ -161,7 +195,7 @@ namespace Tests
 
         [Test, Description("IngredientList.NumberOfIngredients returns IngredientList.ingredients.Count.")]
         [TestCaseSource(nameof(testDictionaries))]
-        public void TestNumberOfIngredients(
+        public void Test_NumberOfIngredients(
             Dictionary<Ingredient, (float, QuantityType)> ingredients)
         {
             //Arrange: Create an IngredientList with the given ingredients Dictionary.
@@ -176,7 +210,7 @@ namespace Tests
         }
 
         [Test, Description("IngredientList.AddIngredient() properly adds a new ingredient to the Dictionary.")]
-        public void TestAddIngredient()
+        public void Test_AddIngredient()
         {
             //Arrange: Create an empty IngredientList and a new Ingredient.
             IngredientList list = new("testList");
@@ -190,7 +224,7 @@ namespace Tests
         }
 
         [Test, Description("IngredientList.AddIngredient() fails when trying to add an existent Ingredient.")]
-        public void TestAddIngredientFail()
+        public void Test_AddIngredient_Fail()
         {
             //Arrange: Create an IngredientList with some ingredients
             //and an Ingredient with an ID identical to one of the Ingredients in the list.
@@ -207,7 +241,7 @@ namespace Tests
         }
 
         [Test, Description("IngredientList.RemoveIngredient() properly removes the given ingredient.")]
-        public void TestRemoveIngredient(
+        public void Test_RemoveIngredient(
             [ValueSource(nameof(testDictionaries))] Dictionary<Ingredient, (float, QuantityType)> ingredients)
         {
             //Arrange: Create an ingredientList with the given ingredients Dictionary,
@@ -224,10 +258,11 @@ namespace Tests
         }
 
         [Test, Description("IngredientList.UpdateIngredient() properly sets the dictionary quantity value to a new value.")]
-        [TestCase(-1f)]
-        [TestCase(0f)]
-        [TestCase(1f)]
-        public void TestUpdateIngredientQuantity(float newQuantity)
+        [TestCase(-1f)] // Negative quantities are currently allowed, even though they should be physically impossible.
+        [TestCase( 0f)] // It was also suggested to not allow or just remove an ingredient when quantity = 0.
+        [TestCase( 1f)]
+        [TestCase(11f)]
+        public void Test_UpdateIngredient_Quantity(float newQuantity)
         {
             //Arrange: Create a IngredientList containing an Ingredient (with default values).
             Ingredient ingredient = new(1, "test", 1f, 1f);
@@ -249,7 +284,7 @@ namespace Tests
         [TestCase(QuantityType.G)]
         [TestCase(QuantityType.ML)]
         [TestCase(QuantityType.PCS)]
-        public void TestUpdateIngredientQuantityType(QuantityType newQuantityType)
+        public void Test_UpdateIngredient_QuantityType(QuantityType newQuantityType)
         {
             //Arrange: Create a IngredientList containing an Ingredient (with default values).
             Ingredient ingredient = new(1, "test", 1f, 1f);
@@ -268,7 +303,7 @@ namespace Tests
         }
 
         [Test, Description("IngredientList.UpdateIngredient() properly handles when updating an ingredient it doesn't contain.")]
-        public void TestUpdateNonExistentIngredient()
+        public void Test_UpdateIngredient_NotInList()
         {
             //Arrange: Create an Ingredient, an empty IngredientList, and some "new" values.
             Ingredient ingredient = new(1, "test", 1f, 1f);
