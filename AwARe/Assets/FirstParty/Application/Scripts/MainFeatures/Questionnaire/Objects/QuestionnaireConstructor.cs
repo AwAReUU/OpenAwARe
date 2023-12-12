@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AwARe.Questionnaire.Objects
 {
@@ -12,44 +13,44 @@ namespace AwARe.Questionnaire.Objects
     {
         private QuestionnaireData data;
 
-        [SerializeField] private GameObject questionnaireTemplate;
+        [SerializeField] private GameObject questionnairePrefab;
+        [SerializeField] private Transform subcanvas;
         [SerializeField] TextAsset jsonfile;
+        private GameObject questionnaire;
 
         //currently, start only loads the test questionnaire from a json file
         //in the future, this obviously has to change
         void Start()
         {
-            QuestionnaireFromFile("Exampleformat");
+            var data = QuestionnaireFromFile("Exampleformat");
+            if(data != null)
+                questionnaire = MakeQuestionnaire(data);
         }
 
-        public GameObject QuestionnaireFromFile(string filename)
+        public QuestionnaireData QuestionnaireFromFile(string filename)
         {
             data = JsonUtility.FromJson<QuestionnaireData>(jsonfile.text);
-            if(data == null)
-            {
-                Debug.Log("Data file is null. Is the file 'Questionnaires/" + filename + "' correct?");
-                return new GameObject(); //maybe return null?
-            }
 
-            return MakeQuestionnaire(data);
+            if (data != null)
+                return data;
+
+            Debug.Log("Data file is null. Is the file 'Questionnaires/" + filename + "' correct?");
+            return null;
         }
 
         //makes a questionnaire object and returns it
         private GameObject MakeQuestionnaire(QuestionnaireData data)
         {
-            var questionnaire = Instantiate(questionnaireTemplate, gameObject.transform, false);
-            questionnaire.SetActive(true);
+            var questionnaireObject = Instantiate(questionnairePrefab, subcanvas);
+            questionnaireObject.SetActive(true);
 
-            var questionnairescript = questionnaire.gameObject.GetComponent<Questionnaire>();
-            questionnairescript.SetTitle(data.questionnairetitle);
-            questionnairescript.SetDescription(data.questionnairedescription);
-
+            var questionnaire = questionnaireObject.gameObject.GetComponent<Questionnaire>();
+            questionnaire.SetTitle(data.questionnairetitle);
+            questionnaire.SetDescription(data.questionnairedescription);
             foreach(QuestionData question in data.questions)
-            {
-                questionnairescript.AddQuestion(question);
-            }
+                questionnaire.AddQuestion(question);
 
-            return questionnaire;
+            return questionnaireObject;
         }
     }
 
