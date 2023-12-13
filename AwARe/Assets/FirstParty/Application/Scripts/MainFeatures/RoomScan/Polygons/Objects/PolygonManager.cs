@@ -109,7 +109,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             PathGenerator startstate = new();
 
-            bool useTestPol = true;
+            bool useTestPol = false;
             
             List<Vector3> points = new()
             {
