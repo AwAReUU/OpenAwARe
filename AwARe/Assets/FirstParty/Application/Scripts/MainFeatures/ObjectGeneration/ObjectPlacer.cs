@@ -227,7 +227,7 @@ namespace AwARe.ObjectGeneration
             foreach (var renderable in renderables)
             {
                 // sort all spawnpoint with furthest distance to other initial spawnpoints first 
-                List<Vector3> sortedSpawnPoints = SortFurthestSpawnPointsByDistance(spawnPoints, initialSpawns.Values.ToList());
+                List<Vector3> sortedSpawnPoints = SortFurthestSpawnPointsByDistance(spawnPoints, initialSpawns.Values.ToList(), renderable.ComputeSpaceNeeded());
                 foreach (var point in sortedSpawnPoints)
                 {
                     if (TryPlaceObject(renderable, point, room))
@@ -256,12 +256,22 @@ namespace AwARe.ObjectGeneration
         /// <returns>The list of spawnpoints sorted by furthest distance from the occupied points.</returns>
         private List<Vector3> SortFurthestSpawnPointsByDistance(
             List<Vector3> validSpawnPoints, 
-            List<Vector3> occupiedPoints)
+            List<Vector3> occupiedPoints,
+            float totalAreaRequired
+            )
         {
             return validSpawnPoints.OrderByDescending(
-                point => occupiedPoints.Count > 0 ? 
-                        occupiedPoints.Min(occupied => Vector3.Distance(point, occupied)) : 
-                        float.MaxValue).ToList();
+                 point => CalculateWeightedDistance(point, occupiedPoints, totalAreaRequired)).ToList();
+        }
+
+        private float CalculateWeightedDistance(Vector3 point, List<Vector3> occupiedPoints, float totalAreaRequired)
+        {
+            float nearestDistance = occupiedPoints.Count > 0 ? 
+                                    occupiedPoints.Min(occupied => Vector3.Distance(point, occupied)) : 
+                                    float.MaxValue;
+
+            float weight = 1 / totalAreaRequired; 
+            return nearestDistance * weight;
         }
 
         /// <summary>
