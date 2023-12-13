@@ -5,6 +5,7 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -71,5 +72,23 @@ namespace AwARe.Data.Logic
         /// </summary>
         /// <returns>True if the polygon has no points, false otherwise.</returns>
         public bool IsEmptyPolygon() => Points.Count == 0;
+
+        /// <summary>
+        /// Calculates the area of the polygon.
+        /// </summary>
+        /// <returns>The area of the polygon.</returns>
+        public float PolygonArea()
+    {
+        float area = 0f;
+        int j = Points.Count - 1;
+
+        for (int i = 0; i < Points.Count; i++)
+        {
+            area += (Points[j].x + Points[i].z) * (Points[j].z - Points[i].z);
+            j = i; 
+        }
+
+        return Math.Abs(area / 2);
+    }
     }
 }

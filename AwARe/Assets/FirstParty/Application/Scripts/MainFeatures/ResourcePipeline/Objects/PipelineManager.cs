@@ -89,7 +89,8 @@ namespace AwARe.ResourcePipeline.Objects
 
                 float modelSizeMultiplier = realHeight / (2 * halfExtents.y) * sizeMultiplier;
                 halfExtents *= modelSizeMultiplier;
-                Renderable renderable = new(prefab, halfExtents, quantity, modelSizeMultiplier);
+                ResourceType resourceType = modelDatabase.GetModel(modelId).Type;
+                Renderable renderable = new(prefab, halfExtents, quantity, modelSizeMultiplier, resourceType);
                 Renderables.Add(renderable);
             }
             Renderables = Renderable.SetSurfaceRatios(Renderables);
