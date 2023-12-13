@@ -24,7 +24,7 @@ namespace AwARe
         private ObjectCreationManager objectCreationManager;
 
         [OneTimeSetUp, Description("Load the test scene once.")]
-        public void OneTimeSetup() => SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/ObjectGeneration");
+        public void OneTimeSetup() => SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/AR");
 
 
         [UnitySetUp, Description("Reset the scene before each test. Obtain the objectCreationManager")]
@@ -129,7 +129,7 @@ namespace AwARe
 
             Vector3 halfExtents = PipelineManager.GetHalfExtents(model);
             halfExtents *= scale;
-            Renderable renderable = new(model, halfExtents, 1, scale);
+            Renderable renderable = new(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Water);
             List<Renderable> renderables = new() { renderable };
             renderables = Renderable.SetSurfaceRatios(renderables);
             return renderables;
