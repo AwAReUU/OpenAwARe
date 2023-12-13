@@ -10,18 +10,18 @@ namespace AwARe.Questionnaire.Objects
     /// </summary>
     public abstract class AnswerOptionSpawner
     {
-        protected GameObject question;
-        protected GameObject answerOptionPrefab;
+        protected GameObject Question { get; set; }
+        protected GameObject AnswerOptionPrefab { get; set; }
 
         /// <summary>
         /// Constructor. Used to create a new <see cref="AnswerOptionSpawner"/>.
         /// </summary>
         /// <param name="question">Parent container.</param>
-        /// <param name="anwerOptionPrefab">Prefab for the AnwerOption to be generated.</param>
+        /// <param name="answerOptionPrefab">Prefab for the AnswerOption to be generated.</param>
         protected AnswerOptionSpawner(GameObject question, GameObject answerOptionPrefab)
         {
-            this.question = question;
-            this.answerOptionPrefab = answerOptionPrefab;
+            Question = question;
+            AnswerOptionPrefab = answerOptionPrefab;
         }
 
         /// <summary>
@@ -39,17 +39,21 @@ namespace AwARe.Questionnaire.Objects
         protected void InitializeAnswerOption(GameObject option, string labelText)
         {
             option.SetActive(true);
-            option.transform.SetParent(question.transform);
+            option.transform.SetParent(Question.transform);
             
             if (option.GetComponent<ToggleHandler>() == null) return;
             option.transform.Find("Label").GetComponent<TextMeshProUGUI>().text = labelText;
         }
 
-        protected void AddToToggleHandler(GameObject option, int answerOptionIndex)
+        /// <summary>
+        /// Initializes the <see cref="ToggleHandler"/> for the given answerOption. 
+        /// </summary>
+        /// <param name="option"></param>
+        /// <param name="answerOptionIndex"></param>
+        protected void InitializeToggleHandler(GameObject option, int answerOptionIndex)
         {
-            ToggleHandler toggleHandler = option.GetComponent<ToggleHandler>();
-            if (toggleHandler == null) return;
-            toggleHandler.SetQuestion(question);
+            if (!option.TryGetComponent(out ToggleHandler toggleHandler)) return;
+            toggleHandler.SetQuestion(Question);
             toggleHandler.AssignIndex(answerOptionIndex);
         }
     }
@@ -70,11 +74,11 @@ namespace AwARe.Questionnaire.Objects
         /// <summary>
         /// Create a single TextAnswerOption gameObject.
         /// </summary>
-        /// <param name="placeholderText">Placeholdertext will be present in the field before the user answers.</param>
+        /// <param name="placeholderText">Placeholder text will be present in the field before the user answers.</param>
         /// <returns></returns>
         public override GameObject CreateAnswerOption(string placeholderText)
         {
-            GameObject inputField = Object.Instantiate(answerOptionPrefab);
+            GameObject inputField = Object.Instantiate(AnswerOptionPrefab);
             InitializeAnswerOption(inputField, placeholderText);
             inputField.transform.Find("Text Area/Placeholder").GetComponent<TextMeshProUGUI>().text =
                 placeholderText;
@@ -89,18 +93,18 @@ namespace AwARe.Questionnaire.Objects
     public class RadioAnswerOption : AnswerOptionSpawner
     {
         private readonly ToggleGroup radiobuttonGroup;
-        private readonly int thisAnswerOptionIndex;
+        private readonly int answerOptionIndex;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RadioAnswerOption"/> class.
         /// </summary>
         /// <param name="questionGameObject">The parent questionGameObject that owns the answer option.</param>
         /// <param name="questionPrefab">The prefab used to create answer option GameObjects.</param>
-        /// <param name="answerOptionIndex">The index that this specific answer option will have.</param>
-        public RadioAnswerOption(GameObject questionGameObject, GameObject questionPrefab, int answerOptionIndex)
+        /// <param name="currentAnswerOptionIndex">The index that this specific answer option will have.</param>
+        public RadioAnswerOption(GameObject questionGameObject, GameObject questionPrefab, int currentAnswerOptionIndex)
             : base(questionGameObject, questionPrefab)
         {
-            thisAnswerOptionIndex = answerOptionIndex;
+            answerOptionIndex = currentAnswerOptionIndex;
 
             radiobuttonGroup = questionGameObject.GetComponent<ToggleGroup>();
             if (radiobuttonGroup != null) return;
@@ -112,14 +116,13 @@ namespace AwARe.Questionnaire.Objects
         /// Create a single RadioAnswerOption GameObject.
         /// </summary>
         /// <param name="labelText">Text to put next to the RadioButton.</param>
-        /// <returns></returns>
+        /// <returns>An answerOption GameObject.</returns>
         public override GameObject CreateAnswerOption(string labelText)
         {
-            GameObject radioButton = Object.Instantiate(answerOptionPrefab);
+            GameObject radioButton = Object.Instantiate(AnswerOptionPrefab);
             radioButton.GetComponent<Toggle>().group = radiobuttonGroup;
             InitializeAnswerOption(radioButton, labelText);
-            AddToToggleHandler(radioButton, thisAnswerOptionIndex);
-            radioButton.transform.Find("Label").GetComponent<TextMeshProUGUI>().text = labelText;
+            InitializeToggleHandler(radioButton, answerOptionIndex);
             radioButton.tag = "RadioButton";
             return radioButton;
         }
@@ -129,18 +132,18 @@ namespace AwARe.Questionnaire.Objects
     /// </summary>
     public class CheckBoxAnswerOption : AnswerOptionSpawner
     {
-        private readonly int thisAnswerOptionIndex;
+        private readonly int answerOptionIndex;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckBoxAnswerOption"/> class.
         /// </summary>
         /// <param name="questionGameObject">The parent questionGameObject that owns the answer option.</param>
         /// <param name="questionPrefab">The prefab used to create answer option GameObjects.</param>
-        /// <param name="answerOptionIndex">The index that this specific answer option will have.</param>
-        public CheckBoxAnswerOption(GameObject questionGameObject, GameObject questionPrefab, int answerOptionIndex)
+        /// <param name="currentAnswerOptionIndex">The index that this specific answer option will have.</param>
+        public CheckBoxAnswerOption(GameObject questionGameObject, GameObject questionPrefab, int currentAnswerOptionIndex)
             : base(questionGameObject, questionPrefab)
         {
-            thisAnswerOptionIndex = answerOptionIndex;
+            answerOptionIndex = currentAnswerOptionIndex;
         }
 
         /// <summary>
@@ -150,10 +153,9 @@ namespace AwARe.Questionnaire.Objects
         /// <returns></returns>
         public override GameObject CreateAnswerOption(string labelText)
         {
-            GameObject checkbox = Object.Instantiate(answerOptionPrefab);
+            GameObject checkbox = Object.Instantiate(AnswerOptionPrefab);
             InitializeAnswerOption(checkbox, labelText);
-            AddToToggleHandler(checkbox, thisAnswerOptionIndex);
-            checkbox.transform.Find("Label").GetComponent<TextMeshProUGUI>().text = labelText;
+            InitializeToggleHandler(checkbox, answerOptionIndex);
             checkbox.tag = "CheckBox";
             return checkbox;
         }

@@ -9,27 +9,33 @@ namespace AwARe.Questionnaire.Objects
     /// </summary>
     public class ToggleHandler : MonoBehaviour
     {
-        private GameObject question { get; set; }
-        private int optionIndex { get; set; }
+        /// <value>
+        /// The question that this <see cref="ToggleHandler"/>'s answerOption belongs to.
+        /// </value>
+        private GameObject Question { get; set; }
+        /// <value>
+        /// The index of this <see cref="ToggleHandler"/>'s answerOption.
+        /// </value>
+        private int OptionIndex { get; set; }
 
         /// <summary>
-        /// notifies the question that this answer option is now yes or no, true or false.
+        /// Notifies the question that this answer option is now checked or unchecked.
         /// </summary>
         public void NotifyChange() =>
-            question.GetComponent<Question>().ChangeIfYesState(optionIndex, gameObject.GetComponent<Toggle>().isOn);
+            Question.GetComponent<Question>().ChangeIfYesState(OptionIndex, gameObject.GetComponent<Toggle>().isOn);
 
         /// <summary>
-        /// Set the question of this Togglehandler.
+        /// Set the question of this <see cref="ToggleHandler"/>.
         /// </summary>
-        /// <param name="question"></param>
+        /// <param name="question">Question that this answerOption's toggleHandler is a child of.</param>
         public void SetQuestion(GameObject question) => 
-            this.question = question;
+            Question = question;
 
         /// <summary>
         /// Assign the index <paramref name="optionIndex"/> to this option.
         /// </summary>
-        /// <param name="optionIndex"></param>
+        /// <param name="optionIndex">The index of this option.</param>
         public void AssignIndex(int optionIndex) =>
-            this.optionIndex = optionIndex;
+            OptionIndex = optionIndex;
     }
 }

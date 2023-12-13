@@ -424,7 +424,7 @@ GameObject:
   - component: {fileID: 8753377558476038274}
   - component: {fileID: 6277859383896328297}
   m_Layer: 5
-  m_Name: QuestionnaireTemplate
+  m_Name: QuestionnairePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -546,9 +546,7 @@ MonoBehaviour:
   title: {fileID: 3952158344208651898}
   description: {fileID: 1540325540312759551}
   submitButton: {fileID: 7978906884852995942}
-  questionCreatorPrefab: {fileID: 5911877008007044621, guid: 993cb102f3a3e484da507f5518417149,
-    type: 3}
-  questionTemplate: {fileID: 5911877008007044621, guid: 993cb102f3a3e484da507f5518417149,
+  questionPrefab: {fileID: 1988455846689967398, guid: 7bf627c6b770f54478ed2f735f235e0a,
     type: 3}
 --- !u!1 &3952158344208651898
 GameObject:

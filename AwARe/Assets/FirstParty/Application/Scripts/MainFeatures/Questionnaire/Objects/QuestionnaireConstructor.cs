@@ -7,20 +7,26 @@ using UnityEngine.Serialization;
 
 namespace AwARe.Questionnaire.Objects
 {
+    /// <summary>
+    /// Class <c>QuestionnaireConstructor</c> is used for creating a <see cref="Questionnaire"/> from a json string.
+    /// </summary>
     public class QuestionnaireConstructor : MonoBehaviour
     {
-        [SerializeField] private GameObject questionnairePrefab;
         [SerializeField] private Transform subcanvas;
-        [SerializeField] private GameObject questionnaireTemplate;
-        [SerializeField] private TextAsset jsonFile;
+        /// Reference to "QuestionnairePrefab".
+        /// </value>
+        [SerializeField] private GameObject questionnairePrefab;
+        /// <value>
+        /// Reference to an input jsonFile to be used for constructing the <see cref="Questionnaire"/>.
+        /// </value>
 
         /// <value>
-        /// JSON data of which a questionnnaire can be created.
+        /// Deserialized JSON data of which a <see cref="Questionnaire"/> can be created.
         /// </value>
         private QuestionnaireData Data { get; set; }
 
         /// <summary>
-        /// Create a questionnaire from json string.
+        /// Create a <see cref="Questionnaire"/> from json string.
         /// </summary>
         private void Start()
         {
@@ -28,8 +34,10 @@ namespace AwARe.Questionnaire.Objects
         }
 
         /// <summary>
-        /// Convert <paramref name="jsonText"/> to data object and creates a questionnaire out of it.
+        /// Convert <paramref name="jsonText"/> to data object and creates a <see cref="Questionnaire"/> out of it.
+        /// (Deserialization)
         /// </summary>
+        /// <param name="jsonText">The json text to be deserialized.</param>
         /// <returns>A questionnaire GameObject.</returns>
         public GameObject QuestionnaireFromJsonString(string jsonText)
         {
@@ -48,10 +56,10 @@ namespace AwARe.Questionnaire.Objects
         /// Makes a questionnaire object and returns it.
         /// </summary>
         /// <param name="questionnaireData">deserialized questionnaire data from a json.</param>
-        /// <returns>A questionnaire gameobject.</returns>
+        /// <returns>A questionnaire GameObject.</returns>
         private GameObject MakeQuestionnaire(QuestionnaireData questionnaireData)
         {
-            GameObject questionnaireObject = Instantiate(questionnaireTemplate, gameObject.transform, false);
+            GameObject questionnaireObject = Instantiate(questionnairePrefab, gameObject.transform, false);
             questionnaireObject.SetActive(true);
 
             Questionnaire questionnaireScript = questionnaireObject.gameObject.GetComponent<Questionnaire>();
@@ -64,8 +72,16 @@ namespace AwARe.Questionnaire.Objects
             return questionnaireObject;
         }
 
+        /// <summary>
+        /// Obtain the JsonFile from the serialize field.
+        /// </summary>
+        /// <returns>JsonFile obtained from the serialize field.</returns>
         public TextAsset GetJsonFile() => jsonFile;
-        public GameObject GetQuestionnaireTemplate() => questionnaireTemplate;
+        /// <summary>
+        /// Obtain the QuestionnairePrefab from the serialize field.
+        /// </summary>
+        /// <returns>Questionnaire prefab GameObject obtained from the serialize field.</returns>
+        public GameObject GetQuestionnaireTemplate() => questionnairePrefab;
     }
 
     /// <summary>
@@ -77,10 +93,10 @@ namespace AwARe.Questionnaire.Objects
         /// <summary>
         /// Empty Start method, so no starting code is executed.
         /// </summary>
-        void Start() { }
+        private void Start() { }
 
         /// <summary>
-        /// Initializes private fields inside the QuestionnaireConstructor using reflection. 
+        /// Initializes private serialize fields from inside the QuestionnaireConstructor using reflection. 
         /// If a value is provided for a field, it is set directly. 
         /// If no value is provided, the value from the QuestionnaireConstructor instance is used.
         /// </summary>
@@ -92,15 +108,11 @@ namespace AwARe.Questionnaire.Objects
                 GetField("jsonFile", BindingFlags.Instance | BindingFlags.NonPublic);
             if (jsonFileField != null)
                 jsonFileField.SetValue(this, jsonTextAsset != null ? jsonTextAsset : GetJsonFile());
-            else
-                Debug.LogError("Field 'jsonFile' not found in QuestionnaireConstructor.");
 
             FieldInfo templateField = typeof(QuestionnaireConstructor).
                 GetField("questionnaireTemplate", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (templateField != null)
-                templateField.SetValue(this, template != null ? template : GetQuestionnaireTemplate());
-            else
-                Debug.LogError("Field 'questionnaireTemplate' not found in QuestionnaireConstructor.");
+            if (templateField == null) return;
+            templateField.SetValue(this, template != null ? template : GetQuestionnaireTemplate());
         }
     }
 }

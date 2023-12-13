@@ -11,23 +11,53 @@ namespace AwARe.Questionnaire.Objects
 {
     public class Question : MonoBehaviour
     {
-        [SerializeField] private GameObject titleContainer;
+        /// <value>
+        /// Reference to "Title" inside of "QuestionPrefab".
+        /// </value>
+        [SerializeField] private GameObject title;
+        /// <value>
+        /// Reference to "textInputPrefab".
+        /// </value>
         [SerializeField] private GameObject textInputPrefab;
+        /// <value>
+        /// Reference to "checkBoxPrefab".
+        /// </value>
         [SerializeField] private GameObject checkBoxPrefab;
+        /// <value>
+        /// Reference to "radioButtonPrefab".
+        /// </value>
         [SerializeField] private GameObject radioButtonPrefab;
 
-        private List<GameObject> answerOptions { get; set; }
-        public List<bool> answerOptionStates { get; set; }
-        public int answerOptionNumberCounter = 0;
-        public int ifYesTriggerIndex { get; private set; }
-        public bool ifYes { get; private set; }
-        public List<GameObject> ifYesQuestions { get; set; }
+        /// <value>
+        /// All AnswerOptions that this question has.
+        /// </value>
+        private List<GameObject> AnswerOptions { get; set; }
+        /// <value>
+        /// Indicates whether an AnswerOption at an index is checked or not.
+        /// </value>
+        public List<bool> AnswerOptionStates { get; set; }
+        /// <value>
+        /// The index of the answer option that toggles the IfYes questions.
+        /// </value>
+        public int IfYesTriggerIndex { get; private set; }
+        /// <value>
+        /// 
+        /// </value>
+        public bool IfYes { get; private set; }
+        /// <value>
+        /// All IfYes questions that this question has.
+        /// </value>
+        public List<GameObject> IfYesQuestions { get; set; }
+        /// <value>
+        /// Counter which is used for assigning a unique index to an AnswerOption upon adding a new one.
+        /// </value>
+        private int CurrentAnswerOptionIndex = 0;
 
-        void Awake()
+        private void Awake()
         {
-            answerOptions = new List<GameObject>();
-            answerOptionStates = new List<bool>();
-            ifYesQuestions = new List<GameObject>();
+            AnswerOptions = new List<GameObject>();
+            AnswerOptionStates = new List<bool>();
+            IfYesQuestions = new List<GameObject>();
         }
 
         /// <summary>
@@ -50,8 +80,8 @@ namespace AwARe.Questionnaire.Objects
         {
             AnswerOptionSpawner answerOptionFactory = CreateAnswerOptionSpawner((OptionType)Enum.Parse(typeof(OptionType), answerOptionData.optionType));
             GameObject newOption = answerOptionFactory.CreateAnswerOption(answerOptionData.optionText);
-            answerOptions.Add(newOption);
-            answerOptionStates.Add(false);
+            AnswerOptions.Add(newOption);
+            AnswerOptionStates.Add(false);
         }
 
         /// <summary>
@@ -64,9 +94,9 @@ namespace AwARe.Questionnaire.Objects
             switch (optionType)
             {
                 case OptionType.Radio:
-                    return new RadioAnswerOption(gameObject, radioButtonPrefab, answerOptionNumberCounter++);
+                    return new RadioAnswerOption(gameObject, radioButtonPrefab, CurrentAnswerOptionIndex++);
                 case OptionType.Checkbox:
-                    return new CheckBoxAnswerOption(gameObject, checkBoxPrefab, answerOptionNumberCounter++);
+                    return new CheckBoxAnswerOption(gameObject, checkBoxPrefab, CurrentAnswerOptionIndex++);
                 case OptionType.Textbox:
                     return new TextAnswerOption(gameObject, textInputPrefab);
                 case OptionType.Error:
@@ -83,25 +113,25 @@ namespace AwARe.Questionnaire.Objects
         /// <param name="ifYesTriggerIndex">The index of the answer option that acts as the trigger for additional questions.</param>
         public void SetIfYes(bool ifYes, int ifYesTriggerIndex)
         {
-            this.ifYes = ifYes;
-            this.ifYesTriggerIndex = ifYesTriggerIndex;
+            this.IfYes = ifYes;
+            this.IfYesTriggerIndex = ifYesTriggerIndex;
         }
 
         /// <summary>
         /// Changes the state of an answer option and updates the visibility
-        /// of additional questions if needed.
+        /// of the IfYes-questions this question if needed.
         /// </summary>
         /// <param name="optionIndex">The index of the answer option whose state is being changed.</param>
         /// <param name="newState">The new state to set for the specified answer option.</param>
         public void ChangeIfYesState(int optionIndex, bool newState)
         {
-            answerOptionStates[optionIndex] = newState;
+            AnswerOptionStates[optionIndex] = newState;
 
-            foreach (GameObject ifYesQuestion in ifYesQuestions)
-                ifYesQuestion.SetActive(answerOptionStates[ifYesTriggerIndex]);
+            foreach (GameObject ifYesQuestion in IfYesQuestions)
+                ifYesQuestion.SetActive(AnswerOptionStates[IfYesTriggerIndex]);
 
             //Fixes a bug where items are stacked on eachother:
-            if (answerOptionStates[ifYesTriggerIndex])
+            if (AnswerOptionStates[IfYesTriggerIndex])
                 LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)gameObject.transform.parent);
         }
     }

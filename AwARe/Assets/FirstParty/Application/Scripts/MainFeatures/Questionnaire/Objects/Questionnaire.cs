@@ -24,7 +24,7 @@ namespace AwARe.Questionnaire.Objects
         private List<GameObject> questions { get; set; }
 
         /// <summary>
-        /// Initialize a new Questionnnaire.
+        /// Initialize a new <see cref="Questionnaire"/>.
         /// </summary>
         private void Awake()
         {
@@ -101,7 +101,7 @@ namespace AwARe.Questionnaire.Objects
             {
                 GameObject ifYesQuestion = AddQuestion(ifYesQuestionData);
                 ifYesQuestion.SetActive(false);
-                question.ifYesQuestions.Add(ifYesQuestion);
+                question.IfYesQuestions.Add(ifYesQuestion);
             }
         }
     }
