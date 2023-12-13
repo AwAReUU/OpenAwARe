@@ -34,7 +34,7 @@ namespace AwARe.InterScenes.Objects
         /// <value>The current AR Session.</value>
         public ARSession Session
         {
-            get => Safe.Load(ref session, FindObjectOfType<ARSession>);
+            get => session != null ? session : FindObjectOfType<ARSession>();
             private set => session = value;
         }
         
@@ -44,7 +44,7 @@ namespace AwARe.InterScenes.Objects
         /// <value>The current AR Session Origin.</value>
         public XROrigin Origin
         {
-            get => Safe.Load(ref origin, FindObjectOfType<XROrigin>);
+            get => origin != null ? origin : FindObjectOfType<XROrigin>();
             private set => origin = value;
         }
 
@@ -54,7 +54,7 @@ namespace AwARe.InterScenes.Objects
         /// <value>The current AR Camera.</value>
         public Camera Camera
         {
-            get => Safe.Load(ref cam, FindObjectOfType<Camera>);
+            get => cam != null ? cam : FindObjectOfType<Camera>();
             private set => cam = value;
         }
 
