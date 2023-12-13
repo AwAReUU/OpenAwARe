@@ -55,7 +55,7 @@ namespace AwARe.RoomScan.Path
             // Apply erosion
             PrintTime("erosionStart");
             ErosionHandler erosionHandler = new();
-            grid = erosionHandler.Erode(grid, 30);
+            grid = erosionHandler.Erode(grid, 100);
             PrintTime("erosionEnd");
 
             PrintTime("largestShapeStart");
