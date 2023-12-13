@@ -73,6 +73,7 @@ namespace AwARe.RoomScan.Path.Jobs
 
                     //rounding to integer in the same way DrawLine does it
                     double preintersectx = (point.y - b) / a;
+                    if (preintersectx - (int)preintersectx == 0.5) return false;
                     if (preintersectx - (int)preintersectx > 0.5) intersectx = (int)(preintersectx + 1);
                     else intersectx = (int)preintersectx;
                 }
