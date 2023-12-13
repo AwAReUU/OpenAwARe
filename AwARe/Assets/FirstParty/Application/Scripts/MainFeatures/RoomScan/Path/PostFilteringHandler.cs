@@ -142,9 +142,9 @@ namespace AwARe.RoomScan.Path
                 if (distance < cutTreshold)
                 {
                     for (int j = 0; j < consideredPoints.Count; j++)
-                    { 
+                    {
                         //do not cut away the junction, but do cut away all other points
-                        if (junctions.Contains(consideredPoints[j])) continue; 
+                        if (junctions.Contains(consideredPoints[j])) continue;
                         grid[consideredPoints[j].x, consideredPoints[j].y] = false;
                     }
                 }

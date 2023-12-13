@@ -5,8 +5,11 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using AwARe.RoomScan.Path.Jobs;
 using System;
 using System.Collections.Generic;
+using Unity.Collections;
+using Unity.Jobs;
 
 namespace AwARe.RoomScan.Path
 {
@@ -16,29 +19,46 @@ namespace AwARe.RoomScan.Path
     public class ErosionHandler
     {
         /// <summary>
-        /// Erodes the given binary bitmap.
+        /// Erodes the given binary bitmap; Scans the grid and determines the value of each cell.
         /// </summary>
         /// <param name="input">The binary bitmap to be eroded.</param>
+        /// <param name="range">The range of the erosion.</param>
         /// <returns>The eroded bitmap.</returns>
-        public bool[,] Erode(bool[,] input)
+        public bool[,] Erode(bool[,] input, int range)
         {
-            bool[,] structuringElement = GetStructuringElement(30);
+            // Get the size of the input array
+            int rows = input.GetLength(0);
+            int cols = input.GetLength(1);
+            int gridSize = rows * cols;
 
-            // Construct funcArray for Scan
-            Func<bool, bool> funcArrayfunc(bool v_element) =>
-                (v_input) =>
-                    (!v_element || v_input); // If v_element is true, v_input must be true, otherwise return false
+            int halfRange = range / 2;
 
-            Func<bool, bool>[,] funcArray = Map(structuringElement, funcArrayfunc);
+            // Convert the input grid to a native array.
+            NativeArray<bool> inputGrid = GridConverter.ToNativeGrid(input);
 
-            // Construct combineArray for Scan
-            Func<bool[,], bool> combineFunc = All;
+            NativeArray<bool> resultGrid = new(gridSize, Allocator.TempJob);
 
-            Func<(int, int), bool> inputFunction = GetInputFunction(input);
-            (int, int) inputSize = (input.GetLength(0), input.GetLength(1));
+            ErosionScanJob erosionScanJob = new()
+            {
+                input = inputGrid,
+                range = range,
+                rows = rows,
+                columns = cols,
+                halfRange = halfRange,
 
-            // Perform Scanning
-            return Scan(inputSize, inputFunction, funcArray, combineFunc);
+                result = resultGrid
+            };
+
+            JobHandle erosionScanJobHandle = erosionScanJob.Schedule(gridSize, 64);
+
+            erosionScanJobHandle.Complete();
+
+            bool[,] output = GridConverter.ToGrid(resultGrid, rows, cols);
+
+            resultGrid.Dispose();
+            inputGrid.Dispose();
+
+            return output;
         }
 
         /// <summary>
@@ -83,13 +103,19 @@ namespace AwARe.RoomScan.Path
         /// <returns>An array with the sizes of the different shapes.</returns>
         private int[] CountShapeSize(int[,] labeled, int nro_shapes)
         {
-            bool[,] structuringElement = new bool[range, range];
-            for (int i = 0; i < range; i++)
-            {
-                for (int j = 0; j < range; j++) { structuringElement[i, j] = true; }
-            }
+            int[] count = new int[nro_shapes];
 
-            return structuringElement;
+            // Define function to get new label for each pixel
+            Func<int, bool> func = (int label) =>
+            {
+                if (label >= 1)
+                    count[label - 1]++;
+                return default;
+            };
+
+            foreach (int i in labeled) func(i);
+
+            return count;
         }
 
         /// <summary>
@@ -101,19 +127,58 @@ namespace AwARe.RoomScan.Path
         /// <param name="nro_shapes">The amount of different shapes in the grid.</param>
         private void IntFloodFill(bool[,] input, int neighbourRange, out int[,] output, out int nro_shapes)
         {
-            // Iterate over all cells
-            int l_x = input.GetLength(0), l_y = input.GetLength(1);
-            Func<bool, bool>[,] output = new Func<bool, bool>[l_x, l_y];
-            for (int x = 0; x < l_x; x++)
+            nro_shapes = 0;
+
+            int rows = input.GetLength(0);
+            int columns = input.GetLength(1);
+
+            // Assign all non-shape pixels 0 and all shape pixels -1 (to assign later)
+            output = new int[rows, columns];
+            for (int i = 0; i < rows; i++)
             {
-                for (int y = 0; y < l_y; y++)
+                for (int j = 0; j < columns; j++)
                 {
-                    // Perform function on cell
-                    output[x, y] = func(input[x, y]);
+                    output[i, j] = input[i, j] ? -1 : 0;
                 }
             }
 
-            return output;
+            // Treat out of bound as non-shape pixels
+            var outputFunction = GetInputIntFunction(output);
+
+            int halfNeighbourRange = neighbourRange / 2;
+            Stack<(int, int)> stack = new Stack<(int, int)>();
+
+            // Iterate over all cells
+            for (int x = 0; x < rows; x++)
+                for (int y = 0; y < columns; y++)
+                {
+                    // Check if there is an unfilled shape
+                    if (outputFunction((x, y)) != -1)
+                        continue;
+
+                    // Get next label, label current point and put it on the stack
+                    int label = ++nro_shapes;
+                    output[x, y] = label;
+                    stack.Push((x, y));
+
+                    // Flood the shape
+                    while (stack.Count > 0)
+                    {
+                        // Get next point
+                        var point = stack.Pop();
+                        (int p_x, int p_y) = point;
+
+                        // Check all neighbours for unassigned shape pixels
+                        for (int i = 0, s_x = p_x - halfNeighbourRange; i < neighbourRange; i++, s_x++)
+                            for (int j = 0, s_y = p_y - halfNeighbourRange; j < neighbourRange; j++, s_y++)
+                                if (outputFunction((s_x, s_y)) == -1)
+                                {
+                                    // label this pixel and push it on stack to continue flooding later
+                                    output[s_x, s_y] = label;
+                                    stack.Push((s_x, s_y));
+                                }
+                    }
+                }
         }
 
         /// <summary>
@@ -129,9 +194,8 @@ namespace AwARe.RoomScan.Path
             {
                 (int x, int y) = xy;
                 bool inBounds = (x >= 0) && (x < l_x) && (y >= 0) && (y < l_y);
-                return inBounds && input[x, y];
+                return inBounds ? input[x, y] : 0;
             };
         }
-
     }
 }

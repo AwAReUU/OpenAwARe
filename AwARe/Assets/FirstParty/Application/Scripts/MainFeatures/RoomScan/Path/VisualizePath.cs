@@ -36,7 +36,7 @@ namespace AwARe.RoomScan.Path
             pathMesh.transform.parent = this.transform;
 
             // Create path lines 
-            foreach(var points in pathData.edges)
+            foreach (var points in pathData.edges)
             {
                 var segment = new GameObject("PathSegment");
                 var line = segment.AddComponent(typeof(LineRenderer)) as LineRenderer;

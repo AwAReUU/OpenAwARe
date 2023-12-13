@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +38,7 @@ namespace AwARe.RoomScan.Path
                 mesh = CombineMeshes(mesh, circle);
             }
 
-            for(int i = 0; i < edges.Count; i++)
+            for (int i = 0; i < edges.Count; i++)
             {
                 Mesh segment = this.SegmentMesh(edges[i].Item1, edges[i].Item2, this.radius);
                 mesh = CombineMeshes(mesh, segment);
