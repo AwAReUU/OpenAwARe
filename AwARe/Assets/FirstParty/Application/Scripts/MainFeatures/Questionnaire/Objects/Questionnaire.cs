@@ -32,6 +32,12 @@ namespace AwARe.Questionnaire.Objects
         }
 
         /// <summary>
+        /// Obtain the questions in this questionnaire.
+        /// </summary>
+        /// <returns>The question GameObjects that are inside of this questionnaire.</returns>
+        public List<GameObject> GetQuestions() => questions;
+
+        /// <summary>
         /// Set the title of the questionnaire in the UI.
         /// </summary>
         /// <param name="questionnaireTitle">Title to set to the UI.</param>
