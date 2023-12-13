@@ -12,7 +12,7 @@ namespace AwARe.RoomScan.Path
         public List<Vector3> points;
         public List<(Vector3, Vector3)> edges;
 
-        public float radius;
+        public float radius = 0.2f;
 
         public PathData()
         {
