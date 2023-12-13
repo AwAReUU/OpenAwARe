@@ -58,7 +58,8 @@ public class QuestionnaireMockJsonTests
     [OneTimeSetUp, Description("Load the test scene once.")]
     public void OneTimeSetup()
     {
-        SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/Questionnaire");
+        //Use anything but Questionnaire scene, since that scene already contains a questionnaire constructor.
+        SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/AR");
         testFormat = Resources.Load<TextAsset>("Data/Questionnaire/Testformat");
         questionnairePrefab = Resources.Load<GameObject>("Prefabs/MainFeatures/Questionnaire/QuestionnairePrefab");
     }
@@ -147,7 +148,7 @@ public class QuestionnaireMockJsonTests
         yield return null;
         //Act: Count the checkBoxes.
         GameObject[] checkboxes = GameObject.FindGameObjectsWithTag("CheckBox");
-        Assert.True(checkboxes.Length == 6);
+        Assert.True(checkboxes.Length == 3);
     }
 
     [UnityTest, Description("Test whether all radioButtons are created. (And not too many!)")]
@@ -160,7 +161,7 @@ public class QuestionnaireMockJsonTests
         yield return null;
         //Act: Count the radioButtons.
         GameObject[] radioButtons = GameObject.FindGameObjectsWithTag("RadioButton");
-        Assert.True(radioButtons.Length == 12);
+        Assert.True(radioButtons.Length == 10);
     }
 
     [UnityTest, Description("Test whether all inputFields are created. (And not too many!)")]
@@ -173,6 +174,6 @@ public class QuestionnaireMockJsonTests
         yield return null;
         //Act: Count the inputFields.
         GameObject[] inputFields = GameObject.FindGameObjectsWithTag("InputField");
-        Assert.True(inputFields.Length == 2);
+        Assert.True(inputFields.Length == 1);
     }
 }

@@ -110,7 +110,7 @@ namespace AwARe.Questionnaire.Objects
                 jsonFileField.SetValue(this, jsonTextAsset != null ? jsonTextAsset : GetJsonFile());
 
             FieldInfo templateField = typeof(QuestionnaireConstructor).
-                GetField("questionnaireTemplate", BindingFlags.Instance | BindingFlags.NonPublic);
+                GetField("questionnairePrefab", BindingFlags.Instance | BindingFlags.NonPublic);
             if (templateField == null) return;
             templateField.SetValue(this, template != null ? template : GetQuestionnaireTemplate());
         }
