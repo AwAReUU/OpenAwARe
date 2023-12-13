@@ -11,6 +11,15 @@ using UnityEngine.UI;
 
 namespace AwARe.IngredientList.Objects
 {
+    /// <summary>
+    /// <para>
+    ///     Handles the UI of the Ingredient screen.
+    /// </para>
+    /// <para>
+    ///     Displays the name and quantity of the currently selected <see cref="Ingredient"/>.
+    ///     Allows the user to adjust this ingredient's quantity and QuantityType through UI elements.
+    /// </para>
+    /// </summary>
     public class IngredientScreen : MonoBehaviour
     {
         [SerializeField] private IngredientListManager ingredientListManager;
@@ -47,7 +56,7 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Initializes the quantityTypeDropdown
+        /// Initializes the quantityTypeDropdown.
         /// </summary>
         private void SetDropDownItems()
         {
@@ -64,7 +73,7 @@ namespace AwARe.IngredientList.Objects
 
 
         /// <summary>
-        /// Updates the current ingredient with values from inputs
+        /// Saves changes and updates the current ingredient with values from inputs.
         /// </summary>
         public void OnConfirmClick()
         {
