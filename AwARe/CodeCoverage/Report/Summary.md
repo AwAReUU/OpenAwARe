@@ -1,21 +1,21 @@
 ﻿# Summary
 |||
 |:---|:---|
-| Generated on: | 12/12/2023 - 16:50:39 |
+| Generated on: | 13/12/2023 - 11:16:08 |
 | Parser: | MultiReportParser (3x OpenCoverParser) |
 | Assemblies: | 4 |
 | Classes: | 125 |
 | Files: | 111 |
-| Covered lines: | 166 |
-| Uncovered lines: | 4968 |
-| Coverable lines: | 5134 |
-| Total lines: | 13067 |
-| Line coverage: | 3.2% (166 of 5134) |
+| Covered lines: | 188 |
+| Uncovered lines: | 4963 |
+| Coverable lines: | 5151 |
+| Total lines: | 13120 |
+| Line coverage: | 3.6% (188 of 5151) |
 | Covered branches: | 0 |
 | Total branches: | 0 |
-| Covered methods: | 42 |
-| Total methods: | 687 |
-| Method coverage: | 6.1% (42 of 687) |
+| Covered methods: | 48 |
+| Total methods: | 691 |
+| Method coverage: | 6.9% (48 of 691) |
 
 |**Name**|**Covered**|**Uncovered**|**Coverable**|**Total**|**Line coverage**|**Covered**|**Total**|**Branch coverage**|**Covered**|**Total**|**Method coverage**|
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -55,12 +55,12 @@
 |TMPro.TMP_DigitValidator|0|8|8|27|0%|0|0||0|1|0%|
 |TMPro.TMP_PhoneNumberValidator|0|66|66|105|0%|0|0||0|1|0%|
 |TMPro.TMP_TextEventHandler|0|107|107|254|0%|0|0||0|20|0%|
-|**EditMode**|**108**|**2**|**110**|**696**|**98.1%**|**0**|**0**|****|**20**|**20**|**100%**|
-|Tests.IngredientListTests|67|0|67|348|100%|0|0||11|11|100%|
-|Tests.IngredientTests|41|2|43|348|95.3%|0|0||9|9|100%|
+|**EditMode**|**125**|**2**|**127**|**802**|**98.4%**|**0**|**0**|****|**24**|**24**|**100%**|
+|Tests.IngredientListTests|72|0|72|401|100%|0|0||12|12|100%|
+|Tests.IngredientTests|53|2|55|401|96.3%|0|0||12|12|100%|
 |**PlayMode**|**1**|**53**|**54**|**138**|**1.8%**|**0**|**0**|****|**1**|**8**|**12.5%**|
 |AwARe.ObjectGenerationPlayModeTest|1|53|54|138|1.8%|0|0||1|8|12.5%|
-|**Scripts**|**57**|**2633**|**2690**|**9173**|**2.1%**|**0**|**0**|****|**21**|**489**|**4.2%**|
+|**Scripts**|**62**|**2628**|**2690**|**9173**|**2.3%**|**0**|**0**|****|**23**|**489**|**4.7%**|
 |ARScenePhaseManager|0|41|41|79|0%|0|0||0|5|0%|
 |AwARe.Data.Logic.Polygon|0|18|18|75|0%|0|0||0|9|0%|
 |AwARe.Data.Objects.PolygonMesh|0|33|33|78|0%|0|0||0|5|0%|
@@ -68,9 +68,9 @@
 |AwARe.Database.Logic.MockupIngrToResDatabase|0|10|10|69|0%|0|0||0|2|0%|
 |AwARe.Database.Logic.MockupModelDatabase|0|13|13|45|0%|0|0||0|3|0%|
 |AwARe.Database.Logic.MockupResourceDatabase|0|13|13|55|0%|0|0||0|3|0%|
-|AwARe.IngredientList.Logic.Ingredient|28|2|30|125|93.3%|0|0||10|11|90.9%|
+|AwARe.IngredientList.Logic.Ingredient|30|0|30|125|100%|0|0||11|11|100%|
 |AwARe.IngredientList.Logic.IngredientFileHandler|0|65|65|130|0%|0|0||0|3|0%|
-|AwARe.IngredientList.Logic.IngredientList|29|3|32|125|90.6%|0|0||11|12|91.6%|
+|AwARe.IngredientList.Logic.IngredientList|32|0|32|125|100%|0|0||12|12|100%|
 |AwARe.IngredientList.Objects.IngredientListManager|0|72|72|195|0%|0|0||0|21|0%|
 |AwARe.IngredientList.Objects.IngredientListScreen|0|95|95|227|0%|0|0||0|14|0%|
 |AwARe.IngredientList.Objects.IngredientScreen|0|40|40|106|0%|0|0||0|5|0%|

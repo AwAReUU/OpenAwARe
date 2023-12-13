@@ -21,6 +21,30 @@ namespace Tests
     /// </summary>
     public class IngredientTests
     {
+        [Test, Description("Can get the ID of the ingredient.")]
+        [TestCase(0)]
+        [TestCase(1)]
+        public void Test_GetID(int id)
+        {
+            //Arrange: Create an ingredient using the given name.
+            Ingredient ingredient = new Ingredient(id, "test");
+
+            //Act and Assert: Get the ingredients name and assert it's the same as the one given to the constructor.
+            Assert.AreEqual(id, ingredient.ID);
+        }
+
+        [Test, Description("Can get the name of the ingredient.")]
+        [TestCase("")]
+        [TestCase("test")]
+        public void Test_GetName(string name)
+        {
+            //Arrange: Create an ingredient using the given name.
+            Ingredient ingredient = new Ingredient(1, name);
+
+            //Act and Assert: Get the ingredients name and assert it's the same as the one given to the constructor.
+            Assert.AreEqual(name,ingredient.Name);
+        }
+
         [Test, Description("Type conversion to ML is not possible if gramsPerML is null.")]
         [TestCase(null, ExpectedResult = false)] // gramsPerML = null is used to indicate conversion is not possible.
         [TestCase(-1f, ExpectedResult = true)] // negative gramsPerML is currently possible, but is actually physically impossible IRL.
@@ -47,6 +71,19 @@ namespace Tests
 
             //Act and Assert: Return PieceQuantityPossible and assert that it equals expected result.
             return ingredient.PieceQuantityPossible();
+        }
+
+        [Test, Description("Ingredient.GetNumberOfGrams just return the quantity when fromType is grams.")]
+        [TestCase(0f, ExpectedResult = 0f)]
+        [TestCase(11f, ExpectedResult = 11f)]
+        [TestCase(121f, ExpectedResult = 121f)]
+        public float Test_GetNumberOfGrams_ML(float quantity)
+        {
+            //Arrange: Create an ingredient with the given gramsPerML conversion rate.
+            Ingredient ingr = new Ingredient(1, "test");
+
+            //Act and Assert:
+            return ingr.GetNumberOfGrams(quantity, QuantityType.G);
         }
 
         [Test, Description("Ingredient.GetNumberOfGrams correctly converts quantity from ML to G.")]
@@ -214,6 +251,22 @@ namespace Tests
 
             //Assert: These two values are equal.
             Assert.AreEqual(expected, actual);
+        }
+
+        [Test, Description("IngredientList.ChangeName() changes the ListName of the IngredientList.")]
+        [TestCase("")]
+        [TestCase("test")]
+        [TestCase("Test2")]
+        public void Test_ChangeName(string name)
+        {
+            //Arrange: Create an ingredientList.
+            IngredientList list = new IngredientList("");
+
+            //Act: Change the ListName using ChangeName()
+            list.ChangeName(name);
+
+            //Assert: The Current ListName equals the given new name.
+            Assert.AreEqual(name, list.ListName);
         }
 
         [Test, Description("IngredientList.AddIngredient() properly adds a new ingredient to the Dictionary.")]
