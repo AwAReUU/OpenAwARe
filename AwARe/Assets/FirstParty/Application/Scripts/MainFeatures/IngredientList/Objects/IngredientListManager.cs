@@ -67,7 +67,9 @@ namespace AwARe.IngredientList.Objects
             if (Lists.Count > 0)
             {
                 IndexList = 0;
-                CheckedList = Lists[0];
+                var list = Lists[0];
+                CheckedList = list;
+                Storage.Get().ActiveIngredientList = list;
             }
 
             listsOverviewScreen.SetActive(true);
