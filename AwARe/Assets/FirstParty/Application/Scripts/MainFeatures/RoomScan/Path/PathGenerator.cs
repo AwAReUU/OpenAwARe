@@ -55,7 +55,7 @@ namespace AwARe.RoomScan.Path
             // Apply erosion
             PrintTime("erosionStart");
             ErosionHandler erosionHandler = new();
-            grid = erosionHandler.Erode(grid, 100);
+            grid = erosionHandler.Erode(grid, CentimetersToPixels(60));
             PrintTime("erosionEnd");
 
             PrintTime("largestShapeStart");
@@ -71,7 +71,8 @@ namespace AwARe.RoomScan.Path
 
             PrintTime("filterStart");
             PostFilteringHandler postFilteringHandler = new();
-            postFilteringHandler.PostFiltering(ref grid, CentimetersToPixels(50), CentimetersToPixels(100));
+            //temp voor demo: low parameter in second centimeterstopixels
+            postFilteringHandler.PostFiltering(ref grid, negativeGridLines, CentimetersToPixels(50), CentimetersToPixels(10));
             PrintTime("filterEnd");
 
             //at this point, grid contains the skeleton path as a thin line of booleans
