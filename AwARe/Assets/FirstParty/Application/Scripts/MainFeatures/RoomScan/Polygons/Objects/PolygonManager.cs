@@ -5,6 +5,7 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System.Collections;
 using System.Collections.Generic;
 
 using AwARe.Data.Logic;
@@ -30,6 +31,12 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private PolygonUI ui;
         [SerializeField] private GameObject canvas;
         [SerializeField] private Transform sceneCanvas;
+
+
+
+        [SerializeField] private GameObject pathBtn;
+        [SerializeField] private GameObject LoadingPopup;
+
 
         private bool scanning = false;
 
@@ -104,7 +111,22 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             polygonDrawer.DrawPolygon(CurrentPolygon, !Room.PositivePolygon.IsEmptyPolygon());
             Room.AddPolygon(CurrentPolygon);
+            //GenerateAndDrawPath();
+        }
+
+        public void OnPathButtonClick()
+        {
+            //activate the popup
+            LoadingPopup.SetActive(true);
+            StartCoroutine(MakePathAndRemovePopup());
+
+        }
+
+        public IEnumerator MakePathAndRemovePopup()
+        {
+            yield return null;
             GenerateAndDrawPath();
+            LoadingPopup.SetActive(false);
         }
 
         public void GenerateAndDrawPath()
