@@ -14,6 +14,15 @@ using IL = AwARe.IngredientList.Logic;
 
 namespace AwARe.IngredientList.Objects
 {
+    /// <summary>
+    /// <para>
+    ///     Handles the UI of the ingredient list overview screen.
+    /// </para>
+    /// <para>
+    ///     Shows an overview of all <see cref="IngredientList"/>s that have been created and saved by the user.
+    ///     Allows the user to select a list to edit and tick a checkbox of the list they want to be visualized in AR.
+    /// </para>
+    /// </summary>
     public class ListsOverviewScreen : MonoBehaviour
     {
         // (assigned within unity)
@@ -120,21 +129,20 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Calls the image of a button and changes it's color
+        /// Calls the image of a button and changes its color.
         /// </summary>
-        /// <param name="btn"> the button that changes color </param>
-        /// <param name="colr"> the color that the button changes into </param>
-        public void ChangeColor(Button btn,Color colr)
+        /// <param name="btn"> the button that changes color. </param>
+        /// <param name="colr"> the color that the button changes into. </param>
+        public void ChangeColor(Button btn, Color colr)
         {
             btn.GetComponent<Image>().color = colr;
-
         }
 
         /// <summary>
         /// Calls an instance of ingredientListManager which is used by the DeletePopUp method which interacts 
         ///  with the popupScreen elements which are set to active in this method.
         /// </summary>
-        /// <param name="list"> The ingredient list that is to be deleted </param>
+        /// <param name="list"> The ingredient list that is to be deleted. </param>
         private void OnDeleteButtonClick(Logic.IngredientList list)
         {
             popupScreen.SetActive(true);
@@ -143,10 +151,10 @@ namespace AwARe.IngredientList.Objects
 
         /// <summary>
         /// Calls an instance of ingredientListManager, if the user clicks the yes button on the pop-up they confirm the deletion and  deletes the given ingredient list.
-        /// The pop-up screen also dissapears.
-        /// If the user clicks the no button on the pop-up the pop-up screen dissapears. 
+        /// The pop-up screen also disappears.
+        /// If the user clicks the no button on the pop-up the pop-up screen disappears. 
         /// </summary>
-        /// <param name="list"> The ingredient list that is to be deleted </param>
+        /// <param name="list"> The ingredient list that is to be deleted. </param>
         private void DeletePopUp(Logic.IngredientList list)
         {
             Button yesButton = popupScreen.transform.GetChild(2).GetComponent<Button>();
@@ -159,13 +167,12 @@ namespace AwARe.IngredientList.Objects
                 popupScreen.SetActive(false);   
             });
             noButton.onClick.AddListener(() => {popupScreen.SetActive(false); });
-         
         }
 
         /// <summary>
         /// Calls an instance of ingredientListManager to close this screen and open the IngredientListScreen of the given ingredient list.
         /// </summary>
-        /// <param name="list"> The ingredient list that was selected </param>
+        /// <param name="list"> The ingredient list that was selected. </param>
         private void OnListButtonClick(Logic.IngredientList list)
         {
             ingredientListManager.ChangeToIngredientListScreen(list, this.gameObject);
@@ -179,10 +186,11 @@ namespace AwARe.IngredientList.Objects
 
         /// <summary>
         /// Toggles the color and visibility of two buttons, representing a check button and its corresponding border button.
-        /// Also checking if there are buttons that have been previously checked and activating them
+        /// Also checking if there are buttons that have been previously checked and activating them.
         /// </summary>
         /// <param name="btn1"> The check button to be toggled. </param>
-        /// <param name="btn2"> The corresponding border button to be toggled.
+        /// <param name="btn2"> The corresponding border button to be toggled.</param>
+        /// <param name="list"> The ingredient list that has been checked.</param>
         public void OnCheckButtonClick(Button btn1, Button btn2, IL.IngredientList list)
         {
             if (selectedCheckButton != null)

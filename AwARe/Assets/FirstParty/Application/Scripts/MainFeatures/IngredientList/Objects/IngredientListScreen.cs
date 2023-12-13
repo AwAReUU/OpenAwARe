@@ -163,7 +163,7 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Calls an instance of IngredientListManager to change to the IngredientScreen of the ingredient that was selected.
         /// </summary>
-        /// <param name="ingredient"> The ingredient of which the button is clicked </param>
+        /// <param name="ingredient"> The ingredient of which the button is clicked. </param>
         private void OnIngredientButtonClick(Ingredient ingredient)
         {
             ingredientListManager.ChangeToIngredientScreen(ingredient, this.gameObject);
@@ -172,7 +172,7 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Calls an instance of IngredientListManager to delete the given ingredient from the ingredient list, then displays the updated list.
         /// </summary>
-        /// <param name="ingredient"> The Ingredient that will be deleted from the list </param>
+        /// <param name="ingredient"> The Ingredient that will be deleted from the list. </param>
         public void OnDeleteButtonClick(Ingredient ingredient)
         {
             ingredientListManager.DeleteIngredient(ingredient);
@@ -189,7 +189,7 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Calls PopUpChoices when a list has been edited to warn the user if they really want to go back or if no editing has happend
+        /// Calls PopUpChoices when a list has been edited to warn the user if they really want to go back or if no editing has happened
         /// an instance of IngredientListManager is called to close the IngredientListScreen and go back to the ListsOverviewScreen.
         /// </summary>
         private void OnBackButtonClick()

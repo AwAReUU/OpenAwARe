@@ -101,7 +101,6 @@ namespace AwARe.IngredientList.Objects
 
             ingredientListManager.UpdateIngredient(parsedQty, parsedQType);
             ingredientListManager.ChangeToIngredientListScreen(ingredientListManager.SelectedList, this.gameObject);
-            
         }
 
         /// <summary>
