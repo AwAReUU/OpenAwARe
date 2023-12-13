@@ -485,6 +485,41 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7829858720519596794, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7829858720519596794, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7829858720519596794, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 126117686}
+    - target: {fileID: 7829858720519596794, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7829858720519596794, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPlaceButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 7829858720519596794, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AwARe.ObjectGeneration.ObjectCreationManager, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 7829858720519596794, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8291613909701360760, guid: 23b8a78ada484394780c76a671db8dfe,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
