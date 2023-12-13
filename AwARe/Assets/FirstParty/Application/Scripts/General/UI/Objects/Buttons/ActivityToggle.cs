@@ -19,5 +19,11 @@ namespace AwARe.UI.Objects
         /// </summary>
         public void Toggle() =>
             gameObject.SetActive(!gameObject.activeInHierarchy);
+
+        /// <summary>
+        /// Destroy this object. (Permanently disabled)
+        /// </summary>
+        public void Destroy() =>
+            Destroy(gameObject);
     }
 }

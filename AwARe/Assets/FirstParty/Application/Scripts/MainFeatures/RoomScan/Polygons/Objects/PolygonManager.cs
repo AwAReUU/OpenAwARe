@@ -5,16 +5,12 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System.Collections.Generic;
-
-using AwARe.InterScenes.Objects;
 using AwARe.Data.Logic;
 using AwARe.Data.Objects;
+using AwARe.InterScenes.Objects;
 using AwARe.RoomScan.Path;
 using AwARe.RoomScan.Polygons.Logic;
-
 using UnityEngine;
-
 using Storage = AwARe.InterScenes.Objects.Storage;
 
 namespace AwARe.RoomScan.Polygons.Objects
@@ -29,21 +25,11 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private PolygonScan scanner;
         [SerializeField] private VisualizePath pathVisualizer;
 
-        [SerializeField] private GameObject createBtn;
-        [SerializeField] private GameObject resetBtn;
-        [SerializeField] private GameObject applyBtn;
-        [SerializeField] private GameObject confirmBtn;
-        [SerializeField] private GameObject endBtn;
-        [SerializeField] private GameObject slider;
-        [SerializeField] private GameObject pointerObj;
+        [SerializeField] private PolygonUI ui;
+        [SerializeField] private GameObject canvas;
+        [SerializeField] private Transform sceneCanvas;
 
         private bool scanning = false;
-// TODO TEMP        [SerializeField] private GameObject pathVisualiser;
-
-        /// <summary>
-        /// All UI components of the polygon scan.
-        /// </summary>
-        List<GameObject> UIObjects;
 
         /// <value>A Room represented by the polygons.</value>
         public Room Room { get; private set; }
@@ -51,21 +37,23 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <value>The polygon currently being drawn.</value>
         public Polygon CurrentPolygon { get; private set; }
 
+        private void Awake()
+        {
+            if (canvas != null)
+            {
+                ui.transform.SetParent(sceneCanvas, false);
+                Destroy(canvas);
+            }
+        }
+
         void Start()
         {
             CurrentPolygon = new Polygon();
-
             Room = new Room();
 
             // Use the code below to use the test room
             //Room = new TestRoom();
             //polygonDrawer.DrawRoomPolygons(Room);
-
-            UIObjects = new()
-            {
-                createBtn, resetBtn, confirmBtn, slider, applyBtn, endBtn,
-                pointerObj, scanner.gameObject, polygonMesh.gameObject   // TODO TEMP   , pathVisualiser
-            };
 
             SwitchToState(State.Default);
         }
@@ -114,7 +102,7 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             polygonDrawer.DrawPolygon(CurrentPolygon, !Room.PositivePolygon.IsEmptyPolygon());
             Room.AddPolygon(CurrentPolygon);
-            GenerateAndDrawPath();
+            //GenerateAndDrawPath();
         }
 
         public void GenerateAndDrawPath()
@@ -140,10 +128,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// Called on changing the slider; sets the height of the polygon mesh.
         /// </summary>
         /// <param name="height">Height the slider is currently at.</param>
-        public void OnHeightSliderChanged(float height)
-        {
-            this.polygonMesh.SetHeight(height);
-        }
+        public void OnHeightSliderChanged(float height) { this.polygonMesh.SetHeight(height); }
 
         public void OnSaveButtonClick()
         {
@@ -157,66 +142,47 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <param name="toState">Which state the UI should switch to.</param>
         private void SwitchToState(State toState)
         {
-            foreach (GameObject obj in UIObjects)
-            {
-                obj.SetActive(false);
-            }
-
-            foreach (GameObject obj in GetStateObjects(toState))
-            {
-                obj.SetActive(true);
-            }
+            // Set activity
+            SetActive(toState);
 
             // if the new state is scanning, set scanning to true, otherwise to false
             scanning = toState == State.Scanning;
-
             polygonDrawer.ScanningPolygon = null;
         }
 
         /// <summary>
-        /// Gets the UI objects that need to be present in this state.
+        /// Sets activity of components.
         /// </summary>
-        /// <param name="state">A state of the scanning process.</param>
-        /// <returns>A list of UI objects that need to be present in the given state.</returns>
-        List<GameObject> GetStateObjects(State state)
+        /// <param name="toState">Current/new state.</param>
+        public void SetActive(State state)
         {
-            List<GameObject> objects = new();
+            // Set UI activity
+            ui.SetActive(state);
+
+            // Set direct component activity
+            bool scan = false, mesh = false;
             switch (state)
             {
-                case State.Default:
-                    objects.Add(createBtn);
-                    break;
                 case State.Scanning:
-                    objects.Add(applyBtn);
-                    objects.Add(resetBtn);
-                    objects.Add(scanner.gameObject);
-                    objects.Add(pointerObj);
-// TODO TEMP                    objects.Add(pathVisualiser);
-                break;
-                case State.SettingHeight:
-                    objects.Add(confirmBtn);
-                    objects.Add(slider);
-                    objects.Add(polygonMesh.gameObject);
-// TODO TEMP                    objects.Add(pathVisualiser);
-                break;
-                case State.Saving:
-                    objects.Add(createBtn);
-                    objects.Add(endBtn);
+                    scan = true;
                     break;
-
+                case State.SettingHeight:
+                    mesh = true;
+                    break;
             }
-            return objects;
+            scanner.gameObject.SetActive(scan);
+            polygonMesh.gameObject.SetActive(mesh);
         }
+    }
 
-        /// <summary>
-        /// The different states within the polygon scanning process.
-        /// </summary>
-        enum State
-        {
-            Default,
-            Scanning,
-            SettingHeight,
-            Saving
-        }
+    /// <summary>
+    /// The different states within the polygon scanning process.
+    /// </summary>
+    public enum State
+    {
+        Default,
+        Scanning,
+        SettingHeight,
+        Saving
     }
 }

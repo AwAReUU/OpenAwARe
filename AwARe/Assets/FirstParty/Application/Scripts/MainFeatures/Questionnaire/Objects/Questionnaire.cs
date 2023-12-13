@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using TMPro;
 
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AwARe.Questionnaire.Objects
 {
     public class Questionnaire : MonoBehaviour
     {
 
-        [SerializeField]
-        private GameObject title;
-        [SerializeField]
-        private GameObject description;
-        [SerializeField]
-        private GameObject submitButton;
-        [SerializeField]
-        private GameObject questionTemplate;
+        [SerializeField] private TextMeshProUGUI title;
+        [SerializeField] private TextMeshProUGUI description;
+        [SerializeField] private Transform questionsWindow;
+        [SerializeField] private GameObject questionPrefab;
+
         private List<GameObject> questions;
   
         void Awake()
@@ -24,61 +22,65 @@ namespace AwARe.Questionnaire.Objects
             questions = new List<GameObject>();
         }
 
-        public void SetTitle(string questionnaireTitle)
+        public void SetTitle(string title)
         {
-            this.title.GetComponent<TextMeshProUGUI>().text = questionnaireTitle;
+            this.title.text = title;
         }
 
         public void SetDescription(string description)
         {
-            this.description.GetComponent<TextMeshProUGUI>().text = description;
+            this.description.text = description;
         }
 
         //create a new question gameobject from its data class and returns it
         public GameObject AddQuestion(QuestionData data)
         {
             //instantiate the template
-            var question = Instantiate(questionTemplate);
-            question.transform.SetParent(gameObject.transform.Find("Question Scroller/Content"));
-            question.SetActive(true);
-            questions.Add(question.gameObject);
+            var questionObject = Instantiate(questionPrefab, questionsWindow);
+            questionObject.SetActive(true);
+            questions.Add(questionObject);
 
-            //set the title, questionnaire it belongs to, and if its an 'if yes' question
+            // Set the title, questionnaire it belongs to, and if its an 'if yes' question
             //'if yes' questions show more questions when 'yes' is answer to them
-            var questionscript = question.gameObject.GetComponent<Question>();
-            questionscript.SetTitle(data.questiontitle);
-            questionscript.SetIfyes(data.ifyes, data.ifyestrigger);
-            questionscript.SetParentQuestionnaire(this);
+            var question = questionObject.gameObject.GetComponent<Question>();
+            question.SetTitle(data.questiontitle);
+            question.SetIfyes(data.ifyes, data.ifyestrigger);
+            question.SetParentQuestionnaire(this);
 
             //add each answer option to the question
             foreach (AnswerOptionData answer in data.answeroptions)
-            {
-                if (answer.optiontype == "radio")
-                {
-                    questionscript.AddRadiobutton(answer.optiontext);
-                }
-                else if (answer.optiontype == "checkbox")
-                {
-                    questionscript.AddCheckbox(answer.optiontext);
-                }
-                else if (answer.optiontype == "textbox")
-                {
-                    questionscript.AddTextinput(answer.optiontext);
-                }
-            }
+                AddAnswer(answer, question);
 
             //add the questions to be shown if yes is answered to the questionnaire, and hides them
-            if(data.ifyes)
-            {
-                foreach (QuestionData ifyesQuestionData in data.ifyesquestions)
-                {
-                    var ifyesQuestion = AddQuestion(ifyesQuestionData);
-                    ifyesQuestion.SetActive(false);
-                    questionscript.ifyesQuestions.Add(ifyesQuestion);
-                }
-            }
+            List<QuestionData> ifYesQuestions = data.ifyes ? data.ifyesquestions : new();
+            foreach (QuestionData ifYesData in ifYesQuestions)
+                AddIfYesQuestion(ifYesData, question);
 
-            return question;
+            return questionObject;
         }
+
+        private void AddAnswer(AnswerOptionData data, Question question)
+        {
+            switch (data.optiontype)
+            {
+                case "radio":
+                    question.AddRadiobutton(data.optiontext);
+                    break;
+                case "checkbox":
+                    question.AddCheckbox(data.optiontext);
+                    break;
+                case "textbox":
+                    question.AddTextinput(data.optiontext);
+                    break;
+            }
+        }
+
+        private void AddIfYesQuestion(QuestionData data, Question question)
+        {
+            var ifyesQuestion = AddQuestion(data);
+            ifyesQuestion.SetActive(false);
+            question.ifyesQuestions.Add(ifyesQuestion);
+        }
+
     }
 }
