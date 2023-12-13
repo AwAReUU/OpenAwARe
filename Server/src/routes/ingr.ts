@@ -1,31 +1,23 @@
 import express from "express";
 import Database from "../database";
 import { validateToken } from "./auth";
-import { validPassword, assert_res, validName, validEmail } from "../util";
 
 // ----------------------------------------------------------------------------
 
 let router = express.Router();
 
-// Search
-//
-// # Body
-// {
-//      query:          string
-// }
+/* Search
+ *
+ * Search for an ingredient in the database
+ *
+ * # Body
+ * {
+ *      query:          string
+ * }
+ *
+ * Returns a list of ids.
+ */
 router.get("/search", validateToken, async (req: any, res: any) => {
-    // Input sanitization
-    if (
-        [
-            assert_res(
-                res,
-                req.body.query != null,
-                "query is missing from the request body"
-            ),
-        ].some((x) => !x)
-    )
-        return;
-
     const query = req.body.query;
 
     let db = Database.getInstance().ingrdb();
@@ -50,25 +42,17 @@ router.get("/search", validateToken, async (req: any, res: any) => {
     );
 });
 
-// Get Ingredient
-//
-// # Body
-// {
-//      id:          int
-// }
+/* Get Ingredient
+ *
+ * Get a full row of the ingredient.
+ *
+ * # Body
+ * {
+ *      id:          int
+ * }
+ *
+ */
 router.get("/getIngredient", validateToken, async (req: any, res: any) => {
-    // Input sanitization
-    if (
-        [
-            assert_res(
-                res,
-                req.body.id != null,
-                "id is missing from the request body"
-            ),
-        ].some((x) => !x)
-    )
-        return;
-
     const id = req.body.id;
 
     let db = Database.getInstance().ingrdb();
@@ -85,25 +69,16 @@ router.get("/getIngredient", validateToken, async (req: any, res: any) => {
     );
 });
 
-// Get IngredientList
-//
-// # Body
-// {
-//      ids:          [int]
-// }
+/* Get IngredientList
+ *
+ * Get a full rows of the ingredients with the IDs in the list.
+ *
+ * # Body
+ * {
+ *      ids:          [int]
+ * }
+ */
 router.get("/getIngredientList", validateToken, async (req: any, res: any) => {
-    // Input sanitization
-    if (
-        [
-            assert_res(
-                res,
-                req.body.ids != null,
-                "ids is missing from the request body"
-            ),
-        ].some((x) => !x)
-    )
-        return;
-
     const ids = req.body.ids;
 
     let db = Database.getInstance().ingrdb();
@@ -126,25 +101,16 @@ router.get("/getIngredientList", validateToken, async (req: any, res: any) => {
     );
 });
 
-// Get Resource Requirements
-//
-// # Body
-// {
-//      id:          int
-// }
+/* Get Resource Requirements
+ *
+ * Get a list of all resources that the ingredient with the given id requires.
+ *
+ * # Body
+ * {
+ *      id:          int
+ * }
+ */
 router.get("/getRequirements", validateToken, async (req: any, res: any) => {
-    // Input sanitization
-    if (
-        [
-            assert_res(
-                res,
-                req.body.id != null,
-                "id is missing from the request body"
-            ),
-        ].some((x) => !x)
-    )
-        return;
-
     const id = req.body.id;
 
     let db = Database.getInstance().ingrdb();
@@ -161,25 +127,16 @@ router.get("/getRequirements", validateToken, async (req: any, res: any) => {
     );
 });
 
-// Get Resource
-//
-// # Body
-// {
-//      id:          int
-// }
+/* Get Resource
+ *
+ * Get a full row of the resource with this ID.
+ *
+ * # Body
+ * {
+ *      id:          int
+ * }
+ */
 router.get("/getResource", validateToken, async (req: any, res: any) => {
-    // Input sanitization
-    if (
-        [
-            assert_res(
-                res,
-                req.body.id != null,
-                "id is missing from the request body"
-            ),
-        ].some((x) => !x)
-    )
-        return;
-
     const id = req.body.id;
 
     let db = Database.getInstance().ingrdb();
@@ -196,25 +153,16 @@ router.get("/getResource", validateToken, async (req: any, res: any) => {
     );
 });
 
-// Get ResourceList
-//
-// # Body
-// {
-//      ids:          [int]
-// }
+/* Get ResourceList
+ *
+ * Get full rows of the resources with the ids in the list.
+ *
+ * # Body
+ * {
+ *      ids:          [int]
+ * }
+ */
 router.get("/getResourceList", validateToken, async (req: any, res: any) => {
-    // Input sanitization
-    if (
-        [
-            assert_res(
-                res,
-                req.body.ids != null,
-                "ids is missing from the request body"
-            ),
-        ].some((x) => !x)
-    )
-        return;
-
     const ids = req.body.ids;
 
     let db = Database.getInstance().ingrdb();
@@ -237,25 +185,16 @@ router.get("/getResourceList", validateToken, async (req: any, res: any) => {
     );
 });
 
-// Get Model
-//
-// # Body
-// {
-//      id:          int
-// }
+/* Get Model
+ *
+ * Get a fullrow of the model.
+ *
+ * # Body
+ * {
+ *      id:          int
+ * }
+ */
 router.get("/getModel", validateToken, async (req: any, res: any) => {
-    // Input sanitization
-    if (
-        [
-            assert_res(
-                res,
-                req.body.id != null,
-                "id is missing from the request body"
-            ),
-        ].some((x) => !x)
-    )
-        return;
-
     const id = req.body.id;
 
     let db = Database.getInstance().ingrdb();
@@ -272,25 +211,16 @@ router.get("/getModel", validateToken, async (req: any, res: any) => {
     );
 });
 
-// Get ModelList
-//
-// # Body
-// {
-//      ids:          [int]
-// }
+/* Get ModelList
+ *
+ * Get a list of rows for each model.
+ *
+ * # Body
+ * {
+ *      ids:          [int]
+ * }
+ */
 router.get("/getModelList", validateToken, async (req: any, res: any) => {
-    // Input sanitization
-    if (
-        [
-            assert_res(
-                res,
-                req.body.ids != null,
-                "ids is missing from the request body"
-            ),
-        ].some((x) => !x)
-    )
-        return;
-
     const ids = req.body.ids;
 
     let db = Database.getInstance().ingrdb();

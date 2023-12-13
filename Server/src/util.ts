@@ -14,9 +14,17 @@ export function assert_res(
   return value;
 }
 
+/**
+ * Check if name is formatted correctly:
+ * - name should only consist of letters, numbers, dashes and underscores.
+ * - name should contain at least 3 letters.
+ * - name should not be longer than 20 characters.
+ */
 export function validName(name: string): boolean {
-  let pat = new RegExp(/^[a-z ,.'-]+$/i);
-  return pat.test(name);
+  let pat = new RegExp(/^[a-zA-Z-_0-9]+$/i);
+  let letters = name.match(/[a-zA-Z]/);
+  if (letters && letters.length < 3) return false;
+  return pat.test(name) && name.length <= 20;
 }
 
 export function validEmail(email: string): boolean {

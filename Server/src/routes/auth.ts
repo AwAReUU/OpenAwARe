@@ -2,85 +2,43 @@ import express, { Response, Request } from "express";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import Database from "../database";
-import { validPassword, assert_res, validName, validEmail } from "../util";
 
 // ----------------------------------------------------------------------------
 
 let router = express.Router();
 
-// Register
-//
-// # Body
-// {
-//      firstName:          string,
-//      lastName:           string,
-//      email:              string,
-//      password:           string,
-//      confirmPassword:    string
-// }
+/**
+ * Route: /auth/register (POST)
+ *
+ * Registers a user account.
+ *
+ * # Input:
+ * The body must have the following format in json:
+ * {
+ *      firstName:          string,
+ *      lastName:           string,
+ *      email:              string,
+ *      password:           string,
+ *      confirmPassword:    string
+ * }
+ *
+ * # Output:
+ * The body of the response contains a message in text format for debugging purposes only.
+ *
+ * # Error codes:
+ * -
+ */
 router.post("/register", async (req: any, res: any) => {
-    // Input sanitization
-    if (
-        [
-            assert_res(
-                res,
-                req.body.firstName != null,
-                "firstName is missing from the request body"
-            ),
-            assert_res(
-                res,
-                validName(req.body.firstName),
-                "firstName is incorrectly formatted."
-            ),
-            assert_res(
-                res,
-                req.body.lastName != null,
-                "lastName is missing from the request body"
-            ),
-            assert_res(
-                res,
-                validName(req.body.lastName),
-                "lastName is incorrectly formatted."
-            ),
-            assert_res(
-                res,
-                req.body.email != null,
-                "email is missing from the request body"
-            ),
-            assert_res(
-                res,
-                validEmail(req.body.email),
-                "email is incorrectly formatted."
-            ),
-            assert_res(
-                res,
-                req.body.password != null,
-                "password is missing from the request body"
-            ),
-            assert_res(
-                res,
-                validPassword(req.body.password),
-                "Password must contain at least eight characters, one letter and one number"
-            ),
-            assert_res(
-                res,
-                req.body.confirmPassword != null,
-                "confirmPassword is missing from the request body"
-            ),
-            assert_res(
-                res,
-                req.body.password == req.body.confirmPassword,
-                "Password and confirmPassword must be the same"
-            ),
-        ].some((x) => !x)
-    )
-        return;
-
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     let password = req.body.password;
-    const confirmPassword = req.body.confirmPassword;
+    const confirmPassword = req.body.confirm_password;
     const email = req.body.email;
+
+    if (password != confirmPassword) {
+        res.status(401).send("Passwords don't match");
+        return;
+    }
 
     password = await bcrypt.hash(confirmPassword, 10);
 
@@ -94,18 +52,18 @@ router.post("/register", async (req: any, res: any) => {
             }
             if (row) {
                 // User already exists
-                res.status(401).send(
-                    "Email adress is already used for a different account"
-                );
+                res
+                    .status(401)
+                    .send("Email adress is already used for a different account");
                 return;
             } else {
                 db.run(
                     "INSERT INTO User (UserID, FirstName, LastName, Password, Email) VALUES (NULL, ?, ?, ?, ?)",
-                    [firstName, lastName, password, email]
+                    [firstName, lastName, password, email],
                 );
                 res.status(201).send("Registration successful");
             }
-        }
+        },
     );
 });
 
@@ -117,22 +75,6 @@ router.post("/register", async (req: any, res: any) => {
 //      password:   string
 // }
 router.post("/login", async (req: any, res: any) => {
-    // Input sanitization
-    if (
-        [
-            assert_res(
-                res,
-                req.body.email != null,
-                "email is missing from the request body"
-            ),
-            assert_res(
-                res,
-                req.body.password != null,
-                "password is missing from the request body"
-            ),
-        ].some((x) => !x)
-    )
-        return;
     const email: string = req.body.email;
     const password: string = req.body.password;
 
@@ -155,14 +97,12 @@ router.post("/login", async (req: any, res: any) => {
                         refreshToken: refreshToken,
                     });
                 } else {
-                    res.status(401).send(
-                        "Failed to login. Wrong email/password."
-                    );
+                    res.status(401).send("Failed to login. Wrong email/password.");
                 }
             } else {
                 res.status(401).send("Failed to login. Wrong email/password.");
             }
-        }
+        },
     );
 });
 
@@ -174,23 +114,6 @@ router.post("/login", async (req: any, res: any) => {
 //      email: string
 // }
 router.post("/refreshToken", (req, res) => {
-    // Input sanitization
-    if (
-        [
-            assert_res(
-                res,
-                req.body.email != null,
-                "email is missing from the request body"
-            ),
-            assert_res(
-                res,
-                req.body.token != null,
-                "token is missing from the request body"
-            ),
-        ].some((x) => !x)
-    )
-        return;
-
     if (!refreshTokens.includes(req.body.token))
         res.status(400).send("Refresh Token Invalid");
 
@@ -210,18 +133,6 @@ router.post("/refreshToken", (req, res) => {
 //      token: string,
 // }
 router.delete("/logout", (req, res) => {
-    // Input sanitization
-    if (
-        [
-            assert_res(
-                res,
-                req.body.token != null,
-                "token is missing from the request body"
-            ),
-        ].some((x) => !x)
-    )
-        return;
-
     // Remove the old token
     refreshTokens = refreshTokens.filter((t) => {
         return t != req.body.token;
@@ -230,24 +141,37 @@ router.delete("/logout", (req, res) => {
     res.status(204).send("Logged out!");
 });
 
+// Check
+//
+// Check if logged in.
 router.get("/check", validateToken, (_req, res) => {
     res.send("Logged in");
 });
 
+/*
+ * Generate an access token that expires after 15 min.
+ */
 function generateAccessToken(email: string): string {
     return jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET!, {
         expiresIn: "15m",
     });
 }
 
+/*
+ * Active refreshTokens.
+ */
 let refreshTokens: string[] = [];
+
+/*
+ * Generate a refresh token that expires in 20 minutes.
+ */
 function generateRefreshToken(email: string): string {
     const refreshToken = jwt.sign(
         { email: email },
         process.env.REFRESH_TOKEN_SECRET!,
         {
             expiresIn: "20m",
-        }
+        },
     );
 
     refreshTokens.push(refreshToken);
@@ -257,6 +181,10 @@ function generateRefreshToken(email: string): string {
 
 export type ValidatedRequest = Request & { email: string };
 
+/*
+ * Checks the authorization header inside the request. If the user is logged in, it will call next().
+ * Use this a middleware method for ExpressJS.
+ */
 export function validateToken(req: Request, res: Response, next: any) {
     if (process.env.VALIDATION == "FALSE") {
         return next();
@@ -283,7 +211,7 @@ export function validateToken(req: Request, res: Response, next: any) {
 
             (req as ValidatedRequest).email = email;
             next();
-        }
+        },
     );
 }
 

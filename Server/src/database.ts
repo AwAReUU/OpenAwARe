@@ -6,14 +6,26 @@ import sqlite3 from "sqlite3";
 const UDB_SRC = "userdb.sqlite";
 const IDB_SRC = "ingrdb.sqlite";
 
+/**
+ * A singleton class to hold a connection to the user database and ingredients database
+ */
 export default class Database {
     // ----------------------------------------------------------------------------
     // Singleton:
 
+    /*
+     * Set this to true to use a mock database for testing.
+     */
     public static testing: boolean = false;
 
+    /*
+     * The singleton instance
+     */
     private static instance: Database;
 
+    /*
+     * Access the singleton instance
+     */
     public static getInstance(): Database {
         if (!Database.instance) Database.instance = new Database();
 
@@ -23,7 +35,13 @@ export default class Database {
     // ----------------------------------------------------------------------------
     // instance:
 
+    /*
+     * The database that stores user information
+     */
     private userDatabase: sqlite3.Database;
+    /*
+     * The database that stores the ingredient list
+     */
     private ingrDatabase: sqlite3.Database;
 
     private constructor() {
@@ -54,14 +72,23 @@ export default class Database {
         this.ingrDatabase.exec(ingrSqlSetup);
     }
 
+    /*
+     * Get the user database
+     */
     public userdb(): sqlite3.Database {
         return this.userDatabase;
     }
 
+    /*
+     * Get the ingredients database
+     */
     public ingrdb(): sqlite3.Database {
         return this.ingrDatabase;
     }
 
+    /*
+     * Delete existing databases. Use this at the end of testing.
+     */
     public delete() {
         this.userDatabase.close();
         this.ingrDatabase.close();
