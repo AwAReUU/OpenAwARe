@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
 using System.Collections.Generic;
 
@@ -8,9 +15,16 @@ namespace AwARe.IngredientList.Logic
     /// </summary>
     public class IngredientList
     {
-        // dictionary with ingredients and their respective quantities and chosen quantity types
+        /// <summary>
+        /// Gets the Dictionary with ingredients and their respective quantities and chosen quantity types.
+        /// </summary>
+        /// <value>A dictionary with Ingredient as key and their quantity(float) and QuantityType as value.</value>
         public Dictionary<Ingredient, (float, QuantityType)> Ingredients { get; private set; }
 
+        /// <summary>
+        /// Gets the name given to this IngredientList.
+        /// </summary>
+        /// <value>The name currently given to this list.</value>
         public string ListName { get; private set; }
 
         /// <summary>
@@ -145,7 +159,7 @@ namespace AwARe.IngredientList.Logic
         }
 
         /// <summary>
-        /// Checks whether ML is a valid quantity type for this ingredient
+        /// Checks whether ML is a valid quantity type for this ingredient.
         /// </summary>
         /// <returns>true if conversion is possible, otherwise false.</returns>
         public bool MLQuantityPossible()
@@ -154,7 +168,7 @@ namespace AwARe.IngredientList.Logic
         }
 
         /// <summary>
-        /// Checks whether PCS is a valid quantity type for this ingredient
+        /// Checks whether PCS is a valid quantity type for this ingredient.
         /// </summary>
         /// <returns>true if conversion is possible, otherwise false.</returns>
         public bool PieceQuantityPossible()

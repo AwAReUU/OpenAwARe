@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
 using System.Collections.Generic;
 
@@ -155,7 +162,7 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Changes the name of a list into it's newly give name
+        /// Changes the name of a list into it's newly give name.
         /// </summary>
         /// <param name="name"> The name that is to be given to the list. </param>
         public void ChangeListName(string name)
@@ -181,7 +188,7 @@ namespace AwARe.IngredientList.Objects
         /// </summary>
         public void CreateList()
         {
-            // TODO: let user pick list name --> add seperate screen
+            // TODO: let user pick list name --> add separate screen
 
             Lists.Add(new Logic.IngredientList("MyList", new Dictionary<Ingredient, (float, QuantityType)>()));
             fileHandler.SaveLists(Lists);
@@ -190,7 +197,7 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Removes the given list from the overview and calls the fileHandler to save all lists.
         /// </summary>
-        /// <param name="list"></param>
+        /// <param name="list">The IngredientList that is being deleted.</param>
         public void DeleteList(Logic.IngredientList list)
         {
             Lists.Remove(list);
