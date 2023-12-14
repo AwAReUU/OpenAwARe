@@ -1,10 +1,17 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace AwARe.RoomScan.Path
 {
+    /// <summary>
+    /// Class for drawing a line in a grid.
+    /// </summary>
     public static class LineDrawer
     {
 
@@ -13,6 +20,7 @@ namespace AwARe.RoomScan.Path
         /// </summary>
         /// <param name="grid">grid of booleans to draw the line on.</param>
         /// <param name="linepoints"> line to draw. points are coordinates in the grid. </param>
+        /// <param name="carve">Whether the line should be carved out of a positive grid.</param>
         public static void DrawLine(ref bool[,] grid, ((int, int), (int, int)) linepoints, bool carve = false)
         {
             bool setToValue = !carve;

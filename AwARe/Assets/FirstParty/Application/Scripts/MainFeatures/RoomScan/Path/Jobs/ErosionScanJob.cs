@@ -46,7 +46,6 @@ namespace AwARe.RoomScan.Path.Jobs
         /// Checks whether all elements within the range around the index are true.
         /// </summary>
         /// <param name="index">The index of the cell that is being checked.</param>
-        /// <param name="inputFunction">The function that is applied to the cells to determine their value.</param>
         /// <returns>False if any value within the range is false, true otherwise.</returns>
         private readonly bool All(int index)
         {

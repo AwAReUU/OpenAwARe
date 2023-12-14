@@ -17,14 +17,15 @@ namespace AwARe.RoomScan.Path
     public class PathData
     {
         public List<Vector3> points;
+
         public List<(Vector3, Vector3)> edges;
 
         public float radius = 0.2f;
 
         public PathData()
         {
-            points = new();
-            edges = new();
+            points = new List<Vector3>();
+            edges = new List<(Vector3, Vector3)>();
         }
 
         public Mesh CreateMesh(int numSegments)

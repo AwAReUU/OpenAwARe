@@ -993,6 +993,11 @@ PrefabInstance:
       propertyPath: LoadingPopup
       value: 
       objectReference: {fileID: 1739773398}
+    - target: {fileID: 9122867843713203604, guid: 6581b1f42e5344416845747b1d7549db,
+        type: 3}
+      propertyPath: pathVisualizerVisualizer
+      value: 
+      objectReference: {fileID: 2017493288}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1006,6 +1011,18 @@ PrefabInstance:
       addedObject: {fileID: 1739773401}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6581b1f42e5344416845747b1d7549db, type: 3}
+--- !u!114 &2017493288 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4971399172053985985, guid: 6581b1f42e5344416845747b1d7549db,
+    type: 3}
+  m_PrefabInstance: {fileID: 2017493287}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abd273d96e7348f8a0bad68735ca726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2037616045
 GameObject:
   m_ObjectHideFlags: 0

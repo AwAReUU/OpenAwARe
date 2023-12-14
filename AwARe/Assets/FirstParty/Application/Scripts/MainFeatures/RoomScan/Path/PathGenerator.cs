@@ -72,7 +72,7 @@ namespace AwARe.RoomScan.Path
             PrintTime("filterStart");
             PostFilteringHandler postFilteringHandler = new();
             //temp voor demo: low parameter in second centimeterstopixels
-            postFilteringHandler.PostFiltering(ref grid, negativeGridLines, CentimetersToPixels(50), CentimetersToPixels(10));
+            postFilteringHandler.PostFiltering(ref grid, CentimetersToPixels(50), CentimetersToPixels(10));
             PrintTime("filterEnd");
 
             //at this point, grid contains the skeleton path as a thin line of booleans
@@ -87,7 +87,7 @@ namespace AwARe.RoomScan.Path
         /// also initalizes the movetransform, averageheight and scalefactor variables.
         /// </summary>
         /// <param name="polygon">the polygon from which to create the grid.</param>
-        /// <param name="maxgridsize">the maximum size the grid is allowed to have in either dimension</param>
+        /// <param name="maxgridsize">the maximum size the grid is allowed to have in either dimension.</param>
         /// <returns>2d array of booleans that are set to false.</returns>
         private bool[,] CreateGrid(Polygon polygon, int maxgridsize = 500)
         {

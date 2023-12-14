@@ -5,9 +5,9 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using AwARe.RoomScan.Path.Jobs;
 using System;
 using System.Collections.Generic;
+using AwARe.RoomScan.Path.Jobs;
 using Unity.Collections;
 using Unity.Jobs;
 
@@ -106,12 +106,12 @@ namespace AwARe.RoomScan.Path
             int[] count = new int[nro_shapes];
 
             // Define function to get new label for each pixel
-            Func<int, bool> func = (int label) =>
+            bool func(int label)
             {
                 if (label >= 1)
                     count[label - 1]++;
                 return default;
-            };
+            }
 
             foreach (int i in labeled) func(i);
 
@@ -146,7 +146,7 @@ namespace AwARe.RoomScan.Path
             var outputFunction = GetInputIntFunction(output);
 
             int halfNeighbourRange = neighbourRange / 2;
-            Stack<(int, int)> stack = new Stack<(int, int)>();
+            Stack<(int, int)> stack = new();
 
             // Iterate over all cells
             for (int x = 0; x < rows; x++)

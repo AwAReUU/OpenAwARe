@@ -5,10 +5,9 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
-using Unity.Burst;
-using Unity.Burst.CompilerServices;
 
 namespace AwARe.RoomScan.Path.Jobs
 {
