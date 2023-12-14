@@ -9,22 +9,47 @@ using UnityEngine;
 
 namespace AwARe.RoomScan.Path
 {
+    /// <summary>
+    /// Handles visualisation of the path (for debugging purposes).
+    /// </summary>
     public class PathVisualizer : MonoBehaviour
     {
+        /// <value>
+        /// The data of the path to visualize.
+        /// </value>
         [Header("Path")]
         [SerializeField] private PathData pathData;
 
+        /// <value>
+        /// The width of the line that visualizes the skeleton of the path.
+        /// </value>
         [Header("Settings")]
         [SerializeField] private float lineWidth = 1.0f;
+        /// <value>
+        /// The number of segments to use for the corners. Use a higher value to create smoother edges.
+        /// </value>
         [SerializeField] private int numSegments = 6;
+        /// <value>
+        /// The material used to render the path Mesh.
+        /// </value>
         [SerializeField] private Material pathMeshMaterial;
+        /// <value>
+        /// The material used to render the skeleton line.
+        /// </value>
         [SerializeField] private Material pathLineMaterial;
 
+        /// <summary>
+        /// Set the path to visualize.
+        /// </summary>
+        /// <param name="path">The path that should be visualized.</param>
         public void SetPath(PathData path)
         {
             this.pathData = path;
         }
 
+        /// <summary>
+        /// Visualize the path. It will clear previous visualisations.
+        /// </summary>
         public void Visualize()
         {
             // Clear previous visualisation
