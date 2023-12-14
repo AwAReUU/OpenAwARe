@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +18,15 @@ using UnityEngine.UI;
 
 namespace AwARe.IngredientList.Objects
 {
+    /// <summary>
+    /// <para>
+    ///     Handles the UI of the Ingredient screen.
+    /// </para>
+    /// <para>
+    ///     Displays the name and quantity of the currently selected <see cref="Ingredient"/>.
+    ///     Allows the user to adjust this ingredient's quantity and QuantityType through UI elements.
+    /// </para>
+    /// </summary>
     public class IngredientScreen : MonoBehaviour
     {
         [SerializeField] private IngredientListManager ingredientListManager;
@@ -47,7 +63,7 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Initializes the quantityTypeDropdown
+        /// Initializes the quantityTypeDropdown.
         /// </summary>
         private void SetDropDownItems()
         {
@@ -64,7 +80,7 @@ namespace AwARe.IngredientList.Objects
 
 
         /// <summary>
-        /// Updates the current ingredient with values from inputs
+        /// Saves changes and updates the current ingredient with values from inputs.
         /// </summary>
         public void OnConfirmClick()
         {
@@ -92,7 +108,6 @@ namespace AwARe.IngredientList.Objects
 
             ingredientListManager.UpdateIngredient(parsedQty, parsedQType);
             ingredientListManager.ChangeToIngredientListScreen(ingredientListManager.SelectedList, this.gameObject);
-            
         }
 
         /// <summary>

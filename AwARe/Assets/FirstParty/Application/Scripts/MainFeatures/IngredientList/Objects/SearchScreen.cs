@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections.Generic;
 
 using AwARe.Database;
@@ -11,6 +18,15 @@ using UnityEngine.UI;
 
 namespace AwARe.IngredientList.Objects
 {
+    /// <summary>
+    /// <para>
+    ///     Handles the UI of the ingredient search screen.
+    /// </para>
+    /// <para>
+    ///     Allows the user to enter a search term to look up ingredients to add to a list.
+    ///     Displays search results and allows the selection of a result to add to the list.
+    /// </para>
+    /// </summary>
     public class SearchScreen : MonoBehaviour
     {
         [SerializeField] private IngredientListManager ingredientListManager;
@@ -53,7 +69,6 @@ namespace AwARe.IngredientList.Objects
                 b.onClick.AddListener(delegate { OnItemClicked(item: result); });
                 button.SetActive(true);
             }
-
         }
 
         /// <summary>
@@ -71,9 +86,9 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Calls an instance of ingredientListManager to add the given ingredient to the ingredientlist and open its IngredientScreen.
+        /// Calls an instance of ingredientListManager to add the given ingredient to the list and open its IngredientScreen.
         /// </summary>
-        /// <param name="item"> The search result that was selected </param>
+        /// <param name="item"> The search result that was selected. </param>
         private void OnItemClicked(Ingredient item)
         {
             ingredientListManager.AddIngredient(item, 0);
@@ -81,7 +96,7 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Finds all ingredients in the database that match with the text entered in the searchbar and displays the results.
+        /// Finds all ingredients in the database that match with the text written in the searchbar and displays the results.
         /// </summary>
         public void OnSearchClick()
         {
