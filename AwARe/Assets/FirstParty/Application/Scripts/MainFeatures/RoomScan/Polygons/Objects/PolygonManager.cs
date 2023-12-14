@@ -20,6 +20,7 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.UI;
 using AwARe.IngredientList.Logic;
 using System.IO;
+using System.Linq;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
@@ -35,6 +36,8 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private VisualizePath pathVisualizer;
 
         [SerializeField] private GameObject createBtn;
+        [SerializeField] private GameObject saveBtns;
+        [SerializeField] private GameObject saveBtn;
         [SerializeField] private GameObject loadBtn;
         [SerializeField] private GameObject resetBtn;
         [SerializeField] private GameObject applyBtn;
@@ -176,18 +179,15 @@ namespace AwARe.RoomScan.Polygons.Objects
             polygonMesh.ApplyColorToMesh();
 
         }
-        
+
         public void SavePolygon(int slotIndex)
         {
             PolygonSaveLoadManager saveLoadManager = FindObjectOfType<PolygonSaveLoadManager>();
             Debug.Log($"Directory Path before save: {saveLoadManager.DirectoryPath}");
 
-            // Save the current polygon to JSON
-            string polygonJson = CurrentPolygon.ToJson();
-            Debug.Log($"JSON Content to Save: {polygonJson}");
-
-            // Save the polygon using the save load manager
-            saveLoadManager.SaveDataToJson($"PolygonSlot{slotIndex}", polygonJson);
+            // Save the current polygon directly using the save load manager
+            PolygonSerialization polygonSerialization = new PolygonSerialization(CurrentPolygon.Points);
+            saveLoadManager.SaveDataToJson($"PolygonSlot{slotIndex}", polygonSerialization);
             Debug.Log($"Saved polygon in slot {slotIndex}");
         }
 
@@ -197,19 +197,19 @@ namespace AwARe.RoomScan.Polygons.Objects
             Debug.Log($"Directory Path before load: {saveLoadManager.DirectoryPath}");
 
             // Check if the file exists before attempting to load
-            string filePath = $"PolygonSlot{slotIndex}.json";
+            string filePath = $"PolygonSlot{slotIndex}";
             string fullPath = System.IO.Path.Combine(saveLoadManager.DirectoryPath, filePath);
 
             if (File.Exists(fullPath))
             {
                 // Load the polygon JSON using the save load manager
-                string loadedPolygonJson = saveLoadManager.LoadDataFromJson<string>($"PolygonSlot{slotIndex}");
-                Debug.Log($"Loaded JSON: {loadedPolygonJson}");
+                PolygonSerialization loadedPolygonSerialization = saveLoadManager.LoadDataFromJson<PolygonSerialization>($"PolygonSlot{slotIndex}");
+                Debug.Log($"Loaded JSON: {JsonUtility.ToJson(loadedPolygonSerialization.Points)}");
 
-                if (!string.IsNullOrEmpty(loadedPolygonJson))
+                if (loadedPolygonSerialization != null)
                 {
-                    // Deserialize the JSON to a Polygon
-                    Polygon loadedPolygon = Polygon.FromJson(loadedPolygonJson);
+                    // Convert PolygonSerialization to Polygon
+                    Polygon loadedPolygon = loadedPolygonSerialization.ToPolygon();
 
                     if (loadedPolygon != null && loadedPolygon.AmountOfPoints() > 0)
                     {

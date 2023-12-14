@@ -57,7 +57,7 @@ namespace AwARe
         /// <param name="fileName">The name of the file to save the JSON data to.</param>
         /// <param name="data">The object containing the data to be serialized to JSON.</param>
         /// 
-        public void SaveDataToJson(string fileName, object data)
+        public void SaveDataToJson<T>(string fileName, T data)
         {
             if (string.IsNullOrEmpty(directoryPath))
             {
@@ -65,20 +65,19 @@ namespace AwARe
                 return;
             }
 
-            string jsonFilePath = Path.Combine(directoryPath, fileName );
-            string jsonData = JsonUtility.ToJson(data);
-            Debug.Log("This is the Data before before: " + data);
-            Debug.Log("This is the Data before: " + jsonData);
-
+            string jsonFilePath = Path.Combine(directoryPath, fileName);
 
             try
             {
+                string jsonData = JsonUtility.ToJson(data);
+                Debug.Log("JSON data " + jsonData);
                 File.WriteAllText(jsonFilePath, jsonData);
                 Debug.Log("Write success!");
-                Debug.Log("This is the Data after: " + jsonData);
             }
-            catch (Exception ex) { Debug.LogError($"Error writing to file: {ex.Message}"); }
-
+            catch (Exception ex)
+            {
+                Debug.LogError($"Error writing to file: {ex.Message}");
+            }
         }
 
         public T LoadDataFromJson<T>(string fileName)
@@ -103,5 +102,6 @@ namespace AwARe
                 return default(T);
             }
         }
+        
     }
 }

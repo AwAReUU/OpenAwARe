@@ -7,7 +7,7 @@
 
 
 using System.Collections.Generic;
-
+using System.Linq;
 
 using UnityEngine;
 
@@ -78,18 +78,15 @@ namespace AwARe.Data.Logic
 
         public string ToJson()
         {
-            return JsonUtility.ToJson(this);
+            PolygonSerialization serialization = new PolygonSerialization(Points);
+            return JsonUtility.ToJson(serialization);
         }
 
         public static Polygon FromJson(string json)
         {
-            return JsonUtility.FromJson<Polygon>(json);
+            PolygonSerialization serialization = JsonUtility.FromJson<PolygonSerialization>(json);
+            return new Polygon(serialization.Points.Select(v => v.ToVector3()).ToList());
         }
 
-        public class Test : MonoBehaviour
-        {
-
-            public Polygon polygon;
-        }
     }
 }
