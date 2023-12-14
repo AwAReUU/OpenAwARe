@@ -197,7 +197,7 @@ export type ValidatedRequest = Request & { email: string };
 
 /*
  * Checks the authorization header inside the request. If the user is logged in, it will call next().
- * Use this a middleware method for ExpressJS.
+ * This is a middleware method for ExpressJS.
  */
 export function validateToken(req: Request, res: Response, next: any) {
   if (process.env.VALIDATION == "FALSE") {
