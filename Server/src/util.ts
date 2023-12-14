@@ -1,5 +1,9 @@
 import { Response } from "express";
 
+/**
+ * A utility method to assert a boolean value,
+ * but instead of throwing an exception it sends an erros message to the user.
+ */
 export function assert_res(
   res: Response,
   value: boolean,
@@ -27,11 +31,18 @@ export function validName(name: string): boolean {
   return pat.test(name) && name.length <= 20;
 }
 
+/**
+ * Check if an email is formatted correctly.
+ */
 export function validEmail(email: string): boolean {
   let pat = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/i);
   return pat.test(email);
 }
 
+/**
+ * Check if a password is formatted correctly.
+ * - password should atleast be 8 characters long.
+ */
 export function validPassword(password: string): boolean {
   let pat = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i);
   return pat.test(password);

@@ -236,7 +236,7 @@ function test_ingredient_format(ingr: any) {
   // Ingredient should have one or the other (GramsPerML or GramsPerPiece)
   expect(
     (ingr.GramsPerML !== null && ingr.GramsPerPiece === null) ||
-    (ingr.GramsPerML === null && ingr.GramsPerPiece !== null),
+      (ingr.GramsPerML === null && ingr.GramsPerPiece !== null),
   ).toBeTruthy();
 
   if (ingr.GramsPerML !== null) {

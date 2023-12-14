@@ -12,7 +12,8 @@ const app: Express = express();
 // Setup automatic parsing to JSON
 app.use(bodyParser.json());
 
-app.use(function(error: any, req: any, res: any, next: any) {
+// Catch syntax errors. This happens if the user sends incorrectly formatted json for example.
+app.use(function(error: any, _req: any, res: any, next: any) {
     if (error instanceof SyntaxError) {
         res.status(400).send("SyntaxError: request is not formatted correctly.");
     } else {

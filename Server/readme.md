@@ -57,7 +57,7 @@ Ip adress: 131.211.32.146:8000
     <td> Login with email adress and password.</td>
   </tr>
   <tr>
-    <td><pre>/auth/refreshToken</pre></td>
+    <td><pre>/auth/refresh</pre></td>
     <td><b>POST</b></td>
     <td><b>body (json):</b> { token, email }</td>
     <td><b>json:</b> { accessToken, refreshToken }</td>
@@ -160,4 +160,4 @@ Ip adress: 131.211.32.146:8000
 
 ## Tips
 
-- Use **Postman** for testing post requests manually.
+-   Use **Postman** for testing post requests manually.

@@ -6,15 +6,17 @@ import { validateToken } from "./auth";
 
 let router = express.Router();
 
-/* Search
+/**
+ * Route: /ingr/search (GET)
  *
  * Search for an ingredient in the database
  *
- * # Body
+ * # Input (JSON):
  * {
  *      query:          string
  * }
  *
+ * # Output (JSON):
  * Returns a list of ids.
  */
 router.get("/search", validateToken, async (req: any, res: any) => {
@@ -42,15 +44,18 @@ router.get("/search", validateToken, async (req: any, res: any) => {
     );
 });
 
-/* Get Ingredient
+/**
+ * Route: /ingr/getIngredient (GET)
  *
  * Get a full row of the ingredient.
  *
- * # Body
+ * # Input (JSON):
  * {
  *      id:          int
  * }
  *
+ * # Output (JSON):
+ * A full row from the ingredient database.
  */
 router.get("/getIngredient", validateToken, async (req: any, res: any) => {
     const id = req.body.id;
@@ -69,11 +74,12 @@ router.get("/getIngredient", validateToken, async (req: any, res: any) => {
     );
 });
 
-/* Get IngredientList
+/**
+ * Route: /ingr/getIngredientList (GET)
  *
- * Get a full rows of the ingredients with the IDs in the list.
+ * Returns a list of rows from the ingredient database.
  *
- * # Body
+ * # Input (json):
  * {
  *      ids:          [int]
  * }
@@ -101,11 +107,12 @@ router.get("/getIngredientList", validateToken, async (req: any, res: any) => {
     );
 });
 
-/* Get Resource Requirements
+/**
+ * Route: /ingr/getRequirements (GET)
  *
  * Get a list of all resources that the ingredient with the given id requires.
  *
- * # Body
+ * # Input (JSON):
  * {
  *      id:          int
  * }
@@ -127,11 +134,12 @@ router.get("/getRequirements", validateToken, async (req: any, res: any) => {
     );
 });
 
-/* Get Resource
+/**
+ * Route: /ingr/getResource (GET)
  *
  * Get a full row of the resource with this ID.
  *
- * # Body
+ * # Input (JSON):
  * {
  *      id:          int
  * }
@@ -153,11 +161,12 @@ router.get("/getResource", validateToken, async (req: any, res: any) => {
     );
 });
 
-/* Get ResourceList
+/**
+ * Route: /ingr/getResourceList (GET)
  *
  * Get full rows of the resources with the ids in the list.
  *
- * # Body
+ * # Input (JSON):
  * {
  *      ids:          [int]
  * }
@@ -185,11 +194,12 @@ router.get("/getResourceList", validateToken, async (req: any, res: any) => {
     );
 });
 
-/* Get Model
+/**
+ * Route: /ingr/getModel (GET)
  *
  * Get a fullrow of the model.
  *
- * # Body
+ * # Input (json):
  * {
  *      id:          int
  * }
@@ -211,11 +221,12 @@ router.get("/getModel", validateToken, async (req: any, res: any) => {
     );
 });
 
-/* Get ModelList
+/**
+ * Route: /ingr/getModelList (GET)
  *
  * Get a list of rows for each model.
  *
- * # Body
+ * # Input (JSON):
  * {
  *      ids:          [int]
  * }

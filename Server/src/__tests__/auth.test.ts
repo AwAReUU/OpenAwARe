@@ -60,22 +60,22 @@ test("POST /auth/login", async () => {
 });
 
 // 4) Test refresh login with incorrect token
-test("POST /auth/refreshToken", async () => {
+test("POST /auth/refresh", async () => {
   let body = {
     email: "marvinfisher@outlook.com",
     token: "abcdef",
   };
-  await api.post("/auth/refreshToken").send(body).expect(400);
+  await api.post("/auth/refresh").send(body).expect(400);
 });
 
 // 5) Test refresh login with correct token
-test("POST /auth/refreshToken", async () => {
+test("POST /auth/refresh", async () => {
   let body = {
     email: "marvinfisher@outlook.com",
     token: refreshToken,
   };
   let ret: any = await api
-    .post("/auth/refreshToken")
+    .post("/auth/refresh")
     .send(body)
     .expect(200)
     .expect("Content-Type", /application\/json/);
@@ -122,10 +122,10 @@ test("DELETE /auth/logout", async () => {
 
 // 10) Test refreshToken after logout
 // This should not work after logout.
-test("POST /auth/refreshToken", async () => {
+test("POST /auth/refresh", async () => {
   let body = {
     email: "marvinfisher@outlook.com",
     token: refreshToken,
   };
-  await api.post("/auth/refreshToken").send(body).expect(400);
+  await api.post("/auth/refresh").send(body).expect(400);
 });
