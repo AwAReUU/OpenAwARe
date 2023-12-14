@@ -24,7 +24,7 @@ namespace AwARe
         private ObjectCreationManager objectCreationManager;
 
         [OneTimeSetUp, Description("Load the test scene once.")]
-        public void OneTimeSetup() => SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/ObjectGeneration");
+        public void OneTimeSetup() => SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/AR");
 
 
         [UnitySetUp, Description("Reset the scene before each test. Obtain the objectCreationManager")]
