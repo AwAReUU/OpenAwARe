@@ -20,11 +20,11 @@ let router = express.Router();
  * Returns a list of ids.
  */
 router.get("/search", validateToken, async (req: any, res: any) => {
-    const query = req.body.query;
+  const query = req.body.query;
 
-    let db = Database.getInstance().ingrdb();
-    db.all(
-        `SELECT DISTINCT
+  let db = Database.getInstance().ingrdb();
+  db.all(
+    `SELECT DISTINCT
         x.*
         FROM Ingredient x
             JOIN
@@ -33,15 +33,15 @@ router.get("/search", validateToken, async (req: any, res: any) => {
                 WHERE Pos > 0) y
             ON x.IngredientID = y.IngredientID
             ORDER BY Pos, x.PrefName;`,
-        [query],
-        async (error: any, rows: any) => {
-            if (error) {
-                console.error(error);
-            }
-            // send back JSON with rows
-            res.status(200).json(rows);
-        }
-    );
+    [query],
+    async (error: any, rows: any) => {
+      if (error) {
+        console.error(error);
+      }
+      // send back JSON with rows
+      res.status(200).json(rows);
+    },
+  );
 });
 
 /**
@@ -58,20 +58,22 @@ router.get("/search", validateToken, async (req: any, res: any) => {
  * A full row from the ingredient database.
  */
 router.get("/getIngredient", validateToken, async (req: any, res: any) => {
-    const id = req.body.id;
+  const id = req.body.id;
 
-    let db = Database.getInstance().ingrdb();
+  let db = Database.getInstance().ingrdb();
 
-    db.get(
-        `SELECT * FROM Ingredient WHERE IngredientID = ?;`,
-        [id],
-        async (error: any, row: any) => {
-            if (error) {
-                console.error(error);
-            }
-            res.status(200).json(row);
-        }
-    );
+  db.get(
+    `SELECT * FROM Ingredient WHERE IngredientID = ?;`,
+    [id],
+    async (error: any, row: any) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send("");
+        return;
+      }
+      res.status(200).json(row);
+    },
+  );
 });
 
 /**
@@ -85,26 +87,28 @@ router.get("/getIngredient", validateToken, async (req: any, res: any) => {
  * }
  */
 router.get("/getIngredientList", validateToken, async (req: any, res: any) => {
-    const ids = req.body.ids;
+  const ids = req.body.ids;
 
-    let db = Database.getInstance().ingrdb();
+  let db = Database.getInstance().ingrdb();
 
-    db.all(
-        `SELECT * FROM Ingredient WHERE IngredientID IN (` +
-            ids
-                .map(function () {
-                    return "?";
-                })
-                .join(",") +
-            `);`,
-        ids,
-        async (error: any, rows: any) => {
-            if (error) {
-                console.error(error);
-            }
-            res.status(200).json(rows);
-        }
-    );
+  db.all(
+    `SELECT * FROM Ingredient WHERE IngredientID IN (` +
+      ids
+        .map(function () {
+          return "?";
+        })
+        .join(",") +
+      `);`,
+    ids,
+    async (error: any, rows: any) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send("");
+        return;
+      }
+      res.status(200).json(rows);
+    },
+  );
 });
 
 /**
@@ -118,20 +122,22 @@ router.get("/getIngredientList", validateToken, async (req: any, res: any) => {
  * }
  */
 router.get("/getRequirements", validateToken, async (req: any, res: any) => {
-    const id = req.body.id;
+  const id = req.body.id;
 
-    let db = Database.getInstance().ingrdb();
+  let db = Database.getInstance().ingrdb();
 
-    db.all(
-        `SELECT * FROM Requires WHERE IngredientID = ?;`,
-        [id],
-        async (error: any, rows: any) => {
-            if (error) {
-                console.error(error);
-            }
-            res.status(200).json(rows);
-        }
-    );
+  db.all(
+    `SELECT * FROM Requires WHERE IngredientID = ?;`,
+    [id],
+    async (error: any, rows: any) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send("");
+        return;
+      }
+      res.status(200).json(rows);
+    },
+  );
 });
 
 /**
@@ -145,20 +151,22 @@ router.get("/getRequirements", validateToken, async (req: any, res: any) => {
  * }
  */
 router.get("/getResource", validateToken, async (req: any, res: any) => {
-    const id = req.body.id;
+  const id = req.body.id;
 
-    let db = Database.getInstance().ingrdb();
+  let db = Database.getInstance().ingrdb();
 
-    db.get(
-        `SELECT * FROM Resource WHERE ResourceID = ?;`,
-        [id],
-        async (error: any, row: any) => {
-            if (error) {
-                console.error(error);
-            }
-            res.status(200).json(row);
-        }
-    );
+  db.get(
+    `SELECT * FROM Resource WHERE ResourceID = ?;`,
+    [id],
+    async (error: any, row: any) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send("");
+        return;
+      }
+      res.status(200).json(row);
+    },
+  );
 });
 
 /**
@@ -172,26 +180,28 @@ router.get("/getResource", validateToken, async (req: any, res: any) => {
  * }
  */
 router.get("/getResourceList", validateToken, async (req: any, res: any) => {
-    const ids = req.body.ids;
+  const ids = req.body.ids;
 
-    let db = Database.getInstance().ingrdb();
+  let db = Database.getInstance().ingrdb();
 
-    db.all(
-        `SELECT * FROM Resource WHERE ResourceID IN (` +
-            ids
-                .map(function () {
-                    return "?";
-                })
-                .join(",") +
-            `);`,
-        ids,
-        async (error: any, rows: any) => {
-            if (error) {
-                console.error(error);
-            }
-            res.status(200).json(rows);
-        }
-    );
+  db.all(
+    `SELECT * FROM Resource WHERE ResourceID IN (` +
+      ids
+        .map(function () {
+          return "?";
+        })
+        .join(",") +
+      `);`,
+    ids,
+    async (error: any, rows: any) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send("");
+        return;
+      }
+      res.status(200).json(rows);
+    },
+  );
 });
 
 /**
@@ -205,20 +215,22 @@ router.get("/getResourceList", validateToken, async (req: any, res: any) => {
  * }
  */
 router.get("/getModel", validateToken, async (req: any, res: any) => {
-    const id = req.body.id;
+  const id = req.body.id;
 
-    let db = Database.getInstance().ingrdb();
+  let db = Database.getInstance().ingrdb();
 
-    db.get(
-        `SELECT * FROM Model WHERE ModelID = ?;`,
-        [id],
-        async (error: any, row: any) => {
-            if (error) {
-                console.error(error);
-            }
-            res.status(200).json(row);
-        }
-    );
+  db.get(
+    `SELECT * FROM Model WHERE ModelID = ?;`,
+    [id],
+    async (error: any, row: any) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send("");
+        return;
+      }
+      res.status(200).json(row);
+    },
+  );
 });
 
 /**
@@ -232,26 +244,28 @@ router.get("/getModel", validateToken, async (req: any, res: any) => {
  * }
  */
 router.get("/getModelList", validateToken, async (req: any, res: any) => {
-    const ids = req.body.ids;
+  const ids = req.body.ids;
 
-    let db = Database.getInstance().ingrdb();
+  let db = Database.getInstance().ingrdb();
 
-    db.all(
-        `SELECT * FROM Model WHERE ModelID IN (` +
-            ids
-                .map(function () {
-                    return "?";
-                })
-                .join(",") +
-            `);`,
-        ids,
-        async (error: any, rows: any) => {
-            if (error) {
-                console.error(error);
-            }
-            res.status(200).json(rows);
-        }
-    );
+  db.all(
+    `SELECT * FROM Model WHERE ModelID IN (` +
+      ids
+        .map(function () {
+          return "?";
+        })
+        .join(",") +
+      `);`,
+    ids,
+    async (error: any, rows: any) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send("");
+        return;
+      }
+      res.status(200).json(rows);
+    },
+  );
 });
 
 export default router;

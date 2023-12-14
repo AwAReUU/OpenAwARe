@@ -212,18 +212,21 @@ export function validateToken(req: Request, res: Response, next: any) {
 
   const token = header.split(" ")[1];
 
-  if (token == null) res.sendStatus(401).send("Invalid access token");
+  if (token == null) {
+    res.status(401).send("Missing access token");
+    return;
+  }
 
   jwt.verify(
     token,
     process.env.ACCESS_TOKEN_SECRET!,
     (err: any, email: any) => {
       if (err) {
-        res.status(403).send("Token invalid");
+        res.status(403).send("Access token invalid");
         return;
       }
 
-      (req as ValidatedRequest).email = email;
+      (req as ValidatedRequest).email = email.email;
       next();
     },
   );
