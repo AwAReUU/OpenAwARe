@@ -1,0 +1,26 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cdata_005Cstructures/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cdata_005Cstructures_005Cgrids/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cdata_005Ctypes/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cdata_005Ctypes_005Cpolygons/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cdata_005Ctypes_005Ctensors/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cdata_005Ctypes_005Cvoxelmaps/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cio/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cui_005Cobjects_005Cbuttons/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cui_005Cobjects_005Cpopups/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Ccontainers/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Ceditordummies/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Csingleton/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Cspawners/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Cunityfriendly/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Cvisualizers_005Cpointclouds/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Cvisualizers_005Cspecial/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cmainfeatures/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cmainfeatures_005Cobjectgeneration_005Cspawnpoints/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Ctemporary/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
