@@ -93,7 +93,7 @@ namespace AwARe.Questionnaire.Objects
         {
             var inputfield = Instantiate(textinputTemplate);
             inputfield.SetActive(true);
-            inputfield.transform.SetParent(gameObject.transform);
+            inputfield.transform.SetParent(gameObject.transform, false);
             answerOptions.Add(inputfield);
 
             //'if yes' related
@@ -106,7 +106,7 @@ namespace AwARe.Questionnaire.Objects
         {
             var checkbox = Instantiate(checkboxTemplate);
             checkbox.SetActive(true);
-            checkbox.transform.SetParent(gameObject.transform);
+            checkbox.transform.SetParent(gameObject.transform, false);
             answerOptions.Add(checkbox);
 
             //'if yes' related
@@ -121,7 +121,7 @@ namespace AwARe.Questionnaire.Objects
         {
             var button = Instantiate(radiobuttonTemplate);
             button.SetActive(true);
-            button.transform.SetParent(gameObject.transform);
+            button.transform.SetParent(gameObject.transform, false);
             answerOptions.Add(button);
 
             //'if yes' related
