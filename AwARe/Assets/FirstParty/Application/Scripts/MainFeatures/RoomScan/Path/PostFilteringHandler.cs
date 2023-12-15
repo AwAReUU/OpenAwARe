@@ -7,6 +7,9 @@
 
 using System;
 using System.Collections.Generic;
+using AwARe.Data.Logic;
+using AwARe.ObjectGeneration;
+using UnityEngine;
 
 namespace AwARe.RoomScan.Path
 {
@@ -22,7 +25,8 @@ namespace AwARe.RoomScan.Path
         /// <param name="grid">the grid containing the skeleton path.</param>
         /// <param name="cutTreshold">the minimum length a branch must have in pixels. shorter branches will be removed.</param>
         /// <param name="mergeTreshold">the second minimum length a branch must have in pixels. shorter branches will be merged if not removed.</param>
-        public void PostFiltering(ref bool[,] grid, int cutTreshold, int mergeTreshold)
+        /// <param name="negativePolygons">A list containing the negative polygons.</param>
+        public void PostFiltering(ref bool[,] grid, int cutTreshold, int mergeTreshold, List<Polygon> negativePolygons)
         {
             List<(int, int)> endPoints = new();
             List<(int, int)> junctions = new();
@@ -191,16 +195,16 @@ namespace AwARe.RoomScan.Path
                 secondPoint.y /= sharedPaths.Count;
 
                 //make sure that we do not merge any lines that would end up in an invalid space
-                // bool validpoint = true;
-                // for (int j = 0; j < negativeGridLines.Count; j++)
-                // {
-                //     if (CheckInPolygon(negativeGridLines[j], secondpoint))
-                //     {
-                //         validpoint = false;
-                //         break;
-                //     }
-                // }
-                // if (!validpoint) continue;
+                bool validpoint = true;
+                for (int j = 0; j < negativePolygons.Count; j++)
+                { 
+                    if (PolygonHelper.IsPointInsidePolygon(negativePolygons[j], new Vector3(secondPoint.x, 0, secondPoint.y)))
+                    {
+                        validpoint = false;
+                        break;
+                    }
+                }
+                if (!validpoint) continue;
 
                 //remove the subpaths that are merged from the grid
                 for (int j = 0; j < sharedPaths.Count; j++)

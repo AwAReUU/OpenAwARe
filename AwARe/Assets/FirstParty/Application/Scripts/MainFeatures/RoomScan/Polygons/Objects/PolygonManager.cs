@@ -206,7 +206,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <summary>
         /// Sets activity of components.
         /// </summary>
-        /// <param name="toState">Current/new state.</param>
+        /// <param name="state">Current/new state.</param>
         public void SetActive(State state)
         {
             // Set UI activity

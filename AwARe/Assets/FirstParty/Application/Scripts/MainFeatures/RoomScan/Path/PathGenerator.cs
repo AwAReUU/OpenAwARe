@@ -72,7 +72,7 @@ namespace AwARe.RoomScan.Path
             PrintTime("filterStart");
             PostFilteringHandler postFilteringHandler = new();
             //temp voor demo: low parameter in second centimeterstopixels
-            postFilteringHandler.PostFiltering(ref grid, CentimetersToPixels(50), CentimetersToPixels(10));
+            postFilteringHandler.PostFiltering(ref grid, CentimetersToPixels(50), CentimetersToPixels(10), negatives);
             PrintTime("filterEnd");
 
             //at this point, grid contains the skeleton path as a thin line of booleans
