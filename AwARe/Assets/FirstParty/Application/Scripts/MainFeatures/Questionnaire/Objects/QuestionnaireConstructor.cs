@@ -12,14 +12,18 @@ namespace AwARe.Questionnaire.Objects
     /// </summary>
     public class QuestionnaireConstructor : MonoBehaviour
     {
+        /// <value>
+        /// Reference to "Subcanvas" from questionnaire prefab.
+        /// </value>
         [SerializeField] private Transform subcanvas;
+        /// <value>
         /// Reference to "QuestionnairePrefab".
         /// </value>
         [SerializeField] private GameObject questionnairePrefab;
         /// <value>
         /// Reference to an input jsonFile to be used for constructing the <see cref="Questionnaire"/>.
         /// </value>
-
+        [SerializeField] private TextAsset jsonFile;
         /// <value>
         /// Deserialized JSON data of which a <see cref="Questionnaire"/> can be created.
         /// </value>
@@ -59,7 +63,7 @@ namespace AwARe.Questionnaire.Objects
         /// <returns>A questionnaire GameObject.</returns>
         private GameObject MakeQuestionnaire(QuestionnaireData questionnaireData)
         {
-            GameObject questionnaireObject = Instantiate(questionnairePrefab, gameObject.transform, false);
+            GameObject questionnaireObject = Instantiate(questionnairePrefab, subcanvas);
             questionnaireObject.SetActive(true);
 
             Questionnaire questionnaireScript = questionnaireObject.gameObject.GetComponent<Questionnaire>();

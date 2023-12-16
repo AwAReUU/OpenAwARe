@@ -13,14 +13,29 @@ namespace AwARe.Questionnaire.Objects
     /// </summary>
     public class Questionnaire : MonoBehaviour
     {
-
+        /// <value>
+        /// Reference to "Title" inside of "QuestionnairePrefab".
+        /// </value>
         [SerializeField] private TextMeshProUGUI title;
+        /// <value>
+        /// Reference to "Description" inside of "Questionnaire" prefab.
+        /// </value>
         [SerializeField] private TextMeshProUGUI description;
+        /// <value>
+        /// TODO: add comment.
+        /// </value>
         [SerializeField] private Transform questionsWindow;
-        [SerializeField] private GameObject questionPrefab;
-
+        /// <value>
+        /// Reference to "SubmitButton" inside of "Questionnaire" prefab.
+        /// </value>
         [SerializeField] private GameObject submitButton;
-        [SerializeField] private GameObject questionCreatorPrefab;
+        /// <value>
+        /// Reference to "Question" prefab.
+        /// </value>
+        [SerializeField] private GameObject questionPrefab;
+        /// <value>
+        /// List of questions that this questionnaire is currently holding.
+        /// </value>
         private List<GameObject> questions { get; set; }
 
         /// <summary>
@@ -41,12 +56,12 @@ namespace AwARe.Questionnaire.Objects
         /// Set the title of the questionnaire in the UI.
         /// </summary>
         /// <param name="questionnaireTitle">Title to set to the UI.</param>
-        public void SetTitle(string title) => this.title.text = title;
+        public void SetTitle(string questionnaireTitle) => title.text = questionnaireTitle;
         /// <summary>
         /// Set the description of the questionnaire in the UI.
         /// </summary>
         /// <param name="questionnaireDescription">Description to set in the UI.</param>
-        public void SetDescription(string description) => this.description.text = description;
+        public void SetDescription(string questionnaireDescription) => description.text = questionnaireDescription;
 
 
         /// <summary>
@@ -56,31 +71,21 @@ namespace AwARe.Questionnaire.Objects
         /// <returns>The instantiated questionCreatorObject.</returns>
         public GameObject AddQuestion(QuestionData data)
         {
-            // Instantiate the QuestionCreator prefab
-            GameObject questionCreatorObject = Instantiate(questionCreatorPrefab);
-            Question question = questionCreatorObject.GetComponent<Question>();
+            GameObject questionObject = Instantiate(questionPrefab, questionsWindow);
+            Question question = questionObject.GetComponent<Question>();
+            questionObject.SetActive(true);
+            questions.Add(questionObject.gameObject);
 
             question.SetTitle(data.questionTitle);
             question.SetIfYes(data.ifYes, data.ifYesTrigger);
 
             // Instantiate the template and set its parent
-            questionCreatorObject.transform.SetParent(gameObject.transform.Find("Question Scroller/Content"));
-            questionCreatorObject.SetActive(true);
-            questions.Add(questionCreatorObject.gameObject);
+            question.SetParentQuestionnaire(this);
 
-            // Add each answer option to the question using the instantiated QuestionCreator
             AddAnswerOptions(question, data);
-
-            // Add the questions to be shown if yes is answered to the questionnaire, and hide them
             AddIfYesQuestions(question, data);
 
-            return questionCreatorObject;
-        }
-
-        private void ConfigureQuestionCreator(Question question, QuestionData data)
-        {
-            question.SetTitle(data.questionTitle);
-            question.SetIfyes(data.ifYes, data.ifYesTrigger);
+            return questionObject;
         }
 
         /// <summary>
@@ -96,6 +101,7 @@ namespace AwARe.Questionnaire.Objects
 
         /// <summary>
         /// Adds all IfYesQuestions from <paramref name="data"/> to <paramref name="question"/> if they exist.
+        /// It sets them as inactive, so they still need to be activated in order to be displayed.
         /// </summary>
         /// <param name="question">The Question instance triggering the "ifYes" condition.</param>
         /// <param name="data">The QuestionData containing information about the "ifYes" condition and associated questions.</param>

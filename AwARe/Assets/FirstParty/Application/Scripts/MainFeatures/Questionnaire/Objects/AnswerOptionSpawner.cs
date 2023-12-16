@@ -6,11 +6,17 @@ using Object = UnityEngine.Object;
 namespace AwARe.Questionnaire.Objects
 {
     /// <summary>
-    /// Class <c>AnswerOptionFactory</c> is a base class for creation answer option objects.
+    /// Class <c>AnswerOptionFactory</c> is a base class for creation and initializing answer option objects.
     /// </summary>
     public abstract class AnswerOptionSpawner
     {
+        /// <value>
+        /// Question to add the answer option to.
+        /// </value>
         protected GameObject Question { get; set; }
+        /// <value>
+        /// The Answeroption prefab to be spawned. (Radio/Checkbox/Input/...)
+        /// </value>
         protected GameObject AnswerOptionPrefab { get; set; }
 
         /// <summary>
@@ -48,11 +54,11 @@ namespace AwARe.Questionnaire.Objects
         /// <summary>
         /// Initializes the <see cref="ToggleHandler"/> for the given answerOption. 
         /// </summary>
-        /// <param name="option"></param>
-        /// <param name="answerOptionIndex"></param>
-        protected void InitializeToggleHandler(GameObject option, int answerOptionIndex)
+        /// <param name="answerOption">The answerOption to add the togglehandler to.</param>
+        /// <param name="answerOptionIndex">The index that the new answerOption will get.</param>
+        protected void InitializeToggleHandler(GameObject answerOption, int answerOptionIndex)
         {
-            if (!option.TryGetComponent(out ToggleHandler toggleHandler)) return;
+            if (!answerOption.TryGetComponent(out ToggleHandler toggleHandler)) return;
             toggleHandler.SetQuestion(Question);
             toggleHandler.AssignIndex(answerOptionIndex);
         }
@@ -106,6 +112,7 @@ namespace AwARe.Questionnaire.Objects
         {
             answerOptionIndex = currentAnswerOptionIndex;
 
+            //Get toggleGroup of this question.
             radiobuttonGroup = questionGameObject.GetComponent<ToggleGroup>();
             if (radiobuttonGroup != null) return;
             radiobuttonGroup = questionGameObject.AddComponent<ToggleGroup>();
