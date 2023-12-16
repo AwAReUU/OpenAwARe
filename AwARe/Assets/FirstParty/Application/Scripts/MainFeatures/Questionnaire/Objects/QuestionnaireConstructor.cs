@@ -17,7 +17,7 @@ namespace AwARe.Questionnaire.Objects
         /// </value>
         [SerializeField] private Transform subcanvas;
         /// <value>
-        /// Reference to "QuestionnairePrefab".
+        /// Reference to "Questionnaire" Prefab.
         /// </value>
         [SerializeField] private GameObject questionnairePrefab;
         /// <value>
@@ -81,11 +81,12 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         /// <returns>JsonFile obtained from the serialize field.</returns>
         public TextAsset GetJsonFile() => jsonFile;
+
         /// <summary>
         /// Obtain the QuestionnairePrefab from the serialize field.
         /// </summary>
         /// <returns>Questionnaire prefab GameObject obtained from the serialize field.</returns>
-        public GameObject GetQuestionnaireTemplate() => questionnairePrefab;
+        public GameObject GetQuestionnairePrefab() => questionnairePrefab;
     }
 
     /// <summary>
@@ -105,18 +106,18 @@ namespace AwARe.Questionnaire.Objects
         /// If no value is provided, the value from the QuestionnaireConstructor instance is used.
         /// </summary>
         /// <param name="jsonTextAsset">Optional: TextAsset containing JSON data for the questionnaire.</param>
-        /// <param name="template">Optional: GameObject template for the questionnaire.</param>
-        public void InitializeFields(TextAsset jsonTextAsset = null, GameObject template = null)
+        /// <param name="questionnairePrefab">Optional: GameObject template for the questionnaire.</param>
+        public void InitializeFields(TextAsset jsonTextAsset = null, GameObject questionnairePrefab = null)
         {
             FieldInfo jsonFileField = typeof(QuestionnaireConstructor).
                 GetField("jsonFile", BindingFlags.Instance | BindingFlags.NonPublic);
             if (jsonFileField != null)
                 jsonFileField.SetValue(this, jsonTextAsset != null ? jsonTextAsset : GetJsonFile());
 
-            FieldInfo templateField = typeof(QuestionnaireConstructor).
+            FieldInfo prefabField = typeof(QuestionnaireConstructor).
                 GetField("questionnairePrefab", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (templateField == null) return;
-            templateField.SetValue(this, template != null ? template : GetQuestionnaireTemplate());
+            if (prefabField == null) return;
+            prefabField.SetValue(this, questionnairePrefab != null ? questionnairePrefab : GetQuestionnairePrefab());
         }
     }
 }

@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acb0bbc8baa903944aec908cab0cc217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subcanvas: {fileID: 0}
   questionnairePrefab: {fileID: 3649800111059760958, guid: c8ff6d44c4418124b9318c2f4fd4bc45,
     type: 3}
   jsonFile: {fileID: 4900000, guid: 92dff1b9f7bdce04e9cf64e886bdcd60, type: 3}
