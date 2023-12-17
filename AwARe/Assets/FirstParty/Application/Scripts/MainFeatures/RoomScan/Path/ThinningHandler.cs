@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
-using AwARe.RoomScan.Path.Jobs;
+//using AwARe.RoomScan.Path.Jobs;
 
 namespace AwARe.RoomScan.Path
 {
@@ -55,21 +55,21 @@ namespace AwARe.RoomScan.Path
 
                 int elementLength = frontGolayElements[i].GetLength(0);
 
-                CheckHitOrMissJob hitOrMissCheckJob = new()
-                {
-                    nativeGrid = nativeGrid,
-                    columns = cols,
-                    rows = rows,
-                    frontElement = frontElement,
-                    backElement = backElement,
-                    elementLength = elementLength,
+                //CheckHitOrMissJob hitOrMissCheckJob = new()
+                //{
+                //    nativeGrid = nativeGrid,
+                //    columns = cols,
+                //    rows = rows,
+                //    frontElement = frontElement,
+                //    backElement = backElement,
+                //    elementLength = elementLength,
 
-                    result = resultGrid
-                };
+                //    result = resultGrid
+                //};
 
-                JobHandle hitOrMissCheckJobHandle = hitOrMissCheckJob.Schedule(gridSize, 64);
+                //JobHandle hitOrMissCheckJobHandle = hitOrMissCheckJob.Schedule(gridSize, 64);
 
-                hitOrMissCheckJobHandle.Complete();
+                //hitOrMissCheckJobHandle.Complete();
 
                 bool[,] resGrid = GridConverter.ToGrid(resultGrid, rows, cols);
 

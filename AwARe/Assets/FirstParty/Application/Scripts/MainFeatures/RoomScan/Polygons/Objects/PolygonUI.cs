@@ -1,33 +1,41 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
 using AwARe.RoomScan.Polygons.Objects;
+using AwARe.UI.Objects;
 
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
+    /// <summary>
+    /// UI used during P
+    /// </summary>
     public class PolygonUI : MonoBehaviour
     {
+        [SerializeField] private PolygonManager manager;
+
         [SerializeField] private GameObject resetButton;
         [SerializeField] private GameObject createButton;
         [SerializeField] private GameObject applyButton;
         [SerializeField] private GameObject confirmButton;
         [SerializeField] private GameObject saveButton;
-        [SerializeField] private GameObject heightSlider;
-        [SerializeField] private GameObject pointer;
+        [SerializeField] private Slider heightSlider;
+        [SerializeField] private Pointer pointer;
 
         /// <summary>
         /// Sets activity of UI elements based on the state.
         /// </summary>
-        /// <param name="toState">Current/new state.</param>
+        /// <param name="state">Current/new state.</param>
         public void SetActive(State state)
         {
+            // Set all to inactive.
             bool reset = false, create = false, apply = false,
                 confirm = false, save = false, height = false,
                 point = false;
+
+            // Set wanted elements to active
             switch (state)
             {
                 case State.Saving:
@@ -49,13 +57,55 @@ namespace AwARe.RoomScan.Polygons.Objects
                     break;
             }
 
+            // Actual (de)activation.
             resetButton.SetActive(reset);
             createButton.SetActive(create);
             applyButton.SetActive(apply);
             confirmButton.SetActive(confirm);
             saveButton.SetActive(save);
-            heightSlider.SetActive(height);
-            pointer.SetActive(point);
+            heightSlider.gameObject.SetActive(height);
+            pointer.gameObject.SetActive(point);
         }
+
+        public Vector3 PointedAt =>
+            pointer.transform.position;
+
+        /// <summary>
+        /// Called on create button click.
+        /// </summary>
+        public void OnCreateButtonClick() =>
+            manager.OnCreateButtonClick();
+
+
+        /// <summary>
+        /// Called on reset button click.
+        /// </summary>
+        public void OnResetButtonClick() =>
+            manager.OnResetButtonClick();
+
+
+        /// <summary>
+        /// Called on apply button click.
+        /// </summary>
+        public void OnApplyButtonClick() =>
+            manager.OnApplyButtonClick();
+
+        /// <summary>
+        /// Called on confirm button click.
+        /// </summary>
+        public void OnConfirmButtonClick() =>
+            manager.OnConfirmButtonClick();
+
+        /// <summary>
+        /// Called on changing the slider.
+        /// </summary>
+        public void OnHeightSliderChanged() =>
+            manager.OnHeightSliderChanged(heightSlider.value);
+
+        /// <summary>
+        /// Called on save button click.
+        /// </summary>
+        public void OnSaveButtonClick() =>
+            manager.OnSaveButtonClick();
     }
 }

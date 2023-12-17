@@ -55,12 +55,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f405ab39c6e1d8d458904062f16d94d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 0}
   resetButton: {fileID: 7307240782378160977}
   createButton: {fileID: 629173008498507916}
   applyButton: {fileID: 1179721173116475463}
   confirmButton: {fileID: 5747136445741429435}
   saveButton: {fileID: 4425311788746310034}
-  heightSlider: {fileID: 2598117615387551019}
+  heightSlider: {fileID: 5787953387339997868}
   pointer: {fileID: 0}
 --- !u!1 &1064602826558899925
 GameObject:

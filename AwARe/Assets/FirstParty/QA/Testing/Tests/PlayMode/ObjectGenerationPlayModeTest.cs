@@ -53,13 +53,13 @@ namespace AwARe
             yield return null;
         }
 
-        [UnityTest, Description("Do not spawn the object if it does not fit in the polygon.")]
+        [UnityTest, Description("Do not spawn the object if it does not fit in the Polygon.")]
         public IEnumerator TooBigObjectCanNotBePlaced()
         {
-            //arrange: Create a polygon and a big Renderable.
+            //arrange: Create a Polygon and a big Renderable.
             List<Renderable> renderables = GetSingleRenderable(100f);
 
-            //act: Try place Renderable in the polygon.
+            //act: Try place Renderable in the Polygon.
             objectCreationManager.PlaceRenderables(renderables, new TestRoom(), new Mesh());
 
             //assert: The amount of placed objects did not change.
@@ -72,7 +72,7 @@ namespace AwARe
         [UnityTest, Description("Check whether object placement works for an object that is guaranteed to fit.")]
         public IEnumerator SmallObjectCanBePlaced()
         {
-            //arrange: Create a polygon and a small Renderable.
+            //arrange: Create a Polygon and a small Renderable.
             List<Renderable> renderables = GetSingleRenderable(0.1f);
 
             //act: Place the renderable

@@ -6,70 +6,58 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
-
 using UnityEngine;
 
 namespace AwARe.Data.Logic
 {
     /// <summary>
-    /// A polygon representing (a part of) the floor.
+    /// A Polygon representing (a part of) the floor.
     /// </summary>
     public class Polygon
     {
-        /// <value>The points that form the 'corners' of the polygon.</value>
-        public List<Vector3> Points {  get; protected set; }
+        /// <summary>
+        /// Gets or sets the points of the Polygon.
+        /// </summary>
+        /// <value>
+        /// The points that form the 'corners' of the Polygon.
+        /// </value>
+        public List<Vector3> Points { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the height of the Polygon cylinder.
+        /// </summary>
+        /// <value>
+        /// The height of the Polygon cylinder in 3D space.
+        /// </value>
+        public float Height { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Polygon"/> class.
         /// </summary>
-        /// <param name="points">A list of pre-defined points of which the polygon consists.</param>
-        public Polygon(List<Vector3> points = null)
+        /// <param name="points">A list of pre-defined points of which the Polygon consists.</param>
+        /// <param name="height">The height of the Polygon cylinder in 3D space.</param>
+        public Polygon(List<Vector3> points = null, float height = 1f)
         {
-            if (points == null)
-                Points = new List<Vector3>();
-            else
-                Points = points;
+            Points = points ?? new();
+            Height = height;
         }
 
         /// <summary>
-        /// Adds the given point to the list of points.
+        /// Initializes a new instance of the <see cref="Polygon"/> class.
+        /// Creates a deep copy of a Polygon.
         /// </summary>
-        /// <param name="point">The point to add to the list.</param>
-        public void AddPoint(Vector3 point) => Points.Add(point);
-
-        /// <summary>
-        /// Removes the last added point from the list of points.
-        /// </summary>
-        public void RemoveLastPoint()
+        /// <param name="polygon">The Polygon to copy.</param>
+        /// <returns>A Deep copy of <paramref name="polygon"/>.</returns>
+        private Polygon(Polygon polygon)
         {
-            if (Points.Count > 0)
-            {
-                Points.RemoveAt(Points.Count - 1);
-            }
+            Points = new(polygon.Points);
+            Height = polygon.Height;
         }
-
+        
         /// <summary>
-        /// Gets the points list in array form.
+        /// Creates a deep copy of this Polygon.
         /// </summary>
-        /// <returns>An array containing the points of the point lsit.</returns>
-        public Vector3[] GetPoints() => Points.ToArray();
-
-        /// <summary>
-        /// Returns the amount of points of the polygon.
-        /// </summary>
-        /// <returns>The amount of point.</returns>
-        public int AmountOfPoints() => Points.Count;
-
-        /// <summary>
-        /// Gets the first point from the points list.
-        /// </summary>
-        /// <returns>The first point.</returns>
-        public Vector3 GetFirstPoint() => Points[0];
-
-        /// <summary>
-        /// Whether the polygon is empty.
-        /// </summary>
-        /// <returns>True if the polygon has no points, false otherwise.</returns>
-        public bool IsEmptyPolygon() => Points.Count == 0;
+        /// <returns>A Deep copy of this Polygon.</returns>
+        public Polygon Clone() => new(this);
     }
 }

@@ -5,7 +5,7 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using AwARe.RoomScan.Path.Jobs;
+//using AwARe.RoomScan.Path.Jobs;
 using System;
 using System.Collections.Generic;
 using Unity.Collections;
@@ -38,20 +38,20 @@ namespace AwARe.RoomScan.Path
 
             NativeArray<bool> resultGrid = new(gridSize, Allocator.TempJob);
 
-            ErosionScanJob erosionScanJob = new()
-            {
-                input = inputGrid,
-                range = range,
-                rows = rows,
-                columns = cols,
-                halfRange = halfRange,
+            //ErosionScanJob erosionScanJob = new()
+            //{
+            //    input = inputGrid,
+            //    range = range,
+            //    rows = rows,
+            //    columns = cols,
+            //    halfRange = halfRange,
 
-                result = resultGrid
-            };
+            //    result = resultGrid
+            //};
 
-            JobHandle erosionScanJobHandle = erosionScanJob.Schedule(gridSize, 64);
+            //JobHandle erosionScanJobHandle = erosionScanJob.Schedule(gridSize, 64);
 
-            erosionScanJobHandle.Complete();
+            //erosionScanJobHandle.Complete();
 
             bool[,] output = GridConverter.ToGrid(resultGrid, rows, cols);
 

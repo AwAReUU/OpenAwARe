@@ -10,6 +10,7 @@ using AwARe.Logic;
 using Unity.XR.CoreUtils;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.XR.ARFoundation;
 
@@ -27,6 +28,7 @@ namespace AwARe.InterScenes.Objects
         [FormerlySerializedAs("ARSession")][SerializeField] private ARSession session;
         [FormerlySerializedAs("XROrigin")][SerializeField] private XROrigin origin;
         [FormerlySerializedAs("Camera")][SerializeField] private Camera cam;
+        [FormerlySerializedAs("EventSystem")][SerializeField] private EventSystem eventSystem;
         
         /// <summary>
         /// Gets the current AR Session.
@@ -59,16 +61,27 @@ namespace AwARe.InterScenes.Objects
         }
 
         /// <summary>
+        /// Gets the current AR Camera.
+        /// </summary>
+        /// <value>The current AR Camera.</value>
+        public EventSystem EventSystem
+        {
+            get => eventSystem != null ? eventSystem : FindObjectOfType<EventSystem>();
+            private set => eventSystem = value;
+        }
+
+        /// <summary>
         /// Get the component of type T from Origin, Session, Camera or itself, if present.
         /// </summary>
         /// <typeparam name="T">Type of the component.</typeparam>
         /// <returns>The component, if present.</returns>
         public new T GetComponent<T>()
             where T : Component =>
-            (Origin ? Origin.GetComponent<T>() : null)
+            gameObject.GetComponent<T>()
+            ?? (Origin ? Origin.GetComponent<T>() : null)
             ?? (Session ? Session.GetComponent<T>() : null)
             ?? (Camera ? Camera.GetComponent<T>() : null)
-            ?? gameObject.GetComponent<T>();
+            ?? (EventSystem ? EventSystem.GetComponent<T>() : null);
 
         private void Awake()
         {

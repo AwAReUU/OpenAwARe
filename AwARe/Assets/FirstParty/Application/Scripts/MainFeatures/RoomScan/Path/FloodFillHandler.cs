@@ -7,7 +7,7 @@
 
 using System;
 using System.Collections.Generic;
-using AwARe.RoomScan.Path.Jobs;
+//using AwARe.RoomScan.Path.Jobs;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
@@ -23,11 +23,11 @@ namespace AwARe.RoomScan.Path
         /// Fill an empty grid of booleans with the projection of the walkable space. these booleans are set to true.
         /// </summary>
         /// <param name="grid">the empty grid.</param>
-        /// <param name="positiveLines">the line segments in 'grid space' making up the positive polygon.</param>
+        /// <param name="positiveLines">the line segments in 'grid space' making up the positive Polygon.</param>
         /// <param name="negativeLines">line segments in 'grid space' making up negative polygons.</param>
         public void FillGrid(ref bool[,] grid, List<((int, int), (int, int))> positiveLines, List<List<((int, int), (int, int))>> negativeLines)
         {
-            //draw the lines for the positive polygon
+            //draw the lines for the positive Polygon
             for (int i = 0; i < positiveLines.Count; i++) { LineDrawer.DrawLine(ref grid, positiveLines[i]); }
 
             List<(int x, int y)> foundPoints = new();
@@ -42,20 +42,20 @@ namespace AwARe.RoomScan.Path
 
             for (int i = 0; i < positiveLines.Count; i++) { polygonLines[i] = positiveLines[i]; }
 
-            CheckInPolygonJob positivePolygonCheckJob = new()
-            {
-                nativeGrid = GridConverter.ToNativeGrid(grid),
-                columns = grid.GetLength(1),
-                checkPositivePolygon = true,
-                polygonWalls = polygonLines,
+            //CheckInPolygonJob positivePolygonCheckJob = new()
+            //{
+            //    nativeGrid = GridConverter.ToNativeGrid(grid),
+            //    columns = grid.GetLength(1),
+            //    checkPositivePolygon = true,
+            //    polygonWalls = polygonLines,
 
-                //nativeResultGrid = resultGrid
-                result = resultGrid
-            };
+            //    //nativeResultGrid = resultGrid
+            //    result = resultGrid
+            //};
 
-            JobHandle posPolCheckJobHandle = positivePolygonCheckJob.Schedule(gridSize, 64);
+            //JobHandle posPolCheckJobHandle = positivePolygonCheckJob.Schedule(gridSize, 64);
 
-            posPolCheckJobHandle.Complete();
+            //posPolCheckJobHandle.Complete();
 
             polygonLines.Dispose();
 
@@ -69,7 +69,7 @@ namespace AwARe.RoomScan.Path
 
             resultGrid.Dispose();
 
-            //fill in the positive polygon
+            //fill in the positive Polygon
             for (int i = 0; i < foundPoints.Count; i++)
             {
                 //grid[foundPoints[i].x, foundPoints[i].y] = true;
@@ -81,10 +81,10 @@ namespace AwARe.RoomScan.Path
             {
                 foundPoints = new();
 
-                //carve out the lines for the current negative polygon
+                //carve out the lines for the current negative Polygon
                 for (int i = 0; i < negativeLines[n].Count; i++) { LineDrawer.DrawLine(ref grid, negativeLines[n][i], true); }
 
-                //find the points in the current negative polygon
+                //find the points in the current negative Polygon
                 for (int x = 0; x < grid.GetLength(0); x++)
                 {
                     for (int y = 0; y < grid.GetLength(1); y++)
@@ -92,7 +92,7 @@ namespace AwARe.RoomScan.Path
                         //it is useless to set a point that is already false to false
                         if (!grid[x, y]) continue;
 
-                        //check if current point is in the negative polygon. if not, continue
+                        //check if current point is in the negative Polygon. if not, continue
                         if (!CheckInPolygon(negativeLines[n], (x, y))) continue;
 
                         //if the loop makes it past all of the above checks, we have found a valid point
@@ -100,7 +100,7 @@ namespace AwARe.RoomScan.Path
                     }
                 }
 
-                //erase the points that lie in the negative polygon
+                //erase the points that lie in the negative Polygon
                 for (int i = 0; i < foundPoints.Count; i++)
                 {
                     //grid[foundPoints[i].x, foundPoints[i].y] = false;
@@ -110,12 +110,12 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        /// check if a point is in a polygon (represented as a list of lines)
-        /// done by shooting a ray to the right from the point and counting the number of intersections with polygon edges.
+        /// check if a point is in a Polygon (represented as a list of lines)
+        /// done by shooting a ray to the right from the point and counting the number of intersections with Polygon edges.
         /// </summary>
-        /// <param name="polygonWalls">List of lines that make up the polygon.</param>
-        /// <param name="point">Point to check if it is inside the polygon.</param>
-        /// <returns>True if the point lies inside the polygon, false otherwise.</returns>
+        /// <param name="polygonWalls">List of lines that make up the Polygon.</param>
+        /// <param name="point">Point to check if it is inside the Polygon.</param>
+        /// <returns>True if the point lies inside the Polygon, false otherwise.</returns>
         private bool CheckInPolygon(List<((int x, int y) p1, (int x, int y) p2)> polygonWalls, (int x, int y) point)
         {
             List<(double x, double y)> intersections = new();
@@ -146,7 +146,7 @@ namespace AwARe.RoomScan.Path
                     intersecty > Math.Max(polygonWalls[i].p1.y, polygonWalls[i].p2.y)) { continue; }
 
                 //if the intersection point is the exact endpoint of a wall, this causes problems. cancel the whole operation
-                //we cannot be sure if it lies inside or outside the polygon
+                //we cannot be sure if it lies inside or outside the Polygon
                 if ((intersectx, intersecty) == polygonWalls[i].p1 || (intersectx, intersecty) == polygonWalls[i].p2) { return false; }
 
                 //add this intersection to the list if it is a new one

@@ -57,16 +57,16 @@ namespace AwARe.RoomScan.Polygons.Logic
         }
 
         /// <summary>
-        /// Creates a polygon and fills its points list with the given points.
+        /// Creates a Polygon and fills its points list with the given points.
         /// </summary>
-        /// <param name="points">The points of which the polygon consists.</param>
-        /// <returns>The polygon consisting of the given points.</returns>
+        /// <param name="points">The points of which the Polygon consists.</param>
+        /// <returns>The Polygon consisting of the given points.</returns>
         Polygon CreatePolygon(List<Vector3> points)
         {
             Polygon polygon = new();
             foreach (Vector3 point in points)
             {
-                polygon.AddPoint(point);
+                polygon.Points.Add(point);
             }
             return polygon;
         }

@@ -5,10 +5,10 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using AwARe.Data.Logic;
 using AwARe.Logic;
 using UnityEngine;
 using Ingredients = AwARe.IngredientList.Logic;
-using Rooms = AwARe.RoomScan.Polygons.Logic;
 
 namespace AwARe.InterScenes.Objects
 {
@@ -56,7 +56,7 @@ namespace AwARe.InterScenes.Objects
         }
 
         /// <inheritdoc/>
-        public Rooms.Room ActiveRoom
+        public Room ActiveRoom
         {
             get => Data.ActiveRoom;
             set => Data.ActiveRoom = value;

@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 
+using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
 using AwARe.ResourcePipeline.Objects;
 using Rooms = AwARe.RoomScan.Polygons.Logic;
 using Ingredients = AwARe.IngredientList.Logic;
 
 using UnityEngine;
+
+using Room = AwARe.Data.Logic.Room;
 
 namespace AwARe.ObjectGeneration
 {
@@ -21,6 +24,10 @@ namespace AwARe.ObjectGeneration
         /// <c>IngredientList</c> that we are going to render.
         /// </value>
         private Ingredients.IngredientList SelectedList { get; set; }
+
+        private Data.Objects.Room SelectedRoom { get; set; }
+
+        [SerializeField] private RoomLiner roomLiner;
 
         /// <value>
         /// <c>path</c> the Mesh from the generated path.
@@ -40,12 +47,31 @@ namespace AwARe.ObjectGeneration
         private Ingredients.IngredientList RetrieveIngredientlist() => Storage.Get().ActiveIngredientList;
 
         /// <summary>
-        /// The polygon drawer.
+        /// The Polygon drawer.
         /// </summary>
         [SerializeField] private RoomScan.Polygons.Objects.PolygonDrawer polygonDrawer;
         
         void Awake() {
             this.pathMesh = new Mesh(); // Empty mesh for now. Once Path gen. is done, generate the mesh from PathData.
+        }
+
+        private void LoadRoom()
+        {
+            // Clean up last room
+            if(SelectedRoom != null) { Destroy(SelectedRoom.gameObject); }
+            SelectedRoom = null;
+
+            // Load data from storage
+            Room roomData = Storage.Get().ActiveRoom;
+            if (roomData == null) return;
+
+            // Construct new room
+            SelectedRoom = Data.Objects.Room.AddComponentTo(new("Room"), roomData);
+
+            // Visualize new room
+            roomLiner.room = SelectedRoom;
+            roomLiner.ResetLiners();
+            roomLiner.UpdateLines();
         }
 
         /// <summary>
@@ -57,25 +83,23 @@ namespace AwARe.ObjectGeneration
             SetSelectedList(RetrieveIngredientlist());
 
             List<Renderable> renderables = new PipelineManager().GetRenderableList(SelectedList);
-            Rooms.Room room = Storage.Get().ActiveRoom;
-            if (room == null)
-                return;
 
-            polygonDrawer.DrawRoomPolygons(room);
+            // Get the stored room as an object.
+            LoadRoom();
 
             // TODO:
             // Once pathgen is done, create mesh from PathData
             // this.pathMesh = pathData.CreateMesh()
 
-            PlaceRenderables(renderables, room, this.pathMesh);
+            PlaceRenderables(renderables, SelectedRoom.Data, this.pathMesh);
         }
 
         /// <summary>
         /// Try to place all <paramref name="renderables"/> inside of the <paramref name="room"/>.
         /// </summary>
-        /// <param name="renderables">Objects to place in the polygon.</param>
+        /// <param name="renderables">Objects to place in the Polygon.</param>
         /// <param name="room">Room consisting of polygons to place the objects in.</param>
-        public void PlaceRenderables(List<Renderable> renderables, Rooms.Room room, Mesh pathMesh) =>
+        public void PlaceRenderables(List<Renderable> renderables, Room room, Mesh pathMesh) =>
             new ObjectPlacer().PlaceRenderables(renderables, room, pathMesh);
 
         /// <summary>
@@ -96,7 +120,7 @@ namespace AwARe.ObjectGeneration
         //debug method for displaying spawn locations in scene.
         void OnDrawGizmos()
         {
-            Rooms.Room room = Storage.Get().ActiveRoom;
+            Room room = Storage.Get().ActiveRoom;
             if (room == null)
                 return;
 

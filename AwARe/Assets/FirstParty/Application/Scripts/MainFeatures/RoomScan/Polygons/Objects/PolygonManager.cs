@@ -5,37 +5,47 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using AwARe.Data.Logic;
+using System.Collections.Generic;
 using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
+using AwARe.Objects;
+using AwARe.RoomScan.Objects;
 using AwARe.RoomScan.Path;
 using AwARe.RoomScan.Polygons.Logic;
 using UnityEngine;
+using UnityEngine.Serialization;
+
+using Polygon = AwARe.Data.Objects.Polygon;
+using Room = AwARe.Data.Objects.Room;
 using Storage = AwARe.InterScenes.Objects.Storage;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
     /// <summary>
-    /// Contains the Room and handles the different states within the polygon scanning.
+    /// Contains the Room and handles the different states within the Polygon scanning.
     /// </summary>
     public class PolygonManager : MonoBehaviour
     {
+        [SerializeField] private RoomManager roomManager;
         [SerializeField] private PolygonDrawer polygonDrawer;
-        [SerializeField] private PolygonMesh polygonMesh;
-        [SerializeField] private PolygonScan scanner;
-        [SerializeField] private VisualizePath pathVisualizer;
+
+        [SerializeField] private Polygon polygon;
 
         [SerializeField] private PolygonUI ui;
         [SerializeField] private GameObject canvas;
         [SerializeField] private Transform sceneCanvas;
 
-        private bool scanning = false;
+        private State currentState;
 
         /// <value>A Room represented by the polygons.</value>
-        public Room Room { get; private set; }
+        public Room Room { get => roomManager.Room; private set => roomManager.Room = value; }
 
-        /// <value>The polygon currently being drawn.</value>
-        public Polygon CurrentPolygon { get; private set; }
+        /// <value>The Polygon currently being drawn.</value>
+        private Polygon activePolygon;
+        private Mesher polygonMesh;
+        private Liner polygonLine;
+
+        public Vector3 PointedAt => ui.PointedAt;
 
         private void Awake()
         {
@@ -48,41 +58,35 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         void Start()
         {
-            CurrentPolygon = new Polygon();
-            Room = new Room();
-
-            // Use the code below to use the test room
-            //Room = new TestRoom();
-            //polygonDrawer.DrawRoomPolygons(Room);
-
             SwitchToState(State.Default);
         }
 
-        void Update()
+        // TODO: Make Object.Room for active visibility.
+        public void AddPolygon(Polygon polygon)
         {
-            if (scanning)
-                polygonDrawer.ScanningPolygon = CurrentPolygon;
+            if (Room.PositivePolygon == null)
+                Room.PositivePolygon = polygon;
+            Room.NegativePolygons.Add(polygon);
         }
 
         /// <summary>
-        /// Starts a new polygon scan.
+        /// Starts a new Polygon scan.
         /// </summary>
         public void StartScanning()
         {
-            CurrentPolygon = new();
-            polygonDrawer.Reset();
+            polygonDrawer.StartDrawing();
             SwitchToState(State.Scanning);
         }
 
         /// <summary>
-        /// Called on create button click; Starts a new polygon scan.
+        /// Called on create button click; Starts a new Polygon scan.
         /// </summary>
         public void OnCreateButtonClick() =>
             StartScanning();
 
 
         /// <summary>
-        /// Called on reset button click; Clears the room and starts a new polygon scan.
+        /// Called on reset button click; Clears the room and starts a new Polygon scan.
         /// </summary>
         public void OnResetButtonClick()
         {
@@ -90,82 +94,51 @@ namespace AwARe.RoomScan.Polygons.Objects
             StartScanning();
         }
 
+        public void OnUIMiss()
+        {
+            if(currentState == State.Scanning)
+                polygonDrawer.AddPoint();
+        }
 
         /// <summary>
-        /// Called on apply button click; adds and draws the current polygon.
+        /// Called on apply button click; adds and draws the current Polygon.
         /// </summary>
         public void OnApplyButtonClick()
         {
-            polygonDrawer.ClearScanningLines();
+            polygonDrawer.FinishDrawing(out Data.Logic.Polygon data);
+            activePolygon = Instantiate(polygon, transform);
+            activePolygon.gameObject.SetActive(true);
+            activePolygon.Data = data;
+            polygonMesh = activePolygon.GetComponent<Mesher>();
+            polygonLine = activePolygon.GetComponent<Liner>();
+
+            polygonMesh.UpdateMesh();
+            polygonLine.UpdateLine();
             SwitchToState(State.SettingHeight);
-            polygonMesh.SetPolygon(CurrentPolygon.GetPoints());
-
-            polygonDrawer.DrawPolygon(CurrentPolygon, !Room.PositivePolygon.IsEmptyPolygon());
-            Room.AddPolygon(CurrentPolygon);
-
-            for(int i = 0; i < CurrentPolygon.Points.Count; i++)
-                Debug.Log(CurrentPolygon.Points[i]);
-
-            GenerateAndDrawPath();
-        }
-
-        public void GenerateAndDrawPath()
-        {
-            PathGenerator startstate = new();
-
-            bool useTestPol = true;
-            
-            List<Vector3> points = new()
-            {
-                //new Vector3(0.3290718f, 0, -1.92463f),
-                //new Vector3(-0.5819738f, 0, -2.569284f),
-                //new Vector3(3.357841f, 0, -3.58952f),
-                //new Vector3(3.824386f, 0, -2.0016f),
-
-                new Vector3(-3.330043f, 0, -3.042626f),
-                new Vector3(-2.702615f, 0, -5.299197f),
-                new Vector3(-1.407629f, 0, -4.649026f),
-                new Vector3(-0.4994112f, 0, -2.780823f),
-                new Vector3(-2.009388f, 0, -0.5163946f),
-
-            };
-
-            Polygon testPolygon = new Polygon(points);
-
-            PathData path;
-            if (useTestPol)
-            {
-                path = startstate.GeneratePath(testPolygon, Room.NegativePolygons);
-                polygonDrawer.DrawPolygon(testPolygon);
-            }
-            else
-            { 
-                path = startstate.GeneratePath(Room.PositivePolygon, Room.NegativePolygons);
-            }
-
-            VisualizePath visualizer = (VisualizePath)pathVisualizer.GetComponent("VisualizePath");
-            visualizer.SetPath(path);
-            visualizer.Visualize();
         }
 
         /// <summary>
-        /// Called on confirm button click; sets the height of the polygon.
+        /// Called on confirm button click; sets the height of the Polygon.
         /// </summary>
         public void OnConfirmButtonClick()
         {
-            // TODO: set room height
+            AddPolygon(activePolygon);
             SwitchToState(State.Saving);
         }
 
         /// <summary>
-        /// Called on changing the slider; sets the height of the polygon mesh.
+        /// Called on changing the slider; sets the height of the Polygon mesh.
         /// </summary>
         /// <param name="height">Height the slider is currently at.</param>
-        public void OnHeightSliderChanged(float height) { this.polygonMesh.SetHeight(height); }
+        public void OnHeightSliderChanged(float height)
+        {
+            activePolygon.Data.Height = height;
+            polygonMesh.UpdateMesh();
+        }
 
         public void OnSaveButtonClick()
         {
-            Storage.Get().ActiveRoom = Room;
+            Storage.Get().ActiveRoom = Room.Data;
             SceneSwitcher.Get().LoadScene("Home");
         }
 
@@ -177,10 +150,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             // Set activity
             SetActive(toState);
-
-            // if the new state is scanning, set scanning to true, otherwise to false
-            scanning = toState == State.Scanning;
-            polygonDrawer.ScanningPolygon = null;
+            currentState = toState;
         }
 
         /// <summary>
@@ -193,23 +163,23 @@ namespace AwARe.RoomScan.Polygons.Objects
             ui.SetActive(state);
 
             // Set direct component activity
-            bool scan = false, mesh = false;
+            bool mesh = false, drawer = false;
             switch (state)
             {
                 case State.Scanning:
-                    scan = true;
+                    drawer = true;
                     break;
                 case State.SettingHeight:
                     mesh = true;
                     break;
             }
-            scanner.gameObject.SetActive(scan);
-            polygonMesh.gameObject.SetActive(mesh);
+
+            // Set actual activity
         }
     }
 
     /// <summary>
-    /// The different states within the polygon scanning process.
+    /// The different states within the Polygon scanning process.
     /// </summary>
     public enum State
     {
