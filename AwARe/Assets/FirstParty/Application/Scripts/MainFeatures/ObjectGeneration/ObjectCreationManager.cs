@@ -25,7 +25,7 @@ namespace AwARe.ObjectGeneration
         /// <value>
         /// used to clear the scene from previously generated objects.
         /// </value>
-        private ObjectDestroyer destroy = new();
+        private ObjectDestroyer destroyer;
 
         /// <value>
         /// <c>IngredientList</c> that we are going to render.
@@ -77,7 +77,7 @@ namespace AwARe.ObjectGeneration
             // Once pathgen is done, create mesh from PathData
             // this.pathMesh = pathData.CreateMesh()
 
-            float roomSpace        = room.PositivePolygon.PolygonArea();
+            float roomSpace        = room.PositivePolygon.Area;
             float renderablesSpace = ComputeRenderableSpaceNeeded(renderables);
 
             // Divide renderables in seperate rooms when there is not enough space 
@@ -94,7 +94,7 @@ namespace AwARe.ObjectGeneration
         public void PlaceRenderables(List<Renderable> renderables, Rooms.Room room, Mesh pathMesh) 
         {
             // clear the scene of any previously instantiated GameObjects 
-            destroy.DestroyAllObjects();
+            destroyer.DestroyAllObjects();
             new ObjectPlacer().PlaceRenderables(renderables, room, pathMesh);
         }
         
