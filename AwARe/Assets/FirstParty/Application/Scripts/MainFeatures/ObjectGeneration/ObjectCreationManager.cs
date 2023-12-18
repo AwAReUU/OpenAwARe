@@ -25,7 +25,7 @@ namespace AwARe.ObjectGeneration
         /// <value>
         /// used to clear the scene from previously generated objects.
         /// </value>
-        private ObjectDestroyer destroyer;
+        private ObjectDestroyer destroyer = new();
 
         /// <value>
         /// <c>IngredientList</c> that we are going to render.
