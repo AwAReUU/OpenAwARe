@@ -9,6 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AwARe.Data.Logic;
+
+using Unity.Collections;
+
 using UnityEngine;
 
 namespace AwARe.RoomScan.Path
@@ -43,8 +46,8 @@ namespace AwARe.RoomScan.Path
                 Debug.Log("Point " + i + ": " + positive.GetPoints()[i].x + ", 0, " + positive.GetPoints()[i].z);
             }
 
-            List<((int, int), (int, int))> positiveGridLines;
-            List<List<((int, int), (int, int))>> negativeGridLines;
+            PolygonLines positiveGridLines;
+            List<PolygonLines> negativeGridLines;
             (positiveGridLines, negativeGridLines) = GetGridlines(positive, negatives);
 
             PrintTime("fillStart");
@@ -150,10 +153,10 @@ namespace AwARe.RoomScan.Path
         /// <param name="positive">The positive polygon.</param>
         /// <param name="negatives">The negative polygons.</param>
         /// <returns>Lists with start- and endpoints of the lines.</returns>
-        private (List<((int, int), (int, int))>, List<List<((int, int), (int, int))>>) GetGridlines(Polygon positive, List<Polygon> negatives)
+        private (PolygonLines, List<PolygonLines>) GetGridlines(Polygon positive, List<Polygon> negatives)
         {
-            List<((int, int), (int, int))> positiveGridLines = new();
-            List<List<((int, int), (int, int))>> negativeGridLines = new();
+            PolygonLines positiveGridLines = new();
+            List<PolygonLines> negativeGridLines = new();
 
             // Determine all line segments in polygon space and grid space
             List<(Vector3, Vector3)> positiveLines = GenerateLines(positive);
@@ -171,7 +174,7 @@ namespace AwARe.RoomScan.Path
                 List<(Vector3, Vector3)> negativeLinesPart = GenerateLines(negatives[i]);
                 negativeLines.Add(negativeLinesPart);
 
-                List<((int, int), (int, int))> negativeGridLinesPart = new();
+                PolygonLines negativeGridLinesPart = new();
                 for (int j = 0; j < negativeLinesPart.Count; j++)
                 {
                     negativeGridLinesPart.Add((ToGridSpace(negativeLinesPart[j].Item1), ToGridSpace(negativeLinesPart[j].Item2)));
@@ -310,29 +313,35 @@ namespace AwARe.RoomScan.Path
             Debug.Log(s + ": " + (Time.realtimeSinceStartup - startTime));
         }
     }
+
+    /// <summary>
+    /// Class for representing a list with start- and endpoints of lines.
+    /// </summary>
+    public class PolygonLines
+    {
+        /// <summary>
+        /// Gets the list of lines consisting of start- and endpoints.
+        /// </summary>
+        public List<((int, int), (int, int))> Lines { get; private set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PolygonLines"/> class.
+        /// </summary>
+        public PolygonLines()
+        {
+            Lines = new List<((int, int), (int, int))>();
+        }
+
+        /// <summary>
+        /// Adds the value to the list.
+        /// </summary>
+        /// <param name="value">The value to add to the list.</param>
+        public void Add(((int, int), (int,int)) value) => Lines.Add(value);
+
+        /// <summary>
+        /// Gets the amount of elements in the list.
+        /// </summary>
+        /// <returns>The amount of elements in the list.</returns>
+        public int Count() => Lines.Count;
+    }
 }
-
-
-// todo primary:
-//improve visualisatie zodat je ook negative polygons kan tekenen voordat je het pad bepaald
-//for above: zorg dat de path gen gebeurt bij de click van een andere button dan de autocomplete button
-//improve performance
-//test things (unit tests)
-
-//evt de pathdata opschonen, maar zou daarvoor wel hough moeten gebruiken en testing showed dat die niet perfect werkt (somewhat decent tho)
-//improve performance door het te multithreaden of indien mogelijk op de gpu te runnen
-
-//scale testing met debug log seems to be about 1:100 scale, 61 cm meetlat vierkant gaat in ongeveer 0.61 increments. dus 1 vector3 = 1 meter
-//make polygon 'real-scale' hiermee in plaats van set length 500?
-
-//'merge' / collapse corner noodles that share the same junction to a straighter line? could be cool
-
-
-//todo primary new:
-//'merge' / collapse corner noodles     //done
-//clean up polygonmanager en scene
-
-//fix bug: floodfill startpoint finding
-//issue: 0.5 drawline offset?
-//idea: in plaats van math ray cast, ga vanaf de pixel stappen naar rechts (+x) en tel het aantal keren dat de state changed van true naar false? 
-//has issues tho

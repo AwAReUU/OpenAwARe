@@ -50,7 +50,9 @@ namespace AwARe.RoomScan.Path.Jobs
         /// <param name="polygonWalls">List of lines that make up the polygon.</param>
         /// <param name="point">point to check if it is inside the polygon.</param>
         /// <returns>true if the point lies inside the polygon, false otherwise.</returns>
-        private readonly bool CheckInPolygon(NativeArray<((int x, int y) p1, (int x, int y) p2)> polygonWalls, (int x, int y) point)
+        private readonly bool CheckInPolygon(
+            NativeArray<((int x, int y) p1, (int x, int y) p2)> polygonWalls, 
+            (int x, int y) point)
         {
             int numberOfIntersections = 0;
 

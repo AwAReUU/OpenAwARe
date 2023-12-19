@@ -5,12 +5,10 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System;
 using System.Collections.Generic;
 using AwARe.RoomScan.Path.Jobs;
 using Unity.Collections;
 using Unity.Jobs;
-using UnityEngine;
 
 namespace AwARe.RoomScan.Path
 {
@@ -25,10 +23,10 @@ namespace AwARe.RoomScan.Path
         /// <param name="grid">the empty grid.</param>
         /// <param name="positiveLines">the line segments in 'grid space' making up the positive polygon.</param>
         /// <param name="negativeLines">line segments in 'grid space' making up negative polygons.</param>
-        public void FillGrid(ref bool[,] grid, List<((int, int), (int, int))> positiveLines, List<List<((int, int), (int, int))>> negativeLines)
+        public void FillGrid(ref bool[,] grid, PolygonLines positiveLines, List<PolygonLines> negativeLines)
         {
             //draw the lines for the positive polygon
-            for (int i = 0; i < positiveLines.Count; i++) { LineDrawer.DrawLine(ref grid, positiveLines[i]); }
+            for (int i = 0; i < positiveLines.Count(); i++) { LineDrawer.DrawLine(ref grid, positiveLines.Lines[i]); }
 
             int rows = grid.GetLength(0);
             int cols = grid.GetLength(1);
@@ -38,9 +36,9 @@ namespace AwARe.RoomScan.Path
 
             NativeArray<bool> resultGrid = new(gridSize, Allocator.TempJob);
             NativeArray<((int x, int y) p1, (int x, int y) p2)> polygonLines =
-                new(positiveLines.Count, Allocator.TempJob);
+                new(positiveLines.Count(), Allocator.TempJob);
 
-            for (int i = 0; i < positiveLines.Count; i++) { polygonLines[i] = positiveLines[i]; }
+            for (int i = 0; i < positiveLines.Count(); i++) { polygonLines[i] = positiveLines.Lines[i]; }
 
             CheckInPolygonJob positivePolygonCheckJob = new()
             {
@@ -74,14 +72,14 @@ namespace AwARe.RoomScan.Path
             for (int n = 0; n < negativeLines.Count; n++)
             {
                 //carve out the lines for the current negative polygon
-                for (int i = 0; i < negativeLines[n].Count; i++) { LineDrawer.DrawLine(ref grid, negativeLines[n][i], true); }
+                for (int i = 0; i < negativeLines[n].Count(); i++) { LineDrawer.DrawLine(ref grid, negativeLines[n].Lines[i], true); }
 
                 nativeGrid = GridConverter.ToNativeGrid(grid);
 
                 resultGrid = new(gridSize, Allocator.TempJob);
-                polygonLines = new(negativeLines[n].Count, Allocator.TempJob);
+                polygonLines = new(negativeLines[n].Count(), Allocator.TempJob);
 
-                for (int i = 0; i < negativeLines[n].Count; i++) { polygonLines[i] = negativeLines[n][i]; }
+                for (int i = 0; i < negativeLines[n].Count(); i++) { polygonLines[i] = negativeLines[n].Lines[i]; }
 
                 CheckInPolygonJob negativePolygonCheckJob = new()
                 {
