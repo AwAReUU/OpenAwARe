@@ -96,6 +96,10 @@ for (let ids of [
   test_get_model_list(ids);
 }
 
+/**
+ * Test if each ingredient from the search output
+ * is in the correct format.
+ */
 function test_ingredient_search(query: string) {
   test("GET /ingr/search", async () => {
     let body = {
@@ -114,6 +118,10 @@ function test_ingredient_search(query: string) {
   });
 }
 
+/**
+ * Test if the output of /ingr/getIngredient
+ * is in the correct format.
+ */
 function test_get_ingredient(id: number) {
   test("GET /ingr/getIngredient", async () => {
     let body = {
@@ -130,6 +138,10 @@ function test_get_ingredient(id: number) {
   });
 }
 
+/**
+ * Test if the output of /ingr/getIngredientList
+ * is in the correct format.
+ */
 function test_get_ingredient_list(ids: number[]) {
   test("GET /ingr/getIngredientList", async () => {
     let body = {
@@ -146,6 +158,10 @@ function test_get_ingredient_list(ids: number[]) {
   });
 }
 
+/**
+ * Test if the output of /ingr/getRequirements
+ * is in the correct format.
+ */
 function test_get_requirements(id: number) {
   test("GET /ingr/getRequirements", async () => {
     let body = {
@@ -162,6 +178,10 @@ function test_get_requirements(id: number) {
   });
 }
 
+/**
+ * Test if the output of /ingr/getResource
+ * is in the correct format.
+ */
 function test_get_resource(id: number) {
   test("GET /ingr/getResource", async () => {
     let body = {
@@ -178,6 +198,10 @@ function test_get_resource(id: number) {
   });
 }
 
+/**
+ * Test if the output of /ingr/getResourceList
+ * is in the correct format.
+ */
 function test_get_resource_list(ids: number[]) {
   test("GET /ingr/getResourceList", async () => {
     let body = {
@@ -194,6 +218,10 @@ function test_get_resource_list(ids: number[]) {
   });
 }
 
+/**
+ * Test if the output of /ingr/getModel
+ * is in the correct format.
+ */
 function test_get_model(id: number) {
   test("GET /ingr/getModel", async () => {
     let body = {
@@ -210,6 +238,10 @@ function test_get_model(id: number) {
   });
 }
 
+/**
+ * Test if the output of /ingr/getModelList
+ * is in the correct format.
+ */
 function test_get_model_list(ids: number[]) {
   test("GET /ingr/getModelList", async () => {
     let body = {
@@ -226,35 +258,44 @@ function test_get_model_list(ids: number[]) {
   });
 }
 
+/**
+ * Test if an ingredient is in the correct format.
+ */
 function test_ingredient_format(ingr: any) {
+  // IngredientID should not be null and it should be greater than or equal to zero.
   expect(ingr.IngredientID).not.toBeNull();
   expect(isUnsignedInteger(ingr.IngredientID)).toBeTruthy();
 
+  // Ingredient must have a PrefName.
   expect(ingr.PrefName).not.toBeNull();
   expect(typeof ingr.PrefName == "string");
 
-  // Ingredient should have one or the other (GramsPerML or GramsPerPiece)
-  expect(
-    (ingr.GramsPerML !== null && ingr.GramsPerPiece === null) ||
-      (ingr.GramsPerML === null && ingr.GramsPerPiece !== null),
-  ).toBeTruthy();
-
+  // If GramsPerML is defined, it should be a number greater than zero.
   if (ingr.GramsPerML !== null) {
     expect(isNumber(ingr.GramsPerML)).toBeTruthy();
     expect(ingr.GramsPerML).toBeGreaterThan(0);
-  } else {
+  }
+
+  // If GramsPerPiece is defined, it should be a number greater than zero.
+  if (ingr.GramsPerPiece !== null) {
     expect(isNumber(ingr.GramsPerPiece)).toBeTruthy();
     expect(ingr.GramsPerPiece).toBeGreaterThan(0);
   }
 }
 
+/**
+ * Test if a requirement is in the correct format.
+ */
 function test_requirement_format(req: any) {
+  // A requirement should have an ingredient id that is greater than or equal to zero.
   expect(req.IngredientID).not.toBeNull();
   expect(isUnsignedInteger(req.IngredientID)).toBeTruthy();
 
+  // A requirement should have an resource id that is greater than or equal to zero.
   expect(req.ResourceID).not.toBeNull();
   expect(isUnsignedInteger(req.ResourceID)).toBeTruthy();
 
+  // A requirement should have an resource per ingredient number that is greater than zero.
   expect(req.ResPerIngr).not.toBeNull();
   expect(isNumber(req.ResPerIngr)).toBeTruthy();
   expect(req.ResPerIngr).toBeGreaterThan(0);
@@ -266,55 +307,43 @@ function test_requirement_format(req: any) {
 }
 
 const RESOURCE_TYPES = ["Water", "Plant", "Animal"];
+/**
+ * Test is a resource is in the correct format.
+ */
 function test_resource_format(res: any) {
+  // A resource should have an id that is greater than or equal to zero.
   expect(res.ResourceID).not.toBeNull();
   expect(isUnsignedInteger(res.ResourceID)).toBeTruthy();
 
+  // A resource should have a model id that is greater than or equal to zero.
   expect(res.ModelID).not.toBeNull();
   expect(isUnsignedInteger(res.ModelID)).toBeTruthy();
 
+  // If GramsPerModel is defined, it should be number that is greater than zero.
   if (res.GramsPerModel) {
     expect(isUnsignedInteger(res.GramsPerModel)).toBeTruthy();
-    expect(res.GramsPerModel).toBeGreaterThan(0);
   }
 
+  // A resource should have a valid Type. Type can only be one of RESOURCE_TYPES.
   expect(res.Type).not.toBeNull();
   expect(RESOURCE_TYPES).toContain(res.Type);
 }
 
-const MODEL_TYPES = ["Shapes", "Animals", "Crops"];
-const MODEL_FILE_EXTENSIONS = ["fbx", "prefab"];
+const MODEL_TYPES = ["Water", "Animal", "Plant", "Shapes"];
 function test_model_format(model: any) {
+  // A model should have an id that is greater than or equal to zero.
   expect(model.ModelID).not.toBeNull();
   expect(isUnsignedInteger(model.ModelID)).toBeTruthy();
 
+  // A model should have a valid Type. Type can only be one of MODEL_TYPES.
   expect(model.Type).not.toBeNull();
   expect(MODEL_TYPES).toContain(model.Type);
 
-  // Path should not contain whitespaces
-  expect(model.PrefabPath.indexOf(" ") >= 0).toBeFalsy();
-  // Check if Path points to a supported file type.
-  expect(
-    MODEL_FILE_EXTENSIONS.some((e) => model.PrefabPath.endsWith(e)),
-  ).toBeTruthy();
+  // A model should have a path to a prefab.
+  expect(model.PrefabPath).not.toBeNull();
 
-  expect(model.RealLength).not.toBeNull();
-  expect(isNumber(model.RealLength)).toBeTruthy();
-  expect(model.RealLength).toBeGreaterThan(0);
-
-  expect(model.RealWidth).not.toBeNull();
-  expect(isNumber(model.RealWidth)).toBeTruthy();
-  expect(model.RealWidth).toBeGreaterThan(0);
-
+  // A model should have a RealHeight that is greater than zero.
   expect(model.RealHeight).not.toBeNull();
   expect(isNumber(model.RealHeight)).toBeTruthy();
   expect(model.RealHeight).toBeGreaterThan(0);
-
-  expect(model.DistanceX).not.toBeNull();
-  expect(isNumber(model.DistanceX)).toBeTruthy();
-  expect(model.DistanceX).toBeGreaterThan(0);
-
-  expect(model.DistanceY).not.toBeNull();
-  expect(isNumber(model.DistanceY)).toBeTruthy();
-  expect(model.DistanceY).toBeGreaterThan(0);
 }

@@ -5,6 +5,7 @@ const config: Config = {
   testEnvironment: "node",
   testPathIgnorePatterns: [
     "/node_modules/",
+    "/dist/",
     "./setup.ts",
     "./teardown.ts",
     "./util.ts",

@@ -18,5 +18,5 @@ beforeAll(() => {
 
 // This will run after all tests for each test module.
 afterAll(() => {
-  Database.getInstance().delete();
+  Database.delete();
 });

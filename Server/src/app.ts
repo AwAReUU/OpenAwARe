@@ -8,13 +8,24 @@ import ingr from "./routes/ingr";
 // ----------------------------------------------------------------------------
 
 const app: Express = express();
+
+// Setup automatic parsing to JSON
 app.use(bodyParser.json());
+
+// Catch syntax errors. This happens if the user sends incorrectly formatted json for example.
+app.use(function(error: any, _req: any, res: any, next: any) {
+    if (error instanceof SyntaxError) {
+        res.status(400).send("SyntaxError: request is not formatted correctly.");
+    } else {
+        next();
+    }
+});
 
 // ----------------------------------------------------------------------------
 // Routes:
 
 app.get("/", (_req: Request, res: Response) => {
-  res.send("Hello world!");
+    res.send("Hello world!");
 });
 
 app.use("/auth", auth);

@@ -12,8 +12,8 @@ test("POST /auth/register", async () => {
     firstName: "Marvin",
     lastName: "Fisher",
     email: "marvinfisher@outlook.com",
-    password: "123test",
-    confirm_password: "123test",
+    password: "1234test",
+    confirmPassword: "1234test",
   };
   await api.post("/auth/register").send(body).expect(201);
 
@@ -47,7 +47,7 @@ test("POST /auth/login", async () => {
 test("POST /auth/login", async () => {
   let body = {
     email: "marvinfisher@outlook.com",
-    password: "123test",
+    password: "1234test",
   };
   let ret: any = await api
     .post("/auth/login")
@@ -60,22 +60,22 @@ test("POST /auth/login", async () => {
 });
 
 // 4) Test refresh login with incorrect token
-test("POST /auth/refreshToken", async () => {
+test("POST /auth/refresh", async () => {
   let body = {
     email: "marvinfisher@outlook.com",
     token: "abcdef",
   };
-  await api.post("/auth/refreshToken").send(body).expect(400);
+  await api.post("/auth/refresh").send(body).expect(400);
 });
 
 // 5) Test refresh login with correct token
-test("POST /auth/refreshToken", async () => {
+test("POST /auth/refresh", async () => {
   let body = {
     email: "marvinfisher@outlook.com",
     token: refreshToken,
   };
   let ret: any = await api
-    .post("/auth/refreshToken")
+    .post("/auth/refresh")
     .send(body)
     .expect(200)
     .expect("Content-Type", /application\/json/);
@@ -103,7 +103,7 @@ test("DELETE /auth/logout", async () => {
 test("POST /auth/login", async () => {
   let body = {
     email: "marvinfisher@outlook.com",
-    password: "123test",
+    password: "1234test",
   };
   await api
     .post("/auth/login")
@@ -122,10 +122,10 @@ test("DELETE /auth/logout", async () => {
 
 // 10) Test refreshToken after logout
 // This should not work after logout.
-test("POST /auth/refreshToken", async () => {
+test("POST /auth/refresh", async () => {
   let body = {
     email: "marvinfisher@outlook.com",
     token: refreshToken,
   };
-  await api.post("/auth/refreshToken").send(body).expect(400);
+  await api.post("/auth/refresh").send(body).expect(400);
 });

@@ -7,3 +7,12 @@ CREATE TABLE IF NOT EXISTS User (
     Password varchar NOT NULL,
     PRIMARY KEY (UserID)
 );
+
+CREATE TABLE IF NOT EXISTS Questionnaire (
+    QuestionnaireID INTEGER,
+    UserID INTEGER,
+    Content TEXT,
+    PRIMARY KEY (QuestionnaireID),
+    CONSTRAINT FK_rsmid FOREIGN KEY (UserID) REFERENCES User(UserID) 
+);
+
