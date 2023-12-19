@@ -9,7 +9,7 @@ Utrecht University: Computer Science BA Software Project 2023-2024
 </p>
 <p align="center">
     <a href="https://github.com/Mackthis/AwARe/tree/main/CodeCoverage" alt="Code Coverage">
-        <img src="https://github.com/Mackthis/AwARe/tree/main/CodeCoverage/badge_linecoverage.svg"/></a>
+        <img src="https://github.com/Mackthis/AwARe/tree/N23-583-General/Readme's/AwARe/CodeCoverage/Report/badge_linecoverage.svg"/></a>
 </p>
 
 ## Table of Contents
