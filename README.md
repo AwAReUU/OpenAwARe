@@ -6,6 +6,11 @@
 
 # AwARe: AR Food Production
 Utrecht University: Computer Science BA Software Project 2023-2024
+</p>
+<p align="center">
+    <a href="https://github.com/Mackthis/AwARe/tree/main/CodeCoverage" alt="Code Coverage">
+        <img src="https://github.com/Mackthis/AwARe/tree/main/CodeCoverage/badge_linecoverage.svg"/></a>
+</p>
 
 ## Table of Contents
 - [Property](#prop)
@@ -24,10 +29,12 @@ Utrecht University: Computer Science BA Software Project 2023-2024
 
 ## Property <a name="prop"></a>
 > All-rights reserved to...
+
 (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 
 ## Description <a name="descr"></a>
 > What is AwARe?
+
 AwARe is a mobile app designed to enhance awareness of the resources required for visualizing resources needed for the production of ingredients through the means of augmented reality (AR). The main idea of this application is that users will become more aware of the impact that their food consumption has when the materials are visualized in their own environment, for example in their own kitchen. Researchers will be able to use this app to send questionnaires to users to study the behavioral changes of the users.
 
 
@@ -77,6 +84,9 @@ All authentic software created can be found here: <br/>
 
 ### Third-party <a name="third"></a>
 > External packages and tools in this repository.
+
+* [Doxygen] (https://www.doxygen.nl/) Used for generating documentation from the doc-comments in the codebase.
+* [CodeCoverage] (https://docs.unity3d.com/Packages/com.unity.testtools.codecoverage@0.2/manual/index.html) Used for finding out which lines of code are covered/uncovered by our tests.
 
 Unity does not support organizing folders of Build-in packages or Third Party Software well. In principal, everything in the Unity Project that is stored outside First-Party is not owned by us.
 
