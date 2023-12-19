@@ -1,43 +1,43 @@
 -- Table Creation
 CREATE TABLE IF NOT EXISTS Ingredient(
-    IngredientID int NOT NULL UNIQUE,
-    PrefName varchar(30) NOT NULL,
-    GramsPerML float,
-    GramsPerPiece float,
+    IngredientID INTEGER,
+    PrefName VARCHAR(30) NOT NULL,
+    GramsPerML FLOAT,
+    GramsPerPiece FLOAT,
     PRIMARY KEY (IngredientID)
 );
 
 CREATE TABLE IF NOT EXISTS Search(
-    IngredientID int NOT NULL,
-    AltName varchar(30) NOT NULL,
+    IngredientID INTEGER,
+    AltName VARCHAR(30) NOT NULL,
     PRIMARY KEY (IngredientID, AltName),
     CONSTRAINT FK_siid FOREIGN KEY (IngredientID) REFERENCES Ingredient(IngredientID)
 );
 
 CREATE TABLE IF NOT EXISTS Requires(
-    IngredientID int NOT NULL,
-    ResourceID int NOT NULL,
-    ResPerIngr float NOT NULL,
+    IngredientID INTEGER,
+    ResourceID INTEGER,
+    ResPerIngr INTEGER,
     PRIMARY KEY (IngredientID, ResourceID),
     CONSTRAINT  FK_rqiid FOREIGN KEY (IngredientID) REFERENCES Ingredient(IngredientID),
     CONSTRAINT FK_rqrsid FOREIGN KEY   (ResourceID) REFERENCES   Resource(ResourceID)
 );
 
 CREATE TABLE IF NOT EXISTS Resource(
-    ResourceID int NOT NULL UNIQUE,
-    Name varchar(30),
-    Type varchar(14) NOT NULL,
-    GramsPerModel int,
-    ModelID int,
+    ResourceID INTEGER,
+    Name VARCHAR(30),
+    Type VARCHAR(14) NOT NULL,
+    GramsPerModel INTEGER,
+    ModelID INTEGER,
     PRIMARY KEY (ResourceID),
     CONSTRAINT FK_rsmid FOREIGN KEY (ModelID) REFERENCES Model(ModelID)
 );
 
 CREATE TABLE IF NOT EXISTS Model(
-    ModelID int NOT NULL UNIQUE,
-    Type varchar(14) NOT NULL,
-    PrefabPath varchar NOT NULL,
-    RealHeight int,
+    ModelID INTEGER,
+    Type VARCHAR(14) NOT NULL,
+    PrefabPath VARCHAR NOT NULL,
+    RealHeight INTEGER,
     PRIMARY KEY(ModelID)
 );
 
