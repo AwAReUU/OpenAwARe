@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using AwARe.Questionnaire.Data;
 
@@ -41,7 +42,7 @@ namespace AwARe.Questionnaire.Objects
         /// </value>
         public int IfYesTriggerIndex { get; private set; }
         /// <value>
-        /// 
+        /// Indicates whether this question has ifYes questions.
         /// </value>
         public bool IfYes { get; private set; }
         /// <value>
@@ -93,18 +94,14 @@ namespace AwARe.Questionnaire.Objects
         /// <returns>A factory to construct the answer option corresponding to "optionType".</returns>
         private AnswerOptionSpawner CreateAnswerOptionSpawner(OptionType optionType)
         {
-            switch (optionType)
+            return optionType switch
             {
-                case OptionType.Radio:
-                    return new RadioAnswerOption(gameObject, radioButtonPrefab, CurrentAnswerOptionIndex++);
-                case OptionType.Checkbox:
-                    return new CheckBoxAnswerOption(gameObject, checkBoxPrefab, CurrentAnswerOptionIndex++);
-                case OptionType.Textbox:
-                    return new TextAnswerOption(gameObject, textInputPrefab);
-                case OptionType.Error:
-                default:
-                    throw new System.ArgumentException("Invalid option type: " + optionType);
-            }
+                OptionType.Radio    => new RadioAnswerOption(gameObject, radioButtonPrefab, CurrentAnswerOptionIndex++),
+                OptionType.Checkbox => new CheckBoxAnswerOption(gameObject, checkBoxPrefab, CurrentAnswerOptionIndex++),
+                OptionType.Textbox  => new TextAnswerOption(gameObject, textInputPrefab),
+                OptionType.Error    => throw new System.ArgumentException("Invalid option type: " + optionType),
+                _                   => throw new System.ArgumentException("Invalid option type: " + optionType)
+            };
         }
 
         /// <summary>
@@ -115,8 +112,8 @@ namespace AwARe.Questionnaire.Objects
         /// <param name="ifYesTriggerIndex">The index of the answer option that acts as the trigger for additional questions.</param>
         public void SetIfYes(bool ifYes, int ifYesTriggerIndex)
         {
-            this.IfYes = ifYes;
-            this.IfYesTriggerIndex = ifYesTriggerIndex;
+            IfYes = ifYes;
+            IfYesTriggerIndex = ifYesTriggerIndex;
         }
 
         /// <summary>
@@ -127,7 +124,19 @@ namespace AwARe.Questionnaire.Objects
         /// <param name="newState">The new state to set for the specified answer option.</param>
         public void ChangeIfYesState(int optionIndex, bool newState)
         {
+            if (optionIndex < 0 || optionIndex >= AnswerOptionStates.Count)
+            {
+                Debug.LogError($"Index {optionIndex} does not exist in AnswerOptionStates");
+                return;
+            }
+
             AnswerOptionStates[optionIndex] = newState;
+
+            if (IfYesTriggerIndex < 0 || IfYesTriggerIndex >= AnswerOptionStates.Count)
+            {
+                Debug.LogError($"Index {IfYesTriggerIndex} does not exist in AnswerOptionStates");
+                return;
+            }
 
             foreach (GameObject ifYesQuestion in IfYesQuestions)
                 ifYesQuestion.SetActive(AnswerOptionStates[IfYesTriggerIndex]);

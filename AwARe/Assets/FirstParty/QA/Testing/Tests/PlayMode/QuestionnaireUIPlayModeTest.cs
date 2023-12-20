@@ -21,7 +21,6 @@ public class QuestionnaireTests
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         yield return null; //skip one frame to ensure the scene has been reloaded.
         questionnaireConstructor = GameObject.Find("QuestionnaireConstructor").GetComponent<QuestionnaireConstructor>();
-        //TextAsset testFormat = Resources.Load<TextAsset>("Data/Questionnaire/Testformat");
     }
 
 
@@ -124,19 +123,19 @@ public class QuestionnaireMockJsonTests
             Assert.IsTrue(questions[i].GetComponent<Question>().GetTitle() == titles[i]);
 
         return null;
-
-        //TODO: this, but inside seperate test.
-        ////check if each question's answer options are in order
-        //for (int i = 0; i < questions.Length; i++)
-        //{
-        //    GameObject question = questions[i];
-
-        //    for (int j = 1; j < question.transform.childCount; j++)
-        //    {
-        //        //Assert.IsTrue(question.transform.GetChild(j).gameObject.GetComponent<OptionInfoHolder>().GetOptionNumber() == j - 1);
-        //    }
-        //}
     }
+
+    //TODO: this, inside seperate test. (answeroptions correct ordering)
+    ////check if each question's answer options are in order
+    //for (int i = 0; i < questions.Length; i++)
+    //{
+    //    GameObject question = questions[i];
+
+    //    for (int j = 1; j < question.transform.childCount; j++)
+    //    {
+    //        //Assert.IsTrue(question.transform.GetChild(j).gameObject.GetComponent<OptionInfoHolder>().GetOptionNumber() == j - 1);
+    //    }
+    //}
 
     [UnityTest, Description("Test whether all checkboxes are created. (And not too many!)")]
     public IEnumerator Test_CheckBoxCreation()

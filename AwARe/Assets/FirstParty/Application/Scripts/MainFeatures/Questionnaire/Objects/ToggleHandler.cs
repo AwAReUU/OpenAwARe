@@ -21,8 +21,27 @@ namespace AwARe.Questionnaire.Objects
         /// <summary>
         /// Notifies the question that this answer option is now checked or unchecked.
         /// </summary>
-        public void NotifyChange() =>
-            Question.GetComponent<Question>().ChangeIfYesState(OptionIndex, gameObject.GetComponent<Toggle>().isOn);
+        public void NotifyChange()
+        {
+            if (Question == null)
+            {
+                Debug.LogError("ToggleHandler's Question property is null");
+                return;
+            }
+            Question questionComponent = Question.GetComponent<Question>();
+            if (questionComponent == null)
+            {
+                Debug.LogError("ToggleHandler's questionComponent is null"); 
+                return;
+            }
+            Toggle toggle = gameObject.GetComponent<Toggle>();
+            if (toggle == null)
+            {
+                Debug.LogError("ToggleHandler's Toggle is null");
+                return;
+            }
+            questionComponent.ChangeIfYesState(OptionIndex, toggle.isOn);
+        }
 
         /// <summary>
         /// Set the question of this <see cref="ToggleHandler"/>.
