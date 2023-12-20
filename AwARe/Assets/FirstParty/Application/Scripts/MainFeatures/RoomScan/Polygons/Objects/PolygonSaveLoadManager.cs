@@ -89,12 +89,21 @@ namespace AwARe
                 return default(T);
             }
 
-            string jsonFilePath = Path.Combine(directoryPath, fileName );
+            string jsonFilePath = Path.Combine(directoryPath, fileName);
 
             if (File.Exists(jsonFilePath))
             {
-                string jsonData = File.ReadAllText(jsonFilePath);
-                return JsonUtility.FromJson<T>(jsonData);
+                try
+                {
+                    string jsonData = File.ReadAllText(jsonFilePath);
+                    Debug.Log($"Loaded JSON from file {fileName}: {jsonData}");
+                    return JsonUtility.FromJson<T>(jsonData);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"Error reading file {fileName}: {ex.Message}");
+                    return default(T);
+                }
             }
             else
             {
@@ -102,6 +111,6 @@ namespace AwARe
                 return default(T);
             }
         }
-        
+
     }
 }

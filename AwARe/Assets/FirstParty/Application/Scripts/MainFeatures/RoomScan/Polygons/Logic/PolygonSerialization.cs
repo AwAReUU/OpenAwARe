@@ -13,36 +13,47 @@ namespace AwARe
     public class PolygonSerialization
     {
         [System.Serializable]
-       
         public class Vector3Serialization
         {
-            public float x, y, z;
+            public float x;
+            public float y;
+            public float z;
 
-            public Vector3Serialization(UnityEngine.Vector3 vector)
+            public Vector3Serialization(Vector3 vector)
             {
                 x = vector.x;
                 y = vector.y;
                 z = vector.z;
             }
 
-            public UnityEngine.Vector3 ToVector3()
+            public Vector3 ToVector3()
             {
-                return new UnityEngine.Vector3(x, y, z);
+                return new Vector3(x, y, z);
             }
         }
 
         public List<Vector3Serialization> Points;
 
-        public PolygonSerialization(List<UnityEngine.Vector3> points)
+        public PolygonSerialization(List<Vector3Serialization> points)
+        {
+            Points = points ?? new List<Vector3Serialization>();
+        }
+
+        public PolygonSerialization(List<Vector3> points)
         {
             Points = points.Select(v => new Vector3Serialization(v)).ToList();
         }
 
         public Polygon ToPolygon()
         {
-            List<UnityEngine.Vector3> points = Points.Select(p => p.ToVector3()).ToList();
-            return new Polygon(points);
+            if (Points == null)
+            {
+                Debug.LogError("Points list is null when converting to Polygon.");
+                return null;
+            }
+
+            List<Vector3> convertedPoints = Points.Select(v => v.ToVector3()).ToList();
+            return new Polygon(convertedPoints);
         }
     }
-
 }

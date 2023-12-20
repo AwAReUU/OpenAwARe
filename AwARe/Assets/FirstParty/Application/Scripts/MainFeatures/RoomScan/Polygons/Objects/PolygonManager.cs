@@ -21,6 +21,7 @@ using UnityEngine.UI;
 using AwARe.IngredientList.Logic;
 using System.IO;
 using System.Linq;
+using System;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
@@ -29,7 +30,7 @@ namespace AwARe.RoomScan.Polygons.Objects
     /// </summary>
     public class PolygonManager : MonoBehaviour
     {
-        [SerializeField] private ARAnchorManager anchorManager;
+        
         [SerializeField] private PolygonDrawer polygonDrawer;
         [SerializeField] private PolygonMesh polygonMesh;
         [SerializeField] private PolygonScan scanner;
@@ -66,6 +67,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         void Start()
         {
             CurrentPolygon = new Polygon();
+            polydrawer = GetComponent<PolygonDrawer>();
 
             Room = new Room();
           
@@ -204,26 +206,43 @@ namespace AwARe.RoomScan.Polygons.Objects
             {
                 // Load the polygon JSON using the save load manager
                 PolygonSerialization loadedPolygonSerialization = saveLoadManager.LoadDataFromJson<PolygonSerialization>($"PolygonSlot{slotIndex}");
-                Debug.Log($"Loaded JSON: {JsonUtility.ToJson(loadedPolygonSerialization.Points)}");
+                Debug.Log($"Loaded JSON: {JsonUtility.ToJson(loadedPolygonSerialization)}");
 
                 if (loadedPolygonSerialization != null)
                 {
                     // Convert PolygonSerialization to Polygon
                     Polygon loadedPolygon = loadedPolygonSerialization.ToPolygon();
 
-                    if (loadedPolygon != null && loadedPolygon.AmountOfPoints() > 0)
+                    if (loadedPolygon != null)
                     {
-                        // Draw the loaded polygon
-                        polydrawer.DrawPolygon(loadedPolygon);
+                        Debug.Log($"Loaded Polygon Points Count: {loadedPolygon.AmountOfPoints()}");
+
+                        if (loadedPolygon.AmountOfPoints() > 0)
+                        {
+                            if (polygonDrawer != null)
+                            {
+                                // Draw the loaded polygon
+                                polygonDrawer.DrawPolygon(loadedPolygon);
+                                Debug.Log("Polygon drawn successfully.");
+                            }
+                            else
+                            {
+                                Debug.LogError("PolygonDrawer (polydrawer) is null.");
+                            }
+                        }
+                        else
+                        {
+                            Debug.LogError("Loaded polygon has no points.");
+                        }
                     }
                     else
                     {
-                        Debug.LogError("Loaded polygon is invalid.");
+                        Debug.LogError("Loaded polygon is null after conversion.");
                     }
                 }
                 else
                 {
-                    Debug.LogError($"Loaded polygon JSON is null or empty.");
+                    Debug.LogError("Loaded polygon serialization is null.");
                 }
             }
             else
