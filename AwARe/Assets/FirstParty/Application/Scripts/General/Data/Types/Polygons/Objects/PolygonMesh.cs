@@ -48,9 +48,6 @@ namespace AwARe.Data.Objects
             // Check if the mesh renderer is assigned
             if (renderer != null)
             {
-                // Apply any additional logic or modifications here if needed
-
-                // Trigger a material update to apply changes
                 renderer.material = new Material(renderer.material);
             }
             else

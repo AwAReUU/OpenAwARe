@@ -61,14 +61,10 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         /// <value>The polygon currently being drawn.</value>
         public Polygon CurrentPolygon { get; private set; }
-        private PolygonDrawer polydrawer;
-
         
         void Start()
         {
             CurrentPolygon = new Polygon();
-            polydrawer = GetComponent<PolygonDrawer>();
-
             Room = new Room();
           
 
@@ -106,6 +102,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             if (scanning)
                 polygonDrawer.ScanningPolygon = CurrentPolygon;
+            
         }
 
         /// <summary>
@@ -150,9 +147,6 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             polygonDrawer.DrawPolygon(CurrentPolygon, !Room.PositivePolygon.IsEmptyPolygon());
             Room.AddPolygon(CurrentPolygon);
-
-
-
             GenerateAndDrawPath();
         }
 
@@ -211,18 +205,24 @@ namespace AwARe.RoomScan.Polygons.Objects
                 if (loadedPolygonSerialization != null)
                 {
                     // Convert PolygonSerialization to Polygon
-                    Polygon loadedPolygon = loadedPolygonSerialization.ToPolygon();
+                     CurrentPolygon = loadedPolygonSerialization.ToPolygon();
 
-                    if (loadedPolygon != null)
+                    if (CurrentPolygon != null)
                     {
-                        Debug.Log($"Loaded Polygon Points Count: {loadedPolygon.AmountOfPoints()}");
+                        Debug.Log($"Loaded Polygon Points Count: {CurrentPolygon.AmountOfPoints()}");
 
-                        if (loadedPolygon.AmountOfPoints() > 0)
+                        if (CurrentPolygon.AmountOfPoints() > 0)
                         {
                             if (polygonDrawer != null)
                             {
                                 // Draw the loaded polygon
-                                polygonDrawer.DrawPolygon(loadedPolygon);
+                                //polygonMesh.SetPolygon(CurrentPolygon.GetPoints());
+                                //polygonDrawer.DrawPolygon(CurrentPolygon);
+                                //Room.AddPolygon(CurrentPolygon);
+                                OnApplyButtonClick();
+                                GenerateAndDrawPath();
+                                CurrentPolygon.
+
                                 Debug.Log("Polygon drawn successfully.");
                             }
                             else
