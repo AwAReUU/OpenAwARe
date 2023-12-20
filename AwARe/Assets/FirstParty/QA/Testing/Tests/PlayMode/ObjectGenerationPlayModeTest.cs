@@ -129,7 +129,7 @@ namespace AwARe
 
             Vector3 halfExtents = PipelineManager.GetHalfExtents(model);
             halfExtents *= scale;
-            Renderable renderable = new(model, halfExtents, 1, scale);
+            Renderable renderable = new(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Water);
             List<Renderable> renderables = new() { renderable };
             renderables = Renderable.SetSurfaceRatios(renderables);
             return renderables;
