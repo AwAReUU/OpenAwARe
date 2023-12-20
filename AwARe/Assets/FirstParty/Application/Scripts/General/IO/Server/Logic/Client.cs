@@ -39,9 +39,9 @@ namespace AwARe.Server.Logic
 
         private static Client instance;
 
-        public static void Init(string adress, User user)
+        public static void Init(string adress)
         {
-            Client.instance = new Client(adress, user);
+            Client.instance = new Client(adress);
         }
 
         public static Client GetInstance()
@@ -64,12 +64,9 @@ namespace AwARe.Server.Logic
         private string refreshToken;
 
 
-        private Client(string adress, User user)
+        private Client(string adress)
         {
-            this.user = user;
             this.adress = adress;
-
-            this.Login();
         }
 
         // Returns true if login succeeded

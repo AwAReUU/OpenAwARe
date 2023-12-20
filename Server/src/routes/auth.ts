@@ -91,7 +91,7 @@ router.post("/login", async (req: any, res: any) => {
       if (error) {
         console.error(error);
       }
-      if (row.Password) {
+      if (row) {
         if (await bcrypt.compare(password, row.Password)) {
           // Login successful
           const accessToken = generateAccessToken(email);
