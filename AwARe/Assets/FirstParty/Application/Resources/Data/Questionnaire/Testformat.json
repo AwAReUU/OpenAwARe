@@ -1,0 +1,149 @@
+{
+    "questionnaireTitle":"sample title",
+    "questionnaireDescription":"sample description",
+    "questions":
+    [
+        {
+            "questionTitle":"How you doing?",
+            "ifYes": false,
+            "answerOptions":
+            [
+                {
+                    "optionType":"Radio",
+                    "optionText":"Excellent"
+                },
+                {
+                    "optionType":"Radio",
+                    "optionText":"Splendid"
+                },
+                {
+                    "optionType":"Radio",
+                    "optionText":"Awful"
+                },
+                {
+                    "optionType":"Radio",
+                    "optionText":"Awful"
+                }
+            ]
+        },
+        {
+            "questionTitle":"Which of the following is true?",
+            "ifYes": false,
+            "answerOptions":
+            [
+                {
+                    "optionType":"Checkbox",
+                    "optionText":"1+1=2"
+                },
+                {
+                    "optionType":"Checkbox",
+                    "optionText":"2+2=4"
+                },
+                {
+                    "optionType":"Checkbox",
+                    "optionText":"2+4=3"
+                }
+            ]
+        },
+        {
+            "questionTitle":"Type something in the box",
+            "ifYes": false,
+            "answerOptions":
+            [
+                {
+                    "optionType":"Textbox",
+                    "optionText":"maybe some lorem ipsum?"
+                }
+            ]
+        },
+        {
+            "questionTitle":"How you doing?",
+            "ifYes": false,
+            "answerOptions":
+            [
+                {
+                    "optionType":"Radio",
+                    "optionText":"Excellent"
+                },
+                {
+                    "optionType":"Radio",
+                    "optionText":"Splendid"
+                },
+                {
+                    "optionType":"Radio",
+                    "optionText":"Meh"
+                },
+                {
+                    "optionType":"Radio",
+                    "optionText":"Awful"
+                }
+            ]
+        },
+        {
+            "questionTitle": "Are you human?",
+            "ifYes": true,
+            "ifYesTrigger": 0,
+            "answerOptions": 
+            [
+                {
+                    "optionType": "Radio",
+                    "optionText": "Yes"
+                },
+                {
+                    "optionType": "Radio",
+                    "optionText": "No"
+                }
+            ],
+            "ifYesQuestions":
+            [
+                {
+                    "questionTitle": "What kind of human?",
+                    "ifYes": false,
+                    "answerOptions": 
+                    [
+                        {
+                            "optionType": "Radio",
+                            "optionText": "Tasty one"
+                        },
+                        {
+                            "optionType": "Radio",
+                            "optionText": "Stinky one"
+                        },
+                        {
+                            "optionType": "Radio",
+                            "optionText": "Tall one"
+                        }
+                    ]
+                },
+                {
+                    "questionTitle": "What is your favorite color?",
+                    "ifYes": false,
+                    "answerOptions": [
+                        {
+                            "optionType": "Radio",
+                            "optionText": "Blue"
+                        },
+                        {
+                            "optionType": "Radio",
+                            "optionText": "Yellow"
+                        }
+                    ]
+                },
+                {
+                    "questionTitle": "Are you sure you are a human?",
+                    "ifYes": false,
+                    "answerOptions": [
+                        {
+                            "optionType": "Radio",
+                            "optionText": "Absolutely"
+                        },
+                        {
+                            "optionType": "Radio",
+                            "optionText": "No, i lied"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]  
+}
