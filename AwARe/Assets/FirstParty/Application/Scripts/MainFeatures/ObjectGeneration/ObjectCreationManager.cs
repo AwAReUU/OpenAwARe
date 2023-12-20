@@ -1,16 +1,18 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections.Generic;
-
-using AwARe.InterScenes.Objects;
-using AwARe.ResourcePipeline.Objects;
-using Rooms = AwARe.RoomScan.Polygons.Logic;
-using Ingredients = AwARe.IngredientList.Logic;
-
-using UnityEngine;
-using AwARe.RoomScan.Polygons.Logic;
-using System;
-using AwARe.ResourcePipeline.Logic;
 using System.Linq;
-using UnityEngine.InputSystem.EnhancedTouch;
+using AwARe.InterScenes.Objects;
+using AwARe.ResourcePipeline.Logic;
+using AwARe.ResourcePipeline.Objects;
+using UnityEngine;
+using Ingredients = AwARe.IngredientList.Logic;
+using Rooms = AwARe.RoomScan.Polygons.Logic;
 
 namespace AwARe.ObjectGeneration
 {
@@ -25,7 +27,7 @@ namespace AwARe.ObjectGeneration
         /// <value>
         /// used to clear the scene from previously generated objects.
         /// </value>
-        private ObjectDestroyer destroyer = new();
+        private ObjectDestroyer destroyer;
 
         /// <value>
         /// <c>IngredientList</c> that we are going to render.
@@ -94,6 +96,7 @@ namespace AwARe.ObjectGeneration
         public void PlaceRenderables(List<Renderable> renderables, Rooms.Room room, Mesh pathMesh) 
         {
             // clear the scene of any previously instantiated GameObjects 
+            destroyer = gameObject.GetComponent<ObjectDestroyer>();
             destroyer.DestroyAllObjects();
             new ObjectPlacer().PlaceRenderables(renderables, room, pathMesh);
         }
