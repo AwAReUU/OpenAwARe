@@ -85,8 +85,8 @@ All authentic software created can be found here: <br/>
 ### Third-party <a name="third"></a>
 > External packages and tools in this repository.
 
-* [Doxygen] (https://www.doxygen.nl/) Used for generating documentation from the doc-comments in the codebase.
-* [CodeCoverage] (https://docs.unity3d.com/Packages/com.unity.testtools.codecoverage@0.2/manual/index.html) Used for finding out which lines of code are covered/uncovered by our tests.
+* [Doxygen](https://www.doxygen.nl/) Used for generating documentation from the doc-comments in the codebase.
+* [CodeCoverage](https://docs.unity3d.com/Packages/com.unity.testtools.codecoverage@0.2/manual/index.html) Used for finding out which lines of code are covered/uncovered by our tests.
 
 Unity does not support organizing folders of Build-in packages or Third Party Software well. In principal, everything in the Unity Project that is stored outside First-Party is not owned by us.
 
@@ -96,21 +96,33 @@ Unity does not support organizing folders of Build-in packages or Third Party So
 ### Android (.apk) <a name="setupApk"></a>
 The latest android build can be downloaded here:
 [.apk download](/AwARe)
+
 ### IOS (.ipa) <a name="setupIpa"></a>
 The latest IOS build can be downloaded here:
 [.ipa download](/AwARe)
+
 ### Unity <a name="setupUnity"></a>
-For development, we use unity editor version 2022.3.13f1. This editor can be downloaded from [unity hub]("https://unity.com/download")
+For development, we use unity editor version 2022.3.13f1. We recommend you to use this version too. This editor can be downloaded from [unity hub]("https://unity.com/download")
+These steps can be used to add the project to Unity:
+
+1.  Clone the repository using your favorite git tool.
+2.  Open unity hub.
+3.  Press "Add" under the projects tab.
+4.  Select the AwARe folder inside the cloned repository.
+
 ### Server <a name="setupServer"></a>
 For developing and testing we run the server locally. We also have access to a remote server from the UU, which runs on Ubuntu. On the remote server we have installed the main branch of our Github repository. Connecting to the server and running commands is done via SSH. On Windows we use the PuTTY SSH client. On mac we use the built in ssh commands. To upload/download files to/from the server we use the SSH File Transfer Protocol (the “sftp” command) and FileZilla.
-
-## Authors <a name="auth"></a>
-> The Development-team (Us!)
 
 ## Acknowledgements <a name="ack"></a>
 > The disclaimers and references.
 
 ### Unity Framework <a name="ackUnity"></a>
+[Unity](https://unity.com/)
 ### Third-party Software <a name="ackThird"></a>
+[Doxygen](https://www.doxygen.nl/)
+[CodeCoverage](https://docs.unity3d.com/Packages/com.unity.testtools.codecoverage@0.2/manual/index.html)
+### Resources <a name="ackRes"></a>
+[Crop models](https://craftpix.net/freebies/free-farming-crops-3d-low-poly-models/?utm_campaign=Website&utm_source=Sketchfab.com&utm_medium=public)
+[animal models](https://assetstore.unity.com/packages/3d/farm-animals-set-97945)
 ### Cooperations <a name="ackCoop"></a>
 ### Inspirations <a name="ackInsp"></a>
