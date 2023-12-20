@@ -5,6 +5,9 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System.Collections;
+using System.Collections.Generic;
+
 using AwARe.Data.Logic;
 using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
@@ -23,11 +26,17 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private PolygonDrawer polygonDrawer;
         [SerializeField] private PolygonMesh polygonMesh;
         [SerializeField] private PolygonScan scanner;
-        [SerializeField] private VisualizePath pathVisualizer;
+        [SerializeField] private PathVisualizer pathVisualizerVisualizer;
 
         [SerializeField] private PolygonUI ui;
         [SerializeField] private GameObject canvas;
         [SerializeField] private Transform sceneCanvas;
+
+
+
+        [SerializeField] private GameObject pathBtn;
+        [SerializeField] private GameObject LoadingPopup;
+
 
         private bool scanning = false;
 
@@ -105,12 +114,56 @@ namespace AwARe.RoomScan.Polygons.Objects
             //GenerateAndDrawPath();
         }
 
+        public void OnPathButtonClick()
+        {
+            //activate the popup
+            LoadingPopup.SetActive(true);
+            StartCoroutine(MakePathAndRemovePopup());
+
+        }
+
+        public IEnumerator MakePathAndRemovePopup()
+        {
+            yield return null;
+            GenerateAndDrawPath();
+            LoadingPopup.SetActive(false);
+        }
+
         public void GenerateAndDrawPath()
         {
-            StartState startstate = new();
-            PathData path = startstate.GetStartState(Room.PositivePolygon, Room.NegativePolygons);
+            PathGenerator startstate = new();
 
-            VisualizePath visualizer = (VisualizePath)pathVisualizer.GetComponent("VisualizePath");
+            bool useTestPol = false;
+            
+            List<Vector3> points = new()
+            {
+                //new Vector3(0.3290718f, 0, -1.92463f),
+                //new Vector3(-0.5819738f, 0, -2.569284f),
+                //new Vector3(3.357841f, 0, -3.58952f),
+                //new Vector3(3.824386f, 0, -2.0016f),
+
+                new Vector3(-3.330043f, 0, -3.042626f),
+                new Vector3(-2.702615f, 0, -5.299197f),
+                new Vector3(-1.407629f, 0, -4.649026f),
+                new Vector3(-0.4994112f, 0, -2.780823f),
+                new Vector3(-2.009388f, 0, -0.5163946f),
+
+            };
+
+            Polygon testPolygon = new Polygon(points);
+
+            PathData path;
+            if (useTestPol)
+            {
+                path = startstate.GeneratePath(testPolygon, Room.NegativePolygons);
+                polygonDrawer.DrawPolygon(testPolygon);
+            }
+            else
+            { 
+                path = startstate.GeneratePath(Room.PositivePolygon, Room.NegativePolygons);
+            }
+
+            PathVisualizer visualizer = (PathVisualizer)pathVisualizerVisualizer.GetComponent("PathVisualizer");
             visualizer.SetPath(path);
             visualizer.Visualize();
         }
@@ -153,7 +206,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <summary>
         /// Sets activity of components.
         /// </summary>
-        /// <param name="toState">Current/new state.</param>
+        /// <param name="state">Current/new state.</param>
         public void SetActive(State state)
         {
             // Set UI activity

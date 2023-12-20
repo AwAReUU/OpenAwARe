@@ -18,6 +18,8 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private GameObject saveButton;
         [SerializeField] private GameObject heightSlider;
         [SerializeField] private GameObject pointer;
+        [SerializeField] private GameObject pathButton;
+        [SerializeField] private GameObject loadingpopup;
 
         /// <summary>
         /// Sets activity of UI elements based on the state.
@@ -27,12 +29,13 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             bool reset = false, create = false, apply = false,
                 confirm = false, save = false, height = false,
-                point = false;
+                point = false, pathbutton = false, Loadingpopup = false;
             switch (state)
             {
                 case State.Saving:
                     create = true;
                     save = true;
+                    pathbutton = true;
                     break;
                 case State.Scanning:
                     apply = true;
@@ -56,6 +59,8 @@ namespace AwARe.RoomScan.Polygons.Objects
             saveButton.SetActive(save);
             heightSlider.SetActive(height);
             pointer.SetActive(point);
+            pathButton.SetActive(pathbutton);
+            loadingpopup.SetActive(Loadingpopup);
         }
     }
 }
