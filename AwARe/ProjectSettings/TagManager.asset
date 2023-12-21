@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - RootObject
+  - CheckBox
+  - RadioButton
+  - InputField
   layers:
   - Default
   - TransparentFX

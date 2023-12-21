@@ -365,7 +365,9 @@ MonoBehaviour:
   title: {fileID: 5853991216095457541}
   description: {fileID: 2541878400524349396}
   questionsWindow: {fileID: 8577254308268554386}
-  questionPrefab: {fileID: 5911877008007044621, guid: 993cb102f3a3e484da507f5518417149,
+  submitButton: {fileID: 4385064017757354918, guid: 4fc43b1731833194a92b3f3065bc2465,
+    type: 3}
+  questionPrefab: {fileID: 1988455846689967398, guid: 7bf627c6b770f54478ed2f735f235e0a,
     type: 3}
 --- !u!1 &5164952710310554433
 GameObject:

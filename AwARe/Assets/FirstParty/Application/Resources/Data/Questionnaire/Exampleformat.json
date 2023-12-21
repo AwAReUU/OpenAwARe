@@ -1,0 +1,66 @@
+{
+    "questionnaireTitle": "sample title",
+    "questionnaireDescription": "sample description",
+    "questions": [
+        {
+            "questionTitle": "Which of the following is true?",
+            "answerOptions": [
+                {
+                    "optionType": "Checkbox",
+                    "optionText": "1+1=2"
+                },
+                {
+                    "optionType": "Checkbox",
+                    "optionText": "2+2=4"
+                },
+                {
+                    "optionType": "Checkbox",
+                    "optionText": "2+4=3"
+                }
+            ]
+        },
+        {
+            "questionTitle": "What is your favorite piece of music?",
+            "answerOptions": [
+                {
+                    "optionType": "Textbox",
+                    "optionText": "Type your answer here"
+                }
+            ]
+        },
+        {
+            "questionTitle": "Have you eaten today?",
+            "ifYes": true,
+            "ifYesTrigger": 0,
+            "answerOptions": [
+                {
+                    "optionType": "Radio",
+                    "optionText": "Yes"
+                },
+                {
+                    "optionType": "Radio",
+                    "optionText": "No"
+                }
+            ],
+            "ifYesQuestions":[
+                {
+                    "questionTitle": "What did you eat?",
+                    "answerOptions": [
+                        {
+                            "optionType": "Radio",
+                            "optionText": "Bananas"
+                        },
+                        {
+                            "optionType": "Radio",
+                            "optionText": "Spaghetti"
+                        },
+                        {
+                            "optionType": "Radio",
+                            "optionText": "Beans"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

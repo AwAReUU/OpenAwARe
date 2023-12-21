@@ -111,7 +111,7 @@ PrefabInstance:
     - target: {fileID: 2820788121417397783, guid: 7fc49183a4b5f6a4f8245d1a69c69c77,
         type: 3}
       propertyPath: m_Name
-      value: Button_Text
+      value: SubmitButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
