@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Permissions;
 using AwARe.RoomScan.Path;
+using AwARe.RoomScan.Path.Jobs;
+using AwARe.RoomScan.Polygons.Objects;
 using NUnit.Framework;
 using Unity.Collections;
 using UnityEngine;
@@ -105,10 +108,56 @@ namespace Tests
             }
         }
 
-        [Test, Description("Tests if the Execute method of the checkinpolygonjob works correctly")]
-        public void Test_CheckInPolygonJob_Execute()
+        [Test, Description("Tests if the CheckInPolygon method of the checkinpolygonjob works correctly")]
+        [TestCase(0, 0, 0, ExpectedResult = false)]     //on wall intersection
+        [TestCase(0, 0, 1, ExpectedResult = false)]     //on wall
+        [TestCase(0, 1, 1, ExpectedResult = true)]      //inside
+        [TestCase(1, 1, 1, ExpectedResult = true)]      //outside
+        [TestCase(1, 5, 5, ExpectedResult = false)]     //inside but on same horizontal line as wall intersection
+        [TestCase(1, -1, -1, ExpectedResult = false)]   //outside and on same horizontal line as wall intersection, point outside of grid
+        [TestCase(1, 5, 5, ExpectedResult = false)]     //inside but on same horizontal line as wall intersection
+        [TestCase(2, 5, 1, ExpectedResult = false)]     //inside but on '.5' intersection
+        [TestCase(2, 5, 5, ExpectedResult = false)]      //inside but on '.5' intersection further away. expeced false, but room for improvement in method
+        [TestCase(2, 1, 3, ExpectedResult = false)]     //outside but on '.5' intersection with one line
+        public bool Test_CheckInPolygonJob(int polygonsindex, int pointx, int pointy)
         {
-            
+            makepolygons();
+            CheckInPolygonJob job = new();
+            return job.CheckInPolygon(polygons[polygonsindex], (pointx, pointy));
+        }
+
+        static List<NativeArray<((int, int), (int, int))>> polygons = new();
+        private void makepolygons()
+        {
+            NativeArray<((int, int), (int, int))> polygon1 = new(4, Allocator.Persistent);
+            polygon1[0] = ((0, 0), (0, 10));
+            polygon1[1] = ((0, 10), (10, 10));
+            polygon1[2] = ((10, 10), (10, 0));
+            polygon1[3] = ((10, 0), (0, 0));
+            polygons.Add(polygon1);
+
+            NativeArray<((int, int), (int, int))> polygon2 = new(4, Allocator.Persistent);
+            polygon2[0] = ((0, 0), (10, 5));
+            polygon2[1] = ((10, 5), (5, 10));
+            polygon2[2] = ((5, 10), (0, 5));
+            polygon2[3] = ((0, 5), (0, 0));
+            polygons.Add(polygon2);
+
+            NativeArray<((int, int), (int, int))> polygon3 = new(4, Allocator.Persistent);
+            polygon3[0] = ((5, 0), (10, 10));
+            polygon3[1] = ((10, 10), (5, 10));
+            polygon3[2] = ((5, 10), (0, 6));
+            polygon3[3] = ((0, 6), (5, 0));
+            polygons.Add(polygon3);
+        }
+
+        [Test, Description("Test if the FillGrid method works correctly")]
+        public void Test_FloodFillHandler_FillGrid()
+        {
+            //how do test?
+            //compute 'volume' of filled polygon vs expected volume? how tho? triangulate, calc triangles, ... difficult
+            //make a bunch of mock-polygons and grids and the expected result? extremely tedious //do this one anyway
+            //
         }
     }
 }

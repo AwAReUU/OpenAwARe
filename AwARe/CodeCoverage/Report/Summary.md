@@ -1,25 +1,25 @@
 ﻿# Summary
 |||
 |:---|:---|
-| Generated on: | 12/20/2023 - 5:12:32 PM |
+| Generated on: | 12/21/2023 - 2:51:22 PM |
 | Parser: | MultiReportParser (5x OpenCoverParser) |
 | Assemblies: | 1 |
-| Classes: | 104 |
-| Files: | 159 |
-| Covered lines: | 109 |
-| Uncovered lines: | 5590 |
-| Coverable lines: | 5699 |
-| Total lines: | 8411 |
-| Line coverage: | 1.9% (109 of 5699) |
+| Classes: | 109 |
+| Files: | 160 |
+| Covered lines: | 221 |
+| Uncovered lines: | 5526 |
+| Coverable lines: | 5747 |
+| Total lines: | 8739 |
+| Line coverage: | 3.8% (221 of 5747) |
 | Covered branches: | 0 |
 | Total branches: | 0 |
-| Covered methods: | 30 |
-| Total methods: | 1034 |
-| Method coverage: | 2.9% (30 of 1034) |
+| Covered methods: | 57 |
+| Total methods: | 1068 |
+| Method coverage: | 5.3% (57 of 1068) |
 
 |**Name**|**Covered**|**Uncovered**|**Coverable**|**Total**|**Line coverage**|**Covered**|**Total**|**Branch coverage**|**Covered**|**Total**|**Method coverage**|
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-|**Scripts**|**109**|**5590**|**5699**|**10444**|**1.9%**|**0**|**0**|****|**30**|**1034**|**2.9%**|
+|**Scripts**|**221**|**5526**|**5747**|**11433**|**3.8%**|**0**|**0**|****|**57**|**1068**|**5.3%**|
 |ARScenePhaseManager|0|82|82|79|0%|0|0||0|10|0%|
 |AwARe.Data.Logic.Polygon|0|46|46|94|0%|0|0||0|19|0%|
 |AwARe.Data.Objects.PolygonMesh|0|66|66|78|0%|0|0||0|10|0%|
@@ -27,9 +27,9 @@
 |AwARe.Database.Logic.MockupIngrToResDatabase|0|20|20|69|0%|0|0||0|4|0%|
 |AwARe.Database.Logic.MockupModelDatabase|0|26|26|45|0%|0|0||0|6|0%|
 |AwARe.Database.Logic.MockupResourceDatabase|0|26|26|55|0%|0|0||0|6|0%|
-|AwARe.IngredientList.Logic.Ingredient|30|31|61|174|49.1%|0|0||11|23|47.8%|
+|AwARe.IngredientList.Logic.Ingredient|59|2|61|174|96.7%|0|0||23|23|100%|
 |AwARe.IngredientList.Logic.IngredientFileHandler|0|130|130|130|0%|0|0||0|6|0%|
-|AwARe.IngredientList.Logic.IngredientList|32|40|72|174|44.4%|0|0||12|27|44.4%|
+|AwARe.IngredientList.Logic.IngredientList|64|8|72|174|88.8%|0|0||24|27|88.8%|
 |AwARe.IngredientList.Objects.IngredientListItem|0|12|12|64|0%|0|0||0|4|0%|
 |AwARe.IngredientList.Objects.IngredientListManager|0|174|174|262|0%|0|0||0|57|0%|
 |AwARe.IngredientList.Objects.IngredientListScreen|0|160|160|186|0%|0|0||0|31|0%|
@@ -70,23 +70,28 @@
 |AwARe.Objects.ContainerSpawner|0|44|44|68|0%|0|0||0|8|0%|
 |AwARe.Objects.PrefabSpawner|0|10|10|99|0%|0|0||0|4|0%|
 |AwARe.Objects.PrefabSpawnerTemplate|0|10|10|99|0%|0|0||0|10|0%|
-|AwARe.Questionnaire.Objects.Question|0|132|132|136|0%|0|0||0|24|0%|
-|AwARe.Questionnaire.Objects.Questionnaire|0|82|82|86|0%|0|0||0|10|0%|
-|AwARe.Questionnaire.Objects.QuestionnaireConstructor|0|45|45|88|0%|0|0||0|6|0%|
-|AwARe.Questionnaire.Objects.SubmitButton|0|3|3|15|0%|0|0||0|1|0%|
-|AwARe.Questionnaire.Objects.ToggleHandler|0|20|20|29|0%|0|0||0|6|0%|
-|AwARe.ResourcePipeline.Logic.Model|0|44|44|98|0%|0|0||0|24|0%|
+|AwARe.Questionnaire.Objects.AnswerOptionSpawner|0|18|18|170|0%|0|0||0|7|0%|
+|AwARe.Questionnaire.Objects.CheckBoxAnswerOption|0|11|11|170|0%|0|0||0|2|0%|
+|AwARe.Questionnaire.Objects.MockQuestionnaireConstructor|0|9|9|123|0%|0|0||0|2|0%|
+|AwARe.Questionnaire.Objects.Question|0|113|113|155|0%|0|0||0|31|0%|
+|AwARe.Questionnaire.Objects.Questionnaire|0|76|76|120|0%|0|0||0|13|0%|
+|AwARe.Questionnaire.Objects.QuestionnaireConstructor|0|44|44|123|0%|0|0||0|11|0%|
+|AwARe.Questionnaire.Objects.RadioAnswerOption|0|16|16|170|0%|0|0||0|2|0%|
+|AwARe.Questionnaire.Objects.SubmitButton|0|3|3|22|0%|0|0||0|1|0%|
+|AwARe.Questionnaire.Objects.TextAnswerOption|0|8|8|170|0%|0|0||0|2|0%|
+|AwARe.Questionnaire.Objects.ToggleHandler|0|31|31|60|0%|0|0||0|10|0%|
+|AwARe.ResourcePipeline.Logic.Model|0|44|44|126|0%|0|0||0|24|0%|
 |AwARe.ResourcePipeline.Logic.ModelCalculator|0|16|16|28|0%|0|0||0|2|0%|
-|AwARe.ResourcePipeline.Logic.ModelDictionary|0|14|14|98|0%|0|0||0|8|0%|
+|AwARe.ResourcePipeline.Logic.ModelDictionary|0|14|14|126|0%|0|0||0|8|0%|
 |AwARe.ResourcePipeline.Logic.Resource|0|32|32|114|0%|0|0||0|18|0%|
 |AwARe.ResourcePipeline.Logic.ResourceCalculator|0|64|64|77|0%|0|0||0|6|0%|
 |AwARe.ResourcePipeline.Logic.ResourceDictionary|0|14|14|114|0%|0|0||0|10|0%|
 |AwARe.ResourcePipeline.Objects.PipelineManager|0|113|113|133|0%|0|0||0|14|0%|
 |AwARe.RoomScan.Path.ErosionHandler|0|159|159|201|0%|0|0||0|11|0%|
 |AwARe.RoomScan.Path.FloodFillHandler|0|69|69|169|0%|0|0||0|3|0%|
-|AwARe.RoomScan.Path.GridConverter|0|26|26|64|0%|0|0||0|2|0%|
+|AwARe.RoomScan.Path.GridConverter|26|0|26|64|100%|0|0||2|2|100%|
 |AwARe.RoomScan.Path.Jobs.CheckHitOrMissJob|0|46|46|127|0%|0|0||0|2|0%|
-|AwARe.RoomScan.Path.Jobs.CheckInPolygonJob|0|31|31|99|0%|0|0||0|2|0%|
+|AwARe.RoomScan.Path.Jobs.CheckInPolygonJob|25|7|32|103|78.1%|0|0||1|2|50%|
 |AwARe.RoomScan.Path.Jobs.ErosionScanJob|0|17|17|76|0%|0|0||0|3|0%|
 |AwARe.RoomScan.Path.LineDrawer|45|0|45|85|100%|0|0||1|1|100%|
 |AwARe.RoomScan.Path.PathData|0|145|145|175|0%|0|0||0|10|0%|

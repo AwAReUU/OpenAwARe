@@ -50,7 +50,7 @@ namespace AwARe.RoomScan.Path.Jobs
         /// <param name="polygonWalls">List of lines that make up the polygon.</param>
         /// <param name="point">point to check if it is inside the polygon.</param>
         /// <returns>true if the point lies inside the polygon, false otherwise.</returns>
-        private readonly bool CheckInPolygon(
+        public readonly bool CheckInPolygon(
             NativeArray<((int x, int y) p1, (int x, int y) p2)> polygonWalls, 
             (int x, int y) point)
         {
@@ -77,8 +77,12 @@ namespace AwARe.RoomScan.Path.Jobs
                     else intersectx = (int)preintersectx;
                 }
 
+                //if the intersection point is the point, we have a point that lies exactly on the polygon edge. this should've been prevented already.
+                if (intersectx == point.x) return false;
+                
                 //check that the intersection point lies on the ray we shot, continue if it doesn't
-                if (intersectx <= point.x) continue;
+                if (intersectx < point.x) continue;
+
 
                 //check that the intersection point lies on the wall, continue if it doesn't
                 if (intersectx < Math.Min(polygonWalls[i].p1.x, polygonWalls[i].p2.x) ||
