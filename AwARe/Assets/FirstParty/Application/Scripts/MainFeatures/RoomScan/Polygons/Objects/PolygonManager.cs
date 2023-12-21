@@ -5,16 +5,15 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System.Collections;
 using System.Collections.Generic;
 
-using AwARe.InterScenes.Objects;
 using AwARe.Data.Logic;
 using AwARe.Data.Objects;
+using AwARe.InterScenes.Objects;
 using AwARe.RoomScan.Path;
 using AwARe.RoomScan.Polygons.Logic;
-
 using UnityEngine;
-
 using Storage = AwARe.InterScenes.Objects.Storage;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.UI;
@@ -35,34 +34,35 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private PolygonDrawer polygonDrawer;
         [SerializeField] private PolygonMesh polygonMesh;
         [SerializeField] private PolygonScan scanner;
-        [SerializeField] private VisualizePath pathVisualizer;
+        [SerializeField] private PathVisualizer pathVisualizerVisualizer;
 
-        [SerializeField] private GameObject createBtn;
-        [SerializeField] private GameObject saveBtns;
-        [SerializeField] private GameObject saveBtn;
-        [SerializeField] private GameObject loadBtn;
-        [SerializeField] private GameObject resetBtn;
-        [SerializeField] private GameObject applyBtn;
-        [SerializeField] private GameObject confirmBtn;
-        [SerializeField] private GameObject endBtn;
-        [SerializeField] private GameObject slider;
-        [SerializeField] private GameObject pointerObj;
+        [SerializeField] private PolygonUI ui;
+        [SerializeField] private GameObject canvas;
+        [SerializeField] private Transform sceneCanvas;
+
+
+
+        [SerializeField] private GameObject pathBtn;
+        [SerializeField] private GameObject LoadingPopup;
+
 
         private bool scanning = false;
-        [SerializeField] private GameObject loadBtns;
-// TODO TEMP        [SerializeField] private GameObject pathVisualiser;
-
-        /// <summary>
-        /// All UI components of the polygon scan.
-        /// </summary>
-        List<GameObject> UIObjects;
 
         /// <value>A Room represented by the polygons.</value>
         public Room Room { get; private set; }
 
         /// <value>The polygon currently being drawn.</value>
         public Polygon CurrentPolygon { get; private set; }
-        
+
+        private void Awake()
+        {
+            if (canvas != null)
+            {
+                ui.transform.SetParent(sceneCanvas, false);
+                Destroy(canvas);
+            }
+        }
+
         void Start()
         {
             CurrentPolygon = new Polygon();
@@ -73,33 +73,7 @@ namespace AwARe.RoomScan.Polygons.Objects
             //Room = new TestRoom();
             //polygonDrawer.DrawRoomPolygons(Room);
 
-            UIObjects = new()
-            {
-                createBtn,loadBtn, saveBtns, loadBtns, resetBtn, confirmBtn, slider, applyBtn, endBtn,
-                pointerObj, scanner.gameObject, polygonMesh.gameObject   // TODO TEMP   , pathVisualiser
-            };
-            if (SceneManager.GetActiveScene().name == "RoomLoad")
-            {
-                SwitchToState(State.Loading);
-            }
-            else SwitchToState(State.Default);
-
-            Button sav1Btn = saveBtns.transform.GetChild(0).GetComponent<Button>();
-            Button sav2Btn = saveBtns.transform.GetChild(1).GetComponent<Button>();
-            Button sav3Btn = saveBtns.transform.GetChild(2).GetComponent<Button>();
-
-            Button load1Btn = loadBtns.transform.GetChild(0).GetComponent<Button>();
-            Button load2Btn = loadBtns.transform.GetChild(1).GetComponent<Button>();
-            Button load3Btn = loadBtns.transform.GetChild(2).GetComponent<Button>();
-            
-
-            sav1Btn.onClick.AddListener(() => SavePolygon(1));
-            sav2Btn.onClick.AddListener(() => SavePolygon(2));
-            sav3Btn.onClick.AddListener(() => SavePolygon(3));
-
-            load1Btn.onClick.AddListener(() => LoadPolygon(1));
-            load2Btn.onClick.AddListener(() => LoadPolygon(2));
-            load3Btn.onClick.AddListener(() => LoadPolygon(3));
+            SwitchToState(State.Default);
         }
 
         void Update()
@@ -151,15 +125,59 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             polygonDrawer.DrawPolygon(CurrentPolygon, !Room.PositivePolygon.IsEmptyPolygon());
             Room.AddPolygon(CurrentPolygon);
+            //GenerateAndDrawPath();
+        }
+
+        public void OnPathButtonClick()
+        {
+            //activate the popup
+            LoadingPopup.SetActive(true);
+            StartCoroutine(MakePathAndRemovePopup());
+
+        }
+
+        public IEnumerator MakePathAndRemovePopup()
+        {
+            yield return null;
             GenerateAndDrawPath();
+            LoadingPopup.SetActive(false);
         }
 
         public void GenerateAndDrawPath()
         {
-            StartState startstate = new();
-            PathData path = startstate.GetStartState(Room.PositivePolygon, Room.NegativePolygons);
+            PathGenerator startstate = new();
 
-            VisualizePath visualizer = (VisualizePath)pathVisualizer.GetComponent("VisualizePath");
+            bool useTestPol = false;
+            
+            List<Vector3> points = new()
+            {
+                //new Vector3(0.3290718f, 0, -1.92463f),
+                //new Vector3(-0.5819738f, 0, -2.569284f),
+                //new Vector3(3.357841f, 0, -3.58952f),
+                //new Vector3(3.824386f, 0, -2.0016f),
+
+                new Vector3(-3.330043f, 0, -3.042626f),
+                new Vector3(-2.702615f, 0, -5.299197f),
+                new Vector3(-1.407629f, 0, -4.649026f),
+                new Vector3(-0.4994112f, 0, -2.780823f),
+                new Vector3(-2.009388f, 0, -0.5163946f),
+
+            };
+
+            Polygon testPolygon = new Polygon(points);
+
+            PathData path;
+            if (useTestPol)
+            {
+                path = startstate.GeneratePath(testPolygon, Room.NegativePolygons);
+                polygonDrawer.DrawPolygon(testPolygon);
+            }
+            else
+            { 
+                path = startstate.GeneratePath(Room.PositivePolygon, Room.NegativePolygons);
+            }
+
+            PathVisualizer visualizer = (PathVisualizer)pathVisualizerVisualizer.GetComponent("PathVisualizer");
             visualizer.SetPath(path);
             visualizer.Visualize();
         }
@@ -262,10 +280,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// Called on changing the slider; sets the height of the polygon mesh.
         /// </summary>
         /// <param name="height">Height the slider is currently at.</param>
-        public void OnHeightSliderChanged(float height)
-        {
-            this.polygonMesh.SetHeight(height);
-        }
+        public void OnHeightSliderChanged(float height) { this.polygonMesh.SetHeight(height); }
 
         public void OnEndButtonClick ()
         {
@@ -284,75 +299,49 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <param name="toState">Which state the UI should switch to.</param>
         private void SwitchToState(State toState)
         {
-            foreach (GameObject obj in UIObjects)
-            {
-                obj.SetActive(false);
-            }
-
-            foreach (GameObject obj in GetStateObjects(toState))
-            {
-                obj.SetActive(true);
-            }
+            // Set activity
+            SetActive(toState);
 
             // if the new state is scanning, set scanning to true, otherwise to false
             scanning = toState == State.Scanning;
-
             polygonDrawer.ScanningPolygon = null;
         }
 
     
 
         /// <summary>
-        /// Gets the UI objects that need to be present in this state.
+        /// Sets activity of components.
         /// </summary>
-        /// <param name="state">A state of the scanning process.</param>
-        /// <returns>A list of UI objects that need to be present in the given state.</returns>
-        List<GameObject> GetStateObjects(State state)
+        /// <param name="state">Current/new state.</param>
+        public void SetActive(State state)
         {
-            List<GameObject> objects = new();
+            // Set UI activity
+            ui.SetActive(state);
+
+            // Set direct component activity
+            bool scan = false, mesh = false;
             switch (state)
             {
-                case State.Default:
-                    objects.Add(createBtn);
-                    
-                    break;
                 case State.Scanning:
-                    objects.Add(applyBtn);
-                    objects.Add(resetBtn);
-                    objects.Add(scanner.gameObject);
-                    objects.Add(pointerObj);
-// TODO TEMP                    objects.Add(pathVisualiser);
-                break;
+                    scan = true;
+                    break;
                 case State.SettingHeight:
-                    objects.Add(confirmBtn);
-                    objects.Add(slider);
-                    objects.Add(polygonMesh.gameObject);
-// TODO TEMP                    objects.Add(pathVisualiser);
-                break;
-                case State.Saving:
-                    objects.Add(createBtn);
-                    objects.Add(endBtn);
-                    objects.Add(saveBtn);
+                    mesh = true;
                     break;
-                case State.Loading:
-                    objects.Add(loadBtn);
-                    objects.Add(endBtn);
-                    break;
-
             }
-            return objects;
+            scanner.gameObject.SetActive(scan);
+            polygonMesh.gameObject.SetActive(mesh);
         }
+    }
 
-        /// <summary>
-        /// The different states within the polygon scanning process.
-        /// </summary>
-        enum State
-        {
-            Default,
-            Scanning,
-            SettingHeight,
-            Saving,
-            Loading
-        }
+    /// <summary>
+    /// The different states within the polygon scanning process.
+    /// </summary>
+    public enum State
+    {
+        Default,
+        Scanning,
+        SettingHeight,
+        Saving
     }
 }

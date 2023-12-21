@@ -34,6 +34,7 @@ namespace AwARe.ObjectGeneration
         /// Call the parameterized method "GetGridPoints" to obtain spawnPoints.
         /// </summary>
         /// <param name="room">The room in which the objects will be spawned.</param>
+        /// <param name="path">The pathway through the room.</param>
         /// <returns>A list of spawnpoints on which the objects are allowed to be spawned.</returns>
         public List<Vector3> GetValidSpawnPoints(Room room, Mesh path) => GetGridPoints(room, path, gridSpacing);
 
