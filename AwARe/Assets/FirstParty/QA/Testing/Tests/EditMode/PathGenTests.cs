@@ -38,9 +38,7 @@ namespace Tests
         }
 
         [Test, Description("Tests if the DrawLine method of the LineDrawer class works correctly")]
-        //tests: vertical line, horizontal line, other diagonal line, no line (2 times same point), line out of grid bounds, line correct positions (how?)
-        //test carve mode results
-        public void Test_LineDrawer_DrawLine_Grid1(
+        public void Test_LineDrawer_DrawLine(
             [Values(-1, 0, 1, 5, 10)] int x1,
             [Values(-1, 0, 1, 5, 10)] int y1,
             [Values(-1, 0, 1, 5, 10)] int x2,
@@ -58,18 +56,6 @@ namespace Tests
             }
 
             LineDrawer.DrawLine(ref grid, ((x1, y1), (x2, y2)), gridtype);
-
-            //here check that shit went well.
-            //check no exception thrown
-            //check line correct: how?
-            //every line pixel should be adjacent to at most 2 others
-            //start en endpoint should be true
-            //no pixel outside of the 'line bounding box' should be of line value
-            //every line pixels minimum distance from line should be no more than 0.5. how compute distance? make second line 90 deg on first through pixel
-
-            //slope = 0: distance = ydiff
-            //divzero (slope inf): distance = xdiff
-            //otherwise: slope = 1 / -a, gooit door point, find intersection, distance = intersection en pixel diff met pythagoras
 
             bool divzero = false;
             double divider = x2 - x1;
@@ -117,6 +103,12 @@ namespace Tests
                     }
                 }
             }
+        }
+
+        [Test, Description("Tests if the Execute method of the checkinpolygonjob works correctly")]
+        public void Test_CheckInPolygonJob_Execute()
+        {
+            
         }
     }
 }
