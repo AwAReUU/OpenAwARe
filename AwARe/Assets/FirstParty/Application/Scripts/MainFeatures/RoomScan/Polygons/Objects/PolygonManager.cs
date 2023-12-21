@@ -22,6 +22,7 @@ using AwARe.IngredientList.Logic;
 using System.IO;
 using System.Linq;
 using System;
+using UnityEngine.SceneManagement;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
@@ -77,8 +78,11 @@ namespace AwARe.RoomScan.Polygons.Objects
                 createBtn,loadBtn, saveBtns, loadBtns, resetBtn, confirmBtn, slider, applyBtn, endBtn,
                 pointerObj, scanner.gameObject, polygonMesh.gameObject   // TODO TEMP   , pathVisualiser
             };
-
-            SwitchToState(State.Default);
+            if (SceneManager.GetActiveScene().name == "RoomLoad")
+            {
+                SwitchToState(State.Loading);
+            }
+            else SwitchToState(State.Default);
 
             Button sav1Btn = saveBtns.transform.GetChild(0).GetComponent<Button>();
             Button sav2Btn = saveBtns.transform.GetChild(1).GetComponent<Button>();
@@ -219,9 +223,12 @@ namespace AwARe.RoomScan.Polygons.Objects
                                 //polygonMesh.SetPolygon(CurrentPolygon.GetPoints());
                                 //polygonDrawer.DrawPolygon(CurrentPolygon);
                                 //Room.AddPolygon(CurrentPolygon);
-                                OnApplyButtonClick();
+                                polygonDrawer.ClearScanningLines();
+                                polygonMesh.SetPolygon(CurrentPolygon.GetPoints());
+                                polygonDrawer.DrawPolygon(CurrentPolygon, !Room.PositivePolygon.IsEmptyPolygon());
+                                Room.AddPolygon(CurrentPolygon);
                                 GenerateAndDrawPath();
-                                CurrentPolygon.
+
 
                                 Debug.Log("Polygon drawn successfully.");
                             }
@@ -293,6 +300,8 @@ namespace AwARe.RoomScan.Polygons.Objects
             polygonDrawer.ScanningPolygon = null;
         }
 
+    
+
         /// <summary>
         /// Gets the UI objects that need to be present in this state.
         /// </summary>
@@ -305,10 +314,9 @@ namespace AwARe.RoomScan.Polygons.Objects
             {
                 case State.Default:
                     objects.Add(createBtn);
-                    objects.Add(loadBtn);
+                    
                     break;
                 case State.Scanning:
-                    objects.Add(loadBtn);
                     objects.Add(applyBtn);
                     objects.Add(resetBtn);
                     objects.Add(scanner.gameObject);
@@ -326,6 +334,10 @@ namespace AwARe.RoomScan.Polygons.Objects
                     objects.Add(endBtn);
                     objects.Add(saveBtn);
                     break;
+                case State.Loading:
+                    objects.Add(loadBtn);
+                    objects.Add(endBtn);
+                    break;
 
             }
             return objects;
@@ -339,7 +351,8 @@ namespace AwARe.RoomScan.Polygons.Objects
             Default,
             Scanning,
             SettingHeight,
-            Saving
+            Saving,
+            Loading
         }
     }
 }
