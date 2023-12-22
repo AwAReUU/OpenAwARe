@@ -73,12 +73,12 @@ namespace AwARe.RoomScan.Polygons.Objects
             Button load1Btn = ui.transform.Find("LoadBtns").transform.GetChild(0).GetComponent<Button>();
             Button load2Btn = ui.transform.Find("LoadBtns").transform.GetChild(1).GetComponent<Button>();
             Button load3Btn = ui.transform.Find("LoadBtns").transform.GetChild(2).GetComponent<Button>();
-            save1Btn.onClick.AddListener(() => SaveRoom(1));
-            save2Btn.onClick.AddListener(() => SaveRoom(2));
-            save3Btn.onClick.AddListener(() => SaveRoom(3));
-            load1Btn.onClick.AddListener(() => LoadRoom(1));
-            load2Btn.onClick.AddListener(() => LoadRoom(2));
-            load3Btn.onClick.AddListener(() => LoadRoom(3));
+            save1Btn.onClick.AddListener(() => { SaveRoom(1); ContinueToGeneration(); });
+            save2Btn.onClick.AddListener(() => { SaveRoom(2); ContinueToGeneration(); });
+            save3Btn.onClick.AddListener(() => { SaveRoom(3); ContinueToGeneration(); });
+            load1Btn.onClick.AddListener(() => { LoadRoom(1); });
+            load2Btn.onClick.AddListener(() => { LoadRoom(2); });
+            load3Btn.onClick.AddListener(() => { LoadRoom(3); });
 
         }
 
@@ -144,6 +144,8 @@ namespace AwARe.RoomScan.Polygons.Objects
         }
 
 
+
+
         /// <summary>
         /// Called on apply button click; adds and draws the current polygon.
         /// </summary>
@@ -171,6 +173,12 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             SwitchToState(State.SavingOptions);
             
+        }
+
+        public void ContinueToGeneration()
+        {
+            Storage.Get().ActiveRoom = Room;
+            SceneSwitcher.Get().LoadScene("Home");
         }
         
 
