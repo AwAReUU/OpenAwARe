@@ -5,7 +5,9 @@ using System.Security.Permissions;
 using AwARe.RoomScan.Path;
 using AwARe.RoomScan.Path.Jobs;
 using AwARe.RoomScan.Polygons.Objects;
+using JetBrains.Annotations;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -260,6 +262,148 @@ namespace Tests
                 for (int y = 0; y < 9; y++)
                 {
                     Assert.IsTrue(output[x, y] == expectedoutput[x, y]);
+                }
+            }
+        }
+
+        [Test, Description("Tests if the ThinningHandler works correctly")]
+        public void Test_ThinningHandler()
+        {
+            bool[,] input = new bool[6, 11]
+            {
+                {true, true, true, true, true, false, true, true, true, true, true},
+                {true, true, true, true, true, true, true, true, true, true, true},
+                {true, true, true, true, true, true, true, true, true, true, true},
+                {true, true, true, true, true, true, true, true, true, true, true},
+                {true, true, true, true, true, true, true, true, true, true, true},
+                {true, true, true, true, true, true, true, true, true, true, true}
+            };
+
+            bool[,] expectedoutput = new bool[6, 11]
+            {
+                {true, false, false, false, false, false, false, false, false, false, true},
+                {true, true, true, true, true, true, true, true, true, true, true},
+                {false, true, true, true, true, true, true, true, true, true, false},
+                {false, true, true, true, true, true, true, true, true, true, false},
+                {true, true, true, true, true, true, true, true, true, true, false},
+                {true, false, false, false, false, false, false, false, false, true, true}
+            };
+
+            ThinningHandler handler = new();
+            bool outbool;
+            bool[,] output = handler.ThinnedGrid(input, out outbool);
+
+            for(int x = 0; x < 6; x++)
+            {
+                for(int y = 0; y < 11; y++)
+                {
+                    Assert.IsTrue(output[x, y] == expectedoutput[x, y]);
+                }
+            }
+            Assert.IsTrue(outbool == true);
+
+            //test to see that the outbool behaves correctly
+            input = new bool[2, 2] { { true, false }, { true, true } };
+            expectedoutput = new bool[2, 2] { { true, false }, { true, true } };
+            output = handler.ThinnedGrid(input, out outbool);
+
+            for (int x = 0; x < 2; x++)
+            {
+                for (int y = 0; y < 2; y++)
+                {
+                    Assert.IsTrue(output[x, y] == expectedoutput[x, y]);
+                }
+            }
+            Assert.IsTrue(outbool == false);
+        }
+
+        //todo: split this test into multiple
+        //      test to not merge into negative polygon
+        //      test to remove other points considered this round
+        //      potentially alter postfiltering to plus shape neighbourhood in stead of 8-neighbourhood, and see with some polygons and see if still works?
+        //          above is method improvement tho, not testing
+        [Test, Description("Tests that the PostFilteringHandler works correctly")]
+        public void Test_PostFiltering()
+        {
+            //ensure lines are only cut away from endpoints?
+            //ensure line length cut good
+            //ensure line length merge good
+            //ensure line merge direction good
+            //ensure single line is not erased (no junction line not erased)
+            //example test?
+            //point is rounded down
+
+            //test:
+            //lines that are too short are cut, but not if it is the only line
+            //lines that are too short to be cut are merged, but not if it would end up in a negative polygon
+
+            bool[,] reusableinput = new bool[5, 10]
+            {
+                {true, true, false, false, false, false, false, false, true, true},
+                {false, true, true, false, false, false, false, true, true, false},
+                {false, false, true, true, true, true, true, true, false, false},
+                {false, true, true, false, false, false, false, true, true, false},
+                {true, true, false, false, false, false, false, false, true, true}
+            };
+
+            bool[,] expectedoutputcut = new bool[5, 10]
+            {
+                {false, false, false, false, false, false, false, false, false, false},
+                {false, false, false, false, false, false, false, false, false, false},
+                {false, false, true, true, true, true, true, true, false, false},
+                {false, false, true, false, false, false, false, true, false, false},
+                {false, false, false, false, false, false, false, false, false, false}
+            };
+
+            bool[,] expectedoutputmerge = new bool[5, 10]
+            {
+                {false, false, false, false, false, false, false, false, false, false},
+                {false, false, false, false, false, false, false, false, false, false},
+                {true, true, true, true, true, true, true, true, true, true},
+                {false, false, true, false, false, false, false, true, false, false},
+                {false, false, false, false, false, false, false, false, false, false}
+            };
+
+            bool[,] input = new bool[5, 10];
+            for(int x = 0; x < 5; x++)
+            {
+                for(int y = 0; y < 10; y++)
+                {
+                    input[x, y] = reusableinput[x, y];
+                }
+            }
+
+            PostFilteringHandler handler = new();
+            //check cutting
+            handler.PostFiltering(ref input, 3, 0, new());
+            for(int x = 0; x < 5; x++)
+            {
+                for(int y = 0; y < 5; y++)
+                {
+                    Debug.Log(x + ", " + y);
+
+                    Assert.IsTrue(input[x, y] == expectedoutputcut[x, y]);
+                }
+            }
+
+            //reset input skeleton
+            for (int x = 0; x < 5; x++)
+            {
+                for (int y = 0; y < 10; y++)
+                {
+                    input[x, y] = reusableinput[x, y];
+                }
+            }
+
+            //check mergin
+            handler.PostFiltering(ref input, 0, 3, new());
+            for (int x = 0; x < 5; x++)
+            {
+                for (int y = 0; y < 5; y++)
+                {
+                    Debug.Log(x + ", " + y);
+
+                    Assert.IsTrue(input[x, y] == expectedoutputmerge[x, y]);
                 }
             }
         }
