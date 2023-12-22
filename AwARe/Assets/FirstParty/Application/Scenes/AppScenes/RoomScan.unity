@@ -1926,6 +1926,12 @@ PrefabInstance:
       objectReference: {fileID: 331566065}
     - target: {fileID: 1949281392663854949, guid: 6581b1f42e5344416845747b1d7549db,
         type: 3}
+      propertyPath: savedpopup
+      value: 
+      objectReference: {fileID: 7383386576276881280, guid: cdbb4e1eb5fe70940b427224ae0a17fb,
+        type: 3}
+    - target: {fileID: 1949281392663854949, guid: 6581b1f42e5344416845747b1d7549db,
+        type: 3}
       propertyPath: loadButtons
       value: 
       objectReference: {fileID: 1132010414}
@@ -1974,6 +1980,12 @@ PrefabInstance:
       propertyPath: pathBtn
       value: 
       objectReference: {fileID: 1135414745}
+    - target: {fileID: 9122867843713203604, guid: 6581b1f42e5344416845747b1d7549db,
+        type: 3}
+      propertyPath: SavedPopup
+      value: 
+      objectReference: {fileID: 7383386576276881280, guid: cdbb4e1eb5fe70940b427224ae0a17fb,
+        type: 3}
     - target: {fileID: 9122867843713203604, guid: 6581b1f42e5344416845747b1d7549db,
         type: 3}
       propertyPath: sceneCanvas

@@ -41,7 +41,9 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private Transform sceneCanvas;
         [SerializeField] private GameObject pathBtn;
         [SerializeField] private GameObject LoadingPopup;
-        
+        [SerializeField] private GameObject SavedPopup;
+
+
 
 
         private bool scanning = false;
@@ -57,17 +59,26 @@ namespace AwARe.RoomScan.Polygons.Objects
         
         private void Awake()
         {
-            
+
             if (canvas != null)
             {
                 ui.transform.SetParent(sceneCanvas, false);
                 Destroy(canvas);
             }
 
+            // Temporary quick fix for loading and saving UI
             Button save1Btn = ui.transform.Find("SaveBtns").transform.GetChild(0).GetComponent<Button>();
+            Button save2Btn = ui.transform.Find("SaveBtns").transform.GetChild(1).GetComponent<Button>();
+            Button save3Btn = ui.transform.Find("SaveBtns").transform.GetChild(2).GetComponent<Button>();
             Button load1Btn = ui.transform.Find("LoadBtns").transform.GetChild(0).GetComponent<Button>();
+            Button load2Btn = ui.transform.Find("LoadBtns").transform.GetChild(1).GetComponent<Button>();
+            Button load3Btn = ui.transform.Find("LoadBtns").transform.GetChild(2).GetComponent<Button>();
             save1Btn.onClick.AddListener(() => SavePolygon(1));
+            save2Btn.onClick.AddListener(() => SavePolygon(2));
+            save3Btn.onClick.AddListener(() => SavePolygon(3));
             load1Btn.onClick.AddListener(() => LoadPolygon(1));
+            load2Btn.onClick.AddListener(() => LoadPolygon(2));
+            load3Btn.onClick.AddListener(() => LoadPolygon(3));
 
         }
 
@@ -75,17 +86,20 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             CurrentPolygon = new Polygon();
             Room = new Room();
-          
+
 
             // Use the code below to use the test room
             //Room = new TestRoom();
             //polygonDrawer.DrawRoomPolygons(Room);
 
-            SwitchToState(State.Default);
 
-            
-
-
+            Debug.Log(SceneManager.GetActiveScene().name);
+            if (SceneManager.GetActiveScene().name == "RoomLoad")
+            {
+                Debug.Log("hey i am loading");
+                SwitchToState(State.Loading);
+            }
+            else SwitchToState(State.Default);
 
 
         }
@@ -117,7 +131,7 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         public void OnLoadButtonClick()
         {
-            //loadBtns.SetActive(true);
+            SwitchToState(State.LoadingOptions);
         }
 
         /// <summary>
@@ -152,9 +166,11 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         }
 
+        
         public void OnSaveButtonClick()
         {
             SwitchToState(State.SavingOptions);
+            
         }
         
 
@@ -217,6 +233,7 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             // Assuming you have a method to apply the color to the mesh
             polygonMesh.ApplyColorToMesh();
+            SavedPopup.SetActive(true);
 
         }
 
@@ -227,6 +244,7 @@ namespace AwARe.RoomScan.Polygons.Objects
             //Debug.Log($"Directory Path before save: {saveLoadManager.DirectoryPath}");
 
             // Save the current polygon directly using the save load manager
+
             PolygonSerialization polygonSerialization = new PolygonSerialization(CurrentPolygon.Points);
             Debug.Log(polygonSerialization.Points.Select(v => v.ToVector3()).ToList());
             SaveLoadManager.SaveDataToJson($"PolygonSlot{slotIndex}", polygonSerialization);
@@ -261,10 +279,7 @@ namespace AwARe.RoomScan.Polygons.Objects
                         {
                             if (polygonDrawer != null)
                             {
-                                // Draw the loaded polygon
-                                //polygonMesh.SetPolygon(CurrentPolygon.GetPoints());
-                                //polygonDrawer.DrawPolygon(CurrentPolygon);
-                                //Room.AddPolygon(CurrentPolygon);
+                                
                                 polygonDrawer.ClearScanningLines();
                                 polygonMesh.SetPolygon(CurrentPolygon.GetPoints());
                                 polygonDrawer.DrawPolygon(CurrentPolygon, !Room.PositivePolygon.IsEmptyPolygon());
@@ -276,7 +291,7 @@ namespace AwARe.RoomScan.Polygons.Objects
                             }
                             else
                             {
-                                Debug.LogError("PolygonDrawer (polydrawer) is null.");
+                                Debug.LogError("PolygonDrawer is null.");
                             }
                         }
                         else
