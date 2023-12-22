@@ -35,13 +35,9 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private PolygonMesh polygonMesh;
         [SerializeField] private PolygonScan scanner;
         [SerializeField] private PathVisualizer pathVisualizerVisualizer;
-
         [SerializeField] private PolygonUI ui;
         [SerializeField] private GameObject canvas;
         [SerializeField] private Transform sceneCanvas;
-
-
-
         [SerializeField] private GameObject pathBtn;
         [SerializeField] private GameObject LoadingPopup;
 
@@ -101,7 +97,7 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         public void OnLoadButtonClick()
         {
-            loadBtns.SetActive(true);
+            //loadBtns.SetActive(true);
         }
 
         /// <summary>
@@ -135,6 +131,12 @@ namespace AwARe.RoomScan.Polygons.Objects
             StartCoroutine(MakePathAndRemovePopup());
 
         }
+
+        public void OnSaveButtonClick()
+        {
+            SwitchToState(State.SavingOptions);
+        }
+        
 
         public IEnumerator MakePathAndRemovePopup()
         {
@@ -288,10 +290,6 @@ namespace AwARe.RoomScan.Polygons.Objects
             SceneSwitcher.Get().LoadScene("Home");
 
         }
-        public void OnSaveButtonClick()
-        {
-            saveBtns.SetActive(true);
-        }
 
         /// <summary>
         /// Sets all UIObjects to inactive, then activates all UIObjects of this state.
@@ -328,6 +326,8 @@ namespace AwARe.RoomScan.Polygons.Objects
                 case State.SettingHeight:
                     mesh = true;
                     break;
+                
+                    
             }
             scanner.gameObject.SetActive(scan);
             polygonMesh.gameObject.SetActive(mesh);
@@ -342,6 +342,9 @@ namespace AwARe.RoomScan.Polygons.Objects
         Default,
         Scanning,
         SettingHeight,
-        Saving
+        Saving,
+        SavingOptions,
+        Loading,
+        LoadingOptions
     }
 }
