@@ -131,7 +131,7 @@ PrefabInstance:
     - target: {fileID: 1035658593641630351, guid: 87a77da3e6c17d44597b4055754054c5,
         type: 3}
       propertyPath: m_text
-      value: This feature is not yet implemented
+      value: An error occurred
       objectReference: {fileID: 0}
     - target: {fileID: 3119158945908447161, guid: 87a77da3e6c17d44597b4055754054c5,
         type: 3}
@@ -166,7 +166,7 @@ PrefabInstance:
     - target: {fileID: 8600405755082731525, guid: 87a77da3e6c17d44597b4055754054c5,
         type: 3}
       propertyPath: m_Name
-      value: NotImplementedPopUp
+      value: ErrorPopup
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
