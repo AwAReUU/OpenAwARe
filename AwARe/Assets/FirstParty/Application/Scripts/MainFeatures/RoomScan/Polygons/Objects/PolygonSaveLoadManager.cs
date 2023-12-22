@@ -11,7 +11,7 @@ namespace AwARe
 {
     public class PolygonSaveLoadManager : MonoBehaviour
     {
-        private static PolygonSaveLoadManager instance;
+        //private static PolygonSaveLoadManager instance;
 
         private string directoryPath;
         public string DirectoryPath
@@ -59,6 +59,7 @@ namespace AwARe
         /// 
         public void SaveDataToJson<T>(string fileName, T data)
         {
+            Debug.Log("hey i am here");
             if (string.IsNullOrEmpty(directoryPath))
             {
                 Debug.LogError(" path is null or empty.");

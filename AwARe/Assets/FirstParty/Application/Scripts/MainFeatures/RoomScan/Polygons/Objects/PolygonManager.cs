@@ -35,11 +35,13 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private PolygonMesh polygonMesh;
         [SerializeField] private PolygonScan scanner;
         [SerializeField] private PathVisualizer pathVisualizerVisualizer;
+        [SerializeField] private PolygonSaveLoadManager SaveLoadManager;
         [SerializeField] private PolygonUI ui;
         [SerializeField] private GameObject canvas;
         [SerializeField] private Transform sceneCanvas;
         [SerializeField] private GameObject pathBtn;
         [SerializeField] private GameObject LoadingPopup;
+        
 
 
         private bool scanning = false;
@@ -50,13 +52,23 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <value>The polygon currently being drawn.</value>
         public Polygon CurrentPolygon { get; private set; }
 
+        
+
+        
         private void Awake()
         {
+            
             if (canvas != null)
             {
                 ui.transform.SetParent(sceneCanvas, false);
                 Destroy(canvas);
             }
+
+            Button save1Btn = ui.transform.Find("SaveBtns").transform.GetChild(0).GetComponent<Button>();
+            Button load1Btn = ui.transform.Find("LoadBtns").transform.GetChild(0).GetComponent<Button>();
+            save1Btn.onClick.AddListener(() => SavePolygon(1));
+            load1Btn.onClick.AddListener(() => LoadPolygon(1));
+
         }
 
         void Start()
@@ -70,13 +82,20 @@ namespace AwARe.RoomScan.Polygons.Objects
             //polygonDrawer.DrawRoomPolygons(Room);
 
             SwitchToState(State.Default);
+
+            
+
+
+
+
         }
 
         void Update()
         {
             if (scanning)
                 polygonDrawer.ScanningPolygon = CurrentPolygon;
-            
+           
+
         }
 
         /// <summary>
@@ -84,6 +103,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void StartScanning()
         {
+            Debug.Log(SaveLoadManager);
             CurrentPolygon = new();
             polygonDrawer.Reset();
             SwitchToState(State.Scanning);
@@ -202,12 +222,14 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         public void SavePolygon(int slotIndex)
         {
-            PolygonSaveLoadManager saveLoadManager = FindObjectOfType<PolygonSaveLoadManager>();
-            Debug.Log($"Directory Path before save: {saveLoadManager.DirectoryPath}");
+
+            Debug.Log(SaveLoadManager);
+            //Debug.Log($"Directory Path before save: {saveLoadManager.DirectoryPath}");
 
             // Save the current polygon directly using the save load manager
             PolygonSerialization polygonSerialization = new PolygonSerialization(CurrentPolygon.Points);
-            saveLoadManager.SaveDataToJson($"PolygonSlot{slotIndex}", polygonSerialization);
+            Debug.Log(polygonSerialization.Points.Select(v => v.ToVector3()).ToList());
+            SaveLoadManager.SaveDataToJson($"PolygonSlot{slotIndex}", polygonSerialization);
             Debug.Log($"Saved polygon in slot {slotIndex}");
         }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+using AwARe.RoomScan.Polygons.Logic;
 using AwARe.RoomScan.Polygons.Objects;
 
 using UnityEngine;
@@ -28,6 +29,10 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// Sets activity of UI elements based on the state.
         /// </summary>
         /// <param name="toState">Current/new state.</param>
+
+
+
+
         public void SetActive(State state)
         {
             bool reset = false, create = false, apply = false,
@@ -59,6 +64,8 @@ namespace AwARe.RoomScan.Polygons.Objects
                
 
             }
+
+
             saveButtons.SetActive(savebtns);
             resetButton.SetActive(reset);
             createButton.SetActive(create);
