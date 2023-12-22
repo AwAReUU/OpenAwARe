@@ -58,8 +58,10 @@ namespace AwARe.NotImplemented.Objects
         private void HandleLog(string logString, string stackTrace, LogType type)
         {
             if (type != LogType.Exception && type != LogType.Error) return;
-            //popUpPrefab.GetComponentInChildren<TextMeshPro>().text = "An error occurred: " + logString;
             ShowPopUp();
+#if DEBUG
+            activePopUp.GetComponentInChildren<TextMeshProUGUI>().text = logString;
+#endif
         }
     }
 }

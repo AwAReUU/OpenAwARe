@@ -21,7 +21,7 @@ namespace AwARe.NotImplemented.Objects
         [SerializeField] protected GameObject supportCanvas;
 
         // Active GameObjects
-        private GameObject activePopUp;
+        protected GameObject activePopUp;
         
         /// <summary>
         /// Show the popup.
