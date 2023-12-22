@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using AwARe.Data.Logic;
+using AwARe.RoomScan.Polygons.Logic;
 
 using UnityEngine;
 
@@ -54,6 +55,26 @@ namespace AwARe
 
             List<Vector3> convertedPoints = Points.Select(v => v.ToVector3()).ToList();
             return new Polygon(convertedPoints);
+        }
+    }
+
+    [System.Serializable]
+    public class RoomSerialization
+    {
+        public PolygonSerialization PositivePolygon;
+        public List<PolygonSerialization> NegativePolygons;
+
+        public RoomSerialization(PolygonSerialization positivePolygon, List<PolygonSerialization> negativePolygons)
+        {
+            PositivePolygon = positivePolygon;
+            NegativePolygons = negativePolygons;
+        }
+
+        public Room ToRoom()
+        {
+            Polygon positivePolygon = PositivePolygon.ToPolygon();
+            List<Polygon> negativePolygons = NegativePolygons.Select(polygonSerialization => polygonSerialization.ToPolygon()).ToList();
+            return new Room(positivePolygon, negativePolygons);
         }
     }
 }

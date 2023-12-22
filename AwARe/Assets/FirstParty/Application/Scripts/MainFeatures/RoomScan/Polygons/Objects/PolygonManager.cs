@@ -73,12 +73,12 @@ namespace AwARe.RoomScan.Polygons.Objects
             Button load1Btn = ui.transform.Find("LoadBtns").transform.GetChild(0).GetComponent<Button>();
             Button load2Btn = ui.transform.Find("LoadBtns").transform.GetChild(1).GetComponent<Button>();
             Button load3Btn = ui.transform.Find("LoadBtns").transform.GetChild(2).GetComponent<Button>();
-            save1Btn.onClick.AddListener(() => SavePolygon(1));
-            save2Btn.onClick.AddListener(() => SavePolygon(2));
-            save3Btn.onClick.AddListener(() => SavePolygon(3));
-            load1Btn.onClick.AddListener(() => LoadPolygon(1));
-            load2Btn.onClick.AddListener(() => LoadPolygon(2));
-            load3Btn.onClick.AddListener(() => LoadPolygon(3));
+            save1Btn.onClick.AddListener(() => SaveRoom(1));
+            save2Btn.onClick.AddListener(() => SaveRoom(2));
+            save3Btn.onClick.AddListener(() => SaveRoom(3));
+            load1Btn.onClick.AddListener(() => LoadRoom(1));
+            load2Btn.onClick.AddListener(() => LoadRoom(2));
+            load3Btn.onClick.AddListener(() => LoadRoom(3));
 
         }
 
@@ -237,57 +237,57 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         }
 
-        public void SavePolygon(int slotIndex)
+
+        // Update SaveRoom and LoadRoom methods
+        public void SaveRoom(int slotIndex)
         {
+            // Save the current room directly using the save load manager
 
-            Debug.Log(SaveLoadManager);
-            //Debug.Log($"Directory Path before save: {saveLoadManager.DirectoryPath}");
+            // Convert Room to RoomSerialization
+            RoomSerialization roomSerialization = new RoomSerialization(
+                new PolygonSerialization(Room.PositivePolygon.Points),
+                Room.NegativePolygons.Select(p => new PolygonSerialization(p.Points)).ToList()
+            );
 
-            // Save the current polygon directly using the save load manager
+            // Save RoomSerialization
+            SaveLoadManager.SaveDataToJson($"RoomSlot{slotIndex}", roomSerialization);
 
-            PolygonSerialization polygonSerialization = new PolygonSerialization(CurrentPolygon.Points);
-            Debug.Log(polygonSerialization.Points.Select(v => v.ToVector3()).ToList());
-            SaveLoadManager.SaveDataToJson($"PolygonSlot{slotIndex}", polygonSerialization);
-            Debug.Log($"Saved polygon in slot {slotIndex}");
+            Debug.Log($"Saved room in slot {slotIndex}");
         }
-
-        public void LoadPolygon(int slotIndex)
+        public void LoadRoom(int slotIndex)
         {
             PolygonSaveLoadManager saveLoadManager = FindObjectOfType<PolygonSaveLoadManager>();
             Debug.Log($"Directory Path before load: {saveLoadManager.DirectoryPath}");
 
             // Check if the file exists before attempting to load
-            string filePath = $"PolygonSlot{slotIndex}";
+            string filePath = $"RoomSlot{slotIndex}";
             string fullPath = System.IO.Path.Combine(saveLoadManager.DirectoryPath, filePath);
 
             if (File.Exists(fullPath))
             {
-                // Load the polygon JSON using the save load manager
-                PolygonSerialization loadedPolygonSerialization = saveLoadManager.LoadDataFromJson<PolygonSerialization>($"PolygonSlot{slotIndex}");
-                Debug.Log($"Loaded JSON: {JsonUtility.ToJson(loadedPolygonSerialization)}");
+                // Load RoomSerialization JSON using the save load manager
+                RoomSerialization loadedRoomSerialization = saveLoadManager.LoadDataFromJson<RoomSerialization>($"RoomSlot{slotIndex}");
+                Debug.Log($"Loaded JSON: {JsonUtility.ToJson(loadedRoomSerialization)}");
 
-                if (loadedPolygonSerialization != null)
+                if (loadedRoomSerialization != null)
                 {
-                    // Convert PolygonSerialization to Polygon
-                     CurrentPolygon = loadedPolygonSerialization.ToPolygon();
+                    // Convert RoomSerialization to Room
+                    Room = loadedRoomSerialization.ToRoom();
 
-                    if (CurrentPolygon != null)
+                    if (Room != null)
                     {
-                        Debug.Log($"Loaded Polygon Points Count: {CurrentPolygon.AmountOfPoints()}");
+                        Debug.Log($"Loaded Room with {Room.NegativePolygons.Count} negative polygons.");
 
-                        if (CurrentPolygon.AmountOfPoints() > 0)
+                        if (!Room.PositivePolygon.IsEmptyPolygon())
                         {
                             if (polygonDrawer != null)
                             {
-                                
-                                polygonDrawer.ClearScanningLines();
-                                polygonMesh.SetPolygon(CurrentPolygon.GetPoints());
-                                polygonDrawer.DrawPolygon(CurrentPolygon, !Room.PositivePolygon.IsEmptyPolygon());
-                                Room.AddPolygon(CurrentPolygon);
+                                //polygonDrawer.ClearScanningLines();
+                                polygonMesh.SetPolygon(Room.PositivePolygon.GetPoints());
+                                polygonDrawer.DrawRoomPolygons(Room);
                                 GenerateAndDrawPath();
 
-
-                                Debug.Log("Polygon drawn successfully.");
+                                Debug.Log("Room loaded successfully.");
                             }
                             else
                             {
@@ -296,24 +296,26 @@ namespace AwARe.RoomScan.Polygons.Objects
                         }
                         else
                         {
-                            Debug.LogError("Loaded polygon has no points.");
+                            Debug.LogError("Loaded room has an empty positive polygon.");
                         }
                     }
                     else
                     {
-                        Debug.LogError("Loaded polygon is null after conversion.");
+                        Debug.LogError("Loaded room is null after conversion.");
                     }
                 }
                 else
                 {
-                    Debug.LogError("Loaded polygon serialization is null.");
+                    Debug.LogError("Loaded room serialization is null.");
                 }
             }
             else
             {
-                Debug.LogError($"Polygon not found in slot {slotIndex}");
+                Debug.LogError($"Room not found in slot {slotIndex}");
             }
         }
+
+
 
         /// <summary>
         /// Called on changing the slider; sets the height of the polygon mesh.
