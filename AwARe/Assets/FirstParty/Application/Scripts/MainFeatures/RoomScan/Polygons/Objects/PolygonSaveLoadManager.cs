@@ -11,7 +11,6 @@ namespace AwARe
 {
     public class PolygonSaveLoadManager : MonoBehaviour
     {
-        //private static PolygonSaveLoadManager instance;
 
         private string directoryPath;
         public string DirectoryPath
@@ -32,23 +31,6 @@ namespace AwARe
                 Directory.CreateDirectory(directoryPath);
             }
 
-            Debug.Log($"PolygonSaveLoadManager - Directory Path: {directoryPath}");
-        }
-
-        public void PerformSaveTest()
-        {
-            string testFilePath = Path.Combine(directoryPath, "TestFile.json");
-            string testData = "{ \"test\": \"data\" }";
-
-            try
-            {
-                File.WriteAllText(testFilePath, testData);
-                Debug.Log("Test Write Success!");
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"Error writing test data: {ex.Message}");
-            }
         }
 
         /// <summary>
@@ -59,21 +41,16 @@ namespace AwARe
         /// 
         public void SaveDataToJson<T>(string fileName, T data)
         {
-            Debug.Log("hey i am here");
             if (string.IsNullOrEmpty(directoryPath))
             {
                 Debug.LogError(" path is null or empty.");
                 return;
             }
-
             string jsonFilePath = Path.Combine(directoryPath, fileName);
-
             try
             {
                 string jsonData = JsonUtility.ToJson(data);
-                Debug.Log("JSON data " + jsonData);
                 File.WriteAllText(jsonFilePath, jsonData);
-                Debug.Log("Write success!");
             }
             catch (Exception ex)
             {
@@ -81,6 +58,11 @@ namespace AwARe
             }
         }
 
+        /// <summary>
+        /// Loads data of type T from a JSON file with the specified fileName using the save load manager.
+        /// </summary>
+        /// <typeparam name="T">Type of data to load.</typeparam>
+        /// <param name="fileName">The name of the JSON file to load data from.</param>
         public T LoadDataFromJson<T>(string fileName)
         {
             Debug.Log($"PolygonSaveLoadManager - Directory Path: {directoryPath}");
@@ -97,7 +79,6 @@ namespace AwARe
                 try
                 {
                     string jsonData = File.ReadAllText(jsonFilePath);
-                    Debug.Log($"Loaded JSON from file {fileName}: {jsonData}");
                     return JsonUtility.FromJson<T>(jsonData);
                 }
                 catch (Exception ex)

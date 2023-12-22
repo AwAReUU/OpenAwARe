@@ -44,8 +44,6 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private GameObject SavedPopup;
 
 
-
-
         private bool scanning = false;
 
         /// <value>A Room represented by the polygons.</value>
@@ -54,9 +52,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <value>The polygon currently being drawn.</value>
         public Polygon CurrentPolygon { get; private set; }
 
-        
 
-        
         private void Awake()
         {
 
@@ -92,11 +88,9 @@ namespace AwARe.RoomScan.Polygons.Objects
             //Room = new TestRoom();
             //polygonDrawer.DrawRoomPolygons(Room);
 
-
             Debug.Log(SceneManager.GetActiveScene().name);
             if (SceneManager.GetActiveScene().name == "RoomLoad")
             {
-                Debug.Log("hey i am loading");
                 SwitchToState(State.Loading);
             }
             else SwitchToState(State.Default);
@@ -108,8 +102,6 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             if (scanning)
                 polygonDrawer.ScanningPolygon = CurrentPolygon;
-           
-
         }
 
         /// <summary>
@@ -128,10 +120,20 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void OnCreateButtonClick() =>
             StartScanning();
-
+        /// <summary>
+        /// Called on load button button click; changes state so user sees load slots.
+        /// </summary>
         public void OnLoadButtonClick()
         {
             SwitchToState(State.LoadingOptions);
+        }
+        /// <summary>
+        /// Called on save button click; changes state so user sees save slots.
+        /// </summary>
+        public void OnSaveButtonClick()
+        {
+            SwitchToState(State.SavingOptions);
+
         }
 
         /// <summary>
@@ -142,8 +144,6 @@ namespace AwARe.RoomScan.Polygons.Objects
             Room = new Room();
             StartScanning();
         }
-
-
 
 
         /// <summary>
@@ -168,12 +168,6 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         }
 
-        
-        public void OnSaveButtonClick()
-        {
-            SwitchToState(State.SavingOptions);
-            
-        }
 
         public void ContinueToGeneration()
         {
@@ -245,12 +239,13 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         }
 
-
-        // Update SaveRoom and LoadRoom methods
+        /// <summary>
+        /// Saves the current room's configuration to a specified save slot using the save load manager.
+        /// </summary>
+        /// <param name="slotIndex">The index of the save slot to store the room configuration.</param>
         public void SaveRoom(int slotIndex)
         {
             // Save the current room directly using the save load manager
-
             // Convert Room to RoomSerialization
             RoomSerialization roomSerialization = new RoomSerialization(
                 new PolygonSerialization(Room.PositivePolygon.Points),
@@ -259,13 +254,15 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             // Save RoomSerialization
             SaveLoadManager.SaveDataToJson($"RoomSlot{slotIndex}", roomSerialization);
-
-            Debug.Log($"Saved room in slot {slotIndex}");
         }
+
+        /// <summary>
+        /// Loads a previously saved room configuration from a specified save slot using the save load manager.
+        /// </summary>
+        /// <param name="slotIndex">The index of the save slot from which to load the room configuration.</param>
         public void LoadRoom(int slotIndex)
         {
             PolygonSaveLoadManager saveLoadManager = FindObjectOfType<PolygonSaveLoadManager>();
-            Debug.Log($"Directory Path before load: {saveLoadManager.DirectoryPath}");
 
             // Check if the file exists before attempting to load
             string filePath = $"RoomSlot{slotIndex}";
@@ -275,7 +272,6 @@ namespace AwARe.RoomScan.Polygons.Objects
             {
                 // Load RoomSerialization JSON using the save load manager
                 RoomSerialization loadedRoomSerialization = saveLoadManager.LoadDataFromJson<RoomSerialization>($"RoomSlot{slotIndex}");
-                Debug.Log($"Loaded JSON: {JsonUtility.ToJson(loadedRoomSerialization)}");
 
                 if (loadedRoomSerialization != null)
                 {
@@ -284,18 +280,14 @@ namespace AwARe.RoomScan.Polygons.Objects
 
                     if (Room != null)
                     {
-                        Debug.Log($"Loaded Room with {Room.NegativePolygons.Count} negative polygons.");
-
                         if (!Room.PositivePolygon.IsEmptyPolygon())
                         {
                             if (polygonDrawer != null)
                             {
-                                //polygonDrawer.ClearScanningLines();
                                 polygonMesh.SetPolygon(Room.PositivePolygon.GetPoints());
                                 polygonDrawer.DrawRoomPolygons(Room);
                                 GenerateAndDrawPath();
 
-                                Debug.Log("Room loaded successfully.");
                             }
                             else
                             {

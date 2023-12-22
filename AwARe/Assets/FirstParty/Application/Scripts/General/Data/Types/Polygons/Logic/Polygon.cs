@@ -17,7 +17,6 @@ namespace AwARe.Data.Logic
     /// A polygon representing (a part of) the floor.
     /// </summary>
     /// 
-    [System.Serializable]
     public class Polygon
 
     {
@@ -94,17 +93,6 @@ namespace AwARe.Data.Logic
         return Math.Abs(area / 2);
     }
 
-        public string ToJson()
-        {
-            PolygonSerialization serialization = new PolygonSerialization(Points);
-            return JsonUtility.ToJson(serialization);
-        }
-
-        public static Polygon FromJson(string json)
-        {
-            PolygonSerialization serialization = JsonUtility.FromJson<PolygonSerialization>(json);
-            return new Polygon(serialization.Points.Select(v => v.ToVector3()).ToList());
-        }
 
     }
 }
