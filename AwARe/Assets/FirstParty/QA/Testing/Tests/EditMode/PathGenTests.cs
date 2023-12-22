@@ -154,10 +154,114 @@ namespace Tests
         [Test, Description("Test if the FillGrid method works correctly")]
         public void Test_FloodFillHandler_FillGrid()
         {
-            //how do test?
-            //compute 'volume' of filled polygon vs expected volume? how tho? triangulate, calc triangles, ... difficult
-            //make a bunch of mock-polygons and grids and the expected result? extremely tedious //do this one anyway
-            //
+            PolygonLines positive = new();
+            positive.Add(((5, 0), (10, 10)));
+            positive.Add(((10, 10), (5, 10)));
+            positive.Add(((5, 10), (0, 6)));
+            positive.Add(((0, 6), (5, 0)));
+
+            PolygonLines negative = new();
+            negative.Add(((4, 4), (4, 5)));
+            negative.Add(((4, 5), (5, 5)));
+            negative.Add(((5, 5), (5, 4)));
+            negative.Add(((5, 4), (4, 4)));
+
+            bool[,] expectedresult = new bool[11, 11] 
+            { 
+                { false, false, false, false, false, true, false, false, false, false, false},
+                { false, false, false, false, true, true, false, false, false, false, false},
+                { false, false, false, true, true, true, true, false, false, false, false},
+                { false, false, true, true, true, true, true, false, false, false, false},
+                { false, false, true, true, false, false, true, true, false, false, false},
+                { false, true, true, true, false, true, true, true, false, false, false},
+                { true, true, true, true, true, true, true, true, true, false, false},
+                { false, true, true, true, true, true, true, true, true, false, false},
+                { false, false, true, true, true, true, true, true, true, true, false},
+                { false, false, false, false, true, true, true, true, true, true, false},
+                { false, false, false, false, false, true, true, true, true, true, false},
+            };
+
+            FloodFillHandler handler = new();
+            bool[,] grid = new bool[11, 11];
+            List<PolygonLines> negatives = new();
+            negatives.Add(negative);
+            handler.FillGrid(ref grid, positive, negatives);
+
+            for(int x = 0; x < grid.GetLength(0); x++)
+            {
+                for(int y = 0; y < grid.GetLength(1); y++)
+                {
+                    Assert.IsTrue(grid[x, y] == expectedresult[y, x]);
+                }
+            }
+        }
+
+        [Test, Description("Tests if the Erode method from the ErosionHandler works correctly")]
+        public void Test_ErosionHandler_Erode()
+        {
+            bool[,] input = new bool[5, 9]
+            {
+                {true, true, true, true, true, false, false, false, false},
+                {true, true, true, true, true, false, true, true, true},
+                {true, true, true, true, true, true, true, true, true},
+                {true, true, true, true, true, true, true, true, true},
+                {true, true, true, true, true, false, true, true, true},
+            };
+
+            bool[,] expectedoutput = new bool[5, 9]
+            {
+                {false, false, false, false, false, false, false, false, false},
+                {false, true, true, true, false, false, false, false, false},
+                {false, true, true, true, false, false, false, true, false},
+                {false, true, true, true, false, false, false, true, false},
+                {false, false, false, false, false, false, false, false, false}
+            };
+
+            ErosionHandler handler = new();
+
+            bool[,] output = handler.Erode(input, 3);
+
+            for(int x = 0; x < 5; x++)
+            {
+                for(int y = 0; y < 9; y++)
+                {
+                    Assert.IsTrue(output[x, y] == expectedoutput[x, y]);
+                }
+            }
+        }
+
+        [Test, Description("Tests if the KeepLargestShape method from the ErosionHandler works correctly")]
+        public void Test_ErosionHandler_KeepLargestShape()
+        {
+            bool[,] input = new bool[5, 9]
+            {
+                {false, false, false, false, false, false, false, false, false},
+                {false, true, true, true, false, false, false, false, false},
+                {false, true, true, true, false, false, false, true, false},
+                {false, true, true, true, false, false, false, true, false},
+                {false, false, false, false, false, false, false, false, false}
+            };
+
+            bool[,] expectedoutput = new bool[5, 9]
+            {
+                {false, false, false, false, false, false, false, false, false},
+                {false, true, true, true, false, false, false, false, false},
+                {false, true, true, true, false, false, false, false, false},
+                {false, true, true, true, false, false, false, false, false},
+                {false, false, false, false, false, false, false, false, false}
+            };
+
+            ErosionHandler handler = new();
+
+            bool[,] output = handler.KeepLargestShape(input);
+
+            for (int x = 0; x < 5; x++)
+            {
+                for (int y = 0; y < 9; y++)
+                {
+                    Assert.IsTrue(output[x, y] == expectedoutput[x, y]);
+                }
+            }
         }
     }
 }
