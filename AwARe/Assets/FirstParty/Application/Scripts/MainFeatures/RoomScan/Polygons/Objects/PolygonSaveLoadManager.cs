@@ -65,7 +65,6 @@ namespace AwARe
         /// <param name="fileName">The name of the JSON file to load data from.</param>
         public T LoadDataFromJson<T>(string fileName)
         {
-            Debug.Log($"PolygonSaveLoadManager - Directory Path: {directoryPath}");
             if (string.IsNullOrEmpty(directoryPath))
             {
                 Debug.LogError("path is null or empty.");

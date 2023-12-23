@@ -83,12 +83,9 @@ namespace AwARe.RoomScan.Polygons.Objects
             CurrentPolygon = new Polygon();
             Room = new Room();
 
-
             // Use the code below to use the test room
             //Room = new TestRoom();
             //polygonDrawer.DrawRoomPolygons(Room);
-
-            Debug.Log(SceneManager.GetActiveScene().name);
             if (SceneManager.GetActiveScene().name == "RoomLoad")
             {
                 SwitchToState(State.Loading);
@@ -168,7 +165,6 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         }
 
-
         public void ContinueToGeneration()
         {
             Storage.Get().ActiveRoom = Room;
@@ -245,7 +241,6 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <param name="slotIndex">The index of the save slot to store the room configuration.</param>
         public void SaveRoom(int slotIndex)
         {
-            // Save the current room directly using the save load manager
             // Convert Room to RoomSerialization
             RoomSerialization roomSerialization = new RoomSerialization(
                 new PolygonSerialization(Room.PositivePolygon.Points),
@@ -284,10 +279,8 @@ namespace AwARe.RoomScan.Polygons.Objects
                         {
                             if (polygonDrawer != null)
                             {
-                                polygonMesh.SetPolygon(Room.PositivePolygon.GetPoints());
                                 polygonDrawer.DrawRoomPolygons(Room);
                                 GenerateAndDrawPath();
-
                             }
                             else
                             {
