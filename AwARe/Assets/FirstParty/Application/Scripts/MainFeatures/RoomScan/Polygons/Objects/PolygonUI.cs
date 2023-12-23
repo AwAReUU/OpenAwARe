@@ -1,21 +1,25 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using AwARe.RoomScan.Polygons.Objects;
-using AwARe.UI.Objects;
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
 
+using AwARe.UI.Objects;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
     /// <summary>
-    /// UI used during P
+    /// UI in the polygon scan.
     /// </summary>
     public class PolygonUI : MonoBehaviour
     {
+        // The manager
         [SerializeField] private PolygonManager manager;
 
+        // The UI elements
         [SerializeField] private GameObject resetButton;
         [SerializeField] private GameObject createButton;
         [SerializeField] private GameObject applyButton;
@@ -67,6 +71,12 @@ namespace AwARe.RoomScan.Polygons.Objects
             pointer.gameObject.SetActive(point);
         }
 
+        /// <summary>
+        /// Gets the current position of the pointer.
+        /// </summary>
+        /// <value>
+        /// The current position of the pointer.
+        /// </value>
         public Vector3 PointedAt =>
             pointer.transform.position;
 

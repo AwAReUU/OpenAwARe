@@ -6,33 +6,58 @@
 // \*                                                                                       */
 
 using AYellowpaper;
-using UnityEngine;
-using UnityEngine.Scripting;
 
-namespace AwARe.Data.Objects
+using UnityEngine;
+
+namespace AwARe.Objects
 {
+    /// <summary>
+    /// Undertakes and manages dynamic lines. <br/>
+    /// Sets the line renderer to the line provided by the logic member.
+    /// </summary>
     public class Liner : MonoBehaviour
     {
+        /// <summary>
+        /// The line renderer to control.
+        /// </summary>
         public LineRenderer lineRenderer;
 
+        /// <summary>
+        /// The line constructor, providing the sequence of points to render the line by.
+        /// </summary>
         public InterfaceReference<ILiner> logic;
 
+        /// <summary>
+        /// Gets or sets the line constructor.
+        /// </summary>
+        /// <value>
+        /// The line constructor.
+        /// </value>
         public ILiner Logic
         {
             get => logic.Value;
             set => logic = new(value);
         }
 
+        // Tracking variables.
         private bool newLine = false;
 
-        public static void AddComponentTo(GameObject gameObject, LineRenderer lineRenderer, ILiner logic)
+        /// <summary>
+        /// Adds this component to a given GameObject and initializes the components members.
+        /// </summary>
+        /// <param name="gameObject">The GameObject this component is added to.</param>
+        /// <param name="lineRenderer">A line renderer.</param>
+        /// <param name="logic">A line constructor.</param>
+        /// <returns>The added component.</returns>
+        public static Liner AddComponentTo(GameObject gameObject, LineRenderer lineRenderer, ILiner logic)
         {
             var liner = gameObject.AddComponent<Liner>();
             liner.lineRenderer = lineRenderer;
             liner.Logic = logic;
+            return liner;
         }
 
-        public void Update()
+        private void Update()
         {
             if (newLine && logic != null)
                 CreateLine();
@@ -41,14 +66,14 @@ namespace AwARe.Data.Objects
         /// <summary>
         /// Update the line next Update-frame to represent the current data.
         /// </summary>
-        public void UpdateLine() { newLine = true; Debug.Log("UpdateLine()");}
+        public void UpdateLine() =>
+            newLine = true;
 
         /// <summary>
-        /// Create a new mesh for the GameObject.
+        /// Create and set a new line.
         /// </summary>
         private void CreateLine()
         {
-            Debug.Log("CreateLine()");
             Vector3[] line = Logic.Line;
             lineRenderer.positionCount = line.Length;
             lineRenderer.SetPositions(line);

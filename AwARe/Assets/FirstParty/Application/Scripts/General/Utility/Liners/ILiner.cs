@@ -10,14 +10,14 @@ using UnityEngine;
 namespace AwARe
 {
     /// <summary>
-    /// The mesh representing the Data; used to set the height.
+    /// An interface for line constructors.
     /// </summary>
     public interface ILiner
     {
         /// <summary>
-        /// Compute a line representing the GameObject.
+        /// Gets a line representing the GameObject.
         /// </summary>
-        /// <returns>A line representing the GameObject.</returns>
+        /// <value>A line representing the GameObject.</value>
         public Vector3[] Line { get; }
     }
 }

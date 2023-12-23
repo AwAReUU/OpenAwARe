@@ -8,48 +8,48 @@
 using System;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AwARe.Data.Objects
 {
+    /// <summary>
+    /// A mesh constructor class for the referred polygon.
+    /// </summary>
     [Serializable]
     public class PolygonMesherLogic : MonoBehaviour, IMesher
     {
+        /// <summary>
+        /// The polygon to represent.
+        /// </summary>
         [SerializeField] private Polygon polygon;
         private Logic.Polygon Data => polygon.Data;
 
-        public PolygonMesherLogic(Polygon polygon)
-        {
-            this.polygon = polygon;
-        }
-
         /// <inheritdoc/>
         public Mesh Mesh =>
-            ComputeMesh(Data);
+            ConstructMesh(Data);
 
         /// <summary>
-        /// Compute a mesh representing the given Polygon. <br/>
+        /// Constructs a mesh representing the given Polygon. <br/>
         /// If the Polygon is set to null, then return an empty mesh.
         /// </summary>
-        /// <param name="polygon">The Polygon to compute a mesh from.</param>
+        /// <param name="polygon">The Polygon to construct a mesh from.</param>
         /// <returns>A mesh representing the given Polygon.</returns>
-        private Mesh ComputeMesh(Logic.Polygon polygon = null) =>
+        private Mesh ConstructMesh(Logic.Polygon polygon = null) =>
             // Handle null input.
-            polygon == null ? new() : ComputeMesh_Body(polygon);
+            polygon == null ? new() : ConstructMesh_Body(polygon);
 
         /// <summary>
-        /// Compute a mesh representing the given Polygon.
+        /// Constructs a mesh representing the given Polygon.
         /// </summary>
-        /// <param name="polygon">The Polygon to compute a mesh from.</param>
+        /// <param name="polygon">The Polygon to construct a mesh from.</param>
         /// <returns>A mesh representing the given Polygon.</returns>
-        private Mesh ComputeMesh_Body(Logic.Polygon polygon)
+        private Mesh ConstructMesh_Body(Logic.Polygon polygon)
         {
             Debug.Log("ComputeMesh_Body");
             // Get the data.
             var points = polygon.Points;
             var height = polygon.Height;
 
-            // Compute the vertices.
+            // Construct the vertices.
             int n = points.Count;
             Vector3[] vertices = new Vector3[n * 2];
             for (int i = 0, j = 0; i < n; i++)
@@ -58,7 +58,7 @@ namespace AwARe.Data.Objects
                 vertices[j++] = points[i] + new Vector3(0f, height, 0f);
             }
 
-            // Compute the faces/triangles.
+            // Construct the faces/triangles.
             n = vertices.Length;
             int[] triangles = new int[n * 6];
             for (int i = 0, j = 0; i < n; i += 2)

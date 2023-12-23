@@ -6,28 +6,44 @@
 // \*                                                                                       */
 
 using AwARe.Data.Objects;
-using AwARe.RoomScan.Polygons.Logic;
-
-using AYellowpaper;
+using AwARe.Objects;
 
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
+    /// <summary>
+    /// Manages the process and provides the functionality for drawing polygons.
+    /// </summary>
     public class PolygonDrawer : MonoBehaviour
     {
+        // The managers
         [SerializeField] private PolygonManager manager;
 
+        // The line renderers and templates
         [SerializeField] private GameObject polygonBase; // the object that is instantiated to create the lines
         [SerializeField] private LineRenderer activeLine; // the polygonLine from the last Polygon point to the current pointer position
         [SerializeField] private LineRenderer closeLine; // the polygonLine from the current pointer position to the first Polygon point
-        
-        private Polygon activePolygon;
         private Liner polygonLine; // the polygonLine representing the Polygon
         private PolygonLinerLogic polygonLineLogic;
 
+        // The tracking data
+        private Polygon activePolygon;
+
+        /// <summary>
+        /// Gets the position currently pointed at.
+        /// </summary>
+        /// <value>
+        /// The position currently pointed at.
+        /// </value>
         private Vector3 PointedAt => manager.PointedAt;
+        
+        /// <summary>
+        /// Gets the data of polygon currently being drawn.
+        /// </summary>
+        /// <value>
+        /// The polygon currently being drawn.
+        /// </value>
         private Data.Logic.Polygon Polygon => activePolygon.Data;
 
         private void Update()
@@ -57,7 +73,7 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         
         /// <summary>
-        /// Draws the added point of the Polygon.
+        /// Adds a point to the drawn polygon.
         /// </summary>
         public void AddPoint()
         {
@@ -72,6 +88,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <summary>
         /// Ends the drawing process.
         /// </summary>
+        /// <param name="result">The resulting polygon.</param>
         public void FinishDrawing(out Data.Logic.Polygon result)
         {
             activeLine.gameObject.SetActive(false);
@@ -81,6 +98,9 @@ namespace AwARe.RoomScan.Polygons.Objects
             activePolygon = null;
         }
 
+        /// <summary>
+        /// Update the active and closing lines.
+        /// </summary>
         private void UpdateLines()
         {
             int count = Polygon.Points.Count;

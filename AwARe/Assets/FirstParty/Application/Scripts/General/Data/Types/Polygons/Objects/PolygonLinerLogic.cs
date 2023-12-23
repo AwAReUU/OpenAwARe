@@ -11,40 +11,56 @@ using UnityEngine;
 
 namespace AwARe.Data.Objects
 {
+    /// <summary>
+    /// A line constructor class for the referred polygon.
+    /// </summary>
     [Serializable]
     public class PolygonLinerLogic : MonoBehaviour, ILiner
     {
+        /// <summary>
+        /// Indicates if the last edge is rendered as well, closing the line.
+        /// </summary>
         public bool closedLine;
-        public Polygon polygon;
 
+        /// <summary>
+        /// The polygon to represent.
+        /// </summary>
+        public Polygon polygon;
         private Logic.Polygon Data => polygon.Data;
 
-        public PolygonLinerLogic(Polygon polygon, bool closedLine = true)
+        /// <summary>
+        /// Adds this component to a given GameObject and initializes the components members.
+        /// </summary>
+        /// <param name="gameObject">The GameObject this component is added to.</param>
+        /// <param name="polygon">A polygon.</param>
+        /// <returns>The added component.</returns>
+        public static PolygonLinerLogic AddComponentTo(GameObject gameObject, Polygon polygon)
         {
-            this.polygon = polygon;
-            this.closedLine = closedLine;
+            var logic = gameObject.AddComponent<PolygonLinerLogic>();
+            logic.polygon = polygon;
+            return logic;
         }
 
         /// <inheritdoc/>
         public Vector3[] Line =>
-            ComputeLine(Data);
+            ConstructLine(Data);
 
         /// <summary>
-        /// Compute a line representing the given Polygon. <br/>
+        /// Constructs a line representing the given Polygon. <br/>
         /// If the Polygon is set to null, then return an empty line.
         /// </summary>
-        /// <param name="polygon">The Polygon to compute a line from.</param>
+        /// <param name="polygon">The Polygon to construct a line from.</param>
         /// <returns>A line representing the given Polygon.</returns>
-        private Vector3[] ComputeLine(Logic.Polygon polygon = null) =>
+        private Vector3[] ConstructLine(Logic.Polygon polygon = null) =>
             // Handle null input.
-            polygon == null ? Array.Empty<Vector3>() : ComputeLine_Body(polygon);
+            polygon == null ? Array.Empty<Vector3>() : ConstructLine_Body(polygon);
 
         /// <summary>
-        /// Compute a line representing the given Polygon.
+        /// Constructs a line representing the given Polygon.
         /// </summary>
-        /// <param name="polygon">The Polygon to compute a line from.</param>
+        /// <param name="polygon">The Polygon to construct a line from.</param>
         /// <returns>A line representing the given Polygon.</returns>
-        private Vector3[] ComputeLine_Body(Logic.Polygon polygon)
+        private Vector3[] ConstructLine_Body(Logic.Polygon polygon)
         {
             List<Vector3> points = new(polygon.Points);
             if(closedLine && points.Count > 2) { points.Add(points[0]); Debug.Log("ClosedPointAdded");}

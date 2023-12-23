@@ -17,10 +17,11 @@ namespace AwARe.RoomScan.Objects
     /// </summary>
     public class RoomManager : MonoBehaviour
     {
+        // Objects to control
         [SerializeField] private PolygonManager polygonManager;
         [SerializeField] private VisualizePath pathVisualizer; //TODO: Get out of polygonScanning
 
-        public void Awake()
+        private void Awake()
         {
             var obj = new GameObject("Room");
             Room = obj.AddComponent<Room>();
@@ -30,18 +31,19 @@ namespace AwARe.RoomScan.Objects
             //DrawAllPolygons(); ???
         }
 
+        /// <summary>
+        /// Gets or sets the current room.
+        /// </summary>
+        /// <value>
+        /// The current room.
+        /// </value>
         public Room Room { get; set; }
 
-        public void OnApplyButtonClick()
-        {
-            polygonManager.OnApplyButtonClick();
-            //GenerateAndDrawPath();
-        }
-
-        public void OnUIMiss()
-        {
+        /// <summary>
+        /// Called when no UI element has been hit on click or press.
+        /// </summary>
+        public void OnUIMiss() =>
             polygonManager.OnUIMiss();
-        }
 
         /*
         // TODO: Move out of Polygon scanning classes.

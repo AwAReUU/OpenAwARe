@@ -1,11 +1,25 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using UnityEngine.EventSystems;
-using static InputMissCatcher;
 
-public interface IPointerEventData
+namespace AwARe
 {
-    public PointerEventData PointerEventData { get; }
-
-    public event OnPointerEventDataChangeHandler OnPointerEventDataChanged;
+    /// <summary>
+    /// An interface to access recorded pointer event data.
+    /// </summary>
+    public interface IPointerEventData
+    {
+        /// <summary>
+        /// Gets the last recorded pointer event data, including the on screen position on the last pointer event.
+        /// </summary>
+        /// <value>
+        /// The last recorded pointer event data.
+        /// </value>
+        public PointerEventData PointerEventData { get; }
+    }
 }
-
-public delegate void OnPointerEventDataChangeHandler(object sender, PointerEventData data);

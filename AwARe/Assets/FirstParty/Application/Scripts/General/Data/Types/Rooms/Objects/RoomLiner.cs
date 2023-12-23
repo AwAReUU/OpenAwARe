@@ -5,35 +5,49 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using AwARe.Data.Logic;
-using System;
 using System.Collections.Generic;
-
+using System.Linq;
+using AwARe.Objects;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AwARe.Data.Objects
 {
+    /// <summary>
+    /// Undertakes and manages dynamic lines of a room data type. <br/>
+    /// Controls the liners of the various room components. <br/>
+    /// The room components MUST always have Liner components.
+    /// </summary>
     public class RoomLiner : MonoBehaviour
     {
-        [SerializeField] public Room room;
-        private Logic.Room Data => room.Data;
+        /// <summary>
+        /// The room represented.
+        /// </summary>
+        public Room room;
 
-        [SerializeField] private Liner positivePolygonLiner;
-        [SerializeField] private Liner negativePolygonLinerPrefab;
-        private List<Liner> negativePolygonLiners;
+        /// <summary>
+        /// Indicates if the polygons should be drawn.
+        /// </summary>
+        public bool drawPolygons;
+        //public bool drawPath;
 
-        //[SerializeField] Liner pathLiner; TODO: Implement Path representation if in lines.
-
+        // Tracking data
         private bool newLines = false;
         private bool newLiners = false;
-
-        public static void AddComponentTo(Room room, Liner positivePolygonLiner, Liner negativePolygonLinerPrefab, ILiner logic)
+        private Liner positivePolygonLiner;
+        private List<Liner> negativePolygonLiners;
+        // private Liner pathLiner;
+        
+        /// <summary>
+        /// Adds this component to a given GameObject and initializes the components members.
+        /// </summary>
+        /// <param name="gameObject">The GameObject this component is added to.</param>
+        /// <param name="room">A room.</param>
+        /// <returns>The added component.</returns>
+        public static RoomLiner AddComponentTo(GameObject gameObject, Room room)
         {
-            var liner = room.gameObject.AddComponent<RoomLiner>();
+            var liner = gameObject.AddComponent<RoomLiner>();
             liner.room = room;
-            liner.positivePolygonLiner = positivePolygonLiner;
-            liner.negativePolygonLinerPrefab = negativePolygonLinerPrefab;
+            return liner;
         }
 
         private void Start()
@@ -41,22 +55,22 @@ namespace AwARe.Data.Objects
             ResetLiners();
         }
 
-        public void Update()
+        private void Update()
         {
             if (newLiners)
-                CreateLiners();
+                ResetLiners();
             if (newLines)
                 CreateLines();
         }
 
         /// <summary>
-        /// Update the line next Update-frame to represent the current data.
+        /// Update the lines next Update-frame to represent the current data.
         /// </summary>
         public void UpdateLines() =>
             newLines = true;
-
+        
         /// <summary>
-        /// Create a new mesh for the GameObject.
+        /// Create and set new lines.
         /// </summary>
         private void CreateLines()
         {
@@ -66,44 +80,22 @@ namespace AwARe.Data.Objects
             foreach (var liner in negativePolygonLiners)
                 liner.UpdateLine();
         }
-
+        
+        /// <summary>
+        /// Update the liners next Update-frame, in case the room has changed.
+        /// </summary>
         public void UpdateLiners() =>
             newLiners = true;
-
-        public void CreateLiners()
-        {
-            if(positivePolygonLiner != null)
-                positivePolygonLiner.Logic = new PolygonLinerLogic(room.PositivePolygon);
-
-            if (negativePolygonLinerPrefab != null)
-            {
-                List<Polygon> negativePolygons = room.NegativePolygons;
-                int i = 0, liner_count = negativePolygonLiners.Count, polygon_count = negativePolygons.Count;
-                for (; i < liner_count && i < polygon_count; i++)
-                    negativePolygonLiners[i].Logic = new PolygonLinerLogic(negativePolygons[i]);
-                for (; i < liner_count; i++)
-                    negativePolygonLiners[i].Logic = null;
-                for (; i < polygon_count; i++)
-                {
-                    var liner = Instantiate(negativePolygonLinerPrefab, transform);
-                    liner.Logic = new PolygonLinerLogic(negativePolygons[i]);
-                    negativePolygonLiners.Add(liner);
-                }
-            }
-
-            newLiners = false;
-        }
         
+        /// <summary>
+        /// Get the new liners.
+        /// </summary>
         public void ResetLiners()
         {
-            if(positivePolygonLiner != null)
-                positivePolygonLiner.logic = null;
+            positivePolygonLiner = room.PositivePolygon.GetComponent<Liner>();
+            negativePolygonLiners = room.NegativePolygons.Select(x => x.GetComponent<Liner>()).ToList();
 
-            foreach (var liner in negativePolygonLiners)
-                Destroy(liner.gameObject);
-            negativePolygonLiners = new();
-
-            UpdateLiners();
+            newLiners = false;
         }
     }
 }

@@ -5,15 +5,11 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System.Collections.Generic;
 using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
 using AwARe.Objects;
 using AwARe.RoomScan.Objects;
-using AwARe.RoomScan.Path;
-using AwARe.RoomScan.Polygons.Logic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 using Polygon = AwARe.Data.Objects.Polygon;
 using Room = AwARe.Data.Objects.Room;
@@ -26,25 +22,40 @@ namespace AwARe.RoomScan.Polygons.Objects
     /// </summary>
     public class PolygonManager : MonoBehaviour
     {
+        // The upper management
         [SerializeField] private RoomManager roomManager;
+
+        // Objects to control
         [SerializeField] private PolygonDrawer polygonDrawer;
 
-        [SerializeField] private Polygon polygon;
-
+        // The UI
         [SerializeField] private PolygonUI ui;
         [SerializeField] private GameObject canvas;
         [SerializeField] private Transform sceneCanvas;
 
+        // Object templates
+        [SerializeField] private Polygon polygon;
+
+        // Tracking data
         private State currentState;
-
-        /// <value>A Room represented by the polygons.</value>
-        public Room Room { get => roomManager.Room; private set => roomManager.Room = value; }
-
-        /// <value>The Polygon currently being drawn.</value>
         private Polygon activePolygon;
-        private Mesher polygonMesh;
-        private Liner polygonLine;
+        private Mesher activePolygonMesh;
+        private Liner activePolygonLine;
 
+        /// <summary>
+        /// Gets the currently active room.
+        /// </summary>
+        /// <value>
+        /// A Room represented by the polygons.
+        /// </value>
+        public Room Room { get => roomManager.Room; private set => roomManager.Room = value; }
+        
+        /// <summary>
+        /// Gets the current position of the pointer.
+        /// </summary>
+        /// <value>
+        /// The current position of the pointer.
+        /// </value>
         public Vector3 PointedAt => ui.PointedAt;
 
         private void Awake()
@@ -61,7 +72,10 @@ namespace AwARe.RoomScan.Polygons.Objects
             SwitchToState(State.Default);
         }
 
-        // TODO: Make Object.Room for active visibility.
+        /// <summary>
+        /// Add the given polygon to the room.
+        /// </summary>
+        /// <param name="polygon">A polygon.</param>
         public void AddPolygon(Polygon polygon)
         {
             if (Room.PositivePolygon == null)
@@ -90,10 +104,13 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void OnResetButtonClick()
         {
-            Room = new Room();
+            Room = new();
             StartScanning();
         }
 
+        /// <summary>
+        /// Called when no UI element has been hit on click or press.
+        /// </summary>
         public void OnUIMiss()
         {
             if(currentState == State.Scanning)
@@ -109,11 +126,11 @@ namespace AwARe.RoomScan.Polygons.Objects
             activePolygon = Instantiate(polygon, transform);
             activePolygon.gameObject.SetActive(true);
             activePolygon.Data = data;
-            polygonMesh = activePolygon.GetComponent<Mesher>();
-            polygonLine = activePolygon.GetComponent<Liner>();
+            activePolygonMesh = activePolygon.GetComponent<Mesher>();
+            activePolygonLine = activePolygon.GetComponent<Liner>();
 
-            polygonMesh.UpdateMesh();
-            polygonLine.UpdateLine();
+            activePolygonMesh.UpdateMesh();
+            activePolygonLine.UpdateLine();
             SwitchToState(State.SettingHeight);
         }
 
@@ -133,9 +150,12 @@ namespace AwARe.RoomScan.Polygons.Objects
         public void OnHeightSliderChanged(float height)
         {
             activePolygon.Data.Height = height;
-            polygonMesh.UpdateMesh();
+            activePolygonMesh.UpdateMesh();
         }
 
+        /// <summary>
+        /// Called on save button click; Stores the current room and switches to the home screen.
+        /// </summary>
         public void OnSaveButtonClick()
         {
             Storage.Get().ActiveRoom = Room.Data;
@@ -145,37 +165,21 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <summary>
         /// Sets all UIObjects to inactive, then activates all UIObjects of this state.
         /// </summary>
-        /// <param name="toState">Which state the UI should switch to.</param>
-        private void SwitchToState(State toState)
+        /// <param name="state">Which state the UI should switch to.</param>
+        private void SwitchToState(State state)
         {
             // Set activity
-            SetActive(toState);
-            currentState = toState;
+            SetActive(state);
+            currentState = state;
         }
 
         /// <summary>
         /// Sets activity of components.
         /// </summary>
-        /// <param name="toState">Current/new state.</param>
-        public void SetActive(State state)
-        {
+        /// <param name="state">Current/new state.</param>
+        public void SetActive(State state) =>
             // Set UI activity
             ui.SetActive(state);
-
-            // Set direct component activity
-            bool mesh = false, drawer = false;
-            switch (state)
-            {
-                case State.Scanning:
-                    drawer = true;
-                    break;
-                case State.SettingHeight:
-                    mesh = true;
-                    break;
-            }
-
-            // Set actual activity
-        }
     }
 
     /// <summary>

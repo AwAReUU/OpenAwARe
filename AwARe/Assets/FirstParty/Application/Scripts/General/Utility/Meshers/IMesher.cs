@@ -10,14 +10,14 @@ using UnityEngine;
 namespace AwARe
 {
     /// <summary>
-    /// The mesh representing the Data; used to set the height.
+    /// An interface for mesh constructors.
     /// </summary>
     public interface IMesher
     {
         /// <summary>
-        /// Compute a mesh representing the GameObject.
+        /// Gets a mesh representing the GameObject.
         /// </summary>
-        /// <returns>A mesh representing the GameObject.</returns>
+        /// <value>A mesh representing the GameObject.</value>
         public Mesh Mesh { get; }
     }
 }

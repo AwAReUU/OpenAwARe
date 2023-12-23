@@ -5,6 +5,7 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System;
 using System.Collections.Generic;
 using AwARe.InterScenes.Objects;
 using UnityEngine;
@@ -22,27 +23,20 @@ namespace AwARe.UI.Objects
         // GameObject to read.
         [SerializeField] private new Camera camera;
 
-        #if UNITY_EDITOR
-        // Monitor fields for development
-        [SerializeField] private Vector3 lastHitPosition;
-        [SerializeField] private Vector3 lastHitNormal;
-        #endif
-
-        // Data members
-        private (Vector3, Vector3) lastHitPlane;
+        // Tracking Data
+        [SerializeField] private InfinitePlane lastHitPlane;
 
         private void Start()
         {
             camera = camera != null ? camera : ARSecretary.Get().Camera;
-            lastHitPlane = (camera.transform.position + 1.5f * Vector3.down, Vector3.up);
-            (lastHitPosition, lastHitNormal) = lastHitPlane;
+            lastHitPlane = new(camera.transform.position + 1.5f * Vector3.down, Vector3.up);
+
             SetNextPosition();
         }
 
         private void Update()
         {
             SetNextPosition();
-            (lastHitPosition, lastHitNormal) = lastHitPlane;
         }
 
         /// <summary>
@@ -59,7 +53,7 @@ namespace AwARe.UI.Objects
             if (HitsHorizontalPlane(ray, out Vector3 pos, out Vector3 normal))
             {
                 transform.position = pos;
-                lastHitPlane = (pos, normal);
+                lastHitPlane = new(pos, normal);
                 return;
             }
 
@@ -118,12 +112,11 @@ namespace AwARe.UI.Objects
         {
             pos = Vector3.zero;
 
-            (Vector3 center, Vector3 normal) = lastHitPlane;
-            float div = Vector3.Dot(normal, ray.direction);
+            float div = Vector3.Dot(lastHitPlane.Normal, ray.direction);
             if (div == 0)
                 return false;
 
-            float num = Vector3.Dot(normal, center - ray.origin);
+            float num = Vector3.Dot(lastHitPlane.Normal, lastHitPlane.Center - ray.origin);
             float l = num / div;
             if (l <= 0)
                 return false;
@@ -131,67 +124,51 @@ namespace AwARe.UI.Objects
             pos = l * ray.direction + ray.origin;
             return true;
         }
+    }
 
+    /// <summary>
+    /// A data type for infinite planes.
+    /// </summary>
+    public struct InfinitePlane
+    {
+        /// <summary>
+        /// Gets or sets the center point on the infinite plane.
+        /// </summary>
+        /// <value>
+        /// A point on the infinite plane.
+        /// </value>
+        public Vector3 Center { readonly get => center; set => center = value; }
+        [SerializeField] private Vector3 center;
+        
+        /// <summary>
+        /// Gets or sets the normal of the infinite plane.
+        /// </summary>
+        /// <value>
+        /// The normal of the infinite plane.
+        /// </value>
+        public Vector3 Normal {
+            readonly get => normal;
+            set
+            {
+                if (value == Vector3.zero)
+                    throw new ArgumentException("The normal may not be zero.");
+                normal = value;
+            }
+        }
+        [SerializeField] private Vector3 normal;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InfinitePlane"/> struct.
+        /// </summary>
+        /// <param name="center">A point on the plane, utilized as center.</param>
+        /// <param name="normal">The normal of the plane.</param>
+        public InfinitePlane(Vector3 center, Vector3 normal)
+        {
+            if (normal == Vector3.zero)
+                throw new ArgumentException("The normal may not be zero.");
 
-
-        //private void SetNextPosition()
-        //{
-        //    // Perform ray cast.
-        //    Ray ray = camera.ViewportPointToRay(new (0.5f, 0.5f, 0f));
-            
-        //    // Check if the hit point is on a horizontal ar plane.
-        //    // If so, set pointer to that point.
-        //    if (HitsHorizontalPlane(ray, out Vector3 pos, out Vector3 normal))
-        //    {
-        //        transform.position = lastHitPosition = pos;
-        //        lastHitNormal = normal;
-        //        return;
-        //    }
-            
-        //    // Check if the hit point is TODO
-        //    float l = 0;
-        //    bool hitsLastPlane = ray.direction.y != 0
-        //        && (l = (-1.5f - ray.origin.y) / ray.direction.y) > 0f;
-
-        //    // If so, set pointer to that point.
-        //    if (hitsLastPlane)
-        //    {
-        //        transform.position = ray.origin + ray.direction * l;
-        //    }
-
-        //    // In all other cases, do not change position.
-        //}
-
-        //private bool HitsHorizontalPlane(Ray ray, out Vector3 pos, out Vector3 normal)
-        //{
-        //    // Perform ray cast.
-        //    Physics.Raycast(ray, out RaycastHit hit);
-            
-        //    // Get data from the hit.
-        //    pos = hit.point;
-        //    normal = hit.normal;
-
-        //    // Check if the hit point is on a horizontal ar plane.
-        //    return hit.transform != null
-        //        && hit.transform.gameObject.name.Contains("ARPlane")
-        //        && (normal - Vector3.up).magnitude < 0.05f;
-
-
-        //}
-
-        //private bool HitsLastPlane(Ray ray, out Vector3 pos)
-        //{
-        //    pos = Vector3.zero;
-        //    if (ray.direction.y == 0)
-        //        return false;
-
-        //    float l = (-1.5f - ray.origin.y) / ray.direction.y;
-        //    if (l <= 0f)
-        //        return false;
-
-        //    pos = ray.origin + ray.direction * l;
-        //    return true;
-        //}
+            this.center = center;
+            this.normal = normal;
+        }
     }
 }

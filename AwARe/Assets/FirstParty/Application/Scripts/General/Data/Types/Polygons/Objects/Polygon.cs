@@ -10,7 +10,7 @@ using UnityEngine;
 namespace AwARe.Data.Objects
 {
     /// <summary>
-    /// The mesh representing the Data; used to set the height.
+    /// The component for storing polygon data.
     /// </summary>
     public class Polygon : MonoBehaviour
     {

@@ -12,12 +12,14 @@
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cdata_005Ctypes_005Ctensors/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cdata_005Ctypes_005Cvoxelmaps/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cio/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cio_005Cinput/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cui_005Cobjects_005Cbuttons/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cui_005Cobjects_005Cpointers/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cui_005Cobjects_005Cpopups/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Ccontainers/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Ceditordummies/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Cliners/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Cmeshers/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Csingleton/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Cspawners/@EntryIndexedValue">True</s:Boolean>
