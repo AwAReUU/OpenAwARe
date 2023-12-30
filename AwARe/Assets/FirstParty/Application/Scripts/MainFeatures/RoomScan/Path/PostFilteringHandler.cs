@@ -7,6 +7,9 @@
 
 using System;
 using System.Collections.Generic;
+using AwARe.Data.Logic;
+using AwARe.ObjectGeneration;
+using UnityEngine;
 
 namespace AwARe.RoomScan.Path
 {
@@ -22,9 +25,10 @@ namespace AwARe.RoomScan.Path
         /// <param name="grid">the grid containing the skeleton path.</param>
         /// <param name="cutTreshold">the minimum length a branch must have in pixels. shorter branches will be removed.</param>
         /// <param name="mergeTreshold">the second minimum length a branch must have in pixels. shorter branches will be merged if not removed.</param>
-        public void PostFiltering(ref bool[,] grid, int cutTreshold, int mergeTreshold)
+        /// <param name="negativePolygons">A list containing the negative polygons.</param>
+        public void PostFiltering(ref bool[,] grid, int cutTreshold, int mergeTreshold, List<Polygon> negativePolygons)
         {
-            List<(int, int)> endpoints = new();
+            List<(int, int)> endPoints = new();
             List<(int, int)> junctions = new();
 
             //find the endpoints and junctions
@@ -42,9 +46,8 @@ namespace AwARe.RoomScan.Path
                     if (!(x - 1 < 0 || y - 1 < 0))
                     {
                         rolledOutNeighbours[0] = grid[x - 1, y - 1];
-                        rolledOutNeighbours[8] = grid[x - 1, y - 1]; //add a copy of the first point looked at to the end
+                        rolledOutNeighbours[8] = grid[x - 1, y - 1];    //add a copy of the first point looked at to the end
                     }
-
                     //look up
                     if (!(y - 1 < 0)) rolledOutNeighbours[1] = grid[x, y - 1];
                     //look up-right
@@ -67,23 +70,21 @@ namespace AwARe.RoomScan.Path
                         if (rolledOutNeighbours[i] && !rolledOutNeighbours[i + 1]) numberOfBranches++;
                     }
 
-                    if (numberOfBranches == 1) endpoints.Add((x, y));
+                    if (numberOfBranches == 1) endPoints.Add((x, y));
                     else if (numberOfBranches > 2) junctions.Add((x, y));
                 }
             }
 
-            //alter this second loop to first find all subpaths, then add a third loop to do removing and merging.
-
-            List<List<(int x, int y)>> subPaths = new List<List<(int x, int y)>>();
+            List<List<(int x, int y)>> subPaths = new();
 
             //find the subpaths and remove any that are too short
-            for (int i = 0; i < endpoints.Count; i++)
+            for (int i = 0; i < endPoints.Count; i++)
             {
                 Queue<(int, int)> queue = new();
-                queue.Enqueue(endpoints[i]);
+                queue.Enqueue(endPoints[i]);
                 List<(int x, int y)> consideredPoints = new()
                 {
-                    endpoints[i]
+                    endPoints[i]
                 };
                 bool stop = false;
 
@@ -105,7 +106,7 @@ namespace AwARe.RoomScan.Path
                             //checks if it is true, in bounds, not already considered and 
                             if (consideredPoint == currentPoint) continue;
                             if (consideredPoint.x < 0 || consideredPoint.x > grid.GetLength(0)
-                                || consideredPoint.y < 0 || consideredPoint.y > grid.GetLength(1)) continue;
+                            || consideredPoint.y < 0 || consideredPoint.y > grid.GetLength(1)) continue;
                             if (!grid[consideredPoint.x, consideredPoint.y]) continue;
                             if (consideredPoints.Contains(consideredPoint)) continue;
 
@@ -113,7 +114,10 @@ namespace AwARe.RoomScan.Path
                             if (junctions.Contains(consideredPoint))
                             {
                                 //remove other points considered this round to avoid problems
-                                for (int j = 0; j < addedPoints.Count; j++) { consideredPoints.Remove(addedPoints[j]); }
+                                for (int j = 0; j < addedPoints.Count; j++)
+                                {
+                                    consideredPoints.Remove(addedPoints[j]);
+                                }
 
                                 //add the junction to the subpath
                                 consideredPoints.Add(consideredPoint);
@@ -129,22 +133,22 @@ namespace AwARe.RoomScan.Path
                     }
                 }
 
+
                 //if stop isn't true, we haven't found a junction and as such not a true subpath
                 if (!stop) continue;
 
                 //delete the found subpath / points if it is too short
                 //length is detemerined using the euclidian distance between the endpoint and junction this line spans, since lines are mostly straight
                 //if not deleted, put it in to list of subpaths to potentially merge
-                float par1 = consideredPoints[consideredPoints.Count - 1].x - consideredPoints[0].x;
-                float par2 = consideredPoints[consideredPoints.Count - 1].y - consideredPoints[0].y;
-
+                float par1 = consideredPoints[^1].x - consideredPoints[0].x;
+                float par2 = consideredPoints[^1].y - consideredPoints[0].y;
                 double distance = Math.Sqrt((par1 * par1) + (par2 * par2));
                 if (distance < cutTreshold)
                 {
                     for (int j = 0; j < consideredPoints.Count; j++)
-                    { 
+                    {
                         //do not cut away the junction, but do cut away all other points
-                        if (junctions.Contains(consideredPoints[j])) continue; 
+                        if (junctions.Contains(consideredPoints[j])) continue;
                         grid[consideredPoints[j].x, consideredPoints[j].y] = false;
                     }
                 }
@@ -154,22 +158,21 @@ namespace AwARe.RoomScan.Path
                 }
             }
 
-
             //find all subpaths that share a junction and merge them if they aren't long enough
             for (int i = 0; i < junctions.Count; i++)
             {
-                List<List<(int x, int y)>> sharedPaths = new List<List<(int x, int y)>>();
+                List<List<(int x, int y)>> sharedPaths = new();
 
                 //find all subpaths that have this junction
                 for (int j = 0; j < subPaths.Count; j++)
                 {
                     //the last point added to a subpath should be a junction, check if it is the current junction
-                    if (subPaths[j][subPaths[j].Count - 1] == junctions[i])
+                    if (subPaths[j][^1] == junctions[i])
                     {
                         //check if the path is short enough to be merged
                         //add it to the list of t-be merged paths if it is.
-                        float par1 = subPaths[j][0].x - subPaths[j][subPaths[j].Count - 1].x;
-                        float par2 = subPaths[j][0].y - subPaths[j][subPaths[j].Count - 1].y;
+                        float par1 = subPaths[j][0].x - subPaths[j][^1].x;
+                        float par2 = subPaths[j][0].y - subPaths[j][^1].y;
                         double distance = Math.Sqrt((par1 * par1) + (par2 * par2));
                         if (distance < mergeTreshold)
                         {
@@ -188,8 +191,20 @@ namespace AwARe.RoomScan.Path
                     secondPoint.x += sharedPaths[j][0].x;
                     secondPoint.y += sharedPaths[j][0].y;
                 }
-                secondPoint.x = secondPoint.x / sharedPaths.Count;
-                secondPoint.y = secondPoint.y / sharedPaths.Count;
+                secondPoint.x /= sharedPaths.Count;
+                secondPoint.y /= sharedPaths.Count;
+
+                //make sure that we do not merge any lines that would end up in an invalid space
+                bool validpoint = true;
+                for (int j = 0; j < negativePolygons.Count; j++)
+                { 
+                    if (PolygonHelper.IsPointInsidePolygon(negativePolygons[j], new Vector3(secondPoint.x, 0, secondPoint.y)))
+                    {
+                        validpoint = false;
+                        break;
+                    }
+                }
+                if (!validpoint) continue;
 
                 //remove the subpaths that are merged from the grid
                 for (int j = 0; j < sharedPaths.Count; j++)

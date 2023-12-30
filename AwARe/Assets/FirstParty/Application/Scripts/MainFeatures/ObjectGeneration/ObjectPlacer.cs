@@ -7,7 +7,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using AwARe.Data.Logic;
+using AwARe.RoomScan.Polygons.Logic;
 using UnityEngine;
 
 namespace AwARe.ObjectGeneration
@@ -24,7 +24,7 @@ namespace AwARe.ObjectGeneration
         private bool TryPlaceObject(
             Renderable renderable,
             Vector3 position,
-            Room room)
+            Data.Logic.Room room)
         {
             // Check if the box of the new object will overlap with any other colliders
             Vector3 boxCenter = position;
@@ -64,7 +64,7 @@ namespace AwARe.ObjectGeneration
         /// <param name="room">Room to place the renderables in.</param>
         public void PlaceRenderables(
             List<Renderable> renderables, 
-            Room room, 
+            Data.Logic.Room room, 
             Mesh path)
         {
             if (renderables.Count == 0)
@@ -77,7 +77,7 @@ namespace AwARe.ObjectGeneration
             // 2. Initialize clusters where one object of each group is placed
             Dictionary<Renderable, Vector3> initialSpawnsDictionary = InitializeClusters(validSpawnPoints, renderables, room);
 
-            // 3. Each 'round' spawn or stack one of the renderables with the lowest area usage  
+            // 3. Each 'round' spawn or stack one of the renderables with the lowest area usage.
             bool allQuantitiesZero = false;
             while (!allQuantitiesZero)
             {
@@ -120,7 +120,7 @@ namespace AwARe.ObjectGeneration
             Vector3 initialSpawnPoint, 
             List<Vector3> validSpawnPoints, 
             float availableSurfaceArea, 
-            Room room)
+            Data.Logic.Room room)
         {
             // sort available spawn points by closest distance to initial spawn point
             validSpawnPoints = SortClosestSpawnPointsByDistance(initialSpawnPoint, validSpawnPoints);
@@ -158,7 +158,7 @@ namespace AwARe.ObjectGeneration
         /// <returns>Whether the stacking was successful.</returns>
         private bool TryStack(
             Renderable renderable,
-            Room room)
+            Data.Logic.Room room)
         {
             while (renderable.objStacks.Keys.ToList().Count > 0) 
             {
@@ -226,13 +226,13 @@ namespace AwARe.ObjectGeneration
         private Dictionary<Renderable, Vector3> InitializeClusters(
             List<Vector3> spawnPoints, 
             List<Renderable> renderables, 
-            Room room)
+            Data.Logic.Room room)
         {
             Dictionary<Renderable, Vector3> initialSpawns = new Dictionary<Renderable, Vector3>();
             foreach (var renderable in renderables)
             {
                 // sort all spawnpoint with furthest distance to other initial spawnpoints first 
-                List<Vector3> sortedSpawnPoints = SortFurthestSpawnPointsByDistance(spawnPoints, initialSpawns.Values.ToList());
+                List<Vector3> sortedSpawnPoints = SortFurthestSpawnPointsByDistance(spawnPoints, initialSpawns.Values.ToList(), renderable.ComputeSpaceNeeded());
                 foreach (var point in sortedSpawnPoints)
                 {
                     if (TryPlaceObject(renderable, point, room))
@@ -261,12 +261,22 @@ namespace AwARe.ObjectGeneration
         /// <returns>The list of spawnpoints sorted by furthest distance from the occupied points.</returns>
         private List<Vector3> SortFurthestSpawnPointsByDistance(
             List<Vector3> validSpawnPoints, 
-            List<Vector3> occupiedPoints)
+            List<Vector3> occupiedPoints,
+            float totalAreaRequired
+            )
         {
             return validSpawnPoints.OrderByDescending(
-                point => occupiedPoints.Count > 0 ? 
-                        occupiedPoints.Min(occupied => Vector3.Distance(point, occupied)) : 
-                        float.MaxValue).ToList();
+                 point => CalculateWeightedDistance(point, occupiedPoints, totalAreaRequired)).ToList();
+        }
+
+        private float CalculateWeightedDistance(Vector3 point, List<Vector3> occupiedPoints, float totalAreaRequired)
+        {
+            float nearestDistance = occupiedPoints.Count > 0 ? 
+                                    occupiedPoints.Min(occupied => Vector3.Distance(point, occupied)) : 
+                                    float.MaxValue;
+
+            float weight = 1 / totalAreaRequired; 
+            return nearestDistance * weight;
         }
 
         /// <summary>

@@ -23,7 +23,7 @@ namespace AwARe.Data.Objects
         /// The data-type <see cref="Logic.Room"/> represented.
         /// </value>
         public Logic.Room Data =>
-            new(PositivePolygon.Data, NegativePolygons.Select(x => x.Data).ToList());
+            new(PositivePolygon ? PositivePolygon.Data : null, NegativePolygons.Select(x => x.Data).ToList());
         
         /// <summary>
         /// Gets or sets the main polygon.

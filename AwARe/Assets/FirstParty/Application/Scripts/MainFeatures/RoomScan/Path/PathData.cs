@@ -13,20 +13,41 @@ using UnityEngine;
 
 namespace AwARe.RoomScan.Path
 {
+    /// <summary>
+    /// This class hold the data for a generated path.
+    /// </summary>
     [Serializable]
     public class PathData
     {
+        /// <summary>
+        /// Each node on the path.
+        /// </summary>
         public List<Vector3> points;
+
+        /// <summary>
+        /// Each segment/edge of the path.
+        /// </summary>
         public List<(Vector3, Vector3)> edges;
 
-        public float radius;
+        /// <summary>
+        /// The radius around the skeleton of the path.
+        /// </summary>
+        public float radius = 0.2f;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PathData"/> class.
+        /// </summary>
         public PathData()
         {
-            points = new();
-            edges = new();
+            points = new List<Vector3>();
+            edges = new List<(Vector3, Vector3)>();
         }
 
+        /// <summary>
+        /// Create a Mesh of the path including the surrounding radius.
+        /// </summary>
+        /// <param name="numSegments">The number of segments in the mesh.</param>
+        /// <returns>The created Mesh.</returns>
         public Mesh CreateMesh(int numSegments)
         {
 
@@ -38,7 +59,7 @@ namespace AwARe.RoomScan.Path
                 mesh = CombineMeshes(mesh, circle);
             }
 
-            for(int i = 0; i < edges.Count; i++)
+            for (int i = 0; i < edges.Count; i++)
             {
                 Mesh segment = this.SegmentMesh(edges[i].Item1, edges[i].Item2, this.radius);
                 mesh = CombineMeshes(mesh, segment);
@@ -47,6 +68,12 @@ namespace AwARe.RoomScan.Path
             return mesh;
         }
 
+        /// <summary>
+        /// A helper method to combine two meshes into a single mesh.
+        /// </summary>
+        /// <param name="mesh1">The first mesh.</param>
+        /// <param name="mesh2">The second mesh.</param>
+        /// <returns>The combined mesh.</returns>
         private Mesh CombineMeshes(Mesh mesh1, Mesh mesh2)
         {
             var vertices = mesh1.vertices.ToList();
@@ -66,6 +93,15 @@ namespace AwARe.RoomScan.Path
             return combined;
         }
 
+        /// <summary>
+        /// Creates a Circle Mesh around a center with the given radius.
+        /// The mesh consists of a given number of triangles. 
+        /// Use a higher number of segments to create a smoother circle.
+        /// </summary>
+        /// <param name="center">The center of the circle.</param>
+        /// <param name="radius">The radius of the circle.</param>
+        /// <param name="numSegments">The number of segments of the mesh.</param>
+        /// <returns>The circle mesh. </returns>
         private Mesh CircleMesh(Vector3 center, float radius, int numSegments)
         {
             var vertices = new List<Vector3>();
@@ -98,6 +134,13 @@ namespace AwARe.RoomScan.Path
             return circle;
         }
 
+        /// <summary>
+        /// Creates a (rotated)rectangle between two points with a width of two times the given radius.
+        /// </summary>
+        /// <param name="start">The start point.</param>
+        /// <param name="end">The end point.</param>
+        /// <param name="radius">The radius of the circle.</param>
+        /// <returns>The Mesh segment.</returns>
         private Mesh SegmentMesh(Vector3 start, Vector3 end, float radius)
         {
             var vertices = new List<Vector3>();

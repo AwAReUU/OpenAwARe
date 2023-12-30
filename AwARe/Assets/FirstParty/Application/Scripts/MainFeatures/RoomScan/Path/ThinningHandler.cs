@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
-//using AwARe.RoomScan.Path.Jobs;
+using AwARe.RoomScan.Path.Jobs;
 
 namespace AwARe.RoomScan.Path
 {
@@ -50,26 +50,26 @@ namespace AwARe.RoomScan.Path
                 NativeArray<bool> nativeGrid = GridConverter.ToNativeGrid(grid);
                 NativeArray<bool> resultGrid = new(gridSize, Allocator.TempJob);
 
-                NativeArray<bool> frontElement = new(GridConverter.ToNativeGrid(frontGolayElements[i]), Allocator.TempJob);
-                NativeArray<bool> backElement = new(GridConverter.ToNativeGrid(backGolayElements[i]), Allocator.TempJob);
+                NativeArray<bool> frontElement = GridConverter.ToNativeGrid(frontGolayElements[i]);
+                NativeArray<bool> backElement = GridConverter.ToNativeGrid(backGolayElements[i]);
 
                 int elementLength = frontGolayElements[i].GetLength(0);
 
-                //CheckHitOrMissJob hitOrMissCheckJob = new()
-                //{
-                //    nativeGrid = nativeGrid,
-                //    columns = cols,
-                //    rows = rows,
-                //    frontElement = frontElement,
-                //    backElement = backElement,
-                //    elementLength = elementLength,
+                CheckHitOrMissJob hitOrMissCheckJob = new()
+                {
+                    nativeGrid = nativeGrid,
+                    columns = cols,
+                    rows = rows,
+                    frontElement = frontElement,
+                    backElement = backElement,
+                    elementLength = elementLength,
 
-                //    result = resultGrid
-                //};
+                    result = resultGrid
+                };
 
-                //JobHandle hitOrMissCheckJobHandle = hitOrMissCheckJob.Schedule(gridSize, 64);
+                JobHandle hitOrMissCheckJobHandle = hitOrMissCheckJob.Schedule(gridSize, 64);
 
-                //hitOrMissCheckJobHandle.Complete();
+                hitOrMissCheckJobHandle.Complete();
 
                 bool[,] resGrid = GridConverter.ToGrid(resultGrid, rows, cols);
 
@@ -82,15 +82,17 @@ namespace AwARe.RoomScan.Path
 
                 Array.Copy(resGrid, grid, grid.Length);
                 resultGrid.Dispose();
-
-                //Array.Copy(ToGrid(resArray, rows, cols), grid, grid.Length);
             }
 
-            //changed = hasChanged;
             return grid;
         }
 
-
+        /// <summary>
+        /// Checks whether two arrays are exactly equal.
+        /// </summary>
+        /// <param name="a">The first array.</param>
+        /// <param name="b">The second array.</param>
+        /// <returns>Whether the arrays are exactly the same.</returns>
         private bool EqualArrays(bool[,] a, bool[,] b)
         {
             if (a.Length != b.Length) return false;

@@ -29,7 +29,7 @@ namespace AwARe.Data.Logic
         /// The subtracted polygons.
         /// </value>
         public List<Polygon> NegativePolygons { get; set; }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Room"/> class.
         /// Either fills it with the given polygons or creates new ones.

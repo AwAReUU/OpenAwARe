@@ -9,6 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AwARe.Data.Logic;
+
+using Unity.Collections;
+
 using UnityEngine;
 
 namespace AwARe.RoomScan.Path
@@ -25,9 +28,9 @@ namespace AwARe.RoomScan.Path
         private float startTime;
 
         /// <summary>
-        /// Create a path from a given positive Polygon and list of negative polygons that represent the room.
+        /// Create a path from a given positive polygon and list of negative polygons that represent the room.
         /// </summary>
-        /// <param name="positive">the Polygon whose volume represents the area where you can walk.</param>
+        /// <param name="positive">the polygon whose volume represents the area where you can walk.</param>
         /// <param name="negatives">list of polygons whose volume represent the area where you cannot walk.</param>
         /// <returns>a 'pathdata' which represents a path through the room.</returns>
         public PathData GeneratePath(Polygon positive, List<Polygon> negatives)
@@ -38,14 +41,12 @@ namespace AwARe.RoomScan.Path
             bool[,] grid = CreateGrid(positive);
 
             // Print all points; for debugging purposes
-            var printArray = positive.Points.ToArray();
-            for (int i = 0; i < printArray.Length; i++)
-            {
-                Debug.Log("Point " + i + ": " + printArray[i].x + ", 0, " + printArray[i].z);
-            }
+            var points = positive.Points;
+            for (int i = 0; i < positive.Points.Count; i++)
+                Debug.Log("Point " + i + ": " + points[i].x + ", 0, " + points[i].z);
 
-            List<((int, int), (int, int))> positiveGridLines;
-            List<List<((int, int), (int, int))>> negativeGridLines;
+            PolygonLines positiveGridLines;
+            List<PolygonLines> negativeGridLines;
             (positiveGridLines, negativeGridLines) = GetGridlines(positive, negatives);
 
             PrintTime("fillStart");
@@ -56,7 +57,7 @@ namespace AwARe.RoomScan.Path
             // Apply erosion
             PrintTime("erosionStart");
             ErosionHandler erosionHandler = new();
-            grid = erosionHandler.Erode(grid, 30);
+            grid = erosionHandler.Erode(grid, CentimetersToPixels(60));
             PrintTime("erosionEnd");
 
             PrintTime("largestShapeStart");
@@ -72,7 +73,8 @@ namespace AwARe.RoomScan.Path
 
             PrintTime("filterStart");
             PostFilteringHandler postFilteringHandler = new();
-            postFilteringHandler.PostFiltering(ref grid, CentimetersToPixels(50), CentimetersToPixels(100));
+            //temp voor demo: low parameter in second centimeterstopixels
+            postFilteringHandler.PostFiltering(ref grid, CentimetersToPixels(50), CentimetersToPixels(10), negatives);
             PrintTime("filterEnd");
 
             //at this point, grid contains the skeleton path as a thin line of booleans
@@ -82,16 +84,16 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        /// creates an empty grid of booleans with its size based on the size of a given Polygon
-        /// if the given Polygon is too large, the size of the grid will be capped.
+        /// creates an empty grid of booleans with its size based on the size of a given polygon
+        /// if the given polygon is too large, the size of the grid will be capped.
         /// also initalizes the movetransform, averageheight and scalefactor variables.
         /// </summary>
-        /// <param name="polygon">the Polygon from which to create the grid.</param>
+        /// <param name="polygon">the polygon from which to create the grid.</param>
         /// <param name="maxgridsize">the maximum size the grid is allowed to have in either dimension.</param>
         /// <returns>2d array of booleans that are set to false.</returns>
         private bool[,] CreateGrid(Polygon polygon, int maxgridsize = 500)
         {
-            //determine the maximum height and width of the Polygon
+            //determine the maximum height and width of the polygon
             Vector3[] points = polygon.Points.ToArray();
 
             float minX = points[0].x;
@@ -106,7 +108,7 @@ namespace AwARe.RoomScan.Path
                 if (points[i].z > maxZ) maxZ = points[i].z;
             }
 
-            //compute the average heigh of the Polygon for later use
+            //compute the average heigh of the polygon for later use
             averageHeight = 0;
             for (int i = 0; i < points.Length; i++) { averageHeight += points[i].y / points.Length; }
 
@@ -138,7 +140,7 @@ namespace AwARe.RoomScan.Path
                 }
             }
 
-            //the direction to move in to get from the Polygon space to the grid space; addition.
+            //the direction to move in to get from the polygon space to the grid space; addition.
             moveTransform = ((-minX) * scaleFactor, (-minZ) * scaleFactor);
 
             return new bool[xlength + 1, zlength + 1];
@@ -147,15 +149,15 @@ namespace AwARe.RoomScan.Path
         /// <summary>
         /// Converts the polygons to lists of start- and endpoints of the lines.
         /// </summary>
-        /// <param name="positive">The positive Polygon.</param>
+        /// <param name="positive">The positive polygon.</param>
         /// <param name="negatives">The negative polygons.</param>
         /// <returns>Lists with start- and endpoints of the lines.</returns>
-        private (List<((int, int), (int, int))>, List<List<((int, int), (int, int))>>) GetGridlines(Polygon positive, List<Polygon> negatives)
+        private (PolygonLines, List<PolygonLines>) GetGridlines(Polygon positive, List<Polygon> negatives)
         {
-            List<((int, int), (int, int))> positiveGridLines = new();
-            List<List<((int, int), (int, int))>> negativeGridLines = new();
+            PolygonLines positiveGridLines = new();
+            List<PolygonLines> negativeGridLines = new();
 
-            // Determine all line segments in Polygon space and grid space
+            // Determine all line segments in polygon space and grid space
             List<(Vector3, Vector3)> positiveLines = GenerateLines(positive);
             List<List<(Vector3, Vector3)>> negativeLines = new();
 
@@ -171,7 +173,7 @@ namespace AwARe.RoomScan.Path
                 List<(Vector3, Vector3)> negativeLinesPart = GenerateLines(negatives[i]);
                 negativeLines.Add(negativeLinesPart);
 
-                List<((int, int), (int, int))> negativeGridLinesPart = new();
+                PolygonLines negativeGridLinesPart = new();
                 for (int j = 0; j < negativeLinesPart.Count; j++)
                 {
                     negativeGridLinesPart.Add((ToGridSpace(negativeLinesPart[j].Item1), ToGridSpace(negativeLinesPart[j].Item2)));
@@ -184,25 +186,24 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        /// Turns the Polygon into a list of its line segments signified by start- and endpoints.
+        /// Turns the polygon into a list of its line segments signified by start- and endpoints.
         /// </summary>
-        /// <param name="polygon">the Polygon from which to create the list.</param>
+        /// <param name="polygon">the polygon from which to create the list.</param>
         /// <returns>list of line segments, signified by 2 points.</returns>
         private List<(Vector3, Vector3)> GenerateLines(Polygon polygon)
         {
             List<(Vector3, Vector3)> results = new();
             List<Vector3> points = new(polygon.Points);
             //add a duplicate of the first point to the end of the list
-            points.Add(points[0]);
+            points.Add(new Vector3(points[0].x, points[0].y, points[0].z));
 
-            for (int i = 0; i < points.Count - 1; i++)
-                results.Add((points[i], points[i + 1]));
+            for (int i = 0; i < points.Count - 1; i++) { results.Add((points[i], points[i + 1])); }
 
             return results;
         }
 
         /// <summary>
-        /// transform a 'Polygon space' point into 'grid space'.
+        /// transform a 'polygon space' point into 'grid space'.
         /// </summary>
         /// <param name="point">the point to be transformed.</param>
         /// <returns>the transformed point. </returns>
@@ -212,11 +213,11 @@ namespace AwARe.RoomScan.Path
             Vector3 transformedPoint = scale.MultiplyPoint3x4(point);
             Vector3 movedPoint = new(transformedPoint.x + moveTransform.Item1, 1, transformedPoint.z + moveTransform.Item2);
 
-            return (Mathf.RoundToInt(movedPoint.x), Mathf.RoundToInt(movedPoint.z));
+            return ((int)Math.Round(movedPoint.x), (int)Math.Round(movedPoint.z));
         }
 
         /// <summary>
-        /// transform a 'grid space' point into 'Polygon space'.
+        /// transform a 'grid space' point into 'polygon space'.
         /// </summary>
         /// <param name="point">the point to be transformed.</param>
         /// <returns>the transformed point. </returns>
@@ -282,7 +283,7 @@ namespace AwARe.RoomScan.Path
                 }
             }
 
-            //convert to Polygon space
+            //convert to polygon space
             List<Vector3> pathDataPoints = new();
             List<(Vector3, Vector3)> pathDataEdges = new();
 
@@ -308,32 +309,38 @@ namespace AwARe.RoomScan.Path
         /// <param name="s">The string to print with the time.</param>
         private void PrintTime(string s)
         {
-            Debug.Log(s + ": " + (Time.realtimeSinceStartup - startTime).ToString());
+            Debug.Log(s + ": " + (Time.realtimeSinceStartup - startTime));
         }
     }
+
+    /// <summary>
+    /// Class for representing a list with start- and endpoints of lines.
+    /// </summary>
+    public class PolygonLines
+    {
+        /// <summary>
+        /// Gets the list of lines consisting of start- and endpoints.
+        /// </summary>
+        public List<((int, int), (int, int))> Lines { get; private set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PolygonLines"/> class.
+        /// </summary>
+        public PolygonLines()
+        {
+            Lines = new List<((int, int), (int, int))>();
+        }
+
+        /// <summary>
+        /// Adds the value to the list.
+        /// </summary>
+        /// <param name="value">The value to add to the list.</param>
+        public void Add(((int, int), (int,int)) value) => Lines.Add(value);
+
+        /// <summary>
+        /// Gets the amount of elements in the list.
+        /// </summary>
+        /// <returns>The amount of elements in the list.</returns>
+        public int Count() => Lines.Count;
+    }
 }
-
-
-// todo primary:
-//improve visualisatie zodat je ook negative polygons kan tekenen voordat je het pad bepaald
-//for above: zorg dat de path gen gebeurt bij de click van een andere button dan de autocomplete button
-//improve performance
-//test things (unit tests)
-
-//evt de pathdata opschonen, maar zou daarvoor wel hough moeten gebruiken en testing showed dat die niet perfect werkt (somewhat decent tho)
-//improve performance door het te multithreaden of indien mogelijk op de gpu te runnen
-
-//scale testing met debug log seems to be about 1:100 scale, 61 cm meetlat vierkant gaat in ongeveer 0.61 increments. dus 1 vector3 = 1 meter
-//make Polygon 'real-scale' hiermee in plaats van set length 500?
-
-//'merge' / collapse corner noodles that share the same junction to a straighter line? could be cool
-
-
-//todo primary new:
-//'merge' / collapse corner noodles     //done
-//clean up polygonmanager en scene
-
-//fix bug: floodfill startpoint finding
-//issue: 0.5 drawline offset?
-//idea: in plaats van math ray cast, ga vanaf de pixel stappen naar rechts (+x) en tel het aantal keren dat de state changed van true naar false? 
-//has issues tho

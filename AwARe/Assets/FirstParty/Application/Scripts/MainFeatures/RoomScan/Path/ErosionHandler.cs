@@ -5,9 +5,9 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-//using AwARe.RoomScan.Path.Jobs;
 using System;
 using System.Collections.Generic;
+using AwARe.RoomScan.Path.Jobs;
 using Unity.Collections;
 using Unity.Jobs;
 
@@ -38,20 +38,20 @@ namespace AwARe.RoomScan.Path
 
             NativeArray<bool> resultGrid = new(gridSize, Allocator.TempJob);
 
-            //ErosionScanJob erosionScanJob = new()
-            //{
-            //    input = inputGrid,
-            //    range = range,
-            //    rows = rows,
-            //    columns = cols,
-            //    halfRange = halfRange,
+            ErosionScanJob erosionScanJob = new()
+            {
+                input = inputGrid,
+                range = range,
+                rows = rows,
+                columns = cols,
+                halfRange = halfRange,
 
-            //    result = resultGrid
-            //};
+                result = resultGrid
+            };
 
-            //JobHandle erosionScanJobHandle = erosionScanJob.Schedule(gridSize, 64);
+            JobHandle erosionScanJobHandle = erosionScanJob.Schedule(gridSize, 64);
 
-            //erosionScanJobHandle.Complete();
+            erosionScanJobHandle.Complete();
 
             bool[,] output = GridConverter.ToGrid(resultGrid, rows, cols);
 
@@ -61,10 +61,15 @@ namespace AwARe.RoomScan.Path
             return output;
         }
 
+        /// <summary>
+        /// Keep the largest of any disconnected shapes.
+        /// </summary>
+        /// <param name="input">The grid of which the largest shape must be kept.</param>
+        /// <returns>The grid with the smaller disconnected shapes removed.</returns>
         public bool[,] KeepLargestShape(bool[,] input)
         {
             int neighbourRange = 3;
-            FloodFill(input, neighbourRange, out int[,] labeled, out int nro_shapes);
+            IntFloodFill(input, neighbourRange, out int[,] labeled, out int nro_shapes);
 
             int[] count = CountShapeSize(labeled, nro_shapes);
 
@@ -90,24 +95,37 @@ namespace AwARe.RoomScan.Path
             return output;
         }
 
+        /// <summary>
+        /// Count the size of the different shapes.
+        /// </summary>
+        /// <param name="labeled">The labeled grid.</param>
+        /// <param name="nro_shapes">The amount of different shapes in the grid.</param>
+        /// <returns>An array with the sizes of the different shapes.</returns>
         private int[] CountShapeSize(int[,] labeled, int nro_shapes)
         {
             int[] count = new int[nro_shapes];
 
             // Define function to get new label for each pixel
-            Func<int, bool> func = (int label) =>
+            bool func(int label)
             {
                 if (label >= 1)
                     count[label - 1]++;
                 return default;
-            };
+            }
 
             foreach (int i in labeled) func(i);
 
             return count;
         }
 
-        private void FloodFill(bool[,] input, int neighbourRange, out int[,] output, out int nro_shapes)
+        /// <summary>
+        /// Fill the grid with integers.
+        /// </summary>
+        /// <param name="input">The array to fill.</param>
+        /// <param name="neighbourRange">The range in which the neighbours should be checked.</param>
+        /// <param name="output">The output array.</param>
+        /// <param name="nro_shapes">The amount of different shapes in the grid.</param>
+        private void IntFloodFill(bool[,] input, int neighbourRange, out int[,] output, out int nro_shapes)
         {
             nro_shapes = 0;
 
@@ -128,7 +146,7 @@ namespace AwARe.RoomScan.Path
             var outputFunction = GetInputIntFunction(output);
 
             int halfNeighbourRange = neighbourRange / 2;
-            Stack<(int, int)> stack = new Stack<(int, int)>();
+            Stack<(int, int)> stack = new();
 
             // Iterate over all cells
             for (int x = 0; x < rows; x++)
@@ -163,6 +181,12 @@ namespace AwARe.RoomScan.Path
                 }
         }
 
+        /// <summary>
+        /// Get the function that returns either the input value or zero based on
+        /// whether the point is inside the bound of the grid.
+        /// </summary>
+        /// <param name="input">The input array.</param>
+        /// <returns>A functions that checks whether the input value is in bounds, returning either the value or zero.</returns>
         private Func<(int, int), int> GetInputIntFunction(int[,] input)
         {
             int l_x = input.GetLength(0), l_y = input.GetLength(1);

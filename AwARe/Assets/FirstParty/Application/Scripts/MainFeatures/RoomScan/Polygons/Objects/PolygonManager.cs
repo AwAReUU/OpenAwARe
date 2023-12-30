@@ -11,10 +11,6 @@ using AwARe.Objects;
 using AwARe.RoomScan.Objects;
 using UnityEngine;
 
-using Polygon = AwARe.Data.Objects.Polygon;
-using Room = AwARe.Data.Objects.Room;
-using Storage = AwARe.InterScenes.Objects.Storage;
-
 namespace AwARe.RoomScan.Polygons.Objects
 {
     /// <summary>
@@ -23,24 +19,26 @@ namespace AwARe.RoomScan.Polygons.Objects
     public class PolygonManager : MonoBehaviour
     {
         // The upper management
-        [SerializeField] private RoomManager roomManager;
+        [SerializeField] private RoomManager manager;
 
         // Objects to control
         [SerializeField] private PolygonDrawer polygonDrawer;
-
-        // The UI
-        [SerializeField] private PolygonUI ui;
-        [SerializeField] private GameObject canvas;
-        [SerializeField] private Transform sceneCanvas;
 
         // Object templates
         [SerializeField] private Polygon polygon;
 
         // Tracking data
-        private State currentState;
         private Polygon activePolygon;
         private Mesher activePolygonMesh;
         private Liner activePolygonLine;
+
+        /// <summary>
+        /// Gets the current state of the polygon scanner.
+        /// </summary>
+        /// <value>
+        /// The current state of the polygon scanner.
+        /// </value>
+        public State CurrentState { get; private set; }
 
         /// <summary>
         /// Gets the currently active room.
@@ -48,7 +46,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <value>
         /// A Room represented by the polygons.
         /// </value>
-        public Room Room { get => roomManager.Room; private set => roomManager.Room = value; }
+        public Room Room { get => manager.Room; private set => manager.Room = value; }
         
         /// <summary>
         /// Gets the current position of the pointer.
@@ -56,16 +54,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <value>
         /// The current position of the pointer.
         /// </value>
-        public Vector3 PointedAt => ui.PointedAt;
-
-        private void Awake()
-        {
-            if (canvas != null)
-            {
-                ui.transform.SetParent(sceneCanvas, false);
-                Destroy(canvas);
-            }
-        }
+        public Vector3 PointedAt => manager.PointedAt;
 
         void Start()
         {
@@ -113,7 +102,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void OnUIMiss()
         {
-            if(currentState == State.Scanning)
+            if(CurrentState == State.Scanning)
                 polygonDrawer.AddPoint();
         }
 
@@ -154,42 +143,13 @@ namespace AwARe.RoomScan.Polygons.Objects
         }
 
         /// <summary>
-        /// Called on save button click; Stores the current room and switches to the home screen.
+        /// Sets all Objects activities to match new state.
         /// </summary>
-        public void OnSaveButtonClick()
-        {
-            Storage.Get().ActiveRoom = Room.Data;
-            SceneSwitcher.Get().LoadScene("Home");
-        }
-
-        /// <summary>
-        /// Sets all UIObjects to inactive, then activates all UIObjects of this state.
-        /// </summary>
-        /// <param name="state">Which state the UI should switch to.</param>
+        /// <param name="state">The new state switched to.</param>
         private void SwitchToState(State state)
         {
-            // Set activity
-            SetActive(state);
-            currentState = state;
+            CurrentState = state;
+            manager.SetActive();
         }
-
-        /// <summary>
-        /// Sets activity of components.
-        /// </summary>
-        /// <param name="state">Current/new state.</param>
-        public void SetActive(State state) =>
-            // Set UI activity
-            ui.SetActive(state);
-    }
-
-    /// <summary>
-    /// The different states within the Polygon scanning process.
-    /// </summary>
-    public enum State
-    {
-        Default,
-        Scanning,
-        SettingHeight,
-        Saving
     }
 }

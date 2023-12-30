@@ -6,7 +6,6 @@
 // \*                                                                                       */
 
 using AYellowpaper;
-
 using UnityEngine;
 
 namespace AwARe.Objects
