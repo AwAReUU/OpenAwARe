@@ -34,7 +34,7 @@ namespace AwARe.Data.Logic
         public float Height { get; set; }
 
         /// <summary>
-        /// Calculates the area of the polygon.
+        /// Gets the area of the polygon.
         /// </summary>
         /// <value>The area of the polygon.</value>
         public float Area
@@ -50,7 +50,7 @@ namespace AwARe.Data.Logic
                     j = i;
                 }
 
-                return Math.Abs(area / 2);
+                return Mathf.Abs(area / 2);
             }
         }
 

@@ -6,7 +6,6 @@
 // \*                                                                                       */
 
 using AwARe.Data.Objects;
-using AwARe.InterScenes.Objects;
 using AwARe.Objects;
 using AwARe.RoomScan.Objects;
 using UnityEngine;
@@ -69,7 +68,8 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             if (Room.PositivePolygon == null)
                 Room.PositivePolygon = polygon;
-            Room.NegativePolygons.Add(polygon);
+            else
+                Room.NegativePolygons.Add(polygon);
         }
 
         /// <summary>

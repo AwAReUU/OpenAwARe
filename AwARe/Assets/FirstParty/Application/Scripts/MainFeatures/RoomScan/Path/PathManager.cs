@@ -32,6 +32,8 @@ namespace AwARe.RoomScan.Path.Objects
         // Test Objects for development
         [SerializeField] private Polygon testPolygon;
 
+        public PathData path;
+
         /// <summary>
         /// Gets the current state of the path generator.
         /// </summary>
@@ -47,8 +49,6 @@ namespace AwARe.RoomScan.Path.Objects
         /// A Room represented by the polygons.
         /// </value>
         public Room Room { get => manager.Room; private set => manager.Room = value; }
-
-        public PathData path;
 
         public void OnPathButtonClick()
         {
@@ -72,12 +72,6 @@ namespace AwARe.RoomScan.Path.Objects
             bool useTestPol = testPolygon != null;
             Data.Logic.Room roomData = Room.Data;
             Data.Logic.Polygon positivePolygon = roomData.PositivePolygon;
-
-            if( roomData.PositivePolygon == null ) Debug.Log("PosPoly is null");
-            else if( roomData.PositivePolygon.Points.Count < 3 ) Debug.Log("PosPoly has not enough points.");
-            else
-                foreach(var point in roomData.PositivePolygon.Points)
-                    Debug.Log(point);
 
             if (useTestPol)
             {
