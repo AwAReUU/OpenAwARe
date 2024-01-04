@@ -11,32 +11,32 @@ namespace AwARe
 {
 
     [System.Serializable]
+    public class Vector3Serialization
+    {
+        public float x;
+        public float y;
+        public float z;
+
+        /// Constructor for Vector3Serialization, initializes the object with a Vector3.
+        public Vector3Serialization(Vector3 vector)
+        {
+            x = vector.x;
+            y = vector.y;
+            z = vector.z;
+        }
+        /// <summary>
+        /// Converts the serialized Vector3 back to a Vector3 object.
+        /// </summary>
+        /// <returns>The deserialized Vector3.</returns>
+        public Vector3 ToVector3()
+        {
+            return new Vector3(x, y, z);
+        }
+    }
+
+    [System.Serializable]
     public class PolygonSerialization
     {
-        [System.Serializable]
-        public class Vector3Serialization
-        {
-            public float x;
-            public float y;
-            public float z;
-
-            /// Constructor for Vector3Serialization, initializes the object with a Vector3.
-            public Vector3Serialization(Vector3 vector)
-            {
-                x = vector.x;
-                y = vector.y;
-                z = vector.z;
-            }
-            /// <summary>
-            /// Converts the serialized Vector3 back to a Vector3 object.
-            /// </summary>
-            /// <returns>The deserialized Vector3.</returns>
-            public Vector3 ToVector3()
-            {
-                return new Vector3(x, y, z);
-            }
-        }
-
         public List<Vector3Serialization> Points;
 
         /// Constructor for PolygonSerialization, initializes the object with a list of serialized Vector3.
@@ -74,16 +74,18 @@ namespace AwARe
     {
         public PolygonSerialization PositivePolygon;
         public List<PolygonSerialization> NegativePolygons;
+        public List<Vector3Serialization> Anchors;
 
         /// <summary>
         /// Constructor for RoomSerialization, initializes the object with serialized positive and negative polygons.
         /// </summary>
         /// <param name="positivePolygon">Serialized positive polygon.</param>
         /// <param name="negativePolygons">List of serialized negative polygons.</param>
-        public RoomSerialization(PolygonSerialization positivePolygon, List<PolygonSerialization> negativePolygons)
+        public RoomSerialization(PolygonSerialization positivePolygon, List<PolygonSerialization> negativePolygons, List<Vector3Serialization> anchors)
         {
             PositivePolygon = positivePolygon;
             NegativePolygons = negativePolygons;
+            Anchors = anchors;
         }
 
         /// <summary>
@@ -94,7 +96,8 @@ namespace AwARe
         {
             Polygon positivePolygon = PositivePolygon.ToPolygon();
             List<Polygon> negativePolygons = NegativePolygons.Select(polygonSerialization => polygonSerialization.ToPolygon()).ToList();
-            return new Room(positivePolygon, negativePolygons);
+            List<Vector3> anchors = Anchors.Select(a => a.ToVector3()).ToList();
+            return new Room(positivePolygon, negativePolygons, anchors);
         }
     }
 }

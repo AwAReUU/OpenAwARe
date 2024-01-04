@@ -30,8 +30,9 @@ namespace AwARe.RoomScan.Polygons.Logic
 
 
         /// <summary>
-        /// The points used to load the polygon from a save.
+        /// Gets or sets the anchor points of the room.
         /// </summary>
+        /// <value>The points used to load the polygon from a save.</value>
         public List<Vector3> Anchors = new();
 
         /// <summary>
@@ -40,7 +41,8 @@ namespace AwARe.RoomScan.Polygons.Logic
         /// </summary>
         /// <param name="posPolygon">The positive polygon of the room.</param>
         /// <param name="negPolygons">The negative polygon of the room.</param>
-        public Room(Polygon posPolygon = null, List<Polygon> negPolygons = null)
+        /// <param name="anchors">The anchor points of the room.</param>
+        public Room(Polygon posPolygon = null, List<Polygon> negPolygons = null, List<Vector3> anchors = null)
         {
             if (posPolygon != null)
                 PositivePolygon = posPolygon;
@@ -51,6 +53,9 @@ namespace AwARe.RoomScan.Polygons.Logic
                 NegativePolygons = negPolygons;
             else
                 NegativePolygons = new List<Polygon>();
+            
+            if (anchors != null)
+                Anchors = anchors;
         }
 
         /// <summary>

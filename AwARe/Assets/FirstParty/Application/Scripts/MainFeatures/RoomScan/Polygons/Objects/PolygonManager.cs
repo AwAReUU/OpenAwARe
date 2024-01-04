@@ -253,7 +253,8 @@ namespace AwARe.RoomScan.Polygons.Objects
             // Convert Room to RoomSerialization
             RoomSerialization roomSerialization = new RoomSerialization(
                 new PolygonSerialization(Room.PositivePolygon.Points),
-                Room.NegativePolygons.Select(p => new PolygonSerialization(p.Points)).ToList()
+                Room.NegativePolygons.Select(p => new PolygonSerialization(p.Points)).ToList(),
+                Room.Anchors.Select(a => new Vector3Serialization(a)).ToList()
             );
 
             // Save RoomSerialization
@@ -284,6 +285,7 @@ namespace AwARe.RoomScan.Polygons.Objects
 
                     if (Room != null)
                     {
+                        Debug.Log("ANCHOR COUNT: " + Room.Anchors.Count().ToString());
                         if (!Room.PositivePolygon.IsEmptyPolygon())
                         {
                             if (polygonDrawer != null)
