@@ -20,6 +20,9 @@ namespace AwARe.Data.Logic
     public class Polygon
 
     {
+        /// <summary>
+        /// The points of the polygon.
+        /// </summary>
         public List<Vector3> Points;
 
         // Default constructor

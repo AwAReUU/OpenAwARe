@@ -42,6 +42,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private GameObject pathBtn;
         [SerializeField] private GameObject LoadingPopup;
         [SerializeField] private GameObject SavedPopup;
+        [SerializeField] private GameObject anchorHandler;
 
 
         private bool scanning = false;
@@ -130,8 +131,16 @@ namespace AwARe.RoomScan.Polygons.Objects
         public void OnSaveButtonClick()
         {
             SwitchToState(State.SavingOptions);
-
         }
+
+        /// <summary>
+        /// Called on anchor button click; changes state so user places anchors.
+        /// </summary>
+        public void OnSetAnchorButtonClick()
+        {
+            SwitchToState(State.SettingAnchors);
+        }
+
 
         /// <summary>
         /// Called on reset button click; Clears the room and starts a new polygon scan.
@@ -349,7 +358,7 @@ namespace AwARe.RoomScan.Polygons.Objects
             ui.SetActive(state);
 
             // Set direct component activity
-            bool scan = false, mesh = false;
+            bool scan = false, mesh = false, anchorHandling = false;
             switch (state)
             {
                 case State.Scanning:
@@ -358,11 +367,13 @@ namespace AwARe.RoomScan.Polygons.Objects
                 case State.SettingHeight:
                     mesh = true;
                     break;
-                
-                    
+                case State.SettingAnchors:
+                    anchorHandling = true;
+                    break;
             }
             scanner.gameObject.SetActive(scan);
             polygonMesh.gameObject.SetActive(mesh);
+            anchorHandler.gameObject.SetActive(anchorHandling);
         }
     }
 
@@ -375,6 +386,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         Scanning,
         SettingHeight,
         Saving,
+        SettingAnchors,
         SavingOptions,
         Loading,
         LoadingOptions

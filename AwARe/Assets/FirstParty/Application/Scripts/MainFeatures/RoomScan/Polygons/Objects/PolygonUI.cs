@@ -30,6 +30,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private GameObject loadingpopup;
         [SerializeField] private GameObject savedpopup;
         [SerializeField] private GameObject saveButtons;
+        [SerializeField] private GameObject anchorButtons;
         [SerializeField] private GameObject loadButtons;
         [SerializeField] private GameObject loadButton;
         [SerializeField] private GameObject continueButton;
@@ -37,12 +38,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <summary>
         /// Sets activity of UI elements based on the state.
         /// </summary>
-        /// <param name="toState">Current/new state.</param>
-
-
-
-
-
+        /// <param name="state">Current/new state.</param>
         public void SetActive(State state)
         {
             bool reset = false,
@@ -51,6 +47,7 @@ namespace AwARe.RoomScan.Polygons.Objects
                 confirm = false,
                 save = false,
                 height = false,
+                anchor1btn = false,
                 point = false,
                 pathbutton = false,
                 Loadingpopup = false,
@@ -64,6 +61,12 @@ namespace AwARe.RoomScan.Polygons.Objects
                     create = true;
                     save = true;
                     pathbutton = true;
+                    anchor1btn = true;
+                    break;
+                case State.SettingAnchors:
+                    //save = true;
+                    anchor1btn = true;
+                    point = true;
                     break;
                 case State.SavingOptions:
                     savebtns = true;
@@ -99,13 +102,14 @@ namespace AwARe.RoomScan.Polygons.Objects
             saveButtons.SetActive(savebtns);
             loadButton.SetActive(load);
             loadButtons.SetActive(loadbtns);
+            anchorButtons.SetActive(anchor1btn);
             heightSlider.SetActive(height);
             pointer.SetActive(point);
             pathButton.SetActive(pathbutton);
             loadingpopup.SetActive(Loadingpopup);
             continueButton.SetActive(continuebtn);
             
-            
+            Debug.Log(state);
             
         }
     }
