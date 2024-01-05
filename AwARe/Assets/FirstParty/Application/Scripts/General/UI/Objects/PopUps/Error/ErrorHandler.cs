@@ -1,15 +1,19 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using AwARe.Logic;
-using System.Collections;
-using System.Collections.Generic;
-
 using TMPro;
-
-using UnityEngine.UI;
-
 using UnityEngine;
 
-namespace AwARe.NotImplemented.Objects
+namespace AwARe.UI.Popups.Objects
 {
+    /// <summary>
+    /// A Singleton MonoBehaviour which handles thrown errors.
+    /// </summary>
     public class ErrorHandler : PopupHandler
     {
         // Singleton instance
@@ -60,6 +64,7 @@ namespace AwARe.NotImplemented.Objects
             if (type != LogType.Exception && type != LogType.Error) return;
             ShowPopUp();
 #if DEBUG
+            // Show the specific error
             activePopUp.GetComponentInChildren<TextMeshProUGUI>().text = logString;
 #endif
         }

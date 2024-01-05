@@ -5,22 +5,28 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using AwARe.Logic;
-
 using UnityEngine;
 
-namespace AwARe.NotImplemented.Objects
+namespace AwARe.UI.Popups.Objects
 {
     /// <summary>
-    /// A Singleton MonoBehaviour which handles code or other behaviour which has no implementation as of yet.
+    /// A class that handles showing and hiding popups.
     /// </summary>
     public class PopupHandler : MonoBehaviour
     {
-        // Not implemented Prefabs and canvas
+        /// <summary>
+        /// Prefab of the popup.
+        /// </summary>
         [SerializeField] protected GameObject popUpPrefab;
+
+        /// <summary>
+        /// Canvas on which the popup is shown.
+        /// </summary>
         [SerializeField] protected GameObject supportCanvas;
 
-        // Active GameObjects
+        /// <summary>
+        /// The active popup gameObject.
+        /// </summary>
         protected GameObject activePopUp;
         
         /// <summary>

@@ -9,7 +9,7 @@ using AwARe.Logic;
 
 using UnityEngine;
 
-namespace AwARe.NotImplemented.Objects
+namespace AwARe.UI.Popups.Objects
 {
     /// <summary>
     /// A Singleton MonoBehaviour which handles code or other behaviour which has no implementation as of yet.
