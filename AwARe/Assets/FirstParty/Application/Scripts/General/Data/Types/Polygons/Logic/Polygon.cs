@@ -77,18 +77,21 @@ namespace AwARe.Data.Logic
         /// Calculates the area of the polygon.
         /// </summary>
         /// <returns>The area of the polygon.</returns>
-        public float PolygonArea()
-    {
-        float area = 0f;
-        int j = Points.Count - 1;
-
-        for (int i = 0; i < Points.Count; i++)
+        public float Area
         {
-            area += (Points[j].x + Points[i].z) * (Points[j].z - Points[i].z);
-            j = i; 
-        }
+            get
+            {
+                float area = 0f;
+                int j = Points.Count - 1;
 
-        return Math.Abs(area / 2);
-    }
+                for (int i = 0; i < Points.Count; i++)
+                {
+                    area += (Points[j].x + Points[i].z) * (Points[j].z - Points[i].z);
+                    j = i;
+                }
+
+                return Math.Abs(area / 2);
+            }
+        }
     }
 }
