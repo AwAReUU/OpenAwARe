@@ -5,8 +5,11 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System;
+using System.Collections.Generic;
 using AwARe.Data.Logic;
 using AwARe.RoomScan.Polygons.Logic;
+using Codice.CM.Common.Merge;
 
 using UnityEngine;
 
@@ -14,10 +17,12 @@ namespace AwARe.RoomScan.Polygons.Objects
 {
     public class AnchorHandler : MonoBehaviour
     {
-        PolygonManager polygonManager;
-        Room room;
-        [SerializeField] GameObject pointer;
-        [SerializeField] GameObject visualAnchorPrefab;
+        private PolygonManager polygonManager;
+        private Room room;
+        [SerializeField] private GameObject pointer;
+        [SerializeField] private GameObject visualAnchorPrefab;
+        private Vector3 anchor1, anchor2;
+        private float anchorDist, anchorAlpha;
 
         private void Awake()
         {
@@ -37,18 +42,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         }
 
         /// <summary>
-        /// Add the added point to the anchors of the polygon.
-        /// </summary>
-        public void AddAnchor(Vector3 point)
-        {
-            Instantiate(visualAnchorPrefab, pointer.transform.position, Quaternion.identity);
-            room.AddAnchor(point);
-            Debug.Log("Count: " + room.Anchors.Count.ToString());
-            Debug.Log(room.Anchors.ToString());
-        }
-
-        /// <summary>
-        /// Move the pointer based on camera aim.
+        /// Move the pointer based on camera aim. The pointer is always centered.
         /// </summary>
         private void MovePointer()
         {
@@ -74,6 +68,76 @@ namespace AwARe.RoomScan.Polygons.Objects
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Add the added point to the anchors of the polygon.
+        /// </summary>
+        public void AddAnchor(Vector3 point)
+        {
+            if (room.Anchors.Count >= 2) return;
+
+            Instantiate(visualAnchorPrefab, pointer.transform.position, Quaternion.identity);
+            room.AddAnchor(point);
+            // Debug.Log("Count: " + room.Anchors.Count.ToString());
+            // Debug.Log(room.Anchors.ToString());
+        }
+
+        /// <summary>
+        /// Initialize anchor data references.
+        /// </summary>
+        private void FindAnchorData()
+        {
+            anchor1 = room.Anchors[0];
+            anchor2 = room.Anchors[1];
+            anchorDist = GetVector2Distance(anchor1, anchor2);
+            anchorAlpha = GetVector2Alpha(anchor1, anchor2);
+        }
+
+        private float GetVector2Distance(Vector3 a, Vector3 b)
+        {
+            float dX = b.x - a.x;
+            float dY = b.y - a.y;
+            float r = Mathf.Sqrt(dX * dX + dY * dY);
+
+            return r;
+        }
+
+        private float GetVector2Alpha(Vector3 a, Vector3 b)
+        {
+            float dX = b.x - a.x;
+            float dY = b.y - a.y;
+            float alpha = Mathf.Atan(dY / dX);
+
+            if (dX < 0 && dY >= 0)
+                return alpha + Mathf.PI;
+            if (dX < 0 && dY < 0)
+                return alpha - Mathf.PI;
+
+            //if (x >= 0 && y >= 0)
+            //|| (x >= 0 && y < 0)
+            return alpha;
+        }
+
+        private Vector3 WorldToPolar(Vector3 worldPoint)
+        {
+            float r = GetVector2Distance(anchor2, worldPoint);
+            float alpha = GetVector2Alpha(anchor2, worldPoint);
+
+            Vector3 polarPoint = new(r, alpha, worldPoint.z);
+            return polarPoint;
+        }
+
+        private Vector3 PolarToWorld(Vector3 polarPoint)
+        {
+            float r = polarPoint.x;
+            float alpha = polarPoint.y;
+
+            float wx = r * Mathf.Cos(alpha + anchorAlpha);
+            float wy = r * Mathf.Sin(alpha + anchorAlpha);
+            Vector3 worldPoint = new(wx, wy, polarPoint.z);
+
+            return anchor2 + worldPoint;
         }
     }
 }

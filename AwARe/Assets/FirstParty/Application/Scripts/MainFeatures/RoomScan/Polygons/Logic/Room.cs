@@ -30,10 +30,16 @@ namespace AwARe.RoomScan.Polygons.Logic
 
 
         /// <summary>
-        /// Gets or sets the anchor points of the room.
+        /// List containing the anchor points of the room.
         /// </summary>
         /// <value>The points used to load the polygon from a save.</value>
         public List<Vector3> Anchors = new();
+
+        /// <summary>
+        /// Adds an anchorpoint to the room. Anchors are used to load the room in the correct world location.
+        /// </summary>
+        /// <param name="anchor"></param>
+        public void AddAnchor(Vector3 anchor) => Anchors.Add(anchor);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Room"/> class.
@@ -74,11 +80,5 @@ namespace AwARe.RoomScan.Polygons.Logic
                 NegativePolygons.Add(polygon);
             }
         }
-
-        /// <summary>
-        /// Adds an anchorpoint to the room. Anchors are used to load the room in the correct world location.
-        /// </summary>
-        /// <param name="anchor"></param>
-        public void AddAnchor(Vector3 anchor) => Anchors.Add(anchor);
     }
 }
