@@ -2,15 +2,16 @@ using System.Collections;
 
 using UnityEngine;
 
-namespace AwARe.ObjectGeneration
+namespace AwARe.DevTools.ObjectGeneration
 {
     /// <summary>
     /// Functionality to visualize BoxColliders.
     /// </summary>
-    internal class BoxCollidervisualizer
+    public class BoxColliderVisualizer
     {
-        public BoxCollidervisualizer(BoxCollider boxCollider)
+        public BoxColliderVisualizer(BoxCollider boxCollider)
         {
+            //TODO: DONT create a new monobehavior gameobject for each boxcollider spawned.
             GameObject gameObject = new GameObject();
             BoxColliderHelperMonoBehaviour boxColliderHelper
                 = gameObject.AddComponent<BoxColliderHelperMonoBehaviour>();
@@ -21,7 +22,7 @@ namespace AwARe.ObjectGeneration
     /// <summary>
     /// Holds functionality to create & destroy visualizations of boxcolliders.
     /// </summary>
-    internal class BoxColliderHelperMonoBehaviour : MonoBehaviour
+    public class BoxColliderHelperMonoBehaviour : MonoBehaviour
     {
         /// <summary>
         /// Render a boxCollider that fades out after some time.
