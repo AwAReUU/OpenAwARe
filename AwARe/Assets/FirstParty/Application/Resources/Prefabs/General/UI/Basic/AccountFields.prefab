@@ -108,10 +108,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2603807902268586140, guid: ff7c99687be61754ebe01bdf43f09d47,
+        type: 3}
+      propertyPath: m_GlobalPointSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887108096450022881, guid: ff7c99687be61754ebe01bdf43f09d47,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887108096450022881, guid: ff7c99687be61754ebe01bdf43f09d47,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887108096450022881, guid: ff7c99687be61754ebe01bdf43f09d47,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189340766757437002, guid: ff7c99687be61754ebe01bdf43f09d47,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189340766757437002, guid: ff7c99687be61754ebe01bdf43f09d47,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8656272725491736856, guid: ff7c99687be61754ebe01bdf43f09d47,
         type: 3}
       propertyPath: m_Name
-      value: InputField
+      value: AccountFields
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
