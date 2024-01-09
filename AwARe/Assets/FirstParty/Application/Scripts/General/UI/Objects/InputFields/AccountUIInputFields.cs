@@ -51,8 +51,13 @@ namespace AwARe
         // Update is called once per frame
         void Update()
         {
-            securityButton.onClick.AddListener(delegate () { this.OnSecurityButtonClick(); });
+            
 
+        }
+
+        void Awake()
+        {
+            securityButton.onClick.AddListener(delegate () { this.OnSecurityButtonClick(); });
         }
         public void OnLoginButtonClick()
         {
