@@ -163,9 +163,11 @@ namespace AwARe.RoomScan.Polygons.Objects
                 path = startstate.GeneratePath(Room.PositivePolygon, Room.NegativePolygons);
             }
 
-            PathVisualizer visualizer = (PathVisualizer)pathVisualizerVisualizer.GetComponent("PathVisualizer");
-            visualizer.SetPath(path);
-            visualizer.Visualize();
+            #if UNITY_EDITOR
+                PathVisualizer visualizer = (PathVisualizer)pathVisualizerVisualizer.GetComponent("PathVisualizer");
+                visualizer.SetPath(path);
+                visualizer.Visualize();
+            #endif
         }
 
         /// <summary>
