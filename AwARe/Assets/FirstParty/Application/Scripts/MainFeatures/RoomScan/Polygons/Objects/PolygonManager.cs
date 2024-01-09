@@ -30,7 +30,6 @@ namespace AwARe.RoomScan.Polygons.Objects
     /// </summary>
     public class PolygonManager : MonoBehaviour
     {
-        
         [SerializeField] private PolygonDrawer polygonDrawer;
         [SerializeField] private PolygonMesh polygonMesh;
         [SerializeField] private PolygonScan scanner;
@@ -43,7 +42,6 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private GameObject LoadingPopup;
         [SerializeField] private GameObject SavedPopup;
 
-
         private bool scanning = false;
 
         /// <value>A Room represented by the polygons.</value>
@@ -51,7 +49,6 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         /// <value>The polygon currently being drawn.</value>
         public Polygon CurrentPolygon { get; private set; }
-
 
         private void Awake()
         {
@@ -75,7 +72,6 @@ namespace AwARe.RoomScan.Polygons.Objects
             load1Btn.onClick.AddListener(() => { LoadRoom(1); });
             load2Btn.onClick.AddListener(() => { LoadRoom(2); });
             load3Btn.onClick.AddListener(() => { LoadRoom(3); });
-
         }
 
         void Start()
@@ -92,9 +88,7 @@ namespace AwARe.RoomScan.Polygons.Objects
             }
             else SwitchToState(State.Default);
 
-
         }
-
         void Update()
         {
             if (scanning)
@@ -132,7 +126,6 @@ namespace AwARe.RoomScan.Polygons.Objects
             SwitchToState(State.SavingOptions);
 
         }
-
         /// <summary>
         /// Called on reset button click; Clears the room and starts a new polygon scan.
         /// </summary>
@@ -141,7 +134,6 @@ namespace AwARe.RoomScan.Polygons.Objects
             Room = new Room();
             StartScanning();
         }
-
 
         /// <summary>
         /// Called on apply button click; adds and draws the current polygon.
@@ -156,7 +148,6 @@ namespace AwARe.RoomScan.Polygons.Objects
             Room.AddPolygon(CurrentPolygon);
             //GenerateAndDrawPath();
         }
-
         public void OnPathButtonClick()
         {
             //activate the popup
@@ -164,21 +155,17 @@ namespace AwARe.RoomScan.Polygons.Objects
             StartCoroutine(MakePathAndRemovePopup());
 
         }
-
         public void ContinueToGeneration()
         {
             Storage.Get().ActiveRoom = Room;
             SceneSwitcher.Get().LoadScene("Home");
         }
-        
-
         public IEnumerator MakePathAndRemovePopup()
         {
             yield return null;
             GenerateAndDrawPath();
             LoadingPopup.SetActive(false);
         }
-
         public void GenerateAndDrawPath()
         {
             PathGenerator startstate = new();
@@ -309,7 +296,6 @@ namespace AwARe.RoomScan.Polygons.Objects
         }
 
 
-
         /// <summary>
         /// Called on changing the slider; sets the height of the polygon mesh.
         /// </summary>
@@ -336,8 +322,6 @@ namespace AwARe.RoomScan.Polygons.Objects
             scanning = toState == State.Scanning;
             polygonDrawer.ScanningPolygon = null;
         }
-
-    
 
         /// <summary>
         /// Sets activity of components.
