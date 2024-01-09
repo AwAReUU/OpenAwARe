@@ -185,7 +185,7 @@ namespace AwARe.RoomScan.Path
         /// <param name="mergeTreshold">the minimum length a subpath should have. shorter subpaths are merged</param>
         /// <param name="remainingSubPaths">the list of subpaths to consider for merging</param>
         /// <param name="negativePolygons">the list of negative polygons present in the room</param>
-        public void MergeShortPaths(ref bool[,] grid, int mergeTreshold, List<List<(int x, int y)>> remainingSubPaths, List<Polygon> negativePolygons)
+        private void MergeShortPaths(ref bool[,] grid, int mergeTreshold, List<List<(int x, int y)>> remainingSubPaths, List<Polygon> negativePolygons)
         {
             //find all subpaths that share a junction and merge them if they aren't long enough
             for (int i = 0; i < junctions.Count; i++)

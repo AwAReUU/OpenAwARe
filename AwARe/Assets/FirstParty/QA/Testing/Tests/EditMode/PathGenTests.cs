@@ -1,7 +1,10 @@
 using System;
+using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Security.Permissions;
+using AwARe.Data.Logic;
 using AwARe.RoomScan.Path;
 using AwARe.RoomScan.Path.Jobs;
 using AwARe.RoomScan.Polygons.Objects;
@@ -317,26 +320,11 @@ namespace Tests
             Assert.IsTrue(outbool == false);
         }
 
-        //todo: split this test into multiple
-        //      test to not merge into negative polygon
-        //      test to remove other points considered this round
         //      potentially alter postfiltering to plus shape neighbourhood in stead of 8-neighbourhood, and see with some polygons and see if still works?
         //          above is method improvement tho, not testing
         [Test, Description("Tests that the PostFilteringHandler works correctly")]
         public void Test_PostFiltering()
         {
-            //ensure lines are only cut away from endpoints?
-            //ensure line length cut good
-            //ensure line length merge good
-            //ensure line merge direction good
-            //ensure single line is not erased (no junction line not erased)
-            //example test?
-            //point is rounded down
-
-            //test:
-            //lines that are too short are cut, but not if it is the only line
-            //lines that are too short to be cut are merged, but not if it would end up in a negative polygon
-
             bool[,] reusableinput = new bool[5, 10]
             {
                 {true, true, false, false, false, false, false, false, true, true},
@@ -357,12 +345,21 @@ namespace Tests
 
             bool[,] expectedoutputmerge = new bool[5, 10]
             {
-                {false, false, false, false, false, false, false, false, false, false},
-                {false, false, false, false, false, false, false, false, false, false},
-                {true, true, true, true, true, true, true, true, true, true},
-                {false, false, true, false, false, false, false, true, false, false},
-                {false, false, false, false, false, false, false, false, false, false}
+                {true, true, false, false, false, false, false, false, false, false},
+                {false, true, true, false, false, false, false, false, false, false},
+                {false, false, true, true, true, true, true, true, true, true},
+                {false, true, true, false, false, false, false, true, false, false},
+                {true, true, false, false, false, false, false, false, false, false}
             };
+
+            Polygon negative = new Polygon();
+            negative.AddPoint(new Vector3(-1, 0, -1));
+            negative.AddPoint(new Vector3(-1, 0, 6));
+            negative.AddPoint(new Vector3(6, 0, 6));
+            negative.AddPoint(new Vector3(6, 0, -1));
+
+            List<Polygon> negatives = new List<Polygon>();
+            negatives.Add(negative);
 
             bool[,] input = new bool[5, 10];
             for(int x = 0; x < 5; x++)
@@ -395,8 +392,8 @@ namespace Tests
                 }
             }
 
-            //check mergin
-            handler.PostFiltering(ref input, 0, 3, new());
+            //check merging
+            handler.PostFiltering(ref input, 0, 3, negatives);
             for (int x = 0; x < 5; x++)
             {
                 for (int y = 0; y < 5; y++)
@@ -405,6 +402,140 @@ namespace Tests
 
                     Assert.IsTrue(input[x, y] == expectedoutputmerge[x, y]);
                 }
+            }
+        }
+
+        [Test, Description("Tests that the CreatGrid method of the PathGenerator works correctly")]
+        public void Test_PathGenerator_CreateGrid()
+        {
+            //make polygons positive and negative, make expectedoutput (grid). by hand :(. unfeasable.
+            //test that the 2 are equal
+
+            //test creategrid size correct with example. one for max size polygon, one for less than that
+            //test getgridlines correct maybe. how?
+            PathGenerator generator = new();
+            MethodInfo creategridmethod = generator.GetType().GetMethod("CreateGrid", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            Polygon polygon1 = new();
+            polygon1.AddPoint(new Vector3(-2, 0, 8));
+            polygon1.AddPoint(new Vector3(-2, 0, 3));
+            polygon1.AddPoint(new Vector3(3, 0, 3));
+            polygon1.AddPoint(new Vector3(4, 0, -2));
+            polygon1.AddPoint(new Vector3(7, 0, 7));
+
+            var returnvalue = creategridmethod.Invoke(generator, new object[2] {polygon1, 500});
+            bool[,] grid = (bool[,])returnvalue;
+
+            Assert.IsTrue(grid.GetLength(0) == 451);
+            Assert.IsTrue(grid.GetLength(1) == 501);
+
+            Polygon polygon2 = new();
+            polygon2.AddPoint(new Vector3(1, 0, 1));
+            polygon2.AddPoint(new Vector3(1, 0, 3));
+            polygon2.AddPoint(new Vector3(4, 0, 3));
+            polygon2.AddPoint(new Vector3(4, 0, 1));
+
+            returnvalue = creategridmethod.Invoke(generator, new object[2] { polygon2, 500 });
+            grid = (bool[,])returnvalue;
+
+            Assert.IsTrue(grid.GetLength(0) == 301);
+            Assert.IsTrue(grid.GetLength(1) == 201);
+
+            Polygon polygon3 = new();
+            polygon3.AddPoint(new Vector3(1, 0, 1));
+            polygon3.AddPoint(new Vector3(1, 0, 3));
+            polygon3.AddPoint(new Vector3(7, 0, 3));
+            polygon3.AddPoint(new Vector3(7, 0, 1));
+
+            returnvalue = creategridmethod.Invoke(generator, new object[2] { polygon3, 500 });
+            grid = (bool[,])returnvalue;
+
+            Assert.IsTrue(grid.GetLength(0) == 501);
+            Assert.IsTrue(grid.GetLength(1) == 168);
+        }
+
+        [Test, Description("Tests that the GetGridLines method of the PathGenerator works correctly")]
+        public void Test_PathGenerator_GetGridLines()
+        {
+            PathGenerator generator = new();
+            MethodInfo gridlinesmethod = generator.GetType().GetMethod("GetGridlines", BindingFlags.NonPublic | BindingFlags.Instance);
+            MethodInfo creategridmethod = generator.GetType().GetMethod("CreateGrid", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            Polygon positive = new();
+            positive.AddPoint(new Vector3(1, 0, 1));
+            positive.AddPoint(new Vector3(1, 0, 3));
+            positive.AddPoint(new Vector3(3, 0, 4));
+            positive.AddPoint(new Vector3(3, 0, 2));
+
+            creategridmethod.Invoke(generator, new object[2] { positive, 500 });
+
+            List<Polygon> negatives = new();
+            Polygon negative1 = new();
+            negative1.AddPoint(new Vector3(2, 0, 2));
+            negative1.AddPoint(new Vector3(4, 0, 2));
+            negative1.AddPoint(new Vector3(4, 0, 3));
+            negative1.AddPoint(new Vector3(2, 0, 3));
+            negatives.Add(negative1);
+
+            var returnvalue = gridlinesmethod.Invoke(generator, new object[2] { positive, negatives });
+            (PolygonLines, List<PolygonLines>) lines = ((PolygonLines, List<PolygonLines>))returnvalue;
+            List<((int, int), (int, int))> positiveLines = lines.Item1.Lines;
+            List<((int, int), (int, int))> negativeLines = lines.Item2[0].Lines;
+
+            List<((int, int), (int, int))> expectedPositiveLines = new();
+            expectedPositiveLines.Add(((0, 0), (0, 200)));
+            expectedPositiveLines.Add(((0, 200), (200, 300)));
+            expectedPositiveLines.Add(((200, 300), (200, 100)));
+            expectedPositiveLines.Add(((200, 100), (0, 0)));
+
+            for(int i = 0; i < positiveLines.Count; i++)
+            {
+                Assert.IsTrue(positiveLines[i] == expectedPositiveLines[i]);
+            }
+
+            List<((int, int), (int, int))> expectedNegativeLines = new();
+            expectedNegativeLines.Add(((100, 100), (300 ,100)));
+            expectedNegativeLines.Add(((300, 100), (300, 200)));
+            expectedNegativeLines.Add(((300, 200), (100, 200)));
+            expectedNegativeLines.Add(((100, 200), (100, 100)));
+
+            for (int i = 0; i < negativeLines.Count; i++)
+            {
+                Assert.IsTrue(negativeLines[i] == expectedNegativeLines[i]);
+            }
+        }
+
+        [Test, Description("Tests the GeneratePath method of the PathGenerator")]
+        public void Test_PathGenerator_GeneratePath()
+        {
+            PathGenerator generator = new();
+            MethodInfo topathmethod = generator.GetType().GetMethod("ConvertToPath", BindingFlags.NonPublic | BindingFlags.Instance);
+            MethodInfo creategridmethod = generator.GetType().GetMethod("CreateGrid", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            Polygon positive = new Polygon();
+            positive.AddPoint(new Vector3(0, 0, 0));
+            positive.AddPoint(new Vector3(0, 0, 0.6f));
+            positive.AddPoint(new Vector3(0.6f, 0, 0.6f));
+            positive.AddPoint(new Vector3(0.6f, 0, 0));
+
+            creategridmethod.Invoke(generator, new object[2] { positive, 500 });
+
+            bool[,] expectedresultgrid = new bool[61, 61];
+            expectedresultgrid[30, 30] = true;
+            expectedresultgrid[30, 31] = true;
+            expectedresultgrid[31, 30] = true;
+
+            PathData expectedresultpath = (PathData)topathmethod.Invoke(generator, new object[1] { expectedresultgrid });
+            PathData result = generator.GeneratePath(positive, new());
+
+            for(int i = 0; i < result.edges.Count; i++)
+            {
+                Assert.IsTrue(expectedresultpath.edges[i] == result.edges[i]);
+            }
+
+            for (int i = 0; i < result.points.Count; i++)
+            {
+                Assert.IsTrue(expectedresultpath.points[i] == result.points[i]);
             }
         }
     }
