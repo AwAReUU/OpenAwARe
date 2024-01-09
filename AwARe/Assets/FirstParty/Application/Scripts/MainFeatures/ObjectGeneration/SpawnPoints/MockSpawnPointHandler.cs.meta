@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/General/MonoBehaviours/Singleton/Singleton.cs.meta
+guid: 9ca2c6b0f52320544ad843051ccc764e
+========
+guid: 5fad4afd0b4a42642882796ad4de6cea
+>>>>>>>> e558352dddfb191329a4d06ae35cfb046c92c622:Assets/Scripts/ObjectGeneration/SpawnPoints/MockSpawnPointHandler.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
