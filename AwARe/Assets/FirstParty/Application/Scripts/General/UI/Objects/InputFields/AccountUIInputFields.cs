@@ -22,8 +22,18 @@ namespace AwARe
         [SerializeField] private Button securityButton;
         [SerializeField] private Button referRegisterButton;
         [SerializeField] private Button referLoginButton;
+        [SerializeField] private Button registerButton;
+        [SerializeField] private Button loginButton;
         [SerializeField] private GameObject registerScreen;
         [SerializeField] private GameObject loginScreen;
+
+        // warnings
+        [SerializeField] private GameObject warningAllFields;
+        [SerializeField] private GameObject warningPWEIncorrect;
+        [SerializeField] private GameObject warningIncorrectEmail;
+        [SerializeField] private GameObject warningWeakPW;
+        [SerializeField] private GameObject warningDissimilarPW;
+
         private bool IsStrongPassword(string password)
         {
             // Password should be at least 12 characters long
@@ -42,10 +52,16 @@ namespace AwARe
                 digitRegex.IsMatch(password) && symbolRegex.IsMatch(password);
         }
 
-
         // Start is called before the first frame update
         void Start()
         {
+            warningAllFields.SetActive(false);
+            warningPWEIncorrect.SetActive(false);
+            warningIncorrectEmail.SetActive(false);
+            warningWeakPW.SetActive(false);
+            warningDissimilarPW.SetActive(false);
+
+            warningDissimilarPW.SetActive(false);
             registerScreen.SetActive(false);
             loginScreen.SetActive(true);
         }
@@ -62,6 +78,7 @@ namespace AwARe
             securityButton.onClick.AddListener(delegate () { this.OnSecurityButtonClick(); });
             referRegisterButton.onClick.AddListener(delegate () { OnReferRegisterButtonClick(); });
             referLoginButton.onClick.AddListener(delegate () { this.OnReferLoginButtonClick(); });
+            registerButton.onClick.AddListener(delegate () { this.OnRegisterButtonClick(); });
         }
         public void OnLoginButtonClick()
         {
@@ -83,11 +100,17 @@ namespace AwARe
         public void OnSecurityButtonClick()
         {
             registerPasswordInputField.contentType = TMP_InputField.ContentType.Standard;
+            securityButton.image.sprite = ;
 
         }
 
         public void OnRegisterButtonClick()
         {
+            warningAllFields.SetActive(false);
+            //warningPWEIncorrect.SetActive(false);
+            warningIncorrectEmail.SetActive(false);
+            warningWeakPW.SetActive(false);
+            warningDissimilarPW.SetActive(false);
 
             string registeremail = registerEmailInputField.text;
             string registerpassword = registerPasswordInputField.text;
@@ -95,13 +118,40 @@ namespace AwARe
             string registerlastname = LastNameInputField.text;
             string registerconfirmpassword = passwordConfirmInputField.text;
 
+            Regex emailRegex = new Regex(@"@");
+
             if (string.IsNullOrEmpty(registeremail) || string.IsNullOrEmpty(registerpassword) ||
                 string.IsNullOrEmpty(registerfirstname) || string.IsNullOrEmpty(registerlastname) ||
                 string.IsNullOrEmpty(registerconfirmpassword))
             {
                 Debug.LogError("Please fill in all required fields.");
+                warningAllFields.SetActive(true);
+
                 return; // Stop execution if any field is empty
             }
+
+            if (registerpassword != registerconfirmpassword)
+            {
+                Debug.LogError("Please make sure the passwords are the same");
+                warningDissimilarPW.SetActive(true);
+                return;
+            }
+
+            if (IsStrongPassword(registerpassword)!)
+            {
+                Debug.LogError("Password should have a combination of uppercase letters, lowercase letters, numbers, and symbols and be atleast 12 characters.");
+                warningWeakPW.SetActive(true);
+                return;
+            }
+
+            /*if ((emailRegex.IsMatch(registeremail)!))
+            {
+                Debug.LogError("Invalid email address");
+                warningIncorrectEmail.SetActive(true);
+                return;
+            }*/
+
+            
 
         }
 
