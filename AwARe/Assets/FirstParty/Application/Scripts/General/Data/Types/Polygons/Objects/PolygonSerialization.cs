@@ -1,3 +1,9 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \* 
 
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +16,6 @@ using UnityEngine;
 
 namespace AwARe
 {
-
     [System.Serializable]
     public class PolygonSerialization
     {
@@ -38,12 +43,12 @@ namespace AwARe
             }
         }
 
-        public List<Vector3Serialization> Points;
+        public List<Vector3Serialization> listpoints;
 
         /// Constructor for PolygonSerialization, initializes the object with a list of serialized Vector3.
         public PolygonSerialization(List<Vector3Serialization> points)
         {
-            Points = points ?? new List<Vector3Serialization>();
+            listpoints = points ?? new List<Vector3Serialization>();
         }
         /// <summary>
         /// Constructor for PolygonSerialization, initializes the object with a list of Vector3, converting them to serialized form.
@@ -51,7 +56,7 @@ namespace AwARe
         /// <param name="points">List of Vector3 representing polygon vertices.</param>
         public PolygonSerialization(List<Vector3> points)
         {
-            Points = points.Select(v => new Vector3Serialization(v)).ToList();
+            listpoints = points.Select(v => new Vector3Serialization(v)).ToList();
         }
         /// <summary>
         /// Converts the serialized polygon back to a Polygon object.
@@ -59,14 +64,14 @@ namespace AwARe
         /// <returns>The deserialized Polygon.</returns>
         public Polygon ToPolygon()
         {
-            if (Points == null)
+            if (listpoints == null)
             {
-                Debug.LogError("Points list is null when converting to Polygon.");
+                Debug.LogError("listpoints list is null when converting to Polygon.");
                 return null;
             }
 
-            List<Vector3> convertedPoints = Points.Select(v => v.ToVector3()).ToList();
-            return new Polygon(convertedPoints);
+            List<Vector3> convertedlistpoints = listpoints.Select(v => v.ToVector3()).ToList();
+            return new Polygon(convertedlistpoints);
         }
     }
 
