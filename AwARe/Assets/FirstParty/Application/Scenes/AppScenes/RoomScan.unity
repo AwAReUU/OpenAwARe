@@ -1148,6 +1148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1640323071}
   maskSprite: {fileID: 21300000, guid: 5169bb5e5ef38294fb6a272842c00105, type: 3}
+  outlineSprite: {fileID: 21300000, guid: 0be5273bd81047a48a0df85a70982d59, type: 3}
 --- !u!4 &2088355611
 Transform:
   m_ObjectHideFlags: 0

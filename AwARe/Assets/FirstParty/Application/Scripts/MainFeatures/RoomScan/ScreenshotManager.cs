@@ -21,6 +21,7 @@ namespace AwARe.RoomScan
     {
         [SerializeField] private Canvas canvas;
         [SerializeField] private Sprite maskSprite;
+        [SerializeField] private Sprite outlineSprite;
         private Image image;
         private GameObject maskObj;
 
@@ -112,9 +113,9 @@ namespace AwARe.RoomScan
             maskObj = new GameObject("ScreenshotMask");
             maskObj.transform.parent = canvas.transform;
             Image maskImage = maskObj.AddComponent<Image>();
-            maskObj.AddComponent<Mask>();
+            Mask mask = maskObj.AddComponent<Mask>();
             maskImage.sprite = maskSprite;
-            maskImage.color = Color.black;
+            mask.showMaskGraphic = false;
 
             // create an image object
             GameObject imageObj = new GameObject("ScreenshotImage");
@@ -123,7 +124,7 @@ namespace AwARe.RoomScan
 
             // set image size to match screensize
             //maskImage.rectTransform.pivot = new Vector2(0, 0);
-            float maskSize = Screen.width / 2;
+            float maskSize = Screen.width / 1.5f;
             maskImage.rectTransform.sizeDelta = new Vector2(maskSize, maskSize);
             maskImage.rectTransform.localPosition = new Vector3(0, 0, 0);
             maskImage.raycastTarget = false;
@@ -134,6 +135,13 @@ namespace AwARe.RoomScan
             Color color = image.color;
             color.a = 0.5f;
             image.color = color;
+
+            GameObject outlineImageObj = new GameObject("OutlineImage");
+            outlineImageObj.transform.parent = canvas.transform;
+            Image outlineImage = outlineImageObj.AddComponent<Image>();
+            outlineImage.sprite = outlineSprite;
+            outlineImage.rectTransform.sizeDelta = new Vector2(maskSize, maskSize);
+            outlineImage.rectTransform.localPosition = new Vector3(0, 0, 0);
 
             ClearImage();
         }
