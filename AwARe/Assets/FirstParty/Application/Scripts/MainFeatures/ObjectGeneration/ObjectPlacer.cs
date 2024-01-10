@@ -7,6 +7,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using AwARe.Data.Logic;
 using AwARe.RoomScan.Polygons.Logic;
 using UnityEngine;
 
@@ -38,8 +39,15 @@ namespace AwARe.ObjectGeneration
 
             // Check if the collider doesn't cross the Polygon border
             List<Vector3> objectCorners = Renderable.CalculateColliderCorners(renderable, position);
-            if (!PolygonHelper.ObjectColliderInPolygon(objectCorners, room))
+            if (!PolygonHelper.ObjectColliderInPolygon(objectCorners, room.PositivePolygon))
                 return false;
+
+            // Check if the collider isn't inside a Negative polygon
+            foreach(Polygon negativePolygon in room.NegativePolygons)
+            {
+                if (PolygonHelper.ObjectColliderInPolygon(objectCorners, negativePolygon))
+                    return false;
+            }
 
             // Adjust object size according to scalar
             GameObject newObject = Object.Instantiate(renderable.GetPrefab(), position, Quaternion.identity);

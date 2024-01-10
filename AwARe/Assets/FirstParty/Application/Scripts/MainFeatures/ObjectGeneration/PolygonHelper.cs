@@ -53,14 +53,14 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <param name="polygons">The polygons the point should not be in.</param>
         /// <param name="point">The point to check.</param>
-        /// <returns>Whether the point is inside of any of the given polygons.</returns>
-        public static bool PointNotInPolygons(List<Polygon> polygons, Vector3 point)
+        /// <returns>The polygon in which the point lies. Null if it does not lie in any of the polygons.</returns>
+        public static Polygon PointInPolygons(List<Polygon> polygons, Vector3 point)
         {
             foreach (Polygon polygon in polygons)
             {
-                if (IsPointInsidePolygon(polygon, point)) return false;
+                if (IsPointInsidePolygon(polygon, point)) return polygon;
             }
-            return true;
+            return null;
         }
 
         /// <summary>
@@ -89,13 +89,12 @@ namespace AwARe.ObjectGeneration
         }
 
         /// <summary>
-        /// Check if all four base <paramref name="corners"/> are inside of the Polygon
-        /// described by <paramref name="polygonPoints"/>.
+        /// Check if all four base <paramref name="corners"/> are inside of the given olygon.
         /// </summary>
         /// <param name="corners">Corners of the base of the bounding box of the Object.</param>
-        /// <param name="room">The room.</param>
-        /// <returns>Whether the object is inside the positive Polygon and outside the negative polygons.</returns>
-        public static bool ObjectColliderInPolygon(List<Vector3> corners, Room room)
-            => corners.All(corner => IsPointInsidePolygon(room.PositivePolygon, corner) && PointNotInPolygons(room.NegativePolygons, corner));
+        /// <param name="polygon">The polygon.</param>
+        /// <returns>Whether the object is inside the given polygon.</returns>
+        public static bool ObjectColliderInPolygon(List<Vector3> corners, Polygon polygon)
+            => corners.All(corner => IsPointInsidePolygon(polygon, corner));
     }
 }

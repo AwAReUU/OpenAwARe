@@ -82,9 +82,16 @@ namespace AwARe.ObjectGeneration
 
                     // Check if the grid point is inside the Polygon
                     if (PolygonHelper.IsPointInsidePolygon(posPolygon, gridPoint)
-                        && PolygonHelper.PointNotInPolygons(room.NegativePolygons, gridPoint) 
                         && !PolygonHelper.IsPointInsidePath(path, gridPoint))
+                    {
+                        // Check if the grid point is also inside a negative Polygon
+                        Polygon polygon = PolygonHelper.PointInPolygons(room.NegativePolygons, gridPoint);
+
+                        if (polygon != null)
+                            gridPoint.y += polygon.Height;
+
                         result.Add(gridPoint);
+                    }
                 }
             }
             return result;
