@@ -13,7 +13,6 @@ namespace AwARe.Notifications.Logic
     /// </summary>
     public class EditorNotif : Notification
     {
-
         private DateTime fireTime;
         private string title;
         private string body;

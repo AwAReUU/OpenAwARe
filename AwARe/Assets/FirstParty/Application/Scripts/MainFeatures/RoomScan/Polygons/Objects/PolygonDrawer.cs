@@ -17,14 +17,16 @@ namespace AwARe.RoomScan.Polygons.Objects
     /// </summary>
     public class PolygonDrawer : MonoBehaviour
     {
-        [SerializeField] private PolygonManager polygonManager;
         [SerializeField] private GameObject lineObject; // the object that is instantiated to create the lines
-
         private LineRenderer tempLine; // the line from the last polygon point to the current pointer position
         private LineRenderer closeLine; // the line from the current pointer position to the first polygon point
         private LineRenderer line; // the line representing the polygon
-
         private Vector3 pointer = Vector3.zero;
+
+        /// <summary>
+        /// Sets the polygon currently being scanned.
+        /// </summary>
+        public Polygon ScanningPolygon {private get; set; }
 
         void Start()
         {
@@ -37,8 +39,11 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         void Update()
         {
-            UpdateCloseLine();
-            UpdateTempLine();
+            if (ScanningPolygon != null)
+            {
+                UpdateCloseLine();
+                UpdateTempLine();
+            }
         }
 
         /// <summary>
@@ -47,7 +52,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         public void Reset()
         {
             pointer = Vector3.zero;
-            UpdateLine(line, polygonManager.CurrentPolygon);
+            UpdateLine(line, new Polygon());
             tempLine.gameObject.SetActive(true);
             closeLine.gameObject.SetActive(true);
         }
@@ -66,10 +71,9 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void AddPoint()
         {
-            Polygon polygon = polygonManager.CurrentPolygon;
-            polygon.AddPoint(pointer);
+            ScanningPolygon.AddPoint(pointer);
 
-            UpdateLine(line, polygon);
+            UpdateLine(line, ScanningPolygon);
         }
 
         /// <summary>
@@ -97,11 +101,10 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         private void UpdateTempLine()
         {
-            Polygon polygon = polygonManager.CurrentPolygon;
-            if (polygon.AmountOfPoints() > 0)
+            if (ScanningPolygon.AmountOfPoints() > 0)
             {
                 tempLine.positionCount = 2;
-                Vector3[] points = { polygon.GetPoints()[^1], this.pointer };
+                Vector3[] points = { ScanningPolygon.GetPoints()[^1], this.pointer };
                 tempLine.SetPositions(points);
             }
             else
@@ -115,11 +118,10 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         private void UpdateCloseLine()
         {
-            Polygon polygon = polygonManager.CurrentPolygon;
-            if (polygon.AmountOfPoints() > 1)
+            if (ScanningPolygon.AmountOfPoints() > 1)
             {
                 closeLine.positionCount = 2;
-                Vector3[] points = { polygon.GetFirstPoint(), pointer };
+                Vector3[] points = { ScanningPolygon.GetFirstPoint(), pointer };
                 closeLine.SetPositions(points);
             }
             else
@@ -157,7 +159,7 @@ namespace AwARe.RoomScan.Polygons.Objects
             newLine.loop = true;
             UpdateLine(newLine, newPolygon);
         }
-
+        
         /// <summary>
         /// Sets the start and end color of a line.
         /// </summary>

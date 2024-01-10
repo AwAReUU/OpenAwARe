@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-
 using AwARe.Data.Logic;
 using AwARe.RoomScan.Polygons.Logic;
 
@@ -30,7 +29,7 @@ namespace AwARe.ObjectGeneration
         /// <returns>Whether the <paramref name="point"/> is inside the <paramref name="polygon"/>.</returns>
         public static bool IsPointInsidePolygon(Polygon polygon, Vector3 point)
         {
-            List<Vector3> polygonPoints = polygon.Points;
+            List<Vector3> polygonPoints = polygon.listpoints;
 
             bool isInside = false;
             int j = polygonPoints.Count - 1;
@@ -62,6 +61,31 @@ namespace AwARe.ObjectGeneration
                 if (IsPointInsidePolygon(polygon, point)) return false;
             }
             return true;
+        }
+
+        /// <summary>
+        /// Check if the point lies inside the path.
+        /// </summary>
+        /// <param name="path">The path Mesh.</param>
+        /// <param name="point">The point to do the test on. </param>
+        /// <returns>Whether the point lies inside the path. </returns>
+        public static bool IsPointInsidePath(Mesh path, Vector3 point)
+        {
+            // Create Mesh Collider
+            var colliderObj = new GameObject("PathCollider");
+            var collider = colliderObj.AddComponent<MeshCollider>();
+            collider.sharedMesh = path;
+
+            // Cast ray on collider
+            bool hit = false;
+            if (Physics.Raycast(new Vector3(point.x, 10f, point.z), Vector3.down, out RaycastHit raycastHit))
+            {
+                hit = raycastHit.transform.name == "PathCollider";
+            }
+
+            GameObject.Destroy(colliderObj);
+
+            return hit;
         }
 
         /// <summary>

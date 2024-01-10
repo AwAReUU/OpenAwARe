@@ -79,7 +79,7 @@ namespace AwARe.ResourcePipeline.Objects
             List<Renderable> Renderables = new();
             foreach ((int modelId, int quantity) in quantityDictionary)
             {
-                GameObject prefab = GetPrefabFromPath(@"Prefabs/" + modelDatabase.GetModel(modelId).PrefabPath);
+                GameObject prefab = GetPrefabFromPath(@"Models/" + modelDatabase.GetModel(modelId).PrefabPath);
                 Vector3 halfExtents = GetHalfExtents(prefab);
 
                 //dirty temp code so that water does not have size 0.
@@ -89,7 +89,8 @@ namespace AwARe.ResourcePipeline.Objects
 
                 float modelSizeMultiplier = realHeight / (2 * halfExtents.y) * sizeMultiplier;
                 halfExtents *= modelSizeMultiplier;
-                Renderable renderable = new(prefab, halfExtents, quantity, modelSizeMultiplier);
+                ResourceType resourceType = modelDatabase.GetModel(modelId).Type;
+                Renderable renderable = new(prefab, halfExtents, quantity, modelSizeMultiplier, resourceType);
                 Renderables.Add(renderable);
             }
             Renderables = Renderable.SetSurfaceRatios(Renderables);

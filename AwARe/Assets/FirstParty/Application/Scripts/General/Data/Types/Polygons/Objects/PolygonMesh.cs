@@ -26,6 +26,7 @@ namespace AwARe.Data.Objects
         /// The polygon that is the base of the Mesh
         /// </value>
         private List<Vector3> polygon = new();
+        private Renderer renderer;
 
         /// <summary>
         /// On start create the Mesh and set the starting height to 1.
@@ -34,8 +35,14 @@ namespace AwARe.Data.Objects
         {
             CreateMesh();
             SetHeight(1f);
+            renderer = GetComponent<Renderer>();
         }
 
+
+        public void SetPolygonColor(Color color)
+        {
+            renderer.material.color = color;
+        }
         /// <summary>
         /// Set the height of the mesh.
         /// </summary>
@@ -46,6 +53,18 @@ namespace AwARe.Data.Objects
             CreateMesh();
         }
 
+        public void ApplyColorToMesh()
+        {
+            // Check if the mesh renderer is assigned
+            if (renderer != null)
+            {
+                renderer.material = new Material(renderer.material);
+            }
+            else
+            {
+                Debug.LogError("Renderer not assigned in PolygonMesh.");
+            }
+        }
         /// <summary>
         /// Sets the local polygon to the given list of points.
         /// </summary>

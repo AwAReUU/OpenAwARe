@@ -46,7 +46,8 @@ namespace AwARe.InterScenes.Objects
             { AppScene.AR , ""},
             { AppScene.RoomScan , ""},
             { AppScene.IngredientList , ""},
-            { AppScene.Questionnaire , ""}
+            { AppScene.Questionnaire , ""},
+            { AppScene.RoomLoad , ""}
         };
 
         /// <summary>
@@ -121,5 +122,5 @@ namespace AwARe.InterScenes.Objects
     /// Centralizes modifications to scene navigation.
     /// </summary>
     [Serializable]
-    public enum AppScene { Start, Home, AR, RoomScan, IngredientList, Questionnaire, Settings }
+    public enum AppScene { Start, Home, AR, RoomScan, IngredientList, Questionnaire, Settings, RoomLoad }
 }

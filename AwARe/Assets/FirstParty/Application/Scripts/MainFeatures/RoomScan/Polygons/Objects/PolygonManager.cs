@@ -5,17 +5,23 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System.Collections;
 using System.Collections.Generic;
 
-using AwARe.InterScenes.Objects;
 using AwARe.Data.Logic;
 using AwARe.Data.Objects;
+using AwARe.InterScenes.Objects;
 using AwARe.RoomScan.Path;
 using AwARe.RoomScan.Polygons.Logic;
-
 using UnityEngine;
-
 using Storage = AwARe.InterScenes.Objects.Storage;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.UI;
+using AwARe.IngredientList.Logic;
+using System.IO;
+using System.Linq;
+using System;
+using UnityEngine.SceneManagement;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
@@ -27,20 +33,16 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private PolygonDrawer polygonDrawer;
         [SerializeField] private PolygonMesh polygonMesh;
         [SerializeField] private PolygonScan scanner;
+        [SerializeField] private PathVisualizer pathVisualizerVisualizer;
+        [SerializeField] private PolygonSaveLoadManager SaveLoadManager;
+        [SerializeField] private PolygonUI ui;
+        [SerializeField] private GameObject canvas;
+        [SerializeField] private Transform sceneCanvas;
+        [SerializeField] private GameObject pathBtn;
+        [SerializeField] private GameObject LoadingPopup;
+        [SerializeField] private GameObject SavedPopup;
 
-        [SerializeField] private GameObject createBtn;
-        [SerializeField] private GameObject resetBtn;
-        [SerializeField] private GameObject applyBtn;
-        [SerializeField] private GameObject confirmBtn;
-        [SerializeField] private GameObject endBtn;
-        [SerializeField] private GameObject slider;
-        [SerializeField] private GameObject pointerObj;
-// TODO TEMP        [SerializeField] private GameObject pathVisualiser;
-
-        /// <summary>
-        /// All UI components of the polygon scan.
-        /// </summary>
-        List<GameObject> UIObjects;
+        private bool scanning = false;
 
         /// <value>A Room represented by the polygons.</value>
         public Room Room { get; private set; }
@@ -48,23 +50,49 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <value>The polygon currently being drawn.</value>
         public Polygon CurrentPolygon { get; private set; }
 
+        private void Awake()
+        {
+
+            if (canvas != null)
+            {
+                ui.transform.SetParent(sceneCanvas, false);
+                Destroy(canvas);
+            }
+
+            // Temporary quick fix for loading and saving UI
+            Button save1Btn = ui.transform.Find("SaveBtns").transform.GetChild(0).GetComponent<Button>();
+            Button save2Btn = ui.transform.Find("SaveBtns").transform.GetChild(1).GetComponent<Button>();
+            Button save3Btn = ui.transform.Find("SaveBtns").transform.GetChild(2).GetComponent<Button>();
+            Button load1Btn = ui.transform.Find("LoadBtns").transform.GetChild(0).GetComponent<Button>();
+            Button load2Btn = ui.transform.Find("LoadBtns").transform.GetChild(1).GetComponent<Button>();
+            Button load3Btn = ui.transform.Find("LoadBtns").transform.GetChild(2).GetComponent<Button>();
+            save1Btn.onClick.AddListener(() => { SaveRoom(1); ContinueToGeneration(); });
+            save2Btn.onClick.AddListener(() => { SaveRoom(2); ContinueToGeneration(); });
+            save3Btn.onClick.AddListener(() => { SaveRoom(3); ContinueToGeneration(); });
+            load1Btn.onClick.AddListener(() => { LoadRoom(1); });
+            load2Btn.onClick.AddListener(() => { LoadRoom(2); });
+            load3Btn.onClick.AddListener(() => { LoadRoom(3); });
+        }
+
         void Start()
         {
             CurrentPolygon = new Polygon();
-
             Room = new Room();
 
             // Use the code below to use the test room
             //Room = new TestRoom();
             //polygonDrawer.DrawRoomPolygons(Room);
-
-            UIObjects = new()
+            if (SceneManager.GetActiveScene().name == "RoomLoad")
             {
-                createBtn, resetBtn, confirmBtn, slider, applyBtn, endBtn,
-                pointerObj, scanner.gameObject, polygonMesh.gameObject   // TODO TEMP   , pathVisualiser
-            };
+                SwitchToState(State.Loading);
+            }
+            else SwitchToState(State.Default);
 
-            SwitchToState(State.Default);
+        }
+        void Update()
+        {
+            if (scanning)
+                polygonDrawer.ScanningPolygon = CurrentPolygon;
         }
 
         /// <summary>
@@ -72,6 +100,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void StartScanning()
         {
+            Debug.Log(SaveLoadManager);
             CurrentPolygon = new();
             polygonDrawer.Reset();
             SwitchToState(State.Scanning);
@@ -83,7 +112,21 @@ namespace AwARe.RoomScan.Polygons.Objects
         public void OnCreateButtonClick() =>
             StartScanning();
 
+        /// <summary>
+        /// Called on load button button click; changes state so user sees load slots.
+        /// </summary>
+        public void OnLoadButtonClick()
+        {
+            SwitchToState(State.LoadingOptions);
+        }
+        /// <summary>
+        /// Called on save button click; changes state so user sees save slots.
+        /// </summary>
+        public void OnSaveButtonClick()
+        {
+            SwitchToState(State.SavingOptions);
 
+        }
         /// <summary>
         /// Called on reset button click; Clears the room and starts a new polygon scan.
         /// </summary>
@@ -92,7 +135,6 @@ namespace AwARe.RoomScan.Polygons.Objects
             Room = new Room();
             StartScanning();
         }
-
 
         /// <summary>
         /// Called on apply button click; adds and draws the current polygon.
@@ -105,17 +147,79 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             polygonDrawer.DrawPolygon(CurrentPolygon, !Room.PositivePolygon.IsEmptyPolygon());
             Room.AddPolygon(CurrentPolygon);
-            GenerateAndDrawPath();
+            //GenerateAndDrawPath();
         }
 
+        /// <summary>
+        /// Initiates the path generation process, activates the loading popup, generates the path, and removes the loading popup.
+        /// </summary>
+        public void OnPathButtonClick()
+        {
+            //activate the popup
+            LoadingPopup.SetActive(true);
+            StartCoroutine(MakePathAndRemovePopup());
+
+        }
+
+        /// <summary>
+        /// Continues to the next scene after storing the active room.
+        /// </summary>
+        public void ContinueToGeneration()
+        {
+            Storage.Get().ActiveRoom = Room;
+            SceneSwitcher.Get().LoadScene("Home");
+        }
+
+        /// <summary>
+        /// waits for one frame, generates and draws the path, and then removes the loading popup.
+        /// </summary>
+        public IEnumerator MakePathAndRemovePopup()
+        {
+            yield return null;
+            GenerateAndDrawPath();
+            LoadingPopup.SetActive(false);
+        }
+
+        /// <summary>
+        /// Generates and draws the path based on the room's positive and negative polygons.
+        /// </summary>
         public void GenerateAndDrawPath()
         {
-            StartState startstate = new();
-            PathData path = startstate.GetStartState(Room.PositivePolygon, Room.NegativePolygons);
+            PathGenerator startstate = new();
 
-// TODO TEMP            VisualizePath visualizer = (VisualizePath)pathVisualiser.GetComponent("VisualizePath");
-// TODO TEMP            visualizer.SetPath(path);
-// TODO TEMP            visualizer.Visualize();
+            bool useTestPol = false;
+            
+            List<Vector3> points = new()
+            {
+                //new Vector3(0.3290718f, 0, -1.92463f),
+                //new Vector3(-0.5819738f, 0, -2.569284f),
+                //new Vector3(3.357841f, 0, -3.58952f),
+                //new Vector3(3.824386f, 0, -2.0016f),
+
+                new Vector3(-3.330043f, 0, -3.042626f),
+                new Vector3(-2.702615f, 0, -5.299197f),
+                new Vector3(-1.407629f, 0, -4.649026f),
+                new Vector3(-0.4994112f, 0, -2.780823f),
+                new Vector3(-2.009388f, 0, -0.5163946f),
+
+            };
+
+            Polygon testPolygon = new Polygon(points);
+
+            PathData path;
+            if (useTestPol)
+            {
+                path = startstate.GeneratePath(testPolygon, Room.NegativePolygons);
+                polygonDrawer.DrawPolygon(testPolygon);
+            }
+            else
+            { 
+                path = startstate.GeneratePath(Room.PositivePolygon, Room.NegativePolygons);
+            }
+
+            PathVisualizer visualizer = (PathVisualizer)pathVisualizerVisualizer.GetComponent("PathVisualizer");
+            visualizer.SetPath(path);
+            visualizer.Visualize();
         }
 
         /// <summary>
@@ -125,21 +229,104 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             // TODO: set room height
             SwitchToState(State.Saving);
+            // Set color for the finished polygon
+            Color polygonColor = Color.green; // You can choose any color
+            polygonMesh.SetPolygonColor(polygonColor);
+
+            // Assuming you have a method to apply the color to the mesh
+            polygonMesh.ApplyColorToMesh();
+            SavedPopup.SetActive(true);
+
         }
+
+        /// <summary>
+        /// Saves the current room's configuration to a specified save slot using the save load manager.
+        /// </summary>
+        /// <param name="slotIndex">The index of the save slot to store the room configuration.</param>
+        public void SaveRoom(int slotIndex)
+        {
+            // Convert Room to RoomSerialization
+            RoomSerialization roomSerialization = new RoomSerialization(
+                new PolygonSerialization(Room.PositivePolygon.listpoints),
+                Room.NegativePolygons.Select(p => new PolygonSerialization(p.listpoints)).ToList()
+            );
+
+            // Save RoomSerialization
+            SaveLoadManager.SaveDataToJson($"RoomSlot{slotIndex}", roomSerialization);
+        }
+
+        /// <summary>
+        /// Loads a previously saved room configuration from a specified save slot using the save load manager.
+        /// </summary>
+        /// <param name="slotIndex">The index of the save slot from which to load the room configuration.</param>
+        public void LoadRoom(int slotIndex)
+        {
+            PolygonSaveLoadManager saveLoadManager = FindObjectOfType<PolygonSaveLoadManager>();
+
+            // Check if the file exists before attempting to load
+            string filePath = $"RoomSlot{slotIndex}";
+            string fullPath = System.IO.Path.Combine(saveLoadManager.DirectoryPath, filePath);
+
+            if (File.Exists(fullPath))
+            {
+                // Load RoomSerialization JSON using the save load manager
+                RoomSerialization loadedRoomSerialization = saveLoadManager.LoadDataFromJson<RoomSerialization>($"RoomSlot{slotIndex}");
+
+                if (loadedRoomSerialization != null)
+                {
+                    // Convert RoomSerialization to Room
+                    Room = loadedRoomSerialization.ToRoom();
+
+                    if (Room != null)
+                    {
+                        if (!Room.PositivePolygon.IsEmptyPolygon())
+                        {
+                            if (polygonDrawer != null)
+                            {
+                                polygonDrawer.DrawRoomPolygons(Room);
+                                GenerateAndDrawPath();
+                            }
+                            else
+                            {
+                                Debug.LogError("PolygonDrawer is null.");
+                            }
+                        }
+                        else
+                        {
+                            Debug.LogError("Loaded room has an empty positive polygon.");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("Loaded room is null after conversion.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Loaded room serialization is null.");
+                }
+            }
+            else
+            {
+                Debug.LogError($"Room not found in slot {slotIndex}");
+            }
+        }
+
 
         /// <summary>
         /// Called on changing the slider; sets the height of the polygon mesh.
         /// </summary>
         /// <param name="height">Height the slider is currently at.</param>
-        public void OnHeightSliderChanged(float height)
+        public void OnHeightSliderChanged(float height) { this.polygonMesh.SetHeight(height); }
+        
+        /// <summary>
+        /// Switches the scene to Home.
+        /// </summary>
+        public void OnEndButtonClick ()
         {
-            this.polygonMesh.SetHeight(height);
-        }
-
-        public void OnSaveButtonClick()
-        {
-            Storage.Get().ActiveRoom = Room;
+            //Storage.Get().ActiveRoom = Room;
             SceneSwitcher.Get().LoadScene("Home");
+
         }
 
         /// <summary>
@@ -148,61 +335,52 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <param name="toState">Which state the UI should switch to.</param>
         private void SwitchToState(State toState)
         {
-            foreach (GameObject obj in UIObjects)
-            {
-                obj.SetActive(false);
-            }
+            // Set activity
+            SetActive(toState);
 
-            foreach (GameObject obj in GetStateObjects(toState))
-            {
-                obj.SetActive(true);
-            }
+            // if the new state is scanning, set scanning to true, otherwise to false
+            scanning = toState == State.Scanning;
+            polygonDrawer.ScanningPolygon = null;
         }
 
         /// <summary>
-        /// Gets the UI objects that need to be present in this state.
+        /// Sets activity of components.
         /// </summary>
-        /// <param name="state">A state of the scanning process.</param>
-        /// <returns>A list of UI objects that need to be present in the given state.</returns>
-        List<GameObject> GetStateObjects(State state)
+        /// <param name="state">Current/new state.</param>
+        public void SetActive(State state)
         {
-            List<GameObject> objects = new();
+            // Set UI activity
+            ui.SetActive(state);
+
+            // Set direct component activity
+            bool scan = false, mesh = false;
             switch (state)
             {
-                case State.Default:
-                    objects.Add(createBtn);
-                    break;
                 case State.Scanning:
-                    objects.Add(applyBtn);
-                    objects.Add(resetBtn);
-                    objects.Add(scanner.gameObject);
-                    objects.Add(pointerObj);
-// TODO TEMP                    objects.Add(pathVisualiser);
-                break;
-                case State.SettingHeight:
-                    objects.Add(confirmBtn);
-                    objects.Add(slider);
-                    objects.Add(polygonMesh.gameObject);
-// TODO TEMP                    objects.Add(pathVisualiser);
-                break;
-                case State.Saving:
-                    objects.Add(createBtn);
-                    objects.Add(endBtn);
+                    scan = true;
                     break;
-
+                case State.SettingHeight:
+                    mesh = true;
+                    break;
+                
+                    
             }
-            return objects;
+            scanner.gameObject.SetActive(scan);
+            polygonMesh.gameObject.SetActive(mesh);
         }
+    }
 
-        /// <summary>
-        /// The different states within the polygon scanning process.
-        /// </summary>
-        enum State
-        {
-            Default,
-            Scanning,
-            SettingHeight,
-            Saving
-        }
+    /// <summary>
+    /// The different states within the polygon scanning process.
+    /// </summary>
+    public enum State
+    {
+        Default,
+        Scanning,
+        SettingHeight,
+        Saving,
+        SavingOptions,
+        Loading,
+        LoadingOptions
     }
 }

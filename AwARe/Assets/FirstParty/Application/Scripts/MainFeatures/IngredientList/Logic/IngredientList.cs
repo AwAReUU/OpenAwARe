@@ -112,6 +112,45 @@ namespace AwARe.IngredientList.Logic
         {
             Ingredients[ingredient] = (quantity, type);
         }
+
+        /// <summary>
+        /// Represents a single entry in the ingredient list.
+        /// This implementation allows expansion without breaking dependent types and members.
+        /// </summary>
+        public class Entry
+        {
+            // Contents/Data
+            public Ingredient ingredient;
+            public float quantity;
+            public QuantityType type;
+
+            /// <summary>
+            /// Constructs a Ingredient List entry.
+            /// </summary>
+            /// <param name="ingredient">The ingredient component.</param>
+            /// <param name="quantity">The quantity component.</param>
+            /// <param name="type">The type of the quantity.</param>
+            public Entry(Ingredient ingredient, float quantity, QuantityType type)
+            {
+                this.ingredient = ingredient;
+                this.quantity = quantity;
+                this.type = type;
+            }
+
+            /// <summary>
+            /// Converts tuples to explicit entry types.
+            /// </summary>
+            /// <param name="entry">The tuple representing on entry.</param>
+            public static implicit operator Entry((Ingredient, float, QuantityType) entry) =>
+                new(entry.Item1, entry.Item2, entry.Item3);
+            
+            /// <summary>
+            /// Converts entry types to tuple form.
+            /// </summary>
+            /// <param name="entry">The entry instance.</param>
+            public static implicit operator (Ingredient, float, QuantityType)(Entry entry) =>
+                (entry.ingredient, entry.quantity, entry.type);
+        }
     }
 
     /// <summary>
@@ -157,24 +196,34 @@ namespace AwARe.IngredientList.Logic
             this.GramsPerML = gramsPerML;
             this.GramsPerPiece = gramsPerPiece;
         }
+        
+        /// <summary>
+        /// Verifies if the given quantity type is valid for this ingredient.
+        /// </summary>
+        /// <param name="type">The quantity type</param>
+        /// <returns>True if quantity type is valid.</returns>
+        public bool QuantityPossible(QuantityType type) =>
+            type switch
+            {
+                QuantityType.G   => true,
+                QuantityType.ML  => GramsPerML != null,
+                QuantityType.PCS => GramsPerPiece != null,
+                _                => false
+            };
 
         /// <summary>
         /// Checks whether ML is a valid quantity type for this ingredient.
         /// </summary>
         /// <returns>true if conversion is possible, otherwise false.</returns>
-        public bool MLQuantityPossible()
-        {
-            return !(GramsPerML == null);
-        }
+        public bool MLQuantityPossible() =>
+            QuantityPossible(QuantityType.ML);
 
         /// <summary>
         /// Checks whether PCS is a valid quantity type for this ingredient.
         /// </summary>
         /// <returns>true if conversion is possible, otherwise false.</returns>
-        public bool PieceQuantityPossible()
-        {
-            return !(GramsPerPiece == null);
-        }
+        public bool PieceQuantityPossible() =>
+            QuantityPossible(QuantityType.PCS);
 
         /// <summary>
         /// Calculates the number of grams in the given quantity.

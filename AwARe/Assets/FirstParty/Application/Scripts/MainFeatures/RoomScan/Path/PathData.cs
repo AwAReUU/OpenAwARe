@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,32 +19,35 @@ namespace AwARe.RoomScan.Path
     [Serializable]
     public class PathData
     {
-        /// <value>
+        /// <summary>
         /// Each node on the path.
-        /// </value>
+        /// </summary>
         public List<Vector3> points;
-        /// <value>
+
+        /// <summary>
         /// Each segment/edge of the path.
-        /// </value>
+        /// </summary>
         public List<(Vector3, Vector3)> edges;
 
-        /// <value>
+        /// <summary>
         /// The radius around the skeleton of the path.
-        /// </value>
-        public float radius;
+        /// </summary>
+        public float radius = 0.2f;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PathData"/> class.
+        /// </summary>
         public PathData()
         {
-            points = new();
-            edges = new();
+            points = new List<Vector3>();
+            edges = new List<(Vector3, Vector3)>();
         }
 
         /// <summary>
-        /// Create a Mesh of the path including the radius around it.
+        /// Create a Mesh of the path including the surrounding radius.
         /// </summary>
-        /// <return>
-        /// Return the Mesh
-        /// </return>
+        /// <param name="numSegments">The number of segments in the mesh.</param>
+        /// <returns>The created Mesh.</returns>
         public Mesh CreateMesh(int numSegments)
         {
 
@@ -49,7 +59,7 @@ namespace AwARe.RoomScan.Path
                 mesh = CombineMeshes(mesh, circle);
             }
 
-            for(int i = 0; i < edges.Count; i++)
+            for (int i = 0; i < edges.Count; i++)
             {
                 Mesh segment = this.SegmentMesh(edges[i].Item1, edges[i].Item2, this.radius);
                 mesh = CombineMeshes(mesh, segment);
@@ -61,9 +71,9 @@ namespace AwARe.RoomScan.Path
         /// <summary>
         /// A helper method to combine two meshes into a single mesh.
         /// </summary>
-        /// <return>
-        /// Return the combined mesh
-        /// </return>
+        /// <param name="mesh1">The first mesh.</param>
+        /// <param name="mesh2">The second mesh.</param>
+        /// <returns>The combined mesh.</returns>
         private Mesh CombineMeshes(Mesh mesh1, Mesh mesh2)
         {
             var vertices = mesh1.vertices.ToList();
@@ -88,9 +98,10 @@ namespace AwARe.RoomScan.Path
         /// The mesh consists of a given number of triangles. 
         /// Use a higher number of segments to create a smoother circle.
         /// </summary>
-        /// <return>
-        /// Returns the circle mesh.
-        /// </return>
+        /// <param name="center">The center of the circle.</param>
+        /// <param name="radius">The radius of the circle.</param>
+        /// <param name="numSegments">The number of segments of the mesh.</param>
+        /// <returns>The circle mesh. </returns>
         private Mesh CircleMesh(Vector3 center, float radius, int numSegments)
         {
             var vertices = new List<Vector3>();
@@ -123,13 +134,13 @@ namespace AwARe.RoomScan.Path
             return circle;
         }
 
-
         /// <summary>
         /// Creates a (rotated)rectangle between two points with a width of two times the given radius.
         /// </summary>
-        /// <return>
-        /// Returns the Mesh
-        /// </return>
+        /// <param name="start">The start point.</param>
+        /// <param name="end">The end point.</param>
+        /// <param name="radius">The radius of the circle.</param>
+        /// <returns>The Mesh segment.</returns>
         private Mesh SegmentMesh(Vector3 start, Vector3 end, float radius)
         {
             var vertices = new List<Vector3>();

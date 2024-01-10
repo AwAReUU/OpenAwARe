@@ -6,7 +6,6 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
-
 using AwARe.Data.Logic;
 using AwARe.RoomScan.Polygons.Logic;
 
@@ -35,8 +34,9 @@ namespace AwARe.ObjectGeneration
         /// Call the parameterized method "GetGridPoints" to obtain spawnPoints.
         /// </summary>
         /// <param name="room">The room in which the objects will be spawned.</param>
+        /// <param name="path">The pathway through the room.</param>
         /// <returns>A list of spawnpoints on which the objects are allowed to be spawned.</returns>
-        public List<Vector3> GetValidSpawnPoints(Room room) => GetGridPoints(room, gridSpacing);
+        public List<Vector3> GetValidSpawnPoints(Room room, Mesh path) => GetGridPoints(room, path, gridSpacing);
 
         /// <summary>
         /// Create a 2d bounding box around the polygon points.
@@ -45,7 +45,7 @@ namespace AwARe.ObjectGeneration
         /// <returns>Bounding box of the polygon.</returns>
         private Bounds CalculateBounds(Polygon polygon)
         {
-            List<Vector3> points = polygon.Points;
+            List<Vector3> points = polygon.listpoints;
             Bounds bounds = new(points[0], Vector3.zero);
             foreach (var point in points)
             {
@@ -54,13 +54,14 @@ namespace AwARe.ObjectGeneration
             return bounds;
         }
 
+
         /// <summary>
         /// Create a grid of points on the plane.
         /// </summary>
         /// <param name="room">Room to get spawnPoints from.</param>
         /// <param name="spacing">Distance between spawnPoints.</param>
         /// <returns>List of spawnPoints.</returns>
-        private List<Vector3> GetGridPoints(Room room, float spacing)
+        private List<Vector3> GetGridPoints(Room room, Mesh path, float spacing)
         {
             List<Vector3> result = new();
 
@@ -80,8 +81,9 @@ namespace AwARe.ObjectGeneration
                     Vector3 gridPoint = new(x, y, z);
 
                     // Check if the grid point is inside the polygon
-                    if (PolygonHelper.IsPointInsidePolygon(posPolygon, gridPoint) 
-                        && PolygonHelper.PointNotInPolygons(room.NegativePolygons, gridPoint))
+                    if (PolygonHelper.IsPointInsidePolygon(posPolygon, gridPoint)
+                        && PolygonHelper.PointNotInPolygons(room.NegativePolygons, gridPoint) 
+                        && !PolygonHelper.IsPointInsidePath(path, gridPoint))
                         result.Add(gridPoint);
                 }
             }

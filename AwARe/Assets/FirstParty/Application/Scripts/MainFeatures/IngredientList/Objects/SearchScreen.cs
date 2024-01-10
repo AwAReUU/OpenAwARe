@@ -6,15 +6,9 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
-
-using AwARe.Database;
-using AwARe.Database.Logic;
 using AwARe.IngredientList.Logic;
-
 using TMPro;
-
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace AwARe.IngredientList.Objects
 {
@@ -29,70 +23,52 @@ namespace AwARe.IngredientList.Objects
     /// </summary>
     public class SearchScreen : MonoBehaviour
     {
-        [SerializeField] private IngredientListManager ingredientListManager;
-
-        [SerializeField] private GameObject backButton;
-        [SerializeField] private GameObject ingredientButtonPrefab;
-        [SerializeField] private GameObject ContentHolder;
-        [SerializeField] private List<GameObject> searchResultObjects = new();
-        [SerializeField] private GameObject SearchBar;
-
-        private List<Ingredient> searchResults = new();
-        readonly private IIngredientDatabase database = new MockupIngredientDatabase();
-
-        private void OnEnable()
-        {
-            Button backB = backButton.GetComponent<Button>();
-            backB.onClick.AddListener(delegate { OnBackButtonClick(); });
-        }
-        private void OnDisable()
-        {
-            Button backB = backButton.GetComponent<Button>();
-            backB.onClick.RemoveAllListeners();
-        }
-
+        // The parent element
+        [SerializeField] private IngredientListManager manager; // TODO: Replace with parent UI element. (For division of responsibilities)
+        
+        // UI elements to control
+        [SerializeField] private TMP_InputField searchBar;
+        [SerializeField] private GameObject resultTemplate;
+        
+        // Tracked UI elements
+        private readonly List<GameObject> results = new();
+        
         /// <summary>
-        /// Creates new GameObjects for every ingredient in the search results.
+        /// Corrects this UI element to represent data.
         /// </summary>
         private void DisplayResults()
         {
-            RemoveItemObjects();
+            // Empties the old results display.
+            RemoveResults();
 
-            // create a new object for every search result
-            foreach (Ingredient result in searchResults)
+            // Create a new object for every search result
+            foreach (Ingredient result in manager.SearchResults)
             {
-                GameObject button = Instantiate(ingredientButtonPrefab, ContentHolder.transform);
-                button.GetComponentInChildren<TMP_Text>().text = result.Name;
-                //Get Button object from GameObject to attach event
-                searchResultObjects.Add(button);
-                Button b = button.GetComponent<Button>();
-                b.onClick.AddListener(delegate { OnItemClicked(item: result); });
-                button.SetActive(true);
+                GameObject itemObject = Instantiate(resultTemplate, resultTemplate.transform.parent);
+                itemObject.SetActive(true);
+                results.Add(itemObject);
+                var item = itemObject.GetComponent<SearchItem>();
+                item.SetItem(result);
             }
         }
 
         /// <summary>
-        /// Destroys all displayed ingredient objects.
+        /// Destroys all displayed result objects.
         /// </summary>
-        private void RemoveItemObjects()
+        private void RemoveResults()
         {
-            foreach (GameObject item in searchResultObjects)
-            {
+            foreach (GameObject item in results)
                 Destroy(item);
-            }
-
-            // make list empty
-            searchResultObjects = new List<GameObject>();
+            results.Clear();
         }
 
         /// <summary>
-        /// Calls an instance of ingredientListManager to add the given ingredient to the list and open its IngredientScreen.
+        /// Calls an instance of manager to add the given ingredient to the ingredientlist and open its IngredientScreen.
         /// </summary>
-        /// <param name="item"> The search result that was selected. </param>
-        private void OnItemClicked(Ingredient item)
+        /// <param name="ingredient"> The search result that was selected. </param>
+        public void OnItemClick(Ingredient ingredient)
         {
-            ingredientListManager.AddIngredient(item, 0);
-            ingredientListManager.ChangeToIngredientScreen(item, this.gameObject);
+            manager.ChangeToIngredientScreen(new(ingredient, 0, QuantityType.G), true, this.gameObject);
         }
 
         /// <summary>
@@ -100,18 +76,16 @@ namespace AwARe.IngredientList.Objects
         /// </summary>
         public void OnSearchClick()
         {
-            string searchText = SearchBar.GetComponent<TMP_InputField>().text;
-
-            searchResults = database.Search(searchText);
+            manager.SearchIngredient(searchBar.text);
             DisplayResults();
         }
 
         /// <summary>
-        /// Calls an instance of ingredientListManager to close this screen and go back to the IngredientListScreen.
+        /// Calls an instance of manager to close this screen and go back to the IngredientListScreen.
         /// </summary>
         public void OnBackButtonClick()
         {
-            ingredientListManager.ChangeToIngredientListScreen(ingredientListManager.SelectedList, this.gameObject);
+            manager.ChangeToIngredientListScreen(manager.SelectedList, this.gameObject);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace AwARe.Objects
         {
             this.getChild = (Transform parent) =>
             {
-                child.transform.parent = parent;
+                child.transform.SetParent(parent);
                 return child;
             };
         }
