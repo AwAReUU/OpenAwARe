@@ -1,10 +1,19 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \* 
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
+using AwARe.RoomScan.Polygons.Logic;
 using AwARe.RoomScan.Polygons.Objects;
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace AwARe.RoomScan.Polygons.Objects
@@ -20,6 +29,11 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private GameObject pointer;
         [SerializeField] private GameObject pathButton;
         [SerializeField] private GameObject loadingpopup;
+        [SerializeField] private GameObject savedpopup;
+        [SerializeField] private GameObject saveButtons;
+        [SerializeField] private GameObject loadButtons;
+        [SerializeField] private GameObject loadButton;
+        [SerializeField] private GameObject continueButton;
 
         /// <summary>
         /// Sets activity of UI elements based on the state.
@@ -27,15 +41,35 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <param name="toState">Current/new state.</param>
         public void SetActive(State state)
         {
-            bool reset = false, create = false, apply = false,
-                confirm = false, save = false, height = false,
-                point = false, pathbutton = false, Loadingpopup = false;
+            bool reset = false,
+                create = false,
+                apply = false,
+                confirm = false,
+                save = false,
+                height = false,
+                point = false,
+                pathbutton = false,
+                Loadingpopup = false,
+                savebtns = false,
+                load = false,
+                loadbtns = false,
+                continuebtn = false;
             switch (state)
             {
                 case State.Saving:
                     create = true;
                     save = true;
                     pathbutton = true;
+                    break;
+                case State.SavingOptions:
+                    savebtns = true;
+                    break;
+                case State.Loading:
+                    load = true;
+                    break;
+                case State.LoadingOptions:
+                    loadbtns = true;
+                    continuebtn = true;
                     break;
                 case State.Scanning:
                     apply = true;
@@ -50,6 +84,7 @@ namespace AwARe.RoomScan.Polygons.Objects
                 default:
                     create = true;
                     break;
+
             }
 
             resetButton.SetActive(reset);
@@ -57,10 +92,14 @@ namespace AwARe.RoomScan.Polygons.Objects
             applyButton.SetActive(apply);
             confirmButton.SetActive(confirm);
             saveButton.SetActive(save);
+            saveButtons.SetActive(savebtns);
+            loadButton.SetActive(load);
+            loadButtons.SetActive(loadbtns);
             heightSlider.SetActive(height);
             pointer.SetActive(point);
             pathButton.SetActive(pathbutton);
             loadingpopup.SetActive(Loadingpopup);
+            continueButton.SetActive(continuebtn);
         }
     }
 }
