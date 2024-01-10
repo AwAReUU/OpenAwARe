@@ -10,7 +10,6 @@ using Rooms = AwARe.RoomScan.Polygons.Logic;
 
 namespace AwARe.InterScenes.Logic
 {
-    
     /// <summary>
     /// The in-between-scenes stored data.
     /// </summary>
@@ -26,9 +25,6 @@ namespace AwARe.InterScenes.Logic
         
         /// <inheritdoc/>
         public Rooms.Room ActiveRoom { get; set; }
-  
-      
-
     }
 
 }

@@ -20,7 +20,6 @@ namespace AwARe.InterScenes.Objects
         // Singleton instance
         private static Storage instance;
 
-        // 
         private Logic.Storage data;
 
         /// <summary>
@@ -40,7 +39,6 @@ namespace AwARe.InterScenes.Objects
         {
             Singleton.Awake(ref instance, this);
             DontDestroyOnLoad(this.gameObject);
-            Debug.Log("Storage - Awake");
         }
 
         /// <summary>

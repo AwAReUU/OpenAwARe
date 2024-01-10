@@ -247,8 +247,8 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             // Convert Room to RoomSerialization
             RoomSerialization roomSerialization = new RoomSerialization(
-                new PolygonSerialization(Room.PositivePolygon.Points),
-                Room.NegativePolygons.Select(p => new PolygonSerialization(p.Points)).ToList()
+                new PolygonSerialization(Room.PositivePolygon.listpoints),
+                Room.NegativePolygons.Select(p => new PolygonSerialization(p.listpoints)).ToList()
             );
 
             // Save RoomSerialization
