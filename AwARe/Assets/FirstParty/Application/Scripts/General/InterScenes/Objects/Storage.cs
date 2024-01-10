@@ -6,7 +6,7 @@
 // \*                                                                                       */
 
 using AwARe.Data.Logic;
-using AwARe.Logic;
+using AwARe.Objects;
 using UnityEngine;
 using Ingredients = AwARe.IngredientList.Logic;
 
@@ -15,7 +15,7 @@ namespace AwARe.InterScenes.Objects
     /// <summary>
     /// The Singleton containing the in-between-scenes stored data.
     /// </summary>
-    public class Storage : MonoBehaviour, IStorage
+    public class Storage : MonoBehaviour, IStorage, IDataHolder<Logic.Storage>
     {
         // Singleton instance
         private static Storage instance;

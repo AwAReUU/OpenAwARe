@@ -5,10 +5,12 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using AwARe.Data.Objects;
+using AwARe.Data.Logic;
 using AwARe.Objects;
 
 using UnityEngine;
+
+using Polygon = AwARe.Data.Objects.Polygon;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
@@ -25,7 +27,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private LineRenderer activeLine; // the polygonLine from the last Polygon point to the current pointer position
         [SerializeField] private LineRenderer closeLine; // the polygonLine from the current pointer position to the first Polygon point
         private Liner polygonLine; // the polygonLine representing the Polygon
-        private PolygonLinerLogic polygonLineLogic;
+        private PolygonLinerLogic polygonLineLogicLogic;
 
         // The tracking data
         private Polygon activePolygon;
@@ -60,11 +62,11 @@ namespace AwARe.RoomScan.Polygons.Objects
             GameObject obj = Instantiate(polygonBase, transform);
             activePolygon = obj.GetComponent<Polygon>();
             polygonLine = obj.GetComponent<Liner>();
-            polygonLineLogic = obj.GetComponent<PolygonLinerLogic>();
+            polygonLineLogicLogic = obj.GetComponent<PolygonLinerLogic>();
             
             obj.SetActive(true);
             activePolygon.Data = new();
-            polygonLineLogic.closedLine = false;
+            polygonLineLogicLogic.closedLine = false;
 
             activeLine.gameObject.SetActive(true);
             closeLine.gameObject.SetActive(true);

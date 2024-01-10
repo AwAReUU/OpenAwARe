@@ -24,7 +24,7 @@ namespace AwARe.Objects
         /// <summary>
         /// The mesh constructor.
         /// </summary>
-        public InterfaceReference<IMesher> logic;
+        public InterfaceReference<IMesherLogic> logic;
 
         // Tracking variables
         private bool newMesh = false;
@@ -35,7 +35,7 @@ namespace AwARe.Objects
         /// <value>
         /// The mesh constructor.
         /// </value>
-        public IMesher Logic
+        public IMesherLogic Logic
         {
             get => logic.Value;
             set => logic = new(value);
@@ -48,7 +48,7 @@ namespace AwARe.Objects
         /// <param name="meshFilter">A meshfilter.</param>
         /// <param name="logic">A mesh constructor.</param>
         /// <returns>The added component.</returns>
-        public static Mesher AddComponentTo(GameObject gameObject, MeshFilter meshFilter, IMesher logic)
+        public static Mesher AddComponentTo(GameObject gameObject, MeshFilter meshFilter, IMesherLogic logic)
         {
             var mesher = gameObject.AddComponent<Mesher>();
             mesher.meshFilter = meshFilter;

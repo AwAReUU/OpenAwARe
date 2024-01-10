@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace AwARe.Data.Logic
@@ -15,7 +16,7 @@ namespace AwARe.Data.Logic
     /// A Polygon representing (a part of) the floor.
     /// </summary>
     [Serializable]
-    public class Polygon
+    public class Polygon : IEquatable<Polygon>
     {
         /// <summary>
         /// Gets or sets the points of the Polygon.
@@ -46,7 +47,7 @@ namespace AwARe.Data.Logic
 
                 for (int i = 0; i < Points.Count; i++)
                 {
-                    area += (Points[j].x + Points[i].z) * (Points[j].z - Points[i].z);
+                    area += (Points[j].x + Points[i].x) * (Points[j].z - Points[i].z);
                     j = i;
                 }
 
@@ -76,6 +77,11 @@ namespace AwARe.Data.Logic
             Points = new(polygon.Points);
             Height = polygon.Height;
         }
+
+        /// <inheritdoc/>
+        public bool Equals(Polygon other) =>
+            Height.Equals(other.Height) &&
+            Points.SequenceEqual(other.Points);
         
         /// <summary>
         /// Creates a deep copy of this Polygon.

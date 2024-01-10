@@ -103,7 +103,10 @@ namespace AwARe.ObjectGeneration
             // TODO:
             // Once pathgen is done, create mesh from PathData
             // this.pathMesh = pathData.CreateMesh()
-            Room roomData = SelectedRoom.Data;
+            Room roomData = SelectedRoom != null ? SelectedRoom.Data : null;
+            if(roomData == null)
+                return;
+
             float roomSpace        = roomData.PositivePolygon.Area;
             float renderablesSpace = ComputeRenderableSpaceNeeded(renderables);
 

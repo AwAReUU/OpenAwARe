@@ -66,10 +66,10 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <param name="polygon">A polygon.</param>
         public void AddPolygon(Polygon polygon)
         {
-            if (Room.PositivePolygon == null)
-                Room.PositivePolygon = polygon;
+            if (Room.positivePolygon == null)
+                Room.positivePolygon = polygon;
             else
-                Room.NegativePolygons.Add(polygon);
+                Room.negativePolygons.Add(polygon);
         }
 
         /// <summary>

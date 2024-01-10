@@ -5,7 +5,8 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using AwARe.Logic;
+using AwARe.Data.Objects;
+using AwARe.Objects;
 
 using Unity.XR.CoreUtils;
 
@@ -82,6 +83,24 @@ namespace AwARe.InterScenes.Objects
             ?? (Session ? Session.GetComponent<T>() : null)
             ?? (Camera ? Camera.GetComponent<T>() : null)
             ?? (EventSystem ? EventSystem.GetComponent<T>() : null);
+
+        /// <summary>
+        /// Initialize this singleton component.
+        /// </summary>
+        /// <param name="session">The ARSession in the ARSupport scene.</param>
+        /// <param name="origin">The AR Session Origin in the ARSupport scene.</param>
+        /// <param name="camera">The Camera under the AR Session Origin.</param>
+        /// <param name="eventSystem">The EventSystem in the ARSupport scene.</param>
+        /// <returns>The initialized component.</returns>
+        public static ARSecretary SetComponent(ARSession session, XROrigin origin, Camera camera, EventSystem eventSystem)
+        {
+            var secretary = Get();
+            secretary.Session = session;
+            secretary.Origin = origin;
+            secretary.Camera = camera;
+            secretary.EventSystem = eventSystem;
+            return secretary;
+        }
 
         private void Awake()
         {

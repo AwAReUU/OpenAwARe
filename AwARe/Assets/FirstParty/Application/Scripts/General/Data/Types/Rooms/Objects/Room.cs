@@ -14,7 +14,7 @@ namespace AwARe.Data.Objects
     /// <summary>
     /// A GameObject component containing data data.
     /// </summary>
-    public class Room : MonoBehaviour
+    public class Room : MonoBehaviour, IDataHolder<Logic.Room>
     {
         /// <summary>
         /// Gets the data-type <see cref="Logic.Room"/> represented by this GameObject.
@@ -23,23 +23,17 @@ namespace AwARe.Data.Objects
         /// The data-type <see cref="Logic.Room"/> represented.
         /// </value>
         public Logic.Room Data =>
-            new(PositivePolygon ? PositivePolygon.Data : null, NegativePolygons.Select(x => x.Data).ToList());
+            new(positivePolygon ? positivePolygon.Data : null, negativePolygons.Select(x => x.Data).ToList());
         
         /// <summary>
-        /// Gets or sets the main polygon.
-        /// </summary>
-        /// <value>
         /// The main polygon.
-        /// </value>
-        public Polygon PositivePolygon { get; set; }
+        /// </summary>
+        public Polygon positivePolygon;
 
         /// <summary>
-        /// Gets or sets the subtracted polygons.
-        /// </summary>
-        /// <value>
         /// The subtracted polygons.
-        /// </value>
-        public List<Polygon> NegativePolygons { get; set; } = new();
+        /// </summary>
+        public List<Polygon> negativePolygons;
 
         /// <summary>
         /// Adds this component to a given GameObject and initializes the components members.
@@ -49,17 +43,8 @@ namespace AwARe.Data.Objects
         /// <returns>The added component.</returns>
         public static Room AddComponentTo(GameObject gameObject, Logic.Room data)
         {
-            var positivePolygon = new GameObject("Polygon").AddComponent<Polygon>();
-            positivePolygon.Data = data.PositivePolygon;
-
-            List<Polygon> negativePolygons = new();
-            foreach (var polygon in data.NegativePolygons)
-            {
-                var negativePolygon = new GameObject("Polygon").AddComponent<Polygon>();
-                positivePolygon.Data = polygon;
-                negativePolygons.Add(negativePolygon);
-            }
-
+            Polygon positivePolygon = Polygon.AddComponentTo(new("Positive Polygon"), data.PositivePolygon);
+            List<Polygon> negativePolygons = data.NegativePolygons.Select(polygon => Polygon.AddComponentTo(new("Negative Polygon"), polygon)).ToList();
             return AddComponentTo(gameObject, positivePolygon, negativePolygons);
         }
         
@@ -73,12 +58,11 @@ namespace AwARe.Data.Objects
         public static Room AddComponentTo(GameObject gameObject, Polygon positivePolygon, List<Polygon> negativePolygons)
         {
             var room = gameObject.AddComponent<Room>();
-            room.PositivePolygon = positivePolygon;
+            room.positivePolygon = positivePolygon;
             positivePolygon.transform.SetParent(room.transform, true);
-            room.NegativePolygons = negativePolygons;
+            room.negativePolygons = negativePolygons;
             foreach (Polygon polygon in negativePolygons)
                 polygon.transform.SetParent(room.transform, true);
-
             return room;
         }
     }

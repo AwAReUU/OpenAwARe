@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 namespace AYellowpaper
 {
@@ -20,16 +17,17 @@ namespace AYellowpaper
 		/// <summary>
 		/// Get the interface, if the UnderlyingValue is not null and implements the given interface.
 		/// </summary>
-		public TInterface Value
+		public virtual TInterface Value
 		{
-			get
-			{
-				if (_underlyingValue == null)
-					return null;
-				var @interface = _underlyingValue as TInterface;
-				Debug.Assert(@interface != null, $"{_underlyingValue} needs to implement interface {nameof(TInterface)}.");
-				return @interface;
-			}
+            get
+            {
+                if (_underlyingValue == null)
+                    return null;
+
+                var @interface = _underlyingValue as TInterface;
+                Debug.Assert(@interface != null, $"{_underlyingValue} needs to implement interface {nameof(TInterface)}.");
+                return @interface;
+            }
 			set
 			{
 				if (value == null)
@@ -42,10 +40,11 @@ namespace AYellowpaper
 				}
 			}
 		}
+
 		/// <summary>
 		/// Get the actual UnityEngine.Object that gets serialized.
 		/// </summary>
-		public UObject UnderlyingValue
+		public virtual UObject UnderlyingValue
 		{
 			get => _underlyingValue;
 			set => _underlyingValue = value;

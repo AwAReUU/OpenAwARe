@@ -33,8 +33,8 @@ namespace AwARe.Data.Objects
         // Tracking data
         private bool newLines = false;
         private bool newLiners = false;
-        private Liner positivePolygonLiner;
-        private List<Liner> negativePolygonLiners;
+        public Liner positivePolygonLiner;
+        public List<Liner> negativePolygonLiners;
         // private Liner pathLiner;
         
         /// <summary>
@@ -42,11 +42,17 @@ namespace AwARe.Data.Objects
         /// </summary>
         /// <param name="gameObject">The GameObject this component is added to.</param>
         /// <param name="room">A room.</param>
+        /// <param name="positivePolygonLiner">Liner responsible for drawing the positive polygon.</param>
+        /// <param name="negativePolygonLiners">Liner responsible for drawing the negative polygons.</param>
+        /// <param name="drawPolygons">True if polygons lines should be kept up to date.</param>
         /// <returns>The added component.</returns>
-        public static RoomLiner AddComponentTo(GameObject gameObject, Room room)
+        public static RoomLiner AddComponentTo(GameObject gameObject, Room room, Liner positivePolygonLiner, List<Liner> negativePolygonLiners, bool drawPolygons = true)
         {
             var liner = gameObject.AddComponent<RoomLiner>();
             liner.room = room;
+            liner.positivePolygonLiner = positivePolygonLiner;
+            liner.negativePolygonLiners = negativePolygonLiners;
+            liner.drawPolygons = drawPolygons;
             return liner;
         }
 
@@ -92,8 +98,8 @@ namespace AwARe.Data.Objects
         /// </summary>
         public void ResetLiners()
         {
-            positivePolygonLiner = room.PositivePolygon.GetComponent<Liner>();
-            negativePolygonLiners = room.NegativePolygons.Select(x => x.GetComponent<Liner>()).ToList();
+            positivePolygonLiner = room.positivePolygon.GetComponent<Liner>();
+            negativePolygonLiners = room.negativePolygons.Select(x => x.GetComponent<Liner>()).ToList();
 
             newLiners = false;
         }
