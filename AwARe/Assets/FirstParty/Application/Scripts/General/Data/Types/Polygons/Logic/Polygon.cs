@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 
@@ -15,37 +16,38 @@ namespace AwARe.Data.Logic
     /// <summary>
     /// A polygon representing (a part of) the floor.
     /// </summary>
+    /// 
     public class Polygon
-    {
-        /// <value>The points that form the 'corners' of the polygon.</value>
-        public List<Vector3> Points {  get; protected set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Polygon"/> class.
-        /// </summary>
-        /// <param name="points">A list of pre-defined points of which the polygon consists.</param>
-        public Polygon(List<Vector3> points = null)
+    {
+        public List<Vector3> listpoints;
+
+        // Default constructor
+        public Polygon()
         {
-            if (points == null)
-                Points = new List<Vector3>();
-            else
-                Points = points;
+            listpoints = new List<Vector3>();
+        }
+        
+        // Parameterized constructor
+        public Polygon(List<Vector3> points)
+        {
+            listpoints = points ?? new List<Vector3>();
         }
 
         /// <summary>
         /// Adds the given point to the list of points.
         /// </summary>
         /// <param name="point">The point to add to the list.</param>
-        public void AddPoint(Vector3 point) => Points.Add(point);
+        public void AddPoint(Vector3 point) => listpoints.Add(point);
 
         /// <summary>
         /// Removes the last added point from the list of points.
         /// </summary>
         public void RemoveLastPoint()
         {
-            if (Points.Count > 0)
+            if (listpoints.Count > 0)
             {
-                Points.RemoveAt(Points.Count - 1);
+                listpoints.RemoveAt(listpoints.Count - 1);
             }
         }
 
@@ -53,25 +55,25 @@ namespace AwARe.Data.Logic
         /// Gets the points list in array form.
         /// </summary>
         /// <returns>An array containing the points of the point lsit.</returns>
-        public Vector3[] GetPoints() => Points.ToArray();
+        public Vector3[] GetPoints() => listpoints.ToArray();
 
         /// <summary>
         /// Returns the amount of points of the polygon.
         /// </summary>
         /// <returns>The amount of point.</returns>
-        public int AmountOfPoints() => Points.Count;
+        public int AmountOfPoints() => listpoints.Count;
 
         /// <summary>
         /// Gets the first point from the points list.
         /// </summary>
         /// <returns>The first point.</returns>
-        public Vector3 GetFirstPoint() => Points[0];
+        public Vector3 GetFirstPoint() => listpoints[0];
 
         /// <summary>
         /// Whether the polygon is empty.
         /// </summary>
         /// <returns>True if the polygon has no points, false otherwise.</returns>
-        public bool IsEmptyPolygon() => Points.Count == 0;
+        public bool IsEmptyPolygon() => listpoints.Count == 0;
 
         /// <summary>
         /// Calculates the area of the polygon.
@@ -82,16 +84,17 @@ namespace AwARe.Data.Logic
             get
             {
                 float area = 0f;
-                int j = Points.Count - 1;
+                int j = listpoints.Count - 1;
 
-                for (int i = 0; i < Points.Count; i++)
+                for (int i = 0; i < listpoints.Count; i++)
                 {
-                    area += (Points[j].x + Points[i].z) * (Points[j].z - Points[i].z);
+                    area += (listpoints[j].x + listpoints[i].z) * (listpoints[j].z - listpoints[i].z);
                     j = i;
                 }
 
                 return Math.Abs(area / 2);
             }
         }
+
     }
 }
