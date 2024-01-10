@@ -5,6 +5,7 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System;
 using System.Collections.Generic;
 using AwARe.ResourcePipeline.Logic;
 using UnityEngine;
@@ -41,6 +42,10 @@ namespace AwARe.ObjectGeneration
         /// The scaling to apply to the prefab.
         /// </value>
         private float scaling { get; set; }
+
+        public void SetScaling(float newScaling) => this.scaling = newScaling;
+
+        public void SetHalfExtents(Vector3 newHalfExtents) => halfExtents = newHalfExtents;
 
         /// <value>
         /// The resource type of this renderable.
