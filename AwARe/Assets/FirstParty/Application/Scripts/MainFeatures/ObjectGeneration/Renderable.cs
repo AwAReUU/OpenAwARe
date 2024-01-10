@@ -81,6 +81,15 @@ namespace AwARe.ObjectGeneration
             this.resourceType = resourceType;
             this.currentRatioUsage = 0;
             this.objStacks = new();
+
+            //Change scaling if it is water
+            if (resourceType == ResourceType.Water)
+            {
+                float quantityMililiter = quantity * 1000;
+                float sideLength = (float)Math.Pow(quantityMililiter, 1.0 / 3.0) / 100f; //convert ml volume to meters side length.
+                SetScaling(sideLength);
+                this.halfExtents *= sideLength;
+            }
         }
 
         /// <summary>
@@ -88,6 +97,8 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <returns>The quantity of the current Renderable.</returns>
         public int GetQuantity() => this.quantity;
+
+        public void SetQuantity(int v) => quantity = v;
 
         /// <summary>
         /// Return the halfExtents of the current Renderable.

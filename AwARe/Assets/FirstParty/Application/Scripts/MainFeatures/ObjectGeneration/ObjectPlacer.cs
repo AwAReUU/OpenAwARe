@@ -27,13 +27,6 @@ namespace AwARe.ObjectGeneration
             Vector3 position,
             Room room)
         {
-            if (renderable.resourceType == ResourcePipeline.Logic.ResourceType.Water)
-            {
-                //renderable.quantity = 1000000;
-                float sideLength = (float)System.Math.Pow(renderable.quantity, 1.0 / 3.0)/100f;
-                renderable.SetScaling(sideLength);
-                renderable.SetHalfExtents(renderable.GetHalfExtents() * sideLength);
-            }
             // Check if the box of the new object will overlap with any other colliders
             Vector3 boxCenter = position;
             boxCenter.y += renderable.GetHalfExtents().y;
@@ -57,8 +50,16 @@ namespace AwARe.ObjectGeneration
 
             if (renderable.resourceType == ResourcePipeline.Logic.ResourceType.Water)
             {
-                string newtext = ((float)renderable.quantity/1000f).ToString() + "L";
-                newObject.GetComponentInChildren<TextMeshPro>().text = newtext;
+                //The pivot point of water is in the center of the cube. Move it down.
+                Vector3 trsf = new(0, renderable.GetHalfExtents().y, 0);
+                newObject.transform.Translate(trsf); //move half extent up, otherwise its inside the world.
+
+                //Set text to the watercube labels
+                string newLabelText = "Water\n" + ((float)renderable.quantity).ToString() + "L";
+                TextMeshPro[] textMeshProComponents = newObject.GetComponentsInChildren<TextMeshPro>();
+                foreach (TextMeshPro textMeshPro in textMeshProComponents)
+                    textMeshPro.text = newLabelText;
+                renderable.SetQuantity(0);
             }
 
             // Add collider after changing object size
@@ -252,7 +253,7 @@ namespace AwARe.ObjectGeneration
                     if (TryPlaceObject(renderable, point, room))
                     {
                         if (renderable.resourceType == ResourcePipeline.Logic.ResourceType.Water)
-                             renderable.quantity = 0;
+                            renderable.quantity = 0;
                         else
                             renderable.quantity -= 1; // remove one renderable if the initial object is spawned
                         initialSpawns.Add(renderable, point);

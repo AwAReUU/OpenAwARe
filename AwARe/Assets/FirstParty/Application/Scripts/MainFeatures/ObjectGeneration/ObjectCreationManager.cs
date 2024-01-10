@@ -149,18 +149,18 @@ namespace AwARe.ObjectGeneration
         }
 
         //debug method for displaying spawn locations in scene.
-        void OnDrawGizmos()
-        {
-            Rooms.Room room = Storage.Get().ActiveRoom;
-            if (room == null)
-                return;
+        //void OnDrawGizmos()
+        //{
+        //    Rooms.Room room = Storage.Get().ActiveRoom;
+        //    if (room == null)
+        //        return;
 
-            PolygonSpawnPointHandler spawnPointHandler = new();
-            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room, this.pathMesh);
+        //    PolygonSpawnPointHandler spawnPointHandler = new();
+        //    List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room, this.pathMesh);
 
-            Gizmos.color = Color.red;
-            foreach (var p in validSpawnPoints)
-                Gizmos.DrawSphere(p, 0.05f);
-        }
+        //    Gizmos.color = Color.red;
+        //    foreach (var p in validSpawnPoints)
+        //        Gizmos.DrawSphere(p, 0.05f);
+        //}
     }
 }
