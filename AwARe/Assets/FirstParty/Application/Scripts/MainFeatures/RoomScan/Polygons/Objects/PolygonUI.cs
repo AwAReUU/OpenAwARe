@@ -39,11 +39,6 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// Sets activity of UI elements based on the state.
         /// </summary>
         /// <param name="toState">Current/new state.</param>
-
-
-
-
-
         public void SetActive(State state)
         {
             bool reset = false,
@@ -105,9 +100,6 @@ namespace AwARe.RoomScan.Polygons.Objects
             pathButton.SetActive(pathbutton);
             loadingpopup.SetActive(Loadingpopup);
             continueButton.SetActive(continuebtn);
-            
-            
-            
         }
     }
 }

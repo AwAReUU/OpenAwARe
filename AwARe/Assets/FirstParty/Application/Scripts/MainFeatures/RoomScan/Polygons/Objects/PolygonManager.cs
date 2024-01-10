@@ -111,6 +111,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void OnCreateButtonClick() =>
             StartScanning();
+
         /// <summary>
         /// Called on load button button click; changes state so user sees load slots.
         /// </summary>
@@ -148,6 +149,10 @@ namespace AwARe.RoomScan.Polygons.Objects
             Room.AddPolygon(CurrentPolygon);
             //GenerateAndDrawPath();
         }
+
+        /// <summary>
+        /// Initiates the path generation process, activates the loading popup, generates the path, and removes the loading popup.
+        /// </summary>
         public void OnPathButtonClick()
         {
             //activate the popup
@@ -155,17 +160,29 @@ namespace AwARe.RoomScan.Polygons.Objects
             StartCoroutine(MakePathAndRemovePopup());
 
         }
+
+        /// <summary>
+        /// Continues to the next scene after storing the active room.
+        /// </summary>
         public void ContinueToGeneration()
         {
             Storage.Get().ActiveRoom = Room;
             SceneSwitcher.Get().LoadScene("Home");
         }
+
+        /// <summary>
+        /// waits for one frame, generates and draws the path, and then removes the loading popup.
+        /// </summary>
         public IEnumerator MakePathAndRemovePopup()
         {
             yield return null;
             GenerateAndDrawPath();
             LoadingPopup.SetActive(false);
         }
+
+        /// <summary>
+        /// Generates and draws the path based on the room's positive and negative polygons.
+        /// </summary>
         public void GenerateAndDrawPath()
         {
             PathGenerator startstate = new();
@@ -301,7 +318,10 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         /// <param name="height">Height the slider is currently at.</param>
         public void OnHeightSliderChanged(float height) { this.polygonMesh.SetHeight(height); }
-
+        
+        /// <summary>
+        /// Switches the scene to Home.
+        /// </summary>
         public void OnEndButtonClick ()
         {
             //Storage.Get().ActiveRoom = Room;
