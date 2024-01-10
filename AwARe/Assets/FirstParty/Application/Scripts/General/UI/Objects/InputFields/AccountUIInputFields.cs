@@ -20,8 +20,10 @@ namespace AwARe
         [SerializeField] private TMP_InputField LastNameInputField;
         [SerializeField] private TMP_InputField passwordConfirmInputField;
         [SerializeField] private Button securityButton;
-
-
+        [SerializeField] private Button referRegisterButton;
+        [SerializeField] private Button referLoginButton;
+        [SerializeField] private GameObject registerScreen;
+        [SerializeField] private GameObject loginScreen;
         private bool IsStrongPassword(string password)
         {
             // Password should be at least 12 characters long
@@ -44,8 +46,8 @@ namespace AwARe
         // Start is called before the first frame update
         void Start()
         {
-
-           
+            registerScreen.SetActive(false);
+            loginScreen.SetActive(true);
         }
 
         // Update is called once per frame
@@ -58,10 +60,24 @@ namespace AwARe
         void Awake()
         {
             securityButton.onClick.AddListener(delegate () { this.OnSecurityButtonClick(); });
+            referRegisterButton.onClick.AddListener(delegate () { OnReferRegisterButtonClick(); });
+            referLoginButton.onClick.AddListener(delegate () { this.OnReferLoginButtonClick(); });
         }
         public void OnLoginButtonClick()
         {
-  
+           
+        }
+
+        public void OnReferRegisterButtonClick()
+        {
+            registerScreen.SetActive(true);
+            loginScreen.SetActive(false);
+        }
+
+        public void OnReferLoginButtonClick()
+        {
+            registerScreen.SetActive(false);
+            loginScreen.SetActive(true);
         }
 
         public void OnSecurityButtonClick()
