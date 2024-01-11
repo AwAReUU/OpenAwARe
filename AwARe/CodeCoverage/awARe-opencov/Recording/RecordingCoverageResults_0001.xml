@@ -104,12 +104,12 @@
               <Name>AwARe.Visualizers.ARPointCloudInfo[Pos,Id,Conf]::ARPointCloudInfo(Pos, Id, Conf)</Name>
               <FileRef uid="55" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6167" ordinal="0" offset="0" sl="15" sc="0" el="15" ec="0" bec="0" bev="0" fileid="55" />
-                <SequencePoint vc="0" uspid="6168" ordinal="0" offset="7" sl="16" sc="0" el="16" ec="0" bec="0" bev="0" fileid="55" />
-                <SequencePoint vc="0" uspid="6169" ordinal="0" offset="8" sl="17" sc="0" el="17" ec="0" bec="0" bev="0" fileid="55" />
-                <SequencePoint vc="0" uspid="6170" ordinal="0" offset="15" sl="18" sc="0" el="18" ec="0" bec="0" bev="0" fileid="55" />
-                <SequencePoint vc="0" uspid="6171" ordinal="0" offset="22" sl="19" sc="0" el="19" ec="0" bec="0" bev="0" fileid="55" />
-                <SequencePoint vc="0" uspid="6172" ordinal="0" offset="29" sl="20" sc="0" el="20" ec="0" bec="0" bev="0" fileid="55" />
+                <SequencePoint vc="0" uspid="6169" ordinal="0" offset="0" sl="15" sc="0" el="15" ec="0" bec="0" bev="0" fileid="55" />
+                <SequencePoint vc="0" uspid="6170" ordinal="0" offset="7" sl="16" sc="0" el="16" ec="0" bec="0" bev="0" fileid="55" />
+                <SequencePoint vc="0" uspid="6171" ordinal="0" offset="8" sl="17" sc="0" el="17" ec="0" bec="0" bev="0" fileid="55" />
+                <SequencePoint vc="0" uspid="6172" ordinal="0" offset="15" sl="18" sc="0" el="18" ec="0" bec="0" bev="0" fileid="55" />
+                <SequencePoint vc="0" uspid="6173" ordinal="0" offset="22" sl="19" sc="0" el="19" ec="0" bec="0" bev="0" fileid="55" />
+                <SequencePoint vc="0" uspid="6174" ordinal="0" offset="29" sl="20" sc="0" el="20" ec="0" bec="0" bev="0" fileid="55" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -125,13 +125,13 @@
               <Name>System.Void AwARe.Visualizers.GroupVisualizer[In]::Visualize()</Name>
               <FileRef uid="59" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6311" ordinal="0" offset="0" sl="18" sc="0" el="18" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6312" ordinal="0" offset="1" sl="19" sc="0" el="19" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6313" ordinal="0" offset="18" sl="20" sc="0" el="20" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6314" ordinal="0" offset="22" sl="21" sc="0" el="21" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6315" ordinal="0" offset="43" sl="20" sc="0" el="20" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6316" ordinal="0" offset="47" sl="20" sc="0" el="20" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6317" ordinal="0" offset="55" sl="22" sc="0" el="22" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6313" ordinal="0" offset="0" sl="18" sc="0" el="18" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6314" ordinal="0" offset="1" sl="19" sc="0" el="19" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6315" ordinal="0" offset="18" sl="20" sc="0" el="20" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6316" ordinal="0" offset="22" sl="21" sc="0" el="21" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6317" ordinal="0" offset="43" sl="20" sc="0" el="20" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6318" ordinal="0" offset="47" sl="20" sc="0" el="20" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6319" ordinal="0" offset="55" sl="22" sc="0" el="22" ec="0" bec="0" bev="0" fileid="59" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -141,12 +141,12 @@
               <Name>System.Void AwARe.Visualizers.GroupVisualizer[In]::Visualize()</Name>
               <FileRef uid="59" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6318" ordinal="0" offset="0" sl="25" sc="0" el="25" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6319" ordinal="0" offset="1" sl="26" sc="0" el="26" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6320" ordinal="0" offset="5" sl="27" sc="0" el="27" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6321" ordinal="0" offset="19" sl="26" sc="0" el="26" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6322" ordinal="0" offset="23" sl="26" sc="0" el="26" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6323" ordinal="0" offset="38" sl="28" sc="0" el="28" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6320" ordinal="0" offset="0" sl="25" sc="0" el="25" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6321" ordinal="0" offset="1" sl="26" sc="0" el="26" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6322" ordinal="0" offset="5" sl="27" sc="0" el="27" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6323" ordinal="0" offset="19" sl="26" sc="0" el="26" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6324" ordinal="0" offset="23" sl="26" sc="0" el="26" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6325" ordinal="0" offset="38" sl="28" sc="0" el="28" ec="0" bec="0" bev="0" fileid="59" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -156,10 +156,10 @@
               <Name>AwARe.Visualizers.GroupVisualizer[In]::GroupVisualizer()</Name>
               <FileRef uid="59" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6324" ordinal="0" offset="0" sl="12" sc="0" el="12" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6325" ordinal="0" offset="7" sl="13" sc="0" el="13" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6326" ordinal="0" offset="8" sl="14" sc="0" el="14" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6327" ordinal="0" offset="15" sl="15" sc="0" el="15" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6326" ordinal="0" offset="0" sl="12" sc="0" el="12" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6327" ordinal="0" offset="7" sl="13" sc="0" el="13" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6328" ordinal="0" offset="8" sl="14" sc="0" el="14" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6329" ordinal="0" offset="15" sl="15" sc="0" el="15" ec="0" bec="0" bev="0" fileid="59" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -175,20 +175,20 @@
               <Name>System.Void AwARe.Visualizers.TrackableCollectionVisualizer[In]::Visualize(UnityEngine.XR.ARFoundation.TrackableCollection[In])</Name>
               <FileRef uid="59" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6328" ordinal="0" offset="0" sl="41" sc="0" el="41" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6329" ordinal="0" offset="1" sl="42" sc="0" el="42" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6330" ordinal="0" offset="10" sl="43" sc="0" el="43" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6331" ordinal="0" offset="53" sl="44" sc="0" el="44" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6332" ordinal="0" offset="55" sl="45" sc="0" el="45" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6333" ordinal="0" offset="56" sl="45" sc="0" el="45" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6334" ordinal="0" offset="66" sl="45" sc="0" el="45" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6335" ordinal="0" offset="75" sl="46" sc="0" el="46" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6336" ordinal="0" offset="76" sl="47" sc="0" el="47" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6337" ordinal="0" offset="93" sl="47" sc="0" el="47" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6338" ordinal="0" offset="95" sl="48" sc="0" el="48" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6339" ordinal="0" offset="111" sl="49" sc="0" el="49" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6340" ordinal="0" offset="112" sl="45" sc="0" el="45" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6341" ordinal="0" offset="121" sl="50" sc="0" el="50" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6330" ordinal="0" offset="0" sl="41" sc="0" el="41" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6331" ordinal="0" offset="1" sl="42" sc="0" el="42" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6332" ordinal="0" offset="10" sl="43" sc="0" el="43" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6333" ordinal="0" offset="53" sl="44" sc="0" el="44" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6334" ordinal="0" offset="55" sl="45" sc="0" el="45" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6335" ordinal="0" offset="56" sl="45" sc="0" el="45" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6336" ordinal="0" offset="66" sl="45" sc="0" el="45" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6337" ordinal="0" offset="75" sl="46" sc="0" el="46" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6338" ordinal="0" offset="76" sl="47" sc="0" el="47" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6339" ordinal="0" offset="93" sl="47" sc="0" el="47" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6340" ordinal="0" offset="95" sl="48" sc="0" el="48" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6341" ordinal="0" offset="111" sl="49" sc="0" el="49" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6342" ordinal="0" offset="112" sl="45" sc="0" el="45" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6343" ordinal="0" offset="121" sl="50" sc="0" el="50" ec="0" bec="0" bev="0" fileid="59" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -198,12 +198,12 @@
               <Name>System.Void AwARe.Visualizers.TrackableCollectionVisualizer[In]::Visualize()</Name>
               <FileRef uid="59" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6342" ordinal="0" offset="0" sl="52" sc="0" el="52" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6343" ordinal="0" offset="1" sl="53" sc="0" el="53" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6344" ordinal="0" offset="5" sl="54" sc="0" el="54" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6345" ordinal="0" offset="19" sl="53" sc="0" el="53" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6346" ordinal="0" offset="23" sl="53" sc="0" el="53" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6347" ordinal="0" offset="38" sl="55" sc="0" el="55" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6344" ordinal="0" offset="0" sl="52" sc="0" el="52" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6345" ordinal="0" offset="1" sl="53" sc="0" el="53" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6346" ordinal="0" offset="5" sl="54" sc="0" el="54" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6347" ordinal="0" offset="19" sl="53" sc="0" el="53" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6348" ordinal="0" offset="23" sl="53" sc="0" el="53" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6349" ordinal="0" offset="38" sl="55" sc="0" el="55" ec="0" bec="0" bev="0" fileid="59" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -213,10 +213,10 @@
               <Name>AwARe.Visualizers.TrackableCollectionVisualizer[In]::TrackableCollectionVisualizer()</Name>
               <FileRef uid="59" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6348" ordinal="0" offset="0" sl="35" sc="0" el="35" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6349" ordinal="0" offset="7" sl="36" sc="0" el="36" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6350" ordinal="0" offset="8" sl="37" sc="0" el="37" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6351" ordinal="0" offset="15" sl="38" sc="0" el="38" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6350" ordinal="0" offset="0" sl="35" sc="0" el="35" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6351" ordinal="0" offset="7" sl="36" sc="0" el="36" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6352" ordinal="0" offset="8" sl="37" sc="0" el="37" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6353" ordinal="0" offset="15" sl="38" sc="0" el="38" ec="0" bec="0" bev="0" fileid="59" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -232,11 +232,11 @@
               <Name>System.Void AwARe.Visualizers.IgnoreOnNullVisualizer[In]::Visualize(System.Nullable[In])</Name>
               <FileRef uid="59" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6352" ordinal="0" offset="0" sl="69" sc="0" el="69" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6353" ordinal="0" offset="1" sl="70" sc="0" el="70" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6354" ordinal="0" offset="15" sl="71" sc="0" el="71" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6355" ordinal="0" offset="17" sl="72" sc="0" el="72" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6356" ordinal="0" offset="36" sl="73" sc="0" el="73" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6354" ordinal="0" offset="0" sl="69" sc="0" el="69" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6355" ordinal="0" offset="1" sl="70" sc="0" el="70" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6356" ordinal="0" offset="15" sl="71" sc="0" el="71" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6357" ordinal="0" offset="17" sl="72" sc="0" el="72" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6358" ordinal="0" offset="36" sl="73" sc="0" el="73" ec="0" bec="0" bev="0" fileid="59" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -246,7 +246,7 @@
               <Name>System.Void AwARe.Visualizers.IgnoreOnNullVisualizer[In]::Visualize()</Name>
               <FileRef uid="59" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6357" ordinal="0" offset="0" sl="75" sc="0" el="75" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6359" ordinal="0" offset="0" sl="75" sc="0" el="75" ec="0" bec="0" bev="0" fileid="59" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -256,10 +256,10 @@
               <Name>AwARe.Visualizers.IgnoreOnNullVisualizer[In]::IgnoreOnNullVisualizer(AwARe.Visualizers.IVisualizer[In])</Name>
               <FileRef uid="59" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6358" ordinal="0" offset="0" sl="63" sc="0" el="63" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6359" ordinal="0" offset="7" sl="64" sc="0" el="64" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6360" ordinal="0" offset="8" sl="65" sc="0" el="65" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6361" ordinal="0" offset="15" sl="66" sc="0" el="66" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6360" ordinal="0" offset="0" sl="63" sc="0" el="63" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6361" ordinal="0" offset="7" sl="64" sc="0" el="64" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6362" ordinal="0" offset="8" sl="65" sc="0" el="65" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6363" ordinal="0" offset="15" sl="66" sc="0" el="66" ec="0" bec="0" bev="0" fileid="59" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -275,14 +275,14 @@
               <Name>System.Void AwARe.Visualizers.HideOnNullVisualizer[In]::Visualize(System.Nullable[In])</Name>
               <FileRef uid="59" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6362" ordinal="0" offset="0" sl="89" sc="0" el="89" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6363" ordinal="0" offset="1" sl="90" sc="0" el="90" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6364" ordinal="0" offset="12" sl="91" sc="0" el="91" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6365" ordinal="0" offset="26" sl="92" sc="0" el="92" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6366" ordinal="0" offset="27" sl="93" sc="0" el="93" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6367" ordinal="0" offset="39" sl="94" sc="0" el="94" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6368" ordinal="0" offset="41" sl="97" sc="0" el="97" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6369" ordinal="0" offset="60" sl="98" sc="0" el="98" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6364" ordinal="0" offset="0" sl="89" sc="0" el="89" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6365" ordinal="0" offset="1" sl="90" sc="0" el="90" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6366" ordinal="0" offset="12" sl="91" sc="0" el="91" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6367" ordinal="0" offset="26" sl="92" sc="0" el="92" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6368" ordinal="0" offset="27" sl="93" sc="0" el="93" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6369" ordinal="0" offset="39" sl="94" sc="0" el="94" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6370" ordinal="0" offset="41" sl="97" sc="0" el="97" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6371" ordinal="0" offset="60" sl="98" sc="0" el="98" ec="0" bec="0" bev="0" fileid="59" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -292,7 +292,7 @@
               <Name>System.Void AwARe.Visualizers.HideOnNullVisualizer[In]::Visualize()</Name>
               <FileRef uid="59" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6370" ordinal="0" offset="0" sl="100" sc="0" el="100" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6372" ordinal="0" offset="0" sl="100" sc="0" el="100" ec="0" bec="0" bev="0" fileid="59" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -302,10 +302,10 @@
               <Name>AwARe.Visualizers.HideOnNullVisualizer[In]::HideOnNullVisualizer(AwARe.Visualizers.IVisualizer[In])</Name>
               <FileRef uid="59" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6371" ordinal="0" offset="0" sl="83" sc="0" el="83" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6372" ordinal="0" offset="7" sl="84" sc="0" el="84" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6373" ordinal="0" offset="8" sl="85" sc="0" el="85" ec="0" bec="0" bev="0" fileid="59" />
-                <SequencePoint vc="0" uspid="6374" ordinal="0" offset="15" sl="86" sc="0" el="86" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6373" ordinal="0" offset="0" sl="83" sc="0" el="83" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6374" ordinal="0" offset="7" sl="84" sc="0" el="84" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6375" ordinal="0" offset="8" sl="85" sc="0" el="85" ec="0" bec="0" bev="0" fileid="59" />
+                <SequencePoint vc="0" uspid="6376" ordinal="0" offset="15" sl="86" sc="0" el="86" ec="0" bec="0" bev="0" fileid="59" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -321,7 +321,7 @@
               <Name>static T AwARe.Logic.Singleton::Get[T](, System.Func[T])</Name>
               <FileRef uid="60" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6375" ordinal="0" offset="0" sl="49" sc="0" el="49" ec="0" bec="0" bev="0" fileid="60" />
+                <SequencePoint vc="0" uspid="6377" ordinal="0" offset="0" sl="49" sc="0" el="49" ec="0" bec="0" bev="0" fileid="60" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -331,11 +331,11 @@
               <Name>static System.Void AwARe.Logic.Singleton::Awake[T](, T)</Name>
               <FileRef uid="60" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6376" ordinal="0" offset="0" sl="61" sc="0" el="61" ec="0" bec="0" bev="0" fileid="60" />
-                <SequencePoint vc="0" uspid="6377" ordinal="0" offset="1" sl="62" sc="0" el="62" ec="0" bec="0" bev="0" fileid="60" />
-                <SequencePoint vc="0" uspid="6378" ordinal="0" offset="49" sl="63" sc="0" el="63" ec="0" bec="0" bev="0" fileid="60" />
-                <SequencePoint vc="0" uspid="6379" ordinal="0" offset="68" sl="65" sc="0" el="65" ec="0" bec="0" bev="0" fileid="60" />
-                <SequencePoint vc="0" uspid="6380" ordinal="0" offset="75" sl="66" sc="0" el="66" ec="0" bec="0" bev="0" fileid="60" />
+                <SequencePoint vc="0" uspid="6378" ordinal="0" offset="0" sl="61" sc="0" el="61" ec="0" bec="0" bev="0" fileid="60" />
+                <SequencePoint vc="0" uspid="6379" ordinal="0" offset="1" sl="62" sc="0" el="62" ec="0" bec="0" bev="0" fileid="60" />
+                <SequencePoint vc="0" uspid="6380" ordinal="0" offset="49" sl="63" sc="0" el="63" ec="0" bec="0" bev="0" fileid="60" />
+                <SequencePoint vc="0" uspid="6381" ordinal="0" offset="68" sl="65" sc="0" el="65" ec="0" bec="0" bev="0" fileid="60" />
+                <SequencePoint vc="0" uspid="6382" ordinal="0" offset="75" sl="66" sc="0" el="66" ec="0" bec="0" bev="0" fileid="60" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -345,10 +345,10 @@
               <Name>static System.Void AwARe.Logic.Singleton::OnDestroy[T](, T)</Name>
               <FileRef uid="60" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6381" ordinal="0" offset="0" sl="77" sc="0" el="77" ec="0" bec="0" bev="0" fileid="60" />
-                <SequencePoint vc="0" uspid="6382" ordinal="0" offset="1" sl="78" sc="0" el="78" ec="0" bec="0" bev="0" fileid="60" />
-                <SequencePoint vc="0" uspid="6383" ordinal="0" offset="27" sl="79" sc="0" el="79" ec="0" bec="0" bev="0" fileid="60" />
-                <SequencePoint vc="0" uspid="6384" ordinal="0" offset="34" sl="80" sc="0" el="80" ec="0" bec="0" bev="0" fileid="60" />
+                <SequencePoint vc="0" uspid="6383" ordinal="0" offset="0" sl="77" sc="0" el="77" ec="0" bec="0" bev="0" fileid="60" />
+                <SequencePoint vc="0" uspid="6384" ordinal="0" offset="1" sl="78" sc="0" el="78" ec="0" bec="0" bev="0" fileid="60" />
+                <SequencePoint vc="0" uspid="6385" ordinal="0" offset="27" sl="79" sc="0" el="79" ec="0" bec="0" bev="0" fileid="60" />
+                <SequencePoint vc="0" uspid="6386" ordinal="0" offset="34" sl="80" sc="0" el="80" ec="0" bec="0" bev="0" fileid="60" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -364,9 +364,9 @@
               <Name>static AwARe.Server.Logic.Request[B] AwARe.Server.Logic.Client::Post[B](System.String, B)</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6494" ordinal="0" offset="0" sl="244" sc="0" el="244" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6495" ordinal="0" offset="1" sl="245" sc="0" el="245" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6496" ordinal="0" offset="12" sl="246" sc="0" el="246" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6496" ordinal="0" offset="0" sl="244" sc="0" el="244" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6497" ordinal="0" offset="1" sl="245" sc="0" el="245" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6498" ordinal="0" offset="12" sl="246" sc="0" el="246" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -376,9 +376,9 @@
               <Name>static AwARe.Server.Logic.Request[B] AwARe.Server.Logic.Client::Get[B](System.String, B)</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6497" ordinal="0" offset="0" sl="249" sc="0" el="249" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6498" ordinal="0" offset="1" sl="250" sc="0" el="250" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6499" ordinal="0" offset="12" sl="251" sc="0" el="251" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6499" ordinal="0" offset="0" sl="249" sc="0" el="249" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6500" ordinal="0" offset="1" sl="250" sc="0" el="250" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6501" ordinal="0" offset="12" sl="251" sc="0" el="251" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -394,10 +394,10 @@
               <Name>AwARe.Server.Logic.Request[B] AwARe.Server.Logic.Request[B]::Then(System.Action[Dictionary`2])</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6506" ordinal="0" offset="0" sl="281" sc="0" el="281" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6507" ordinal="0" offset="1" sl="282" sc="0" el="282" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6508" ordinal="0" offset="8" sl="283" sc="0" el="283" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6509" ordinal="0" offset="12" sl="284" sc="0" el="284" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6508" ordinal="0" offset="0" sl="281" sc="0" el="281" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6509" ordinal="0" offset="1" sl="282" sc="0" el="282" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6510" ordinal="0" offset="8" sl="283" sc="0" el="283" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6511" ordinal="0" offset="12" sl="284" sc="0" el="284" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -407,10 +407,10 @@
               <Name>AwARe.Server.Logic.Request[B] AwARe.Server.Logic.Request[B]::Catch(System.Action[Exception])</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6510" ordinal="0" offset="0" sl="287" sc="0" el="287" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6511" ordinal="0" offset="1" sl="288" sc="0" el="288" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6512" ordinal="0" offset="8" sl="289" sc="0" el="289" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6513" ordinal="0" offset="12" sl="290" sc="0" el="290" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6512" ordinal="0" offset="0" sl="287" sc="0" el="287" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6513" ordinal="0" offset="1" sl="288" sc="0" el="288" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6514" ordinal="0" offset="8" sl="289" sc="0" el="289" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6515" ordinal="0" offset="12" sl="290" sc="0" el="290" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -420,13 +420,13 @@
               <Name>System.Void AwARe.Server.Logic.Request[B]::Send()</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6514" ordinal="0" offset="0" sl="293" sc="0" el="293" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6515" ordinal="0" offset="1" sl="294" sc="0" el="294" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6516" ordinal="0" offset="21" sl="297" sc="0" el="297" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6517" ordinal="0" offset="28" sl="298" sc="0" el="298" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6518" ordinal="0" offset="30" sl="300" sc="0" el="300" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6519" ordinal="0" offset="37" sl="301" sc="0" el="301" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6520" ordinal="0" offset="39" sl="303" sc="0" el="303" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6516" ordinal="0" offset="0" sl="293" sc="0" el="293" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6517" ordinal="0" offset="1" sl="294" sc="0" el="294" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6518" ordinal="0" offset="21" sl="297" sc="0" el="297" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6519" ordinal="0" offset="28" sl="298" sc="0" el="298" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6520" ordinal="0" offset="30" sl="300" sc="0" el="300" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6521" ordinal="0" offset="37" sl="301" sc="0" el="301" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6522" ordinal="0" offset="39" sl="303" sc="0" el="303" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -436,9 +436,9 @@
               <Name>System.Void AwARe.Server.Logic.Request[B]::Post()</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6521" ordinal="0" offset="0" sl="306" sc="0" el="306" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6522" ordinal="0" offset="1" sl="307" sc="0" el="307" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6523" ordinal="0" offset="36" sl="308" sc="0" el="308" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6523" ordinal="0" offset="0" sl="306" sc="0" el="306" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6524" ordinal="0" offset="1" sl="307" sc="0" el="307" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6525" ordinal="0" offset="36" sl="308" sc="0" el="308" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -448,9 +448,9 @@
               <Name>System.Void AwARe.Server.Logic.Request[B]::Get()</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6524" ordinal="0" offset="0" sl="311" sc="0" el="311" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6525" ordinal="0" offset="1" sl="312" sc="0" el="312" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6526" ordinal="0" offset="36" sl="313" sc="0" el="313" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6526" ordinal="0" offset="0" sl="311" sc="0" el="311" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6527" ordinal="0" offset="1" sl="312" sc="0" el="312" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6528" ordinal="0" offset="36" sl="313" sc="0" el="313" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -460,13 +460,13 @@
               <Name>AwARe.Server.Logic.Request[B]::Request(AwARe.Server.Logic.RequestType, System.String, B)</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6527" ordinal="0" offset="0" sl="271" sc="0" el="271" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6528" ordinal="0" offset="37" sl="273" sc="0" el="273" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6529" ordinal="0" offset="44" sl="274" sc="0" el="274" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6530" ordinal="0" offset="45" sl="275" sc="0" el="275" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6531" ordinal="0" offset="52" sl="276" sc="0" el="276" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6532" ordinal="0" offset="59" sl="277" sc="0" el="277" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6533" ordinal="0" offset="66" sl="278" sc="0" el="278" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6529" ordinal="0" offset="0" sl="271" sc="0" el="271" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6530" ordinal="0" offset="37" sl="273" sc="0" el="273" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6531" ordinal="0" offset="44" sl="274" sc="0" el="274" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6532" ordinal="0" offset="45" sl="275" sc="0" el="275" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6533" ordinal="0" offset="52" sl="276" sc="0" el="276" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6534" ordinal="0" offset="59" sl="277" sc="0" el="277" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6535" ordinal="0" offset="66" sl="278" sc="0" el="278" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -482,7 +482,7 @@
               <Name>T AwARe.InterScenes.Objects.ARSecretary::GetComponent[T]()</Name>
               <FileRef uid="77" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6631" ordinal="0" offset="0" sl="68" sc="0" el="68" ec="0" bec="0" bev="0" fileid="77" />
+                <SequencePoint vc="0" uspid="6633" ordinal="0" offset="0" sl="68" sc="0" el="68" ec="0" bec="0" bev="0" fileid="77" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -498,10 +498,10 @@
               <Name>System.Void AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass16_0[B]::&lt;SendPostRequest&gt;b__0(System.Threading.Tasks.TaskCompletionSource[Boolean])</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6904" ordinal="0" offset="20" sl="195" sc="0" el="195" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6905" ordinal="0" offset="21" sl="196" sc="0" el="196" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6906" ordinal="0" offset="73" sl="201" sc="0" el="201" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6907" ordinal="0" offset="124" sl="213" sc="0" el="213" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6906" ordinal="0" offset="20" sl="195" sc="0" el="195" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6907" ordinal="0" offset="21" sl="196" sc="0" el="196" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6908" ordinal="0" offset="73" sl="201" sc="0" el="201" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6909" ordinal="0" offset="124" sl="213" sc="0" el="213" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -517,11 +517,11 @@
               <Name>System.Void AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass16_1[B]::&lt;SendPostRequest&gt;b__1(Proyecto26.ResponseHelper)</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6908" ordinal="0" offset="0" sl="202" sc="0" el="202" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6909" ordinal="0" offset="1" sl="203" sc="0" el="203" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6910" ordinal="0" offset="13" sl="204" sc="0" el="204" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6911" ordinal="0" offset="31" sl="206" sc="0" el="206" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6912" ordinal="0" offset="44" sl="207" sc="0" el="207" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6910" ordinal="0" offset="0" sl="202" sc="0" el="202" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6911" ordinal="0" offset="1" sl="203" sc="0" el="203" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6912" ordinal="0" offset="13" sl="204" sc="0" el="204" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6913" ordinal="0" offset="31" sl="206" sc="0" el="206" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6914" ordinal="0" offset="44" sl="207" sc="0" el="207" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -531,10 +531,10 @@
               <Name>System.Void AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass16_1[B]::&lt;SendPostRequest&gt;b__2(System.Exception)</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6913" ordinal="0" offset="0" sl="208" sc="0" el="208" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6914" ordinal="0" offset="1" sl="209" sc="0" el="209" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6915" ordinal="0" offset="19" sl="211" sc="0" el="211" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6916" ordinal="0" offset="32" sl="212" sc="0" el="212" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6915" ordinal="0" offset="0" sl="208" sc="0" el="208" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6916" ordinal="0" offset="1" sl="209" sc="0" el="209" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6917" ordinal="0" offset="19" sl="211" sc="0" el="211" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6918" ordinal="0" offset="32" sl="212" sc="0" el="212" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -550,10 +550,10 @@
               <Name>System.Void AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass17_0[B]::&lt;SendGetRequest&gt;b__0(System.Threading.Tasks.TaskCompletionSource[Boolean])</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6917" ordinal="0" offset="20" sl="219" sc="0" el="219" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6918" ordinal="0" offset="21" sl="220" sc="0" el="220" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6919" ordinal="0" offset="73" sl="225" sc="0" el="225" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6920" ordinal="0" offset="124" sl="237" sc="0" el="237" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6919" ordinal="0" offset="20" sl="219" sc="0" el="219" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6920" ordinal="0" offset="21" sl="220" sc="0" el="220" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6921" ordinal="0" offset="73" sl="225" sc="0" el="225" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6922" ordinal="0" offset="124" sl="237" sc="0" el="237" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -569,11 +569,11 @@
               <Name>System.Void AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass17_1[B]::&lt;SendGetRequest&gt;b__1(Proyecto26.ResponseHelper)</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6921" ordinal="0" offset="0" sl="226" sc="0" el="226" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6922" ordinal="0" offset="1" sl="227" sc="0" el="227" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6923" ordinal="0" offset="13" sl="228" sc="0" el="228" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6924" ordinal="0" offset="31" sl="230" sc="0" el="230" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6925" ordinal="0" offset="44" sl="231" sc="0" el="231" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6923" ordinal="0" offset="0" sl="226" sc="0" el="226" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6924" ordinal="0" offset="1" sl="227" sc="0" el="227" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6925" ordinal="0" offset="13" sl="228" sc="0" el="228" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6926" ordinal="0" offset="31" sl="230" sc="0" el="230" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6927" ordinal="0" offset="44" sl="231" sc="0" el="231" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -583,10 +583,10 @@
               <Name>System.Void AwARe.Server.Logic.Client&lt;&gt;c__DisplayClass17_1[B]::&lt;SendGetRequest&gt;b__2(System.Exception)</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6926" ordinal="0" offset="0" sl="232" sc="0" el="232" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6927" ordinal="0" offset="1" sl="233" sc="0" el="233" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6928" ordinal="0" offset="19" sl="235" sc="0" el="235" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6929" ordinal="0" offset="32" sl="236" sc="0" el="236" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6928" ordinal="0" offset="0" sl="232" sc="0" el="232" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6929" ordinal="0" offset="1" sl="233" sc="0" el="233" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6930" ordinal="0" offset="19" sl="235" sc="0" el="235" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6931" ordinal="0" offset="32" sl="236" sc="0" el="236" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -602,11 +602,11 @@
               <Name>System.Void AwARe.Server.Logic.Client&lt;AwaitRSGPromise&gt;d__15[T]::MoveNext()</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6943" ordinal="0" offset="14" sl="182" sc="0" el="182" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6944" ordinal="0" offset="15" sl="187" sc="0" el="187" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6945" ordinal="0" offset="26" sl="188" sc="0" el="188" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6946" ordinal="0" offset="44" sl="189" sc="0" el="189" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6947" ordinal="0" offset="189" sl="190" sc="0" el="190" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6945" ordinal="0" offset="14" sl="182" sc="0" el="182" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6946" ordinal="0" offset="15" sl="187" sc="0" el="187" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6947" ordinal="0" offset="26" sl="188" sc="0" el="188" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6948" ordinal="0" offset="44" sl="189" sc="0" el="189" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6949" ordinal="0" offset="189" sl="190" sc="0" el="190" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -622,9 +622,9 @@
               <Name>System.Void AwARe.Server.Logic.Client&lt;SendGetRequest&gt;d__17[B]::MoveNext()</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6958" ordinal="0" offset="96" sl="217" sc="0" el="217" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6959" ordinal="0" offset="97" sl="218" sc="0" el="218" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6960" ordinal="0" offset="239" sl="238" sc="0" el="238" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6960" ordinal="0" offset="96" sl="217" sc="0" el="217" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6961" ordinal="0" offset="97" sl="218" sc="0" el="218" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6962" ordinal="0" offset="239" sl="238" sc="0" el="238" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -640,9 +640,9 @@
               <Name>System.Void AwARe.Server.Logic.Client&lt;SendPostRequest&gt;d__16[B]::MoveNext()</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6961" ordinal="0" offset="96" sl="193" sc="0" el="193" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6962" ordinal="0" offset="97" sl="194" sc="0" el="194" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6963" ordinal="0" offset="239" sl="214" sc="0" el="214" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6963" ordinal="0" offset="96" sl="193" sc="0" el="193" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6964" ordinal="0" offset="97" sl="194" sc="0" el="194" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6965" ordinal="0" offset="239" sl="214" sc="0" el="214" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>
@@ -658,8 +658,8 @@
               <Name>System.Void AwARe.Server.Logic.Request[B]/&lt;&gt;c::&lt;.ctor&gt;b__5_0(System.Exception)</Name>
               <FileRef uid="70" />
               <SequencePoints>
-                <SequencePoint vc="0" uspid="6964" ordinal="0" offset="0" sl="271" sc="0" el="271" ec="0" bec="0" bev="0" fileid="70" />
-                <SequencePoint vc="0" uspid="6965" ordinal="0" offset="1" sl="271" sc="0" el="271" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6966" ordinal="0" offset="0" sl="271" sc="0" el="271" ec="0" bec="0" bev="0" fileid="70" />
+                <SequencePoint vc="0" uspid="6967" ordinal="0" offset="1" sl="271" sc="0" el="271" ec="0" bec="0" bev="0" fileid="70" />
               </SequencePoints>
               <BranchPoints />
             </Method>

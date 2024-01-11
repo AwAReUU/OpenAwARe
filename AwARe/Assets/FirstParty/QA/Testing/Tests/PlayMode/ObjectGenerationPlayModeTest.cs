@@ -119,27 +119,39 @@ namespace AwARe
 
 
 
-        // [UnityTest, Description("Makes sure that the ObjectDestroyer works")]
-        // public IEnumerator PlaceRenderablesInSeparateRooms()
-        // {
-        //     // Arrange: Create two rooms and a list of renderables with different resource types.
-        //     List<Renderable> renderables = GetMixedRenderables(1f); 
+        [UnityTest, Description("Makes sure the renderables are placed seperately if necessary")]
+        public IEnumerator PlaceRenderablesInSeparateRooms()
+        {
+            // Arrange: Fill storage with necessary ingredient list & room 
+            Storage storage = Storage.Get();
 
-        //     // Act: Place renderables in the first room which should only contain animals & water
-        //     objectCreationManager.PlaceRoom(true); 
+            Ingredient IngredientPlant = new Ingredient( 7,     "Grape",  null,    8);  // grape
+            Ingredient IngredientAnimal = new Ingredient(13,   "Chicken",  null,  250); // chicken
+            Ingredient IngredientWater = new Ingredient( 1,     "Water",  1.0f, null);  // water
+
+            IL.IngredientList ingredientList = new(
+               "IngredientList",
+                ingredients: new Dictionary<Ingredient, (float, QuantityType)>());
+            ingredientList.AddIngredient(IngredientAnimal, 1);
+            ingredientList.AddIngredient(IngredientPlant, 1);
+            ingredientList.AddIngredient(IngredientWater, 1);
             
-        //     // Assert: Check if the correct renderables are placed in each room.
-        //     GameObject[] generatedObjects = ObjectObtainer.FindGameObjectsInLayer("Placed Objects");
+            storage.ActiveIngredientList = ingredientList;
+            storage.ActiveRoom = new TestRoom();
 
-        //     foreach (GameObject target in generatedObjects)
-        //         ;
+            yield return null;
 
-        //     Assert.True(true);
+            // Act: Place all the renderables in the storage in the room 
+            objectCreationManager.OnPlaceButtonClick();
+            GameObject[] placedObjects = ObjectObtainer.FindGameObjectsInLayer("Placed Objects");
+            
+            // Assert: Check if the correct renderables are placed in each room.
+            yield return null;
 
-        //     yield return null;
-        // }
 
-        [UnityTest, Description("Makes sure that the ObjectDestroyer works")]
+        }
+
+        [UnityTest, Description("Makes sure that area of the renderables are computed correctly")]
         public IEnumerator ComputeRenderableSpaceNeededWorks()
         { 
             //Arrange: Create renderable lists.

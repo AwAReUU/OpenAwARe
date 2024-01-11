@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CoverageReport scope="Summary">
   <Summary>
-    <Generatedon>11/01/2024 - 12:53:54</Generatedon>
-    <Parser>MultiReportParser (5x OpenCoverParser)</Parser>
+    <Generatedon>11/01/2024 - 16:51:05</Generatedon>
+    <Parser>MultiReportParser (6x OpenCoverParser)</Parser>
     <Assemblies>1</Assemblies>
     <Classes>103</Classes>
     <Files>85</Files>
-    <Coveredlines>575</Coveredlines>
-    <Uncoveredlines>2445</Uncoveredlines>
-    <Coverablelines>3020</Coverablelines>
-    <Totallines>8655</Totallines>
-    <Linecoverage>19</Linecoverage>
+    <Coveredlines>697</Coveredlines>
+    <Uncoveredlines>2306</Uncoveredlines>
+    <Coverablelines>3003</Coverablelines>
+    <Totallines>8653</Totallines>
+    <Linecoverage>23.2</Linecoverage>
     <Coveredbranches>0</Coveredbranches>
     <Totalbranches>0</Totalbranches>
-    <Coveredmethods>174</Coveredmethods>
-    <Totalmethods>581</Totalmethods>
-    <Methodcoverage>29.9</Methodcoverage>
+    <Coveredmethods>193</Coveredmethods>
+    <Totalmethods>570</Totalmethods>
+    <Methodcoverage>33.8</Methodcoverage>
   </Summary>
   <Coverage>
-    <Assembly name="Scripts" classes="103" coverage="19" coveredlines="575" coverablelines="3020" totallines="11349" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="174" totalmethods="581" methodcoverage="29.9">
+    <Assembly name="Scripts" classes="103" coverage="23.2" coveredlines="697" coverablelines="3003" totallines="11347" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="193" totalmethods="570" methodcoverage="33.8">
       <Class name="ARScenePhaseManager" coverage="0" coveredlines="0" coverablelines="41" totallines="79" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="5" methodcoverage="0" />
-      <Class name="AwARe.Data.Logic.Polygon" coverage="28.5" coveredlines="8" coverablelines="28" totallines="97" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="5" totalmethods="10" methodcoverage="50" />
+      <Class name="AwARe.Data.Logic.Polygon" coverage="67.8" coveredlines="19" coverablelines="28" totallines="97" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="7" totalmethods="10" methodcoverage="70" />
       <Class name="AwARe.Data.Objects.PolygonMesh" coverage="0" coveredlines="0" coverablelines="33" totallines="78" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="5" methodcoverage="0" />
       <Class name="AwARe.Database.Logic.MockupIngredientDatabase" coverage="0" coveredlines="0" coverablelines="22" totallines="92" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="4" methodcoverage="0" />
-      <Class name="AwARe.Database.Logic.MockupIngrToResDatabase" coverage="40" coveredlines="4" coverablelines="10" totallines="69" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="2" methodcoverage="50" />
-      <Class name="AwARe.Database.Logic.MockupModelDatabase" coverage="30.7" coveredlines="4" coverablelines="13" totallines="45" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="3" methodcoverage="33.3" />
-      <Class name="AwARe.Database.Logic.MockupResourceDatabase" coverage="30.7" coveredlines="4" coverablelines="13" totallines="55" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="3" methodcoverage="33.3" />
-      <Class name="AwARe.IngredientList.Logic.Ingredient" coverage="0" coveredlines="0" coverablelines="31" totallines="174" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="12" methodcoverage="0" />
+      <Class name="AwARe.Database.Logic.MockupIngrToResDatabase" coverage="100" coveredlines="10" coverablelines="10" totallines="69" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="2" totalmethods="2" methodcoverage="100" />
+      <Class name="AwARe.Database.Logic.MockupModelDatabase" coverage="53.8" coveredlines="7" coverablelines="13" totallines="45" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="2" totalmethods="3" methodcoverage="66.6" />
+      <Class name="AwARe.Database.Logic.MockupResourceDatabase" coverage="53.8" coveredlines="7" coverablelines="13" totallines="55" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="2" totalmethods="3" methodcoverage="66.6" />
+      <Class name="AwARe.IngredientList.Logic.Ingredient" coverage="41.9" coveredlines="13" coverablelines="31" totallines="174" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="4" totalmethods="12" methodcoverage="33.3" />
       <Class name="AwARe.IngredientList.Logic.IngredientFileHandler" coverage="0" coveredlines="0" coverablelines="65" totallines="130" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
-      <Class name="AwARe.IngredientList.Logic.IngredientList" coverage="20" coveredlines="8" coverablelines="40" totallines="174" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="5" totalmethods="15" methodcoverage="33.3" />
+      <Class name="AwARe.IngredientList.Logic.IngredientList" coverage="27.5" coveredlines="11" coverablelines="40" totallines="174" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="6" totalmethods="15" methodcoverage="40" />
       <Class name="AwARe.IngredientList.Objects.IngredientListItem" coverage="0" coveredlines="0" coverablelines="12" totallines="64" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="4" methodcoverage="0" />
       <Class name="AwARe.IngredientList.Objects.IngredientListManager" coverage="0" coveredlines="0" coverablelines="102" totallines="262" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="36" methodcoverage="0" />
       <Class name="AwARe.IngredientList.Objects.IngredientListScreen" coverage="0" coveredlines="0" coverablelines="65" totallines="186" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="17" methodcoverage="0" />
@@ -44,7 +44,7 @@
       <Class name="AwARe.InterScenes.Objects.SceneSecretary_Template" coverage="0" coveredlines="0" coverablelines="1" totallines="163" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
       <Class name="AwARe.InterScenes.Objects.SceneSwitcher" coverage="0" coveredlines="0" coverablelines="19" totallines="125" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="13" methodcoverage="0" />
       <Class name="AwARe.InterScenes.Objects.StartLoader" coverage="0" coveredlines="0" coverablelines="12" totallines="56" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="2" methodcoverage="0" />
-      <Class name="AwARe.InterScenes.Objects.Storage" coverage="84.6" coveredlines="11" coverablelines="13" totallines="80" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="8" totalmethods="10" methodcoverage="80" />
+      <Class name="AwARe.InterScenes.Objects.Storage" coverage="92.3" coveredlines="12" coverablelines="13" totallines="80" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="9" totalmethods="10" methodcoverage="90" />
       <Class name="AwARe.Logic.Singleton" coverage="90" coveredlines="9" coverablelines="10" totallines="82" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="3" totalmethods="3" methodcoverage="100" />
       <Class name="AwARe.Notifications.Logic.EditorNotif" coverage="0" coveredlines="0" coverablelines="21" totallines="76" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="6" methodcoverage="0" />
       <Class name="AwARe.Notifications.Objects.NotificationScheduler" coverage="0" coveredlines="0" coverablelines="29" totallines="120" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="6" methodcoverage="0" />
@@ -53,10 +53,10 @@
       <Class name="AwARe.ObjectGeneration.BoxColliderHelperMonoBehaviour" coverage="93.7" coveredlines="30" coverablelines="32" totallines="84" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="2" totalmethods="2" methodcoverage="100" />
       <Class name="AwARe.ObjectGeneration.BoxCollidervisualizer" coverage="100" coveredlines="6" coverablelines="6" totallines="84" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="1" methodcoverage="100" />
       <Class name="AwARe.ObjectGeneration.MockSpawnPointHandler" coverage="0" coveredlines="0" coverablelines="9" totallines="50" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="2" methodcoverage="0" />
-      <Class name="AwARe.ObjectGeneration.ObjectCreationManager" coverage="63.7" coveredlines="37" coverablelines="58" totallines="155" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="20" totalmethods="22" methodcoverage="90.9" />
+      <Class name="AwARe.ObjectGeneration.ObjectCreationManager" coverage="95.1" coveredlines="39" coverablelines="41" totallines="153" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="11" totalmethods="11" methodcoverage="100" />
       <Class name="AwARe.ObjectGeneration.ObjectDestroyer" coverage="100" coveredlines="7" coverablelines="7" totallines="32" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="1" methodcoverage="100" />
       <Class name="AwARe.ObjectGeneration.ObjectObtainer" coverage="100" coveredlines="11" coverablelines="11" totallines="46" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="2" totalmethods="2" methodcoverage="100" />
-      <Class name="AwARe.ObjectGeneration.ObjectPlacer" coverage="46.1" coveredlines="60" coverablelines="130" totallines="308" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="6" totalmethods="10" methodcoverage="60" />
+      <Class name="AwARe.ObjectGeneration.ObjectPlacer" coverage="46.9" coveredlines="61" coverablelines="130" totallines="308" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="6" totalmethods="10" methodcoverage="60" />
       <Class name="AwARe.ObjectGeneration.PolygonHelper" coverage="100" coveredlines="35" coverablelines="35" totallines="101" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="4" totalmethods="4" methodcoverage="100" />
       <Class name="AwARe.ObjectGeneration.PolygonSpawnPointHandler" coverage="100" coveredlines="30" coverablelines="30" totallines="93" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="4" totalmethods="4" methodcoverage="100" />
       <Class name="AwARe.ObjectGeneration.Renderable" coverage="97.8" coveredlines="45" coverablelines="46" totallines="166" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="24" totalmethods="25" methodcoverage="96" />
@@ -76,13 +76,13 @@
       <Class name="AwARe.Questionnaire.Objects.SubmitButton" coverage="0" coveredlines="0" coverablelines="3" totallines="22" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
       <Class name="AwARe.Questionnaire.Objects.TextAnswerOption" coverage="100" coveredlines="8" coverablelines="8" totallines="170" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="2" totalmethods="2" methodcoverage="100" />
       <Class name="AwARe.Questionnaire.Objects.ToggleHandler" coverage="19" coveredlines="4" coverablelines="21" totallines="60" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="6" totalmethods="7" methodcoverage="85.7" />
-      <Class name="AwARe.ResourcePipeline.Logic.Model" coverage="50" coveredlines="11" coverablelines="22" totallines="126" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="12" methodcoverage="8.3" />
-      <Class name="AwARe.ResourcePipeline.Logic.ModelCalculator" coverage="0" coveredlines="0" coverablelines="8" totallines="28" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
+      <Class name="AwARe.ResourcePipeline.Logic.Model" coverage="68.1" coveredlines="15" coverablelines="22" totallines="126" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="5" totalmethods="12" methodcoverage="41.6" />
+      <Class name="AwARe.ResourcePipeline.Logic.ModelCalculator" coverage="75" coveredlines="6" coverablelines="8" totallines="28" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="1" methodcoverage="100" />
       <Class name="AwARe.ResourcePipeline.Logic.ModelDictionary" coverage="0" coveredlines="0" coverablelines="7" totallines="126" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="4" methodcoverage="0" />
-      <Class name="AwARe.ResourcePipeline.Logic.Resource" coverage="50" coveredlines="8" coverablelines="16" totallines="114" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="9" methodcoverage="11.1" />
-      <Class name="AwARe.ResourcePipeline.Logic.ResourceCalculator" coverage="34.3" coveredlines="11" coverablelines="32" totallines="77" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="2" totalmethods="3" methodcoverage="66.6" />
-      <Class name="AwARe.ResourcePipeline.Logic.ResourceDictionary" coverage="71.4" coveredlines="5" coverablelines="7" totallines="114" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="3" totalmethods="5" methodcoverage="60" />
-      <Class name="AwARe.ResourcePipeline.Objects.PipelineManager" coverage="56.1" coveredlines="32" coverablelines="57" totallines="133" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="6" totalmethods="7" methodcoverage="85.7" />
+      <Class name="AwARe.ResourcePipeline.Logic.Resource" coverage="87.5" coveredlines="14" coverablelines="16" totallines="114" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="7" totalmethods="9" methodcoverage="77.7" />
+      <Class name="AwARe.ResourcePipeline.Logic.ResourceCalculator" coverage="100" coveredlines="32" coverablelines="32" totallines="77" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="3" totalmethods="3" methodcoverage="100" />
+      <Class name="AwARe.ResourcePipeline.Logic.ResourceDictionary" coverage="85.7" coveredlines="6" coverablelines="7" totallines="114" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="4" totalmethods="5" methodcoverage="80" />
+      <Class name="AwARe.ResourcePipeline.Objects.PipelineManager" coverage="91.2" coveredlines="52" coverablelines="57" totallines="133" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="7" totalmethods="7" methodcoverage="100" />
       <Class name="AwARe.RoomScan.Path.ErosionHandler" coverage="0" coveredlines="0" coverablelines="95" totallines="201" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="5" methodcoverage="0" />
       <Class name="AwARe.RoomScan.Path.FloodFillHandler" coverage="0" coveredlines="0" coverablelines="69" totallines="169" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
       <Class name="AwARe.RoomScan.Path.GridConverter" coverage="0" coveredlines="0" coverablelines="26" totallines="64" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="2" methodcoverage="0" />
@@ -98,7 +98,7 @@
       <Class name="AwARe.RoomScan.Path.ThinningHandler" coverage="0" coveredlines="0" coverablelines="84" totallines="170" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="6" methodcoverage="0" />
       <Class name="AwARe.RoomScan.Polygons.Logic.Room" coverage="45" coveredlines="9" coverablelines="20" totallines="67" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="5" totalmethods="6" methodcoverage="83.3" />
       <Class name="AwARe.RoomScan.Polygons.Logic.TestRoom" coverage="100" coveredlines="16" coverablelines="16" totallines="74" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="2" totalmethods="2" methodcoverage="100" />
-      <Class name="AwARe.RoomScan.Polygons.Objects.PolygonDrawer" coverage="18.9" coveredlines="15" coverablelines="79" totallines="172" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="6" totalmethods="15" methodcoverage="40" />
+      <Class name="AwARe.RoomScan.Polygons.Objects.PolygonDrawer" coverage="45.5" coveredlines="36" coverablelines="79" totallines="172" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="9" totalmethods="15" methodcoverage="60" />
       <Class name="AwARe.RoomScan.Polygons.Objects.PolygonManager" coverage="0" coveredlines="0" coverablelines="86" totallines="241" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="20" methodcoverage="0" />
       <Class name="AwARe.RoomScan.Polygons.Objects.PolygonScan" coverage="0" coveredlines="0" coverablelines="24" totallines="58" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
       <Class name="AwARe.RoomScan.Polygons.Objects.PolygonUI" coverage="0" coveredlines="0" coverablelines="28" totallines="66" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
