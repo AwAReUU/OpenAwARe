@@ -16,6 +16,9 @@ using static AwARe.IngredientList.Logic.IngredientList;
 
 namespace AwARe.IngredientList.Objects
 {
+    /// <summary>
+    /// Manages data shared and transitions between all screens related to <see cref="IngredientList"/> selection, creation and editing.
+    /// </summary>
     public class IngredientListManager : MonoBehaviour
     {
 
@@ -77,6 +80,9 @@ namespace AwARe.IngredientList.Objects
 
         public event Action OnIngredientListChanged;
 
+        /// <summary>
+        /// Notifies objects subscribed to this action that the current IngredientList has been changed.
+        /// </summary>
         private void NotifyListChanged()
         {
             ChangesMade = true;
@@ -162,7 +168,7 @@ namespace AwARe.IngredientList.Objects
         /// </summary>
         public void CreateList()
         {
-            // TODO: let user pick list name --> add seperate screen
+            // TODO: let user pick list name --> add separate screen
 
             Lists.Add(new Logic.IngredientList("MyList", new Dictionary<Ingredient, (float, QuantityType)>()));
             fileHandler.SaveLists(Lists);

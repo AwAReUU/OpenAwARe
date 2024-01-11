@@ -59,6 +59,12 @@ namespace AwARe.UI.Popups.Objects
             return me.AddComponent<ErrorHandler>();
         }
 
+        /// <summary>
+        /// Show the error in debug mode. In release, it only shows the popup.
+        /// </summary>
+        /// <param name="logString">Text to be shown in debug mode in the popup.</param>
+        /// <param name="stackTrace">Unused, but Unity's logMessageReceived event needs to give this parameter.</param>
+        /// <param name="type">The kind of <see cref="LogType"/> message.</param>
         private void HandleLog(string logString, string stackTrace, LogType type)
         {
             if (type != LogType.Exception && type != LogType.Error) return;

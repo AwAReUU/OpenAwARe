@@ -15,7 +15,6 @@ using UnityEngine.SceneManagement;
 
 namespace AwARe.InterScenes.Objects
 {
-    
     /// <summary>
     /// An implementation of the Scene Secretary fit for AR.
     /// The Scene Secretary is an adapter on top of the Scene Manager.

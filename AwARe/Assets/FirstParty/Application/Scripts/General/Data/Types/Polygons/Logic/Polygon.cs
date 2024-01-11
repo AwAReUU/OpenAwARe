@@ -16,19 +16,25 @@ namespace AwARe.Data.Logic
     /// <summary>
     /// A polygon representing (a part of) the floor.
     /// </summary>
-    /// 
     public class Polygon
-
     {
+        /// <summary>
+        /// The points representing the polygon.
+        /// </summary>
         public List<Vector3> listpoints;
 
-        // Default constructor
+        /// <summary>
+        /// Default constructor. Initializes a new instance of the <see cref="Polygon"/> class.
+        /// </summary>
         public Polygon()
         {
             listpoints = new List<Vector3>();
         }
-        
-        // Parameterized constructor
+
+        /// <summary>
+        /// Parameterized constructor. Initializes a new instance of the <see cref="Polygon"/> class.
+        /// </summary>
+        /// <param name="points"></param>
         public Polygon(List<Vector3> points)
         {
             listpoints = points ?? new List<Vector3>();
@@ -76,9 +82,8 @@ namespace AwARe.Data.Logic
         public bool IsEmptyPolygon() => listpoints.Count == 0;
 
         /// <summary>
-        /// Calculates the area of the polygon.
+        /// Gets the surface area of the polygon.
         /// </summary>
-        /// <returns>The area of the polygon.</returns>
         public float Area
         {
             get

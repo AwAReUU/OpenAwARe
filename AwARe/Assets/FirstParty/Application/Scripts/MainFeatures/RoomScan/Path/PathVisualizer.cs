@@ -18,12 +18,18 @@ namespace AwARe.RoomScan.Path
         /// The data of the path to visualize.
         /// </value>
         [Header("Path")]
+        /// <value>
+        /// The data of the path to visualize
+        /// </value>
         [SerializeField] private PathData pathData;
 
         /// <value>
         /// The width of the line that visualizes the skeleton of the path.
         /// </value>
         [Header("Settings")]
+        /// <value>
+        /// The width of the line that visualizes the skeleton of the path.
+        /// </value>
         [SerializeField] private float lineWidth = 1.0f;
         /// <value>
         /// The number of segments to use for the corners. Use a higher value to create smoother edges.

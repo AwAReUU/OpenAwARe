@@ -15,6 +15,9 @@ using System;
 
 namespace AwARe
 {
+    /// <summary>
+    /// Class <c>PolygonSaveLoadManager</c> is responsible for managing the storage of polygons on the disc. (Saving and loading).
+    /// </summary>
     public class PolygonSaveLoadManager : MonoBehaviour
     {
         private string directoryPath;
