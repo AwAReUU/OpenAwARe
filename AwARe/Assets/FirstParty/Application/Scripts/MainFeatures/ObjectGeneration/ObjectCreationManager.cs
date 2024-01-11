@@ -10,12 +10,11 @@ using System.Linq;
 
 using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
+using AwARe.Objects;
 using AwARe.ResourcePipeline.Logic;
 using AwARe.ResourcePipeline.Objects;
 using UnityEngine;
 using Ingredients = AwARe.IngredientList.Logic;
-
-using Room = AwARe.Data.Logic.Room;
 
 namespace AwARe.ObjectGeneration
 {
@@ -37,9 +36,11 @@ namespace AwARe.ObjectGeneration
         /// </value>
         private Ingredients.IngredientList SelectedList { get; set; }
 
-        private Data.Objects.Room SelectedRoom { get; set; }
+        [SerializeField] private Data.Objects.Room selectedRoom;
 
         [SerializeField] private RoomLiner roomLiner;
+        [SerializeField] private GameObject polygonPrefab;
+        [SerializeField] private GameObject roomPrefab;
 
         /// <value>
         /// <c>path</c> the Mesh from the generated path.
@@ -70,20 +71,35 @@ namespace AwARe.ObjectGeneration
         private void LoadRoom()
         {
             // Clean up last room
-            if(SelectedRoom != null) { Destroy(SelectedRoom.gameObject); }
-            SelectedRoom = null;
+            if(selectedRoom != null) { Destroy(selectedRoom.gameObject); }
+            selectedRoom = null;
 
             // Load data from storage
-            Room roomData = Storage.Get().ActiveRoom;
+            Data.Logic.Room roomData = Storage.Get().ActiveRoom;
             if (roomData == null) return;
 
             // Construct new room
-            SelectedRoom = Data.Objects.Room.AddComponentTo(new("Room"), roomData);
+            selectedRoom = Instantiate(roomPrefab).GetComponent<Room>();
+            var positivePolygon = Instantiate(polygonPrefab, selectedRoom.transform).GetComponent<Polygon>();
+            positivePolygon.Data = roomData.PositivePolygon;
+            selectedRoom.PositivePolygon = positivePolygon;
+
+            var negativePolygons = new List<Polygon>();
+            foreach (var p in roomData.NegativePolygons)
+            {
+                var negativePolygon = Instantiate(polygonPrefab, selectedRoom.transform).GetComponent<Polygon>();
+                negativePolygon.Data = p;
+                negativePolygons.Add(negativePolygon);
+            }
+            selectedRoom.NegativePolygons = negativePolygons;
+
+            ShowNegativePolygons(selectedRoom);
 
             // Visualize new room
-            roomLiner.room = SelectedRoom;
-            roomLiner.ResetLiners();
-            roomLiner.UpdateLines();
+            //roomLiner = selectedRoom.GetComponent<RoomLiner>();
+            //roomLiner.room = selectedRoom;
+            //roomLiner.ResetLiners();
+            //roomLiner.UpdateLines();
         }
 
         /// <summary>
@@ -99,10 +115,7 @@ namespace AwARe.ObjectGeneration
             // Get the stored room as an object.
             LoadRoom();
 
-            // TODO:
-            // Once pathgen is done, create mesh from PathData
-            // this.pathMesh = pathData.CreateMesh()
-            Room roomData = SelectedRoom.Data;
+            Data.Logic.Room roomData = selectedRoom.Data;
             float roomSpace        = roomData.PositivePolygon.Area;
             float renderablesSpace = ComputeRenderableSpaceNeeded(renderables);
 
@@ -117,7 +130,7 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <param name="renderables">Objects to place in the Polygon.</param>
         /// <param name="room">Room consisting of polygons to place the objects in.</param>
-        public void PlaceRenderables(List<Renderable> renderables, Data.Logic.Room room, Mesh pathMesh) 
+        public void PlaceRenderables(List<Renderable> renderables, Data.Logic.Room room, Mesh pathMesh)
         {
             // clear the scene of any previously instantiated GameObjects 
             destroyer = gameObject.GetComponent<ObjectDestroyer>();
@@ -172,10 +185,20 @@ namespace AwARe.ObjectGeneration
             return sumArea;
         }
 
+        /// <summary>
+        /// Shows the meshes of the negative polygons.
+        /// </summary>
+        /// <param name="room">The room of which the negative polygons should be shown.</param>
+        private void ShowNegativePolygons(Data.Objects.Room room)
+        {
+            foreach (Polygon p in room.NegativePolygons)
+                p.GetComponent<Mesher>().UpdateMesh();
+        }
+
         //debug method for displaying spawn locations in scene.
         void OnDrawGizmos()
         {
-            Room room = Storage.Get().ActiveRoom;
+            Data.Logic.Room room = Storage.Get().ActiveRoom;
             if (room == null)
                 return;
 

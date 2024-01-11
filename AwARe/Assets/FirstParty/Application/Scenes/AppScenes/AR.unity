@@ -153,6 +153,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51de02e0eb10a3a4ebf6c0b54aac3302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedRoom: {fileID: 0}
+  roomLiner: {fileID: 0}
+  polygonPrefab: {fileID: 4614980801449458759, guid: b5e9e44935aeb1146b5ffc922ca94efc,
+    type: 3}
+  roomPrefab: {fileID: 249729124753908443, guid: 125e0c1262692e84ebfbedae42c03dff,
+    type: 3}
   polygonDrawer: {fileID: 551238368}
 --- !u!4 &126117687
 Transform:
