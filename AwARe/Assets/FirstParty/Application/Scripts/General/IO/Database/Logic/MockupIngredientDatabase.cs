@@ -18,6 +18,9 @@ namespace AwARe.Database.Logic
     /// </summary>
     public class MockupIngredientDatabase : IIngredientDatabase
     {
+        /// <summary>
+        /// List in which mock ingredients are stored.
+        /// </summary>
         readonly List<Ingredient> ingredientTable;
 
         /// <summary>

@@ -17,15 +17,19 @@ namespace AwARe.Data.Objects
     /// </summary>
     public class PolygonMesh : MonoBehaviour
     {
-        /// <value>
+        /// <summary>
         /// The height of the polygon in meters.
-        /// </value>
+        /// </summary>
         private float height = 1f;
 
-        /// <value>
-        /// The polygon that is the base of the Mesh
-        /// </value>
+        /// <summary>
+        /// The polygon that is the base of the Mesh.
+        /// </summary>
         private List<Vector3> polygon = new();
+
+        /// <summary>
+        /// The renderer used for rendering the mesh.
+        /// </summary>
         private Renderer renderer;
 
         /// <summary>
@@ -38,7 +42,10 @@ namespace AwARe.Data.Objects
             renderer = GetComponent<Renderer>();
         }
 
-
+        /// <summary>
+        /// Assigns the color of the material inside the renderer.
+        /// </summary>
+        /// <param name="color">Color to set.</param>
         public void SetPolygonColor(Color color)
         {
             renderer.material.color = color;
@@ -53,6 +60,9 @@ namespace AwARe.Data.Objects
             CreateMesh();
         }
 
+        /// <summary>
+        /// Colors the mesh by settings the material.
+        /// </summary>
         public void ApplyColorToMesh()
         {
             // Check if the mesh renderer is assigned
