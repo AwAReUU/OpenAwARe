@@ -37,6 +37,12 @@ namespace AwARe.RoomScan.Path
         {
             startTime = Time.realtimeSinceStartup;
 
+            if(positive.IsEmptyPolygon() || positive == null)
+            {
+                Debug.Log("empty positive polygon");
+                return new PathData();
+            }
+
             // Determine the grid. still empty. also initalizes the scalefactor and movetransform variables.
             bool[,] grid = CreateGrid(positive);
 

@@ -166,10 +166,10 @@ namespace Tests
             positive.Add(((0, 6), (5, 0)));
 
             PolygonLines negative = new();
-            negative.Add(((4, 4), (4, 5)));
-            negative.Add(((4, 5), (5, 5)));
-            negative.Add(((5, 5), (5, 4)));
-            negative.Add(((5, 4), (4, 4)));
+            negative.Add(((3, 4), (3, 6)));
+            negative.Add(((3, 6), (5, 6)));
+            negative.Add(((5, 6), (5, 4)));
+            negative.Add(((5, 4), (3, 4)));
 
             bool[,] expectedresult = new bool[11, 11] 
             { 
@@ -177,9 +177,9 @@ namespace Tests
                 { false, false, false, false, true, true, false, false, false, false, false},
                 { false, false, false, true, true, true, true, false, false, false, false},
                 { false, false, true, true, true, true, true, false, false, false, false},
-                { false, false, true, true, false, false, true, true, false, false, false},
-                { false, true, true, true, false, true, true, true, false, false, false},
-                { true, true, true, true, true, true, true, true, true, false, false},
+                { false, false, true, false, false, false, true, true, false, false, false},
+                { false, true, true, false, false, false, true, true, false, false, false},
+                { true, true, true, false, false, true, true, true, true, false, false},
                 { false, true, true, true, true, true, true, true, true, false, false},
                 { false, false, true, true, true, true, true, true, true, true, false},
                 { false, false, false, false, true, true, true, true, true, true, false},

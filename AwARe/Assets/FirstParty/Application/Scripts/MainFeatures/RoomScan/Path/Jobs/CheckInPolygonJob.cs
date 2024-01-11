@@ -6,6 +6,7 @@
 // \*                                                                                       */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
@@ -33,6 +34,7 @@ namespace AwARe.RoomScan.Path.Jobs
         [WriteOnly] public NativeArray<bool> result;
 
         /// <inheritdoc/>
+        [ExcludeFromCodeCoverage]
         public void Execute(int index)
         {
             if (nativeGrid[index] == checkPositivePolygon) return;
