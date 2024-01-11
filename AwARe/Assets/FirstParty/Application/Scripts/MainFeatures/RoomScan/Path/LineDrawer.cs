@@ -47,7 +47,7 @@ namespace AwARe.RoomScan.Path
             float b = (float)y1 - a * (float)x1;
             float d = (float)x1 - c * (float)y1;
 
-            for (int x = Math.Min(x1, x2); x < Math.Max(x1, x2); x++)
+            for (int x = Math.Min(x1, x2); x <= Math.Max(x1, x2); x++)
             {
                 if (x < 0 || x >= grid.GetLength(0)) continue;
 
@@ -64,7 +64,7 @@ namespace AwARe.RoomScan.Path
                 }
             }
 
-            for (int y = Math.Min(y1, y2); y < Math.Max(y1, y2); y++)
+            for (int y = Math.Min(y1, y2); y <= Math.Max(y1, y2); y++)
             {
                 if (y < 0 || y >= grid.GetLength(1)) continue;
 

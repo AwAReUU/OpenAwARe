@@ -1,24 +1,24 @@
 {
   "summary": {
-    "generatedon": "2024-01-10T16:14:16Z",
+    "generatedon": "2024-01-11T13:41:20Z",
     "parser": "MultiReportParser (4x OpenCoverParser)",
     "assemblies": 1,
-    "classes": 106,
-    "files": 87,
-    "coveredlines": 1545,
-    "uncoveredlines": 1692,
-    "coverablelines": 3237,
-    "totallines": 9152,
-    "linecoverage": 47.7,
+    "classes": 105,
+    "files": 86,
+    "coveredlines": 1548,
+    "uncoveredlines": 1643,
+    "coverablelines": 3191,
+    "totallines": 9018,
+    "linecoverage": 48.5,
     "coveredbranches": 0,
     "totalbranches": 0,
     "coveredmethods": 255,
-    "totalmethods": 597,
-    "methodcoverage": 42.7
+    "totalmethods": 595,
+    "methodcoverage": 42.8
  },
   "coverage": {
     "assemblies": [
-      { "name": "Scripts", "classes": 106, "coverage": 47.7, "coveredlines": 1545, "coverablelines": 3237, "totallines": 11958, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 42.7, "coveredmethods": 255, "totalmethods": 597, "classesinassembly": [
+      { "name": "Scripts", "classes": 105, "coverage": 48.5, "coveredlines": 1548, "coverablelines": 3191, "totallines": 11824, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 42.8, "coveredmethods": 255, "totalmethods": 595, "classesinassembly": [
         { "name": "ARScenePhaseManager", "coverage": 0, "coveredlines": 0, "coverablelines": 41, "totallines": 79, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 0, "coveredmethods": 0, "totalmethods": 5 },
         { "name": "AwARe.Data.Logic.Polygon", "coverage": 41.3, "coveredlines": 12, "coverablelines": 29, "totallines": 100, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 66.6, "coveredmethods": 6, "totalmethods": 9 },
         { "name": "AwARe.Data.Objects.PolygonMesh", "coverage": 73.9, "coveredlines": 34, "coverablelines": 46, "totallines": 97, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 71.4, "coveredmethods": 5, "totalmethods": 7 },
@@ -89,14 +89,13 @@
         { "name": "AwARe.RoomScan.Path.ErosionHandler", "coverage": 100, "coveredlines": 95, "coverablelines": 95, "totallines": 201, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 5, "totalmethods": 5 },
         { "name": "AwARe.RoomScan.Path.FloodFillHandler", "coverage": 100, "coveredlines": 69, "coverablelines": 69, "totallines": 169, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 3, "totalmethods": 3 },
         { "name": "AwARe.RoomScan.Path.GridConverter", "coverage": 100, "coveredlines": 26, "coverablelines": 26, "totallines": 64, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 2, "totalmethods": 2 },
-        { "name": "AwARe.RoomScan.Path.Jobs.CheckHitOrMissJob", "coverage": 0, "coveredlines": 0, "coverablelines": 46, "totallines": 134, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 0, "coveredmethods": 0, "totalmethods": 2 },
         { "name": "AwARe.RoomScan.Path.Jobs.CheckInPolygonJob", "coverage": 100, "coveredlines": 25, "coverablelines": 25, "totallines": 105, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 1, "totalmethods": 1 },
         { "name": "AwARe.RoomScan.Path.LineDrawer", "coverage": 100, "coveredlines": 45, "coverablelines": 45, "totallines": 85, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 1, "totalmethods": 1 },
         { "name": "AwARe.RoomScan.Path.PathData", "coverage": 100, "coveredlines": 73, "coverablelines": 73, "totallines": 175, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 5, "totalmethods": 5 },
         { "name": "AwARe.RoomScan.Path.PathGenerator", "coverage": 100, "coveredlines": 158, "coverablelines": 158, "totallines": 353, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 9, "totalmethods": 9 },
         { "name": "AwARe.RoomScan.Path.PathVisualizer", "coverage": 100, "coveredlines": 29, "coverablelines": 29, "totallines": 85, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 3, "totalmethods": 3 },
         { "name": "AwARe.RoomScan.Path.PolygonLines", "coverage": 100, "coveredlines": 7, "coverablelines": 7, "totallines": 353, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 5, "totalmethods": 5 },
-        { "name": "AwARe.RoomScan.Path.PostFilteringHandler", "coverage": 97.7, "coveredlines": 133, "coverablelines": 136, "totallines": 254, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 5, "totalmethods": 5 },
+        { "name": "AwARe.RoomScan.Path.PostFilteringHandler", "coverage": 100, "coveredlines": 136, "coverablelines": 136, "totallines": 254, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 5, "totalmethods": 5 },
         { "name": "AwARe.RoomScan.Path.ThinningHandler", "coverage": 100, "coveredlines": 84, "coverablelines": 84, "totallines": 170, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 6, "totalmethods": 6 },
         { "name": "AwARe.RoomScan.Polygons.Logic.Room", "coverage": 75, "coveredlines": 15, "coverablelines": 20, "totallines": 67, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 6, "totalmethods": 6 },
         { "name": "AwARe.RoomScan.Polygons.Logic.TestRoom", "coverage": 100, "coveredlines": 16, "coverablelines": 16, "totallines": 74, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 2, "totalmethods": 2 },

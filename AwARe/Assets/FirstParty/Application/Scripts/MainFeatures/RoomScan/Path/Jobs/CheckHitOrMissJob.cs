@@ -44,7 +44,6 @@ namespace AwARe.RoomScan.Path.Jobs
         [WriteOnly] public NativeArray<bool> result;
 
         /// <inheritdoc/>
-        [ExcludeFromCodeCoverage]
         public void Execute(int index)
         {
             //Aliasing.ExpectNotAliased(nativeGrid, result);
@@ -73,7 +72,6 @@ namespace AwARe.RoomScan.Path.Jobs
         /// <param name="x">the x position of the point in the grid to check.</param>
         /// <param name="y">the y position of the point in the grid to check.</param>
         /// <returns>Whether the cell at the given positions is a hit or miss.</returns>
-        [ExcludeFromCodeCoverage]
         public bool CheckHitOrMiss(int x, int y)
         {
             int offset = elementLength / 2;

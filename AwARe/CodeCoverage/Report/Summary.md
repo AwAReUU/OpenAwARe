@@ -1,25 +1,25 @@
 ﻿# Summary
 |||
 |:---|:---|
-| Generated on: | 1/10/2024 - 5:14:16 PM |
+| Generated on: | 1/11/2024 - 2:41:20 PM |
 | Parser: | MultiReportParser (4x OpenCoverParser) |
 | Assemblies: | 1 |
-| Classes: | 106 |
-| Files: | 87 |
-| Covered lines: | 1545 |
-| Uncovered lines: | 1692 |
-| Coverable lines: | 3237 |
-| Total lines: | 9152 |
-| Line coverage: | 47.7% (1545 of 3237) |
+| Classes: | 105 |
+| Files: | 86 |
+| Covered lines: | 1548 |
+| Uncovered lines: | 1643 |
+| Coverable lines: | 3191 |
+| Total lines: | 9018 |
+| Line coverage: | 48.5% (1548 of 3191) |
 | Covered branches: | 0 |
 | Total branches: | 0 |
 | Covered methods: | 255 |
-| Total methods: | 597 |
-| Method coverage: | 42.7% (255 of 597) |
+| Total methods: | 595 |
+| Method coverage: | 42.8% (255 of 595) |
 
 |**Name**|**Covered**|**Uncovered**|**Coverable**|**Total**|**Line coverage**|**Covered**|**Total**|**Branch coverage**|**Covered**|**Total**|**Method coverage**|
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-|**Scripts**|**1545**|**1692**|**3237**|**11958**|**47.7%**|**0**|**0**|****|**255**|**597**|**42.7%**|
+|**Scripts**|**1548**|**1643**|**3191**|**11824**|**48.5%**|**0**|**0**|****|**255**|**595**|**42.8%**|
 |ARScenePhaseManager|0|41|41|79|0%|0|0||0|5|0%|
 |AwARe.Data.Logic.Polygon|12|17|29|100|41.3%|0|0||6|9|66.6%|
 |AwARe.Data.Objects.PolygonMesh|34|12|46|97|73.9%|0|0||5|7|71.4%|
@@ -90,14 +90,13 @@
 |AwARe.RoomScan.Path.ErosionHandler|95|0|95|201|100%|0|0||5|5|100%|
 |AwARe.RoomScan.Path.FloodFillHandler|69|0|69|169|100%|0|0||3|3|100%|
 |AwARe.RoomScan.Path.GridConverter|26|0|26|64|100%|0|0||2|2|100%|
-|AwARe.RoomScan.Path.Jobs.CheckHitOrMissJob|0|46|46|134|0%|0|0||0|2|0%|
 |AwARe.RoomScan.Path.Jobs.CheckInPolygonJob|25|0|25|105|100%|0|0||1|1|100%|
 |AwARe.RoomScan.Path.LineDrawer|45|0|45|85|100%|0|0||1|1|100%|
 |AwARe.RoomScan.Path.PathData|73|0|73|175|100%|0|0||5|5|100%|
 |AwARe.RoomScan.Path.PathGenerator|158|0|158|353|100%|0|0||9|9|100%|
 |AwARe.RoomScan.Path.PathVisualizer|29|0|29|85|100%|0|0||3|3|100%|
 |AwARe.RoomScan.Path.PolygonLines|7|0|7|353|100%|0|0||5|5|100%|
-|AwARe.RoomScan.Path.PostFilteringHandler|133|3|136|254|97.7%|0|0||5|5|100%|
+|AwARe.RoomScan.Path.PostFilteringHandler|136|0|136|254|100%|0|0||5|5|100%|
 |AwARe.RoomScan.Path.ThinningHandler|84|0|84|170|100%|0|0||6|6|100%|
 |AwARe.RoomScan.Polygons.Logic.Room|15|5|20|67|75%|0|0||6|6|100%|
 |AwARe.RoomScan.Polygons.Logic.TestRoom|16|0|16|74|100%|0|0||2|2|100%|

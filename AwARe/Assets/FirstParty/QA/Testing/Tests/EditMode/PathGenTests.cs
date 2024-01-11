@@ -179,11 +179,11 @@ namespace Tests
                 { false, false, true, true, true, true, true, false, false, false, false},
                 { false, false, true, false, false, false, true, true, false, false, false},
                 { false, true, true, false, false, false, true, true, false, false, false},
-                { true, true, true, false, false, true, true, true, true, false, false},
+                { true, true, true, false, false, false, true, true, true, false, false},
                 { false, true, true, true, true, true, true, true, true, false, false},
                 { false, false, true, true, true, true, true, true, true, true, false},
                 { false, false, false, false, true, true, true, true, true, true, false},
-                { false, false, false, false, false, true, true, true, true, true, false},
+                { false, false, false, false, false, true, true, true, true, true, true},
             };
 
             FloodFillHandler handler = new();
@@ -196,6 +196,7 @@ namespace Tests
             {
                 for(int y = 0; y < grid.GetLength(1); y++)
                 {
+                    Debug.Log(x + " , " + y);
                     Assert.IsTrue(grid[x, y] == expectedresult[y, x]);
                 }
             }
@@ -375,10 +376,8 @@ namespace Tests
             handler.PostFiltering(ref input, 3, 0, new());
             for(int x = 0; x < 5; x++)
             {
-                for(int y = 0; y < 5; y++)
+                for(int y = 0; y < 10; y++)
                 {
-                    Debug.Log(x + ", " + y);
-
                     Assert.IsTrue(input[x, y] == expectedoutputcut[x, y]);
                 }
             }
@@ -396,11 +395,39 @@ namespace Tests
             handler.PostFiltering(ref input, 0, 3, negatives);
             for (int x = 0; x < 5; x++)
             {
-                for (int y = 0; y < 5; y++)
+                for (int y = 0; y < 10; y++)
+                {
+                    Assert.IsTrue(input[x, y] == expectedoutputmerge[x, y]);
+                }
+            }
+
+            bool[,] secondinput = new bool[5, 10]
+            {
+                {false, false, false, false, false, false, false, false, true, true},
+                {false, true, true, false, false, false, false, true, true, false},
+                {false, false, true, true, true, true, true, true, false, false},
+                {false, true, true, false, false, false, false, true, true, false},
+                {true, true, false, false, false, false, false, false, true, true}
+            };
+
+            bool[,] secondexpectedoutput = new bool[5, 10]
+            {
+                {false, false, false, false, false, false, false, false, false, false},
+                {false, false, true, false, false, false, false, false, false, false},
+                {false, false, true, true, true, true, true, true, false, false},
+                {false, false, true, false, false, false, false, true, false, false},
+                {false, false, false, false, false, false, false, false, false, false}
+            };
+
+            //check second
+            handler.PostFiltering(ref secondinput, 3, 0, negatives);
+            for (int x = 0; x < 5; x++)
+            {
+                for (int y = 0; y < 10; y++)
                 {
                     Debug.Log(x + ", " + y);
 
-                    Assert.IsTrue(input[x, y] == expectedoutputmerge[x, y]);
+                    Assert.IsTrue(secondinput[x, y] == secondexpectedoutput[x, y]);
                 }
             }
         }
@@ -522,13 +549,12 @@ namespace Tests
 
             bool[,] expectedresultgrid = new bool[61, 61];
             expectedresultgrid[30, 30] = true;
-            expectedresultgrid[30, 31] = true;
             expectedresultgrid[31, 30] = true;
-
+            expectedresultgrid[31, 31] = true;
             PathData expectedresultpath = (PathData)topathmethod.Invoke(generator, new object[1] { expectedresultgrid });
             PathData result = generator.GeneratePath(positive, new());
 
-            for(int i = 0; i < result.edges.Count; i++)
+            for (int i = 0; i < result.edges.Count; i++)
             {
                 Assert.IsTrue(expectedresultpath.edges[i] == result.edges[i]);
             }
