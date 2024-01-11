@@ -29,9 +29,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/FirstParty/Application/Scenes/AppScenes/Questionnaire.unity
     guid: a8727b8b0618ded4d8bd0c5a8ad5b0a6
-  - enabled: 0
-    path: Assets/FirstParty/Application/Scenes/Temporary/PointerTest.unity
-    guid: a80f4adfb0241ce449fe103b467a1649
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
       type: 2}
