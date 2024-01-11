@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,18 +16,29 @@ using UnityEngine;
 
 namespace AwARe.IngredientList.Logic
 {
+    /// <summary>
+    /// Handles the loading and parsing of a local JSON file to a <see cref="List{T}"/> of <see cref="IngredientList"/> and vice versa.
+    /// </summary>
     public class IngredientFileHandler
     {
         readonly string filePath;
         readonly IIngredientDatabase ingredientDatabase;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IngredientFileHandler"/> class.
+        /// </summary>
+        /// <param name="database">The database implementation used for querying <c>Ingredients</c> using their saved IDs.</param>
         public IngredientFileHandler(IIngredientDatabase database)
         {
             filePath = Application.persistentDataPath + "/ingredientLists";
             this.ingredientDatabase = database;
         }
 
-        // Converts the file contents to an IngredientList
+        /// <summary>
+        /// Converts the file contents to an <see cref="IngredientList"/> List.
+        /// </summary>
+        /// <returns>The List of <see cref="IngredientList"/>s from converting th file contents.</returns>
+        /// <exception cref="Exception">Thrown when a conversion from string to QuantityType fails.</exception>
         public List<IngredientList> ReadFile()
         {
             if (!File.Exists(filePath))
@@ -82,7 +100,10 @@ namespace AwARe.IngredientList.Logic
             return lists;
         }
 
-        // Convert the lists to JSON and write this to the file
+        /// <summary>
+        /// Converts the <see cref="IngredientList"/> Lists to JSON and writes this to the local file.
+        /// </summary>
+        /// <param name="ingredientLists">The ingredient lists to be saved to JSON format.</param>
         public void SaveLists(List<IngredientList> ingredientLists)
         {
             int numberOfLists = ingredientLists.Count;
@@ -119,12 +140,30 @@ namespace AwARe.IngredientList.Logic
         }
     }
 
+    /// <summary>
+    /// JSON object format that a List of IngredientLists can be converted to.
+    /// </summary>
     [Serializable]
     public class JSONIngredientInfo
     {
+        /// <summary>
+        /// The ListName of every IngredientList that was in the List.
+        /// </summary>
         public string[] listNames;
+
+        /// <summary>
+        /// The lists of all IDs of the ingredients in every IngredientList, converted to string.
+        /// </summary>
         public string[] ingredientIDs;
+
+        /// <summary>
+        /// The lists of all quantities of the ingredients in every IngredientList, converted to string.
+        /// </summary>
         public string[] ingredientQuantities;
+
+        /// <summary>
+        /// The lists of all QuantityTypes of the ingredients in every IngredientList, converted to string.
+        /// </summary>
         public string[] ingredientQuantityTypes;
     }
 }

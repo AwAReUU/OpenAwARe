@@ -17,10 +17,24 @@ namespace AwARe.Data.Objects
     /// </summary>
     public class PolygonMesh : MonoBehaviour
     {
+        /// <summary>
+        /// The height of the polygon in meters.
+        /// </summary>
         private float height = 1f;
+
+        /// <summary>
+        /// The polygon that is the base of the Mesh.
+        /// </summary>
         private List<Vector3> polygon = new();
+
+        /// <summary>
+        /// The renderer used for rendering the mesh.
+        /// </summary>
         private Renderer renderer;
 
+        /// <summary>
+        /// On start create the Mesh and set the starting height to 1.
+        /// </summary>
         void Start()
         {
             CreateMesh();
@@ -28,7 +42,10 @@ namespace AwARe.Data.Objects
             renderer = GetComponent<Renderer>();
         }
 
-
+        /// <summary>
+        /// Assigns the color of the material inside the renderer.
+        /// </summary>
+        /// <param name="color">Color to set.</param>
         public void SetPolygonColor(Color color)
         {
             renderer.material.color = color;
@@ -43,6 +60,9 @@ namespace AwARe.Data.Objects
             CreateMesh();
         }
 
+        /// <summary>
+        /// Colors the mesh by settings the material.
+        /// </summary>
         public void ApplyColorToMesh()
         {
             // Check if the mesh renderer is assigned
@@ -65,6 +85,9 @@ namespace AwARe.Data.Objects
             CreateMesh();
         }
 
+        /// <summary>
+        /// Create the mesh from the polygon base.
+        /// </summary>        
         private void CreateMesh()
         {
             List<Vector3> vertices = new();
@@ -73,6 +96,8 @@ namespace AwARe.Data.Objects
             int n = polygon.Count * 2;
             for (int i = 0; i < polygon.Count; i++)
             {
+                // Create a vertical plane (wall) for each polygon segment:
+                
                 vertices.Add(polygon[i]);
                 vertices.Add(polygon[i] + new Vector3(0f, height, 0f));
 

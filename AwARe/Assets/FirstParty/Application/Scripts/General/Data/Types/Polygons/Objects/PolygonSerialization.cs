@@ -16,9 +16,15 @@ using UnityEngine;
 
 namespace AwARe
 {
+    /// <summary>
+    /// Class <c>PolygonSerialization</c> is responsible for serializing polygons represented by <see cref="Vector3"/>'s to a Room.
+    /// </summary>
     [System.Serializable]
     public class PolygonSerialization
     {
+        /// <summary>
+        /// Class <c>Vector3Serialization</c> is responsible for Serializing <see cref="Vector3"/> to <see cref="Vector3Serialization"/>.
+        /// </summary>
         [System.Serializable]
         public class Vector3Serialization
         {
@@ -26,7 +32,10 @@ namespace AwARe
             public float y;
             public float z;
 
-            /// Constructor for Vector3Serialization, initializes the object with a Vector3.
+            /// <summary>
+            /// Constructor for Vector3Serialization, initializes the object with a <see cref="Vector3"/>.
+            /// </summary>
+            /// <param name="vector">Vector3 to use for initialization.</param>
             public Vector3Serialization(Vector3 vector)
             {
                 x = vector.x;
@@ -42,14 +51,21 @@ namespace AwARe
                 return new Vector3(x, y, z);
             }
         }
-
+        
+        /// <summary>
+        /// The points representing the polygon.
+        /// </summary>
         public List<Vector3Serialization> listpoints;
 
+        /// <summary>
         /// Constructor for PolygonSerialization, initializes the object with a list of serialized Vector3.
+        /// </summary>
+        /// <param name="points">Points to use in the object.</param>
         public PolygonSerialization(List<Vector3Serialization> points)
         {
             listpoints = points ?? new List<Vector3Serialization>();
         }
+
         /// <summary>
         /// Constructor for PolygonSerialization, initializes the object with a list of Vector3, converting them to serialized form.
         /// </summary>
@@ -58,6 +74,7 @@ namespace AwARe
         {
             listpoints = points.Select(v => new Vector3Serialization(v)).ToList();
         }
+
         /// <summary>
         /// Converts the serialized polygon back to a Polygon object.
         /// </summary>
@@ -75,6 +92,9 @@ namespace AwARe
         }
     }
 
+    /// <summary>
+    /// Class <c>RoomSerialization</c> is responsible for Serializing <see cref="Polygon"/>s to a <see cref="Room"/>.
+    /// </summary>
     [System.Serializable]
     public class RoomSerialization
     {

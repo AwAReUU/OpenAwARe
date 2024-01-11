@@ -8,7 +8,7 @@ using UnityEngine;
 namespace AwARe.Notifications.Logic
 {
     /// <summary>
-    /// implementation of the abstract notification class for the IOS platform
+    /// Implementation of the abstract notification class for the IOS platform.
     /// </summary>
     public class IOSNotif : Notification
     {
@@ -16,7 +16,7 @@ namespace AwARe.Notifications.Logic
         iOSNotification notification = new iOSNotification();
 
          /// <summary>
-        /// class constructor. initialises some variables necessairy for sending notifications
+        /// Class constructor. initialises some variables necessairy for sending notifications
         /// on the IOS platform. 
         /// </summary>
         public IOSNotif()
@@ -29,9 +29,9 @@ namespace AwARe.Notifications.Logic
         }
 
         /// <summary>
-        /// sets the time at which this notification is sent
+        /// Sets the time at which this notification is sent.
         /// </summary>
-        /// <param name="time">the exact date and time when this notification should be sent</param>
+        /// <param name="time">The exact date and time when this notification should be sent.</param>
         public override void SetFireTime(DateTime time)
         {
             var trigger = new iOSNotificationCalendarTrigger()
@@ -51,27 +51,27 @@ namespace AwARe.Notifications.Logic
         }
 
         /// <summary>
-        /// sets the title text of the notification
+        /// Sets the title text of the notification.
         /// </summary>
-        /// <param name="title">the title text to be displayed</param>
+        /// <param name="title">The title text to be displayed.</param>
         public override void SetTitle(string title)
         {
             notification.Title = title;
         }
 
         /// <summary>
-        /// sets the body text of the notification
+        /// Sets the body text of the notification.
         /// </summary>
-        /// <param name="body">the body text to be displayed</param>
+        /// <param name="body">The body text to be displayed.</param>
         public override void Setbody(string body)
         {
             notification.Body = body;
         }
 
         /// <summary>
-        /// unimplemented. When implemented, sets the questionnaire associated with this notification
+        /// Unimplemented. When implemented, sets the questionnaire associated with this notification.
         /// </summary>
-        /// <param name="questionnaire">the questionnaire string</param>
+        /// <param name="questionnaire">The questionnaire string.</param>
         public override void SetQuestionnaire(string questionnaire)
         {
             //implementation will probably use notification.data
@@ -79,7 +79,7 @@ namespace AwARe.Notifications.Logic
         }
 
         /// <summary>
-        /// schedules the notification to be sent at the time specified in the SetFireTime method
+        /// Schedules the notification to be sent at the time specified in the SetFireTime method.
         /// </summary>
         public override void Send()
         {

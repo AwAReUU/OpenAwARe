@@ -18,6 +18,9 @@ using UnityEngine.UI;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
+    /// <summary>
+    /// Class <c>PolygonUI </c> is responsible for managing the UI based on the current <see cref="State"/>.
+    /// </summary>
     public class PolygonUI : MonoBehaviour
     {
         [SerializeField] private GameObject resetButton;

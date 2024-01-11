@@ -12,6 +12,9 @@ using UnityEngine;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
+    /// <summary>
+    /// Handles drawing and scanning the polygons.
+    /// </summary>
     public class PolygonDrawer : MonoBehaviour
     {
         [SerializeField] private GameObject lineObject; // the object that is instantiated to create the lines
