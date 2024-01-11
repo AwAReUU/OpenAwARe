@@ -94,7 +94,16 @@ namespace AwARe.ObjectGeneration
         /// <param name="corners">Corners of the base of the bounding box of the Object.</param>
         /// <param name="polygon">The polygon.</param>
         /// <returns>Whether the object is inside the given polygon.</returns>
-        public static bool ObjectColliderInPolygon(List<Vector3> corners, Polygon polygon)
+        public static bool ObjectColliderAllInPolygon(List<Vector3> corners, Polygon polygon)
             => corners.All(corner => IsPointInsidePolygon(polygon, corner));
+
+        /// <summary>
+        /// Check if any of the four base <paramref name="corners"/> is inside of the given olygon.
+        /// </summary>
+        /// <param name="corners">Corners of the base of the bounding box of the Object.</param>
+        /// <param name="polygon">The polygon.</param>
+        /// <returns>Whether any part of the object is inside the given polygon.</returns>
+        public static bool ObjectColliderAnyInPolygon(List<Vector3> corners, Polygon polygon)
+            => corners.Any(corner => IsPointInsidePolygon(polygon, corner));
     }
 }

@@ -23,7 +23,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         // The line renderers and templates
         [SerializeField] private GameObject polygonBase; // the object that is instantiated to create the lines
         [SerializeField] private LineRenderer activeLine; // the polygonLine from the last Polygon point to the current pointer position
-        [SerializeField] private LineRenderer closeLine; // the polygonLine from the current pointer position to the first Polygon point
+        [SerializeField] private LineRenderer closeLine; // the polygonLine from the last polygon point to the first Polygon point
         private Liner polygonLine; // the polygonLine representing the Polygon
         private PolygonLinerLogic polygonLineLogic;
 
@@ -125,7 +125,7 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             // Draw closing line
             closeLine.positionCount = 2;
-            closeLine.SetPositions(new[]{ PointedAt, Polygon.Points[0] });
+            closeLine.SetPositions(new[]{ Polygon.Points[^1], Polygon.Points[0] });
         }
     }
 }
