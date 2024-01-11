@@ -6,6 +6,7 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using AwARe.InterScenes.Objects;
 using AwARe.ResourcePipeline.Logic;
@@ -121,25 +122,10 @@ namespace AwARe.ObjectGeneration
         }
 
         /// <summary>
-        /// Rotate a gameObject to face the user.
-        /// </summary>
-        /// <param name="target">Object to rotate.</param>
-        private void RotateToUser(GameObject target)
-        {
-            Vector3 position = target.transform.position;
-            Vector3 cameraPosition = Camera.main.transform.position;
-            Vector3 direction = cameraPosition - position;
-            Vector3 targetRotationEuler = Quaternion.LookRotation(direction).eulerAngles;
-            Vector3 scaledEuler = Vector3.Scale(targetRotationEuler, target.transform.up.normalized);
-            Quaternion targetRotation = Quaternion.Euler(scaledEuler);
-            target.transform.rotation = targetRotation;
-        }
-
-        /// <summary>
         /// Returns the total area that all given renderables will cover.
         /// </summary>
         /// <param name="renderables">All the renderables that will be included in the calculation.</param>
-        private float ComputeRenderableSpaceNeeded(List<Renderable> renderables)
+        public float ComputeRenderableSpaceNeeded(List<Renderable> renderables)
         {
             float sumArea = 0;
             foreach (var renderable in renderables) 
@@ -148,7 +134,10 @@ namespace AwARe.ObjectGeneration
             return sumArea;
         }
 
-        //debug method for displaying spawn locations in scene.
+        [ExcludeFromCodeCoverage]
+        /// <summary>
+        /// displays spawn points on grid for debugging.
+        /// </summary>.
         void OnDrawGizmos()
         {
             Rooms.Room room = Storage.Get().ActiveRoom;

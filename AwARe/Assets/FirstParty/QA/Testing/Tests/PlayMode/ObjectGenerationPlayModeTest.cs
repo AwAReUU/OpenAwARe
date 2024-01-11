@@ -23,15 +23,11 @@ namespace AwARe
     {
         private ObjectCreationManager objectCreationManager;
 
-        [OneTimeSetUp, Description("Load the test scene once.")]
-        public void OneTimeSetup() => SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/AR");
-
-
         [UnitySetUp, Description("Reset the scene before each test. Obtain the objectCreationManager")]
         public IEnumerator Setup()
         {
             yield return null; //skip one frame to ensure the scene has been loaded.
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/AR");
             yield return null; //skip one frame to ensure the scene has been reloaded.
             objectCreationManager = GameObject.Find("ObjectCreationManager").GetComponent<ObjectCreationManager>();
         }
@@ -118,6 +114,64 @@ namespace AwARe
             Assert.True(obtainedObjectsBefore.Length == 1 && obtainedObjectsAfter == null);
         }
 
+        //-----------------------------------------------------------------------------------------------------
+
+
+
+
+        // [UnityTest, Description("Makes sure that the ObjectDestroyer works")]
+        // public IEnumerator PlaceRenderablesInSeparateRooms()
+        // {
+        //     // Arrange: Create two rooms and a list of renderables with different resource types.
+        //     List<Renderable> renderables = GetMixedRenderables(1f); 
+
+        //     // Act: Place renderables in the first room which should only contain animals & water
+        //     objectCreationManager.PlaceRoom(true); 
+            
+        //     // Assert: Check if the correct renderables are placed in each room.
+        //     GameObject[] generatedObjects = ObjectObtainer.FindGameObjectsInLayer("Placed Objects");
+
+        //     foreach (GameObject target in generatedObjects)
+        //         ;
+
+        //     Assert.True(true);
+
+        //     yield return null;
+        // }
+
+        [UnityTest, Description("Makes sure that the ObjectDestroyer works")]
+        public IEnumerator ComputeRenderableSpaceNeededWorks()
+        { 
+            //Arrange: Create renderable lists.
+            List<Renderable> list0 = new (); // empty 
+            List<Renderable> list1 = new (); // renderables with quantity = 1
+            List<Renderable> list2 = new (); // renderables with quantity > 1
+
+            //Act: Fill the renderable lists.
+            GameObject model = Resources.Load<GameObject>(@"Models/Shapes/Cube");
+            Vector3 halfExtents = PipelineManager.GetHalfExtents(model);
+            float scale = 1;
+            list1.Add(new Renderable(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Water));
+            list2.Add(new Renderable(model, halfExtents, 5, scale, ResourcePipeline.Logic.ResourceType.Water));
+            float list0spaceNeeded = objectCreationManager.ComputeRenderableSpaceNeeded(list0);
+            float list1spaceNeeded = objectCreationManager.ComputeRenderableSpaceNeeded(list1);
+            float list2spaceNeeded = objectCreationManager.ComputeRenderableSpaceNeeded(list2);
+            Debug.Log("halfext: " + halfExtents);
+            Debug.Log(list1spaceNeeded);
+
+            //Assert: The area for each renderable list should be within the allowed range 
+            Assert.True(
+            list0spaceNeeded == 0 
+            && list1spaceNeeded > 0.009f && list1spaceNeeded < 0.011f
+            && list2spaceNeeded > 0.049f && list2spaceNeeded < 0.051f);
+            yield return null;
+        }
+
+
+
+
+
+
         /// <summary>
         /// Create a singleton list containing a simple renderable object.
         /// </summary>
@@ -131,6 +185,21 @@ namespace AwARe
             halfExtents *= scale;
             Renderable renderable = new(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Water);
             List<Renderable> renderables = new() { renderable };
+            renderables = Renderable.SetSurfaceRatios(renderables);
+            return renderables;
+        }
+
+        private List<Renderable> GetMixedRenderables(float scale)
+        {
+            GameObject model = Resources.Load<GameObject>(@"Models/Shapes/Cube");
+
+            Vector3 halfExtents = PipelineManager.GetHalfExtents(model);
+            halfExtents *= scale;
+            Renderable renderableWater = new(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Water);
+            Renderable renderableAnimal = new(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Animal); 
+            Renderable renderablePlant = new(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Plant);
+
+            List<Renderable> renderables = new() { renderableWater, renderableAnimal, renderablePlant };
             renderables = Renderable.SetSurfaceRatios(renderables);
             return renderables;
         }
