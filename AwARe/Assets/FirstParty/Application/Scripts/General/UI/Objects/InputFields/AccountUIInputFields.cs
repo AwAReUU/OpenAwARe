@@ -1,14 +1,26 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \* 
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using TMPro;
 
+using Unity.VisualScripting.YamlDotNet.Core.Events;
+
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace AwARe
 {
+    /// <summary>
+    /// Manages the UI input fields, warnings, and buttons for the account-related functionalities.
+    /// </summary>
     public class AccountUIInputFields : MonoBehaviour
     {
         // input fields
@@ -19,7 +31,8 @@ namespace AwARe
         [SerializeField] private TMP_InputField FirstNameInputField;
         [SerializeField] private TMP_InputField LastNameInputField;
         [SerializeField] private TMP_InputField passwordConfirmInputField;
-        [SerializeField] private Button securityButton;
+        [SerializeField] private Button securityButtonRegister;
+        [SerializeField] private Button securityButtonLogin;
         [SerializeField] private Button referRegisterButton;
         [SerializeField] private Button referLoginButton;
         [SerializeField] private Button registerButton;
@@ -34,23 +47,12 @@ namespace AwARe
         [SerializeField] private GameObject warningWeakPW;
         [SerializeField] private GameObject warningDissimilarPW;
 
-        private bool IsStrongPassword(string password)
-        {
-            // Password should be at least 12 characters long
-            if (password.Length < 12)
-            {
-                return false;
-            }
+        // images 
+        [SerializeField] private Sprite seen;
+        [SerializeField] private Sprite hidden;
+        private bool visibilityregsec;
+        private bool visibilitylogsec;
 
-            // Password should have a combination of uppercase letters, lowercase letters, numbers, and symbols
-            Regex uppercaseRegex = new Regex(@"[A-Z]");
-            Regex lowercaseRegex = new Regex(@"[a-z]");
-            Regex digitRegex = new Regex(@"\d");
-            Regex symbolRegex = new Regex(@"[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]");
-
-            return uppercaseRegex.IsMatch(password) && lowercaseRegex.IsMatch(password) &&
-                digitRegex.IsMatch(password) && symbolRegex.IsMatch(password);
-        }
 
         // Start is called before the first frame update
         void Start()
@@ -64,6 +66,8 @@ namespace AwARe
             warningDissimilarPW.SetActive(false);
             registerScreen.SetActive(false);
             loginScreen.SetActive(true);
+            visibilityregsec = false;
+            visibilitylogsec = false;
         }
 
         // Update is called once per frame
@@ -75,42 +79,101 @@ namespace AwARe
 
         void Awake()
         {
-            securityButton.onClick.AddListener(delegate () { this.OnSecurityButtonClick(); });
+            securityButtonRegister.onClick.AddListener(delegate () { this.OnRSecurityButtonClick(); });
+            securityButtonLogin.onClick.AddListener(delegate () { this.OnLSecurityButtonClick(); });
             referRegisterButton.onClick.AddListener(delegate () { OnReferRegisterButtonClick(); });
             referLoginButton.onClick.AddListener(delegate () { this.OnReferLoginButtonClick(); });
             registerButton.onClick.AddListener(delegate () { this.OnRegisterButtonClick(); });
+            loginButton.onClick.AddListener(delegate () { this.OnLoginButtonClick(); });
         }
+        /// <summary>
+        /// Handles the logic when the login button is clicked.
+        /// </summary>
         public void OnLoginButtonClick()
         {
-           
+           // TODO for checking if password and email correspond with credentials saved on the server
         }
 
+        /// <summary>
+        /// Switches to the register screen.
+        /// </summary>
         public void OnReferRegisterButtonClick()
         {
             registerScreen.SetActive(true);
             loginScreen.SetActive(false);
         }
-
+        /// <summary>
+        /// Switches to the login screen.
+        /// </summary>
         public void OnReferLoginButtonClick()
         {
             registerScreen.SetActive(false);
             loginScreen.SetActive(true);
         }
-
-        public void OnSecurityButtonClick()
+        /// <summary>
+        /// Handles the logic when the security button for registration is clicked.
+        /// The register security button changes image and the password becomes visible
+        /// </summary>
+        public void OnRSecurityButtonClick()
         {
-            registerPasswordInputField.contentType = TMP_InputField.ContentType.Standard;
-            securityButton.image.sprite = ;
+            Image securityimage1=securityButtonRegister.transform.GetChild(0).GetComponent<Image>();
+            
+
+            if (visibilityregsec==false)
+            {
+                registerPasswordInputField.contentType = TMP_InputField.ContentType.Standard;
+                securityimage1.sprite = seen;
+                visibilityregsec = true;
+
+            }
+            else
+            {
+                registerPasswordInputField.contentType = TMP_InputField.ContentType.Password;
+                securityimage1.sprite = hidden;
+                visibilityregsec = false;
+            }
 
         }
 
+        /// <summary>
+        /// Handles the logic when the security button for login is clicked.
+        /// The login security button changes image and the password becomes visible
+        /// </summary>
+        public void OnLSecurityButtonClick()
+        {
+            Image securityimage2 = securityButtonLogin.transform.GetChild(0).GetComponent<Image>();
+
+            if (visibilitylogsec==false)
+            {
+                loginPasswordInputField.contentType = TMP_InputField.ContentType.Standard;
+                securityimage2.sprite = seen;
+                visibilitylogsec = true;
+
+            }
+            else
+            {
+                loginPasswordInputField.contentType = TMP_InputField.ContentType.Password;
+                securityimage2.sprite = hidden;
+                visibilitylogsec = false;
+            }
+
+        }
+
+        /// <summary>
+        /// Handles the logic when the register button is clicked.
+        /// </summary>
         public void OnRegisterButtonClick()
         {
             warningAllFields.SetActive(false);
-            //warningPWEIncorrect.SetActive(false);
+            //TODO : warningPWEIncorrect.SetActive(false); and something with it
             warningIncorrectEmail.SetActive(false);
             warningWeakPW.SetActive(false);
             warningDissimilarPW.SetActive(false);
+
+            // email and password regular expressions 
+            Regex passwordRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{12,}$");
+            Regex emailRegex = new Regex(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+
 
             string registeremail = registerEmailInputField.text;
             string registerpassword = registerPasswordInputField.text;
@@ -118,43 +181,40 @@ namespace AwARe
             string registerlastname = LastNameInputField.text;
             string registerconfirmpassword = passwordConfirmInputField.text;
 
-            Regex emailRegex = new Regex(@"@");
-
+            // checks if all fields are filled in 
             if (string.IsNullOrEmpty(registeremail) || string.IsNullOrEmpty(registerpassword) ||
                 string.IsNullOrEmpty(registerfirstname) || string.IsNullOrEmpty(registerlastname) ||
                 string.IsNullOrEmpty(registerconfirmpassword))
             {
-                Debug.LogError("Please fill in all required fields.");
                 warningAllFields.SetActive(true);
 
                 return; // Stop execution if any field is empty
             }
 
+            // checks if password and confirm password are the same 
             if (registerpassword != registerconfirmpassword)
             {
-                Debug.LogError("Please make sure the passwords are the same");
                 warningDissimilarPW.SetActive(true);
                 return;
             }
 
-            if (IsStrongPassword(registerpassword)!)
+            // checks if password is atleast 12 characters and 
+            // A combination of uppercase letters, lowercase letters, numbers, and symbols.
+            if (!passwordRegex.IsMatch(registerpassword) || registerpassword.Length < 12)
             {
-                Debug.LogError("Password should have a combination of uppercase letters, lowercase letters, numbers, and symbols and be atleast 12 characters.");
                 warningWeakPW.SetActive(true);
+                return;
+
+            }
+
+            // checks if the email address is in an 'email-format'
+            if (!emailRegex.IsMatch(registeremail))
+            {
+                warningIncorrectEmail.SetActive(true);
                 return;
             }
 
-            /*if ((emailRegex.IsMatch(registeremail)!))
-            {
-                Debug.LogError("Invalid email address");
-                warningIncorrectEmail.SetActive(true);
-                return;
-            }*/
-
-            
-
         }
-
 
     }
 }

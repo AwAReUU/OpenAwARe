@@ -2736,7 +2736,8 @@ MonoBehaviour:
   FirstNameInputField: {fileID: 676489325}
   LastNameInputField: {fileID: 1448838505}
   passwordConfirmInputField: {fileID: 1142123739}
-  securityButton: {fileID: 1010179157}
+  securityButtonRegister: {fileID: 1010179157}
+  securityButtonLogin: {fileID: 1944162060}
   referRegisterButton: {fileID: 1407434508}
   referLoginButton: {fileID: 1874999249}
   registerButton: {fileID: 1673422201}
@@ -2748,6 +2749,8 @@ MonoBehaviour:
   warningIncorrectEmail: {fileID: 659855108}
   warningWeakPW: {fileID: 482761967}
   warningDissimilarPW: {fileID: 1325717541}
+  seen: {fileID: 21300000, guid: 4775006e5036cf4409aad813d498287c, type: 3}
+  hidden: {fileID: 21300000, guid: 17e4cc19ad945f24ba6ec5a09170a2ba, type: 3}
 --- !u!1001 &1010179155
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2859,7 +2862,7 @@ PrefabInstance:
     - target: {fileID: 2820788121417397783, guid: 117db86cc6aa0e341850a04c23b26f8d,
         type: 3}
       propertyPath: m_Name
-      value: SecurityToggle
+      value: SecurityToggleRegister
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3138,6 +3141,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ConfirmField
+      objectReference: {fileID: 0}
+    - target: {fileID: 5110018226202510673, guid: 15decb7569ab73c409b9034a97584fe3,
+        type: 3}
+      propertyPath: m_InputType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5110018226202510673, guid: 15decb7569ab73c409b9034a97584fe3,
+        type: 3}
+      propertyPath: m_ContentType
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7937363013129389438, guid: 15decb7569ab73c409b9034a97584fe3,
         type: 3}
@@ -6125,7 +6138,7 @@ PrefabInstance:
     - target: {fileID: 2820788121417397783, guid: 117db86cc6aa0e341850a04c23b26f8d,
         type: 3}
       propertyPath: m_Name
-      value: SecurityToggle (1)
+      value: SecurityToggleLogin
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6142,6 +6155,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1944162058}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1944162060 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4505240901987123592, guid: 117db86cc6aa0e341850a04c23b26f8d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1944162058}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1980288563
 PrefabInstance:
   m_ObjectHideFlags: 0
