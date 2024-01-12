@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AwARe.RoomScan.Polygons.Logic;
 using UnityEngine;
-#if UNITY_EDITOR
+#if DEBUG
     using AwARe.DevTools.ObjectGeneration;
 #endif
 namespace AwARe.ObjectGeneration
@@ -52,10 +52,9 @@ namespace AwARe.ObjectGeneration
             // Add collider after changing object size
             BoxCollider bc = newObject.AddComponent<BoxCollider>();
 
-#if UNITY_EDITOR
-            Debug.Log("unity editor");
-            BoxColliderVisualizer visualBox = new(bc);
-#endif
+            #if DEBUG
+                BoxColliderVisualizer visualBox = new(bc);
+            #endif
 
             return true;
         }
