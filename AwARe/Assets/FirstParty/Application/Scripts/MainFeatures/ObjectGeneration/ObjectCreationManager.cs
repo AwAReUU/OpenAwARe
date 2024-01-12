@@ -76,10 +76,6 @@ namespace AwARe.ObjectGeneration
 
             polygonDrawer.DrawRoomPolygons(room);
 
-            // TODO:
-            // Once pathgen is done, create mesh from PathData
-            // this.pathMesh = pathData.CreateMesh()
-
             float roomSpace        = room.PositivePolygon.Area;
             float renderablesSpace = ComputeRenderableSpaceNeeded(renderables);
 
