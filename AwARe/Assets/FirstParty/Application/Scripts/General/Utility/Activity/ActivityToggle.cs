@@ -6,12 +6,14 @@
 // \*                                                                                       */
 
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace AwARe.UI.Objects
 {
     /// <summary>
     /// Attach a toggle to the activity state of its object.
     /// </summary>
+    [ExcludeFromCoverage]
     public class ActivityToggle : MonoBehaviour
     {
         /// <summary>
