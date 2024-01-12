@@ -1,2 +1,2 @@
 # Administrator environment
-> Not developed yet
+> Tools for users with special permissions. Not developed yet.

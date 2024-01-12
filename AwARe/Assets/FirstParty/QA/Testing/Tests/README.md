@@ -20,4 +20,4 @@ To actually generate a report, press the start recording button in the code cove
 
 ## Test code coverage
 
-To find out more about code coverage, head over to [Code Coverage](https://github.com/Mackthis/AwARe/tree/main/CodeCoverage) 
+To find out more about code coverage, head over to [Code Coverage](https://github.com/Mackthis/AwARe/tree/main/AwARe/CodeCoverage)
