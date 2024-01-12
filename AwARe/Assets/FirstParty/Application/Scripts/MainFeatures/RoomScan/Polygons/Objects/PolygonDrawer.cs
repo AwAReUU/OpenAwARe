@@ -27,7 +27,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private LineRenderer activeLine; // the polygonLine from the last Polygon point to the current pointer position
         [SerializeField] private LineRenderer closeLine; // the polygonLine from the current pointer position to the first Polygon point
         private Liner polygonLine; // the polygonLine representing the Polygon
-        private PolygonLinerLogic polygonLineLogicLogic;
+        private PolygonLinerLogic polygonLineLogic;
 
         // The tracking data
         private Polygon activePolygon;
@@ -62,11 +62,11 @@ namespace AwARe.RoomScan.Polygons.Objects
             GameObject obj = Instantiate(polygonBase, transform);
             activePolygon = obj.GetComponent<Polygon>();
             polygonLine = obj.GetComponent<Liner>();
-            polygonLineLogicLogic = obj.GetComponent<PolygonLinerLogic>();
+            polygonLineLogic = obj.GetComponent<PolygonLinerLogic>();
             
             obj.SetActive(true);
             activePolygon.Data = new();
-            polygonLineLogicLogic.closedLine = false;
+            polygonLineLogic.closedLine = false;
 
             activeLine.gameObject.SetActive(true);
             closeLine.gameObject.SetActive(true);

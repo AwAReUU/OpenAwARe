@@ -7,25 +7,24 @@
 
 using System.Collections;
 using System.Collections.Generic;
-
-using AwARe.InterScenes.Objects;
-using AwARe.Data.Objects;
-using NUnit.Framework;
-using UnityEngine;
 using System.Linq;
+using System.Numerics;
 
-using AwARe.InterScenes;
-
+using AwARe.Data.Objects;
+using AwARe.InterScenes.Objects;
+using AwARe.UI.Objects;
 using NSubstitute;
-
+using NUnit.Framework;
 using Unity.XR.CoreUtils;
-
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
-
 using Ingredients = AwARe.IngredientList.Logic;
-using TestFixtureData = NUnit.Framework.TestFixtureData;
+using Plane = UnityEngine.Plane;
+using Pointer = AwARe.UI.Objects.Pointer;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 namespace AwARe.Testing.EditMode.General.Objects
 {
@@ -224,7 +223,7 @@ namespace AwARe.Testing.EditMode.General.Objects
             yield return new TestCaseData( new Type<EventSystem>() );
         }
 
-        [Test, Description("Getting in between scenes kept data.")]
+        [Test, Description("Getting the right component.")]
         [TestCaseSource(nameof(TestCases_GetComponent))]
         public void Test_GetComponent<T>(Type<T> type)
             where T : Component
@@ -243,6 +242,74 @@ namespace AwARe.Testing.EditMode.General.Objects
 
             // Act & Assert
             Assert.IsInstanceOf<T>(actual);
+        }
+    }
+
+    
+    /// <summary>
+    /// Test regarding the <see cref="Pointer"/> class.
+    /// </summary>
+    public class Pointer_Tests
+    {
+        private static IEnumerable TestCases_SetPosition()
+        {
+            yield return new TestCaseData(
+                new Ray(Vector3.one, Vector3.down),
+                new List<Pointer.Hit> { new(4, new(1,-3,1)), new(1, new(1,0,1)), new(0.5f, new(1,0.5f,1)) },
+                new Pose(Vector3.zero, Quaternion.identity),
+                new Plane(Vector3.up, Vector3.zero),
+                new Pose(new(1, 0.5f, 1), Quaternion.identity),
+                new Plane(Vector3.up, new Vector3(1, 0.5f, 1))
+            );
+            yield return new TestCaseData(
+                new Ray(Vector3.one, Vector3.down),
+                new List<Pointer.Hit> { new(4, new(1,-3,1)), new(1, new(1,0,1)), new(0.5f, new(1,0.5f,1)) },
+                new Pose(Vector3.zero, Quaternion.identity),
+                new Plane(Vector3.up, Vector3.one),
+                new Pose(new(1, 0.5f, 1), Quaternion.identity),
+                new Plane(Vector3.up, new Vector3(1, 0.5f, 1))
+            );
+            yield return new TestCaseData(
+                new Ray(new(4,3, 5), new(3,-1,2)),
+                new List<Pointer.Hit> { },
+                new Pose(Vector3.zero, Quaternion.identity),
+                new Plane(Vector3.up, Vector3.zero),
+                new Pose(new(13, 0, 11), Quaternion.identity),
+                new Plane(Vector3.up, Vector3.zero)
+            );
+            yield return new TestCaseData(
+                new Ray(Vector3.one, Vector3.down),
+                new List<Pointer.Hit> { },
+                new Pose(new(0.5f, 1, 2), Quaternion.identity),
+                new Plane(Vector3.up, new Vector3(0, 2, 0)),
+                new Pose(new(0.5f, 1, 2), Quaternion.identity),
+                new Plane(Vector3.up, new Vector3(0, 2, 0))
+            );
+            yield return new TestCaseData(
+                new Ray(Vector3.one, Vector3.forward),
+                new List<Pointer.Hit> { },
+                new Pose(new(3, 1, 2), Quaternion.identity),
+                new Plane(Vector3.up, new Vector3(0, 2, 0)),
+                new Pose(new(3, 1, 2), Quaternion.identity),
+                new Plane(Vector3.up, new Vector3(0, 2, 0))
+            );
+        }
+
+        [Test, Description("Setting the new position of the pointer.")]
+        [TestCaseSource(nameof(TestCases_SetPosition))]
+        public void Test_SetPosition(Ray ray, List<Pointer.Hit> ARHits, Pose lastPose, Plane lastPlaneHit, Pose expectedPose, Plane expectedPlane)
+        {
+            // Arrange
+            var pointer = new GameObject("Pointer").AddComponent<Pointer>();
+            pointer.lastHitPlane = lastPlaneHit;
+            pointer.transform.SetPositionAndRotation(lastPose.position, lastPose.rotation);
+
+            // Act
+            pointer.SetNextPosition(ray, ARHits);
+
+            // Assert
+            Assert.AreEqual(expectedPose, pointer.transform.GetWorldPose());
+            Assert.AreEqual(expectedPlane, pointer.lastHitPlane);
         }
     }
 }

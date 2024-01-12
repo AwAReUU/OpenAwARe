@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections;
-using System.Net.NetworkInformation;
 using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
 using AwARe.NotImplemented.Objects;
