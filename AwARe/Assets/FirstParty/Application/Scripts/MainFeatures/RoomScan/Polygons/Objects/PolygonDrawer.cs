@@ -12,14 +12,15 @@ using UnityEngine;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
+    /// <summary>
+    /// Handles drawing and scanning the polygons.
+    /// </summary>
     public class PolygonDrawer : MonoBehaviour
     {
         [SerializeField] private GameObject lineObject; // the object that is instantiated to create the lines
-
         private LineRenderer tempLine; // the line from the last polygon point to the current pointer position
         private LineRenderer closeLine; // the line from the current pointer position to the first polygon point
         private LineRenderer line; // the line representing the polygon
-
         private Vector3 pointer = Vector3.zero;
 
         /// <summary>
@@ -158,7 +159,7 @@ namespace AwARe.RoomScan.Polygons.Objects
             newLine.loop = true;
             UpdateLine(newLine, newPolygon);
         }
-
+        
         /// <summary>
         /// Sets the start and end color of a line.
         /// </summary>

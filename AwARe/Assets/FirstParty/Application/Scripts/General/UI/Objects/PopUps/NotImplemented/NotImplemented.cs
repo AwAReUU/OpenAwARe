@@ -5,26 +5,25 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using Ingredients = AwARe.IngredientList.Logic;
-using Rooms = AwARe.RoomScan.Polygons.Logic;
+using UnityEngine;
 
-namespace AwARe.InterScenes.Logic
+namespace AwARe.UI.Popups.Objects
 {
     /// <summary>
-    /// The in-between-scenes stored data.
+    /// Handles showing and hiding the not implemented popup.
     /// </summary>
-    public class Storage : IStorage
+    public class NotImplemented : MonoBehaviour
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Storage"/> class.
+        /// Show the Not Implemented popup.
         /// </summary>
-        public Storage() { }
-
-        /// <inheritdoc/>
-        public Ingredients.IngredientList ActiveIngredientList { get; set; }
+        public void ShowPopUp() =>
+            NotImplementedHandler.Get().ShowPopUp();
         
-        /// <inheritdoc/>
-        public Rooms.Room ActiveRoom { get; set; }
+        /// <summary>
+        /// Hide the Not Implemented popup.
+        /// </summary>
+        public void HidePopUp() =>
+            NotImplementedHandler.Get().HidePopUp();
     }
-
 }

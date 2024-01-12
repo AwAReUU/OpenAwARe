@@ -29,7 +29,7 @@ namespace AwARe.ObjectGeneration
         /// <returns>Whether the <paramref name="point"/> is inside the <paramref name="polygon"/>.</returns>
         public static bool IsPointInsidePolygon(Polygon polygon, Vector3 point)
         {
-            List<Vector3> polygonPoints = polygon.Points;
+            List<Vector3> polygonPoints = polygon.listpoints;
 
             bool isInside = false;
             int j = polygonPoints.Count - 1;

@@ -13,21 +13,25 @@ using UnityEngine;
 
 namespace AwARe.UI.Objects
 {
+    /// <summary>
+    /// Controls the visibility of  the foldable button and the buttons related to it
+    /// </summary>
     public class ShowHideBtns : MonoBehaviour
     {
         [SerializeField] private GameObject unFoldBtn;
         [SerializeField] private GameObject unFoldBtns;
-
-        // Start is called before the first frame update
-
-        // this is meant for a manager empty object that sets the gameobjects on active or inactive at the start 
-        // and has a method for showing the buttons 
+        /// <summary>
+        /// setting the buttons to inactive at the start, making them invisable.
+        /// </summary>
         void Start()
         {
             this.unFoldBtn.SetActive(false);
             this.unFoldBtns.SetActive(false);
         }
 
+        /// <summary>
+        /// Displays the buttons by setting them to an active state.
+        /// </summary>
         public void ShowBtns()
         {
             this.unFoldBtn.SetActive(true);

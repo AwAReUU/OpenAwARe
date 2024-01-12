@@ -13,7 +13,13 @@ using UnityEngine;
 namespace AwARe.IngredientList.Objects
 {
     /// <summary>
-    /// An UI Element displaying and managing the search screen.
+    /// <para>
+    ///     Handles the UI of the ingredient search screen.
+    /// </para>
+    /// <para>
+    ///     Allows the user to enter a search term to look up ingredients to add to a list.
+    ///     Displays search results and allows the selection of a result to add to the list.
+    /// </para>
     /// </summary>
     public class SearchScreen : MonoBehaviour
     {
@@ -66,7 +72,7 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Finds all ingredients in the database that match with the text entered in the searchbar and displays the results.
+        /// Finds all ingredients in the database that match with the text written in the searchbar and displays the results.
         /// </summary>
         public void OnSearchClick()
         {

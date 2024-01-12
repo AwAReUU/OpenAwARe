@@ -45,7 +45,7 @@ namespace AwARe.ObjectGeneration
         /// <returns>Bounding box of the polygon.</returns>
         private Bounds CalculateBounds(Polygon polygon)
         {
-            List<Vector3> points = polygon.Points;
+            List<Vector3> points = polygon.listpoints;
             Bounds bounds = new(points[0], Vector3.zero);
             foreach (var point in points)
             {

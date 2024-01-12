@@ -14,7 +14,13 @@ using UnityEngine.Serialization;
 namespace AwARe.IngredientList.Objects
 {
     /// <summary>
-    /// An UI Element displaying and managing the ingredient list screen.
+    /// <para>
+    ///     Handles the UI of the IngredientList screen.
+    /// </para>
+    /// <para>
+    ///     Shows an overview of all <see cref="Ingredient"/>s in an <see cref="IngredientList"/>
+    ///     and allows the editing of ListName and selection of Ingredients to edit.
+    /// </para>
     /// </summary>
     public class IngredientListScreen : MonoBehaviour
     {
@@ -139,7 +145,7 @@ namespace AwARe.IngredientList.Objects
             manager.LoadLists();
 
         /// <summary>
-        /// Calls PopUpChoices when a list has been edited to warn the user if they really want to go back or if no editing has happend
+        /// Calls PopUpChoices when a list has been edited to warn the user if they really want to go back or if no editing has happened
         /// an instance of IngredientListManager is called to close the IngredientListScreen and go back to the ListsOverviewScreen.
         /// </summary>
         public void OnBackButtonClick()

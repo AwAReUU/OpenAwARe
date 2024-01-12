@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -5,10 +12,20 @@ using AwARe.IngredientList.Logic;
 
 namespace AwARe.Database.Logic
 {
+    /// <summary>
+    /// Implementation of the Ingredient Database interface, that uses mock database using a locally saved table.
+    /// The Mock Database can be used for testing purposes.
+    /// </summary>
     public class MockupIngredientDatabase : IIngredientDatabase
     {
+        /// <summary>
+        /// List in which mock ingredients are stored.
+        /// </summary>
         readonly List<Ingredient> ingredientTable;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockupIngredientDatabase"/> class.
+        /// </summary>
         public MockupIngredientDatabase()
         {
             ingredientTable = new()
@@ -56,6 +73,7 @@ namespace AwARe.Database.Logic
             (18, "Beet")
         };
 
+        ///<inheritdoc cref="IIngredientDatabase.Search"/>
         public List<Ingredient> Search(string term)
         {
             IEnumerable<int> ids = (
@@ -73,12 +91,14 @@ namespace AwARe.Database.Logic
             return GetIngredients(ids);
         }
 
+        ///<inheritdoc cref="IIngredientDatabase.GetIngredient"/>
         public Ingredient GetIngredient(int id)
         {
             // return the first ingredient that matches id, should be the only one since IDs are unique
             return ingredientTable.First(x => x.ID == id);
         }
 
+        ///<inheritdoc cref="IIngredientDatabase.GetIngredients"/>
         public List<Ingredient> GetIngredients(IEnumerable<int> ids)
         {
             // perform an inner join of ingredient table and ids on ingredientID

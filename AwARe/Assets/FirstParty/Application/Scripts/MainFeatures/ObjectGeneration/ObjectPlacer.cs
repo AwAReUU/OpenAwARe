@@ -17,7 +17,7 @@ namespace AwARe.ObjectGeneration
     public class ObjectPlacer
     {
         /// <summary>
-        /// Tries to place a <paramref name="renderable"></paramref> at <paramref name="position"></paramref>.
+        /// Tries to place a <paramref name="renderable"/> at <paramref name="position"/>.
         /// </summary>
         /// <param name="renderable">Renderable object to place in the scene.</param>
         /// <param name="position">Exact position at which we will try to place the renderable.</param>

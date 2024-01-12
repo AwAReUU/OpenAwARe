@@ -15,6 +15,13 @@ using AwARe.RoomScan.Path;
 using AwARe.RoomScan.Polygons.Logic;
 using UnityEngine;
 using Storage = AwARe.InterScenes.Objects.Storage;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.UI;
+using AwARe.IngredientList.Logic;
+using System.IO;
+using System.Linq;
+using System;
+using UnityEngine.SceneManagement;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
@@ -27,16 +34,13 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private PolygonMesh polygonMesh;
         [SerializeField] private PolygonScan scanner;
         [SerializeField] private PathVisualizer pathVisualizerVisualizer;
-
+        [SerializeField] private PolygonSaveLoadManager SaveLoadManager;
         [SerializeField] private PolygonUI ui;
         [SerializeField] private GameObject canvas;
         [SerializeField] private Transform sceneCanvas;
-
-
-
         [SerializeField] private GameObject pathBtn;
         [SerializeField] private GameObject LoadingPopup;
-
+        [SerializeField] private GameObject SavedPopup;
 
         private bool scanning = false;
 
@@ -48,11 +52,26 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         private void Awake()
         {
+
             if (canvas != null)
             {
                 ui.transform.SetParent(sceneCanvas, false);
                 Destroy(canvas);
             }
+
+            // Temporary quick fix for loading and saving UI
+            Button save1Btn = ui.transform.Find("SaveBtns").transform.GetChild(0).GetComponent<Button>();
+            Button save2Btn = ui.transform.Find("SaveBtns").transform.GetChild(1).GetComponent<Button>();
+            Button save3Btn = ui.transform.Find("SaveBtns").transform.GetChild(2).GetComponent<Button>();
+            Button load1Btn = ui.transform.Find("LoadBtns").transform.GetChild(0).GetComponent<Button>();
+            Button load2Btn = ui.transform.Find("LoadBtns").transform.GetChild(1).GetComponent<Button>();
+            Button load3Btn = ui.transform.Find("LoadBtns").transform.GetChild(2).GetComponent<Button>();
+            save1Btn.onClick.AddListener(() => { SaveRoom(1); ContinueToGeneration(); });
+            save2Btn.onClick.AddListener(() => { SaveRoom(2); ContinueToGeneration(); });
+            save3Btn.onClick.AddListener(() => { SaveRoom(3); ContinueToGeneration(); });
+            load1Btn.onClick.AddListener(() => { LoadRoom(1); });
+            load2Btn.onClick.AddListener(() => { LoadRoom(2); });
+            load3Btn.onClick.AddListener(() => { LoadRoom(3); });
         }
 
         void Start()
@@ -63,10 +82,13 @@ namespace AwARe.RoomScan.Polygons.Objects
             // Use the code below to use the test room
             //Room = new TestRoom();
             //polygonDrawer.DrawRoomPolygons(Room);
+            if (SceneManager.GetActiveScene().name == "RoomLoad")
+            {
+                SwitchToState(State.Loading);
+            }
+            else SwitchToState(State.Default);
 
-            SwitchToState(State.Default);
         }
-
         void Update()
         {
             if (scanning)
@@ -78,6 +100,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void StartScanning()
         {
+            Debug.Log(SaveLoadManager);
             CurrentPolygon = new();
             polygonDrawer.Reset();
             SwitchToState(State.Scanning);
@@ -89,7 +112,21 @@ namespace AwARe.RoomScan.Polygons.Objects
         public void OnCreateButtonClick() =>
             StartScanning();
 
+        /// <summary>
+        /// Called on load button button click; changes state so user sees load slots.
+        /// </summary>
+        public void OnLoadButtonClick()
+        {
+            SwitchToState(State.LoadingOptions);
+        }
+        /// <summary>
+        /// Called on save button click; changes state so user sees save slots.
+        /// </summary>
+        public void OnSaveButtonClick()
+        {
+            SwitchToState(State.SavingOptions);
 
+        }
         /// <summary>
         /// Called on reset button click; Clears the room and starts a new polygon scan.
         /// </summary>
@@ -98,7 +135,6 @@ namespace AwARe.RoomScan.Polygons.Objects
             Room = new Room();
             StartScanning();
         }
-
 
         /// <summary>
         /// Called on apply button click; adds and draws the current polygon.
@@ -114,6 +150,9 @@ namespace AwARe.RoomScan.Polygons.Objects
             //GenerateAndDrawPath();
         }
 
+        /// <summary>
+        /// Initiates the path generation process, activates the loading popup, generates the path, and removes the loading popup.
+        /// </summary>
         public void OnPathButtonClick()
         {
             //activate the popup
@@ -122,6 +161,18 @@ namespace AwARe.RoomScan.Polygons.Objects
 
         }
 
+        /// <summary>
+        /// Continues to the next scene after storing the active room.
+        /// </summary>
+        public void ContinueToGeneration()
+        {
+            Storage.Get().ActiveRoom = Room;
+            SceneSwitcher.Get().LoadScene("Home");
+        }
+
+        /// <summary>
+        /// waits for one frame, generates and draws the path, and then removes the loading popup.
+        /// </summary>
         public IEnumerator MakePathAndRemovePopup()
         {
             yield return null;
@@ -129,6 +180,9 @@ namespace AwARe.RoomScan.Polygons.Objects
             LoadingPopup.SetActive(false);
         }
 
+        /// <summary>
+        /// Generates and draws the path based on the room's positive and negative polygons.
+        /// </summary>
         public void GenerateAndDrawPath()
         {
             PathGenerator startstate = new();
@@ -177,18 +231,104 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             // TODO: set room height
             SwitchToState(State.Saving);
+            // Set color for the finished polygon
+            Color polygonColor = Color.green; // You can choose any color
+            polygonMesh.SetPolygonColor(polygonColor);
+
+            // Assuming you have a method to apply the color to the mesh
+            polygonMesh.ApplyColorToMesh();
+            SavedPopup.SetActive(true);
+
         }
+
+        /// <summary>
+        /// Saves the current room's configuration to a specified save slot using the save load manager.
+        /// </summary>
+        /// <param name="slotIndex">The index of the save slot to store the room configuration.</param>
+        public void SaveRoom(int slotIndex)
+        {
+            // Convert Room to RoomSerialization
+            RoomSerialization roomSerialization = new RoomSerialization(
+                new PolygonSerialization(Room.PositivePolygon.listpoints),
+                Room.NegativePolygons.Select(p => new PolygonSerialization(p.listpoints)).ToList()
+            );
+
+            // Save RoomSerialization
+            SaveLoadManager.SaveDataToJson($"RoomSlot{slotIndex}", roomSerialization);
+        }
+
+        /// <summary>
+        /// Loads a previously saved room configuration from a specified save slot using the save load manager.
+        /// </summary>
+        /// <param name="slotIndex">The index of the save slot from which to load the room configuration.</param>
+        public void LoadRoom(int slotIndex)
+        {
+            PolygonSaveLoadManager saveLoadManager = FindObjectOfType<PolygonSaveLoadManager>();
+
+            // Check if the file exists before attempting to load
+            string filePath = $"RoomSlot{slotIndex}";
+            string fullPath = System.IO.Path.Combine(saveLoadManager.DirectoryPath, filePath);
+
+            if (File.Exists(fullPath))
+            {
+                // Load RoomSerialization JSON using the save load manager
+                RoomSerialization loadedRoomSerialization = saveLoadManager.LoadDataFromJson<RoomSerialization>($"RoomSlot{slotIndex}");
+
+                if (loadedRoomSerialization != null)
+                {
+                    // Convert RoomSerialization to Room
+                    Room = loadedRoomSerialization.ToRoom();
+
+                    if (Room != null)
+                    {
+                        if (!Room.PositivePolygon.IsEmptyPolygon())
+                        {
+                            if (polygonDrawer != null)
+                            {
+                                polygonDrawer.DrawRoomPolygons(Room);
+                                GenerateAndDrawPath();
+                            }
+                            else
+                            {
+                                Debug.LogError("PolygonDrawer is null.");
+                            }
+                        }
+                        else
+                        {
+                            Debug.LogError("Loaded room has an empty positive polygon.");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("Loaded room is null after conversion.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Loaded room serialization is null.");
+                }
+            }
+            else
+            {
+                Debug.LogError($"Room not found in slot {slotIndex}");
+            }
+        }
+
 
         /// <summary>
         /// Called on changing the slider; sets the height of the polygon mesh.
         /// </summary>
         /// <param name="height">Height the slider is currently at.</param>
         public void OnHeightSliderChanged(float height) { this.polygonMesh.SetHeight(height); }
-
-        public void OnSaveButtonClick()
+        
+        /// <summary>
+        /// Switches the scene to Home.
+        /// </summary>
+        public void OnEndButtonClick ()
         {
-            Storage.Get().ActiveRoom = Room;
+            //Storage.Get().ActiveRoom = Room;
             SceneSwitcher.Get().LoadScene("Home");
+
         }
 
         /// <summary>
@@ -224,6 +364,8 @@ namespace AwARe.RoomScan.Polygons.Objects
                 case State.SettingHeight:
                     mesh = true;
                     break;
+                
+                    
             }
             scanner.gameObject.SetActive(scan);
             polygonMesh.gameObject.SetActive(mesh);
@@ -238,6 +380,9 @@ namespace AwARe.RoomScan.Polygons.Objects
         Default,
         Scanning,
         SettingHeight,
-        Saving
+        Saving,
+        SavingOptions,
+        Loading,
+        LoadingOptions
     }
 }

@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/FirstParty/Application/Scenes/AppScenes/Questionnaire.unity
     guid: a8727b8b0618ded4d8bd0c5a8ad5b0a6
+  - enabled: 1
+    path: Assets/FirstParty/Application/Scenes/AppScenes/RoomLoad.unity
+    guid: 95594737d93e42446912f038eb57f3fb
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
       type: 2}

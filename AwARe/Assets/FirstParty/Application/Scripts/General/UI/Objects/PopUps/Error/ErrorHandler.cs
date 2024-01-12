@@ -6,24 +6,18 @@
 // \*                                                                                       */
 
 using AwARe.Logic;
-
+using TMPro;
 using UnityEngine;
 
-namespace AwARe.NotImplemented.Objects
+namespace AwARe.UI.Popups.Objects
 {
     /// <summary>
-    /// A Singleton MonoBehaviour which handles code or other behaviour which has no implementation as of yet.
+    /// A Singleton MonoBehaviour which handles thrown errors.
     /// </summary>
-    public class NotImplementedHandler : MonoBehaviour
+    public class ErrorHandler : PopupHandler
     {
         // Singleton instance
-        private static NotImplementedHandler instance;
-        // Not implemented Prefabs and canvas
-        [SerializeField] private GameObject popUpPrefab;
-        [SerializeField] private GameObject supportCanvas;
-
-        // Active GameObjects
-        private GameObject activePopUp;
+        private static ErrorHandler instance;
 
         /// <summary>
         /// Called when the script instance is being loaded.
@@ -32,49 +26,53 @@ namespace AwARe.NotImplemented.Objects
         {
             // Setup singleton behaviour
             Singleton.Awake(ref instance, this);
+
             // Keep alive between scenes
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(supportCanvas);
+
+            Application.logMessageReceived += HandleLog;
         }
-        
+
         /// <summary>
         /// Called when the behaviour component is destroyed.
         /// </summary>
         private void OnDestroy() =>
             Singleton.OnDestroy(ref instance, this);
-    
+
         /// <summary>
         /// Get its current instance.
         /// Instantiate a new instance if necessary.
         /// </summary>
         /// <returns>An instance of itself.</returns>
-        public static NotImplementedHandler Get() =>
+        public static ErrorHandler Get() =>
             Singleton.Get(ref instance, Instantiate);
 
         /// <summary>
         /// Instantiate a new instance of itself.
         /// </summary>
         /// <returns>An instance of itself.</returns>
-        public static NotImplementedHandler Instantiate()
+        public static ErrorHandler Instantiate()
         {
-            GameObject me = new("NotImplementedHandler");
-            me.AddComponent<NotImplementedHandler>();
-            return me.AddComponent<NotImplementedHandler>();
+            GameObject me = new("ErrorHandler");
+            me.AddComponent<ErrorHandler>();
+            return me.AddComponent<ErrorHandler>();
         }
 
         /// <summary>
-        /// Show the Not Implemented popup.
+        /// Show the error in debug mode. In release, it only shows the popup.
         /// </summary>
-        public void ShowPopUp() =>
-            activePopUp = activePopUp != null ? activePopUp : Instantiate(popUpPrefab, supportCanvas.transform);
-        
-        /// <summary>
-        /// Hide the Not Implemented popup.
-        /// </summary>
-        public void HidePopUp()
+        /// <param name="logString">Text to be shown in debug mode in the popup.</param>
+        /// <param name="stackTrace">Unused, but Unity's logMessageReceived event needs to give this parameter.</param>
+        /// <param name="type">The kind of <see cref="LogType"/> message.</param>
+        private void HandleLog(string logString, string stackTrace, LogType type)
         {
-            Destroy(activePopUp);
-            activePopUp = null;
+            if (type != LogType.Exception && type != LogType.Error) return;
+            ShowPopUp();
+#if DEBUG
+            // Show the specific error
+            activePopUp.GetComponentInChildren<TextMeshProUGUI>().text = logString;
+#endif
         }
     }
 }
