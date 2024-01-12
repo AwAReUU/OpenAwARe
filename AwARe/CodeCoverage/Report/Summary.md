@@ -1,35 +1,35 @@
 ﻿# Summary
 |||
 |:---|:---|
-| Generated on: | 11/01/2024 - 12:53:54 |
-| Parser: | MultiReportParser (5x OpenCoverParser) |
+| Generated on: | 1/12/2024 - 4:05:48 PM |
+| Parser: | MultiReportParser (4x OpenCoverParser) |
 | Assemblies: | 1 |
-| Classes: | 103 |
-| Files: | 85 |
-| Covered lines: | 575 |
-| Uncovered lines: | 2445 |
-| Coverable lines: | 3020 |
-| Total lines: | 8655 |
-| Line coverage: | 19% (575 of 3020) |
+| Classes: | 104 |
+| Files: | 86 |
+| Covered lines: | 683 |
+| Uncovered lines: | 2354 |
+| Coverable lines: | 3037 |
+| Total lines: | 8750 |
+| Line coverage: | 22.4% (683 of 3037) |
 | Covered branches: | 0 |
 | Total branches: | 0 |
-| Covered methods: | 174 |
-| Total methods: | 581 |
-| Method coverage: | 29.9% (174 of 581) |
+| Covered methods: | 189 |
+| Total methods: | 576 |
+| Method coverage: | 32.8% (189 of 576) |
 
 |**Name**|**Covered**|**Uncovered**|**Coverable**|**Total**|**Line coverage**|**Covered**|**Total**|**Branch coverage**|**Covered**|**Total**|**Method coverage**|
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-|**Scripts**|**575**|**2445**|**3020**|**11349**|**19%**|**0**|**0**|****|**174**|**581**|**29.9%**|
+|**Scripts**|**683**|**2354**|**3037**|**11444**|**22.4%**|**0**|**0**|****|**189**|**576**|**32.8%**|
 |ARScenePhaseManager|0|41|41|79|0%|0|0||0|5|0%|
 |AwARe.Data.Logic.Polygon|8|20|28|97|28.5%|0|0||5|10|50%|
-|AwARe.Data.Objects.PolygonMesh|0|33|33|78|0%|0|0||0|5|0%|
+|AwARe.Data.Objects.PolygonMesh|2|31|33|78|6%|0|0||1|5|20%|
 |AwARe.Database.Logic.MockupIngredientDatabase|0|22|22|92|0%|0|0||0|4|0%|
 |AwARe.Database.Logic.MockupIngrToResDatabase|4|6|10|69|40%|0|0||1|2|50%|
 |AwARe.Database.Logic.MockupModelDatabase|4|9|13|45|30.7%|0|0||1|3|33.3%|
 |AwARe.Database.Logic.MockupResourceDatabase|4|9|13|55|30.7%|0|0||1|3|33.3%|
-|AwARe.IngredientList.Logic.Ingredient|0|31|31|174|0%|0|0||0|12|0%|
+|AwARe.IngredientList.Logic.Ingredient|29|2|31|174|93.5%|0|0||12|12|100%|
 |AwARe.IngredientList.Logic.IngredientFileHandler|0|65|65|130|0%|0|0||0|3|0%|
-|AwARe.IngredientList.Logic.IngredientList|8|32|40|174|20%|0|0||5|15|33.3%|
+|AwARe.IngredientList.Logic.IngredientList|32|8|40|174|80%|0|0||12|15|80%|
 |AwARe.IngredientList.Objects.IngredientListItem|0|12|12|64|0%|0|0||0|4|0%|
 |AwARe.IngredientList.Objects.IngredientListManager|0|102|102|262|0%|0|0||0|36|0%|
 |AwARe.IngredientList.Objects.IngredientListScreen|0|65|65|186|0%|0|0||0|17|0%|
@@ -45,19 +45,20 @@
 |AwARe.InterScenes.Objects.SceneSecretary_Template|0|1|1|163|0%|0|0||0|3|0%|
 |AwARe.InterScenes.Objects.SceneSwitcher|0|19|19|125|0%|0|0||0|13|0%|
 |AwARe.InterScenes.Objects.StartLoader|0|12|12|56|0%|0|0||0|2|0%|
-|AwARe.InterScenes.Objects.Storage|11|2|13|80|84.6%|0|0||8|10|80%|
-|AwARe.Logic.Singleton|9|1|10|82|90%|0|0||3|3|100%|
+|AwARe.InterScenes.Objects.Storage|10|3|13|80|76.9%|0|0||7|10|70%|
+|AwARe.Logic.Singleton|5|5|10|82|50%|0|0||2|3|66.6%|
+|AwARe.Notifications.Logic.AndroidNotif|0|32|32|95|0%|0|0||0|6|0%|
 |AwARe.Notifications.Logic.EditorNotif|0|21|21|76|0%|0|0||0|6|0%|
-|AwARe.Notifications.Objects.NotificationScheduler|0|29|29|120|0%|0|0||0|6|0%|
+|AwARe.Notifications.Objects.NotificationScheduler|0|32|32|120|0%|0|0||0|6|0%|
 |AwARe.NotImplemented.Objects.NotImplemented|0|2|2|19|0%|0|0||0|2|0%|
 |AwARe.NotImplemented.Objects.NotImplementedHandler|0|17|17|80|0%|0|0||0|6|0%|
 |AwARe.ObjectGeneration.BoxColliderHelperMonoBehaviour|30|2|32|84|93.7%|0|0||2|2|100%|
 |AwARe.ObjectGeneration.BoxCollidervisualizer|6|0|6|84|100%|0|0||1|1|100%|
 |AwARe.ObjectGeneration.MockSpawnPointHandler|0|9|9|50|0%|0|0||0|2|0%|
-|AwARe.ObjectGeneration.ObjectCreationManager|37|21|58|155|63.7%|0|0||20|22|90.9%|
+|AwARe.ObjectGeneration.ObjectCreationManager|25|15|40|155|62.5%|0|0||10|11|90.9%|
 |AwARe.ObjectGeneration.ObjectDestroyer|7|0|7|32|100%|0|0||1|1|100%|
 |AwARe.ObjectGeneration.ObjectObtainer|11|0|11|46|100%|0|0||2|2|100%|
-|AwARe.ObjectGeneration.ObjectPlacer|60|70|130|308|46.1%|0|0||6|10|60%|
+|AwARe.ObjectGeneration.ObjectPlacer|121|9|130|308|93%|0|0||10|10|100%|
 |AwARe.ObjectGeneration.PolygonHelper|35|0|35|101|100%|0|0||4|4|100%|
 |AwARe.ObjectGeneration.PolygonSpawnPointHandler|30|0|30|93|100%|0|0||4|4|100%|
 |AwARe.ObjectGeneration.Renderable|45|1|46|166|97.8%|0|0||24|25|96%|
@@ -91,16 +92,16 @@
 |AwARe.RoomScan.Path.Jobs.CheckInPolygonJob|0|31|31|99|0%|0|0||0|2|0%|
 |AwARe.RoomScan.Path.Jobs.ErosionScanJob|0|17|17|76|0%|0|0||0|3|0%|
 |AwARe.RoomScan.Path.LineDrawer|0|45|45|85|0%|0|0||0|1|0%|
-|AwARe.RoomScan.Path.PathData|0|73|73|175|0%|0|0||0|5|0%|
+|AwARe.RoomScan.Path.PathData|6|67|73|175|8.2%|0|0||1|5|20%|
 |AwARe.RoomScan.Path.PathGenerator|0|154|154|347|0%|0|0||0|9|0%|
-|AwARe.RoomScan.Path.PathVisualizer|0|29|29|85|0%|0|0||0|3|0%|
+|AwARe.RoomScan.Path.PathVisualizer|2|27|29|85|6.8%|0|0||1|3|33.3%|
 |AwARe.RoomScan.Path.PolygonLines|0|7|7|347|0%|0|0||0|5|0%|
 |AwARe.RoomScan.Path.PostFilteringHandler|0|128|128|225|0%|0|0||0|1|0%|
 |AwARe.RoomScan.Path.ThinningHandler|0|84|84|170|0%|0|0||0|6|0%|
 |AwARe.RoomScan.Polygons.Logic.Room|9|11|20|67|45%|0|0||5|6|83.3%|
 |AwARe.RoomScan.Polygons.Logic.TestRoom|16|0|16|74|100%|0|0||2|2|100%|
 |AwARe.RoomScan.Polygons.Objects.PolygonDrawer|15|64|79|172|18.9%|0|0||6|15|40%|
-|AwARe.RoomScan.Polygons.Objects.PolygonManager|0|86|86|241|0%|0|0||0|20|0%|
+|AwARe.RoomScan.Polygons.Objects.PolygonManager|1|85|86|241|1.1%|0|0||1|20|5%|
 |AwARe.RoomScan.Polygons.Objects.PolygonScan|0|24|24|58|0%|0|0||0|1|0%|
 |AwARe.RoomScan.Polygons.Objects.PolygonUI|0|28|28|66|0%|0|0||0|1|0%|
 |AwARe.Server.Logic.Client|0|111|111|353|0%|0|0||0|12|0%|

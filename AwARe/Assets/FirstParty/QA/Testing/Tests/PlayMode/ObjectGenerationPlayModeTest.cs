@@ -114,6 +114,64 @@ namespace AwARe
             Assert.True(obtainedObjectsBefore.Length == 1 && obtainedObjectsAfter == null);
         }
 
+
+        [UnityTest, Description("Check whether object placement works for multiple objects that are guaranteed to fit.")]
+        public IEnumerator TestMultipleSmallObjects()
+        {
+            //arrange: Create a polygon and 4 small Renderables.
+            List<Renderable> renderables = GetMultipleRenderables(4, 0.1f);
+
+            //act: Place the renderables
+            objectCreationManager.PlaceRenderables(renderables, new TestRoom(), new Mesh());
+
+            //assert: There are 4 Renderables in the scene.
+            yield return null;
+            GameObject[] placedObjects = ObjectObtainer.FindGameObjectsInLayer("Placed Objects");
+            Assert.True(placedObjects.Length == 4);
+        }
+
+        [UnityTest, Description("Check whether object stacking works")]
+        public IEnumerator TestObjectStackingNormal()
+        {
+            //arrange: Create a polygon and a lot of renderables
+            List<Renderable> renderables = GetMultipleRenderables(1000, 10f);
+
+            //act: Place the renderable
+            objectCreationManager.PlaceRenderables(renderables, new TestRoom(), new Mesh());
+
+            //assert: All renderables are in the scene and there is a stack
+            yield return null;
+            GameObject[] placedObjects = ObjectObtainer.FindGameObjectsInLayer("Placed Objects");
+            Assert.True(placedObjects.Length == 1000); //ensure all objects have been placed
+
+            bool atleastonestacked = false;
+            for(int i = 0; i < renderables.Count; i++)
+            {
+                if(renderables[i].objStacks.Count > 0)
+                {
+                    atleastonestacked = true;
+                    break;
+                }
+            }
+            Assert.True(atleastonestacked);
+        }
+
+        [UnityTest, Description("Check whether an empty renderable list behaves correctly")]
+        public IEnumerator TestEmptyList()
+        {
+            //arrange: Create a polygon and a small Renderable.
+            List<Renderable> renderables = new();
+
+            //act: Place the renderable
+            objectCreationManager.PlaceRenderables(renderables, new TestRoom(), new Mesh());
+
+            //assert: No objects have been placed
+            yield return null;
+            GameObject[] placedObjects = ObjectObtainer.FindGameObjectsInLayer("Placed Objects");
+            Assert.True(placedObjects == null); //ensure all objects have been placed
+        }
+
+
         //-----------------------------------------------------------------------------------------------------
 
 
@@ -127,7 +185,7 @@ namespace AwARe
 
         //     // Act: Place renderables in the first room which should only contain animals & water
         //     objectCreationManager.PlaceRoom(true); 
-            
+
         //     // Assert: Check if the correct renderables are placed in each room.
         //     GameObject[] generatedObjects = ObjectObtainer.FindGameObjectsInLayer("Placed Objects");
 
@@ -184,6 +242,18 @@ namespace AwARe
             Vector3 halfExtents = PipelineManager.GetHalfExtents(model);
             halfExtents *= scale;
             Renderable renderable = new(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Water);
+            List<Renderable> renderables = new() { renderable };
+            renderables = Renderable.SetSurfaceRatios(renderables);
+            return renderables;
+        }
+
+        private List<Renderable> GetMultipleRenderables(int numberofrenderables, float scale)
+        {
+            GameObject model = Resources.Load<GameObject>(@"Models/Shapes/Cube");
+
+            Vector3 halfExtents = PipelineManager.GetHalfExtents(model);
+            halfExtents *= scale;
+            Renderable renderable = new(model, halfExtents, numberofrenderables, scale, ResourcePipeline.Logic.ResourceType.Water);
             List<Renderable> renderables = new() { renderable };
             renderables = Renderable.SetSurfaceRatios(renderables);
             return renderables;
