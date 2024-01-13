@@ -86,7 +86,7 @@ namespace AwARe.Data.Logic
 
                 for (int i = 0; i < Points.Count; i++)
                 {
-                    area += (Points[j].x + Points[i].z) * (Points[j].z - Points[i].z);
+                    area += (Points[j].x + Points[i].x) * (Points[j].z - Points[i].z);
                     j = i;
                 }
 

@@ -40,6 +40,11 @@ namespace AwARe.ObjectGeneration
         /// </value>
         private Mesh pathMesh { get; set; }
 
+        /// <value>
+        /// list of renderables that are present in the current room.
+        /// </value>
+        public List<Renderable> currentRoomRenderables;
+
         /// <summary>
         /// Set the current ingredientList.
         /// </summary>
@@ -95,6 +100,7 @@ namespace AwARe.ObjectGeneration
             // clear the scene of any previously instantiated GameObjects 
             destroyer = gameObject.GetComponent<ObjectDestroyer>();
             destroyer.DestroyAllObjects();
+            currentRoomRenderables = renderables;
             new ObjectPlacer().PlaceRenderables(renderables, room, pathMesh);
         }
         

@@ -1,25 +1,25 @@
 ﻿# Summary
 |||
 |:---|:---|
-| Generated on: | 11/01/2024 - 16:51:05 |
-| Parser: | MultiReportParser (6x OpenCoverParser) |
+| Generated on: | 13/01/2024 - 18:48:44 |
+| Parser: | MultiReportParser (8x OpenCoverParser) |
 | Assemblies: | 1 |
 | Classes: | 103 |
 | Files: | 85 |
-| Covered lines: | 697 |
-| Uncovered lines: | 2306 |
-| Coverable lines: | 3003 |
-| Total lines: | 8653 |
-| Line coverage: | 23.2% (697 of 3003) |
+| Covered lines: | 825 |
+| Uncovered lines: | 2219 |
+| Coverable lines: | 3044 |
+| Total lines: | 8628 |
+| Line coverage: | 27.1% (825 of 3044) |
 | Covered branches: | 0 |
 | Total branches: | 0 |
-| Covered methods: | 193 |
-| Total methods: | 570 |
-| Method coverage: | 33.8% (193 of 570) |
+| Covered methods: | 223 |
+| Total methods: | 582 |
+| Method coverage: | 38.3% (223 of 582) |
 
 |**Name**|**Covered**|**Uncovered**|**Coverable**|**Total**|**Line coverage**|**Covered**|**Total**|**Branch coverage**|**Covered**|**Total**|**Method coverage**|
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-|**Scripts**|**697**|**2306**|**3003**|**11347**|**23.2%**|**0**|**0**|****|**193**|**570**|**33.8%**|
+|**Scripts**|**825**|**2219**|**3044**|**11322**|**27.1%**|**0**|**0**|****|**223**|**582**|**38.3%**|
 |ARScenePhaseManager|0|41|41|79|0%|0|0||0|5|0%|
 |AwARe.Data.Logic.Polygon|19|9|28|97|67.8%|0|0||7|10|70%|
 |AwARe.Data.Objects.PolygonMesh|0|33|33|78|0%|0|0||0|5|0%|
@@ -27,9 +27,9 @@
 |AwARe.Database.Logic.MockupIngrToResDatabase|10|0|10|69|100%|0|0||2|2|100%|
 |AwARe.Database.Logic.MockupModelDatabase|7|6|13|45|53.8%|0|0||2|3|66.6%|
 |AwARe.Database.Logic.MockupResourceDatabase|7|6|13|55|53.8%|0|0||2|3|66.6%|
-|AwARe.IngredientList.Logic.Ingredient|13|18|31|174|41.9%|0|0||4|12|33.3%|
+|AwARe.IngredientList.Logic.Ingredient|29|2|31|174|93.5%|0|0||12|12|100%|
 |AwARe.IngredientList.Logic.IngredientFileHandler|0|65|65|130|0%|0|0||0|3|0%|
-|AwARe.IngredientList.Logic.IngredientList|11|29|40|174|27.5%|0|0||6|15|40%|
+|AwARe.IngredientList.Logic.IngredientList|32|8|40|174|80%|0|0||12|15|80%|
 |AwARe.IngredientList.Objects.IngredientListItem|0|12|12|64|0%|0|0||0|4|0%|
 |AwARe.IngredientList.Objects.IngredientListManager|0|102|102|262|0%|0|0||0|36|0%|
 |AwARe.IngredientList.Objects.IngredientListScreen|0|65|65|186|0%|0|0||0|17|0%|
@@ -53,15 +53,15 @@
 |AwARe.NotImplemented.Objects.NotImplementedHandler|0|17|17|80|0%|0|0||0|6|0%|
 |AwARe.ObjectGeneration.BoxColliderHelperMonoBehaviour|30|2|32|84|93.7%|0|0||2|2|100%|
 |AwARe.ObjectGeneration.BoxCollidervisualizer|6|0|6|84|100%|0|0||1|1|100%|
-|AwARe.ObjectGeneration.MockSpawnPointHandler|0|9|9|50|0%|0|0||0|2|0%|
-|AwARe.ObjectGeneration.ObjectCreationManager|39|2|41|153|95.1%|0|0||11|11|100%|
+|AwARe.ObjectGeneration.MockSpawnPointHandler|0|9|9|0|0%|0|0||0|2|0%|
+|AwARe.ObjectGeneration.ObjectCreationManager|62|7|69|157|89.8%|0|0||21|21|100%|
 |AwARe.ObjectGeneration.ObjectDestroyer|7|0|7|32|100%|0|0||1|1|100%|
 |AwARe.ObjectGeneration.ObjectObtainer|11|0|11|46|100%|0|0||2|2|100%|
-|AwARe.ObjectGeneration.ObjectPlacer|61|69|130|308|46.9%|0|0||6|10|60%|
+|AwARe.ObjectGeneration.ObjectPlacer|122|8|130|308|93.8%|0|0||10|10|100%|
 |AwARe.ObjectGeneration.PolygonHelper|35|0|35|101|100%|0|0||4|4|100%|
 |AwARe.ObjectGeneration.PolygonSpawnPointHandler|30|0|30|93|100%|0|0||4|4|100%|
 |AwARe.ObjectGeneration.Renderable|45|1|46|166|97.8%|0|0||24|25|96%|
-|AwARe.ObjectInteraction.Objects.InteractObjectHandler|0|13|13|41|0%|0|0||0|2|0%|
+|AwARe.ObjectInteraction.Objects.InteractObjectHandler|0|13|13|44|0%|0|0||0|2|0%|
 |AwARe.Objects.CompositeSpawner|0|6|6|99|0%|0|0||0|6|0%|
 |AwARe.Objects.Container|0|5|5|41|0%|0|0||0|2|0%|
 |AwARe.Objects.ContainerSpawner|0|22|22|68|0%|0|0||0|4|0%|
@@ -98,8 +98,8 @@
 |AwARe.RoomScan.Path.PostFilteringHandler|0|128|128|225|0%|0|0||0|1|0%|
 |AwARe.RoomScan.Path.ThinningHandler|0|84|84|170|0%|0|0||0|6|0%|
 |AwARe.RoomScan.Polygons.Logic.Room|9|11|20|67|45%|0|0||5|6|83.3%|
-|AwARe.RoomScan.Polygons.Logic.TestRoom|16|0|16|74|100%|0|0||2|2|100%|
-|AwARe.RoomScan.Polygons.Objects.PolygonDrawer|36|43|79|172|45.5%|0|0||9|15|60%|
+|AwARe.RoomScan.Polygons.Logic.TestRoom|29|0|29|92|100%|0|0||4|4|100%|
+|AwARe.RoomScan.Polygons.Objects.PolygonDrawer|30|49|79|172|37.9%|0|0||9|15|60%|
 |AwARe.RoomScan.Polygons.Objects.PolygonManager|0|86|86|241|0%|0|0||0|20|0%|
 |AwARe.RoomScan.Polygons.Objects.PolygonScan|0|24|24|58|0%|0|0||0|1|0%|
 |AwARe.RoomScan.Polygons.Objects.PolygonUI|0|28|28|66|0%|0|0||0|1|0%|

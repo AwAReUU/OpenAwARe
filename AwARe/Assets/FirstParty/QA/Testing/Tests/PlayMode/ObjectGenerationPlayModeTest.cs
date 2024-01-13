@@ -13,6 +13,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 namespace AwARe
 {
@@ -171,42 +172,46 @@ namespace AwARe
             Assert.True(placedObjects == null); //ensure all objects have been placed
         }
 
+        [UnityTest, Description("Makes sure the renderables are placed together in a single room if there is enough space")]
+        public IEnumerator PlaceRenderablesInSingleRoom()
+        {
+            // Arrange: Fill storage with necessary ingredient list & room 
+            Storage storage = Storage.Get();            
+            storage.ActiveIngredientList = GetMixedIngredientList();
+            storage.ActiveRoom = new TestRoom(10); // large room
 
-        //-----------------------------------------------------------------------------------------------------
+            yield return null;
 
+            // Act: Place all the renderables in the storage in the room & check if all are room1 resources
+            objectCreationManager.OnPlaceButtonClick();
 
+            // check if all types are in the same room 
+            bool allTypesPresent = 
+            objectCreationManager.currentRoomRenderables.Any(x => x.resourceType == ResourcePipeline.Logic.ResourceType.Plant)
+            && objectCreationManager.currentRoomRenderables.Any(x => x.resourceType == ResourcePipeline.Logic.ResourceType.Animal)
+            && objectCreationManager.currentRoomRenderables.Any(x => x.resourceType == ResourcePipeline.Logic.ResourceType.Water);
 
+            // Assert: Check if the correct renderables are placed in each room.
+            yield return null;
+            Assert.True(allTypesPresent); // all resources are room1 resources (no plants)
+        }
 
-        [UnityTest, Description("Makes sure the renderables are placed seperately if necessary")]
+        [UnityTest, Description("Makes sure the renderables are placed seperately if there is not enough space")]
         public IEnumerator PlaceRenderablesInSeparateRooms()
         {
             // Arrange: Fill storage with necessary ingredient list & room 
             Storage storage = Storage.Get();
-
-            Ingredient IngredientPlant = new Ingredient( 7,     "Grape",  null,    8);  // grape
-            Ingredient IngredientAnimal = new Ingredient(13,   "Chicken",  null,  250); // chicken
-            Ingredient IngredientWater = new Ingredient( 1,     "Water",  1.0f, null);  // water
-
-            IL.IngredientList ingredientList = new(
-               "IngredientList",
-                ingredients: new Dictionary<Ingredient, (float, QuantityType)>());
-            ingredientList.AddIngredient(IngredientAnimal, 1);
-            ingredientList.AddIngredient(IngredientPlant, 1);
-            ingredientList.AddIngredient(IngredientWater, 1);
-            
-            storage.ActiveIngredientList = ingredientList;
-            storage.ActiveRoom = new TestRoom();
-
+            storage.ActiveIngredientList = GetMixedIngredientList();
+            storage.ActiveRoom = new TestRoom(0.4f); // small room
             yield return null;
 
             // Act: Place all the renderables in the storage in the room 
             objectCreationManager.OnPlaceButtonClick();
-            GameObject[] placedObjects = ObjectObtainer.FindGameObjectsInLayer("Placed Objects");
+            bool AllAreRoom1Resources = !objectCreationManager.currentRoomRenderables.Any(x => x.resourceType == ResourcePipeline.Logic.ResourceType.Plant);
             
             // Assert: Check if the correct renderables are placed in each room.
             yield return null;
-
-
+            Assert.True(AllAreRoom1Resources); // all resources are room1 resources (no plants)
         }
 
         [UnityTest, Description("Makes sure that area of the renderables are computed correctly")]
@@ -226,8 +231,6 @@ namespace AwARe
             float list0spaceNeeded = objectCreationManager.ComputeRenderableSpaceNeeded(list0);
             float list1spaceNeeded = objectCreationManager.ComputeRenderableSpaceNeeded(list1);
             float list2spaceNeeded = objectCreationManager.ComputeRenderableSpaceNeeded(list2);
-            Debug.Log("halfext: " + halfExtents);
-            Debug.Log(list1spaceNeeded);
 
             //Assert: The area for each renderable list should be within the allowed range 
             Assert.True(
@@ -236,11 +239,6 @@ namespace AwARe
             && list2spaceNeeded > 0.049f && list2spaceNeeded < 0.051f);
             yield return null;
         }
-
-
-
-
-
 
         /// <summary>
         /// Create a singleton list containing a simple renderable object.
@@ -271,19 +269,20 @@ namespace AwARe
             return renderables;
         }
 
-        private List<Renderable> GetMixedRenderables(float scale)
+        private IL.IngredientList GetMixedIngredientList()
         {
-            GameObject model = Resources.Load<GameObject>(@"Models/Shapes/Cube");
+            Ingredient IngredientPlant = new Ingredient( 7,     "Grape",  null,    8);  // grape
+            Ingredient IngredientAnimal = new Ingredient(13,   "Chicken",  null,  250); // chicken
+            Ingredient IngredientWater = new Ingredient( 1,     "Water",  1.0f, null);  // water
 
-            Vector3 halfExtents = PipelineManager.GetHalfExtents(model);
-            halfExtents *= scale;
-            Renderable renderableWater = new(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Water);
-            Renderable renderableAnimal = new(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Animal); 
-            Renderable renderablePlant = new(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Plant);
+            IL.IngredientList ingredientList = new(
+               "IngredientList",
+                ingredients: new Dictionary<Ingredient, (float, QuantityType)>());
+            ingredientList.AddIngredient(IngredientAnimal, 1);
+            ingredientList.AddIngredient(IngredientPlant, 1);
+            ingredientList.AddIngredient(IngredientWater, 1);
 
-            List<Renderable> renderables = new() { renderableWater, renderableAnimal, renderablePlant };
-            renderables = Renderable.SetSurfaceRatios(renderables);
-            return renderables;
+            return ingredientList;
         }
     }
 }
