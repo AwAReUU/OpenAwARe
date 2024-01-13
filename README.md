@@ -55,7 +55,7 @@ In this app, users can assemble a list of ingredients with specific quantities b
 Unity does not support organizing folders of Build-in packages or Third Party Software well. In principal, everything in the Unity Project that is stored outside First-Party is not owned by us.
 <p align="right">(<a href="#toTop">back to top</a>)</p>
 
-## Setup <a name="setup"></a>
+## Installation and Setup <a name="setup"></a>
 > Installation and use of this product.
 
 ### Android (.apk) <a name="setupApk"></a>
@@ -98,8 +98,10 @@ See [Server](/AwARe/Server) for detailed server setup instructions.
 ### Third-party Software <a name="ackThird"></a>
 * [Doxygen](https://www.doxygen.nl/) By Dimitri van Heesch.
 * [CodeCoverage](https://docs.unity3d.com/Packages/com.unity.testtools.codecoverage@0.2/manual/index.html) By Unity.
+* [AR Foundation](https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.1/manual/index.html) By Unity.
+* [Unity Test FrameWork](https://docs.unity3d.com/Packages/com.unity.test-framework@1.4/manual/index.html) By Unity.
 
 ### Resources <a name="ackRes"></a>
 * [Crop models](https://craftpix.net/freebies/free-farming-crops-3d-low-poly-models/?utm_campaign=Website&utm_source=Sketchfab.com&utm_medium=public) Creator unknown, Provided by CraftPix
-* [animal models](https://assetstore.unity.com/packages/3d/farm-animals-set-97945) By "Vertex Cat", provided by Unity's asset store.
+* [Animal models](https://assetstore.unity.com/packages/3d/farm-animals-set-97945) By "Vertex Cat", provided by Unity's asset store.
 <p align="right">(<a href="#toTop">back to top</a>)</p>
