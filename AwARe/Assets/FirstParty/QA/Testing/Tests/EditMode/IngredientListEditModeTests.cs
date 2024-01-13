@@ -6,16 +6,12 @@
 // \*                                                                                       */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
 using System.IO;
 
 using AwARe.Database.Logic;
 using AwARe.IngredientList.Logic;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {

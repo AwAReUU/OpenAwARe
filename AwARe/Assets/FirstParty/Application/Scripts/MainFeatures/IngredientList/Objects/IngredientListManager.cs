@@ -21,7 +21,6 @@ namespace AwARe.IngredientList.Objects
     /// </summary>
     public class IngredientListManager : MonoBehaviour
     {
-
         // objects assigned within unity
         [SerializeField] private GameObject listsOverviewScreen;  // displays the list of ingredient Lists
         [SerializeField] private GameObject ingredientListScreen; // displays the list of ingredients
@@ -33,7 +32,7 @@ namespace AwARe.IngredientList.Objects
         public List<Logic.IngredientList> Lists { get; private set; }
 
         public int IndexList { get; private set; } = -1;
-        public Logic.IngredientList CheckedList { get; private set; } = null;
+        //public Logic.IngredientList CheckedList { get; private set; } = null;
 
         public Logic.IngredientList SelectedList { get; private set; } = null;
 
@@ -46,14 +45,25 @@ namespace AwARe.IngredientList.Objects
 
         public IIngredientDatabase IngredientDatabase { get; private set; }
 
+        public event Action OnIngredientListChanged;
+
         private void Awake()
         {
             IngredientDatabase = new MockupIngredientDatabase();
             fileHandler = new IngredientFileHandler(IngredientDatabase);
             Lists = fileHandler.ReadFile();
+            InitializeLists();
 
+            listsOverviewScreen.SetActive(true);
+        }
+
+        /// <summary>
+        /// If no list exists yet, create a default one. Set the first list as the selected list.
+        /// </summary>
+        private void InitializeLists()
+        {
             // Set AVG default list.
-            if(Lists.Count == 0)
+            if (Lists.Count == 0)
             {
                 Dictionary<Ingredient, (float, QuantityType)> exampleRecipe = new()
                 {
@@ -65,20 +75,17 @@ namespace AwARe.IngredientList.Objects
                 Lists.Add(new Logic.IngredientList("Steak+", exampleRecipe));
                 fileHandler.SaveLists(Lists);
             }
-            
+
             // Set default checked list.
             if (Lists.Count > 0)
             {
                 IndexList = 0;
                 var list = Lists[0];
-                CheckedList = list;
+                //CheckedList = list;
+                SelectedList = list;
                 Storage.Get().ActiveIngredientList = list;
             }
-
-            listsOverviewScreen.SetActive(true);
         }
-
-        public event Action OnIngredientListChanged;
 
         /// <summary>
         /// Notifies objects subscribed to this action that the current IngredientList has been changed.
@@ -156,10 +163,15 @@ namespace AwARe.IngredientList.Objects
             ChangesMade = false;
         }
 
+        /// <summary>
+        /// Update which list is currentely checked.
+        /// </summary>
+        /// <param name="index">The newly selected index.</param>
+        /// <param name="list">The newly selected list.</param>
         public void CheckList(int index, Logic.IngredientList list)
         {
             IndexList = index;
-            CheckedList = list;
+            //CheckedList = list;
             Storage.Get().ActiveIngredientList = list;
         }
 
