@@ -34,6 +34,8 @@ namespace AwARe.RoomScan.Path.Jobs
         [WriteOnly] public NativeArray<bool> result;
 
         /// <inheritdoc/>
+        //this is part of the Unity Jobs implementation code. It cannot be tested on its own.
+        //it does get executed in other tests, but does not show up in code coverage due to the nature of Jobs
         [ExcludeFromCodeCoverage]
         public void Execute(int index)
         {
@@ -79,7 +81,8 @@ namespace AwARe.RoomScan.Path.Jobs
                     else intersectx = (int)preintersectx;
                 }
 
-                //if the intersection point is the point, we have a point that lies exactly on the polygon edge. this should've been prevented already.
+                //if the intersection point is the point, we have a point that lies exactly on the polygon edge.
+                //this should've been prevented already, but check again for safety.
                 if (intersectx == point.x) return false;
                 
                 //check that the intersection point lies on the ray we shot, continue if it doesn't
@@ -94,7 +97,8 @@ namespace AwARe.RoomScan.Path.Jobs
 
                 //if the intersection point is the exact endpoint of a wall, this causes problems. cancel the whole operation
                 //we cannot be sure if it lies inside or outside the polygon
-                if ((intersectx, intersecty) == polygonWalls[i].p1 || (intersectx, intersecty) == polygonWalls[i].p2) { return false; }
+                if ((intersectx, intersecty) == polygonWalls[i].p1 ||
+                    (intersectx, intersecty) == polygonWalls[i].p2) { return false; }
 
                 numberOfIntersections++;
             }

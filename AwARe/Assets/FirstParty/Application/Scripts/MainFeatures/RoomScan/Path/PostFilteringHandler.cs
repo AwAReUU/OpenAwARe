@@ -23,11 +23,11 @@ namespace AwARe.RoomScan.Path
         List<(int, int)> junctions = new();
 
         /// <summary>
-        /// removes path branches that are too short.
+        /// Removes path branches that are too short.
         /// </summary>
-        /// <param name="grid">the grid containing the skeleton path.</param>
-        /// <param name="cutTreshold">the minimum length a branch must have in pixels. shorter branches will be removed.</param>
-        /// <param name="mergeTreshold">the second minimum length a branch must have in pixels. shorter branches will be merged if not removed.</param>
+        /// <param name="grid">The grid containing the skeleton path.</param>
+        /// <param name="cutTreshold">The minimum length a branch must have in pixels. Shorter branches will be removed.</param>
+        /// <param name="mergeTreshold">The second minimum length a branch must have in pixels. Shorter branches will be merged if not removed.</param>
         /// <param name="negativePolygons">A list containing the negative polygons.</param>
         public void PostFiltering(ref bool[,] grid, int cutTreshold, int mergeTreshold, List<Polygon> negativePolygons)
         {
@@ -40,7 +40,7 @@ namespace AwARe.RoomScan.Path
         /// Finds the endpoints and junctions of a skeleton present in the grid
         /// and adds them to the global variables of this class
         /// </summary>
-        /// <param name="grid">a 2d grid of booleans with the skeleton of a room inside it (obtained by thinning)</param>
+        /// <param name="grid">A 2d grid of booleans with the skeleton of a room inside it (obtained by thinning).</param>
         private void FindJunctionsAndEndpoints(ref bool[,] grid)
         {
             //find the endpoints and junctions
@@ -90,11 +90,11 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        /// cuts off / erases any subpaths that are too short
+        /// Cuts off / erases any subpaths that are too short.
         /// </summary>
-        /// <param name="grid">the grid in which the skeleton path is</param>
-        /// <param name="cutTreshold">the minimum length a subpath is should have. shorter subpaths are erased.</param>
-        /// <returns>the remaining subpaths that were not cut off</returns>
+        /// <param name="grid">The grid in which the skeleton path is.</param>
+        /// <param name="cutTreshold">The minimum length a subpath is should have. shorter subpaths are erased.</param>
+        /// <returns>The remaining subpaths that were not cut off.</returns>
         private List<List<(int x, int y)>> CutShortPaths(ref bool[,] grid, int cutTreshold)
         {
             List<List<(int x, int y)>> remainingSubPaths = new();
@@ -179,12 +179,12 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        /// Merges any subpaths that are shorter than a given length in pixels if it is possible to do so
+        /// Merges any subpaths that are shorter than a given length in pixels if it is possible to do so.
         /// </summary>
-        /// <param name="grid">the grid in which the skeleton path (with subpaths) is located</param>
-        /// <param name="mergeTreshold">the minimum length a subpath should have. shorter subpaths are merged</param>
-        /// <param name="remainingSubPaths">the list of subpaths to consider for merging</param>
-        /// <param name="negativePolygons">the list of negative polygons present in the room</param>
+        /// <param name="grid">The grid in which the skeleton path (with subpaths) is located.</param>
+        /// <param name="mergeTreshold">The minimum length a subpath should have. shorter subpaths are merged.</param>
+        /// <param name="remainingSubPaths">The list of subpaths to consider for merging.</param>
+        /// <param name="negativePolygons">The list of negative polygons present in the room.</param>
         private void MergeShortPaths(ref bool[,] grid, int mergeTreshold, List<List<(int x, int y)>> remainingSubPaths, List<Polygon> negativePolygons)
         {
             //find all subpaths that share a junction and merge them if they aren't long enough
