@@ -17,7 +17,7 @@ Utrecht University: Computer Science BA Software Project 2023-2024
 ## Table of Contents
 - [Property](#prop)
 - [Description](#descr)
-- [Project Content](#projContent)
+- [Project Content](#project-content-)
 - [Installation and Setup](#setup)
 - [Documentation](#docs)
 - [Acknowledgements](#ack)
@@ -26,7 +26,7 @@ Utrecht University: Computer Science BA Software Project 2023-2024
 ## Property <a name="prop"></a>
 > All-rights reserved to...
 
-(c) Copyright Utrecht University (Department of Information and Computing Sciences) <br>
+(c) Copyright Utrecht University. (Department of Information and Computing Sciences) <br>
 For any inquiries regarding the use or licensing of this product please contact [Utrecht University](https://www.uu.nl/en/organisation/contact).
 <p align="right">(<a href="#toTop">back to top</a>)</p>
 
@@ -36,7 +36,6 @@ For any inquiries regarding the use or licensing of this product please contact 
 AwARe is a mobile app designed to enhance awareness of the resources required for the production of ingredients through the means of augmented reality (AR). The main idea of this application is that users will become more aware of the impact that their food consumption has when the materials are visualized in their own environment, for example in their own kitchen. Researchers will be able to use this app to send questionnaires to users to study the behavioral changes of the users.
 
 In this app, users can assemble a list of ingredients with specific quantities by searching through our database. These can be visualized in their own environment using augmented reality. Before doing this, users must scan their room. Scanned rooms can be reused by loading them back in, and synchronizing those using anchor points. After a room has been scanned, a path will be automatically generated inside of it, on which no resources will be placed.
-
 <p align="right">(<a href="#toTop">back to top</a>)</p>
 
 ## Project Content <a name="projContent"></a>
