@@ -85,7 +85,7 @@ See [Server](/AwARe/Server) for detailed server setup instructions.
 
 ## Documentation <a name="docs"></a>
 > Further reading.
-* [Epic documentation](https://drive.google.com/drive/folders/1qO1r8snl1aWU3m20tUas474e7qjv23iI?usp=drive_link) Descriptions per epic. 
+* [Epic documentation](https://drive.google.com/drive/folders/1qO1r8snl1aWU3m20tUas474e7qjv23iI?usp=drive_link) Documentation per major feature.
 * [Doxygen documentation](/Docs/Doxygen) Documentation from comments present in code.
 <p align="right">(<a href="#toTop">back to top</a>)</p>
 
