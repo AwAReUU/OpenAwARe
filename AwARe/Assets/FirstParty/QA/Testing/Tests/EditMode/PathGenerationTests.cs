@@ -70,10 +70,7 @@ namespace Tests
                 }
             }
 
-            //act
-            LineDrawer.DrawLine(ref grid, ((x1, y1), (x2, y2)), gridtype);
-
-            //assert
+            //compute some values that will be used for asserting
             bool divZero = false;
             double divider = x2 - x1;
             double a = 0;
@@ -85,6 +82,10 @@ namespace Tests
                 b = y1 - x1 * a;
             }
 
+            //act
+            LineDrawer.DrawLine(ref grid, ((x1, y1), (x2, y2)), gridtype);
+
+            //assert
             //check if the distance from each pixel that is part of the line to the mathematical line between the points is at most 0.5.
             for (int i = 0; i < grid.GetLength(0); i++)
             {
@@ -183,6 +184,11 @@ namespace Tests
             negative.Add(((5, 6), (5, 4)));
             negative.Add(((5, 4), (3, 4)));
 
+            FloodFillHandler handler = new();
+            bool[,] grid = new bool[11, 11];
+            List<PolygonLines> negatives = new();
+            negatives.Add(negative);
+
             bool[,] expectedresult = new bool[11, 11] 
             { 
                 { false, false, false, false, false, true, false, false, false, false, false},
@@ -199,10 +205,6 @@ namespace Tests
             };
 
             //act
-            FloodFillHandler handler = new();
-            bool[,] grid = new bool[11, 11];
-            List<PolygonLines> negatives = new();
-            negatives.Add(negative);
             handler.FillGrid(ref grid, positive, negatives);
 
             //assert
