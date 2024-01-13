@@ -9,6 +9,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
+using System.IO;
+
+using AwARe.Database.Logic;
 using AwARe.IngredientList.Logic;
 using NUnit.Framework;
 using UnityEngine;
@@ -377,6 +380,70 @@ namespace Tests
 
             //Assert: the ingredient is added to the list
             Assert.IsTrue(list.Ingredients.ContainsKey(ingredient));
+        }
+
+        [Test, Description("Tests Whether saving a list without any ingredientlists in it does not crash the program.")]
+        public void Test_Save_EmptyIngredientLists_No_Crash()
+        {
+            //Arrange: Create a list without any ingredientlists in it.
+            IngredientFileHandler ingredientFileHandler = new(new MockupIngredientDatabase());
+            List<IngredientList> ingredientLists = new();
+            //Act + Assert: Save the empty list. Check whether it does not crash the application.
+            Assert.DoesNotThrow(() => ingredientFileHandler.SaveLists(ingredientLists));
+        }
+
+        [Test, Description("Tests whether loading a List containing a valid ingredientlist return a list with an item in it.")]
+        public void Test_Read_Simple_List()
+        {
+            //Arrange: Construct a FileHandler with a test ingredientlists file.
+            string testFile = @".\Assets\FirstParty\QA\Testing\TestAssets\IngredientList\ListWithSimpleIngredientList";
+            IngredientFileHandler ingredientFileHandler = new(new MockupIngredientDatabase(), testFile);
+            
+            //Act: Read the file.
+            List<IngredientList> lists = ingredientFileHandler.ReadFile();
+
+            //Assert: The list contains a single ingredientList.
+            Assert.True(lists.Count == 1);
+        }
+
+        [Test, Description("Tests whether trying to load a file that does not exist does not crash the program.")]
+        public void Test_Read_Invalid_Path_No_Crash()
+        {
+            //Arrange: Construct a FileHandler with an invalid path.
+            IngredientFileHandler ingredientFileHandler = new(new MockupIngredientDatabase(), "Some path that does not exist");
+
+            //Act: Read the file.
+            List<IngredientList> lists = ingredientFileHandler.ReadFile();
+
+            //Assert: The list contains a single ingredientList.
+            Assert.True(lists.Count == 0);
+        }
+        [Test, Description("Tests whether trying to load a file that does not exist does not crash the program.")]
+        public void Test_Read_Invalid_QtyType_File_Exception()
+        {
+            //Arrange: Construct a FileHandler with an invalid file.
+            string testFile = @".\Assets\FirstParty\QA\Testing\TestAssets\IngredientList\ListWithSimpleIngredientListInvalidQtyType";
+            IngredientFileHandler ingredientFileHandler = new(new MockupIngredientDatabase(), testFile);
+
+            //Act & Assert: Reading the file throws an exeception.
+            Assert.Throws<Exception>(() =>ingredientFileHandler.ReadFile());
+        }
+
+        [Test, Description("Tests whether saving a loaded file does not alter the file," +
+             " that is, the loaded and saved file are equal.")]
+        public void Test_Pure_Ingredientlists_Jsonstring_Conversion()
+        {
+            //Arrange: Construct IngredientFileHandler and read contents of the file.
+            string testFile = @".\Assets\FirstParty\QA\Testing\TestAssets\IngredientList\ListWithSimpleIngredientList";
+            IngredientFileHandler ingredientFileHandler = new(new MockupIngredientDatabase(), testFile);
+            string testFileContent = File.ReadAllText(testFile);
+
+            //Act: Convert contents of the file to IngredientLists, convert that back to json string.
+            List<IngredientList> lists = ingredientFileHandler.ReadFile();
+            string convertedLists = IngredientListsJsonHelper.IngredientListsToJSONString(lists);
+
+            //Assert: The converted list should be the same as the original file content.
+            Assert.AreEqual(testFileContent, convertedLists);
         }
 
         /// <summary>
