@@ -8,11 +8,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-
 using TMPro;
-
-using Unity.VisualScripting.YamlDotNet.Core.Events;
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -57,17 +53,29 @@ namespace AwARe
         // Start is called before the first frame update
         void Start()
         {
+            // set all warningfields to false
             warningAllFields.SetActive(false);
             warningPWEIncorrect.SetActive(false);
             warningIncorrectEmail.SetActive(false);
             warningWeakPW.SetActive(false);
             warningDissimilarPW.SetActive(false);
-
             warningDissimilarPW.SetActive(false);
             registerScreen.SetActive(false);
             loginScreen.SetActive(true);
+            // security toggle button is in 'hidden' mode
             visibilityregsec = false;
             visibilitylogsec = false;
+
+            // character limit for input fields
+            SetCharacterLimit(registerEmailInputField);
+            SetCharacterLimit(registerPasswordInputField);
+            SetCharacterLimit(FirstNameInputField);
+            SetCharacterLimit(LastNameInputField);
+            SetCharacterLimit(passwordConfirmInputField);
+            SetCharacterLimit(loginEmailInputField);
+            SetCharacterLimit(loginPasswordInputField);
+
+
         }
 
         // Update is called once per frame
@@ -102,6 +110,20 @@ namespace AwARe
             registerScreen.SetActive(true);
             loginScreen.SetActive(false);
         }
+
+        /// <summary>
+        /// Sets character limit for a TMP_InputField.
+        /// </summary>
+        /// <param name="inputField">The TMP_InputField to set the character limit for.</param>
+        private void SetCharacterLimit(TMP_InputField inputField)
+        {
+            if (inputField != null)
+            {
+                // Set the character limit to 30
+                inputField.characterLimit = 30;
+            }
+        }
+
         /// <summary>
         /// Switches to the login screen.
         /// </summary>
