@@ -308,6 +308,7 @@ namespace AwARe.Testing.EditMode.General.Objects
             pointer.SetNextPosition(ray, ARHits);
 
             // Assert
+            Assert.AreEqual(expectedPose.position, pointer.PointedAt);
             Assert.AreEqual(expectedPose, pointer.transform.GetWorldPose());
             Assert.AreEqual(expectedPlane, pointer.lastHitPlane);
         }

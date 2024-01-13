@@ -20,7 +20,7 @@ namespace AwARe.UI.Objects
     /// The pointer points to the (nearest) surface on camera.
     /// </summary>
     [ExcludeFromCoverage]
-    public class Pointer : MonoBehaviour
+    public class Pointer : MonoBehaviour, IPointer
     {
         // GameObject to read.
         [SerializeField] private new Camera camera;
@@ -28,7 +28,11 @@ namespace AwARe.UI.Objects
         // Tracking Data
         public Plane lastHitPlane = default;
 
-        private void Start()
+        /// <inheritdoc/>
+        public virtual Vector3 PointedAt =>
+            transform.position;
+
+        protected virtual void Start()
         {
             camera = camera != null ? camera : ARSecretary.Get().Camera;
             lastHitPlane = new(camera.transform.position + 1.5f * Vector3.down, Vector3.up);
@@ -36,7 +40,7 @@ namespace AwARe.UI.Objects
             SetNextPosition();
         }
 
-        private void Update() =>
+        protected virtual void Update() =>
             SetNextPosition();
 
         /// <summary>

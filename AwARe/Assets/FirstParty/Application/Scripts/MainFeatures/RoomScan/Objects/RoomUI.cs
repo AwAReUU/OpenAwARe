@@ -5,8 +5,10 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using AwARe.UI;
 using AwARe.UI.Objects;
 using UnityEngine;
+using UnityEngine.TestTools;
 using UnityEngine.UI;
 
 namespace AwARe.RoomScan.Objects
@@ -14,7 +16,7 @@ namespace AwARe.RoomScan.Objects
     /// <summary>
     /// UI in the polygon scan.
     /// </summary>
-    public class RoomUI : MonoBehaviour
+    public class RoomUI : MonoBehaviour, IPointer
     {
         // The manager
         [SerializeField] private RoomManager manager;
@@ -86,6 +88,7 @@ namespace AwARe.RoomScan.Objects
             confirmButton.SetActive(confirm);
             saveButton.SetActive(save);
             heightSlider.gameObject.SetActive(height);
+            if (height) OnHeightSliderChanged();
             pointer.gameObject.SetActive(point);
             pathButton.SetActive(pathGen);
             loadingPopup.SetActive(loading);
@@ -97,12 +100,13 @@ namespace AwARe.RoomScan.Objects
         /// <value>
         /// The current position of the pointer.
         /// </value>
-        public Vector3 PointedAt =>
-            pointer.transform.position;
+        public virtual Vector3 PointedAt =>
+            pointer.PointedAt;
 
         /// <summary>
         /// Called on create button click.
         /// </summary>
+        [ExcludeFromCoverage]
         public void OnCreateButtonClick() =>
             manager.OnCreateButtonClick();
 
@@ -110,6 +114,7 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Called on reset button click.
         /// </summary>
+        [ExcludeFromCoverage]
         public void OnResetButtonClick() =>
             manager.OnResetButtonClick();
 
@@ -117,30 +122,35 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Called on apply button click.
         /// </summary>
+        [ExcludeFromCoverage]
         public void OnApplyButtonClick() =>
             manager.OnApplyButtonClick();
 
         /// <summary>
         /// Called on confirm button click.
         /// </summary>
+        [ExcludeFromCoverage]
         public void OnConfirmButtonClick() =>
             manager.OnConfirmButtonClick();
 
         /// <summary>
         /// Called on changing the slider.
         /// </summary>
+        [ExcludeFromCoverage]
         public void OnHeightSliderChanged() =>
             manager.OnHeightSliderChanged(heightSlider.value);
 
         /// <summary>
         /// Called on save button click.
         /// </summary>
+        [ExcludeFromCoverage]
         public void OnSaveButtonClick() =>
             manager.OnSaveButtonClick();
-        
+
         /// <summary>
         /// Called on path button click.
         /// </summary>
+        [ExcludeFromCoverage]
         public void OnPathButtonClick() =>
             manager.OnPathButtonClick();
     }

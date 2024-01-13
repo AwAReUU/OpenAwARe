@@ -59,6 +59,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/FirstParty/QA/Testing/Tests/PlayMode/General/NotImplementedManager_Test.unity
     guid: a9688a8482a135c48ae830e69f33d012
+  - enabled: 1
+    path: Assets/FirstParty/QA/Testing/Tests/PlayMode/RoomScan/PolygonDrawer_Test.unity
+    guid: ea51128fd174b1c4082ab31c81db3b53
+  - enabled: 1
+    path: Assets/FirstParty/QA/Testing/Tests/PlayMode/RoomScan/PolygonScan_Test.unity
+    guid: 5f4d395ca9ef59a47a8598dcd55a69c4
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
       type: 2}

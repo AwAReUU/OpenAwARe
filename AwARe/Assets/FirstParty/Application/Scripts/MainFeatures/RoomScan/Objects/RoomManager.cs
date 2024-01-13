@@ -7,18 +7,19 @@
 
 using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
-using AwARe.RoomScan;
 using AwARe.RoomScan.Polygons.Objects;
 using AwARe.RoomScan.Path.Objects;
 
 using UnityEngine;
+using UnityEngine.TestTools;
+using AwARe.UI;
 
 namespace AwARe.RoomScan.Objects
 {
     /// <summary>
     /// Contains the Room and handles the different states within the Polygon scanning.
     /// </summary>
-    public class RoomManager : MonoBehaviour
+    public class RoomManager : MonoBehaviour, IPointer
     {
         // Objects to control
         [SerializeField] private PolygonManager polygonManager;
@@ -33,15 +34,11 @@ namespace AwARe.RoomScan.Objects
         // Templates
         [SerializeField] private GameObject roomBase;
 
+        [ExcludeFromCoverage]
         private void Awake()
         {
             // Move all content prefab canvas to scene canvas.
-            if (canvas != null && sceneCanvas != null)
-            {
-                for (int i = 0; i < canvas.childCount; i++)
-                    canvas.GetChild(i).transform.SetParent(sceneCanvas, false);
-                Destroy(canvas.gameObject);
-            }
+            Mover.MoveAllChildren(canvas, sceneCanvas, true);
 
             // Instantiate a room to construct.
             Room = Instantiate(roomBase, transform).GetComponent<Room>();
@@ -65,8 +62,15 @@ namespace AwARe.RoomScan.Objects
             ui.PointedAt;
 
         /// <summary>
+        /// Called when no UI element has been hit on click or press.
+        /// </summary>
+        public void OnUIMiss() =>
+            polygonManager.OnUIMiss();
+
+        /// <summary>
         /// Called on create button click.
         /// </summary>
+        [ExcludeFromCoverage]
         public void OnCreateButtonClick() =>
             polygonManager.OnCreateButtonClick();
 
@@ -74,6 +78,7 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Called on reset button click.
         /// </summary>
+        [ExcludeFromCoverage]
         public void OnResetButtonClick() =>
             polygonManager.OnResetButtonClick();
 
@@ -81,24 +86,28 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Called on apply button click.
         /// </summary>
+        [ExcludeFromCoverage]
         public void OnApplyButtonClick() =>
             polygonManager.OnApplyButtonClick();
 
         /// <summary>
         /// Called on confirm button click.
         /// </summary>
+        [ExcludeFromCoverage]
         public void OnConfirmButtonClick() =>
             polygonManager.OnConfirmButtonClick();
 
         /// <summary>
         /// Called on changing the slider.
         /// </summary>
+        [ExcludeFromCoverage]
         public void OnHeightSliderChanged(float value) =>
             polygonManager.OnHeightSliderChanged(value);
-        
+
         /// <summary>
         /// Called on save button click; Stores the current room and switches to the home screen.
         /// </summary>
+        [ExcludeFromCoverage]
         public void OnSaveButtonClick()
         {
             Storage.Get().ActiveRoom = Room.Data;
@@ -108,19 +117,15 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Called on path button click.
         /// </summary>
+        [ExcludeFromCoverage]
         public void OnPathButtonClick() =>
             pathManager.OnPathButtonClick();
-
-        /// <summary>
-        /// Called when no UI element has been hit on click or press.
-        /// </summary>
-        public void OnUIMiss() =>
-            polygonManager.OnUIMiss();
 
         /// <summary>
         /// Sets activity of components.
         /// </summary>
         /// <param name="state">Current/new state.</param>
+        [ExcludeFromCoverage]
         public void SetActive() =>
             // Set UI activity
             ui.SetActive(polygonManager.CurrentState, pathManager.CurrentState);

@@ -8,14 +8,16 @@
 using AwARe.Data.Objects;
 using AwARe.Objects;
 using AwARe.RoomScan.Objects;
+using AwARe.UI;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
     /// <summary>
     /// Contains the Room and handles the different states within the Polygon scanning.
     /// </summary>
-    public class PolygonManager : MonoBehaviour
+    public class PolygonManager : MonoBehaviour, IPointer
     {
         // The upper management
         [SerializeField] private RoomManager manager;
@@ -55,10 +57,8 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </value>
         public Vector3 PointedAt => manager.PointedAt;
 
-        void Start()
-        {
+        void Start() =>
             SwitchToState(State.Default);
-        }
 
         /// <summary>
         /// Add the given polygon to the room.
@@ -112,14 +112,16 @@ namespace AwARe.RoomScan.Polygons.Objects
         public void OnApplyButtonClick()
         {
             polygonDrawer.FinishDrawing(out Data.Logic.Polygon data);
+
             activePolygon = Instantiate(polygon, transform);
             activePolygon.gameObject.SetActive(true);
             activePolygon.Data = data;
-            activePolygonMesh = activePolygon.GetComponent<Mesher>();
-            activePolygonLine = activePolygon.GetComponent<Liner>();
 
+            activePolygonMesh = activePolygon.GetComponent<Mesher>();
             activePolygonMesh.UpdateMesh();
+            activePolygonLine = activePolygon.GetComponent<Liner>();
             activePolygonLine.UpdateLine();
+
             SwitchToState(State.SettingHeight);
         }
 

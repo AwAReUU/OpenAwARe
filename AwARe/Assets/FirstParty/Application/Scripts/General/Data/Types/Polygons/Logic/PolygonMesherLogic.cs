@@ -65,7 +65,6 @@ namespace AwARe.Data.Logic
         /// <returns>A mesh representing the given Polygon.</returns>
         private Mesh ConstructMesh_Body(Polygon polygon)
         {
-            Debug.Log("ComputeMesh_Body");
             // Get the data.
             var points = polygon.Points;
             var height = polygon.Height;
