@@ -7,15 +7,17 @@
 # AwARe: AR Food Production
 Utrecht University: Computer Science BA Software Project 2023-2024
 
+<!--
 <p align="center">
     <a href="/AwARe/CodeCoverage" alt="Code Coverage">
         <img src="/AwARe/CodeCoverage/Report/badge_linecoverage.png"/></a>
 </p>
+-->
 
 ## Table of Contents
 - [Property](#prop)
 - [Description](#descr)
-- [Project Content](#projectContent)
+- [Project Content](#projContent)
   - [First-party](#first)
   - [Third-party](#third)
 - [Setup](#setup)
@@ -23,6 +25,7 @@ Utrecht University: Computer Science BA Software Project 2023-2024
   - [IOS](#setupIpa)
   - [Unity](#setupUnity)
   - [Server](#setupServer)
+- [Documentation](#docs)
 - [Acknowledgements](#ack)
 <p align="right">(<a href="#toTop">back to top</a>)</p>
 
@@ -30,6 +33,7 @@ Utrecht University: Computer Science BA Software Project 2023-2024
 > All-rights reserved to...
 
 (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+For any inquiries regarding the use or licensing of this product please contact [Utrecht University](https://www.uu.nl/en/organisation/contact).
 <p align="right">(<a href="#toTop">back to top</a>)</p>
 
 ## Description <a name="descr"></a>
@@ -38,7 +42,9 @@ Utrecht University: Computer Science BA Software Project 2023-2024
 AwARe is a mobile app designed to enhance awareness of the resources required for visualizing resources needed for the production of ingredients through the means of augmented reality (AR). The main idea of this application is that users will become more aware of the impact that their food consumption has when the materials are visualized in their own environment, for example in their own kitchen. Researchers will be able to use this app to send questionnaires to users to study the behavioral changes of the users.
 <p align="right">(<a href="#toTop">back to top</a>)</p>
 
-## Project Content <a name="projectContent"></a>
+## Project Content <a name="projContent"></a>
+> Everything included in the project.
+
 ### First-party <a name="first"></a>
 > Code and other content developed by us.
 * [FirstParty](/AwARe/Assets/FirstParty) Code and other content developed by us. A detailed content overview is provided there.
@@ -65,15 +71,15 @@ The latest IOS build can be downloaded here:
 [.ipa download](https://drive.google.com/drive/folders/1aV8CHId6o2akGBzoNdb2TW_KOTW-XYop?usp=drive_link)
 
 ### Unity <a name="setupUnity"></a>
-For development, we use unity editor version 2022.3.13f1. We recommend you to use this version too. This editor can be downloaded from [unity hub](https://unity.com/download).
+For development, we use unity editor version 2022.3.13f1. We recommend you to use this version too. This editor can be downloaded from [Unity Hub](https://unity.com/download).
 These steps can be used to add the project to Unity:
 
 1.  Clone the repository using your favorite git tool.
-2.  Open unity hub.
+2.  Open Unity Hub.
 3.  Press "Add" under the projects tab.
 4.  Select the AwARe folder inside the cloned repository.
 
-To run the application in the Unity editor, make sure that the appscenes "Home", "ARSupport" and "GeneralSupport" are active in the hierarchy.
+To run the application in the Unity editor, make sure that the appscenes "Home", "ARSupport" and "GeneralSupport" are active in the hierarchy. These scenes are located [here](/AwARe/Assets/FirstParty/Application/Scenes).
 
 ### Server <a name="setupServer"></a>
 For developing and testing we run the server locally. We also have access to a remote server from the UU, which runs on Ubuntu. On the remote server we have installed the main branch of our Github repository. Connecting to the server and running commands is done via SSH. On Windows we use the PuTTY SSH client. On mac we use the built in ssh commands. To upload/download files to/from the server we use the SSH File Transfer Protocol (the “sftp” command) and FileZilla.
