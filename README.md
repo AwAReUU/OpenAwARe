@@ -51,6 +51,11 @@ In this app, users can assemble a list of ingredients with specific quantities b
 * [Unity Test FrameWork](https://docs.unity3d.com/Packages/com.unity.test-framework@1.4/manual/index.html) Used for creating and running unit tests in unity.
 * [CodeCoverage](https://docs.unity3d.com/Packages/com.unity.testtools.codecoverage@0.2/manual/index.html) Used for finding out which lines of code are covered/uncovered by our tests.
 * [Doxygen](https://www.doxygen.nl/) Used for generating documentation from the doc-comments in the codebase.
+* [StyleCop](https://marketplace.visualstudio.com/items?itemName=ChrisDahlberg.StyleCop) Used for enforcing style and consistency rules.
+* [Serialize Interfaces!](https://assetstore.unity.com/packages/tools/utilities/serialize-interfaces-187505) Used for Referencing and serializing Unity Objects with a specified interface.
+* [Json.NET](https://www.newtonsoft.com/json) Used for serializing/deserializing json files/strings.
+* [Rest Client for Unity](https://assetstore.unity.com/packages/tools/network/rest-client-for-unity-102501) Used for handling requests between the server and application.
+* [RSG.Promise](https://www.nuget.org/packages/RSG.Promise) Used for multithreading/asynchronous operations.
 
 Unity does not support organizing folders of Build-in packages or Third Party Software well. In principal, everything in the Unity Project that is stored outside First-Party is not owned by us.
 <p align="right">(<a href="#toTop">back to top</a>)</p>
@@ -100,6 +105,11 @@ See [Server](/AwARe/Server) for detailed server setup instructions.
 * [CodeCoverage](https://docs.unity3d.com/Packages/com.unity.testtools.codecoverage@0.2/manual/index.html) By Unity.
 * [AR Foundation](https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.1/manual/index.html) By Unity.
 * [Unity Test FrameWork](https://docs.unity3d.com/Packages/com.unity.test-framework@1.4/manual/index.html) By Unity.
+* [StyleCop](https://marketplace.visualstudio.com/items?itemName=ChrisDahlberg.StyleCop) By Chris Dahlberg.
+* [Serialize Interfaces!](https://assetstore.unity.com/packages/tools/utilities/serialize-interfaces-187505) By ayellowpaper.
+* [Json.NET](https://www.newtonsoft.com/json) By Newtonsoft.
+* [Rest Client for Unity](https://assetstore.unity.com/packages/tools/network/rest-client-for-unity-102501) By Proyecto 26.
+* [RSG.Promise](https://www.nuget.org/packages/RSG.Promise) by Real Serious Games.
 
 ### Resources <a name="ackRes"></a>
 * [Crop models](https://craftpix.net/freebies/free-farming-crops-3d-low-poly-models/?utm_campaign=Website&utm_source=Sketchfab.com&utm_medium=public) Creator unknown, Provided by CraftPix
