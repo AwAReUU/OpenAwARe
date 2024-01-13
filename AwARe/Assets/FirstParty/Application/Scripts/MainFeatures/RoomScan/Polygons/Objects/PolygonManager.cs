@@ -370,6 +370,15 @@ namespace AwARe.RoomScan.Polygons.Objects
             scanner.gameObject.SetActive(scan);
             polygonMesh.gameObject.SetActive(mesh);
         }
+
+        /// <summary>
+        /// For testing purposes only. sets the current polygon to the given polygon
+        /// </summary>
+        /// <param name="polygon">the polygon to set the current polygon to</param>
+        public void SetCurrentPolygon(Polygon polygon)
+        {
+            CurrentPolygon = polygon;
+        }
     }
 
     /// <summary>

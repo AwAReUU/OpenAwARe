@@ -30,12 +30,18 @@ namespace AwARe.RoomScan.Path
         /// <summary>
         /// Create a path from a given positive polygon and list of negative polygons that represent the room.
         /// </summary>
-        /// <param name="positive">the polygon whose volume represents the area where you can walk.</param>
-        /// <param name="negatives">list of polygons whose volume represent the area where you cannot walk.</param>
-        /// <returns>a 'pathdata' which represents a path through the room.</returns>
+        /// <param name="positive">The polygon whose volume represents the area where you can walk.</param>
+        /// <param name="negatives">List of polygons whose volume represent the area where you cannot walk.</param>
+        /// <returns>A 'pathdata' which represents a path through the room.</returns>
         public PathData GeneratePath(Polygon positive, List<Polygon> negatives)
         {
             startTime = Time.realtimeSinceStartup;
+
+            if(positive.IsEmptyPolygon() || positive == null)
+            {
+                Debug.Log("empty positive polygon");
+                return new PathData();
+            }
 
             // Determine the grid. still empty. also initalizes the scalefactor and movetransform variables.
             bool[,] grid = CreateGrid(positive);
@@ -85,13 +91,13 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        /// creates an empty grid of booleans with its size based on the size of a given polygon
-        /// if the given polygon is too large, the size of the grid will be capped.
-        /// also initalizes the movetransform, averageheight and scalefactor variables.
+        /// Creates an empty grid of booleans with its size based on the size of a given polygon.
+        /// If the given polygon is too large, the size of the grid will be capped.
+        /// Also initalizes the movetransform, averageheight and scalefactor variables.
         /// </summary>
-        /// <param name="polygon">the polygon from which to create the grid.</param>
-        /// <param name="maxgridsize">the maximum size the grid is allowed to have in either dimension.</param>
-        /// <returns>2d array of booleans that are set to false.</returns>
+        /// <param name="polygon">The polygon from which to create the grid.</param>
+        /// <param name="maxgridsize">The maximum size the grid is allowed to have in either dimension.</param>
+        /// <returns>A 2d array of booleans that are set to false.</returns>
         private bool[,] CreateGrid(Polygon polygon, int maxgridsize = 500)
         {
             //determine the maximum height and width of the polygon
@@ -189,8 +195,8 @@ namespace AwARe.RoomScan.Path
         /// <summary>
         /// Turns the polygon into a list of its line segments signified by start- and endpoints.
         /// </summary>
-        /// <param name="polygon">the polygon from which to create the list.</param>
-        /// <returns>list of line segments, signified by 2 points.</returns>
+        /// <param name="polygon">The polygon from which to create the list.</param>
+        /// <returns>A list of line segments, signified by 2 points.</returns>
         private List<(Vector3, Vector3)> GenerateLines(Polygon polygon)
         {
             List<(Vector3, Vector3)> results = new();
@@ -204,10 +210,10 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        /// transform a 'polygon space' point into 'grid space'.
+        /// Transform a 'polygon space' point into 'grid space'.
         /// </summary>
-        /// <param name="point">the point to be transformed.</param>
-        /// <returns>the transformed point. </returns>
+        /// <param name="point">The point to be transformed.</param>
+        /// <returns>The transformed point. </returns>
         private (int, int) ToGridSpace(Vector3 point)
         {
             Matrix4x4 scale = Matrix4x4.Scale(new Vector3(scaleFactor, 1, scaleFactor));
@@ -218,10 +224,10 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        /// transform a 'grid space' point into 'polygon space'.
+        /// Transform a 'grid space' point into 'polygon space'.
         /// </summary>
-        /// <param name="point">the point to be transformed.</param>
-        /// <returns>the transformed point. </returns>
+        /// <param name="point">The point to be transformed.</param>
+        /// <returns>The transformed point. </returns>
         private Vector3 ToPolygonSpace((int, int) point)
         {
             Vector3 movedPoint = new(point.Item1 - moveTransform.Item1, averageHeight, point.Item2 - moveTransform.Item2);
@@ -236,7 +242,7 @@ namespace AwARe.RoomScan.Path
         /// Convert the grid to a PathData.
         /// </summary>
         /// <param name="grid">The grid to convert to a path.</param>
-        /// <returns>The PathData.</returns>
+        /// <returns>The PathData instance.</returns>
         private PathData ConvertToPath(bool[,] grid)
         {
             int rows = grid.GetLength(0);
