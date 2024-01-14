@@ -5,6 +5,7 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,14 +18,27 @@ namespace AwARe.Data.Objects
     public class Room : MonoBehaviour, IDataHolder<Logic.Room>
     {
         /// <summary>
+        /// The main polygon template.
+        /// </summary>
+        public Polygon positivePolygonBase;
+
+        /// <summary>
+        /// The subtracted polygon template.
+        /// </summary>
+        public Polygon negativePolygonBase;
+
+        /// <summary>
         /// Gets the data-type <see cref="Logic.Room"/> represented by this GameObject.
         /// </summary>
         /// <value>
         /// The data-type <see cref="Logic.Room"/> represented.
         /// </value>
-        public Logic.Room Data =>
-            new(positivePolygon ? positivePolygon.Data : null, negativePolygons.Select(x => x.Data).ToList());
-        
+        public Logic.Room Data
+        { 
+            get => new(positivePolygon ? positivePolygon.Data : null, negativePolygons.Select(x => x.Data).ToList());
+            set => SetComponent(value);
+        }
+
         /// <summary>
         /// The main polygon.
         /// </summary>
@@ -58,12 +72,41 @@ namespace AwARe.Data.Objects
         public static Room AddComponentTo(GameObject gameObject, Polygon positivePolygon, List<Polygon> negativePolygons)
         {
             var room = gameObject.AddComponent<Room>();
-            room.positivePolygon = positivePolygon;
-            positivePolygon.transform.SetParent(room.transform, true);
-            room.negativePolygons = negativePolygons;
-            foreach (Polygon polygon in negativePolygons)
-                polygon.transform.SetParent(room.transform, true);
+            room.SetComponent(positivePolygon, negativePolygons);
             return room;
+        }
+
+        public void SetComponent(Polygon positivePolygonBase, Polygon negativePolygonBase, Logic.Room data)
+        {
+            this.positivePolygonBase = positivePolygonBase;
+            this.negativePolygonBase = negativePolygonBase;
+            SetComponent(data);
+        }
+
+        public void SetComponent(Logic.Room data)
+        {
+            Polygon SpawnPolygon(Polygon polygonBase, Logic.Polygon polygonData)
+            {
+                if (polygonData == null)
+                    return null;
+
+                var polygon = Instantiate(polygonBase.gameObject).GetComponent<Polygon>();
+                polygon.SetComponent(polygonData);
+                return polygon;
+            }
+
+            var positivePolygon = SpawnPolygon(this.positivePolygonBase, data.PositivePolygon);
+            var negativePolygons = data.NegativePolygons.Select(polygon => SpawnPolygon(this.negativePolygonBase, polygon)).ToList();
+            SetComponent(positivePolygon, negativePolygons);
+        }
+
+        public void SetComponent(Polygon positive, List<Polygon> negatives)
+        {
+            this.positivePolygon = positive;
+            positivePolygon.transform.SetParent(this.transform, true);
+            this.negativePolygons = negatives;
+            foreach(var polygon in negativePolygons)
+                polygon.transform.SetParent(this.transform, true);
         }
     }
 }

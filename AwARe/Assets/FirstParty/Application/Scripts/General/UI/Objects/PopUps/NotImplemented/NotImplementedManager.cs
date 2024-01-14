@@ -6,25 +6,22 @@
 // \*                                                                                       */
 
 using AwARe.Objects;
-
+using AwARe.UI.Popups.Objects;
 using UnityEngine;
 
-namespace AwARe.NotImplemented.Objects
+namespace AwARe.UI.Objects
 {
     /// <summary>
     /// A Singleton MonoBehaviour which handles code or other behaviour which has no implementation as of yet.
     /// </summary>
+    [RequireComponent(typeof(PopupHandler))]
     public class NotImplementedManager : MonoBehaviour
     {
         // Singleton instance
         private static NotImplementedManager instance;
 
-        // Not implemented Prefabs and canvas
-        [SerializeField] private GameObject popUpPrefab;
-        [SerializeField] private GameObject supportCanvas;
-
-        // Active GameObjects
-        private GameObject activePopUp;
+        // Pop up variables
+        private PopupHandler popupHandler;
 
         /// <summary>
         /// Called when the script instance is being loaded.
@@ -33,9 +30,11 @@ namespace AwARe.NotImplemented.Objects
         {
             // Setup singleton behaviour
             Singleton.Awake(ref instance, this);
+            popupHandler = GetComponent<PopupHandler>();
+
             // Keep alive between scenes
-            DontDestroyOnLoad(gameObject);
-            DontDestroyOnLoad(supportCanvas);
+            DontDestroyOnLoad(popupHandler.gameObject);
+            DontDestroyOnLoad(popupHandler.supportCanvas);
         }
         
         /// <summary>
@@ -58,26 +57,21 @@ namespace AwARe.NotImplemented.Objects
         /// <returns>An instance of itself.</returns>
         public static NotImplementedManager Instantiate()
         {
-            GameObject me = new("NotImplementedManager");
+            var me = new GameObject("NotImplementedManager");
+            me.gameObject.AddComponent<PopupHandler>();
             return me.AddComponent<NotImplementedManager>();
         }
 
         /// <summary>
         /// Show the Not Implemented popup.
         /// </summary>
-        public GameObject ShowPopUp()
-        {
-            activePopUp = activePopUp != null ? activePopUp : Instantiate(popUpPrefab, supportCanvas.transform);
-            return activePopUp;
-        }
+        public GameObject ShowPopUp() =>
+            popupHandler.ShowPopUp();
 
         /// <summary>
         /// Hide the Not Implemented popup.
         /// </summary>
-        public void HidePopUp()
-        {
-            Destroy(activePopUp);
-            activePopUp = null;
-        }
+        public void HidePopUp() =>
+            popupHandler.HidePopUp();
     }
 }

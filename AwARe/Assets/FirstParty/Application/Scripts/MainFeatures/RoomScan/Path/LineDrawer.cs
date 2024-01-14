@@ -19,7 +19,7 @@ namespace AwARe.RoomScan.Path
         /// Draw a line of 'true' values between 2 points on a given grid of booleans.
         /// </summary>
         /// <param name="grid">Grid of booleans to draw the line on.</param>
-        /// <param name="linepoints"> Line to draw. Points are coordinates in the grid. </param>
+        /// <param name="linepoints"> Line to draw. points are coordinates in the grid. </param>
         /// <param name="carve">Whether the line should be carved out of a positive grid.</param>
         public static void DrawLine(ref bool[,] grid, ((int, int), (int, int)) linepoints, bool carve = false)
         {

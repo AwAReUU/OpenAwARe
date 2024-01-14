@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7458086747818444531}
   - component: {fileID: 8250267935049304757}
   - component: {fileID: 5087704805688453485}
-  - component: {fileID: 1929161782729475237}
+  - component: {fileID: 1187578114740180461}
   - component: {fileID: 664568508987546044}
   m_Layer: 0
   m_Name: Polygon
@@ -51,6 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 130bc0a4ab89141658ecd8a5b09b724b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    points: []
+    height: 0
 --- !u!114 &4579725321687920320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,8 +147,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 664568508987546044}
   logic:
-    _underlyingValue: {fileID: 1929161782729475237}
---- !u!114 &1929161782729475237
+    _underlyingValue: {fileID: 1187578114740180461}
+--- !u!114 &1187578114740180461
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,10 +157,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4614980801449458759}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7e718a162e8bb4e8a423e9a77bcda3, type: 3}
+  m_Script: {fileID: 11500000, guid: e4d402a7cbc7f3d45a77d4526a654419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closedLine: 1
+  closedLine: 0
   polygon:
     _underlyingValue: {fileID: 8001080608682987098}
 --- !u!120 &664568508987546044

@@ -16,29 +16,20 @@ using System;
 namespace AwARe
 {
     /// <summary>
-    /// Class <c>PolygonSaveLoadManager</c> is responsible for managing the storage of polygons on the disc. (Saving and loading).
+    /// Class <c>PolygonSaveLoadManager</c> is responsible for managing the storage of polygons on the disc. (Done and loading).
     /// </summary>
-    public class PolygonSaveLoadManager : MonoBehaviour
+    public class SaveLoadManager : MonoBehaviour
     {
         private string directoryPath;
-        public string DirectoryPath
-        {
-            get { return directoryPath; }
-        }
-        public string GetDirectoryPath()
-        {
-            return directoryPath;
-        }
+        public string DirectoryPath =>
+            directoryPath;
 
         private void Start()
         {
             directoryPath = Application.persistentDataPath;
             // Create the directory if it doesn't exist
             if (!Directory.Exists(directoryPath))
-            {
                 Directory.CreateDirectory(directoryPath);
-            }
-
         }
 
         /// <summary>
@@ -54,6 +45,7 @@ namespace AwARe
                 Debug.LogError(" path is null or empty.");
                 return;
             }
+
             string jsonFilePath = Path.Combine(directoryPath, fileName);
             try
             {

@@ -45,6 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4ac592ce8d017b488658b59632b94d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  positivePolygonBase: {fileID: 8001080608682987098, guid: 2839e1a583d774500830f1f13268cf78,
+    type: 3}
+  negativePolygonBase: {fileID: 8001080608682987098, guid: 2839e1a583d774500830f1f13268cf78,
+    type: 3}
+  positivePolygon: {fileID: 0}
+  negativePolygons: []
 --- !u!114 &7157615531351550376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,3 +65,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   room: {fileID: 4322624009184441980}
   drawPolygons: 1
+  positivePolygonLiner: {fileID: 0}
+  negativePolygonLiners: []

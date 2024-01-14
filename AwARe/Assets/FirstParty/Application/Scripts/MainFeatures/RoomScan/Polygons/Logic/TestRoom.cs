@@ -66,7 +66,7 @@ namespace AwARe.RoomScan.Polygons.Logic
             Polygon polygon = new();
             foreach (Vector3 point in points)
             {
-                polygon.Points.Add(point);
+                polygon.points.Add(point);
             }
             return polygon;
         }

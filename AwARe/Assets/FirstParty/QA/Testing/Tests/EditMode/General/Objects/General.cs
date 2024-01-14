@@ -8,25 +8,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
-
 using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
-using AwARe.UI.Objects;
-using NSubstitute;
+using AwARe.Testing;
 using NUnit.Framework;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
+
 using Ingredients = AwARe.IngredientList.Logic;
 using Plane = UnityEngine.Plane;
 using Pointer = AwARe.UI.Objects.Pointer;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
-namespace AwARe.Testing.EditMode.General.Objects
+namespace AwARe.Tests.EditMode.General.Objects
 {
     /// <summary>
     /// Test regarding the <see cref="Polygon"/> class.

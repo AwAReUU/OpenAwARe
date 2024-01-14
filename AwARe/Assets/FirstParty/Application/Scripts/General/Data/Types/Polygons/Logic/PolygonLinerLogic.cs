@@ -8,7 +8,6 @@
 using AYellowpaper;
 using System;
 using System.Collections.Generic;
-
 using UnityEngine;
 
 namespace AwARe.Data.Logic
@@ -67,7 +66,7 @@ namespace AwARe.Data.Logic
         /// </summary>
         /// <param name="polygon">The Polygon to construct a line from.</param>
         /// <returns>A line representing the given Polygon.</returns>
-        private Vector3[] ConstructLine(Logic.Polygon polygon = null) =>
+        private Vector3[] ConstructLine(Polygon polygon = null) =>
             // Handle null input.
             polygon == null ? Array.Empty<Vector3>() : ConstructLine_Body(polygon);
 
@@ -76,9 +75,9 @@ namespace AwARe.Data.Logic
         /// </summary>
         /// <param name="polygon">The Polygon to construct a line from.</param>
         /// <returns>A line representing the given Polygon.</returns>
-        private Vector3[] ConstructLine_Body(Logic.Polygon polygon)
+        private Vector3[] ConstructLine_Body(Polygon polygon)
         {
-            List<Vector3> points = new(polygon.Points);
+            List<Vector3> points = new(polygon.points);
             if(closedLine && points.Count > 2) { points.Add(points[0]); Debug.Log("ClosedPointAdded");}
             // Get the data.
             return points.ToArray();

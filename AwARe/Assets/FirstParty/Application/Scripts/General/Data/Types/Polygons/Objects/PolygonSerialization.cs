@@ -13,9 +13,39 @@ using AwARe.Data.Logic;
 using AwARe.RoomScan.Polygons.Logic;
 
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AwARe
 {
+    /// <summary>
+    /// Class <c>Vector3Serialization</c> is responsible for Serializing <see cref="Vector3"/> to <see cref="Vector3Serialization"/>.
+    /// </summary>
+    [System.Serializable]
+    public class Vector3Serialization
+    {
+        public float x;
+        public float y;
+        public float z;
+
+        /// <summary>
+        /// Constructor for Vector3Serialization, initializes the object with a <see cref="Vector3"/>.
+        /// </summary>
+        /// <param name="vector">Vector3 to use for initialization.</param>
+        public Vector3Serialization(Vector3 vector)
+        {
+            x = vector.x;
+            y = vector.y;
+            z = vector.z;
+        }
+
+        /// <summary>
+        /// Converts the serialized Vector3 back to a Vector3 object.
+        /// </summary>
+        /// <returns>The deserialized Vector3.</returns>
+        public Vector3 ToVector3() =>
+            new(x, y, z);
+    }
+
     /// <summary>
     /// Class <c>PolygonSerialization</c> is responsible for serializing polygons represented by <see cref="Vector3"/>'s to a Room.
     /// </summary>
@@ -23,47 +53,27 @@ namespace AwARe
     public class PolygonSerialization
     {
         /// <summary>
-        /// Class <c>Vector3Serialization</c> is responsible for Serializing <see cref="Vector3"/> to <see cref="Vector3Serialization"/>.
-        /// </summary>
-        [System.Serializable]
-        public class Vector3Serialization
-        {
-            public float x;
-            public float y;
-            public float z;
-
-            /// <summary>
-            /// Constructor for Vector3Serialization, initializes the object with a <see cref="Vector3"/>.
-            /// </summary>
-            /// <param name="vector">Vector3 to use for initialization.</param>
-            public Vector3Serialization(Vector3 vector)
-            {
-                x = vector.x;
-                y = vector.y;
-                z = vector.z;
-            }
-            /// <summary>
-            /// Converts the serialized Vector3 back to a Vector3 object.
-            /// </summary>
-            /// <returns>The deserialized Vector3.</returns>
-            public Vector3 ToVector3()
-            {
-                return new Vector3(x, y, z);
-            }
-        }
-        
-        /// <summary>
         /// The points representing the polygon.
         /// </summary>
-        public List<Vector3Serialization> listpoints;
+        [FormerlySerializedAs("listpoints")] public List<Vector3Serialization> points;
 
         /// <summary>
         /// Constructor for PolygonSerialization, initializes the object with a list of serialized Vector3.
         /// </summary>
-        /// <param name="points">Points to use in the object.</param>
+        /// <param name="points">points to use in the object.</param>
+        public PolygonSerialization(Polygon polygon)
+        {
+            float height = polygon?.height ?? default;
+            points = polygon?.points?.Select(v => new Vector3Serialization(v)).ToList() ?? new List<Vector3Serialization>();
+        }
+
+        /// <summary>
+        /// Constructor for PolygonSerialization, initializes the object with a list of serialized Vector3.
+        /// </summary>
+        /// <param name="points">points to use in the object.</param>
         public PolygonSerialization(List<Vector3Serialization> points)
         {
-            listpoints = points ?? new List<Vector3Serialization>();
+            this.points = points ?? new List<Vector3Serialization>();
         }
 
         /// <summary>
@@ -72,7 +82,7 @@ namespace AwARe
         /// <param name="points">List of Vector3 representing polygon vertices.</param>
         public PolygonSerialization(List<Vector3> points)
         {
-            listpoints = points.Select(v => new Vector3Serialization(v)).ToList();
+            this.points = points.Select(v => new Vector3Serialization(v)).ToList();
         }
 
         /// <summary>
@@ -81,13 +91,13 @@ namespace AwARe
         /// <returns>The deserialized Polygon.</returns>
         public Polygon ToPolygon()
         {
-            if (listpoints == null)
+            if (points == null)
             {
-                Debug.LogError("listpoints list is null when converting to Polygon.");
+                Debug.LogError("points list is null when converting to Polygon.");
                 return null;
             }
 
-            List<Vector3> convertedlistpoints = listpoints.Select(v => v.ToVector3()).ToList();
+            List<Vector3> convertedlistpoints = points.Select(v => v.ToVector3()).ToList();
             return new Polygon(convertedlistpoints);
         }
     }
@@ -100,6 +110,17 @@ namespace AwARe
     {
         public PolygonSerialization PositivePolygon;
         public List<PolygonSerialization> NegativePolygons;
+
+        /// <summary>
+        /// Constructor for RoomSerialization, initializes the object with serialized positive and negative polygons.
+        /// </summary>
+        /// <param name="positivePolygon">Serialized positive polygon.</param>
+        /// <param name="negativePolygons">List of serialized negative polygons.</param>
+        public RoomSerialization(Room room)
+        {
+            PositivePolygon = new(room.PositivePolygon);
+            NegativePolygons = room.NegativePolygons.Select(polygon => new PolygonSerialization(polygon)).ToList();
+        }
 
         /// <summary>
         /// Constructor for RoomSerialization, initializes the object with serialized positive and negative polygons.

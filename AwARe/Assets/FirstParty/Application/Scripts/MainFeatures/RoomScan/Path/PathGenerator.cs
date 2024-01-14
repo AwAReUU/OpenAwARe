@@ -37,7 +37,7 @@ namespace AwARe.RoomScan.Path
         {
             startTime = Time.realtimeSinceStartup;
 
-            if(positive.IsEmptyPolygon() || positive == null)
+            if(positive == null || positive.points.Count == 0)
             {
                 Debug.Log("empty positive polygon");
                 return new PathData();
@@ -45,11 +45,6 @@ namespace AwARe.RoomScan.Path
 
             // Determine the grid. still empty. also initalizes the scalefactor and movetransform variables.
             bool[,] grid = CreateGrid(positive);
-
-            // Print all points; for debugging purposes
-            var points = positive.Points;
-            for (int i = 0; i < positive.Points.Count; i++)
-                Debug.Log("Point " + i + ": " + points[i].x + ", 0, " + points[i].z);
 
             PolygonLines positiveGridLines;
             List<PolygonLines> negativeGridLines;
@@ -100,7 +95,7 @@ namespace AwARe.RoomScan.Path
         private bool[,] CreateGrid(Polygon polygon, int maxgridsize = 500)
         {
             //determine the maximum height and width of the polygon
-            Vector3[] points = polygon.Points.ToArray();
+            Vector3[] points = polygon.points.ToArray();
 
             float minX = points[0].x;
             float minZ = points[0].z;
@@ -199,7 +194,7 @@ namespace AwARe.RoomScan.Path
         private List<(Vector3, Vector3)> GenerateLines(Polygon polygon)
         {
             List<(Vector3, Vector3)> results = new();
-            List<Vector3> points = new(polygon.Points);
+            List<Vector3> points = new(polygon.points);
             //add a duplicate of the first point to the end of the list
             points.Add(new Vector3(points[0].x, points[0].y, points[0].z));
 

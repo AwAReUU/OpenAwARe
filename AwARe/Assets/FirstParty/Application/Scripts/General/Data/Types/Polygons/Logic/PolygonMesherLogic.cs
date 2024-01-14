@@ -66,8 +66,8 @@ namespace AwARe.Data.Logic
         private Mesh ConstructMesh_Body(Polygon polygon)
         {
             // Get the data.
-            var points = polygon.Points;
-            var height = polygon.Height;
+            var points = polygon.points;
+            var height = polygon.height;
 
             // Construct the vertices.
             int n = points.Count;

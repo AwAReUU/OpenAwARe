@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AwARe.Data.Logic
 {
@@ -19,28 +20,20 @@ namespace AwARe.Data.Logic
     public class Polygon : IEquatable<Polygon>
     {
         /// <summary>
-        /// Gets or sets the points of the Polygon.
+        /// Gets the area of the polygon.
         /// </summary>
-        /// <value>
-        /// The points that form the 'corners' of the Polygon.
-        /// </value>
-        public List<Vector3> Points { get => listpoints; set => listpoints = value; }
-        
+        /// <value>The area of the polygon.</value>
+        /// The points representing the polygon.
+        /// </summary>
+        public List<Vector3> points;
+
         /// <summary>
         /// Gets or sets the height of the Polygon cylinder.
         /// </summary>
         /// <value>
         /// The height of the Polygon cylinder in 3D space.
         /// </value>
-        public float Height { get; set; }
-
-        /// <summary>
-        /// Gets the area of the polygon.
-        /// </summary>
-        /// <value>The area of the polygon.</value>
-        /// The points representing the polygon.
-        /// </summary>
-        public List<Vector3> listpoints;
+        public float height;
 
         /// <summary>
         /// Gets the surface area of the polygon.
@@ -50,14 +43,12 @@ namespace AwARe.Data.Logic
             get
             {
                 float area = 0f;
-                int j = listpoints.Count - 1;
-
-                for (int i = 0; i < listpoints.Count; i++)
+                for (int i = 0, j = points.Count - 1; i < points.Count; i++)
                 {
-                    area += (Points[j].x + Points[i].x) * (Points[j].z - Points[i].z);
+                    area += (points[j].x + points[i].x) * (points[j].z - points[i].z);
                     j = i;
                 }
-
+                
                 return Mathf.Abs(area / 2);
             }
         }
@@ -69,8 +60,8 @@ namespace AwARe.Data.Logic
         /// <param name="height">The height of the Polygon cylinder in 3D space.</param>
         public Polygon(List<Vector3> points = null, float height = 1f)
         {
-            Points = points ?? new();
-            Height = height;
+            this.points = points ?? new();
+            this.height = height;
         }
 
         /// <summary>
@@ -81,14 +72,14 @@ namespace AwARe.Data.Logic
         /// <returns>A Deep copy of <paramref name="polygon"/>.</returns>
         private Polygon(Polygon polygon)
         {
-            Points = new(polygon.Points);
-            Height = polygon.Height;
+            points = new(polygon.points);
+            height = polygon.height;
         }
 
         /// <inheritdoc/>
         public bool Equals(Polygon other) =>
-            Height.Equals(other.Height) &&
-            Points.SequenceEqual(other.Points);
+            height.Equals(other.height) &&
+            points.SequenceEqual(other.points);
         
         /// <summary>
         /// Creates a deep copy of this Polygon.

@@ -33,8 +33,11 @@ namespace AwARe.Data.Objects
         public static Polygon AddComponentTo(GameObject gameObject, Logic.Polygon data)
         {
             var polygon = gameObject.AddComponent<Polygon>();
-            polygon.Data = data;
+            polygon.SetComponent(data);
             return polygon;
         }
+
+        public void SetComponent(Logic.Polygon data) =>
+            this.Data = data;
     }
 }

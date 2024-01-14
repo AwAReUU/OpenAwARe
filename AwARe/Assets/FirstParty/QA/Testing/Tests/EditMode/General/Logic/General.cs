@@ -8,12 +8,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using AwARe.Data.Logic;
-using AwARe.InterScenes.Logic;
+using AwARe.Testing;
 using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace AwARe.Testing.EditMode.General.Logic
+namespace AwARe.Tests.EditMode.General.Logic
 {
     /// <summary>
     /// Test regarding the <see cref="Polygon"/> class.
@@ -39,7 +39,7 @@ namespace AwARe.Testing.EditMode.General.Logic
             Polygon polygon = new(points: points);
 
             // Act & Assert
-            Assert.AreEqual(points, polygon.Points);
+            Assert.AreEqual(points, polygon.points);
         }
 
         [Test, Description("Setting points (Vector3) of the polygon.")]
@@ -50,10 +50,10 @@ namespace AwARe.Testing.EditMode.General.Logic
             Polygon polygon = new();
 
             // Act
-            polygon.Points = points;
+            polygon.points = points;
 
             // Assert
-            Assert.AreEqual(points, polygon.Points);
+            Assert.AreEqual(points, polygon.points);
         }
         
         public static IEnumerable TestCases_Height
@@ -73,7 +73,7 @@ namespace AwARe.Testing.EditMode.General.Logic
             Polygon polygon = new(height: height);
 
             // Act & Assert
-            Assert.AreEqual(height, polygon.Height);
+            Assert.AreEqual(height, polygon.height);
         }
         
         [Test, Description("Setting height (float) of the polygon.")]
@@ -84,10 +84,10 @@ namespace AwARe.Testing.EditMode.General.Logic
             Polygon polygon = new();
 
             // Act
-            polygon.Height = height;
+            polygon.height = height;
 
             // Assert
-            Assert.AreEqual(height, polygon.Height);
+            Assert.AreEqual(height, polygon.height);
         }
 
         public static IEnumerable TestCases_Area
@@ -129,7 +129,7 @@ namespace AwARe.Testing.EditMode.General.Logic
 
             // Assert
             Assert.AreNotSame(polygon, clone);
-            Assert.AreNotSame(polygon.Points, clone.Points);
+            Assert.AreNotSame(polygon.points, clone.points);
         }
     }
     

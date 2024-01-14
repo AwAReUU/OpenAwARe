@@ -5,12 +5,13 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System.Linq;
+
 using AwARe.Data.Objects;
 using AwARe.Objects;
 using AwARe.RoomScan.Objects;
 using AwARe.UI;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace AwARe.RoomScan.Polygons.Objects
 {
@@ -41,6 +42,9 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </value>
         public State CurrentState { get; private set; }
 
+        public bool IsActive =>
+            CurrentState is State.Drawing or State.SettingHeight;
+
         /// <summary>
         /// Gets the currently active room.
         /// </summary>
@@ -70,6 +74,7 @@ namespace AwARe.RoomScan.Polygons.Objects
                 Room.positivePolygon = polygon;
             else
                 Room.negativePolygons.Add(polygon);
+            polygon.transform.SetParent(Room.transform);
         }
 
         /// <summary>
@@ -78,7 +83,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         public void StartScanning()
         {
             polygonDrawer.StartDrawing();
-            SwitchToState(State.Scanning);
+            SwitchToState(State.Drawing);
         }
 
         /// <summary>
@@ -101,7 +106,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void OnUIMiss()
         {
-            if(CurrentState == State.Scanning)
+            if(CurrentState == State.Drawing)
                 polygonDrawer.AddPoint();
         }
 
@@ -130,23 +135,23 @@ namespace AwARe.RoomScan.Polygons.Objects
         public void OnConfirmButtonClick()
         {
             AddPolygon(activePolygon);
-            SwitchToState(State.Saving);
+            SwitchToState(State.Done);
+
             // Set color for the finished polygon
             Color polygonColor = Color.green; // You can choose any color
-            polygonMesh.SetPolygonColor(polygonColor);
-
-            // Assuming you have a method to apply the color to the mesh
-            polygonMesh.ApplyColorToMesh();
-            SavedPopup.SetActive(true);
+            Mesh mesh = activePolygonMesh.meshFilter.mesh;
+            mesh.colors = mesh.vertices.Select(_ => polygonColor).ToArray();
+            activePolygonMesh.meshFilter.mesh = mesh;
+            activePolygonMesh.UpdateMesh();
         }
 
         /// <summary>
         /// Called on changing the slider; sets the height of the Polygon mesh.
         /// </summary>
-        /// <param name="height">Height the slider is currently at.</param>
+        /// <param name="height">height the slider is currently at.</param>
         public void OnHeightSliderChanged(float height)
         {
-            activePolygon.Data.Height = height;
+            activePolygon.Data.height = height;
             activePolygonMesh.UpdateMesh();
         }
 

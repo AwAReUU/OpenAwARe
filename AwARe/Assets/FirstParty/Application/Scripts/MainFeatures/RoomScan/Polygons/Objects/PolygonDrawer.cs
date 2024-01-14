@@ -93,7 +93,7 @@ namespace AwARe.RoomScan.Polygons.Objects
             if (activePolygon == null)
                 return;
 
-            Polygon.Points.Add(point);
+            Polygon.points.Add(point);
             polygonLine.UpdateLine();
         }
 
@@ -115,7 +115,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         private void UpdateLines()
         {
-            int count = Polygon.Points.Count;
+            int count = Polygon.points.Count;
 
             if (count == 0)
             {
@@ -126,7 +126,7 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             // Draw active line
             activeLine.positionCount = 2;
-            activeLine.SetPositions(new[]{ Polygon.Points[^1], PointedAt });
+            activeLine.SetPositions(new[]{ Polygon.points[^1], PointedAt });
 
             if (count <= 1)
             {
@@ -137,7 +137,7 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             // Draw closing line
             closeLine.positionCount = 2;
-            closeLine.SetPositions(new[]{ PointedAt, Polygon.Points[0] });
+            closeLine.SetPositions(new[]{ PointedAt, Polygon.points[0] });
         }
     }
 }

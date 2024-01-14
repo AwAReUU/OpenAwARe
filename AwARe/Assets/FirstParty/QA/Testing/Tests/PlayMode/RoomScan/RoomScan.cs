@@ -8,23 +8,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
 using AwARe.Data.Logic;
 using AwARe.RoomScan.Objects;
 using AwARe.RoomScan.Polygons.Objects;
 using AwARe.Testing;
 using AwARe.UI;
-using AwARe.UI.Objects;
-
 using NSubstitute;
-
 using NUnit.Framework;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-namespace AwARe.Testing.PlayMode.RoomScan
+namespace AwARe.Tests.PlayMode.RoomScan
 {
     /// <summary>
     /// Test regarding the <see cref="PolygonDrawer"/> class.
@@ -146,7 +141,7 @@ namespace AwARe.Testing.PlayMode.RoomScan
             {
                 roomManager.OnCreateButtonClick();
                 yield return null;
-                foreach (var point in polygon.Points)
+                foreach (var point in polygon.points)
                 {
                     pointer.PointedAt.Returns(point);
                     roomManager.OnUIMiss();
@@ -154,7 +149,7 @@ namespace AwARe.Testing.PlayMode.RoomScan
                 }
                 roomManager.OnApplyButtonClick();
                 yield return null;
-                roomManager.OnHeightSliderChanged(polygon.Height);
+                roomManager.OnHeightSliderChanged(polygon.height);
                 yield return null;
                 roomManager.OnConfirmButtonClick();
                 yield return null;

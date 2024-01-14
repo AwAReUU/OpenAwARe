@@ -7,22 +7,18 @@
 
 using System;
 using System.Collections;
-
 using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
-using AwARe.NotImplemented.Objects;
 using AwARe.Objects;
 using AwARe.Testing;
-
+using AwARe.UI.Objects;
 using NSubstitute;
-
 using NUnit.Framework;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-namespace AwARe.Testing.PlayMode.General
+namespace AwARe.Tests.PlayMode.General
 {
     /// <summary>
     /// Dummy scenes for testing.
