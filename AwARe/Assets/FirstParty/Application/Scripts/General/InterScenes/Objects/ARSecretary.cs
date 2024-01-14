@@ -5,20 +5,12 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System.Collections.Generic;
-
-using AwARe.Data.Objects;
 using AwARe.Objects;
-
 using Unity.XR.CoreUtils;
-
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.XR.ARFoundation;
-using UnityEngine.XR.ARSubsystems;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.XR.ARSubsystems.XRCpuImage;
 
 namespace AwARe.InterScenes.Objects
 {

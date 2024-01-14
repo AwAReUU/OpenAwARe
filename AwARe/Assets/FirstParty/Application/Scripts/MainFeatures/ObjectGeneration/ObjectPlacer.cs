@@ -7,11 +7,10 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using AwARe.RoomScan.Polygons.Logic;
 using UnityEngine;
-#if DEBUG
-    using AwARe.DevTools.ObjectGeneration;
-#endif
+//#if DEBUG
+//    using AwARe.DevTools.ObjectGeneration;
+//#endif
 namespace AwARe.ObjectGeneration
 {
     public class ObjectPlacer
@@ -52,9 +51,9 @@ namespace AwARe.ObjectGeneration
             // Add collider after changing object size
             BoxCollider bc = newObject.AddComponent<BoxCollider>();
 
-            #if DEBUG
-                BoxColliderVisualizer visualBox = new(bc);
-            #endif
+            //#if DEBUG
+            //    BoxColliderVisualizer visualBox = new(bc);
+            //#endif
 
             return true;
         }
