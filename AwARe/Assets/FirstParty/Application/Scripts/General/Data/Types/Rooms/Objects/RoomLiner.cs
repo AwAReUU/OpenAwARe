@@ -98,7 +98,7 @@ namespace AwARe.Data.Objects
         /// </summary>
         public void ResetLiners()
         {
-            positivePolygonLiner = room.positivePolygon.GetComponent<Liner>();
+            positivePolygonLiner = room.positivePolygon?.GetComponent<Liner>();
             negativePolygonLiners = room.negativePolygons.Select(x => x.GetComponent<Liner>()).ToList();
 
             newLiners = false;

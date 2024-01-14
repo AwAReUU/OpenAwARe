@@ -5,6 +5,7 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -13,6 +14,9 @@ using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
 using AwARe.ResourcePipeline.Logic;
 using AwARe.ResourcePipeline.Objects;
+
+using Castle.Components.DictionaryAdapter.Xml;
+
 using UnityEngine;
 using Ingredients = AwARe.IngredientList.Logic;
 
@@ -38,9 +42,13 @@ namespace AwARe.ObjectGeneration
         /// </value>
         private Ingredients.IngredientList SelectedList { get; set; }
 
-        private Data.Objects.Room SelectedRoom { get; set; }
 
-        [SerializeField] private RoomLiner roomLiner;
+        /// <value>
+        /// <c>Room</c> that we are going to render.
+        /// </value>
+        private Room SelectedRoom{ get; set; }
+
+        [SerializeField] private Data.Objects.Room roomObject;
 
         /// <value>
         /// <c>path</c> the Mesh from the generated path.
@@ -63,11 +71,6 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <returns>The ingredient list that was selected by the user.</returns>
         private Ingredients.IngredientList RetrieveIngredientlist() => Storage.Get().ActiveIngredientList;
-
-        /// <summary>
-        /// The Polygon drawer.
-        /// </summary>
-        [SerializeField] private RoomScan.Polygons.Objects.PolygonDrawer polygonDrawer;
         
         void Awake() {
             this.pathMesh = new Mesh(); // Empty mesh for now. Once Path gen. is done, generate the mesh from PathData.
@@ -75,19 +78,16 @@ namespace AwARe.ObjectGeneration
 
         private void LoadRoom()
         {
-            // Clean up last room
-            if(SelectedRoom != null) { Destroy(SelectedRoom.gameObject); }
-            SelectedRoom = null;
-
             // Load data from storage
             Room roomData = Storage.Get().ActiveRoom;
             if (roomData == null) return;
 
             // Construct new room
-            SelectedRoom = Data.Objects.Room.AddComponentTo(new("Room"), roomData);
+            SelectedRoom = roomData;
+            roomObject.Data = SelectedRoom;
 
             // Visualize new room
-            roomLiner.room = SelectedRoom;
+            var roomLiner = roomObject.GetComponent<RoomLiner>();
             roomLiner.ResetLiners();
             roomLiner.UpdateLines();
         }
@@ -108,17 +108,16 @@ namespace AwARe.ObjectGeneration
             // TODO:
             // Once pathgen is done, create mesh from PathData
             // this.pathMesh = pathData.CreateMesh()
-            Room roomData = SelectedRoom != null ? SelectedRoom.Data : null;
-            if(roomData == null)
+            if(SelectedRoom == null)
                 return;
 
-            float roomSpace        = roomData.PositivePolygon.Area;
+            float roomSpace        = SelectedRoom.PositivePolygon.Area;
             float renderablesSpace = ComputeRenderableSpaceNeeded(renderables);
 
             // Divide renderables in seperate rooms when there is not enough space 
             if (renderablesSpace > roomSpace) 
                 PlaceRoom(true);
-            else PlaceRenderables(renderables, roomData, this.pathMesh);
+            else PlaceRenderables(renderables, SelectedRoom, this.pathMesh);
         }
 
         /// <summary>
