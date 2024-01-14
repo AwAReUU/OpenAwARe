@@ -13,6 +13,7 @@ namespace AwARe.Questionnaire.Objects
         /// The question that this <see cref="ToggleHandler"/>'s answerOption belongs to.
         /// </value>
         private GameObject Question { get; set; }
+
         /// <value>
         /// The index of this <see cref="ToggleHandler"/>'s answerOption.
         /// </value>

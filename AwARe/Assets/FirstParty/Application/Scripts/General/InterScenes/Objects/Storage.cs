@@ -20,7 +20,6 @@ namespace AwARe.InterScenes.Objects
         // Singleton instance
         private static Storage instance;
 
-        // 
         private Logic.Storage data;
 
         /// <summary>

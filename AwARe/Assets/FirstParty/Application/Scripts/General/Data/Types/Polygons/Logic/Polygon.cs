@@ -24,7 +24,7 @@ namespace AwARe.Data.Logic
         /// <value>
         /// The points that form the 'corners' of the Polygon.
         /// </value>
-        public List<Vector3> Points { get; set; }
+        public List<Vector3> Points { get => listpoints; set => listpoints = value; }
         
         /// <summary>
         /// Gets or sets the height of the Polygon cylinder.
@@ -38,14 +38,21 @@ namespace AwARe.Data.Logic
         /// Gets the area of the polygon.
         /// </summary>
         /// <value>The area of the polygon.</value>
+        /// The points representing the polygon.
+        /// </summary>
+        public List<Vector3> listpoints;
+
+        /// <summary>
+        /// Gets the surface area of the polygon.
+        /// </summary>
         public float Area
         {
             get
             {
                 float area = 0f;
-                int j = Points.Count - 1;
+                int j = listpoints.Count - 1;
 
-                for (int i = 0; i < Points.Count; i++)
+                for (int i = 0; i < listpoints.Count; i++)
                 {
                     area += (Points[j].x + Points[i].x) * (Points[j].z - Points[i].z);
                     j = i;

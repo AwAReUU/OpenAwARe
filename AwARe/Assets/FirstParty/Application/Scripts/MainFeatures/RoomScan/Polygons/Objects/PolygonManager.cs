@@ -87,7 +87,6 @@ namespace AwARe.RoomScan.Polygons.Objects
         public void OnCreateButtonClick() =>
             StartScanning();
 
-
         /// <summary>
         /// Called on reset button click; Clears the room and starts a new Polygon scan.
         /// </summary>
@@ -132,6 +131,13 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             AddPolygon(activePolygon);
             SwitchToState(State.Saving);
+            // Set color for the finished polygon
+            Color polygonColor = Color.green; // You can choose any color
+            polygonMesh.SetPolygonColor(polygonColor);
+
+            // Assuming you have a method to apply the color to the mesh
+            polygonMesh.ApplyColorToMesh();
+            SavedPopup.SetActive(true);
         }
 
         /// <summary>

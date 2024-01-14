@@ -9,13 +9,15 @@ using System.Collections.Generic;
 using System.Linq;
 using AwARe.RoomScan.Polygons.Logic;
 using UnityEngine;
-
+#if DEBUG
+    using AwARe.DevTools.ObjectGeneration;
+#endif
 namespace AwARe.ObjectGeneration
 {
     public class ObjectPlacer
     {
         /// <summary>
-        /// Tries to place a <paramref name="renderable"></paramref> at <paramref name="position"></paramref>.
+        /// Tries to place a <paramref name="renderable"/> at <paramref name="position"/>.
         /// </summary>
         /// <param name="renderable">Renderable object to place in the scene.</param>
         /// <param name="position">Exact position at which we will try to place the renderable.</param>
@@ -50,7 +52,9 @@ namespace AwARe.ObjectGeneration
             // Add collider after changing object size
             BoxCollider bc = newObject.AddComponent<BoxCollider>();
 
-            BoxCollidervisualizer visualBox = new(bc);
+            #if DEBUG
+                BoxColliderVisualizer visualBox = new(bc);
+            #endif
 
             return true;
         }
@@ -124,7 +128,7 @@ namespace AwARe.ObjectGeneration
         {
             // sort available spawn points by closest distance to initial spawn point
             validSpawnPoints = SortClosestSpawnPointsByDistance(initialSpawnPoint, validSpawnPoints);
-            
+
             foreach (var point in validSpawnPoints)
             {
                 // check if area-ratio is allowed 
@@ -140,14 +144,14 @@ namespace AwARe.ObjectGeneration
                         renderable.objStacks.Add(point, height);
                         return true;
                     }
-                    else {} // try again at next closest spawn point
+                    else { } // try again at next closest spawn point
                 }
             }
 
             return TryStack(renderable, room);
         }
 
-        
+
 
 
         /// <summary>
@@ -160,7 +164,7 @@ namespace AwARe.ObjectGeneration
             Renderable renderable,
             Data.Logic.Room room)
         {
-            while (renderable.objStacks.Keys.ToList().Count > 0) 
+            while (renderable.objStacks.Keys.ToList().Count > 0)
             {
                 // 1. find the smallest stack.
                 float smallestStackHeight = float.MaxValue;
@@ -176,14 +180,14 @@ namespace AwARe.ObjectGeneration
                 if (smallestStackHeight == float.MaxValue) //error scenario
                 {
                     return false;
-                } 
+                }
 
                 // 2. check if it doesnt reach through the roof.
                 float stackHeight = renderable.objStacks[smallestStackPos];
                 float newHeight = stackHeight + renderable.GetHalfExtents().y * 2 + 0.05f;
                 float maxHeight = 100.0f;
                 //prevent placement if this stack will reach higher than 'x' meters with the additional current object on top
-                if (newHeight > maxHeight) 
+                if (newHeight > maxHeight)
                 {
                     renderable.objStacks.Remove(smallestStackPos);
                     return false;
@@ -206,7 +210,7 @@ namespace AwARe.ObjectGeneration
             //Out of available stacks for this gameObject:
             return false;
         }
-        
+
         /// <summary>
         /// Estimate the surface area of the spawn Polygon by squaring the distance between the points
         /// and multiplying this by a factor (not all space is usable on a sloped line).
@@ -260,7 +264,7 @@ namespace AwARe.ObjectGeneration
         /// <param name="occupiedPoints">All of the already occupied spawn points.</param>
         /// <returns>The list of spawnpoints sorted by furthest distance from the occupied points.</returns>
         private List<Vector3> SortFurthestSpawnPointsByDistance(
-            List<Vector3> validSpawnPoints, 
+            List<Vector3> validSpawnPoints,
             List<Vector3> occupiedPoints,
             float totalAreaRequired
             )
@@ -271,11 +275,11 @@ namespace AwARe.ObjectGeneration
 
         private float CalculateWeightedDistance(Vector3 point, List<Vector3> occupiedPoints, float totalAreaRequired)
         {
-            float nearestDistance = occupiedPoints.Count > 0 ? 
-                                    occupiedPoints.Min(occupied => Vector3.Distance(point, occupied)) : 
+            float nearestDistance = occupiedPoints.Count > 0 ?
+                                    occupiedPoints.Min(occupied => Vector3.Distance(point, occupied)) :
                                     float.MaxValue;
 
-            float weight = 1 / totalAreaRequired; 
+            float weight = 1 / totalAreaRequired;
             return nearestDistance * weight;
         }
 
@@ -286,7 +290,7 @@ namespace AwARe.ObjectGeneration
         /// <param name="validSpawnPoints">All the allowed spawnpoints in the Polygon.</param>
         /// <returns>The list of spawnpoints sorted by shortest distance from the initial spawnpoint.</returns>
         private List<Vector3> SortClosestSpawnPointsByDistance(
-            Vector3 initialSpawnPoint, 
+            Vector3 initialSpawnPoint,
             List<Vector3> validSpawnPoints)
         {
             return validSpawnPoints.OrderBy(point => Vector3.Distance(initialSpawnPoint, point)).ToList();
