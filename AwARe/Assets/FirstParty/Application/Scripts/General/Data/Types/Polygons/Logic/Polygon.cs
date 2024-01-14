@@ -36,8 +36,9 @@ namespace AwARe.Data.Logic
         public float height;
 
         /// <summary>
-        /// Gets the surface area of the polygon.
+        /// Calculates the area of the polygon.
         /// </summary>
+        /// <returns>The area of the polygon.</returns>
         public float Area
         {
             get
