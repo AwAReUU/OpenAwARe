@@ -1,0 +1,12 @@
+Decision Against Using GitHub CI Pipeline 
+
+In a previous Quality assurance feedback form, we were recommended to use the Github CI pipeline for our project. We have seriously considered the use of a Continuous Integration Pipeline, but we have concluded that implementing a GitHub CI Pipeline is not feasible for our project. The reasons for this decision are described below.
+
+1. Limited Data Allocation in GitHub Student Pack:
+Our team, primarily composed of students, has access to the GitHub Student Pack. While this pack offers benefits, it comes with a limited amount of data that can be used for testing purposes. Unity projects, particularly those that utilize playmode tests, require substantial data. These tests are data-intensive, and our project's demands exceed the limits provided by the GitHub Student Pack. Running these tests on GitHub would rapidly reduce our data allocation, leaving us with inadequate resources for the remainder of the project.
+
+2. External Server Requirements:
+Considering the above limitation, an alternative would be to set up a remote server for running these tests. However setting up and maintaining a remote server requires significant time and manpower. Our team's current resource allocation doesn't allow for such an investment. The time and effort required to establish a remote testing environment are substantial, and we believe that these resources are better utilized in other areas of the project.
+
+3. Unity provides testing & analysis:
+In our case, the combination of Unity's built-in analyzers and the framework it provides already allows us to perform comprehensive testing and analysis efficiently. The GitHub CI Pipeline would offer marginal additional benefits in comparison to the existing tools at our disposal. Given our limited resources, we believe that it’s better to continue working with the Unity provided framework. 
