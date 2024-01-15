@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 
 using AwARe.Database;
 
@@ -31,7 +32,19 @@ namespace AwARe.IngredientList.Logic
         public IngredientFileHandler(IIngredientDatabase database)
         {
             filePath = Application.persistentDataPath + "/ingredientLists";
-            this.ingredientDatabase = database;
+            ingredientDatabase = database;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IngredientFileHandler"/> class.
+        /// Sets the filePath used for read/write to the given value.
+        /// </summary>
+        /// <param name="database"></param>
+        /// <param name="path"></param>
+        public IngredientFileHandler(IIngredientDatabase database, string path)
+        {
+            filePath = path;
+            ingredientDatabase = database;
         }
 
         /// <summary>
@@ -42,13 +55,9 @@ namespace AwARe.IngredientList.Logic
         public List<IngredientList> ReadFile()
         {
             if (!File.Exists(filePath))
-            {
                 return new List<IngredientList>();
-            }
 
-            string json = File.ReadAllText(filePath);
-
-            JSONIngredientInfo info = JsonUtility.FromJson<JSONIngredientInfo>(json);
+            JSONIngredientListsObject info = IngredientListsJsonHelper.GetJsonIngredientInfo(filePath);
 
             List<IngredientList> lists = new();
 
@@ -82,9 +91,7 @@ namespace AwARe.IngredientList.Logic
 
                     bool stringToQType = Enum.TryParse(ingredientQuantityTypes[j], out QuantityType ingredientQuantityType);
                     if (!stringToQType)
-                    {
                         throw new Exception("Cannot convert string to QuantityType.");
-                    }
                     try
                     {
                         ingredients.Add(ingredientDatabase.GetIngredient(ingredientID), (ingredientQuantity, ingredientQuantityType));
@@ -106,9 +113,65 @@ namespace AwARe.IngredientList.Logic
         /// <param name="ingredientLists">The ingredient lists to be saved to JSON format.</param>
         public void SaveLists(List<IngredientList> ingredientLists)
         {
+            string json = IngredientListsJsonHelper.IngredientListsToJSONString(ingredientLists);
+            File.WriteAllText(filePath, json);
+        }
+    }
+
+    /// <summary>
+    /// JSON object format that a List of IngredientLists can be converted to.
+    /// </summary>
+    [Serializable]
+    public class JSONIngredientListsObject
+    {
+        /// <summary>
+        /// The ListName of every IngredientList that was in the List.
+        /// </summary>
+        public string[] listNames;
+
+        /// <summary>
+        /// The lists of all IDs of the ingredients in every IngredientList, converted to string.
+        /// </summary>
+        public string[] ingredientIDs;
+
+        /// <summary>
+        /// The lists of all quantities of the ingredients in every IngredientList, converted to string.
+        /// </summary>
+        public string[] ingredientQuantities;
+
+        /// <summary>
+        /// The lists of all QuantityTypes of the ingredients in every IngredientList, converted to string.
+        /// </summary>
+        public string[] ingredientQuantityTypes;
+    }
+
+    /// <summary>
+    /// Class <c>IngredientListsJsonHelper</c> provides utility methods for IngredientListsJson objects.
+    /// </summary>
+    public class IngredientListsJsonHelper
+    {
+        /// <summary>
+        /// Read the given path into a json object.
+        /// </summary>
+        /// <param name="path">Path at which the file to be read is located.</param>
+        /// <returns>JsonObject read from file at the given path.</returns>
+        public static JSONIngredientListsObject GetJsonIngredientInfo(string path)
+        {
+            string json = File.ReadAllText(path);
+            JSONIngredientListsObject info = JsonUtility.FromJson<JSONIngredientListsObject>(json);
+            return info;
+        }
+
+        /// <summary>
+        /// Converts a list of <see cref="IngredientList"/> to a json string.
+        /// </summary>
+        /// <param name="ingredientLists">Ingredientlists to convert.</param>
+        /// <returns>A Json string containing the data from the given IngredientLists.</returns>
+        public static string IngredientListsToJSONString(List<IngredientList> ingredientLists)
+        {
             int numberOfLists = ingredientLists.Count;
 
-            JSONIngredientInfo info = new()
+            JSONIngredientListsObject info = new()
             {
                 listNames = new string[numberOfLists],
                 ingredientIDs = new string[numberOfLists],
@@ -133,37 +196,8 @@ namespace AwARe.IngredientList.Logic
                     info.ingredientQuantityTypes[i] += ingredientLists[i].GetQuantityType(ingredient).ToString() + ",";
                 }
             }
-
             string json = JsonUtility.ToJson(info);
-
-            File.WriteAllText(filePath, json);
+            return json;
         }
-    }
-
-    /// <summary>
-    /// JSON object format that a List of IngredientLists can be converted to.
-    /// </summary>
-    [Serializable]
-    public class JSONIngredientInfo
-    {
-        /// <summary>
-        /// The ListName of every IngredientList that was in the List.
-        /// </summary>
-        public string[] listNames;
-
-        /// <summary>
-        /// The lists of all IDs of the ingredients in every IngredientList, converted to string.
-        /// </summary>
-        public string[] ingredientIDs;
-
-        /// <summary>
-        /// The lists of all quantities of the ingredients in every IngredientList, converted to string.
-        /// </summary>
-        public string[] ingredientQuantities;
-
-        /// <summary>
-        /// The lists of all QuantityTypes of the ingredients in every IngredientList, converted to string.
-        /// </summary>
-        public string[] ingredientQuantityTypes;
     }
 }
