@@ -5,6 +5,7 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using AwARe.RoomScan.Polygons.Logic;
 using UnityEngine;
 
 namespace AwARe.RoomScan.Polygons.Objects
@@ -16,6 +17,9 @@ namespace AwARe.RoomScan.Polygons.Objects
     {
         [SerializeField] private GameObject pointer;
         [SerializeField] private PolygonDrawer polygonDrawer;
+        [SerializeField] private GameObject visualAnchorPrefab;
+        public bool anchorPhase = false;
+        private Room room;
 
         void Update()
         {
@@ -50,7 +54,22 @@ namespace AwARe.RoomScan.Polygons.Objects
             if ((UnityEngine.Input.touchCount > 0 && UnityEngine.Input.GetTouch(0).phase == TouchPhase.Began)
                 || UnityEngine.Input.GetMouseButtonDown(0))
             {
-                polygonDrawer.AddPoint();
+                if (anchorPhase)
+                {
+                    if (room == null)
+                    {
+                        PolygonManager polygonManager = FindObjectOfType<PolygonManager>();
+                        room = polygonManager.Room;
+                    }
+
+                    if (room.Anchors.Count >= 2) return;
+
+                    UnityEngine.GameObject.Instantiate(visualAnchorPrefab, pointer.transform.position, Quaternion.identity);
+
+                    room.AddAnchor(pointer.transform.position);
+                }
+                else
+                    polygonDrawer.AddPoint();
             }
         }
 

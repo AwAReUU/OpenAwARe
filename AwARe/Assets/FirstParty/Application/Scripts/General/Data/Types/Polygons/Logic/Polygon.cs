@@ -21,16 +21,24 @@ namespace AwARe.Data.Logic
 
     {
         /// <summary>
-        /// The points of the polygon.
+        /// The set points of the polygon in the world.
         /// </summary>
         public List<Vector3> Points;
+
+        /// <summary>
+        /// The variable points used to recalculate the world points for each load session.
+        /// </summary>
+        public List<Vector3> PolarPoints;
+
+        [SerializeField] private GameObject pointer;
 
         // Default constructor
         public Polygon()
         {
             Points = new List<Vector3>();
+            PolarPoints = new List<Vector3>();
         }
-        
+
         // Parameterized constructor
         public Polygon(List<Vector3> points)
         {
@@ -98,6 +106,5 @@ namespace AwARe.Data.Logic
                 return Math.Abs(area / 2);
             }
         }
-
     }
 }

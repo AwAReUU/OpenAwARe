@@ -42,7 +42,6 @@ namespace AwARe.RoomScan.Polygons.Objects
         [SerializeField] private GameObject pathBtn;
         [SerializeField] private GameObject LoadingPopup;
         [SerializeField] private GameObject SavedPopup;
-        [SerializeField] private GameObject anchorHandler;
 
 
         private bool scanning = false;
@@ -360,22 +359,23 @@ namespace AwARe.RoomScan.Polygons.Objects
             ui.SetActive(state);
 
             // Set direct component activity
-            bool scan = false, mesh = false, anchorHandling = false;
+            bool scan = false, mesh = false;
             switch (state)
             {
                 case State.Scanning:
                     scan = true;
+                    scanner.anchorPhase = false;
                     break;
                 case State.SettingHeight:
                     mesh = true;
                     break;
                 case State.SettingAnchors:
-                    anchorHandling = true;
+                    scan = true;
+                    scanner.anchorPhase = true;
                     break;
             }
             scanner.gameObject.SetActive(scan);
             polygonMesh.gameObject.SetActive(mesh);
-            anchorHandler.gameObject.SetActive(anchorHandling);
         }
     }
 

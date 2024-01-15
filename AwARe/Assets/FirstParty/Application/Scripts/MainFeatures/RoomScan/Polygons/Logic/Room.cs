@@ -8,6 +8,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AwARe.Data.Logic;
+using System;
+using AwARe.RoomScan.Polygons.Logic;
+using Codice.CM.Common.Merge;
 
 namespace AwARe.RoomScan.Polygons.Logic
 {
@@ -35,11 +38,6 @@ namespace AwARe.RoomScan.Polygons.Logic
         /// <value>The points used to load the polygon from a save.</value>
         public List<Vector3> Anchors = new();
 
-        /// <summary>
-        /// Adds an anchorpoint to the room. Anchors are used to load the room in the correct world location.
-        /// </summary>
-        /// <param name="anchor"></param>
-        public void AddAnchor(Vector3 anchor) => Anchors.Add(anchor);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Room"/> class.
@@ -59,7 +57,7 @@ namespace AwARe.RoomScan.Polygons.Logic
                 NegativePolygons = negPolygons;
             else
                 NegativePolygons = new List<Polygon>();
-            
+
             if (anchors != null)
                 Anchors = anchors;
         }
@@ -80,5 +78,22 @@ namespace AwARe.RoomScan.Polygons.Logic
                 NegativePolygons.Add(polygon);
             }
         }
+
+        /// <summary>
+        /// Add the added point to the anchors of the polygon.
+        /// </summary>
+        public void AddAnchor(Vector3 point)
+        {
+            Anchors.Add(point);
+        }
+
+        public void RemoveLastAnchor()
+        {
+            if (Anchors.Count > 0)
+            {
+                Anchors.RemoveAt(Anchors.Count - 1);
+            }
+        }
     }
 }
+

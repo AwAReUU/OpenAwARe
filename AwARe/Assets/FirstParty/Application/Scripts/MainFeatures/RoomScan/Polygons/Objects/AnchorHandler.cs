@@ -37,7 +37,7 @@ namespace AwARe.RoomScan.Polygons.Objects
             if ((UnityEngine.Input.touchCount > 0 && UnityEngine.Input.GetTouch(0).phase == TouchPhase.Began)
                 || UnityEngine.Input.GetMouseButtonDown(0))
             {
-                AddAnchor(pointer.transform.position);
+                //AddAnchor(pointer.transform.position);
             }
         }
 
@@ -68,19 +68,6 @@ namespace AwARe.RoomScan.Polygons.Objects
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Add the added point to the anchors of the polygon.
-        /// </summary>
-        public void AddAnchor(Vector3 point)
-        {
-            if (room.Anchors.Count >= 2) return;
-
-            Instantiate(visualAnchorPrefab, pointer.transform.position, Quaternion.identity);
-            room.AddAnchor(point);
-            // Debug.Log("Count: " + room.Anchors.Count.ToString());
-            // Debug.Log(room.Anchors.ToString());
         }
 
         /// <summary>
@@ -124,7 +111,7 @@ namespace AwARe.RoomScan.Polygons.Objects
             float r = GetVector2Distance(anchor2, worldPoint);
             float alpha = GetVector2Alpha(anchor2, worldPoint);
 
-            Vector3 polarPoint = new(r, alpha, worldPoint.z);
+            Vector3 polarPoint = new(r, worldPoint.y, alpha);
             return polarPoint;
         }
 
@@ -134,8 +121,8 @@ namespace AwARe.RoomScan.Polygons.Objects
             float alpha = polarPoint.y;
 
             float wx = r * Mathf.Cos(alpha + anchorAlpha);
-            float wy = r * Mathf.Sin(alpha + anchorAlpha);
-            Vector3 worldPoint = new(wx, wy, polarPoint.z);
+            float wz = r * Mathf.Sin(alpha + anchorAlpha);
+            Vector3 worldPoint = new(wx, polarPoint.y, wz);
 
             return anchor2 + worldPoint;
         }

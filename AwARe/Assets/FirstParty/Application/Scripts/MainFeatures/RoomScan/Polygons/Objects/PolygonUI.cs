@@ -67,6 +67,7 @@ namespace AwARe.RoomScan.Polygons.Objects
                     //save = true;
                     anchor1btn = true;
                     point = true;
+                    savebtns = true;
                     break;
                 case State.SavingOptions:
                     savebtns = true;
