@@ -1,0 +1,9 @@
+<map id="AwARe.RoomScan.Objects.RoomManager.SwitchToState" name="AwARe.RoomScan.Objects.RoomManager.SwitchToState">
+<area shape="rect" id="Node000001" title="Sets all Objects activities to match new state." alt="" coords="5,5,225,48"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_manager.html#a4805c830468ab4238986d227c9ba163f" title="Sets activity of components." alt="" coords="273,5,492,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,24,257,24,257,29,225,29"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#ac44298e7dbabc2b469e5dc133ffa3323" title="Sets activity of UI elements based on the polygon state." alt="" coords="540,5,759,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="492,24,524,24,524,29,492,29"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a0f102e6a4a0d1c565e408bca44cd3104" title="Called on changing the slider." alt="" coords="807,5,1027,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="760,24,792,24,792,29,760,29"/>
+</map>

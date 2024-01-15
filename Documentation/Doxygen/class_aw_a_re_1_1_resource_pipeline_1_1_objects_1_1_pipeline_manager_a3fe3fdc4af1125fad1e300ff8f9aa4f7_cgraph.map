@@ -1,0 +1,11 @@
+<map id="AwARe.ResourcePipeline.Objects.PipelineManager.IngredientListToResourceList" name="AwARe.ResourcePipeline.Objects.PipelineManager.IngredientListToResourceList">
+<area shape="rect" id="Node000001" title="Converts an IngredientList to a ResourceDictionary" alt="" coords="5,39,294,81"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_resource_pipeline_1_1_logic_1_1_resource_calculator.html#a6247b191fc342bbeb485bd95a82c7552" title="Converts a full IngredientList to a ResourceDictionary. It aggregates resource quantities if multiple..." alt="" coords="342,31,557,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="294,57,326,57,326,63,294,63"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_resource_pipeline_1_1_logic_1_1_resource_calculator.html#a1f1423301bc8b5227b30f4123b020e9e" title="Converts a single ingredient to a list of its resource cost." alt="" coords="605,31,820,89"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="557,57,590,57,590,63,557,63"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_resource_pipeline_1_1_logic_1_1_resource_dictionary.html#a74a4e8fa2f90d00dd4d896c2aa3faa0f" title="Add a Resource to the ResourceDictionary" alt="" coords="868,5,1085,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="821,44,853,40,853,45,821,49"/>
+<area shape="rect" id="Node000005" href="$class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient.html#a5fb3bd3f44a6603a381788f327767b5a" title="Calculates the number of grams in the given quantity." alt="" coords="877,72,1076,115"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="821,71,862,76,861,81,821,76"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="AwARe.IngredientList.Objects.IngredientListManager.ReadQuantity" name="AwARe.IngredientList.Objects.IngredientListManager.ReadQuantity">
+<area shape="rect" id="Node000001" title="Reads/Parses the quantity and quantity type." alt="" coords="5,5,237,48"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient.html#a9f22940e1b6547f660fe826e45fb68f3" title="Verifies if the given quantity type is valid for this ingredient." alt="" coords="285,5,469,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="237,24,269,24,269,29,237,29"/>
+</map>

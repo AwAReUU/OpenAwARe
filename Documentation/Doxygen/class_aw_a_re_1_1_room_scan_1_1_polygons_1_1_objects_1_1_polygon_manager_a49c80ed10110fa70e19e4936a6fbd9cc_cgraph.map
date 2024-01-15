@@ -1,0 +1,5 @@
+<map id="AwARe.RoomScan.Polygons.Objects.PolygonManager.OnHeightSliderChanged" name="AwARe.RoomScan.Polygons.Objects.PolygonManager.OnHeightSliderChanged">
+<area shape="rect" id="Node000001" title="Called on changing the slider; sets the height of the Polygon mesh." alt="" coords="5,5,231,64"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_objects_1_1_mesher.html#a0b6732ebcfe68c92b62e019f3e3df50b" title="Update the mesh next Update&#45;frame to represent the current data." alt="" coords="279,21,516,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,32,263,32,263,37,231,37"/>
+</map>
