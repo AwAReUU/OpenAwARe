@@ -53,6 +53,9 @@ namespace AwARe.RoomScan.Path
             this.radius = radius;
         }
 
+        public void SetPath(PathData path) =>
+            SetPath(path.points, path.edges, path.radius);
+
         /// <summary>
         /// Visualize the path. It will clear previous visualisations.
         /// </summary>

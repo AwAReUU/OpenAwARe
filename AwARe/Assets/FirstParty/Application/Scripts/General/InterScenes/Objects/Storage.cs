@@ -5,17 +5,17 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using AwARe.Logic;
+using AwARe.Data.Logic;
+using AwARe.Objects;
 using UnityEngine;
 using Ingredients = AwARe.IngredientList.Logic;
-using Rooms = AwARe.RoomScan.Polygons.Logic;
 
 namespace AwARe.InterScenes.Objects
 {
     /// <summary>
     /// The Singleton containing the in-between-scenes stored data.
     /// </summary>
-    public class Storage : MonoBehaviour, IStorage
+    public class Storage : MonoBehaviour, IStorage, IDataHolder<Logic.Storage>
     {
         // Singleton instance
         private static Storage instance;
@@ -55,7 +55,7 @@ namespace AwARe.InterScenes.Objects
         }
 
         /// <inheritdoc/>
-        public Rooms.Room ActiveRoom
+        public Room ActiveRoom
         {
             get => Data.ActiveRoom;
             set => Data.ActiveRoom = value;

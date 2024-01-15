@@ -5,11 +5,12 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using AwARe.Logic;
+using AwARe.Objects;
+using AwARe.UI.Popups.Objects;
 using TMPro;
 using UnityEngine;
 
-namespace AwARe.UI.Popups.Objects
+namespace AwARe.UI.Objects
 {
     /// <summary>
     /// A Singleton MonoBehaviour which handles thrown errors.

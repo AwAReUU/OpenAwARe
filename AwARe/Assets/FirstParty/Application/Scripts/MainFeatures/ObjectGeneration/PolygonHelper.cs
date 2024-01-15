@@ -16,20 +16,20 @@ namespace AwARe.ObjectGeneration
 {
     /// <summary>
     /// <c>PolygonHelper</c> is a class that contains some helper methods 
-    /// for object generation using the polygon method.
+    /// for object generation using the Polygon method.
     /// </summary>
     public class PolygonHelper
     {
         /// <summary>
         /// Check if the <paramref name="point"/> is inside of the <paramref name="polygon"/>,
-        /// by using a Point-in-polygon (even-odd) algorithm.
+        /// by using a Point-in-Polygon (even-odd) algorithm.
         /// </summary>
-        /// <param name="polygon">The polygon described by points.</param>
+        /// <param name="polygon">The Polygon described by points.</param>
         /// <param name="point">The point.</param>
         /// <returns>Whether the <paramref name="point"/> is inside the <paramref name="polygon"/>.</returns>
         public static bool IsPointInsidePolygon(Polygon polygon, Vector3 point)
         {
-            List<Vector3> polygonPoints = polygon.listpoints;
+            List<Vector3> polygonPoints = polygon.points;
 
             bool isInside = false;
             int j = polygonPoints.Count - 1;
@@ -89,12 +89,12 @@ namespace AwARe.ObjectGeneration
         }
 
         /// <summary>
-        /// Check if all four base <paramref name="corners"/> are inside of the polygon
+        /// Check if all four base <paramref name="corners"/> are inside of the Polygon
         /// described by <paramref name="polygonPoints"/>.
         /// </summary>
         /// <param name="corners">Corners of the base of the bounding box of the Object.</param>
         /// <param name="room">The room.</param>
-        /// <returns>Whether the object is inside the positive polygon and outside the negative polygons.</returns>
+        /// <returns>Whether the object is inside the positive Polygon and outside the negative polygons.</returns>
         public static bool ObjectColliderInPolygon(List<Vector3> corners, Room room)
             => corners.All(corner => IsPointInsidePolygon(room.PositivePolygon, corner) && PointNotInPolygons(room.NegativePolygons, corner));
     }

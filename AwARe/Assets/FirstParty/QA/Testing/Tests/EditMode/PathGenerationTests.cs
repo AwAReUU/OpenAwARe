@@ -396,10 +396,10 @@ namespace Tests
             };
 
             Polygon negative = new Polygon();
-            negative.AddPoint(new Vector3(-1, 0, -1));
-            negative.AddPoint(new Vector3(-1, 0, 6));
-            negative.AddPoint(new Vector3(6, 0, 6));
-            negative.AddPoint(new Vector3(6, 0, -1));
+            negative.points.Add(new Vector3(-1, 0, -1));
+            negative.points.Add(new Vector3(-1, 0, 6));
+            negative.points.Add(new Vector3(6, 0, 6));
+            negative.points.Add(new Vector3(6, 0, -1));
 
             List<Polygon> negatives = new List<Polygon>();
             negatives.Add(negative);
@@ -441,10 +441,10 @@ namespace Tests
             };
 
             Polygon negative = new Polygon();
-            negative.AddPoint(new Vector3(-1, 0, -1));
-            negative.AddPoint(new Vector3(-1, 0, 6));
-            negative.AddPoint(new Vector3(6, 0, 6));
-            negative.AddPoint(new Vector3(6, 0, -1));
+            negative.points.Add(new Vector3(-1, 0, -1));
+            negative.points.Add(new Vector3(-1, 0, 6));
+            negative.points.Add(new Vector3(6, 0, 6));
+            negative.points.Add(new Vector3(6, 0, -1));
 
             List<Polygon> negatives = new List<Polygon>();
             negatives.Add(negative);
@@ -470,11 +470,11 @@ namespace Tests
             MethodInfo createGridMethod = generator.GetType().GetMethod("CreateGrid", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Polygon polygon1 = new();
-            polygon1.AddPoint(new Vector3(-2, 0, 8));
-            polygon1.AddPoint(new Vector3(-2, 0, 3));
-            polygon1.AddPoint(new Vector3(3, 0, 3));
-            polygon1.AddPoint(new Vector3(4, 0, -2));
-            polygon1.AddPoint(new Vector3(7, 0, 7));
+            polygon1.points.Add(new Vector3(-2, 0, 8));
+            polygon1.points.Add(new Vector3(-2, 0, 3));
+            polygon1.points.Add(new Vector3(3, 0, 3));
+            polygon1.points.Add(new Vector3(4, 0, -2));
+            polygon1.points.Add(new Vector3(7, 0, 7));
 
             //act
             var returnvalue = createGridMethod.Invoke(generator, new object[2] {polygon1, 500});
@@ -493,10 +493,10 @@ namespace Tests
             MethodInfo createGridMethod = generator.GetType().GetMethod("CreateGrid", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Polygon polygon2 = new();
-            polygon2.AddPoint(new Vector3(1, 0, 1));
-            polygon2.AddPoint(new Vector3(1, 0, 3));
-            polygon2.AddPoint(new Vector3(4, 0, 3));
-            polygon2.AddPoint(new Vector3(4, 0, 1));
+            polygon2.points.Add(new Vector3(1, 0, 1));
+            polygon2.points.Add(new Vector3(1, 0, 3));
+            polygon2.points.Add(new Vector3(4, 0, 3));
+            polygon2.points.Add(new Vector3(4, 0, 1));
 
             //act
             var returnvalue = createGridMethod.Invoke(generator, new object[2] { polygon2, 500 });
@@ -515,10 +515,10 @@ namespace Tests
             MethodInfo createGridMethod = generator.GetType().GetMethod("CreateGrid", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Polygon polygon3 = new();
-            polygon3.AddPoint(new Vector3(1, 0, 1));
-            polygon3.AddPoint(new Vector3(1, 0, 3));
-            polygon3.AddPoint(new Vector3(7, 0, 3));
-            polygon3.AddPoint(new Vector3(7, 0, 1));
+            polygon3.points.Add(new Vector3(1, 0, 1));
+            polygon3.points.Add(new Vector3(1, 0, 3));
+            polygon3.points.Add(new Vector3(7, 0, 3));
+            polygon3.points.Add(new Vector3(7, 0, 1));
 
             //act
             var returnvalue = createGridMethod.Invoke(generator, new object[2] { polygon3, 500 });
@@ -538,17 +538,17 @@ namespace Tests
             MethodInfo createGridMethod = generator.GetType().GetMethod("CreateGrid", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Polygon positive = new();
-            positive.AddPoint(new Vector3(1, 0, 1));
-            positive.AddPoint(new Vector3(1, 0, 3));
-            positive.AddPoint(new Vector3(3, 0, 4));
-            positive.AddPoint(new Vector3(3, 0, 2));
+            positive.points.Add(new Vector3(1, 0, 1));
+            positive.points.Add(new Vector3(1, 0, 3));
+            positive.points.Add(new Vector3(3, 0, 4));
+            positive.points.Add(new Vector3(3, 0, 2));
 
             List<Polygon> negatives = new();
             Polygon negative1 = new();
-            negative1.AddPoint(new Vector3(2, 0, 2));
-            negative1.AddPoint(new Vector3(4, 0, 2));
-            negative1.AddPoint(new Vector3(4, 0, 3));
-            negative1.AddPoint(new Vector3(2, 0, 3));
+            negative1.points.Add(new Vector3(2, 0, 2));
+            negative1.points.Add(new Vector3(4, 0, 2));
+            negative1.points.Add(new Vector3(4, 0, 3));
+            negative1.points.Add(new Vector3(2, 0, 3));
             negatives.Add(negative1);
 
             List<((int, int), (int, int))> expectedPositiveLines = new();
@@ -591,10 +591,10 @@ namespace Tests
             MethodInfo createGridMethod = generator.GetType().GetMethod("CreateGrid", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Polygon positive = new Polygon();
-            positive.AddPoint(new Vector3(0, 0, 0));
-            positive.AddPoint(new Vector3(0, 0, 0.6f));
-            positive.AddPoint(new Vector3(0.6f, 0, 0.6f));
-            positive.AddPoint(new Vector3(0.6f, 0, 0));
+            positive.points.Add(new Vector3(0, 0, 0));
+            positive.points.Add(new Vector3(0, 0, 0.6f));
+            positive.points.Add(new Vector3(0.6f, 0, 0.6f));
+            positive.points.Add(new Vector3(0.6f, 0, 0));
 
             bool[,] expectedresultgrid = new bool[61, 61];
             expectedresultgrid[30, 30] = true;

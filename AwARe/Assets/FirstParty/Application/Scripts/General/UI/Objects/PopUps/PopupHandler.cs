@@ -17,22 +17,22 @@ namespace AwARe.UI.Popups.Objects
         /// <summary>
         /// Prefab of the popup.
         /// </summary>
-        [SerializeField] protected GameObject popUpPrefab;
+        public GameObject popUpPrefab;
 
         /// <summary>
         /// Canvas on which the popup is shown.
         /// </summary>
-        [SerializeField] protected GameObject supportCanvas;
+        public GameObject supportCanvas;
 
         /// <summary>
         /// The active popup gameObject.
         /// </summary>
         protected GameObject activePopUp;
-        
+
         /// <summary>
         /// Show the popup.
         /// </summary>
-        public void ShowPopUp() =>
+        public GameObject ShowPopUp() =>
             activePopUp = activePopUp != null ? activePopUp : Instantiate(popUpPrefab, supportCanvas.transform);
         
         /// <summary>

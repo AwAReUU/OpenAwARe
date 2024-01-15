@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:AwARe/Assets/Packages/Castle.Core.5.1.1/LICENSE.meta
+guid: ae0c12471e245a54c81a79074b944f06
+========
 guid: a8acebdd46e4a1843bcb3bf4cc409096
 folderAsset: yes
+>>>>>>>> origin/Dev/Sprint8:AwARe/Assets/FirstParty/DevTools/Scripts/ObjectGeneration.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

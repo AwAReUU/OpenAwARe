@@ -5,56 +5,24 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using AwARe.Logic;
-
 using UnityEngine;
+using UnityEngine.TestTools;
 
-namespace AwARe.UI.Popups.Objects
+namespace AwARe.UI.Objects
 {
-    /// <summary>
-    /// A Singleton MonoBehaviour which handles code or other behaviour which has no implementation as of yet.
-    /// </summary>
-    public class NotImplementedHandler : PopupHandler
+    [ExcludeFromCoverage]
+    public class NotImplementedHandler : MonoBehaviour
     {
-        // Singleton instance
-        private static NotImplementedHandler instance;
-
         /// <summary>
-        /// Called when the script instance is being loaded.
+        /// Show the Not Implemented popup.
         /// </summary>
-        private void Awake()
-        {
-            // Setup singleton behaviour
-            Singleton.Awake(ref instance, this);
-
-            // Keep alive between scenes
-            DontDestroyOnLoad(gameObject);
-            DontDestroyOnLoad(supportCanvas);
-        }
-
+        public void ShowPopUp() =>
+            NotImplementedManager.Get().ShowPopUp();
+        
         /// <summary>
-        /// Called when the behaviour component is destroyed.
+        /// Hide the Not Implemented popup.
         /// </summary>
-        private void OnDestroy() =>
-            Singleton.OnDestroy(ref instance, this);
-
-        /// <summary>
-        /// Get its current instance.
-        /// Instantiate a new instance if necessary.
-        /// </summary>
-        /// <returns>An instance of itself.</returns>
-        public static PopupHandler Get() =>
-            Singleton.Get(ref instance, Instantiate);
-
-        /// <summary>
-        /// Instantiate a new instance of itself.
-        /// </summary>
-        /// <returns>An instance of itself.</returns>
-        public static NotImplementedHandler Instantiate()
-        {
-            GameObject me = new("NotImplementedHandler");
-            me.AddComponent<NotImplementedHandler>();
-            return me.AddComponent<NotImplementedHandler>();
-        }
+        public void HidePopUp() =>
+            NotImplementedManager.Get().HidePopUp();
     }
 }

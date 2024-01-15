@@ -1,83 +1,90 @@
 using System.Collections;
-using System.Collections.Generic;
-using AwARe.Data.Logic;
+
+using AwARe.Data.Objects;
+using AwARe.RoomScan.Objects;
 using AwARe.RoomScan.Path;
+using AwARe.RoomScan.Path.Objects;
 using AwARe.RoomScan.Polygons.Objects;
+
 using NUnit.Framework;
-using UnityEditor.Build.Content;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-public class PathGenTests
+namespace AwARe.Testing.PlayMode
 {
-    private PathVisualizer visualizer;
-    private PolygonManager polygonManager;
-
-    [OneTimeSetUp, Description("Load the test scene once.")]
-    public void OneTimeSetup() => SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/RoomScan");
-
-    [UnitySetUp, Description("Reset the scene before each test. Obtain the PolygonManager")]
-    public IEnumerator Setup()
+    public class PathGenTests
     {
-        yield return null; //skip one frame to ensure the scene has been loaded.
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        yield return null; //skip one frame to ensure the scene has been reloaded.
-        polygonManager = GameObject.Find("PolygonManager").GetComponent<PolygonManager>();
-        visualizer = GameObject.Find("PolygonManager").transform.Find("PathVisualiser").GetComponent<PathVisualizer>();
-    }
+        private RoomManager roomManager;
 
-    [UnityTest, Description("Program should not crash when generating a path with the expected input")]
-    public IEnumerator Test_NoCrash_NormalInput()
-    {
-        //arrange
-        Polygon polygon = new();
-        polygon.AddPoint(new Vector3(1, 0, 1));
-        polygon.AddPoint(new Vector3(2, 0, 1));
-        polygon.AddPoint(new Vector3(2, 0, 2));
-        polygon.AddPoint(new Vector3(1, 0, 2));
-        polygonManager.SetCurrentPolygon(polygon);
+        [OneTimeSetUp, Description("Load the test scene once.")]
+        public void OneTimeSetup() => SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/RoomScan");
 
-        //act
-        polygonManager.OnApplyButtonClick();
+        [UnitySetUp, Description("Reset the scene before each test. Obtain the PolygonManager")]
+        public IEnumerator Setup()
+        {
+            yield return null; //skip one frame to ensure the scene has been loaded.
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            yield return null; //skip one frame to ensure the scene has been reloaded.
+            roomManager = GameObject.Find("RoomManager").GetComponent<RoomManager>();
+        }
 
-        //assert
-        Assert.DoesNotThrow(() => polygonManager.OnPathButtonClick());
+        [UnityTest, Description("Program should not crash when generating a path with the expected input")]
+        public IEnumerator Test_NoCrash_NormalInput()
+        {
+            //arrange
+            Data.Logic.Polygon polygon = new();
+            polygon.points.Add(new Vector3(1, 0, 1));
+            polygon.points.Add(new Vector3(2, 0, 1));
+            polygon.points.Add(new Vector3(2, 0, 2));
+            polygon.points.Add(new Vector3(1, 0, 2));
+            Data.Logic.Room room = new(polygon, new());
+            roomManager.Room.Data = room;
 
-        yield return null;
-    }
+            //act & assert
+            Assert.DoesNotThrow(() => roomManager.OnPathButtonClick());
+            yield return null;
+        }
 
-    [UnityTest, Description("Program should not crash when trying to generate a path when given an empty polygon")]
-    public IEnumerator Test_NoCrash_NoPolygon()
-    {
-        //arrange, act not present (as is the point of this test)
-        //assert
-        Assert.DoesNotThrow(() => polygonManager.OnPathButtonClick());
-        yield return null;
-    }
+        [UnityTest, Description("Program should not crash when trying to generate a path when given an empty polygon")]
+        public IEnumerator Test_NoCrash_NoPolygon()
+        {
+            //arrange, act not present (as is the point of this test)
+            //assert
+            Assert.DoesNotThrow(() => roomManager.OnPathButtonClick());
+            yield return null;
+        }
 
 
-    [UnityTest, Description("Program should not crash when trying to generate a path when it has previously generated a path already")]
-    public IEnumerator Test_NoCrash_PreviousPath()
-    {
-        //arrange
-        Polygon polygon = new();
-        polygon.AddPoint(new Vector3(1, 0, 1));
-        polygon.AddPoint(new Vector3(2, 0, 1));
-        polygon.AddPoint(new Vector3(2, 0, 2));
-        polygon.AddPoint(new Vector3(1, 0, 2));
-        polygonManager.SetCurrentPolygon(polygon);
+        [UnityTest, Description("Program should not crash when trying to generate a path when it has previously generated a path already")]
+        public IEnumerator Test_NoCrash_PreviousPath()
+        {
+            //arrange
+            Data.Logic.Polygon polygon = new();
+            polygon.points.Add(new Vector3(1, 0, 1));
+            polygon.points.Add(new Vector3(2, 0, 1));
+            polygon.points.Add(new Vector3(2, 0, 2));
+            polygon.points.Add(new Vector3(1, 0, 2));
+            Data.Logic.Room room = new(polygon, new());
+            roomManager.Room.Data = room;
 
-        //acte
-        polygonManager.OnApplyButtonClick();
-        Assert.DoesNotThrow(() => polygonManager.OnPathButtonClick());
-        yield return null;
-        polygonManager.OnResetButtonClick();
-        polygonManager.OnApplyButtonClick();
-        
-        //assert
-        Assert.DoesNotThrow(() => polygonManager.OnPathButtonClick());
-        yield return null;
+            //act & assert
+            Assert.DoesNotThrow(() => roomManager.OnPathButtonClick());
+            yield return null;
+
+            //arrange
+            polygon = new();
+            polygon.points.Add(new Vector3(1, 0, 1));
+            polygon.points.Add(new Vector3(2, 0, 1));
+            polygon.points.Add(new Vector3(2, 0, 2));
+            room = new(polygon, new());
+            roomManager.Room.Data = room;
+
+            //act & assert
+            Assert.DoesNotThrow(() => roomManager.OnPathButtonClick());
+            yield return null;
+        }
     }
 }
 
