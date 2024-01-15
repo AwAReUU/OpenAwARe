@@ -21,3 +21,7 @@ To actually generate a report, press the start recording button in the code cove
 ## Test code coverage
 
 To find out more about code coverage, head over to [Code Coverage](https://github.com/Mackthis/AwARe/tree/main/AwARe/CodeCoverage)
+
+## CI/CD pipeline
+
+* [Lacking pipeline](https://docs.google.com/document/d/1J8v_kLuo3Qj6CKccRga5TKI3_PSqjla7v7AQFSO_H_4/edit) See this link for an explanation of the missing CI/CD github pipeline.
