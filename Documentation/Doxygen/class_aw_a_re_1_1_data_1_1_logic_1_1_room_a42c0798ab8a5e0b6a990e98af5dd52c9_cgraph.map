@@ -1,0 +1,5 @@
+<map id="AwARe.Data.Logic.Room.Room" name="AwARe.Data.Logic.Room.Room">
+<area shape="rect" id="Node000001" title="Initializes a new instance of the Room class. Creates a deep copy of a Room." alt="" coords="5,13,212,40"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_data_1_1_logic_1_1_polygon.html#a6e46a6d480c76507b7729826fd81198d" title="Creates a deep copy of this Polygon." alt="" coords="260,5,445,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,24,244,24,244,29,212,29"/>
+</map>

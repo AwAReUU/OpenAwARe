@@ -538,7 +538,7 @@ PrefabInstance:
     - target: {fileID: 9033393133223335185, guid: 60db0cd40925e5b41a73bbdc7db47386,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: RoomLoad
+      value: RoomScan
       objectReference: {fileID: 0}
     - target: {fileID: 9033393133223335185, guid: 60db0cd40925e5b41a73bbdc7db47386,
         type: 3}
@@ -572,7 +572,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a97a468aa41dd44af7c16b0478fa4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: 7
 --- !u!1 &1676150178
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,6 +782,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 193911750347446092, guid: fcd65c81bbf31f5418bb5642aa1faa34,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 193911750347446092, guid: fcd65c81bbf31f5418bb5642aa1faa34,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1080758841639796052}
+    - target: {fileID: 193911750347446092, guid: fcd65c81bbf31f5418bb5642aa1faa34,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 193911750347446092, guid: fcd65c81bbf31f5418bb5642aa1faa34,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AwARe.UI.Objects.SwitchSceneButton, Scripts
+      objectReference: {fileID: 0}
     - target: {fileID: 812945181802061647, guid: fcd65c81bbf31f5418bb5642aa1faa34,
         type: 3}
       propertyPath: m_text
@@ -878,6 +897,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4188624900712702479, guid: fcd65c81bbf31f5418bb5642aa1faa34,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1080758841639796054}
+    - target: {fileID: 4188624900712702479, guid: fcd65c81bbf31f5418bb5642aa1faa34,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ShowPopUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4188624900712702479, guid: fcd65c81bbf31f5418bb5642aa1faa34,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AwARe.UI.Objects.NotImplementedHandler, Scripts
+      objectReference: {fileID: 0}
     - target: {fileID: 5112609878874151334, guid: fcd65c81bbf31f5418bb5642aa1faa34,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -923,15 +957,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewRooms
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7467087005351850463, guid: fcd65c81bbf31f5418bb5642aa1faa34, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 56205113759395054, guid: fcd65c81bbf31f5418bb5642aa1faa34,
         type: 3}
       insertIndex: 2
       addedObject: {fileID: 1241417852}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2558144941422237072, guid: fcd65c81bbf31f5418bb5642aa1faa34,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1080758841639796054}
   m_SourcePrefab: {fileID: 100100000, guid: fcd65c81bbf31f5418bb5642aa1faa34, type: 3}
+--- !u!114 &1080758841639796052 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2282764847494091637, guid: fcd65c81bbf31f5418bb5642aa1faa34,
+    type: 3}
+  m_PrefabInstance: {fileID: 1080758841639796051}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a97a468aa41dd44af7c16b0478fa4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1080758841639796053 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2558144941422237072, guid: fcd65c81bbf31f5418bb5642aa1faa34,
+    type: 3}
+  m_PrefabInstance: {fileID: 1080758841639796051}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1080758841639796054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1080758841639796053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a00bb68cc2e0a834dba8337e3f9e806e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

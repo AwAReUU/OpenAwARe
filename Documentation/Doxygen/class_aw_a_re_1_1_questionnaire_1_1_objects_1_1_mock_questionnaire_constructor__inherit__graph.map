@@ -1,0 +1,7 @@
+<map id="AwARe.Questionnaire.Objects.MockQuestionnaireConstructor" name="AwARe.Questionnaire.Objects.MockQuestionnaireConstructor">
+<area shape="rect" id="Node000001" title="Class MockQuestionnaireConstructor is used for testing purposes. It has an empty Start,..." alt="" coords="5,155,207,197"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_questionnaire_constructor.html" title="Class QuestionnaireConstructor is used for creating a Questionnaire from a json string." alt="" coords="22,80,190,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,122,109,154,103,154,103,122"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="51,5,161,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="109,48,109,80,103,80,103,48"/>
+</map>

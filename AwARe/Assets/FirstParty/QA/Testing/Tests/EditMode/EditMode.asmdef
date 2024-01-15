@@ -1,10 +1,17 @@
 {
     "name": "EditMode",
-    "rootNamespace": "",
+    "rootNamespace": "AwARe",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Scripts"
+        "Scripts",
+        "Unity.XR.ARFoundation",
+        "Unity.XR.ARSubsystems",
+        "Unity.XR.ARCore",
+        "Unity.XR.CoreUtils",
+        "Unity.Burst",
+        "AYellowpaper.SerializeInterfaces",
+        "TestSupport"
     ],
     "includePlatforms": [
         "Editor"
@@ -13,7 +20,8 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "nunit.framework.dll"
+        "nunit.framework.dll",
+        "NSubstitute.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [

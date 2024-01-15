@@ -1,0 +1,9 @@
+<map id="AwARe.Questionnaire.Objects.QuestionnaireConstructor.QuestionnaireFromJsonString" name="AwARe.Questionnaire.Objects.QuestionnaireConstructor.QuestionnaireFromJsonString">
+<area shape="rect" id="Node000001" title="Convert jsonText &#160;to data object and creates a Questionnaire out of it. (Deserialization)" alt="" coords="5,31,258,89"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_questionnaire_constructor.html#a4db69e99f417933b5fbcc6b5aaa69481" title="Makes a questionnaire object and returns it." alt="" coords="306,39,590,81"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,57,290,57,290,63,258,63"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_questionnaire.html#a5342a0e97da9d8b2b096aa661ba80506" title="Set the description of the questionnaire in the UI." alt="" coords="638,5,839,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="590,41,622,37,623,43,591,46"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_questionnaire.html#a6ca554de219f514f6847266cf16f0baf" title="Set the title of the questionnaire in the UI." alt="" coords="638,72,839,115"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="591,74,623,77,622,83,590,79"/>
+</map>

@@ -14,6 +14,9 @@ namespace AwARe.Notifications.Objects
         Editor
     }
 
+    /// <summary>
+    /// Class <c>NotificationScheduler</c> is responsible for 
+    /// </summary>
     public class NotificationScheduler : MonoBehaviour
     {
 
@@ -38,8 +41,8 @@ namespace AwARe.Notifications.Objects
         }
 
         /// <summary>
-        /// test method that can be transformed into the main method later on
-        /// sends a notification
+        /// Test method that can be transformed into the main method later on
+        /// sends a notification.
         /// </summary>
         public void SendNotificationTest()
         {
@@ -61,12 +64,12 @@ namespace AwARe.Notifications.Objects
         }
 
         /// <summary>
-        /// sends a notifcation to the android platform. does nothing if called on other platforms
+        /// Sends a notifcation to the android platform. does nothing if called on other platforms.
         /// </summary>
-        /// <param name="title">the title text of the notification</param>
-        /// <param name="body">the body text of the notification</param>
-        /// <param name="questionnaire">the questionnaire associated with the notification</param>
-        /// <param name="time">the time at which to send the notification</param>
+        /// <param name="title">The title text of the notification.</param>
+        /// <param name="body">The body text of the notification.</param>
+        /// <param name="questionnaire">The questionnaire associated with the notification.</param>
+        /// <param name="time">The time at which to send the notification.</param>
         private void SendAndroidNotification(string title, string body, string questionnaire, DateTime time)
         {
         #if UNITY_ANDROID
@@ -77,12 +80,12 @@ namespace AwARe.Notifications.Objects
         }
 
         /// <summary>
-        /// sends a notifcation to the IOS platform. does nothing if called on other platforms
+        /// Sends a notifcation to the IOS platform. does nothing if called on other platforms.
         /// </summary>
-        /// <param name="title">the title text of the notification</param>
-        /// <param name="body">the body text of the notification</param>
-        /// <param name="questionnaire">the questionnaire associated with the notification</param>
-        /// <param name="time">the time at which to send the notification</param>
+        /// <param name="title">The title text of the notification.</param>
+        /// <param name="body">The body text of the notification.</param>
+        /// <param name="questionnaire">The questionnaire associated with the notification.</param>
+        /// <param name="time">The time at which to send the notification.</param>
         private void SendIOSNotification(string title, string body, string questionnaire, DateTime time)
         {
         #if UNITY_IOS
@@ -93,12 +96,12 @@ namespace AwARe.Notifications.Objects
         }
 
         /// <summary>
-        /// sends a notifcation to the unity editor environment. does nothing if called on other platforms
+        /// Sends a notifcation to the unity editor environment. does nothing if called on other platforms.
         /// </summary>
-        /// <param name="title">the title text of the notification</param>
-        /// <param name="body">the body text of the notification</param>
-        /// <param name="questionnaire">the questionnaire associated with the notification</param>
-        /// <param name="time">the time at which to send the notification</param>
+        /// <param name="title">The title text of the notification.</param>
+        /// <param name="body">The body text of the notification.</param>
+        /// <param name="questionnaire">The questionnaire associated with the notification.</param>
+        /// <param name="time">The time at which to send the notification.</param>
         private void SendEditorNotification(string title, string body, string questionnaire, DateTime time)
         {
         #if UNITY_EDITOR
@@ -108,7 +111,14 @@ namespace AwARe.Notifications.Objects
         #endif
         }
 
-        //sets the parameters of a notification
+        /// <summary>
+        /// Sets the parameters of a notification.
+        /// </summary>
+        /// <param name="notification">The instance of the implementation of the Notification (ios, android or editor). </param>
+        /// <param name="title">The title of the notification.</param>
+        /// <param name="body">The body of the notification.</param>
+        /// <param name="questionnaire">The questionnaire attached to the notification.</param>
+        /// <param name="time">The time at which the notification will be sent.</param>
         private void SetNotifParams(Notification notification, string title, string body, string questionnaire, DateTime time)
         {
             notification.SetFireTime(time);
