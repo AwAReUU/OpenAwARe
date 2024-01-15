@@ -1,0 +1,5 @@
+<map id="AwARe.IngredientList.Objects.ListsOverviewScreen.OnItemClick" name="AwARe.IngredientList.Objects.ListsOverviewScreen.OnItemClick">
+<area shape="rect" id="Node000001" title="Calls an instance of manager to close this screen and open the IngredientListScreen of the given ingr..." alt="" coords="5,13,221,56"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_ingredient_list_manager.html#acaa89cf2198541523d794fb717a29e05" title="Closes the previous screen, selects the given ingredient list and opens the IngredientListScreen." alt="" coords="269,5,535,64"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,32,253,32,253,37,221,37"/>
+</map>

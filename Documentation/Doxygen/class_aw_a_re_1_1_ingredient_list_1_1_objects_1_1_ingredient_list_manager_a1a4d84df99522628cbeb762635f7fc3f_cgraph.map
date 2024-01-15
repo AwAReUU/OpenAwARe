@@ -1,0 +1,7 @@
+<map id="AwARe.IngredientList.Objects.IngredientListManager.UpdateIngredient" name="AwARe.IngredientList.Objects.IngredientListManager.UpdateIngredient">
+<area shape="rect" id="Node000001" title="Sets the quantity and type of the currently selected ingredient inside the IngredientList to the give..." alt="" coords="5,51,255,93"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_ingredient_list_manager.html#a1c0b2d088477d40fb88e0bf5e8b48b96" title="Notifies objects subscribed to this action that the current IngredientList has been changed." alt="" coords="303,5,509,64"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="255,52,287,48,288,53,255,58"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_list.html#ad2245b969383eeb8c9d3fc459c46f1ec" title="Updates the quantity and type Value in the Dictionary of the given Ingredient." alt="" coords="306,88,506,131"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="255,86,291,91,290,96,255,92"/>
+</map>

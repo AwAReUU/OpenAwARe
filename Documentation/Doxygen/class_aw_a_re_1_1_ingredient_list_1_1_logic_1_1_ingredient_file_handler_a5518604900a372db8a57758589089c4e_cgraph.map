@@ -1,0 +1,5 @@
+<map id="AwARe.IngredientList.Logic.IngredientFileHandler.SaveLists" name="AwARe.IngredientList.Logic.IngredientFileHandler.SaveLists">
+<area shape="rect" id="Node000001" title="Converts the IngredientList Lists to JSON and writes this to the local file." alt="" coords="5,13,208,56"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_lists_json_helper.html#a35761e663eaded1b8b9960751c747264" title="Converts a list of IngredientList to a json string." alt="" coords="256,5,485,64"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,32,240,32,240,37,208,37"/>
+</map>

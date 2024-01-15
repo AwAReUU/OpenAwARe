@@ -1,0 +1,5 @@
+<map id="AwARe.Database.IModelDatabase" name="AwARe.Database.IModelDatabase">
+<area shape="rect" id="Node000001" title="Interface that defines methods needed to be implemented to query Model data." alt="" coords="5,5,226,32"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_database_1_1_logic_1_1_mockup_model_database.html" title="Implementation of the Model Database interface, that uses mock database using a locally saved table...." alt="" coords="11,80,220,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,48,118,80,113,80,113,48"/>
+</map>

@@ -1,0 +1,17 @@
+<map id="AwARe.IngredientList.Objects.IngredientListScreen.OnDeleteItemButtonClick" name="AwARe.IngredientList.Objects.IngredientListScreen.OnDeleteItemButtonClick">
+<area shape="rect" id="Node000001" title="Calls an instance of IngredientListManager to delete the given ingredient from the ingredient list,..." alt="" coords="5,113,228,172"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_ingredient_list_manager.html#afcf10370acbd1517fbf2bb285ef11ed3" title="Removes the given ingredient from the ingredient list." alt="" coords="278,88,523,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,127,262,123,263,128,228,132"/>
+<area shape="rect" id="Node000005" href="$class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_ingredient_list_screen.html#aa2ef66b462feb8d24fe303c046a977ca" title="Creates GameObjects with an &quot;edit&quot; and &quot;delete&quot; button for all the ingredients in this is List and ad..." alt="" coords="276,155,525,197"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="228,153,260,157,260,162,228,158"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_ingredient_list_manager.html#a1c0b2d088477d40fb88e0bf5e8b48b96" title="Notifies objects subscribed to this action that the current IngredientList has been changed." alt="" coords="596,5,802,64"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="488,85,580,62,581,67,490,90"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_list.html#a825f866fcd9ad407e63ba47990f0ee99" title="Removes the given ingredient from the Dictionary." alt="" coords="597,88,801,131"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="523,107,581,107,581,112,523,112"/>
+<area shape="rect" id="Node000006" href="$class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_ingredient_list_screen.html#a79039cbd297452129fb1786ca8afe033" title="Destroys all objects in the scrollview and empties ingredients." alt="" coords="573,155,825,197"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="526,173,558,173,558,179,526,179"/>
+<area shape="rect" id="Node000007" href="$class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_ingredient_list_item.html#a8922ac50a8b059eb176aa497fed8dd62" title="Sets this item to represent the given entry." alt="" coords="600,221,798,264"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="500,195,586,215,585,220,498,201"/>
+<area shape="rect" id="Node000008" href="$class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_ingredient_list_item.html#a7fd4110bc2f7d71579d07b4174556a6e" title="Corrects this UI element to represent its data." alt="" coords="873,221,1072,264"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="799,240,858,240,858,245,799,245"/>
+</map>

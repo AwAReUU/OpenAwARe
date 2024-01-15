@@ -1,0 +1,7 @@
+<map id="AwARe.ResourcePipeline.Logic.ResourceCalculator.GetIngredientResources" name="AwARe.ResourcePipeline.Logic.ResourceCalculator.GetIngredientResources">
+<area shape="rect" id="Node000001" title="Converts a single ingredient to a list of its resource cost." alt="" coords="5,31,221,89"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_resource_pipeline_1_1_logic_1_1_resource_dictionary.html#a74a4e8fa2f90d00dd4d896c2aa3faa0f" title="Add a Resource to the ResourceDictionary" alt="" coords="269,5,485,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,44,253,40,254,45,222,49"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient.html#a5fb3bd3f44a6603a381788f327767b5a" title="Calculates the number of grams in the given quantity." alt="" coords="277,72,477,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="222,71,262,76,261,81,221,76"/>
+</map>

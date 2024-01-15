@@ -1,0 +1,14 @@
+<map id="AwARe.Questionnaire.Objects.Questionnaire.AddIfYesQuestions" name="AwARe.Questionnaire.Objects.Questionnaire.AddIfYesQuestions">
+<area shape="rect" id="Node000001" title="Adds all IfYesQuestions from data &#160;to question &#160;if they exist. It sets them as inactive,..." alt="" coords="5,105,222,148"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_questionnaire.html#ab968ea3caab2cadab6f4a150cabdc05d" title="Instantiate a questionCreator and use it to create a new question." alt="" coords="270,105,471,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,133,254,133,254,138,222,138"/>
+<area shape="poly" id="edge3_Node000002_Node000001" title=" " alt="" coords="269,121,237,120,237,115,269,115"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_questionnaire.html#aa9481ddac26126e784886b846d0d8747" title="Add a single answer option, using &quot;QuestionData&quot; to the given &quot;Question&quot;." alt="" coords="519,5,735,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="415,102,518,58,536,51,538,56,520,62,417,107"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_question.html#a283372fa95bfab3a532320f28f44e9df" title="Sets the index of the answerOption that triggers additional questions. ifYes &#160;should be set to true i..." alt="" coords="527,72,728,115"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="471,111,511,106,511,111,472,116"/>
+<area shape="rect" id="Node000005" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_question.html#a26f20d06d57ad42d3ae88972873c287d" title="Sets the parentQuestionnaire object where this question lives in." alt="" coords="520,139,735,181"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="472,137,504,141,503,147,471,142"/>
+<area shape="rect" id="Node000006" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_question.html#aa56d899e11928d1755569c0ee0cf0846" title="Set the title of this question." alt="" coords="527,205,728,248"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="417,146,520,191,538,197,536,202,518,196,415,151"/>
+</map>

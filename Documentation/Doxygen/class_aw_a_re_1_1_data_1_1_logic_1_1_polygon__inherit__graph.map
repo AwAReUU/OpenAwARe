@@ -1,0 +1,5 @@
+<map id="AwARe.Data.Logic.Polygon" name="AwARe.Data.Logic.Polygon">
+<area shape="rect" id="Node000001" title="A Polygon representing (a part of) the floor." alt="" coords="5,80,187,107"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="19,5,173,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,48,99,80,93,80,93,48"/>
+</map>

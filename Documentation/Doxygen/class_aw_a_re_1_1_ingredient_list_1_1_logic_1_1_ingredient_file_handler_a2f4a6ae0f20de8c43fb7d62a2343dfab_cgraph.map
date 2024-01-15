@@ -1,0 +1,5 @@
+<map id="AwARe.IngredientList.Logic.IngredientFileHandler.ReadFile" name="AwARe.IngredientList.Logic.IngredientFileHandler.ReadFile">
+<area shape="rect" id="Node000001" title="Converts the file contents to an IngredientList List." alt="" coords="5,13,203,56"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_lists_json_helper.html#ae38b496c79f42575f8f02a90b986d433" title="Read the given path into a json object." alt="" coords="251,5,472,64"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,32,235,32,235,37,203,37"/>
+</map>

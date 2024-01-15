@@ -1,0 +1,5 @@
+<map id="AwARe.UI.Objects.ActivityToggle" name="AwARe.UI.Objects.ActivityToggle">
+<area shape="rect" id="Node000001" title="Attach a toggle to the activity state of its object." alt="" coords="5,80,181,123"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="38,5,148,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,48,96,80,90,80,90,48"/>
+</map>
