@@ -43,9 +43,26 @@ namespace AwARe.Database.Logic
                 new Resource(14,       "Pork",  ResourceType.Animal,  50000, 4),
                 new Resource(15,       "Duck",  ResourceType.Animal,   2500, 5),
                 new Resource(16,       "Milk",  ResourceType.Animal,   null, 8),
-                new Resource(17,      "Wheat",  ResourceType.Plant,      1000, 7),
+                new Resource(17,      "Wheat",  ResourceType.Plant,    1000, 7),
                 new Resource(18,     "Potato",  ResourceType.Plant,    1000, 9),
-                new Resource(19,       "Beet",  ResourceType.Plant,     250, 10)
+                new Resource(19,       "Beet",  ResourceType.Plant,     250, 10),
+                new Resource(20, "Artichoke",   ResourceType.Plant,     300, 11),
+                new Resource(21,   "Brokoly",   ResourceType.Plant,     500, 12), 
+                new Resource(22,   "Cabbage",   ResourceType.Plant,    1000, 13),
+                new Resource(23,    "Carrot",   ResourceType.Plant,     550, 14),
+                new Resource(24,      "Corn",   ResourceType.Plant,    2000, 15),
+                new Resource(25,     "Corn2",   ResourceType.Plant,    2000, 16),
+                new Resource(26,  "Cucumber",   ResourceType.Plant,     800, 17),
+                new Resource(27,  "Eggplant",   ResourceType.Plant,    1000, 18),
+                new Resource(28,    "Garlic",   ResourceType.Plant,     150, 19),
+                new Resource(29,     "Grap2",   ResourceType.Plant,     500, 20), 
+                new Resource(30,     "Onion",   ResourceType.Plant,     250, 21),
+                new Resource(31,    "Pepper",   ResourceType.Plant,     400, 22),
+                new Resource(32,     "Poppy",   ResourceType.Plant,     100, 23),
+                new Resource(33,   "Pumpkin",   ResourceType.Plant,    2000, 24),
+                new Resource(34, "Sunflower",   ResourceType.Plant,    1000, 25),
+                new Resource(35,    "Tomato",   ResourceType.Plant,     800, 26),
+                new Resource(36,    "Wheat2",   ResourceType.Plant,    1000, 27)
             };
         }
 

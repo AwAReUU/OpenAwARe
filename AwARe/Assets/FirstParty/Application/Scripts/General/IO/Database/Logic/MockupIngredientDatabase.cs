@@ -47,7 +47,24 @@ namespace AwARe.Database.Logic
                 new Ingredient(15,      "Duck",  null,  250),
                 new Ingredient(16,      "Milk", 1.04f, null),
                 new Ingredient(17,    "Potato",  null,  100),
-                new Ingredient(18,      "Beet",  null,  150)
+                new Ingredient(18,      "Beet",  null,  150),
+                new Ingredient(19, "Artichoke", null, 120),
+                new Ingredient(20,   "Brokoly", null, 300),
+                new Ingredient(21,   "Cabbage", null, 1000),
+                new Ingredient(22,    "Carrot", null, 60),
+                new Ingredient(23,      "Corn", null, 150),
+                new Ingredient(24,     "Corn2", null, 150),
+                new Ingredient(25,  "Cucumber", null, 300),
+                new Ingredient(26,  "Eggplant", null, 400),
+                new Ingredient(27,    "Garlic", null, 5),
+                new Ingredient(28,     "Grape2", null, 5),
+                new Ingredient(29,     "Onion", null, 100),
+                new Ingredient(30,    "Pepper", null, 45),
+                new Ingredient(31,     "Poppy", null, 4), //seeds
+                new Ingredient(32,   "Pumpkin", null, 2000),
+                new Ingredient(33, "Sunflower", null, 4), //seeds
+                new Ingredient(34,    "Tomato", null, 100),
+                new Ingredient(35,    "Wheat", null, 45) 
             };
         }
 
@@ -70,7 +87,22 @@ namespace AwARe.Database.Logic
             (15,          "Duck"),
             (16,          "Milk"),
             (17, "Potato"),
-            (18, "Beet")
+            (18, "Beet"),
+            (19, "Artichoke"),
+            (20, "Broccoli"), // Assuming 'Brokoly' is broccoli
+            (21, "Cabbage"),
+            (22, "Carrot"),
+            (23, "Corn"),
+            (25, "Cucumber"),
+            (26, "Eggplant"),
+            (27, "Garlic"),
+            (29, "Onion"),
+            (30, "Pepper"),
+            (31, "Poppy"), 
+            (32, "Pumpkin"),
+            (33, "Sunflower"), (33, "Sunflower seeds"),
+            (34, "Tomato"),
+            (35, "Wheat")
         };
 
         ///<inheritdoc cref="IIngredientDatabase.Search"/>
