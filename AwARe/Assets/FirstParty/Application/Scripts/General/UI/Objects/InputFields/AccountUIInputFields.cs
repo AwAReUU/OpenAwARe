@@ -27,6 +27,8 @@ namespace AwARe
         [SerializeField] private TMP_InputField FirstNameInputField;
         [SerializeField] private TMP_InputField LastNameInputField;
         [SerializeField] private TMP_InputField passwordConfirmInputField;
+
+        // buttons
         [SerializeField] private Button securityButtonRegister;
         [SerializeField] private Button securityButtonLogin;
         [SerializeField] private Button referRegisterButton;
@@ -59,31 +61,24 @@ namespace AwARe
             warningIncorrectEmail.SetActive(false);
             warningWeakPW.SetActive(false);
             warningDissimilarPW.SetActive(false);
-            warningDissimilarPW.SetActive(false);
             registerScreen.SetActive(false);
             loginScreen.SetActive(true);
             // security toggle button is in 'hidden' mode
             visibilityregsec = false;
             visibilitylogsec = false;
 
+            // character limit for email input fields (emails can be much longer)
+            registerEmailInputField.characterLimit=80;
+            loginEmailInputField.characterLimit=80;
+
             // character limit for input fields
-            SetCharacterLimit(registerEmailInputField);
             SetCharacterLimit(registerPasswordInputField);
             SetCharacterLimit(FirstNameInputField);
             SetCharacterLimit(LastNameInputField);
             SetCharacterLimit(passwordConfirmInputField);
-            SetCharacterLimit(loginEmailInputField);
             SetCharacterLimit(loginPasswordInputField);
-
-
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-            
-
-        }
 
         void Awake()
         {
@@ -156,6 +151,8 @@ namespace AwARe
             }
 
         }
+
+
 
         /// <summary>
         /// Handles the logic when the security button for login is clicked.
