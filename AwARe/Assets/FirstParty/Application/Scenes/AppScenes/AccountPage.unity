@@ -1161,13 +1161,13 @@ MonoBehaviour:
   loginEmailInputField: {fileID: 1248422008}
   loginPasswordInputField: {fileID: 1763823491}
   registerEmailInputField: {fileID: 672917342}
-  registerPasswordInputField: {fileID: 0}
+  registerPasswordInputField: {fileID: 1456302437}
   FirstNameInputField: {fileID: 676489325}
   LastNameInputField: {fileID: 1448838505}
   passwordConfirmInputField: {fileID: 1142123739}
   stayButton: {fileID: 406596008}
   leaveButton: {fileID: 495104831}
-  unsavedpopup: {fileID: 1716510683}
+  unsavedPopup: {fileID: 1716510683}
 --- !u!114 &354482409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2856,13 +2856,13 @@ MonoBehaviour:
   loginEmailInputField: {fileID: 1248422008}
   loginPasswordInputField: {fileID: 1763823491}
   registerEmailInputField: {fileID: 672917342}
-  registerPasswordInputField: {fileID: 0}
+  registerPasswordInputField: {fileID: 1456302437}
   FirstNameInputField: {fileID: 676489325}
   LastNameInputField: {fileID: 1448838505}
   passwordConfirmInputField: {fileID: 1142123739}
   stayButton: {fileID: 406596008}
   leaveButton: {fileID: 495104831}
-  unsavedpopup: {fileID: 1716510683}
+  unsavedPopup: {fileID: 1716510683}
 --- !u!1001 &755718581
 PrefabInstance:
   m_ObjectHideFlags: 0
