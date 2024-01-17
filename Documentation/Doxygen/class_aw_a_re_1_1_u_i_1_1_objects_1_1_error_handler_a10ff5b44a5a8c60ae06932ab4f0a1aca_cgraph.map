@@ -1,0 +1,5 @@
+<map id="AwARe.UI.Objects.ErrorHandler.HandleLog" name="AwARe.UI.Objects.ErrorHandler.HandleLog">
+<area shape="rect" id="Node000001" title="Show the error in debug mode. In release, it only shows the popup." alt="" coords="5,5,215,48"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_u_i_1_1_popups_1_1_objects_1_1_popup_handler.html#a59be8607adf8bcecfe051157074b95a0" title="Show the popup." alt="" coords="263,5,444,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,24,247,24,247,29,215,29"/>
+</map>

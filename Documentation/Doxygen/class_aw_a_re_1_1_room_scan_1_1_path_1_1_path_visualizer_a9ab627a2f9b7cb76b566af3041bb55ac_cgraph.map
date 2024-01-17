@@ -1,0 +1,9 @@
+<map id="AwARe.RoomScan.Path.PathVisualizer.CreateMesh" name="AwARe.RoomScan.Path.PathVisualizer.CreateMesh">
+<area shape="rect" id="Node000001" title="Create a Mesh of the path including the surrounding radius." alt="" coords="5,72,200,115"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_room_scan_1_1_path_1_1_path_visualizer.html#a859536a66ced80ef9d248d81131cf112" title="Creates a Circle Mesh around a center with the given radius. The mesh consists of a given number of t..." alt="" coords="248,5,442,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,69,249,50,251,55,183,74"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_room_scan_1_1_path_1_1_path_visualizer.html#a906252ded85aece0fc3c37514e07ba72" title="A helper method to combine two meshes into a single mesh." alt="" coords="248,72,442,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,91,232,91,232,96,200,96"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_room_scan_1_1_path_1_1_path_visualizer.html#aab3186b3de8fe0e00cfcb82b9901614a" title="Creates a (rotated)rectangle between two points with a width of two times the given radius." alt="" coords="248,139,442,181"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="183,113,251,131,249,137,182,118"/>
+</map>

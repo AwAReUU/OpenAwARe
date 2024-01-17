@@ -1,0 +1,5 @@
+<map id="AwARe.ResourcePipeline.Objects.PipelineManager.ResourceListToModelQuantities" name="AwARe.ResourcePipeline.Objects.PipelineManager.ResourceListToModelQuantities">
+<area shape="rect" id="Node000001" title="Convert ResourceDictionary to ModelDict(which is a Dictionary of modelIds to quantities)." alt="" coords="5,5,252,64"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_resource_pipeline_1_1_logic_1_1_model_calculator.html#a18f8268e24276de4efff6f2f263aadc2" title="Calculate how many models we need to render for the given resource." alt="" coords="300,13,556,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="252,32,284,32,284,37,252,37"/>
+</map>
