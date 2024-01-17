@@ -38,7 +38,7 @@ namespace AwARe
         // Start is called before the first frame update
         void Start()
         {
-            unsavedPopup.SetActive(false);
+            
         }
 
         void Awake()
