@@ -66,6 +66,9 @@ sysinfo.txt
 *.unitypackage
 *.app
 
+# Code Coverage
+/AwARe/[Cc]ode[Cc]overage/
+
 # Crashlytics generated file
 crashlytics-build.properties
 

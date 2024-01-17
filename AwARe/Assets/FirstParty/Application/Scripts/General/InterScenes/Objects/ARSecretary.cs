@@ -5,11 +5,10 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using AwARe.Logic;
-
+using AwARe.Objects;
 using Unity.XR.CoreUtils;
-
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.XR.ARFoundation;
 
@@ -27,6 +26,7 @@ namespace AwARe.InterScenes.Objects
         [FormerlySerializedAs("ARSession")][SerializeField] private ARSession session;
         [FormerlySerializedAs("XROrigin")][SerializeField] private XROrigin origin;
         [FormerlySerializedAs("Camera")][SerializeField] private Camera cam;
+        [FormerlySerializedAs("EventSystem")][SerializeField] private EventSystem eventSystem;
         
         /// <summary>
         /// Gets the current AR Session.
@@ -59,16 +59,45 @@ namespace AwARe.InterScenes.Objects
         }
 
         /// <summary>
+        /// Gets the current AR Camera.
+        /// </summary>
+        /// <value>The current AR Camera.</value>
+        public EventSystem EventSystem
+        {
+            get => eventSystem != null ? eventSystem : FindObjectOfType<EventSystem>();
+            private set => eventSystem = value;
+        }
+
+        /// <summary>
         /// Get the component of type T from Origin, Session, Camera or itself, if present.
         /// </summary>
         /// <typeparam name="T">Type of the component.</typeparam>
         /// <returns>The component, if present.</returns>
         public new T GetComponent<T>()
             where T : Component =>
-            (Origin ? Origin.GetComponent<T>() : null)
+            gameObject.GetComponent<T>()
+            ?? (Origin ? Origin.GetComponent<T>() : null)
             ?? (Session ? Session.GetComponent<T>() : null)
             ?? (Camera ? Camera.GetComponent<T>() : null)
-            ?? gameObject.GetComponent<T>();
+            ?? (EventSystem ? EventSystem.GetComponent<T>() : null);
+
+        /// <summary>
+        /// Initialize this singleton component.
+        /// </summary>
+        /// <param name="session">The ARSession in the ARSupport scene.</param>
+        /// <param name="origin">The AR Session Origin in the ARSupport scene.</param>
+        /// <param name="camera">The Camera under the AR Session Origin.</param>
+        /// <param name="eventSystem">The EventSystem in the ARSupport scene.</param>
+        /// <returns>The initialized component.</returns>
+        public static ARSecretary SetComponent(ARSession session, XROrigin origin, Camera camera, EventSystem eventSystem)
+        {
+            var secretary = Get();
+            secretary.Session = session;
+            secretary.Origin = origin;
+            secretary.Camera = camera;
+            secretary.EventSystem = eventSystem;
+            return secretary;
+        }
 
         private void Awake()
         {
@@ -96,7 +125,7 @@ namespace AwARe.InterScenes.Objects
         /// Instantiate a new instance of itself.
         /// </summary>
         /// <returns>An instance of itself.</returns>
-        public static ARSecretary Instantiate() =>
+        private static ARSecretary Instantiate() =>
             new GameObject("ARSecretary").AddComponent<ARSecretary>();
     }
 }

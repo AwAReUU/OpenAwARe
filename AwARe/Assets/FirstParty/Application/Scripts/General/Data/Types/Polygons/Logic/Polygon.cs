@@ -7,88 +7,85 @@
 
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AwARe.Data.Logic
 {
     /// <summary>
-    /// A polygon representing (a part of) the floor.
+    /// A Polygon representing (a part of) the floor.
     /// </summary>
-    public class Polygon
+    [Serializable]
+    public class Polygon : IEquatable<Polygon>
     {
-        /// <value>The points that form the 'corners' of the polygon.</value>
-        public List<Vector3> Points {  get; protected set; }
+        /// <summary>
+        /// Gets the area of the polygon.
+        /// </summary>
+        /// <value>The area of the polygon.</value>
+        /// The points representing the polygon.
+        /// </summary>
+        public List<Vector3> points;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Polygon"/> class.
+        /// Gets or sets the height of the Polygon cylinder.
         /// </summary>
-        /// <param name="points">A list of pre-defined points of which the polygon consists.</param>
-        public Polygon(List<Vector3> points = null)
-        {
-            if (points == null)
-                Points = new List<Vector3>();
-            else
-                Points = points;
-        }
-
-        /// <summary>
-        /// Adds the given point to the list of points.
-        /// </summary>
-        /// <param name="point">The point to add to the list.</param>
-        public void AddPoint(Vector3 point) => Points.Add(point);
-
-        /// <summary>
-        /// Removes the last added point from the list of points.
-        /// </summary>
-        public void RemoveLastPoint()
-        {
-            if (Points.Count > 0)
-            {
-                Points.RemoveAt(Points.Count - 1);
-            }
-        }
-
-        /// <summary>
-        /// Gets the points list in array form.
-        /// </summary>
-        /// <returns>An array containing the points of the point lsit.</returns>
-        public Vector3[] GetPoints() => Points.ToArray();
-
-        /// <summary>
-        /// Returns the amount of points of the polygon.
-        /// </summary>
-        /// <returns>The amount of point.</returns>
-        public int AmountOfPoints() => Points.Count;
-
-        /// <summary>
-        /// Gets the first point from the points list.
-        /// </summary>
-        /// <returns>The first point.</returns>
-        public Vector3 GetFirstPoint() => Points[0];
-
-        /// <summary>
-        /// Whether the polygon is empty.
-        /// </summary>
-        /// <returns>True if the polygon has no points, false otherwise.</returns>
-        public bool IsEmptyPolygon() => Points.Count == 0;
+        /// <value>
+        /// The height of the Polygon cylinder in 3D space.
+        /// </value>
+        public float height;
 
         /// <summary>
         /// Calculates the area of the polygon.
         /// </summary>
         /// <returns>The area of the polygon.</returns>
-        public float PolygonArea()
-    {
-        float area = 0f;
-        int j = Points.Count - 1;
-
-        for (int i = 0; i < Points.Count; i++)
+        public float Area
         {
-            area += (Points[j].x + Points[i].z) * (Points[j].z - Points[i].z);
-            j = i; 
+            get
+            {
+                float area = 0f;
+                for (int i = 0, j = points.Count - 1; i < points.Count; i++)
+                {
+                    area += (points[j].x + points[i].x) * (points[j].z - points[i].z);
+                    j = i;
+                }
+                
+                return Mathf.Abs(area / 2);
+            }
         }
 
-        return Math.Abs(area / 2);
-    }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Polygon"/> class.
+        /// </summary>
+        /// <param name="points">A list of pre-defined points of which the Polygon consists.</param>
+        /// <param name="height">The height of the Polygon cylinder in 3D space.</param>
+        public Polygon(List<Vector3> points = null, float height = 1f)
+        {
+            this.points = points ?? new();
+            this.height = height;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Polygon"/> class.
+        /// Creates a deep copy of a Polygon.
+        /// </summary>
+        /// <param name="polygon">The Polygon to copy.</param>
+        /// <returns>A Deep copy of <paramref name="polygon"/>.</returns>
+        private Polygon(Polygon polygon)
+        {
+            points = new(polygon.points);
+            height = polygon.height;
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(Polygon other) =>
+            height.Equals(other.height) &&
+            points.SequenceEqual(other.points);
+        
+        /// <summary>
+        /// Creates a deep copy of this Polygon.
+        /// </summary>
+        /// <returns>A Deep copy of this Polygon.</returns>
+        public Polygon Clone() => new(this);
     }
 }

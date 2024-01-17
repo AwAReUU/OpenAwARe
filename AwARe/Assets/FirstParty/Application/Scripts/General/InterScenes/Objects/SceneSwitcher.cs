@@ -5,14 +5,11 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-
-using AwARe.Logic;
-
+using AwARe.Objects;
+using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 namespace AwARe.InterScenes.Objects
@@ -33,38 +30,22 @@ namespace AwARe.InterScenes.Objects
         /// <value>Scenes to keep alive.</value>
         public HashSet<Scene> Keepers => sceneSecretary.Keepers;
 
+        
         /// <summary>
-        /// Gets the look-up table from standard scenes to their file paths.
-        /// Centralizes modifications to scene navigation.
+        /// Initialize this singleton component.
         /// </summary>
-        /// <value>The look-up table from standard scene to filepath.</value>
-        public IReadOnlyDictionary<AppScene, string> AppSceneFilePaths { get; private set; } = new Dictionary<AppScene, string>
+        /// <param name="secretary">The secretary/adapter to the Scene Manager.</param>
+        public static SceneSwitcher SetComponent(SceneSecretary secretary)
         {
-            { AppScene.Start , ""},
-            { AppScene.Home , ""},
-            { AppScene.Settings , ""},
-            { AppScene.AR , ""},
-            { AppScene.RoomScan , ""},
-            { AppScene.IngredientList , ""},
-            { AppScene.Questionnaire , ""},
-            { AppScene.AccountPage , ""}
-
-        };
-
-        /// <summary>
-        /// Gets the look-up table from standard scenes to their build index.
-        /// Centralizes modifications to scene navigation.
-        /// Has to be constructed from the AppSceneFilePaths table at initialization.
-        /// </summary>
-        /// <value>The look-up table from standard scene to build index.</value>
-        public IReadOnlyDictionary<AppScene, int> AppSceneBuildIndex { get; private set; }
+            SceneSwitcher switcher = Get();
+            switcher.sceneSecretary = secretary;
+            return switcher;
+        }
 
         private void Awake()
         {
             // Setup singleton behaviour
             Singleton.Awake(ref instance, this);
-            // TODO: Set build index reference to standard scenes.
-            AppSceneBuildIndex = AppSceneFilePaths.ToDictionary(x => x.Key, x => SceneUtility.GetBuildIndexByScenePath(x.Value));
             // Set scene (un)loading behaviour.
             sceneSecretary = GetComponent<SceneSecretary>();
             // Keep alive between scenes
@@ -86,7 +67,7 @@ namespace AwARe.InterScenes.Objects
         /// Instantiate a new instance of itself.
         /// </summary>
         /// <returns>An instance of itself.</returns>
-        public static SceneSwitcher Instantiate()
+        private static SceneSwitcher Instantiate()
         {
             GameObject me = new("SceneSwitcher");
             me.AddComponent<SceneSecretary>();
@@ -108,20 +89,5 @@ namespace AwARe.InterScenes.Objects
         /// <param name="mode">Specify whether to keep other scenes loaded.</param>
         public void LoadScene(int sceneBuildIndex, LoadSceneMode mode = LoadSceneMode.Single) =>
             sceneSecretary.LoadScene(sceneBuildIndex, mode);
-    
-        /// <summary>
-        /// Load the standard scene.
-        /// </summary>
-        /// <param name="scene">The standard scene.</param>
-        /// <param name="mode">Specify whether to keep other scenes loaded.</param>
-        public void LoadScene(AppScene scene, LoadSceneMode mode = LoadSceneMode.Single) =>
-            LoadScene(AppSceneBuildIndex[scene], mode);
     }
-
-    /// <summary>
-    /// All standard scenes used across the application.
-    /// Centralizes modifications to scene navigation.
-    /// </summary>
-    [Serializable]
-    public enum AppScene { Start, Home, AR, RoomScan, IngredientList, Questionnaire, Settings, AccountPage }
 }

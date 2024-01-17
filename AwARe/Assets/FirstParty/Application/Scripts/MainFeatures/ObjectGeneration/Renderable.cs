@@ -1,4 +1,11 @@
-﻿using System.Collections.Generic;
+﻿// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
+using System.Collections.Generic;
 using AwARe.ResourcePipeline.Logic;
 using UnityEngine;
 
@@ -6,12 +13,12 @@ namespace AwARe.ObjectGeneration
 {
     /// <summary>
     /// <c>Renderable</c> is a class that contains properties
-    /// we need to render a specific gameObject
+    /// we need to render a specific gameObject.
     /// </summary>
     public class Renderable
     {
         /// <value>
-        /// The amount of this renderable to render
+        /// The amount of this renderable to render.
         /// </value>
         public int quantity { get; set; }
 
@@ -54,7 +61,7 @@ namespace AwARe.ObjectGeneration
         /// Construct a new Renderable. Note that we do not fill in the allowedSurfaceUsage yet, since this
         /// is based on the sum of all renderables.
         /// </summary>
-        /// <param name="prefab">Prefab to render</param>
+        /// <param name="prefab">Prefab to render.</param>
         /// <param name="halfExtents">halfExtents of the prefab. Scaling is already applied to this.</param>
         /// <param name="quantity">Quantity of this renderable to be placed.</param>
         /// <param name="scaling">scale of this renderable.</param>

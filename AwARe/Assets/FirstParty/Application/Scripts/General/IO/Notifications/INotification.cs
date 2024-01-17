@@ -6,8 +6,8 @@ using UnityEngine;
 namespace AwARe.Notifications
 {
     /// <summary>
-    /// abstract class from which platform-specific notifications are derived
-    /// contains several abstract methods which define required behavior
+    /// Abstract class from which platform-specific notifications are derived
+    /// contains several abstract methods which define required behavior.
     /// </summary>
     public abstract class Notification
     {
