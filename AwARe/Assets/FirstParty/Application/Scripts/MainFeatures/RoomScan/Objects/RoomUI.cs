@@ -10,6 +10,7 @@ using System.Collections.Generic;
 
 using AwARe.UI;
 using AwARe.UI.Objects;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.TestTools;
@@ -37,8 +38,11 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private GameObject saveButton;
         [SerializeField] private GameObject saveSlots;
         [SerializeField] private GameObject loadButton;
-        [SerializeField] private GameObject loadSlots;
         [SerializeField] private GameObject continueButton;
+        [SerializeField] private GameObject saveNameObject;
+        [SerializeField] private TMP_InputField saveName;
+       
+
 
         /// <summary>
         /// Sets activity of UI elements based on the polygon state.
@@ -60,7 +64,6 @@ namespace AwARe.RoomScan.Objects
                 save = false,
                 load = false,
                 saveSlots = false,
-                loadSlots = false,
                 conti = false;
 
             // Set wanted elements to active
@@ -80,7 +83,7 @@ namespace AwARe.RoomScan.Objects
                         return;
                     case State.Loading:
                         conti = true;
-                        loadSlots = true;
+                        saveSlots = true;
                         return;
                 }
 
@@ -123,7 +126,6 @@ namespace AwARe.RoomScan.Objects
             saveButton.SetActive(save);
             this.saveSlots.SetActive(saveSlots);
             loadButton.SetActive(load);
-            this.loadSlots.SetActive(loadSlots);
             continueButton.SetActive(conti);
         }
 

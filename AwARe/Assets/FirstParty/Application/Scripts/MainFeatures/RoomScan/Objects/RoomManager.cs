@@ -18,6 +18,8 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using AwARe.UI;
 
+using TMPro;
+
 namespace AwARe.RoomScan.Objects
 {
     /// <summary>
@@ -34,6 +36,7 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private RoomUI ui;
         [SerializeField] private Transform canvas;
         [SerializeField] private Transform sceneCanvas;
+       
         
         // Templates
         [SerializeField] private GameObject roomBase;
@@ -132,9 +135,14 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnSaveButtonClick()
         {
-            Storage.Get().ActiveRoom = Room.Data;
-            stateBefore = CurrentState;
-            SwitchToState(State.Saving);
+
+            if (CurrentState == State.Saving)
+            {
+                Storage.Get().ActiveRoom = Room.Data;
+                stateBefore = CurrentState;
+                SwitchToState(State.Saving);
+            }
+            else OnLoadButtonClick();
         }
 
         /// <summary>
@@ -153,6 +161,8 @@ namespace AwARe.RoomScan.Objects
             stateBefore = CurrentState; 
             SwitchToState(State.Loading);
         }
+
+        public void 
 
         /// <summary>
         /// Called on load slot click.
