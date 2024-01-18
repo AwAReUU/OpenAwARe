@@ -1,0 +1,5 @@
+<map id="AwARe.ObjectGeneration.ISpawnPointHandler" name="AwARe.ObjectGeneration.ISpawnPointHandler">
+<area shape="rect" id="Node000001" title="ISpawnPointHandler is an interface that mandates the implementation of GetValidSpawnPoints()." alt="" coords="8,5,223,48"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_object_generation_1_1_polygon_spawn_point_handler.html" title="Class PolygonSpawnPointHandler is an implementation of ISpawnPointHandler in which a Polygon from sca..." alt="" coords="5,96,226,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,64,118,96,113,96,113,64"/>
+</map>

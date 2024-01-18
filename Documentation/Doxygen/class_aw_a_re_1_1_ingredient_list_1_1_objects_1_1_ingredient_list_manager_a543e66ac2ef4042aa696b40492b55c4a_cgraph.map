@@ -1,0 +1,7 @@
+<map id="AwARe.IngredientList.Objects.IngredientListManager.DeleteList" name="AwARe.IngredientList.Objects.IngredientListManager.DeleteList">
+<area shape="rect" id="Node000001" title="Removes the given list from the overview and calls the fileHandler to save all lists." alt="" coords="5,13,216,56"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_file_handler.html#a5518604900a372db8a57758589089c4e" title="Converts the IngredientList Lists to JSON and writes this to the local file." alt="" coords="264,13,466,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,32,248,32,248,37,216,37"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_lists_json_helper.html#a35761e663eaded1b8b9960751c747264" title="Converts a list of IngredientList to a json string." alt="" coords="514,5,743,64"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="466,32,498,32,498,37,466,37"/>
+</map>

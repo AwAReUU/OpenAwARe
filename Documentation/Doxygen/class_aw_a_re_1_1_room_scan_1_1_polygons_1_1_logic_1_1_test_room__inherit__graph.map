@@ -1,0 +1,7 @@
+<map id="AwARe.RoomScan.Polygons.Logic.TestRoom" name="AwARe.RoomScan.Polygons.Logic.TestRoom">
+<area shape="rect" id="Node000001" title="A room filled with pre&#45;defined polygons." alt="" coords="5,155,200,197"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_data_1_1_logic_1_1_room.html" title="A class representing the room." alt="" coords="75,80,130,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,122,105,154,100,154,100,122"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="32,5,173,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="105,48,105,80,100,80,100,48"/>
+</map>

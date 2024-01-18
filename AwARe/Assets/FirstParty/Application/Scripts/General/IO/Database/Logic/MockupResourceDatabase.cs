@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -5,10 +12,17 @@ using AwARe.ResourcePipeline.Logic;
 
 namespace AwARe.Database.Logic
 {
+    /// <summary>
+    /// Implementation of the Resource Database interface, that uses mock database using a locally saved table.
+    /// The Mock Database can be used for testing purposes.
+    /// </summary>
     public class MockupResourceDatabase : IResourceDatabase
     {
         readonly List<Resource> resourceTable;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockupResourceDatabase"/> class.
+        /// </summary>
         public MockupResourceDatabase()
         {
             resourceTable = new()
@@ -31,16 +45,18 @@ namespace AwARe.Database.Logic
                 new Resource(16,       "Milk",  ResourceType.Animal,   null, 8),
                 new Resource(17,      "Wheat",  ResourceType.Plant,      1000, 7),
                 new Resource(18,     "Potato",  ResourceType.Plant,    1000, 9),
-                new Resource(19,     "Beet",  ResourceType.Plant,     250, 10)
+                new Resource(19,       "Beet",  ResourceType.Plant,     250, 10)
             };
         }
 
+        ///<inheritdoc cref="IResourceDatabase.GetResource"/>
         public Resource GetResource(int id)
         {
             // return the first resource that matches id, should be the only one since IDs are unique
             return resourceTable.First(x => x.ID == id);
         }
 
+        ///<inheritdoc cref="IResourceDatabase.GetResources"/>
         public List<Resource> GetResources(IEnumerable<int> ids)
         {
             // perform an inner join of resource table and ids on resourceID

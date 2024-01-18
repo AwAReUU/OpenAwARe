@@ -522,6 +522,11 @@ PrefabInstance:
       propertyPath: session
       value: 
       objectReference: {fileID: 656880747}
+    - target: {fileID: 1774313328355349516, guid: 88fcc66bb2348984a8e2b67ed0771e48,
+        type: 3}
+      propertyPath: eventSystem
+      value: 
+      objectReference: {fileID: 721795251}
     - target: {fileID: 6655893648085076272, guid: 88fcc66bb2348984a8e2b67ed0771e48,
         type: 3}
       propertyPath: m_LocalPosition.x

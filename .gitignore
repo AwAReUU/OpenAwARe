@@ -66,6 +66,12 @@ sysinfo.txt
 *.unitypackage
 *.app
 
+# Code Coverage
+/AwARe/[Cc]ode[Cc]overage/
+
+# Doxygen documentation
+/Documentation/[Dd]oxygen/
+
 # Crashlytics generated file
 crashlytics-build.properties
 

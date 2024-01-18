@@ -1,0 +1,17 @@
+<map id="AwARe.ObjectGeneration.ObjectPlacer.InitializeClusters" name="AwARe.ObjectGeneration.ObjectPlacer.InitializeClusters">
+<area shape="rect" id="Node000001" title="Spawns one object of each renderable at a valid spawnoint. The initial objects are spawned as far apa..." alt="" coords="5,101,217,144"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_object_generation_1_1_object_placer.html#ace143b5ab50a959ed600f1869677f50c" title="Sorts the list of available spawnpoints by furthest distance from the already occupied spawnpoints." alt="" coords="265,56,491,115"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,105,249,101,249,106,217,110"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_object_generation_1_1_object_placer.html#a13e444f7a47c8f3129d3f6be449518a3" title="Tries to place a renderable &#160;at position ." alt="" coords="272,139,484,181"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="217,135,257,140,257,146,217,140"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_object_generation_1_1_renderable.html#a27e002d77dc8429dcfb8c932772b9439" title="Get all four corners of a renderable &#160;that is placed at position , so they are global coordinates." alt="" coords="539,5,781,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="470,136,489,125,505,109,513,92,521,75,537,58,544,53,547,58,541,62,525,78,517,94,509,112,493,129,473,140"/>
+<area shape="rect" id="Node000005" href="$class_aw_a_re_1_1_object_generation_1_1_renderable.html#a70b94a7b4315d9b1ef5f0c8513ac6105" title="Return the halfExtents of the current Renderable." alt="" coords="539,72,781,115"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="471,135,552,116,553,121,472,141"/>
+<area shape="rect" id="Node000006" href="$class_aw_a_re_1_1_object_generation_1_1_renderable.html#a7111a00e85e900c734e3825b2e85907f" title="Return the gameobject prefab of the current Renderable." alt="" coords="539,139,781,181"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="484,157,524,157,524,163,484,163"/>
+<area shape="rect" id="Node000007" href="$class_aw_a_re_1_1_object_generation_1_1_renderable.html#ac8a71311d0c4ea64ee15b2d483ea6529" title="Return the scaling of the current Renderable." alt="" coords="539,205,781,248"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="472,179,553,199,552,204,471,185"/>
+<area shape="rect" id="Node000008" href="$class_aw_a_re_1_1_object_generation_1_1_polygon_helper.html#a23a477fd6eba137552ebbf51d52cdec0" title="Check if all four base corners &#160;are inside of the Polygon described by polygonPoints ." alt="" coords="550,272,770,315"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="410,180,468,219,540,258,556,264,554,269,538,262,466,224,407,184"/>
+</map>

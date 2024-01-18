@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -5,10 +12,17 @@ using AwARe.ResourcePipeline.Logic;
 
 namespace AwARe.Database.Logic
 {
+    /// <summary>
+    /// Implementation of the Model Database interface, that uses mock database using a locally saved table.
+    /// The Mock Database can be used for testing purposes.
+    /// </summary>
     public class MockupModelDatabase : IModelDatabase
     {
         readonly List<Model> modelTable;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockupModelDatabase"/> class.
+        /// </summary>
         public MockupModelDatabase()
         {
             modelTable = new()
@@ -27,11 +41,13 @@ namespace AwARe.Database.Logic
             };
         }
 
+        ///<inheritdoc cref="IModelDatabase.GetModel"/>
         public Model GetModel(int id)
         {
             return modelTable.First(x => x.ID == id);
         }
 
+        ///<inheritdoc cref="IModelDatabase.GetModels"/>
         public List<Model> GetModels(IEnumerable<int> ids)
         {
             IEnumerable<Model> models =

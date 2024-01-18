@@ -1,0 +1,9 @@
+<map id="AwARe.RoomScan.Path.ThinningHandler.ThinnedGrid" name="AwARe.RoomScan.Path.ThinningHandler.ThinnedGrid">
+<area shape="rect" id="Node000001" title="Applies one iteration of the thinning operation to the given grid and returns it. One iteration in th..." alt="" coords="5,72,221,115"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_room_scan_1_1_path_1_1_thinning_handler.html#ac9ea7257a9ccb394c59877c16aba4107" title="Checks whether two arrays are exactly equal." alt="" coords="269,5,484,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,69,274,50,275,55,201,74"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_room_scan_1_1_path_1_1_grid_converter.html#aefd1b8a86fe9b2def1a70cf0481cca42" title="Converts a native array to a boolean array." alt="" coords="281,72,472,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,91,265,91,265,96,221,96"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_room_scan_1_1_path_1_1_grid_converter.html#a2c43c02f6f78f9d642010adda7ad0335" title="Converts a boolean array to a native array." alt="" coords="281,139,472,181"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="201,113,275,132,274,137,199,118"/>
+</map>

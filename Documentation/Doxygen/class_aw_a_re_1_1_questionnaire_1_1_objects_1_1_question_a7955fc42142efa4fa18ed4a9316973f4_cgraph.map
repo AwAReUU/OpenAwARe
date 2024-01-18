@@ -1,0 +1,7 @@
+<map id="AwARe.Questionnaire.Objects.Question.AddAnswerOption" name="AwARe.Questionnaire.Objects.Question.AddAnswerOption">
+<area shape="rect" id="Node000001" title="Add an answer option to this question." alt="" coords="5,51,207,93"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#aa72dbd5e6a02f1a2aab179c03a66b760" title="Create an answer option using the given title. The implementation is defined in the subclasses." alt="" coords="259,5,497,64"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,56,243,50,244,56,208,61"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_question.html#a2b588f637767fb92aac594b672c795a1" title="Create the factory corresponding to this question&#39;s option type." alt="" coords="255,88,501,131"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="208,83,239,88,239,93,207,88"/>
+</map>

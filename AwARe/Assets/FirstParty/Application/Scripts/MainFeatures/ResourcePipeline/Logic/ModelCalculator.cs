@@ -5,7 +5,7 @@ namespace AwARe.ResourcePipeline.Logic
     /// <summary>
     /// Class <c>ModelCalculator</c> is a class containing methods to convert resources to models.
     /// </summary>
-    internal class ModelCalculator
+    public class ModelCalculator
     {
         /// <summary>
         /// Calculate how many models we need to render for the given resource

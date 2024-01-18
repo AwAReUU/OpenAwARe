@@ -1,0 +1,5 @@
+<map id="AwARe.RoomScan.Path.Jobs.ErosionScanJob.All" name="AwARe.RoomScan.Path.Jobs.ErosionScanJob.All">
+<area shape="rect" id="Node000001" title="Checks whether all elements within the range around the index are true." alt="" coords="5,5,204,48"/>
+<area shape="rect" id="Node000002" href="$struct_aw_a_re_1_1_room_scan_1_1_path_1_1_jobs_1_1_erosion_scan_job.html#a55d33be6aa65de6370fc254230739b66" title="Check whether the points is within the boundaries of the grid." alt="" coords="252,5,450,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,24,236,24,236,29,204,29"/>
+</map>
