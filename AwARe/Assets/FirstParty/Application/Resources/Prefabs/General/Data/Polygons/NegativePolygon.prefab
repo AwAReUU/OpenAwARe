@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8250267935049304757}
   - component: {fileID: 6978638187581545217}
   m_Layer: 0
-  m_Name: LinelessPolygon
+  m_Name: NegativePolygon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,7 +83,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63e8021b1a8474baaa91d23d77be12b1, type: 2}
+  - {fileID: 2100000, guid: 8ac4418deecf16c46a188698b880d1a2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
