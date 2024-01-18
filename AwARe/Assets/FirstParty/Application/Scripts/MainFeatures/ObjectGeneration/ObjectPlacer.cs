@@ -8,8 +8,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
 #if DEBUG
-    using AwARe.DevTools.ObjectGeneration;
+using AwARe.DevTools.ObjectGeneration;
 #endif
 namespace AwARe.ObjectGeneration
 {
