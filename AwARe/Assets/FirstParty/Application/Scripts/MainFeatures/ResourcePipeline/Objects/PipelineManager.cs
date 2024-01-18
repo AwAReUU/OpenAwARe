@@ -82,7 +82,7 @@ namespace AwARe.ResourcePipeline.Objects
                 Vector3 halfExtents = GetHalfExtents(prefab);
 
                 //dirty temp code so that water does not have size 0.
-                float realHeight = modelDatabase.GetModel(modelId).Scaling;
+                float realHeight = modelDatabase.GetModel(modelId).RealHeight;
                 if (realHeight == 0)
                     realHeight = 1;
 
