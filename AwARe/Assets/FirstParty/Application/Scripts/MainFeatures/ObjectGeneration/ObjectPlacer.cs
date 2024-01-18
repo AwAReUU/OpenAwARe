@@ -232,6 +232,21 @@ namespace AwARe.ObjectGeneration
             spawnPointCount * 0.1f * 0.1f * 0.9f;
 
         /// <summary>
+        /// Extract all renderables of <see cref="ResourceType"> water, and place those at the front of the list.
+        /// This is done to ensure that it will be placed at the same location for the plant and the animal room.
+        /// </summary>
+        /// <param name="renderables">Renderables to be sorted.</param>
+        private void SortWaterRenderables(ref List<Renderable> renderables)
+        {
+            List<Renderable> waterRenderables = renderables.Where(
+                x => x.resourceType == ResourcePipeline.Logic.ResourceType.Water).ToList();
+
+            renderables.RemoveAll(x => x.resourceType == ResourcePipeline.Logic.ResourceType.Water);
+
+            renderables.InsertRange(0, waterRenderables);
+        }
+
+        /// <summary>
         /// Spawns one object of each renderable at a valid spawnoint. The initial objects are spawned as far apart from eachother as possible.
         /// </summary>
         /// <param name="spawnPoints">All the allowed spawn points in the polygon.</param>
@@ -244,10 +259,14 @@ namespace AwARe.ObjectGeneration
             Room room)
         {
             Dictionary<Renderable, Vector3> initialSpawns = new Dictionary<Renderable, Vector3>();
+
+            SortWaterRenderables(ref renderables);
+
             foreach (var renderable in renderables)
             {
                 // sort all spawnpoint with furthest distance to other initial spawnpoints first 
-                List<Vector3> sortedSpawnPoints = SortFurthestSpawnPointsByDistance(spawnPoints, initialSpawns.Values.ToList(), renderable.ComputeSpaceNeeded());
+                List<Vector3> sortedSpawnPoints = SortFurthestSpawnPointsByDistance(
+                    spawnPoints, initialSpawns.Values.ToList(), renderable.ComputeSpaceNeeded());
                 foreach (var point in sortedSpawnPoints)
                 {
                     if (TryPlaceObject(renderable, point, room))
