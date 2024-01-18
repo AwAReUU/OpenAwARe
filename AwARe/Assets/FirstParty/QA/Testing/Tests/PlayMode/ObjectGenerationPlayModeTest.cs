@@ -148,7 +148,7 @@ namespace AwARe
             bool atleastonestacked = false;
             for(int i = 0; i < renderables.Count; i++)
             {
-                if(renderables[i].objStacks.Count > 0)
+                if(renderables[i].ObjStacks.Count > 0)
                 {
                     atleastonestacked = true;
                     break;
@@ -187,9 +187,9 @@ namespace AwARe
 
             // check if all types are in the same room 
             bool allTypesPresent = 
-            objectCreationManager.currentRoomRenderables.Any(x => x.resourceType == ResourcePipeline.Logic.ResourceType.Plant)
-            && objectCreationManager.currentRoomRenderables.Any(x => x.resourceType == ResourcePipeline.Logic.ResourceType.Animal)
-            && objectCreationManager.currentRoomRenderables.Any(x => x.resourceType == ResourcePipeline.Logic.ResourceType.Water);
+            objectCreationManager.currentRoomRenderables.Any(x => x.ResourceType == ResourcePipeline.Logic.ResourceType.Plant)
+            && objectCreationManager.currentRoomRenderables.Any(x => x.ResourceType == ResourcePipeline.Logic.ResourceType.Animal)
+            && objectCreationManager.currentRoomRenderables.Any(x => x.ResourceType == ResourcePipeline.Logic.ResourceType.Water);
 
             // Assert: Check if the correct renderables are placed in each room.
             yield return null;
@@ -207,7 +207,7 @@ namespace AwARe
 
             // Act: Place all the renderables in the storage in the room 
             objectCreationManager.OnPlaceButtonClick();
-            bool AllAreRoom1Resources = !objectCreationManager.currentRoomRenderables.Any(x => x.resourceType == ResourcePipeline.Logic.ResourceType.Plant);
+            bool AllAreRoom1Resources = !objectCreationManager.currentRoomRenderables.Any(x => x.ResourceType == ResourcePipeline.Logic.ResourceType.Plant);
             
             // Assert: Check if the correct renderables are placed in each room.
             yield return null;

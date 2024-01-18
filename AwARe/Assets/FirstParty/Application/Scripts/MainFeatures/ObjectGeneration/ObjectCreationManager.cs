@@ -7,15 +7,12 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
 using AwARe.ResourcePipeline.Logic;
 using AwARe.ResourcePipeline.Objects;
-
-using Castle.Components.DictionaryAdapter.Xml;
 
 using UnityEngine;
 using Ingredients = AwARe.IngredientList.Logic;
@@ -154,11 +151,11 @@ namespace AwARe.ObjectGeneration
             List<Renderable> renderables = new PipelineManager().GetRenderableList(SelectedList);
 
             if (isFirstRoom)
-                renderables = renderables.Where(renderable => renderable.resourceType == ResourceType.Animal ||
-                                                              renderable.resourceType == ResourceType.Water).ToList();
+                renderables = renderables.Where(renderable => renderable.ResourceType == ResourceType.Animal ||
+                                                              renderable.ResourceType == ResourceType.Water).ToList();
             else
-                renderables = renderables.Where(renderable => renderable.resourceType == ResourceType.Plant ||
-                                                              renderable.resourceType == ResourceType.Water).ToList();
+                renderables = renderables.Where(renderable => renderable.ResourceType == ResourceType.Plant ||
+                                                              renderable.ResourceType == ResourceType.Water).ToList();
 
 
             Data.Logic.Room room = Storage.Get().ActiveRoom;
