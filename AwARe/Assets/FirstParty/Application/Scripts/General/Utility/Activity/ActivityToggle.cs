@@ -8,7 +8,7 @@
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace AwARe.UI.Objects
+namespace AwARe
 {
     /// <summary>
     /// Attach a toggle to the activity state of its object.

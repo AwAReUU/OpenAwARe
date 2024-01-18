@@ -10,7 +10,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace AwARe.Objects
+namespace AwARe.UI.Objects
 {
     /// <summary>
     /// An invisible UI element to catch any clicks or other pointer events that hits no other UI element. <br/>

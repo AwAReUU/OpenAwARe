@@ -5,13 +5,9 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System;
-using System.Collections.Generic;
-
 using AwARe.UI;
 using AwARe.UI.Objects;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 

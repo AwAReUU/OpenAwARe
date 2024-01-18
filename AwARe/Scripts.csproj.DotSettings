@@ -19,9 +19,11 @@
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cui_005Cobjects_005Cpopups_005Cerror/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cui_005Cobjects_005Cpopups_005Cnotimplemented/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Cactivity/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Ccontainers/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Cdataholders/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Ceditordummies/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Cinteractibles/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Cinterfacereference/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Cliners/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cfirstparty_005Capplication_005Cscripts_005Cgeneral_005Cutility_005Cmeshers/@EntryIndexedValue">True</s:Boolean>
