@@ -102,13 +102,15 @@ namespace AwARe
         {
             //Arrange: Create an empty gameObject in a layer.
             string layer = "Placed Objects";
-            GameObject _ = new GameObject { layer = LayerMask.NameToLayer(layer) };
+            GameObject testObject = new GameObject { 
+                layer = LayerMask.NameToLayer(layer), 
+                name = "testObject" };
             GameObject[] obtainedObjectsBefore = ObjectObtainer.FindGameObjectsInLayer(layer);
 
             //Act: Destroy the object, and obtain the objects in the previously mentioned layer.
-            new GameObject().AddComponent<ObjectDestroyer>().DestroyAllObjects();
+            var destroyer = testObject.AddComponent<ObjectDestroyer>();
+            yield return destroyer.DestroyAllObjects();
 
-            yield return null;
             GameObject[] obtainedObjectsAfter = ObjectObtainer.FindGameObjectsInLayer(layer);
 
             //Assert: The Amount of gameObjects in the layer changed from 1 to 0.
@@ -185,7 +187,7 @@ namespace AwARe
             // Act: Place all the renderables in the storage in the room & check if all are room1 resources
             objectCreationManager.OnPlaceButtonClick();
 
-            // check if all types are in the same room 
+            // check if all types are in the same room
             bool allTypesPresent = 
             objectCreationManager.currentRoomRenderables.Any(x => x.ResourceType == ResourcePipeline.Logic.ResourceType.Plant)
             && objectCreationManager.currentRoomRenderables.Any(x => x.ResourceType == ResourcePipeline.Logic.ResourceType.Animal)
@@ -226,8 +228,8 @@ namespace AwARe
             GameObject model = Resources.Load<GameObject>(@"Models/Shapes/Cube");
             Vector3 halfExtents = PipelineManager.GetHalfExtents(model);
             float scale = 1;
-            list1.Add(new Renderable(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Water));
-            list2.Add(new Renderable(model, halfExtents, 5, scale, ResourcePipeline.Logic.ResourceType.Water));
+            list1.Add(new Renderable(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Animal));
+            list2.Add(new Renderable(model, halfExtents, 5, scale, ResourcePipeline.Logic.ResourceType.Animal));
             float list0spaceNeeded = objectCreationManager.ComputeRenderableSpaceNeeded(list0);
             float list1spaceNeeded = objectCreationManager.ComputeRenderableSpaceNeeded(list1);
             float list2spaceNeeded = objectCreationManager.ComputeRenderableSpaceNeeded(list2);
@@ -251,7 +253,7 @@ namespace AwARe
 
             Vector3 halfExtents = PipelineManager.GetHalfExtents(model);
             halfExtents *= scale;
-            Renderable renderable = new(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Water);
+            Renderable renderable = new(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Animal);
             List<Renderable> renderables = new() { renderable };
             renderables = Renderable.SetSurfaceRatios(renderables);
             return renderables;
@@ -263,7 +265,7 @@ namespace AwARe
 
             Vector3 halfExtents = PipelineManager.GetHalfExtents(model);
             halfExtents *= scale;
-            Renderable renderable = new(model, halfExtents, numberofrenderables, scale, ResourcePipeline.Logic.ResourceType.Water);
+            Renderable renderable = new(model, halfExtents, numberofrenderables, scale, ResourcePipeline.Logic.ResourceType.Animal);
             List<Renderable> renderables = new() { renderable };
             renderables = Renderable.SetSurfaceRatios(renderables);
             return renderables;

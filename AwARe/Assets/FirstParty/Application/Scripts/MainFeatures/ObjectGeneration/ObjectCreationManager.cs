@@ -122,8 +122,11 @@ namespace AwARe.ObjectGeneration
         /// <param name="renderables">Objects to place in the Polygon.</param>
         /// <param name="room">Room consisting of polygons to place the objects in.</param>
         /// <param name="pathMesh">Mesh on which objects will not be placed.</param>
-        public void PlaceRenderables(List<Renderable> renderables, Data.Logic.Room room, Mesh pathMesh) => 
+        public void PlaceRenderables(List<Renderable> renderables, Data.Logic.Room room, Mesh pathMesh)
+        {
+            currentRoomRenderables = renderables;
             StartCoroutine(PlaceAfterDestroy(renderables, room, pathMesh));
+        }
 
         /// <summary>
         /// Coroutine that only starts placing the renderables after all currently placed objects have been destroyed.
@@ -137,7 +140,6 @@ namespace AwARe.ObjectGeneration
             //Wait untill de ObjectDestroyer is done.
             destroyer = gameObject.GetComponent<ObjectDestroyer>();
             yield return StartCoroutine(destroyer.DestroyAllObjects());
-
             new ObjectPlacer().PlaceRenderables(renderables, room, pathMesh);
         }
 
