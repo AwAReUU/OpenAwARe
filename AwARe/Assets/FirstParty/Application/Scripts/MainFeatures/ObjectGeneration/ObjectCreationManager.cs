@@ -94,12 +94,6 @@ namespace AwARe.ObjectGeneration
             selectedRoom.NegativePolygons = negativePolygons;
 
             ShowNegativePolygons(selectedRoom);
-
-            // Visualize new room
-            //roomLiner = selectedRoom.GetComponent<RoomLiner>();
-            //roomLiner.room = selectedRoom;
-            //roomLiner.ResetLiners();
-            //roomLiner.UpdateLines();
         }
 
         /// <summary>
