@@ -199,7 +199,7 @@ namespace AwARe.ObjectGeneration
                 // 2. check if it doesnt reach through the roof.
                 float stackHeight = renderable.ObjStacks[smallestStackPos];
                 float newHeight = stackHeight + renderable.HalfExtents.y * 2 + 0.05f;
-                float maxHeight = 100.0f;
+                float maxHeight = room.PositivePolygon.height;
                 //prevent placement if this stack will reach higher than 'x' meters with the additional current object on top
                 if (newHeight > maxHeight)
                 {
