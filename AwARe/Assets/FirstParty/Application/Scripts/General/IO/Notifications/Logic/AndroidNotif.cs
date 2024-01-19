@@ -84,6 +84,7 @@ namespace AwARe.Notifications.Logic
         /// <summary>
         /// Schedules the notification to be sent at the time specified in the SetFireTime method.
         /// </summary>
+        /// <returns>The data associated with this notification so it can be saved and unscheduled.</returns>
         public override ScheduledNotificationData Schedule()
         {
             int ID = AndroidNotificationCenter.SendNotification(notification, "channel");
