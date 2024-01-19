@@ -31,13 +31,16 @@ namespace AwARe.Questionnaire.Objects
                 // Do nothing, we dont expect any return values.
             }).Catch((err) =>
             {
-                // TODO: Handle errors.
                 // Warning: This is an async method that may run after "LoadScene(...)"!
 
                 if (err.StatusCode == 403)
                 {
                     // Unauthorized. User must login.
-                    // TODO: Show alert box
+                    Debug.LogError("Failed to send Questionnaire. You're not logged in.");
+                }
+                else
+                {
+                    Debug.LogError(err);
                 }
             }).Send();
 
