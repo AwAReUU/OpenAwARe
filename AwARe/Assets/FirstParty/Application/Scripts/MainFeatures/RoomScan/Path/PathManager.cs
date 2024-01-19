@@ -30,7 +30,7 @@ namespace AwARe.RoomScan.Path.Objects
         //[SerializeField] private VisualizePath pathVisualizer; //TODO: Get out of polygonScanning
 
         // Test Objects for development
-        [SerializeField] private Polygon testPolygon;
+        public Polygon testPolygon;
 
         public PathData path;
 
@@ -41,6 +41,9 @@ namespace AwARe.RoomScan.Path.Objects
         /// The current state of the path generator.
         /// </value>
         public State CurrentState { get; private set; }
+
+        public bool IsActive =>
+            CurrentState is State.Default or State.Done;
 
         /// <summary>
         /// Gets the currently active room.
@@ -55,7 +58,6 @@ namespace AwARe.RoomScan.Path.Objects
             //activate the popup
             SwitchToState(State.Generating);
             StartCoroutine(MakePathAndRemovePopup());
-
         }
 
         public IEnumerator MakePathAndRemovePopup()

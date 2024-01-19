@@ -1,0 +1,25 @@
+<map id="AwARe.ResourcePipeline.Objects.PipelineManager.GetRenderableList" name="AwARe.ResourcePipeline.Objects.PipelineManager.GetRenderableList">
+<area shape="rect" id="Node000001" title="&quot;Main method&quot; of the pipeline. Given a IngredientList, manage the entire pipeline,..." alt="" coords="5,180,234,223"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_resource_pipeline_1_1_objects_1_1_pipeline_manager.html#a3fe3fdc4af1125fad1e300ff8f9aa4f7" title="Converts an IngredientList to a ResourceDictionary" alt="" coords="282,76,570,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,177,345,122,347,127,186,182"/>
+<area shape="rect" id="Node000007" href="$class_aw_a_re_1_1_resource_pipeline_1_1_objects_1_1_pipeline_manager.html#aceb53f217aa24ce3522e80b621b66f70" title="Given a dictionary of (modelId, quantity), create a Renderable for each modelId." alt="" coords="286,180,566,223"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="234,199,271,199,271,204,234,204"/>
+<area shape="rect" id="Node000011" href="$class_aw_a_re_1_1_resource_pipeline_1_1_objects_1_1_pipeline_manager.html#ad0133faeec58ffed4440679e35251a95" title="Convert ResourceDictionary to ModelDict(which is a Dictionary of modelIds to quantities)." alt="" coords="303,276,549,335"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="186,221,323,268,322,273,184,226"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_resource_pipeline_1_1_logic_1_1_resource_calculator.html#a6247b191fc342bbeb485bd95a82c7552" title="Converts a full IngredientList to a ResourceDictionary. It aggregates resource quantities if multiple..." alt="" coords="639,31,854,89"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="570,78,623,72,624,77,571,83"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_resource_pipeline_1_1_logic_1_1_resource_calculator.html#a1f1423301bc8b5227b30f4123b020e9e" title="Converts a single ingredient to a list of its resource cost." alt="" coords="922,31,1138,89"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="854,57,907,57,907,63,854,63"/>
+<area shape="rect" id="Node000005" href="$class_aw_a_re_1_1_resource_pipeline_1_1_logic_1_1_resource_dictionary.html#a74a4e8fa2f90d00dd4d896c2aa3faa0f" title="Add a Resource to the ResourceDictionary" alt="" coords="1186,5,1402,48"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1138,44,1170,40,1171,45,1139,49"/>
+<area shape="rect" id="Node000006" href="$class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient.html#a5fb3bd3f44a6603a381788f327767b5a" title="Calculates the number of grams in the given quantity." alt="" coords="1194,72,1394,115"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="1139,71,1179,76,1178,81,1138,76"/>
+<area shape="rect" id="Node000008" href="$class_aw_a_re_1_1_resource_pipeline_1_1_objects_1_1_pipeline_manager.html#ac46cbd04139ef0ac5609e1f97295aecc" title="HalfExtents are distances from center to bounding box walls." alt="" coords="635,113,857,156"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="531,177,625,157,626,162,532,182"/>
+<area shape="rect" id="Node000009" href="$class_aw_a_re_1_1_resource_pipeline_1_1_objects_1_1_pipeline_manager.html#a697d130d7458f4c5924c95675a483c03" title="Get the GameObject prefab from modelPath. If no GameObject is found at that path, return a placeholde..." alt="" coords="628,180,864,223"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="566,199,612,199,612,204,566,204"/>
+<area shape="rect" id="Node000010" href="$class_aw_a_re_1_1_object_generation_1_1_renderable.html#a5c8b9792df8d96eedd92ecad88acda5d" title="For each unique object, find out the percentage of space it will need." alt="" coords="625,247,867,289"/>
+<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="532,221,626,240,625,246,531,226"/>
+<area shape="rect" id="Node000012" href="$class_aw_a_re_1_1_resource_pipeline_1_1_logic_1_1_model_calculator.html#a18f8268e24276de4efff6f2f263aadc2" title="Calculate how many models we need to render for the given resource." alt="" coords="618,313,874,356"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="550,314,603,319,603,324,549,319"/>
+</map>

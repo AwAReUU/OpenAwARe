@@ -6,12 +6,10 @@
 // \*                                                                                       */
 
 using AwARe.Data.Logic;
-
 using Ingredients = AwARe.IngredientList.Logic;
 
 namespace AwARe.InterScenes.Logic
 {
-    
     /// <summary>
     /// The in-between-scenes stored data.
     /// </summary>
@@ -27,7 +25,6 @@ namespace AwARe.InterScenes.Logic
         
         /// <inheritdoc/>
         public Room ActiveRoom { get; set; }
-
     }
 
 }

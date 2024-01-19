@@ -5,14 +5,17 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace AwARe.Data.Logic
 {
     /// <summary>
     /// A class representing the room.
     /// </summary>
-    public class Room
+    public class Room : IEquatable<Room>
     {
         /// <summary>
         /// Gets or sets the main polygon.
@@ -49,10 +52,15 @@ namespace AwARe.Data.Logic
         /// <param name="room">The <see cref="Room"/> to copy.</param>
         private Room(Room room)
         {
-            PositivePolygon = room.PositivePolygon;
-            NegativePolygons = new(room.NegativePolygons);
+            PositivePolygon = room.PositivePolygon?.Clone();
+            NegativePolygons = room.NegativePolygons.Select(x => x.Clone()).ToList();
         }
-        
+
+        /// <inheritdoc/>
+        public bool Equals(Room other) =>
+            (PositivePolygon == null && other.PositivePolygon == null || PositivePolygon.Equals(other.PositivePolygon)) &&
+            NegativePolygons.SequenceEqual(other.NegativePolygons);
+
         /// <summary>
         /// Creates a deep copy of this <see cref="Room"/>.
         /// </summary>

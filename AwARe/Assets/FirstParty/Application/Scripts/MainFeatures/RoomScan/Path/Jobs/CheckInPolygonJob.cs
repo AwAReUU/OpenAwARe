@@ -6,6 +6,7 @@
 // \*                                                                                       */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
@@ -33,6 +34,9 @@ namespace AwARe.RoomScan.Path.Jobs
         [WriteOnly] public NativeArray<bool> result;
 
         /// <inheritdoc/>
+        //this is part of the Unity Jobs implementation code. It cannot be tested on its own.
+        //it does get executed in other tests, but does not show up in code coverage due to the nature of Jobs
+        [ExcludeFromCodeCoverage]
         public void Execute(int index)
         {
             if (nativeGrid[index] == checkPositivePolygon) return;
@@ -50,7 +54,7 @@ namespace AwARe.RoomScan.Path.Jobs
         /// <param name="polygonWalls">List of lines that make up the polygon.</param>
         /// <param name="point">point to check if it is inside the polygon.</param>
         /// <returns>true if the point lies inside the polygon, false otherwise.</returns>
-        private readonly bool CheckInPolygon(
+        public readonly bool CheckInPolygon(
             NativeArray<((int x, int y) p1, (int x, int y) p2)> polygonWalls, 
             (int x, int y) point)
         {
@@ -77,8 +81,13 @@ namespace AwARe.RoomScan.Path.Jobs
                     else intersectx = (int)preintersectx;
                 }
 
+                //if the intersection point is the point, we have a point that lies exactly on the polygon edge.
+                //this should've been prevented already, but check again for safety.
+                if (intersectx == point.x) return false;
+                
                 //check that the intersection point lies on the ray we shot, continue if it doesn't
-                if (intersectx <= point.x) continue;
+                if (intersectx < point.x) continue;
+
 
                 //check that the intersection point lies on the wall, continue if it doesn't
                 if (intersectx < Math.Min(polygonWalls[i].p1.x, polygonWalls[i].p2.x) ||
@@ -88,7 +97,8 @@ namespace AwARe.RoomScan.Path.Jobs
 
                 //if the intersection point is the exact endpoint of a wall, this causes problems. cancel the whole operation
                 //we cannot be sure if it lies inside or outside the polygon
-                if ((intersectx, intersecty) == polygonWalls[i].p1 || (intersectx, intersecty) == polygonWalls[i].p2) { return false; }
+                if ((intersectx, intersecty) == polygonWalls[i].p1 ||
+                    (intersectx, intersecty) == polygonWalls[i].p2) { return false; }
 
                 numberOfIntersections++;
             }

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 911288b8932366d439e9c0e9430cf6a3
+<<<<<<<< HEAD:AwARe/Assets/SerializeInterfaces/Samples/ReferenceInterfacesSample.unity.meta
+guid: ca658105390ef2c4f9b3086108d8c257
+========
+guid: 95594737d93e42446912f038eb57f3fb
+>>>>>>>> origin/Dev/Sprint8:AwARe/Assets/FirstParty/Application/Scenes/AppScenes/RoomLoad.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

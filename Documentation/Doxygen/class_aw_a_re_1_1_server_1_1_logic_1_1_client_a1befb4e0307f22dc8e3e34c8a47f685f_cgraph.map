@@ -1,0 +1,7 @@
+<map id="AwARe.Server.Logic.Client.RestoreSession" name="AwARe.Server.Logic.Client.RestoreSession">
+<area shape="rect" id="Node000001" title="Restore a login session. If the refreshToken is expired, it will send a new login request." alt="" coords="5,39,186,81"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_server_1_1_logic_1_1_client.html#a9ac1412a75408e560aeedcb62c6f4fd7" title="Login on the server." alt="" coords="234,5,414,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,44,218,39,219,45,186,49"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_server_1_1_logic_1_1_client.html#a1fbae106d84154237587943f923f8ad2" title="Refresh the login session." alt="" coords="234,72,414,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="186,71,219,75,218,81,186,76"/>
+</map>

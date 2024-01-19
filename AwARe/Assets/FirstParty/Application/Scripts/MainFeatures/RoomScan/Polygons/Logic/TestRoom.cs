@@ -54,10 +54,28 @@ namespace AwARe.RoomScan.Polygons.Logic
                 CreatePolygon(negativePoints1),
                 CreatePolygon(negativePoints2)
             };
+
         }
 
         /// <summary>
-        /// Creates a Polygon and fills its points list with the given points.
+        /// Initializes a new instance of the <see cref="TestRoom"/> class with the given size.
+        /// </summary>
+        public TestRoom(float size)
+        {
+            List<Vector3> positivePoints = new()
+            {
+                new Vector3(-size,-1.5f,-size),
+                new Vector3(size,-1.5f,-size),
+                new Vector3(size, -1.5f, size),
+                new Vector3(-size,-1.5f,size)
+            };
+
+            PositivePolygon = CreatePolygon(positivePoints);
+        }
+
+
+        /// <summary>
+        /// Creates a polygon and fills its points list with the given points.
         /// </summary>
         /// <param name="points">The points of which the Polygon consists.</param>
         /// <returns>The Polygon consisting of the given points.</returns>
@@ -66,7 +84,7 @@ namespace AwARe.RoomScan.Polygons.Logic
             Polygon polygon = new();
             foreach (Vector3 point in points)
             {
-                polygon.Points.Add(point);
+                polygon.points.Add(point);
             }
             return polygon;
         }

@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 8008879087706464402}
   - component: {fileID: 8001080608682987098}
   - component: {fileID: 4579725321687920320}
+  - component: {fileID: 1334561309934449323}
   - component: {fileID: 7458086747818444531}
   - component: {fileID: 8250267935049304757}
-  - component: {fileID: 6978638187581545217}
   - component: {fileID: 5087704805688453485}
+  - component: {fileID: 1187578114740180461}
   - component: {fileID: 664568508987546044}
-  - component: {fileID: 3196844245385342144}
   m_Layer: 0
   m_Name: Polygon
   m_TagString: Untagged
@@ -51,6 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 130bc0a4ab89141658ecd8a5b09b724b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    points: []
+    height: 0
 --- !u!114 &4579725321687920320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,7 +68,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshFilter: {fileID: 8250267935049304757}
   logic:
-    _underlyingValue: {fileID: 6978638187581545217}
+    _underlyingValue: {fileID: 1334561309934449323}
+--- !u!114 &1334561309934449323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4614980801449458759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73b024c4aadb25f46beb6d17ea3e23d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  polygon:
+    _underlyingValue: {fileID: 8001080608682987098}
 --- !u!23 &7458086747818444531
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -116,19 +133,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4614980801449458759}
   m_Mesh: {fileID: 0}
---- !u!114 &6978638187581545217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4614980801449458759}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e2b2fcb8503f054880447e3f0a190a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  polygon: {fileID: 8001080608682987098}
 --- !u!114 &5087704805688453485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,7 +147,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 664568508987546044}
   logic:
-    _underlyingValue: {fileID: 3196844245385342144}
+    _underlyingValue: {fileID: 1187578114740180461}
+--- !u!114 &1187578114740180461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4614980801449458759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4d402a7cbc7f3d45a77d4526a654419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closedLine: 0
+  polygon:
+    _underlyingValue: {fileID: 8001080608682987098}
 --- !u!120 &664568508987546044
 LineRenderer:
   serializedVersion: 2
@@ -246,17 +265,3 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
---- !u!114 &3196844245385342144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4614980801449458759}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33057a71794ec214b9a4cc367d1b51bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  closedLine: 1
-  polygon: {fileID: 8001080608682987098}

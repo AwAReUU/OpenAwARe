@@ -24,19 +24,16 @@ namespace AwARe.Objects
         /// <summary>
         /// The line constructor, providing the sequence of points to render the line by.
         /// </summary>
-        public InterfaceReference<ILiner> logic;
+        public InterfaceReference<ILinerLogic> logic;
 
         /// <summary>
-        /// Gets or sets the line constructor.
+        /// Gets the line constructor.
         /// </summary>
         /// <value>
         /// The line constructor.
         /// </value>
-        public ILiner Logic
-        {
-            get => logic.Value;
-            set => logic = new(value);
-        }
+        private ILinerLogic Logic =>
+            logic.Value;
 
         // Tracking variables.
         private bool newLine = false;
@@ -48,23 +45,21 @@ namespace AwARe.Objects
         /// <param name="lineRenderer">A line renderer.</param>
         /// <param name="logic">A line constructor.</param>
         /// <returns>The added component.</returns>
-        public static Liner AddComponentTo(GameObject gameObject, LineRenderer lineRenderer, ILiner logic)
+        public static Liner AddComponentTo(GameObject gameObject, LineRenderer lineRenderer, InterfaceReference<ILinerLogic> logic)
         {
             var liner = gameObject.AddComponent<Liner>();
             liner.lineRenderer = lineRenderer;
-            liner.Logic = logic;
+            liner.logic = logic;
             return liner;
         }
 
-        private void Update()
+        protected void Update()
         {
             if (newLine && logic != null)
                 CreateLine();
         }
 
-        /// <summary>
-        /// Update the line next Update-frame to represent the current data.
-        /// </summary>
+        /// <inheritdoc/>
         public void UpdateLine() =>
             newLine = true;
 

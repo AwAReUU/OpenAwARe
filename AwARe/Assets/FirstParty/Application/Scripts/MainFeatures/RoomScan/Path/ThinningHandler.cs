@@ -31,12 +31,12 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        /// applies one iteration of the thinning operation to the given grid and returns it
-        /// one iteration in the case means one 'thin' with each Golay element.
+        /// Applies one iteration of the thinning operation to the given grid and returns it.
+        /// One iteration in the case means one 'thin' with each Golay element.
         /// </summary>
-        /// <param name="grid">the grid to thin.</param>
-        /// <param name="changed">will be set to true if the grid was thinned. will be set to false if the grid wasn't changed.</param>
-        /// <returns>the thinned grid.</returns>
+        /// <param name="grid">The grid to thin.</param>
+        /// <param name="changed">Will be set to true if the grid was thinned. Will be set to false if the grid wasn't changed.</param>
+        /// <returns>The thinned grid.</returns>
         public bool[,] ThinnedGrid(bool[,] grid, out bool changed)
         {
             changed = false;
@@ -119,7 +119,7 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        ///initialize the 'foreground' elements for the hit-or-miss operation.
+        /// Initialize the 'foreground' elements for the hit-or-miss operation.
         /// </summary>
         private void CreateFrontGolayElements()
         {
@@ -142,7 +142,7 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        /// initialize the 'background' elements for the hit-or-miss operation.
+        /// Initialize the 'background' elements for the hit-or-miss operation.
         /// </summary>
         private void CreateBackGolayElements()
         {

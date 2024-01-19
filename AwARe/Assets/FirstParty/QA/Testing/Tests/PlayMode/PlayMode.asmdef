@@ -1,17 +1,20 @@
 {
     "name": "PlayMode",
-    "rootNamespace": "",
+    "rootNamespace": "AwARe",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Scripts"
+        "Scripts",
+        "TestSupport",
+        "AYellowpaper.SerializeInterfaces"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "nunit.framework.dll"
+        "nunit.framework.dll",
+        "NSubstitute.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [

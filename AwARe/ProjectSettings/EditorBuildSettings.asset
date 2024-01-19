@@ -29,6 +29,39 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/FirstParty/Application/Scenes/AppScenes/Questionnaire.unity
     guid: a8727b8b0618ded4d8bd0c5a8ad5b0a6
+  - enabled: 1
+    path: Assets/FirstParty/QA/Testing/Tests/PlayMode/General/Liner_Test.unity
+    guid: 5f9742991b32ce4498c29e5d222e7f4d
+  - enabled: 1
+    path: Assets/FirstParty/QA/Testing/Tests/PlayMode/General/Mesher_Test.unity
+    guid: 5fb55eb8d93c74543abcfc6b6783ce71
+  - enabled: 1
+    path: Assets/FirstParty/QA/Testing/Tests/PlayMode/General/RoomLiner_Test.unity
+    guid: 519edaa3b89b272469722f8ef17fbc51
+  - enabled: 1
+    path: Assets/FirstParty/QA/Testing/Tests/PlayMode/General/SceneSwitcher_Test.unity
+    guid: a77b4462b18fc294f95c4e3cbdb0886b
+  - enabled: 1
+    path: Assets/FirstParty/QA/Testing/Tests/PlayMode/General/Scene_Dummies/Scene_Dummy1.unity
+    guid: 82d020c4ff2dbc74baa2f6a6a655ecde
+  - enabled: 1
+    path: Assets/FirstParty/QA/Testing/Tests/PlayMode/General/Scene_Dummies/Scene_Dummy2.unity
+    guid: a23b3f15689ece64a849bf33d504dd88
+  - enabled: 1
+    path: Assets/FirstParty/QA/Testing/Tests/PlayMode/General/Scene_Dummies/Scene_Dummy3.unity
+    guid: 4474242ffd84ff74abcef19aaba76e8f
+  - enabled: 1
+    path: Assets/FirstParty/QA/Testing/Tests/PlayMode/General/StartLoader_Test.unity
+    guid: 22d9c9969567b654cb903cc62e9ff016
+  - enabled: 1
+    path: Assets/FirstParty/QA/Testing/Tests/PlayMode/General/Scene_Dummies/Empty_Scene.unity
+    guid: 5a7f36cf11346d64d90acb07bbea7dfe
+  - enabled: 1
+    path: Assets/FirstParty/QA/Testing/Tests/PlayMode/General/NotImplementedManager_Test.unity
+    guid: a9688a8482a135c48ae830e69f33d012
+  - enabled: 1
+    path: Assets/FirstParty/QA/Testing/Tests/PlayMode/RoomScan/PolygonDrawer_Test.unity
+    guid: ea51128fd174b1c4082ab31c81db3b53
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
       type: 2}

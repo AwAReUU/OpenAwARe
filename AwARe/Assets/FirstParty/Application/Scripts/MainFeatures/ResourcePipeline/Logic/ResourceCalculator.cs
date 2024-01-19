@@ -14,6 +14,9 @@ namespace AwARe.ResourcePipeline.Logic
         private readonly IIngrToResDatabase toResourceDatabase;
         private readonly IResourceDatabase resourceDatabase;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResourceCalculator"/> class.
+        /// </summary>
         public ResourceCalculator()
         {
             toResourceDatabase = new MockupIngrToResDatabase();

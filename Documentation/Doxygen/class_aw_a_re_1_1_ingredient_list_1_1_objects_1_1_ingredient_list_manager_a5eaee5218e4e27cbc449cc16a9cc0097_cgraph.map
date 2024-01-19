@@ -1,0 +1,7 @@
+<map id="AwARe.IngredientList.Objects.IngredientListManager.ChangeListName" name="AwARe.IngredientList.Objects.IngredientListManager.ChangeListName">
+<area shape="rect" id="Node000001" title="Changes the name of a list into it&#39;s newly give name." alt="" coords="5,43,257,85"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_list.html#a3092f1fa1eba6cb3682af83e615ad71c" title="Sets the name of the IngredientList to the given name." alt="" coords="316,5,500,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="257,44,300,38,301,44,257,50"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_ingredient_list_manager.html#a1c0b2d088477d40fb88e0bf5e8b48b96" title="Notifies objects subscribed to this action that the current IngredientList has been changed." alt="" coords="305,72,511,131"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="257,78,290,83,289,88,257,84"/>
+</map>

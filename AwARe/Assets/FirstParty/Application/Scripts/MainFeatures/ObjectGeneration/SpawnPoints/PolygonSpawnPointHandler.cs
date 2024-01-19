@@ -45,7 +45,7 @@ namespace AwARe.ObjectGeneration
         /// <returns>Bounding box of the Polygon.</returns>
         private Bounds CalculateBounds(Polygon polygon)
         {
-            List<Vector3> points = polygon.Points;
+            List<Vector3> points = polygon.points;
             Bounds bounds = new(points[0], Vector3.zero);
             foreach (var point in points)
             {
@@ -71,7 +71,7 @@ namespace AwARe.ObjectGeneration
             Bounds bounds = CalculateBounds(posPolygon);
 
             // Define the height of the Polygon
-            float y = posPolygon.Points[0].y;
+            float y = posPolygon.points[0].y;
 
             // Get all points in bounding box in grid pattern with spacing "spacing" in between
             for (float x = bounds.min.x; x <= bounds.max.x; x += spacing)
