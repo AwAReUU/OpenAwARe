@@ -1,11 +1,13 @@
 using System;
+using System.IO;
 using UnityEngine;
 using AwARe.Notifications.Logic;
+using System.Linq;
 
 namespace AwARe.Notifications.Objects
 {
     /// <summary>
-    /// enum that represents the platform the application is running on
+    /// Enum that represents the platform the application is running on.
     /// </summary>
     enum Platform
     {
@@ -20,47 +22,198 @@ namespace AwARe.Notifications.Objects
     public class NotificationScheduler : MonoBehaviour
     {
 
+        /// <summary>
+        /// Keep track of which platform the user is running on.
+        /// </summary>
         Platform platform;
+
+        /// <summary>
+        /// The path in which scheduled notification data are stored.
+        /// </summary>
+        string folderpath;
 
         //for background scheduling: possibly look into 'service' C# class thing:
         //https://stackoverflow.com/questions/34573109/how-to-make-an-android-app-to-always-run-in-background
 
         /// <summary>
-        /// Unity method that is called immediately upon object creation
-        /// initialises the platform enum variable
+        /// Unity method that is called immediately upon object creation.
+        /// Initialises the platform enum variable.
         /// </summary>
         void Awake()
         {
             #if UNITY_EDITOR
                 platform = Platform.Editor;
-            #elif UNITY_ANDROID
+#elif UNITY_ANDROID
                 platform = Platform.Android;
-            #elif UNITY_IOS
+#elif UNITY_IOS
                 platform = Platform.IOS;
-            #endif
+#endif
+
+            folderpath = Path.Combine(Application.persistentDataPath, "Data/ScheduledNotifications");
         }
 
         /// <summary>
-        /// Test method that can be transformed into the main method later on
-        /// sends a notification.
+        /// Unity method that is called before the first frame update.
+        /// Schedules a notification that repeats daily.
         /// </summary>
-        public void SendNotificationTest()
+        void Start()
         {
+            //create the folderpath directories if it doesn't exist
+            if(!Directory.Exists(folderpath))
+            {
+                Directory.CreateDirectory(folderpath);
+            }
+
+            string[] filepaths = Directory.GetFiles(folderpath);
+
+            for(int i = 0; i < filepaths.Count(); i++)
+            {
+                ScheduledNotificationData data = Load(filepaths[i]);
+
+                if (!data.cancellable) continue;
+
+                //for testing purposes only:
+                Notification.Create().Unschedule(data);
+
+                //if the notification has been sent already, delete the file
+                //but do not unschedule it, so that it remains in the device's status bar
+                //and the user does not receive more than one daily notification in one day
+                if(data.scheduledTime.Date < DateTime.Now)
+                {
+                    File.Delete(filepaths[i]);
+                    continue;
+                }
+
+                //check the date. unschedule it if it isn't scheduled on today.
+                if(data.scheduledTime.Day != DateTime.Now.Day)
+                {
+                    Notification.Create().Unschedule(data);
+                    File.Delete(filepaths[i]);
+                }
+            }
+
+            //create and schedule notifications for the next 2 weeks
+            for(int i = 1; i < 15; i++)
+            {
+                //ScheduledNotificationData data = ScheduleNotification("Test notification " + i, 
+                //"Test notification body text", DateTime.Now.AddDays(i));
+
+                //for testing purposes use:
+                ScheduledNotificationData data = ScheduleNotification("Test notification " + i, 
+                "Test notification body text", DateTime.Now.AddMinutes(i * 2));
+
+                string path = Path.Combine(folderpath, "notification" + i);
+                Save(data, path);
+            }
+
+
+            //step 1: check if folder exists. if not, make folder
+            //step 2: check all files in folder. get any json files
+            //step 3: check the files for dates. unschedule any notifications that are not today
+            //step 4: schedule new notifications for 2 weeks. save them to the folder.
+
+
+        }
+
+        /// <summary>
+        /// Saves a ScheduledNotificationData to a file.
+        /// </summary>
+        /// <param name="data">The data instance to save.</param>
+        /// <param name="filepath">The full path to the file (including name to give it).</param>
+        public void Save(ScheduledNotificationData data, string filepath)
+        {
+            // get the data path of this save data
+            string dataPath = filepath;
+
+            string jsonData = JsonUtility.ToJson(data, true);
+
+            // create the file in the path if it doesn't exist
+            // if the file path or name does not exist, return the default SO
+            if (!Directory.Exists(Path.GetDirectoryName(dataPath)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(dataPath));
+            }
+
+            // attempt to save here data
+            try
+            {
+                // save datahere
+                File.WriteAllText(dataPath, jsonData);
+                Debug.Log("Save data to: " + dataPath);
+            }
+            catch (Exception e)
+            {
+                // write out error here
+                Debug.LogError("Failed to save data to: " + dataPath);
+                Debug.LogError("Error " + e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Loads a ScheduledNotificationData from a file.
+        /// </summary>
+        /// <param name="filename">The name of the file to load.</param>
+        /// <returns>The ScheduledNotificationData instance.</returns>
+        public ScheduledNotificationData Load(string filename)
+        {
+            // get the data path of this save data
+            string dataPath = Path.Combine(folderpath, filename);
+
+            // if the file path or name does not exist, return the default SO
+            if (!Directory.Exists(Path.GetDirectoryName(dataPath)))
+            {
+                Debug.LogWarning("File or path does not exist! " + dataPath);
+                return null;
+            }
+
+            // load in the save data as byte array
+            string jsonData = null;
+
+            try
+            {
+                jsonData = File.ReadAllText(dataPath);
+                Debug.Log("Loading data from: " + dataPath);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("Failed to load data from: " + dataPath);
+                Debug.LogWarning("Error: " + e.Message);
+                return null;
+            }
+
+            if (jsonData == null)
+                return null;
+
+            ScheduledNotificationData returnedData = JsonUtility.FromJson<ScheduledNotificationData>(jsonData);
+            return returnedData;
+        }
+
+        /// <summary>
+        /// Creates and Schedules a notification.
+        /// </summary>
+        /// <param name="title">The title of the notification.</param>
+        /// <param name="body">The body text of the notification.</param>
+        /// <param name="dateTime">The date and time at which to display the notification.</param>
+        /// <returns>The ScheduledNotificationData instance (for saving purposes).</returns>
+        private ScheduledNotificationData ScheduleNotification(string title, string body, DateTime dateTime)
+        {
+            ScheduledNotificationData data = null;
             switch(platform)
             {
                 case Platform.Android:
-                    SendAndroidNotification("Test Title", "Test text", "No questionnaire", DateTime.Now);
+                    data = ScheduleAndroidNotification(title, body, dateTime);
                     break;
                 case Platform.IOS:
-                    SendIOSNotification("Test Title", "Test text", "No questionnaire", DateTime.Now.AddSeconds(1));
+                    data = ScheduleIOSNotification(title, body, dateTime);
                     break;
                 case Platform.Editor:
-                    SendEditorNotification("Test Title", "Test text", "No questionnaire", DateTime.Now.AddSeconds(10));
+                    data = ScheduleEditorNotification(title, body, dateTime);
                     break;
                 default:
                     Debug.Log("No platform detected");
                     break;
             }
+            return data;
         }
 
         /// <summary>
@@ -68,15 +221,16 @@ namespace AwARe.Notifications.Objects
         /// </summary>
         /// <param name="title">The title text of the notification.</param>
         /// <param name="body">The body text of the notification.</param>
-        /// <param name="questionnaire">The questionnaire associated with the notification.</param>
         /// <param name="time">The time at which to send the notification.</param>
-        private void SendAndroidNotification(string title, string body, string questionnaire, DateTime time)
+        private ScheduledNotificationData ScheduleAndroidNotification(string title, string body, DateTime time)
         {
-        #if UNITY_ANDROID
+            ScheduledNotificationData data = null;
+            #if UNITY_ANDROID
             Notification notification = new AndroidNotif();
-            SetNotifParams(notification, title, body, questionnaire, time);
-            notification.Send();
-        #endif
+            SetNotifParams(notification, title, body, time);
+            data = notification.Schedule();
+            #endif
+            return data;
         }
 
         /// <summary>
@@ -84,15 +238,16 @@ namespace AwARe.Notifications.Objects
         /// </summary>
         /// <param name="title">The title text of the notification.</param>
         /// <param name="body">The body text of the notification.</param>
-        /// <param name="questionnaire">The questionnaire associated with the notification.</param>
         /// <param name="time">The time at which to send the notification.</param>
-        private void SendIOSNotification(string title, string body, string questionnaire, DateTime time)
+        private ScheduledNotificationData ScheduleIOSNotification(string title, string body, DateTime time)
         {
-        #if UNITY_IOS
+            ScheduledNotificationData data = null;
+            #if UNITY_IOS
             Notification notification = new IOSNotif();
-            SetNotifParams(notification, title, body, questionnaire, time);
-            notification.Send();
-        #endif
+            SetNotifParams(notification, title, body, time);
+            data = notification.Schedule();
+            #endif
+            return data;
         }
 
         /// <summary>
@@ -100,15 +255,16 @@ namespace AwARe.Notifications.Objects
         /// </summary>
         /// <param name="title">The title text of the notification.</param>
         /// <param name="body">The body text of the notification.</param>
-        /// <param name="questionnaire">The questionnaire associated with the notification.</param>
         /// <param name="time">The time at which to send the notification.</param>
-        private void SendEditorNotification(string title, string body, string questionnaire, DateTime time)
+        private ScheduledNotificationData ScheduleEditorNotification(string title, string body, DateTime time)
         {
-        #if UNITY_EDITOR
+            ScheduledNotificationData data = null;
+            #if UNITY_EDITOR
             Notification notification = new EditorNotif();
-            SetNotifParams(notification, title, body, questionnaire, time);
-            notification.Send();
-        #endif
+            SetNotifParams(notification, title, body, time);
+            data = notification.Schedule();
+            #endif
+            return data;
         }
 
         /// <summary>
@@ -117,14 +273,22 @@ namespace AwARe.Notifications.Objects
         /// <param name="notification">The instance of the implementation of the Notification (ios, android or editor). </param>
         /// <param name="title">The title of the notification.</param>
         /// <param name="body">The body of the notification.</param>
-        /// <param name="questionnaire">The questionnaire attached to the notification.</param>
         /// <param name="time">The time at which the notification will be sent.</param>
-        private void SetNotifParams(Notification notification, string title, string body, string questionnaire, DateTime time)
+        private void SetNotifParams(Notification notification, string title, string body, DateTime time, bool repeatingDaily = true)
         {
             notification.SetFireTime(time);
             notification.SetTitle(title);
             notification.Setbody(body);
-            notification.SetQuestionnaire(questionnaire);
         }
     }
 }
+
+//ideas for scheduling:
+//1) on app launch, get all scheduled notifications somehow. check the times.
+//then schedule notifications for some time in advance (2 weeks or something)
+//2) figure out how to run a background process. background process sends a notification each day.
+//3) android & IOS hebben beide iets van repeating?
+//voor ios: 'composite' met repeating? schedule een timeinterval 
+
+//also, improve android notification icon.
+//aan het einde nog even over alle (doc) comments heen gaan

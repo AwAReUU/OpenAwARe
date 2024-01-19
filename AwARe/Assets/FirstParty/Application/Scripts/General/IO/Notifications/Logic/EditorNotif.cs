@@ -10,6 +10,7 @@ namespace AwARe.Notifications.Logic
 {
     /// <summary>
     /// Implementation of the abstract notification class for the unity editor environment.
+    /// This class is not actively maintained
     /// </summary>
     public class EditorNotif : Notification
     {
@@ -65,11 +66,15 @@ namespace AwARe.Notifications.Logic
         /// <summary>
         /// Schedules the notification to be sent at the time specified in the SetFireTime method.
         /// </summary>
-        public override async void Send()
+        public override ScheduledNotificationData Schedule()
         {
             Debug.Log("Editor Notification Scheduled: Title: " + title + " Body:" + body + " Scheduled at: " + fireTime.ToString());
-            await Task.Delay((int)(fireTime - DateTime.Now).TotalMilliseconds);
-            Debug.Log("Editor Notification received!");
+            return new ScheduledNotificationData("editor debug id", fireTime);
+        }
+
+        public override void Unschedule(ScheduledNotificationData data)
+        {
+            Debug.Log("Unscheduled notification with id: " + data.notificationID);
         }
     }
 }

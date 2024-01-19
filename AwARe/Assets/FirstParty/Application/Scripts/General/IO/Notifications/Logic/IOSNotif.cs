@@ -14,6 +14,7 @@ namespace AwARe.Notifications.Logic
     {
 
         iOSNotification notification = new iOSNotification();
+        DateTime fireTime;
 
          /// <summary>
         /// Class constructor. initialises some variables necessairy for sending notifications
@@ -44,9 +45,8 @@ namespace AwARe.Notifications.Logic
                 Second = time.Second,
                 Repeats = false
             };
-
             notification.Trigger = trigger;
-
+            fireTime = time;
             Debug.Log("fire time set to " + time.ToString());
         }
 
@@ -81,11 +81,15 @@ namespace AwARe.Notifications.Logic
         /// <summary>
         /// Schedules the notification to be sent at the time specified in the SetFireTime method.
         /// </summary>
-        public override void Send()
+        public override ScheduledNotificationData Schedule()
         {
             iOSNotificationCenter.ScheduleNotification(notification);
+            return new ScheduledNotificationData(notification.Identifier, fireTime);
+        }
 
-            Debug.Log("notification sent/scheduled");
+        public override void Unschedule(ScheduledNotificationData data)
+        {
+            iOSNotificationCenter.RemoveScheduledNotification(data.notificationID);
         }
     }
 }
