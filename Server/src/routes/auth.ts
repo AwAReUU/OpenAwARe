@@ -222,7 +222,25 @@ export function validateToken(req: Request, res: Response, next: any) {
     process.env.ACCESS_TOKEN_SECRET!,
     (err: any, email: any) => {
       if (err) {
-        res.status(403).send("Access token invalid");
+        // Check if it is still possible to refresh login session.
+        jwt.verify(
+          token,
+          process.env.REFRESH_TOKEN_SECRET!,
+          (err: any, email: any) => {
+            if (err) {
+              res.status(403).send("User is not logged in.");
+              return;
+            }
+
+            // Login Time-out. Refresh token is still valid.
+            res
+              .status(440)
+              .send(
+                "Login session has expired. Refresh the session with your refresh token.",
+              );
+          },
+        );
+
         return;
       }
 
