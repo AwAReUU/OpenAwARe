@@ -43,10 +43,10 @@ namespace AwARe.ObjectGeneration
                 return false;
 
             // If the point does not lie on a negative polygon
-            if(position.y == room.PositivePolygon.Points[0].y)
+            if(position.y == room.PositivePolygon.points[0].y)
             {
                 // Check if the collider isn't inside a Negative polygon
-                foreach (Polygon negativePolygon in room.NegativePolygons)
+                foreach (Data.Logic.Polygon negativePolygon in room.NegativePolygons)
                 {
                     if (PolygonHelper.ObjectColliderAnyInPolygon(objectCorners, negativePolygon))
                         return false;

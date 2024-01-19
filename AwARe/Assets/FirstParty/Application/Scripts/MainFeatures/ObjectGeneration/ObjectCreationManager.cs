@@ -45,7 +45,7 @@ namespace AwARe.ObjectGeneration
         /// <value>
         /// <c>Room</c> that we are going to render.
         /// </value>
-        private Room SelectedRoom{ get; set; }
+        private Data.Logic.Room SelectedRoom{ get; set; }
 
         [SerializeField] private Data.Objects.Room roomObject;
 
@@ -89,6 +89,8 @@ namespace AwARe.ObjectGeneration
             var roomLiner = roomObject.GetComponent<RoomLiner>();
             roomLiner.ResetLiners();
             roomLiner.UpdateLines();
+
+            ShowNegativePolygons(roomObject);
         }
 
         /// <summary>
@@ -171,7 +173,7 @@ namespace AwARe.ObjectGeneration
         /// <param name="room">The room of which the negative polygons should be shown.</param>
         private void ShowNegativePolygons(Data.Objects.Room room)
         {
-            foreach (Polygon p in room.NegativePolygons)
+            foreach (Polygon p in room.negativePolygons)
                 p.GetComponent<Mesher>().UpdateMesh();
         }
 

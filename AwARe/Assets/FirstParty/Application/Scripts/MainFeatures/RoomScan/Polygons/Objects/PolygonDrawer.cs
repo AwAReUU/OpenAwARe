@@ -137,7 +137,7 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             // Draw closing line
             closeLine.positionCount = 2;
-            closeLine.SetPositions(new[]{ Polygon.Points[^1], Polygon.Points[0] });
+            closeLine.SetPositions(new[]{ Polygon.points[^1], Polygon.points[0] });
         }
     }
 }

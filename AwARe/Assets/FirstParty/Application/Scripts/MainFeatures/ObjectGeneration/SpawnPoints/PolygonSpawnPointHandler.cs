@@ -88,7 +88,7 @@ namespace AwARe.ObjectGeneration
                         Polygon polygon = PolygonHelper.PointInPolygons(room.NegativePolygons, gridPoint);
 
                         if (polygon != null)
-                            gridPoint.y += polygon.Height;
+                            gridPoint.y += polygon.height;
 
                         result.Add(gridPoint);
                     }
