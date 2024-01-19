@@ -1,0 +1,5 @@
+<map id="AwARe.Database.IIngrToResDatabase" name="AwARe.Database.IIngrToResDatabase">
+<area shape="rect" id="Node000001" title="Interface that defines methods needed to be implemented to find resources needed to produce an ingred..." alt="" coords="15,5,204,48"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_database_1_1_logic_1_1_mockup_ingr_to_res_database.html" title="Implementation of the Ingredient&#45;to&#45;Resource Database interface, that uses mock database using a loca..." alt="" coords="5,96,214,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,64,112,96,107,96,107,64"/>
+</map>

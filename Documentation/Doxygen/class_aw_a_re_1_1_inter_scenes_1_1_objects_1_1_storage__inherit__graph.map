@@ -1,0 +1,9 @@
+<map id="AwARe.InterScenes.Objects.Storage" name="AwARe.InterScenes.Objects.Storage">
+<area shape="rect" id="Node000001" title="The Singleton containing the in&#45;between&#45;scenes stored data." alt="" coords="78,80,269,123"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,115,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,39,146,77,143,82,89,43"/>
+<area shape="rect" id="Node000003" href="$interface_aw_a_re_1_1_inter_scenes_1_1_i_storage.html" title="An interface to the in between scenes stored data." alt="" coords="139,5,208,32"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="176,48,176,80,171,80,171,48"/>
+<area shape="rect" id="Node000004" href="$interface_aw_a_re_1_1_i_data_holder.html" title=" " alt="" coords="232,5,424,32"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="291,42,214,82,212,77,289,37"/>
+</map>

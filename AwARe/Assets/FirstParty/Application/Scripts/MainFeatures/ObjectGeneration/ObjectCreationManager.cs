@@ -1,11 +1,26 @@
-using System.Collections.Generic;
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+
+using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
+using AwARe.ResourcePipeline.Logic;
 using AwARe.ResourcePipeline.Objects;
-using Rooms = AwARe.RoomScan.Polygons.Logic;
-using Ingredients = AwARe.IngredientList.Logic;
+
+using Castle.Components.DictionaryAdapter.Xml;
 
 using UnityEngine;
+using Ingredients = AwARe.IngredientList.Logic;
+
+using Room = AwARe.Data.Logic.Room;
 
 namespace AwARe.ObjectGeneration
 {
@@ -18,14 +33,32 @@ namespace AwARe.ObjectGeneration
         //[SerializeField] private GameObject placeButton;
 
         /// <value>
+        /// used to clear the scene from previously generated objects.
+        /// </value>
+        private ObjectDestroyer destroyer;
+
+        /// <value>
         /// <c>IngredientList</c> that we are going to render.
         /// </value>
         private Ingredients.IngredientList SelectedList { get; set; }
+
+
+        /// <value>
+        /// <c>Room</c> that we are going to render.
+        /// </value>
+        private Room SelectedRoom{ get; set; }
+
+        [SerializeField] private Data.Objects.Room roomObject;
 
         /// <value>
         /// <c>path</c> the Mesh from the generated path.
         /// </value>
         private Mesh pathMesh { get; set; }
+
+        /// <value>
+        /// list of renderables that are present in the current room.
+        /// </value>
+        public List<Renderable> currentRoomRenderables;
 
         /// <summary>
         /// Set the current ingredientList.
@@ -38,14 +71,25 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <returns>The ingredient list that was selected by the user.</returns>
         private Ingredients.IngredientList RetrieveIngredientlist() => Storage.Get().ActiveIngredientList;
-
-        /// <summary>
-        /// The polygon drawer.
-        /// </summary>
-        [SerializeField] private RoomScan.Polygons.Objects.PolygonDrawer polygonDrawer;
         
         void Awake() {
             this.pathMesh = new Mesh(); // Empty mesh for now. Once Path gen. is done, generate the mesh from PathData.
+        }
+
+        private void LoadRoom()
+        {
+            // Load data from storage
+            Room roomData = Storage.Get().ActiveRoom;
+            if (roomData == null) return;
+
+            // Construct new room
+            SelectedRoom = roomData;
+            roomObject.Data = SelectedRoom;
+
+            // Visualize new room
+            var roomLiner = roomObject.GetComponent<RoomLiner>();
+            roomLiner.ResetLiners();
+            roomLiner.UpdateLines();
         }
 
         /// <summary>
@@ -57,46 +101,78 @@ namespace AwARe.ObjectGeneration
             SetSelectedList(RetrieveIngredientlist());
 
             List<Renderable> renderables = new PipelineManager().GetRenderableList(SelectedList);
-            Rooms.Room room = Storage.Get().ActiveRoom;
-            if (room == null)
-                return;
 
-            polygonDrawer.DrawRoomPolygons(room);
+            // Get the stored room as an object.
+            LoadRoom();
 
             // TODO:
             // Once pathgen is done, create mesh from PathData
             // this.pathMesh = pathData.CreateMesh()
+            if(SelectedRoom == null)
+                return;
 
-            PlaceRenderables(renderables, room, this.pathMesh);
+            float roomSpace        = SelectedRoom.PositivePolygon.Area;
+            float renderablesSpace = ComputeRenderableSpaceNeeded(renderables);
+
+            // Divide renderables in seperate rooms when there is not enough space 
+            if (renderablesSpace > roomSpace) 
+                PlaceRoom(true);
+            else PlaceRenderables(renderables, SelectedRoom, this.pathMesh);
         }
 
         /// <summary>
         /// Try to place all <paramref name="renderables"/> inside of the <paramref name="room"/>.
         /// </summary>
-        /// <param name="renderables">Objects to place in the polygon.</param>
+        /// <param name="renderables">Objects to place in the Polygon.</param>
         /// <param name="room">Room consisting of polygons to place the objects in.</param>
-        public void PlaceRenderables(List<Renderable> renderables, Rooms.Room room, Mesh pathMesh) =>
-            new ObjectPlacer().PlaceRenderables(renderables, room, pathMesh);
-
-        /// <summary>
-        /// Rotate a gameObject to face the user.
-        /// </summary>
-        /// <param name="target">Object to rotate.</param>
-        private void RotateToUser(GameObject target)
+        public void PlaceRenderables(List<Renderable> renderables, Data.Logic.Room room, Mesh pathMesh) 
         {
-            Vector3 position = target.transform.position;
-            Vector3 cameraPosition = Camera.main.transform.position;
-            Vector3 direction = cameraPosition - position;
-            Vector3 targetRotationEuler = Quaternion.LookRotation(direction).eulerAngles;
-            Vector3 scaledEuler = Vector3.Scale(targetRotationEuler, target.transform.up.normalized);
-            Quaternion targetRotation = Quaternion.Euler(scaledEuler);
-            target.transform.rotation = targetRotation;
+            // clear the scene of any previously instantiated GameObjects 
+            destroyer = gameObject.GetComponent<ObjectDestroyer>();
+            destroyer.DestroyAllObjects();
+            currentRoomRenderables = renderables;
+            new ObjectPlacer().PlaceRenderables(renderables, room, pathMesh);
+        }
+        
+        /// <summary>
+        /// Tries to place a partial list of renderables by distributing renderables in two seperate rooms.
+        /// </summary>
+        /// <param name="isFirstRoom">Serves as a 'switch' between the two rooms.</param>
+        public void PlaceRoom(bool isFirstRoom)
+        {
+            SetSelectedList(RetrieveIngredientlist());
+            List<Renderable> renderables = new PipelineManager().GetRenderableList(SelectedList);
+
+            if (isFirstRoom) 
+                renderables = renderables.Where(renderable => renderable.resourceType == ResourceType.Animal ||
+                                                              renderable.resourceType == ResourceType.Water).ToList();
+            else 
+                renderables = renderables.Where(renderable => renderable.resourceType == ResourceType.Plant).ToList();
+
+            Data.Logic.Room room = Storage.Get().ActiveRoom;
+            PlaceRenderables(renderables, room, this.pathMesh);
         }
 
-        //debug method for displaying spawn locations in scene.
+        /// <summary>
+        /// Returns the total area that all given renderables will cover.
+        /// </summary>
+        /// <param name="renderables">All the renderables that will be included in the calculation.</param>
+        public float ComputeRenderableSpaceNeeded(List<Renderable> renderables)
+        {
+            float sumArea = 0;
+            foreach (var renderable in renderables) 
+                sumArea += renderable.ComputeSpaceNeeded();
+            
+            return sumArea;
+        }
+
+        [ExcludeFromCodeCoverage]
+        /// <summary>
+        /// displays spawn points on grid for debugging.
+        /// </summary>.
         void OnDrawGizmos()
         {
-            Rooms.Room room = Storage.Get().ActiveRoom;
+            Room room = Storage.Get().ActiveRoom;
             if (room == null)
                 return;
 

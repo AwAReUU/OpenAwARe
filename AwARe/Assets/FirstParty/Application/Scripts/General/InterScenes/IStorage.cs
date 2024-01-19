@@ -5,6 +5,8 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using AwARe.Data.Logic;
+
 using Ingredients = AwARe.IngredientList.Logic;
 using Rooms = AwARe.RoomScan.Polygons.Logic;
 
@@ -30,6 +32,6 @@ namespace AwARe.InterScenes
         /// <value>
         /// The currently active Room.
         /// </value>
-        public Rooms.Room ActiveRoom { get; set; }
+        public Room ActiveRoom { get; set; }
     }
 }

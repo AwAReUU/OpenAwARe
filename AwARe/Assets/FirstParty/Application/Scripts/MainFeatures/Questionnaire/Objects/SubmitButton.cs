@@ -12,8 +12,15 @@ namespace AwARe.Questionnaire.Objects
         public string questionnaire;
     }
 
+    /// <summary>
+    /// Class <c>SubmitButton</c> contains logic for the submit button's behaviour.
+    /// </summary>
     public class SubmitButton : MonoBehaviour
     {
+        /// <summary>
+        /// Switches the scene back to the homescreen.
+        /// TODO: Format and Send answers to server.
+        /// </summary>
         public void Submit()
         {
             Client.GetInstance().Post("quest/save", new QuestionnaireRequestBody

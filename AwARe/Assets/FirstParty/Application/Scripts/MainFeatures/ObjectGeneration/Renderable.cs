@@ -1,17 +1,24 @@
-﻿using System.Collections.Generic;
+﻿// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
 
+using System.Collections.Generic;
+using AwARe.ResourcePipeline.Logic;
 using UnityEngine;
 
 namespace AwARe.ObjectGeneration
 {
     /// <summary>
     /// <c>Renderable</c> is a class that contains properties
-    /// we need to render a specific gameObject
+    /// we need to render a specific gameObject.
     /// </summary>
     public class Renderable
     {
         /// <value>
-        /// The amount of this renderable to render
+        /// The amount of this renderable to render.
         /// </value>
         public int quantity { get; set; }
 
@@ -36,6 +43,11 @@ namespace AwARe.ObjectGeneration
         private float scaling { get; set; }
 
         /// <value>
+        /// The resource type of this renderable.
+        /// </value>
+        public ResourceType resourceType { get; set; }
+
+        /// <value>
         /// The current percentage of surface area used by this renderable.
         /// </value>
         public float currentRatioUsage { get; set; }
@@ -49,17 +61,19 @@ namespace AwARe.ObjectGeneration
         /// Construct a new Renderable. Note that we do not fill in the allowedSurfaceUsage yet, since this
         /// is based on the sum of all renderables.
         /// </summary>
-        /// <param name="prefab">Prefab to render</param>
+        /// <param name="prefab">Prefab to render.</param>
         /// <param name="halfExtents">halfExtents of the prefab. Scaling is already applied to this.</param>
         /// <param name="quantity">Quantity of this renderable to be placed.</param>
         /// <param name="scaling">scale of this renderable.</param>
-        public Renderable(GameObject prefab, Vector3 halfExtents, int quantity, float scaling)
+        /// <param name="resourceType">the resource type of this renderable.</param>
+        public Renderable(GameObject prefab, Vector3 halfExtents, int quantity, float scaling, ResourceType resourceType)
         {
             this.quantity = quantity;
             //this.allowedSurfaceUsage = only known after all renderables are known
             this.prefab = prefab;
             this.halfExtents = halfExtents;
             this.scaling = scaling;
+            this.resourceType = resourceType;
             this.currentRatioUsage = 0;
             this.objStacks = new();
         }
@@ -84,6 +98,11 @@ namespace AwARe.ObjectGeneration
         /// Return the gameobject prefab of the current Renderable.
         /// </summary>
         public GameObject GetPrefab() => this.prefab;
+
+        /// <summary>
+        /// Return the resource type of the current Renderable.
+        /// </summary>
+        public ResourceType GetResourceType() => this.resourceType;
 
         /// <summary>
         /// For each unique object, find out the percentage of space it will need.
@@ -134,22 +153,14 @@ namespace AwARe.ObjectGeneration
         }
 
         /// <summary>
-        /// The sum of the area of all gameObjects that will be spawned
+        /// The sum of the area of all gameObjects that will be spawned of this renderable
         /// </summary>
         /// <param name="renderables">All objects to be placed.</param>
-        /// <returns>The amount of surface area that all objects are needed in between.</returns>
-        float ComputeSpaceNeeded(List<Renderable> renderables)
+        /// <returns>The amount of surface area that all objects of this renderabe will need.</returns>
+        public float ComputeSpaceNeeded()
         {
-            //compute the sum of area of all gameobjects that will be spawned.
-            float sumArea = 0;
-            foreach (var renderable in renderables)
-            {
-                int quantity = renderable.quantity;
-                Vector3 halfExtents = renderable.halfExtents;
-                float area = halfExtents.x * halfExtents.z * 4;
-                sumArea += area * quantity;
-            }
-            return sumArea;
+            float area = halfExtents.x * halfExtents.z * 4;
+            return area * quantity;
         }
     }
 }

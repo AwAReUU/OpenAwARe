@@ -1,0 +1,5 @@
+<map id="AwARe.RoomScan.Path.ErosionHandler.IntFloodFill" name="AwARe.RoomScan.Path.ErosionHandler.IntFloodFill">
+<area shape="rect" id="Node000001" title="Fill the grid with integers." alt="" coords="5,5,217,48"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_room_scan_1_1_path_1_1_erosion_handler.html#a32f3ef2b722d74b144a4c16305ae3206" title="Get the function that returns either the input value or zero based on whether the point is inside the..." alt="" coords="265,5,476,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,24,249,24,249,29,217,29"/>
+</map>

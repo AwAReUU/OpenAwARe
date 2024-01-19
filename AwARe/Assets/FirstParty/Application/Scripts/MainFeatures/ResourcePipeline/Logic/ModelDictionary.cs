@@ -39,13 +39,37 @@ namespace AwARe.ResourcePipeline.Logic
     /// </summary>
     public class Model : IEquatable<Model>
     {
+        /// <value>
+        /// Unique identifier of this model.
+        /// </value>
         public int ID { get; }
+        /// <value>
+        /// <see cref="ResourceType"/> of this model.
+        /// </value>
         public ResourceType Type { get; }
+        /// <value>
+        /// The path where this model's prefab can be found. (The root is a resources folder)
+        /// </value>
         public string PrefabPath { get; }
+        /// <value>
+        /// Length of this model in real life in cm.
+        /// </value>
         public float RealLength { get; }
+        /// <value>
+        /// Width of this model in real life in cm.
+        /// </value>
         public float RealWidth { get; }
+        /// <value>
+        /// height of this model in real life in cm.
+        /// </value>
         public float RealHeight { get; }
+        /// <value>
+        /// Extra spacing nessesary between models in the x direction.
+        /// </value>
         public float DistanceX { get; }
+        /// <value> 
+        /// Extra spacing nessesary between models in the y direction.
+        /// </value>        //TODO: Verify this. This should be Z???
         public float DistanceY { get; }
 
         /// <summary>
@@ -93,6 +117,10 @@ namespace AwARe.ResourcePipeline.Logic
         /// <returns>Whether they are the same.</returns>
         public bool Equals(Model m) => ID == m.ID;
 
+        /// <summary>
+        /// The hashcode of a model is created from its ID.
+        /// </summary>
+        /// <returns>Hashcode of the model.</returns>
         public override int GetHashCode() => ID.GetHashCode();
     }
 }

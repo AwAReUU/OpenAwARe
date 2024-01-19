@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -5,10 +12,17 @@ using AwARe.IngredientList.Logic;
 
 namespace AwARe.Database.Logic
 {
+    /// <summary>
+    /// Implementation of the Ingredient-to-Resource Database interface, that uses mock database using a locally saved table.
+    /// The Mock Database can be used for testing purposes.
+    /// </summary>
     public class MockupIngrToResDatabase : IIngrToResDatabase
     {
         private readonly List<(int, int, float)> requiresTable; // (IngrID, ResID, ResGrams per IngrGram)
-        
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockupIngrToResDatabase"/> class.
+        /// </summary>
         public MockupIngrToResDatabase()
         {
             requiresTable = new()
@@ -56,6 +70,8 @@ namespace AwARe.Database.Logic
                 (18, 1,    2)
             };
         }
+
+        ///<inheritdoc cref="IIngrToResDatabase.GetResourceIDs"/>
         public Dictionary<int, float> GetResourceIDs(Ingredient ingredient)
         {
             IEnumerable<(int, float)> result =

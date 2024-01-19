@@ -1,0 +1,36 @@
+<map id="AwARe.ObjectGeneration.ObjectPlacer.PlaceRenderables" name="AwARe.ObjectGeneration.ObjectPlacer.PlaceRenderables">
+<area shape="rect" id="Node000001" title="Automatically place a list of renderables by first initializing a clulster for each renderable...." alt="" coords="5,172,217,215"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_object_generation_1_1_object_placer.html#ae76a4afe9c9786928cff761a283544cd" title="Estimate the surface area of the spawn Polygon by squaring the distance between the points and multip..." alt="" coords="287,5,523,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,170,185,114,222,83,263,58,276,52,278,57,266,62,226,88,189,117,133,174"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_object_generation_1_1_renderable.html#a4967dd6e36a3aace77a82f4715fba5db" title="Return the quantity of the current Renderable." alt="" coords="284,72,526,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="156,169,207,146,264,124,287,117,289,122,266,129,209,151,158,174"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_object_generation_1_1_object_placer.html#a4c4c68bd7363645fb661ddaffe41fb12" title="Calculates the renderable with the lowest area in use from the given list of renderables." alt="" coords="265,139,545,181"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="217,179,249,175,250,180,217,184"/>
+<area shape="rect" id="Node000005" href="$class_aw_a_re_1_1_object_generation_1_1_polygon_spawn_point_handler.html#ab5cce5a42778f345afe7b71fd9ef4151" title="Call the parameterized method &quot;GetGridPoints&quot; to obtain spawnPoints." alt="" coords="273,205,537,248"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="217,203,257,207,257,213,217,208"/>
+<area shape="rect" id="Node000006" href="$class_aw_a_re_1_1_object_generation_1_1_object_placer.html#a8967427adfa1305524ec17918be494a6" title="Spawns one object of each renderable at a valid spawnoint. The initial objects are spawned as far apa..." alt="" coords="299,272,511,315"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="158,213,209,236,266,257,289,265,287,270,264,263,207,241,156,218"/>
+<area shape="rect" id="Node000014" href="$class_aw_a_re_1_1_object_generation_1_1_object_placer.html#a56a8caccac3530f6833188c73d679475" title="Tries to spawn one object of a given renderable. If it could not be placed on the ground it will try ..." alt="" coords="289,360,521,403"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="135,213,191,268,227,298,266,324,321,351,319,356,263,329,224,302,188,272,131,217"/>
+<area shape="rect" id="Node000007" href="$class_aw_a_re_1_1_object_generation_1_1_object_placer.html#ace143b5ab50a959ed600f1869677f50c" title="Sorts the list of available spawnpoints by furthest distance from the already occupied spawnpoints." alt="" coords="617,197,843,256"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="510,269,600,250,601,256,511,274"/>
+<area shape="rect" id="Node000008" href="$class_aw_a_re_1_1_object_generation_1_1_object_placer.html#a13e444f7a47c8f3129d3f6be449518a3" title="Tries to place a renderable &#160;at position ." alt="" coords="914,319,1126,361"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="511,299,899,328,899,334,511,304"/>
+<area shape="rect" id="Node000009" href="$class_aw_a_re_1_1_object_generation_1_1_renderable.html#a27e002d77dc8429dcfb8c932772b9439" title="Get all four corners of a renderable &#160;that is placed at position , so they are global coordinates." alt="" coords="1174,184,1416,227"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="1047,316,1103,276,1172,236,1187,230,1189,235,1175,241,1106,280,1050,320"/>
+<area shape="rect" id="Node000010" href="$class_aw_a_re_1_1_object_generation_1_1_renderable.html#a70b94a7b4315d9b1ef5f0c8513ac6105" title="Return the halfExtents of the current Renderable." alt="" coords="1174,451,1416,493"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="1051,359,1106,398,1175,436,1190,443,1188,448,1173,441,1104,403,1048,364"/>
+<area shape="rect" id="Node000011" href="$class_aw_a_re_1_1_object_generation_1_1_renderable.html#a7111a00e85e900c734e3825b2e85907f" title="Return the gameobject prefab of the current Renderable." alt="" coords="1174,251,1416,293"/>
+<area shape="poly" id="edge10_Node000008_Node000011" title=" " alt="" coords="1109,315,1190,295,1192,300,1110,321"/>
+<area shape="rect" id="Node000012" href="$class_aw_a_re_1_1_object_generation_1_1_renderable.html#ac8a71311d0c4ea64ee15b2d483ea6529" title="Return the scaling of the current Renderable." alt="" coords="1174,317,1416,360"/>
+<area shape="poly" id="edge11_Node000008_Node000012" title=" " alt="" coords="1126,337,1158,337,1158,342,1126,342"/>
+<area shape="rect" id="Node000013" href="$class_aw_a_re_1_1_object_generation_1_1_polygon_helper.html#a23a477fd6eba137552ebbf51d52cdec0" title="Check if all four base corners &#160;are inside of the Polygon described by polygonPoints ." alt="" coords="1185,384,1405,427"/>
+<area shape="poly" id="edge12_Node000008_Node000013" title=" " alt="" coords="1113,359,1188,377,1187,382,1112,365"/>
+<area shape="poly" id="edge15_Node000014_Node000008" title=" " alt="" coords="521,371,898,345,899,351,522,376"/>
+<area shape="rect" id="Node000015" href="$class_aw_a_re_1_1_object_generation_1_1_object_placer.html#a8f843a4874a364451692f16b68a3bc27" title="Sorts the list of available spawnpoints by shortest distance from the initial spawnpoint." alt="" coords="593,381,866,424"/>
+<area shape="poly" id="edge14_Node000014_Node000015" title=" " alt="" coords="522,386,578,390,578,395,521,392"/>
+<area shape="rect" id="Node000016" href="$class_aw_a_re_1_1_object_generation_1_1_object_placer.html#ab8b0d8d3268beb06c6f700e31bdb4f61" title="Try to stack the object on one of the objStacks in the given renderable until successful or out of st..." alt="" coords="624,448,835,491"/>
+<area shape="poly" id="edge16_Node000014_Node000016" title=" " alt="" coords="479,401,594,433,623,441,621,446,592,439,478,406"/>
+<area shape="poly" id="edge18_Node000016_Node000008" title=" " alt="" coords="834,445,865,434,925,402,977,368,980,373,928,407,867,438,836,450"/>
+<area shape="poly" id="edge17_Node000016_Node000010" title=" " alt="" coords="835,467,1158,469,1158,474,835,472"/>
+</map>

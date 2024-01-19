@@ -1,0 +1,5 @@
+<map id="AwARe.Notifications.Objects.NotificationScheduler.SendIOSNotification" name="AwARe.Notifications.Objects.NotificationScheduler.SendIOSNotification">
+<area shape="rect" id="Node000001" title="Sends a notifcation to the IOS platform. does nothing if called on other platforms." alt="" coords="5,5,269,48"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_notifications_1_1_objects_1_1_notification_scheduler.html#a37062dfeff2d4bbe7a68a68b0627f841" title="Sets the parameters of a notification." alt="" coords="317,5,555,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="269,24,301,24,301,29,269,29"/>
+</map>
