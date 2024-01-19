@@ -32,9 +32,6 @@ namespace AwARe.Notifications.Objects
         /// </summary>
         string folderpath;
 
-        //for background scheduling: possibly look into 'service' C# class thing:
-        //https://stackoverflow.com/questions/34573109/how-to-make-an-android-app-to-always-run-in-background
-
         /// <summary>
         /// Unity method that is called immediately upon object creation.
         /// Initialises the platform enum variable.
@@ -43,11 +40,11 @@ namespace AwARe.Notifications.Objects
         {
             #if UNITY_EDITOR
                 platform = Platform.Editor;
-#elif UNITY_ANDROID
+            #elif UNITY_ANDROID
                 platform = Platform.Android;
-#elif UNITY_IOS
+            #elif UNITY_IOS
                 platform = Platform.IOS;
-#endif
+            #endif
 
             folderpath = Path.Combine(Application.persistentDataPath, "Data/ScheduledNotifications");
         }
@@ -58,7 +55,7 @@ namespace AwARe.Notifications.Objects
         /// </summary>
         void Start()
         {
-            //create the folderpath directories if it doesn't exist
+            //create the folderpath if it doesn't exist already on the device
             if(!Directory.Exists(folderpath))
             {
                 Directory.CreateDirectory(folderpath);
@@ -72,8 +69,8 @@ namespace AwARe.Notifications.Objects
 
                 if (!data.cancellable) continue;
 
-                //for testing purposes only:
-                Notification.Create().Unschedule(data);
+                //for testing purposes use this to unschedule without conditions:
+                //Notification.Create().Unschedule(data);
 
                 //if the notification has been sent already, delete the file
                 //but do not unschedule it, so that it remains in the device's status bar
@@ -95,24 +92,16 @@ namespace AwARe.Notifications.Objects
             //create and schedule notifications for the next 2 weeks
             for(int i = 1; i < 15; i++)
             {
-                //ScheduledNotificationData data = ScheduleNotification("Test notification " + i, 
-                //"Test notification body text", DateTime.Now.AddDays(i));
+                ScheduledNotificationData data = ScheduleNotification("Daily AwARe Notification", 
+                "Your daily notification has arrived.", DateTime.Now.AddDays(i));
 
                 //for testing purposes use:
-                ScheduledNotificationData data = ScheduleNotification("Test notification " + i, 
-                "Test notification body text", DateTime.Now.AddMinutes(i * 2));
+                //ScheduledNotificationData data = ScheduleNotification("Test notification " + i, 
+                //"Test notification body text", DateTime.Now.AddMinutes(i * 2));
 
                 string path = Path.Combine(folderpath, "notification" + i);
                 Save(data, path);
             }
-
-
-            //step 1: check if folder exists. if not, make folder
-            //step 2: check all files in folder. get any json files
-            //step 3: check the files for dates. unschedule any notifications that are not today
-            //step 4: schedule new notifications for 2 weeks. save them to the folder.
-
-
         }
 
         /// <summary>
@@ -282,13 +271,3 @@ namespace AwARe.Notifications.Objects
         }
     }
 }
-
-//ideas for scheduling:
-//1) on app launch, get all scheduled notifications somehow. check the times.
-//then schedule notifications for some time in advance (2 weeks or something)
-//2) figure out how to run a background process. background process sends a notification each day.
-//3) android & IOS hebben beide iets van repeating?
-//voor ios: 'composite' met repeating? schedule een timeinterval 
-
-//also, improve android notification icon.
-//aan het einde nog even over alle (doc) comments heen gaan

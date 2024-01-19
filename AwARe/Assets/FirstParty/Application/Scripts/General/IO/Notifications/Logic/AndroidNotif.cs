@@ -1,7 +1,5 @@
 #if UNITY_ANDROID
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Notifications.Android;
 using UnityEngine;
 
@@ -19,7 +17,7 @@ namespace AwARe.Notifications.Logic
         private AndroidNotification notification;
 
         /// <summary>
-        /// Class constructor. initialises some variables necessary for sending notifications.
+        /// Class constructor. initialises some variables necessary for sending notifications
         /// on the android platform.
         /// </summary>
         public AndroidNotif()
@@ -92,6 +90,10 @@ namespace AwARe.Notifications.Logic
             return new ScheduledNotificationData(ID.ToString(), notification.FireTime);
         }
 
+        /// <summary>
+        /// Removes a scheduled notification so that it is no longer sent.
+        /// </summary>
+        /// <param name="data">The data associated with the notification to be removed.</param>
         public override void Unschedule(ScheduledNotificationData data)
         {
             AndroidNotificationCenter.CancelScheduledNotification(int.Parse(data.notificationID));

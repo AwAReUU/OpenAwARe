@@ -10,7 +10,7 @@ namespace AwARe.Notifications.Logic
 {
     /// <summary>
     /// Implementation of the abstract notification class for the unity editor environment.
-    /// This class is not actively maintained
+    /// This class is not actively maintained, and only useful for debugging purposes.
     /// </summary>
     public class EditorNotif : Notification
     {
@@ -72,6 +72,10 @@ namespace AwARe.Notifications.Logic
             return new ScheduledNotificationData("editor debug id", fireTime);
         }
 
+        /// <summary>
+        /// Removes a scheduled notification so that it is no longer sent.
+        /// </summary>
+        /// <param name="data">The data associated with the notification to be removed.</param>
         public override void Unschedule(ScheduledNotificationData data)
         {
             Debug.Log("Unscheduled notification with id: " + data.notificationID);

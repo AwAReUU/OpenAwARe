@@ -7,8 +7,8 @@ using UnityEngine;
 namespace AwARe.Notifications
 {
     /// <summary>
-    /// Abstract class from which platform-specific notifications are derived
-    /// contains several abstract methods which define required behavior.
+    /// Abstract class from which platform-specific notifications are derived.
+    /// Contains several abstract methods which define required behavior.
     /// </summary>
     public abstract class Notification
     {
@@ -18,15 +18,15 @@ namespace AwARe.Notifications
         /// This is nessecary because you cannot have a method that is both abstract and static.
         /// Used solely for calling the unschedule method.
         /// </summary>
-        /// <returns>A platform-specific notification instance</returns>
+        /// <returns>A platform-specific notification instance.</returns>
         public static Notification Create()
         {
-#if UNITY_ANDROID
+#if UNITY_EDITOR
+            return new EditorNotif();
+#elif UNITY_ANDROID
             return new AndroidNotif();
 #elif UNITY_IOS
             return new IOSNotif();
-#elif UNITY_EDITOR
-            return new EditorNotif();
 #endif
         }
 
