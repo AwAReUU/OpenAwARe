@@ -45,9 +45,17 @@ namespace AwARe.Server.Logic
         /// <summary>
         /// At startup initialise the client-server connection.
         /// </summary>
-        public void Awake()
+        public async void Awake()
         {
             Client.Init(this.Adress());
+
+            // TEMP: For now login with fake admin account:
+            await Client.GetInstance().Login(new User
+            {
+                email = "admin@aware.nl",
+                password = "1234test"
+            });
+            Debug.Log("Logged in: " + await Client.GetInstance().CheckLogin());
         }
 
         /// <summary>

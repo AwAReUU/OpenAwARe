@@ -58,7 +58,8 @@ namespace AwARe.Server.Logic
         // Instance:
 
         private readonly string adress;
-        private User user;
+
+        private string userEmail;
 
         private string accessToken;
         private string refreshToken;
@@ -70,13 +71,15 @@ namespace AwARe.Server.Logic
         }
 
         // Returns true if login succeeded
-        private async Task<bool> Login()
+        public async Task<bool> Login(User user)
         {
+            this.userEmail = user.email;
+
             string url = adress + "/auth/login";
 
             return await AwaitRSGPromise<bool>(ret =>
             {
-                RestClient.Post<TokenResponse>(url, this.user).Then(response =>
+                RestClient.Post<TokenResponse>(url, user).Then(response =>
                 {
                     this.accessToken = response.accessToken;
                     this.refreshToken = response.refreshToken;
@@ -93,7 +96,7 @@ namespace AwARe.Server.Logic
             });
         }
 
-        private Task<bool> Logout()
+        public Task<bool> Logout()
         {
             string url = adress + "/auth/logout";
 
@@ -114,10 +117,9 @@ namespace AwARe.Server.Logic
         }
 
         // Returns true if logged in. Returns false if not logged in or if there are connections issues.
-        public static Task<bool> CheckLogin()
+        public Task<bool> CheckLogin()
         {
-            var client = Client.GetInstance();
-            string url = client.adress + "/auth/check";
+            string url = this.adress + "/auth/check";
 
             return AwaitRSGPromise<bool>(ret =>
             {
@@ -126,7 +128,7 @@ namespace AwARe.Server.Logic
                     Uri = url
                 };
 
-                RestClient.Get(client.Authorize(rh)).Then(response =>
+                RestClient.Get(this.Authorize(rh)).Then(response =>
                 {
                     ret.SetResult(true);
                 }).Catch(err =>
@@ -143,7 +145,7 @@ namespace AwARe.Server.Logic
 
             return AwaitRSGPromise<bool>(ret =>
             {
-                RestClient.Post<TokenResponse>(url, new RefreshRequest { email = this.user.email, token = this.refreshToken }).Then(response =>
+                RestClient.Post<TokenResponse>(url, new RefreshRequest { email = this.userEmail, token = this.refreshToken }).Then(response =>
                 {
                     this.accessToken = response.accessToken;
                     this.refreshToken = response.refreshToken;
@@ -160,14 +162,6 @@ namespace AwARe.Server.Logic
             });
         }
 
-        private async Task<bool> RestoreSession()
-        {
-            if (!await this.Refresh())
-            {
-                return await this.Login();
-            }
-            return false;
-        }
 
         private RequestHelper Authorize(RequestHelper rh)
         {
@@ -186,19 +180,18 @@ namespace AwARe.Server.Logic
             return await tcs.Task;
         }
 
-        public async void SendPostRequest<B>(string url, B body, Action<Dictionary<string, string>> on_then, Action<Exception> on_catch)
+        public async void SendPostRequest<B>(string url, B body, Action<string> on_then, Action<Exception> on_catch)
         {
             await AwaitRSGPromise<bool>(ret =>
             {
                 var rh = new RequestHelper
                 {
-                    Uri = Client.GetInstance().adress + url,
+                    Uri = Client.GetInstance().adress + "/" + url,
                     Body = body,
                 };
                 RestClient.Post(Client.GetInstance().Authorize(rh)).Then(response =>
                 {
-                    var json = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.Text);
-                    on_then(json);
+                    on_then(response.Text);
 
                     ret.SetResult(true);
                 }).Catch(err =>
@@ -210,7 +203,7 @@ namespace AwARe.Server.Logic
             });
         }
 
-        public async void SendGetRequest<B>(string url, B body, Action<Dictionary<string, string>> on_then, Action<Exception> on_catch)
+        public async void SendGetRequest<B>(string url, B body, Action<string> on_then, Action<Exception> on_catch)
         {
             await AwaitRSGPromise<bool>(ret =>
             {
@@ -221,8 +214,7 @@ namespace AwARe.Server.Logic
                 };
                 RestClient.Get(Client.GetInstance().Authorize(rh)).Then(response =>
                 {
-                    var json = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.Text);
-                    on_then(json);
+                    on_then(response.Text);
 
                     ret.SetResult(true);
                 }).Catch(err =>
@@ -237,12 +229,12 @@ namespace AwARe.Server.Logic
         // ----------------------------------------------------------------------------
         // Helper methods:
 
-        public static Request<B> Post<B>(string url, B body)
+        public Request<B> Post<B>(string url, B body)
         {
             return new Request<B>(RequestType.POST, url, body);
         }
 
-        public static Request<B> Get<B>(string url, B body)
+        public Request<B> Get<B>(string url, B body)
         {
             return new Request<B>(RequestType.GET, url, body);
         }
@@ -264,7 +256,7 @@ namespace AwARe.Server.Logic
 
         private readonly B body;
 
-        private Action<Dictionary<string, string>> on_then;
+        private Action<string> on_then;
         private Action<Exception> on_catch = delegate { };
 
         public Request(RequestType type, string url, B body)
@@ -274,7 +266,7 @@ namespace AwARe.Server.Logic
             this.body = body;
         }
 
-        public Request<B> Then(Action<Dictionary<string, string>> on_then)
+        public Request<B> Then(Action<string> on_then)
         {
             this.on_then = on_then;
             return this;
@@ -348,3 +340,9 @@ namespace AwARe.Server.Logic
     struct EmptyResponse { }
 }
 
+
+// Init with server adress
+// (During runtime) Login
+// Send req. and catch a 440 for refreshing and try again.
+// On_then if successfull
+// On_catch if not, supply error code
