@@ -267,7 +267,7 @@ namespace AwARe.Server.Logic
         /// <summary>
         /// Send a Post request.
         /// </summary>
-        public async void SendPostRequest<B>(string url, B body, Action<string> on_then, Action<Exception> on_catch)
+        public async void SendPostRequest<B>(string url, B body, Action<string> on_then, Action<RequestException> on_catch)
         {
             await AwaitRSGPromise<bool>(ret =>
             {
@@ -283,7 +283,7 @@ namespace AwARe.Server.Logic
                     ret.SetResult(true);
                 }).Catch(err =>
                 {
-                    on_catch(err);
+                    on_catch(err as RequestException);
 
                     ret.SetResult(false);
                 });
@@ -293,7 +293,7 @@ namespace AwARe.Server.Logic
         /// <summary>
         /// Send a Get request.
         /// </summary>
-        public async void SendGetRequest<B>(string url, B body, Action<string> on_then, Action<Exception> on_catch)
+        public async void SendGetRequest<B>(string url, B body, Action<string> on_then, Action<RequestException> on_catch)
         {
             await AwaitRSGPromise<bool>(ret =>
             {
@@ -309,7 +309,7 @@ namespace AwARe.Server.Logic
                     ret.SetResult(true);
                 }).Catch(err =>
                 {
-                    on_catch(err);
+                    on_catch(err as RequestException);
 
                     ret.SetResult(false);
                 });
@@ -379,7 +379,7 @@ namespace AwARe.Server.Logic
         /// <value> 
         /// The action to run if the request was not successfull. 
         /// </value> 
-        private Action<Exception> on_catch = delegate { };
+        private Action<RequestException> on_catch = delegate { };
 
         public Request(RequestType type, string url, B body)
         {
@@ -389,7 +389,7 @@ namespace AwARe.Server.Logic
         }
 
         /// <summary>
-        /// Set the on_then action. This is not optionial.
+        /// Set the on_then action. This is optionial.
         /// </summary>
         public Request<B> Then(Action<string> on_then)
         {
@@ -400,7 +400,7 @@ namespace AwARe.Server.Logic
         /// <summary>
         /// Set the on_catch action. This is optional.
         /// </summary>
-        public Request<B> Catch(Action<Exception> on_catch)
+        public Request<B> Catch(Action<RequestException> on_catch)
         {
             this.on_catch = on_catch;
             return this;
