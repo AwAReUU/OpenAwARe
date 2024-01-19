@@ -17,6 +17,7 @@ using AwARe.RoomScan.Path.Objects;
 using UnityEngine;
 using UnityEngine.TestTools;
 using AwARe.UI;
+using System.Collections.Generic;
 
 namespace AwARe.RoomScan.Objects
 {
@@ -29,12 +30,12 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private PolygonManager polygonManager;
         [SerializeField] private PathManager pathManager;
         // [SerializeField] private VisualizePath pathVisualizer; //TODO: Get out of polygonScanning
-        
+
         // The UI
         [SerializeField] private RoomUI ui;
         [SerializeField] private Transform canvas;
         [SerializeField] private Transform sceneCanvas;
-        
+
         // Templates
         [SerializeField] private GameObject roomBase;
 
@@ -81,8 +82,13 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Called when no UI element has been hit on click or press.
         /// </summary>
-        public void OnUIMiss() =>
+        public void OnUIMiss()
+        {
             polygonManager.OnUIMiss();
+
+            if (CurrentState == State.SaveAnchoring)
+                Room.TryAddAnchor(PointedAt);
+        }
 
         /// <summary>
         /// Called on create button click.
@@ -137,12 +143,22 @@ namespace AwARe.RoomScan.Objects
             SwitchToState(State.Saving);
         }
 
+        [ExcludeFromCoverage]
+        public void OnStartSavingButtonClick()
+        {
+            //Storage.Get().ActiveRoom = Room.Data;
+            stateBefore = CurrentState;
+            SwitchToState(State.SaveAnchoring);
+        }
+
         /// <summary>
         /// Called on save slot click.
         /// </summary>
         [ExcludeFromCoverage]
-        public void OnSaveSlotClick(int slotIdx) =>
-            SaveRoom(slotIdx);
+        public void OnSaveSlotClick(int slotIdx)
+        {
+            //SaveRoom(slotIdx);
+        }
 
         /// <summary>
         /// Called on load button button click; changes state so user sees load slots.
@@ -150,16 +166,25 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnLoadButtonClick()
         {
-            stateBefore = CurrentState; 
+            stateBefore = CurrentState;
             SwitchToState(State.Loading);
+        }
+
+        [ExcludeFromCoverage]
+        public void OnStartLoadingButtonClick()
+        {
+            stateBefore = CurrentState;
+            SwitchToState(State.LoadAnchoring);
         }
 
         /// <summary>
         /// Called on load slot click.
         /// </summary>
         [ExcludeFromCoverage]
-        public void OnLoadSlotClick(int slotIdx) =>
-            LoadRoom(slotIdx);
+        public void OnLoadSlotClick(int slotIdx)
+        {
+            //LoadRoom(slotIdx);
+        }
 
         /// <summary>
         /// Called on continue button click.
@@ -194,7 +219,7 @@ namespace AwARe.RoomScan.Objects
         {
             if (CurrentState == State.Scanning && !(pathManager.IsActive || polygonManager.IsActive))
                 CurrentState = State.Done;
-            
+
             // Set UI activity
             ui.SetActive(this.CurrentState, polygonManager.CurrentState, pathManager.CurrentState);
         }
@@ -208,7 +233,7 @@ namespace AwARe.RoomScan.Objects
             SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
 
             // Convert Room to RoomSerialization
-            RoomSerialization roomSerialization = new(Room.Data);
+            RoomSerialization roomSerialization = new(Room.Data, Room.Anchors);
 
             // Save RoomSerialization
             saveLoadManager.SaveDataToJson($"RoomSlot{slotIndex}", roomSerialization);
@@ -218,7 +243,7 @@ namespace AwARe.RoomScan.Objects
         /// Loads a previously saved room configuration from a specified save slot using the save load manager.
         /// </summary>
         /// <param name="slotIndex">The index of the save slot from which to load the room configuration.</param>
-        public void LoadRoom(int slotIndex)
+        public void LoadRoom(int slotIndex, List<Vector3> sessionAnchors)
         {
             SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
 
@@ -242,9 +267,9 @@ namespace AwARe.RoomScan.Objects
             }
 
             // Convert RoomSerialization to Room
-            if(Room != null) Destroy(Room.gameObject);
+            if (Room != null) Destroy(Room.gameObject);
             Room = Instantiate(roomBase, transform).GetComponent<Room>();
-            Room.Data = loadedRoomSerialization.ToRoom();
+            Room.Data = loadedRoomSerialization.ToRoom(sessionAnchors);
 
             if (Room.Data == null)
             {
@@ -259,8 +284,9 @@ namespace AwARe.RoomScan.Objects
 
             Room.positivePolygon.GetComponent<Mesher>().UpdateMesh();
             Room.positivePolygon.GetComponent<Liner>().UpdateLine();
-            foreach (var polygon in Room.negativePolygons) {
-                polygon.GetComponent<Mesher>().UpdateMesh(); 
+            foreach (var polygon in Room.negativePolygons)
+            {
+                polygon.GetComponent<Mesher>().UpdateMesh();
                 polygon.GetComponent<Liner>().UpdateLine();
             }
             pathManager.GenerateAndDrawPath();
@@ -277,5 +303,7 @@ namespace AwARe.RoomScan.Objects
         Done,
         Saving,
         Loading,
+        SaveAnchoring,
+        LoadAnchoring
     }
 }

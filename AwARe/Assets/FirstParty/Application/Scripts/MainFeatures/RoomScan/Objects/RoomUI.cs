@@ -35,7 +35,9 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private GameObject pathButton;
         [SerializeField] private GameObject pathLoadingPopup;
         [SerializeField] private GameObject saveButton;
+        [SerializeField] private GameObject startAnchoringSaveButton;
         [SerializeField] private GameObject saveSlots;
+        [SerializeField] private GameObject startAnchoringLoadButton;
         [SerializeField] private GameObject loadButton;
         [SerializeField] private GameObject loadSlots;
         [SerializeField] private GameObject continueButton;
@@ -58,7 +60,9 @@ namespace AwARe.RoomScan.Objects
                 pathGen = false,
                 pathLoading = false,
                 save = false,
+                startSaving = false,
                 load = false,
+                startLoading = false,
                 saveSlots = false,
                 loadSlots = false,
                 conti = false;
@@ -74,6 +78,14 @@ namespace AwARe.RoomScan.Objects
 
                 switch (roomState)
                 {
+                    case State.SaveAnchoring:
+                        save = true;
+                        conti = true;
+                        return;
+                    case State.LoadAnchoring:
+                        load = true;
+                        conti = true;
+                        return;
                     case State.Saving:
                         conti = true;
                         saveSlots = true;
@@ -121,8 +133,10 @@ namespace AwARe.RoomScan.Objects
             pathButton.SetActive(pathGen);
             pathLoadingPopup.SetActive(pathLoading);
             saveButton.SetActive(save);
+            startAnchoringSaveButton.SetActive(startSaving);
             this.saveSlots.SetActive(saveSlots);
             loadButton.SetActive(load);
+            startAnchoringLoadButton.SetActive(startLoading);
             this.loadSlots.SetActive(loadSlots);
             continueButton.SetActive(conti);
         }
@@ -180,6 +194,10 @@ namespace AwARe.RoomScan.Objects
         public void OnSaveButtonClick() =>
             manager.OnSaveButtonClick();
 
+        [ExcludeFromCoverage]
+        public void OnStartSavingButtonClick() =>
+            manager.OnSaveButtonClick();
+
         /// <summary>
         /// Called on save slot click.
         /// </summary>
@@ -192,6 +210,10 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         [ExcludeFromCoverage]
         public void OnLoadButtonClick() =>
+            manager.OnLoadButtonClick();
+
+        [ExcludeFromCoverage]
+        public void OnStartLoadingButtonClick() =>
             manager.OnLoadButtonClick();
 
         /// <summary>

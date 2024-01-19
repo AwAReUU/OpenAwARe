@@ -52,7 +52,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// A Room represented by the polygons.
         /// </value>
         public Room Room { get => manager.Room; private set => manager.Room = value; }
-        
+
         /// <summary>
         /// Gets the current position of the pointer.
         /// </summary>
@@ -106,7 +106,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void OnUIMiss()
         {
-            if(CurrentState == State.Drawing)
+            if (CurrentState == State.Drawing)
                 polygonDrawer.AddPoint();
         }
 

@@ -34,15 +34,22 @@ namespace AwARe.Data.Logic
         public List<Polygon> NegativePolygons { get; set; }
 
         /// <summary>
+        /// Gets or sets the anchors.
+        /// </summary>
+        public List<Vector3> Anchors { get; set; }
+
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Room"/> class.
         /// Either fills it with the given polygons or creates new ones.
         /// </summary>
         /// <param name="posPolygon">The positive Polygon of the room.</param>
         /// <param name="negPolygons">The negative Polygons of the room.</param>
-        public Room(Polygon posPolygon = null, List<Polygon> negPolygons = null)
+        public Room(Polygon posPolygon = null, List<Polygon> negPolygons = null, List<Vector3> anchors = null)
         { 
             PositivePolygon = posPolygon;
             NegativePolygons = negPolygons ?? new List<Polygon>();
+            Anchors = anchors ?? new List<Vector3>();
         }
 
         /// <summary>
@@ -54,6 +61,7 @@ namespace AwARe.Data.Logic
         {
             PositivePolygon = room.PositivePolygon?.Clone();
             NegativePolygons = room.NegativePolygons.Select(x => x.Clone()).ToList();
+            Anchors = room.Anchors ?? new List<Vector3>();
         }
 
         /// <inheritdoc/>

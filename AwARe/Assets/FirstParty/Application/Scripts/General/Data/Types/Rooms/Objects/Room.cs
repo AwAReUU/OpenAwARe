@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation.VisualScripting;
 
 namespace AwARe.Data.Objects
 {
@@ -34,7 +35,7 @@ namespace AwARe.Data.Objects
         /// The data-type <see cref="Logic.Room"/> represented.
         /// </value>
         public Logic.Room Data
-        { 
+        {
             get => new(positivePolygon ? positivePolygon.Data : null, negativePolygons.Select(x => x.Data).ToList());
             set => SetComponent(value);
         }
@@ -49,6 +50,20 @@ namespace AwARe.Data.Objects
         /// </summary>
         public List<Polygon> negativePolygons;
 
+        public List<Vector3> Anchors = new List<Vector3>();
+        public void TryAddAnchor(Vector3 anchor)
+        {
+            if (Anchors.Count >= 2) return;
+
+            Anchors.Add(anchor);
+        }
+        public void RemoveLastAnchor()
+        {
+            if (Anchors.Count == 0) return;
+
+            Anchors.RemoveAt(Anchors.Count - 1);
+        }
+
         /// <summary>
         /// Adds this component to a given GameObject and initializes the components members.
         /// </summary>
@@ -61,7 +76,7 @@ namespace AwARe.Data.Objects
             List<Polygon> negativePolygons = data.NegativePolygons.Select(polygon => Polygon.AddComponentTo(new("Negative Polygon"), polygon)).ToList();
             return AddComponentTo(gameObject, positivePolygon, negativePolygons);
         }
-        
+
         /// <summary>
         /// Adds this component to a given GameObject and initializes the components members.
         /// </summary>
@@ -105,7 +120,7 @@ namespace AwARe.Data.Objects
             this.positivePolygon = positive;
             positivePolygon.transform.SetParent(this.transform, true);
             this.negativePolygons = negatives;
-            foreach(var polygon in negativePolygons)
+            foreach (var polygon in negativePolygons)
                 polygon.transform.SetParent(this.transform, true);
         }
     }
