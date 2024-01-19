@@ -170,39 +170,39 @@ INSERT OR IGNORE INTO Model VALUES (26, 'Plant',   'Plants/tomato',       0.6 );
 INSERT OR IGNORE INTO Model VALUES (27, 'Plant',   'Plants/wheat2',       0.6 );
 INSERT OR IGNORE INTO Model VALUES (28, 'Animal', 'Animals/SheepWhite',   1   );
 
-INSERT OR IGNORE INTO Resource VALUES ( 1,      'Water', 'Water',    NULL,  1),
-INSERT OR IGNORE INTO Resource VALUES ( 2,      'Apple', 'Plant',   10000,  6), 
-INSERT OR IGNORE INTO Resource VALUES ( 3,     'Banana', 'Plant',   10000,  6),
-INSERT OR IGNORE INTO Resource VALUES ( 4,       'Pear', 'Plant',   10000,  6),
-INSERT OR IGNORE INTO Resource VALUES ( 5,   'Mandarin', 'Plant',    8000,  6),
-INSERT OR IGNORE INTO Resource VALUES ( 6,     'Orange', 'Plant',   10000,  6),
-INSERT OR IGNORE INTO Resource VALUES ( 7,      'Grape', 'Plant',    5000,  6),
-INSERT OR IGNORE INTO Resource VALUES ( 8, 'Strawberry', 'Plant',     100,  6),
-INSERT OR IGNORE INTO Resource VALUES ( 9, 'Kiwi Fruit', 'Plant',    1000,  6),
-INSERT OR IGNORE INTO Resource VALUES (10,  'Pineapple', 'Plant',    1000,  6),
-INSERT OR IGNORE INTO Resource VALUES (11,      'Melon', 'Plant',    5000,  6),
-INSERT OR IGNORE INTO Resource VALUES (12,       'Beef', 'Animal', 200000,  2),
-INSERT OR IGNORE INTO Resource VALUES (13,    'Chicken', 'Animal',   2500,  3),
-INSERT OR IGNORE INTO Resource VALUES (14,       'Pork', 'Animal',  50000,  4),
-INSERT OR IGNORE INTO Resource VALUES (15,       'Duck', 'Animal',   2500,  5),
-INSERT OR IGNORE INTO Resource VALUES (16,       'Milk', 'Animal',   1000,  8),
-INSERT OR IGNORE INTO Resource VALUES (17,     'Potato', 'Plant',    1000,  9),
-INSERT OR IGNORE INTO Resource VALUES (18,       'Beet', 'Plant',     250, 10),
-INSERT OR IGNORE INTO Resource VALUES (19,  'Artichoke', 'Plant',     300, 11),
-INSERT OR IGNORE INTO Resource VALUES (20,   'Broccoli', 'Plant',     500, 12), 
-INSERT OR IGNORE INTO Resource VALUES (21,    'Cabbage', 'Plant',    1000, 13),
-INSERT OR IGNORE INTO Resource VALUES (22,     'Carrot', 'Plant',     550, 14),
-INSERT OR IGNORE INTO Resource VALUES (23,       'Corn', 'Plant',    2000, 15),
-INSERT OR IGNORE INTO Resource VALUES (24,   'Cucumber', 'Plant',     800, 17),
-INSERT OR IGNORE INTO Resource VALUES (25,   'Eggplant', 'Plant',    1000, 18),
-INSERT OR IGNORE INTO Resource VALUES (26,     'Garlic', 'Plant',     150, 19),
-INSERT OR IGNORE INTO Resource VALUES (27,      'Onion', 'Plant',     250, 21),
-INSERT OR IGNORE INTO Resource VALUES (28,     'Pepper', 'Plant',     400, 22),
-INSERT OR IGNORE INTO Resource VALUES (29,      'Poppy', 'Plant',     100, 23),
-INSERT OR IGNORE INTO Resource VALUES (30,    'Pumpkin', 'Plant',    2000, 24),
-INSERT OR IGNORE INTO Resource VALUES (31,  'Sunflower', 'Plant',    1000, 25),
-INSERT OR IGNORE INTO Resource VALUES (32,     'Tomato', 'Plant',     800, 26),
-INSERT OR IGNORE INTO Resource VALUES (33,      'Wheat', 'Plant',    1000,  7)
+INSERT OR IGNORE INTO Resource VALUES ( 1,      'Water', 'Water',    NULL,  1);
+INSERT OR IGNORE INTO Resource VALUES ( 2,      'Apple', 'Plant',   10000,  6); 
+INSERT OR IGNORE INTO Resource VALUES ( 3,     'Banana', 'Plant',   10000,  6);
+INSERT OR IGNORE INTO Resource VALUES ( 4,       'Pear', 'Plant',   10000,  6);
+INSERT OR IGNORE INTO Resource VALUES ( 5,   'Mandarin', 'Plant',    8000,  6);
+INSERT OR IGNORE INTO Resource VALUES ( 6,     'Orange', 'Plant',   10000,  6);
+INSERT OR IGNORE INTO Resource VALUES ( 7,      'Grape', 'Plant',    5000,  6);
+INSERT OR IGNORE INTO Resource VALUES ( 8, 'Strawberry', 'Plant',     100,  6);
+INSERT OR IGNORE INTO Resource VALUES ( 9, 'Kiwi Fruit', 'Plant',    1000,  6);
+INSERT OR IGNORE INTO Resource VALUES (10,  'Pineapple', 'Plant',    1000,  6);
+INSERT OR IGNORE INTO Resource VALUES (11,      'Melon', 'Plant',    5000,  6);
+INSERT OR IGNORE INTO Resource VALUES (12,       'Beef', 'Animal', 200000,  2);
+INSERT OR IGNORE INTO Resource VALUES (13,    'Chicken', 'Animal',   2500,  3);
+INSERT OR IGNORE INTO Resource VALUES (14,       'Pork', 'Animal',  50000,  4);
+INSERT OR IGNORE INTO Resource VALUES (15,       'Duck', 'Animal',   2500,  5);
+INSERT OR IGNORE INTO Resource VALUES (16,       'Milk', 'Animal',   1000,  8);
+INSERT OR IGNORE INTO Resource VALUES (17,     'Potato', 'Plant',    1000,  9);
+INSERT OR IGNORE INTO Resource VALUES (18,       'Beet', 'Plant',     250, 10);
+INSERT OR IGNORE INTO Resource VALUES (19,  'Artichoke', 'Plant',     300, 11);
+INSERT OR IGNORE INTO Resource VALUES (20,   'Broccoli', 'Plant',     500, 12); 
+INSERT OR IGNORE INTO Resource VALUES (21,    'Cabbage', 'Plant',    1000, 13);
+INSERT OR IGNORE INTO Resource VALUES (22,     'Carrot', 'Plant',     550, 14);
+INSERT OR IGNORE INTO Resource VALUES (23,       'Corn', 'Plant',    2000, 15);
+INSERT OR IGNORE INTO Resource VALUES (24,   'Cucumber', 'Plant',     800, 17);
+INSERT OR IGNORE INTO Resource VALUES (25,   'Eggplant', 'Plant',    1000, 18);
+INSERT OR IGNORE INTO Resource VALUES (26,     'Garlic', 'Plant',     150, 19);
+INSERT OR IGNORE INTO Resource VALUES (27,      'Onion', 'Plant',     250, 21);
+INSERT OR IGNORE INTO Resource VALUES (28,     'Pepper', 'Plant',     400, 22);
+INSERT OR IGNORE INTO Resource VALUES (29,      'Poppy', 'Plant',     100, 23);
+INSERT OR IGNORE INTO Resource VALUES (30,    'Pumpkin', 'Plant',    2000, 24);
+INSERT OR IGNORE INTO Resource VALUES (31,  'Sunflower', 'Plant',    1000, 25);
+INSERT OR IGNORE INTO Resource VALUES (32,     'Tomato', 'Plant',     800, 26);
+INSERT OR IGNORE INTO Resource VALUES (33,      'Wheat', 'Plant',    1000,  7);
 
 INSERT OR IGNORE INTO Requires VALUES ( 1,  1,    1);
 INSERT OR IGNORE INTO Requires VALUES ( 2,  1,  495);
