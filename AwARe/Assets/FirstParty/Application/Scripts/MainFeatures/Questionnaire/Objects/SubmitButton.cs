@@ -24,7 +24,8 @@ namespace AwARe.Questionnaire.Objects
                 // Do nothing, we dont expect any return values.
             }).Catch((_) =>
             {
-                // TODO: Handle errors
+                // TODO: Handle errors.
+                // Warning: This is an async method that may run after "LoadScene(...)"!
             }).Send();
 
             SceneSwitcher.Get().LoadScene("Home");
