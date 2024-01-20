@@ -35,7 +35,7 @@ namespace AwARe.Database.Logic
                 new Ingredient( 3,    "Banana",  null,  200),
                 new Ingredient( 4,      "Pear",  null,  150),
                 new Ingredient( 5,  "Mandarin",  null,   60),
-                new Ingredient( 6,    "Orange",  1.5f,  100),
+                new Ingredient( 6,    "Orange",  null,  100),
                 new Ingredient( 7,     "Grape",  null,    8),
                 new Ingredient( 8,"Strawberry",  null,    7),
                 new Ingredient( 9,"Kiwi Fruit",  null,   60),
