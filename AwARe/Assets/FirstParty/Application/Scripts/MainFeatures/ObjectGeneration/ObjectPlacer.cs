@@ -44,14 +44,10 @@ namespace AwARe.ObjectGeneration
 
             // If the point does not lie on a negative polygon
             if(position.y == room.PositivePolygon.points[0].y)
-            {
                 // Check if the collider isn't inside a Negative polygon
                 foreach (Data.Logic.Polygon negativePolygon in room.NegativePolygons)
-                {
                     if (PolygonHelper.ObjectColliderAnyInPolygon(objectCorners, negativePolygon))
                         return false;
-                }
-            }
 
             // Adjust object size according to scalar
             GameObject newObject = Object.Instantiate(renderable.GetPrefab(), position, Quaternion.identity);
