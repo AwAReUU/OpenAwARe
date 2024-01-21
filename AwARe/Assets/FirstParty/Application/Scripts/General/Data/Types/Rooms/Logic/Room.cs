@@ -20,11 +20,13 @@ namespace AwARe.Data.Logic
         /// <summary>
         /// Gets or sets the main polygon.
         /// </summary>
+        public string RoomName { get; set; }
+
         /// <value>
         /// The main polygon.
         /// </value>
         public Polygon PositivePolygon { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the subtracted polygons.
         /// </summary>
@@ -34,13 +36,22 @@ namespace AwARe.Data.Logic
         public List<Polygon> NegativePolygons { get; set; }
 
         /// <summary>
+        /// Gets or sets the height of the room.
+        /// </summary>
+        public int RoomHeight { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Room"/> class.
         /// Either fills it with the given polygons or creates new ones.
         /// </summary>
         /// <param name="posPolygon">The positive Polygon of the room.</param>
         /// <param name="negPolygons">The negative Polygons of the room.</param>
-        public Room(Polygon posPolygon = null, List<Polygon> negPolygons = null)
-        { 
+        /// <param name="roomName">The name of the room.</param>
+        /// <param name="roomHeight">The height of the room.</param>
+        public Room(Polygon posPolygon = null, List<Polygon> negPolygons = null, string roomName = null, int roomHeight = 0)
+        {
+            RoomName = roomName;
+            RoomHeight = roomHeight;
             PositivePolygon = posPolygon;
             NegativePolygons = negPolygons ?? new List<Polygon>();
         }
@@ -52,6 +63,8 @@ namespace AwARe.Data.Logic
         /// <param name="room">The <see cref="Room"/> to copy.</param>
         private Room(Room room)
         {
+            RoomName = room.RoomName;
+            RoomHeight = room.RoomHeight;
             PositivePolygon = room.PositivePolygon?.Clone();
             NegativePolygons = room.NegativePolygons.Select(x => x.Clone()).ToList();
         }

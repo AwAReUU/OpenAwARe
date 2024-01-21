@@ -1,15 +1,19 @@
-// /*                                                                                       *\
-//     This program has been developed by students from the bachelor Computer Science at
-//     Utrecht University within the Software Project course.
-//
-//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
-// \*                                                                                       */
-
-using System.Collections.Generic;
+using AwARe.IngredientList.Objects;
 using AwARe.InterScenes.Objects;
-using UnityEngine;
+using PlasticGui.Configuration.CloudEdition.Welcome;
+using System.Collections;
+using System.Collections.Generic;
 
-namespace AwARe.IngredientList.Objects
+using AwARe.AwARe.Data.Objects;
+
+using NSubstitute.ReturnsExtensions;
+
+using TMPro;
+
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace AwARe.Data.Logic
 {
     /// <summary>
     /// <para>
@@ -20,26 +24,21 @@ namespace AwARe.IngredientList.Objects
     ///     Allows the user to select a list to edit and tick a checkbox of the list they want to be visualized in AR.
     /// </para>
     /// </summary>
-    public class ListsOverviewScreen : MonoBehaviour
+    public class RoomListOverviewScreen : MonoBehaviour
     {
         // The parent element
-        [SerializeField] private IngredientListManager manager;
-        
+        [SerializeField] private RoomListManager manager;
+
         // UI elements to control/copy
         [SerializeField] private GameObject listItemObject; //list item 'prefab'
-        
+        [SerializeField] private GameObject nameSaveRoom;
+
         // Tracked UI elements
         readonly List<ListItem> lists = new();
 
-        private void OnEnable()
-        {
-            DisplayLists();
-        }
+        private void OnEnable() { DisplayLists(); }
 
-        private void OnDisable()
-        {
-            RemoveLists();
-        }
+        private void OnDisable() { RemoveLists(); }
 
         /// <summary>
         /// Creates GameObjects with buttons to select or destroy every ingredient list.
@@ -48,24 +47,20 @@ namespace AwARe.IngredientList.Objects
         {
             RemoveLists();
 
-            foreach (Logic.IngredientList ingredientList in manager.Lists)
-            {
-                // create a new list item to display this list
-                GameObject itemObject = Instantiate(listItemObject, listItemObject.transform.parent);
-                itemObject.SetActive(true);
-
-                // Set the ingredients of the item and keep track of it.
-                ListItem item = itemObject.GetComponent<ListItem>();
-                item.SetItem(lists.Count, ingredientList);
-                lists.Add(item);
-            }
+                foreach (string roomsave in manager.roomlist)
+                {
+                    // create a new list item to display this list
+                    GameObject itemObject = Instantiate(listItemObject, listItemObject.transform.parent);
+                    TMP_Text buttontext = itemObject.GetComponentInChildren<TMP_Text>();
+                    buttontext.text = roomsave;
+                    itemObject.gameObject.SetActive(true);
+                }
 
             int checkIndex = manager.IndexList;
-            if(checkIndex >= 0 && checkIndex < lists.Count)
+            if (checkIndex >= 0 && checkIndex < lists.Count)
                 lists[checkIndex].Check(true);
 
         }
-
 
         /// <summary>
         /// Destroys all currently displayed GameObjects in the ScrollView.
@@ -86,29 +81,44 @@ namespace AwARe.IngredientList.Objects
             DisplayLists();
         }
 
-        /// <summary>
-        /// Calls an instance of manager to close this screen and open the IngredientListScreen of the given ingredient list.
-        /// </summary>
-        /// <param name="list"> The ingredient list that was selected. </param>
-        public void OnItemClick(Logic.IngredientList list)
+        public void OnConfirmNameButton()
         {
-            manager.ChangeToIngredientListScreen(list, this.gameObject);
+            nameSaveRoom.SetActive(false);
+            // Check if RoomListManager is initialized
+            if (manager != null)
+            {
+                // Check if roomlist is not null before accessing it
+                if (manager.roomlist != null)
+                {
+                    OnAddListButtonClick();
+                }
+                else
+                {
+                    Debug.LogError("roomlist in RoomListManager is null.");
+                }
+            }
+            else
+            {
+                Debug.LogError("RoomListManager is null.");
+            }
+        }
+
+        public void OnSaveNewRoomClick()
+        {
+            nameSaveRoom.SetActive(true);
         }
 
         /// <summary>
         /// Loads the Home scene.
         /// </summary>
-        public void OnBackButtonClick()
-        {
-            SceneSwitcher.Get().LoadScene("Home");
-        }
+        public void OnBackButtonClick() { SceneSwitcher.Get().LoadScene("Home"); }
 
         /// <summary>
         /// Unchecks the previous item and checks the given.
         /// </summary>
         /// <param name="index"> The index of the item to check/select. </param>
         /// <param name="list"> The list of the item to check/select. </param>
-        public void OnCheckButtonClick(int index, Logic.IngredientList list)
+        /*public void OnCheckButtonClick(int index, string save)
         {
             // Check if button was not already checked.
             int previousIndex = manager.IndexList;
@@ -120,8 +130,7 @@ namespace AwARe.IngredientList.Objects
             lists[index].Check(true);
 
             // Change active list
-            manager.CheckList(index, list);
-        }
+            manager.CheckList(index, save);
+        }*/
     }
 }
-    

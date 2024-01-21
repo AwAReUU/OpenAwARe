@@ -17,6 +17,8 @@ namespace AwARe.Data.Objects
     /// </summary>
     public class Room : MonoBehaviour, IDataHolder<Logic.Room>
     {
+
+        public string roomName;
         /// <summary>
         /// The main polygon template.
         /// </summary>

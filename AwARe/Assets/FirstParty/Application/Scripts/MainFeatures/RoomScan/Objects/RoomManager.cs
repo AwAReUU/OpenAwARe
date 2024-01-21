@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 
 using AwARe.Data.Objects;
+using AwARe.IngredientList.Objects;
 using AwARe.InterScenes.Objects;
 using AwARe.Objects;
 using AwARe.RoomScan.Polygons.Objects;
@@ -36,6 +37,7 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private RoomUI ui;
         [SerializeField] private Transform canvas;
         [SerializeField] private Transform sceneCanvas;
+        [SerializeField] private GameObject saveNameScreen;
        
         
         // Templates
@@ -149,7 +151,7 @@ namespace AwARe.RoomScan.Objects
         /// Called on save slot click.
         /// </summary>
         [ExcludeFromCoverage]
-        public void OnSaveSlotClick(int slotIdx) =>
+        public void OnSaveSlotClick(string slotIdx) =>
             SaveRoom(slotIdx);
 
         /// <summary>
@@ -162,13 +164,11 @@ namespace AwARe.RoomScan.Objects
             SwitchToState(State.Loading);
         }
 
-        public void 
-
         /// <summary>
         /// Called on load slot click.
         /// </summary>
         [ExcludeFromCoverage]
-        public void OnLoadSlotClick(int slotIdx) =>
+        public void OnLoadSlotClick(string slotIdx) =>
             LoadRoom(slotIdx);
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace AwARe.RoomScan.Objects
         /// Saves the current room's configuration to a specified save slot using the save load manager.
         /// </summary>
         /// <param name="slotIndex">The index of the save slot to store the room configuration.</param>
-        public void SaveRoom(int slotIndex)
+        public void SaveRoom(string slotName)
         {
             SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
 
@@ -221,29 +221,29 @@ namespace AwARe.RoomScan.Objects
             RoomSerialization roomSerialization = new(Room.Data);
 
             // Save RoomSerialization
-            saveLoadManager.SaveDataToJson($"RoomSlot{slotIndex}", roomSerialization);
+            saveLoadManager.SaveDataToJson($"RoomSlot{slotName}", roomSerialization);
         }
 
         /// <summary>
         /// Loads a previously saved room configuration from a specified save slot using the save load manager.
         /// </summary>
         /// <param name="slotIndex">The index of the save slot from which to load the room configuration.</param>
-        public void LoadRoom(int slotIndex)
+        public void LoadRoom(string slotName)
         {
             SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
 
             // Check if the file exists before attempting to load
-            string filePath = $"RoomSlot{slotIndex}";
+            string filePath = $"RoomSlot{slotName}";
             string fullPath = System.IO.Path.Combine(saveLoadManager.DirectoryPath, filePath);
 
             if (!File.Exists(fullPath))
             {
-                Debug.LogError($"Room not found in slot {slotIndex}");
+                Debug.LogError($"Room not found in slot {slotName}");
                 return;
             }
 
             // Load RoomSerialization JSON using the save load manager
-            RoomSerialization loadedRoomSerialization = saveLoadManager.LoadDataFromJson<RoomSerialization>($"RoomSlot{slotIndex}");
+            RoomSerialization loadedRoomSerialization = saveLoadManager.LoadDataFromJson<RoomSerialization>($"RoomSlot{slotName}");
 
             if (loadedRoomSerialization == null)
             {

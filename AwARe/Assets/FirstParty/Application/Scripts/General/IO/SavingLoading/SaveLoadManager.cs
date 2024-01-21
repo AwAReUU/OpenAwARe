@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-
+using Newtonsoft.Json;
 using AwARe.Data.Logic;
 using AwARe.RoomScan.Polygons.Objects;
 using System;
@@ -42,14 +42,14 @@ namespace AwARe
         {
             if (string.IsNullOrEmpty(directoryPath))
             {
-                Debug.LogError(" path is null or empty.");
+                Debug.LogError("Path is null or empty.");
                 return;
             }
 
             string jsonFilePath = Path.Combine(directoryPath, fileName);
             try
             {
-                string jsonData = JsonUtility.ToJson(data);
+                string jsonData = JsonConvert.SerializeObject(data);
                 File.WriteAllText(jsonFilePath, jsonData);
             }
             catch (Exception ex)

@@ -41,8 +41,7 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private GameObject continueButton;
         [SerializeField] private GameObject saveNameObject;
         [SerializeField] private TMP_InputField saveName;
-       
-
+        [SerializeField] private Button confirmName;
 
         /// <summary>
         /// Sets activity of UI elements based on the polygon state.
@@ -186,7 +185,7 @@ namespace AwARe.RoomScan.Objects
         /// Called on save slot click.
         /// </summary>
         [ExcludeFromCoverage]
-        public void OnSaveSlotClick(int slotIdx) =>
+        public void OnSaveSlotClick(string slotIdx) =>
             manager.OnSaveSlotClick(slotIdx);
 
         /// <summary>
@@ -200,7 +199,7 @@ namespace AwARe.RoomScan.Objects
         /// Called on load slot click.
         /// </summary>
         [ExcludeFromCoverage]
-        public void OnLoadSlotClick(int slotIdx) =>
+        public void OnLoadSlotClick(string slotIdx) =>
             manager.OnLoadSlotClick(slotIdx);
 
         /// <summary>

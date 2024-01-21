@@ -12,6 +12,7 @@ using System.Linq;
 using AwARe.Data.Logic;
 using AwARe.RoomScan.Polygons.Logic;
 
+
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -110,6 +111,8 @@ namespace AwARe
     {
         public PolygonSerialization PositivePolygon;
         public List<PolygonSerialization> NegativePolygons;
+        public string RoomName;
+        public int RoomHeight;
 
         /// <summary>
         /// Constructor for RoomSerialization, initializes the object with serialized positive and negative polygons.
@@ -118,6 +121,8 @@ namespace AwARe
         /// <param name="negativePolygons">List of serialized negative polygons.</param>
         public RoomSerialization(Room room)
         {
+            RoomName="hello";
+            RoomHeight = (int)(room.PositivePolygon?.height ?? default);
             PositivePolygon = new(room.PositivePolygon);
             NegativePolygons = room.NegativePolygons.Select(polygon => new PolygonSerialization(polygon)).ToList();
         }
@@ -127,8 +132,10 @@ namespace AwARe
         /// </summary>
         /// <param name="positivePolygon">Serialized positive polygon.</param>
         /// <param name="negativePolygons">List of serialized negative polygons.</param>
-        public RoomSerialization(PolygonSerialization positivePolygon, List<PolygonSerialization> negativePolygons)
+        public RoomSerialization(PolygonSerialization positivePolygon, List<PolygonSerialization> negativePolygons, string roomName, int roomHeight)
         {
+            RoomName = roomName;
+            RoomHeight = roomHeight;
             PositivePolygon = positivePolygon;
             NegativePolygons = negativePolygons;
         }
@@ -141,7 +148,8 @@ namespace AwARe
         {
             Polygon positivePolygon = PositivePolygon.ToPolygon();
             List<Polygon> negativePolygons = NegativePolygons.Select(polygonSerialization => polygonSerialization.ToPolygon()).ToList();
-            return new Room(positivePolygon, negativePolygons);
+            return new Room(positivePolygon, negativePolygons, RoomName, RoomHeight);
         }
     }
+    
 }
