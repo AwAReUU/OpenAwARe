@@ -5,6 +5,8 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System.Collections.Generic;
+
 using AwARe.Data.Logic;
 using Ingredients = AwARe.IngredientList.Logic;
 
@@ -25,6 +27,8 @@ namespace AwARe.InterScenes.Logic
         
         /// <inheritdoc/>
         public Room ActiveRoom { get; set; }
+
+        public string ActiveRoomName { get; set; }
     }
 
 }

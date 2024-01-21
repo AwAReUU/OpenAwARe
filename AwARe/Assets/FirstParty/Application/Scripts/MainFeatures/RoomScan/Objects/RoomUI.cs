@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using AwARe.UI;
 using AwARe.UI.Objects;
 using TMPro;
+using Unity.VisualScripting.YamlDotNet.Core;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.TestTools;
@@ -36,9 +37,10 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private GameObject pathButton;
         [SerializeField] private GameObject pathLoadingPopup;
         [SerializeField] private GameObject saveButton;
-        [SerializeField] private GameObject saveSlots;
         [SerializeField] private GameObject loadButton;
+        [SerializeField] private GameObject saveList;
         [SerializeField] private GameObject continueButton;
+        [SerializeField] private GameObject saveNameButton;
         [SerializeField] private GameObject saveNameObject;
         [SerializeField] private TMP_InputField saveName;
         [SerializeField] private Button confirmName;
@@ -62,8 +64,13 @@ namespace AwARe.RoomScan.Objects
                 pathLoading = false,
                 save = false,
                 load = false,
-                saveSlots = false,
-                conti = false;
+                conti = false,
+                savenamebtn = false,
+                savelist = false;
+                
+
+           
+
 
             // Set wanted elements to active
             void DecideActivities()
@@ -78,11 +85,11 @@ namespace AwARe.RoomScan.Objects
                 {
                     case State.Saving:
                         conti = true;
-                        saveSlots = true;
+                        savenamebtn = true;
                         return;
                     case State.Loading:
                         conti = true;
-                        saveSlots = true;
+                        savelist = true;
                         return;
                 }
 
@@ -123,7 +130,8 @@ namespace AwARe.RoomScan.Objects
             pathButton.SetActive(pathGen);
             pathLoadingPopup.SetActive(pathLoading);
             saveButton.SetActive(save);
-            this.saveSlots.SetActive(saveSlots);
+            saveNameButton.SetActive(savenamebtn);
+            saveList.SetActive(savelist);
             loadButton.SetActive(load);
             continueButton.SetActive(conti);
         }

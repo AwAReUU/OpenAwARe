@@ -5,6 +5,8 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System.Collections.Generic;
+
 using AwARe.Data.Logic;
 using AwARe.Objects;
 using UnityEngine;
@@ -52,6 +54,13 @@ namespace AwARe.InterScenes.Objects
         {
             get => Data.ActiveIngredientList;
             set => Data.ActiveIngredientList = value;
+        }
+
+        // todo get this out
+        public string ActiveRoomName
+        {
+            get => Data.ActiveRoomName;
+            set => Data.ActiveRoomName = value;
         }
 
         /// <inheritdoc/>

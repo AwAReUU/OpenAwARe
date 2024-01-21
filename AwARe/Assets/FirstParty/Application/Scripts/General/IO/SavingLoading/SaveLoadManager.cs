@@ -20,7 +20,7 @@ namespace AwARe
     /// </summary>
     public class SaveLoadManager : MonoBehaviour
     {
-        private string directoryPath;
+        public string directoryPath;
         public string DirectoryPath =>
             directoryPath;
 
@@ -57,6 +57,28 @@ namespace AwARe
                 Debug.LogError($"Error writing to file: {ex.Message}");
             }
         }
+
+        /// <summary>
+        /// Saves a list of rooms to a JSON file.
+        /// </summary>
+        /// <param name="fileName">The name of the file to save the JSON data to.</param>
+        /// <param name="rooms">The list of rooms to be serialized and saved.</param>
+        public void SaveRooms(string fileName, List<RoomSerialization> rooms)
+        {
+            SaveDataToJson(fileName, rooms);
+        }
+
+        // <summary>
+        /// Loads a list of rooms from a JSON file.
+        /// </summary>
+        /// <param name="fileName">The name of the JSON file to load data from.</param>
+        /// <returns>The list of deserialized rooms.</returns>
+
+        public List<RoomSerialization> LoadRooms(string fileName)
+        {
+            return LoadDataFromJson<List<RoomSerialization>>(fileName) ?? new List<RoomSerialization>();
+        }
+
 
         /// <summary>
         /// Loads data of type T from a JSON file with the specified fileName using the save load manager.

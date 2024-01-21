@@ -53,7 +53,6 @@ namespace AwARe.IngredientList.Objects
             fileHandler = new IngredientFileHandler(IngredientDatabase);
             Lists = fileHandler.ReadFile();
             InitializeLists();
-
             listsOverviewScreen.SetActive(true);
         }
 

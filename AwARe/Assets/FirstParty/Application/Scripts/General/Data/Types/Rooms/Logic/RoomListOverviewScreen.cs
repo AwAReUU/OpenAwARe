@@ -12,6 +12,7 @@ using TMPro;
 
 using UnityEngine;
 using UnityEngine.UI;
+using AwARe.IngredientList.Logic;
 
 namespace AwARe.Data.Logic
 {
@@ -34,32 +35,33 @@ namespace AwARe.Data.Logic
         [SerializeField] private GameObject nameSaveRoom;
 
         // Tracked UI elements
-        readonly List<ListItem> lists = new();
+        readonly List<GameObject> lists = new();
 
-        private void OnEnable() { DisplayLists(); }
+        private void OnEnable() { DisplayRoomLists(); }
 
         private void OnDisable() { RemoveLists(); }
 
         /// <summary>
         /// Creates GameObjects with buttons to select or destroy every ingredient list.
         /// </summary>
-        public void DisplayLists()
+        public void DisplayRoomLists()
         {
             RemoveLists();
 
-                foreach (string roomsave in manager.roomlist)
-                {
-                    // create a new list item to display this list
-                    GameObject itemObject = Instantiate(listItemObject, listItemObject.transform.parent);
-                    TMP_Text buttontext = itemObject.GetComponentInChildren<TMP_Text>();
-                    buttontext.text = roomsave;
-                    itemObject.gameObject.SetActive(true);
-                }
+            foreach (string roomsave in manager.roomlist)
+            {
+                // create a new list item to display this list
+                GameObject itemObject = Instantiate(listItemObject, listItemObject.transform.parent);
 
-            int checkIndex = manager.IndexList;
-            if (checkIndex >= 0 && checkIndex < lists.Count)
-                lists[checkIndex].Check(true);
+                // Set the ingredients of the item and keep track of it.
+                TMP_Text buttontext = itemObject.GetComponentInChildren<TMP_Text>();
+                buttontext.text = roomsave;
+                itemObject.SetActive(true);
+                // Set the ingredients of the item and keep track of it.
+                lists.Add(itemObject);
 
+            }
+         
         }
 
         /// <summary>
@@ -67,7 +69,7 @@ namespace AwARe.Data.Logic
         /// </summary>
         private void RemoveLists()
         {
-            foreach (ListItem o in lists)
+            foreach (GameObject o in lists )
                 Destroy(o.gameObject);
             lists.Clear();
         }
@@ -78,7 +80,7 @@ namespace AwARe.Data.Logic
         public void OnAddListButtonClick()
         {
             manager.CreateList();
-            DisplayLists();
+            DisplayRoomLists();
         }
 
         public void OnConfirmNameButton()
@@ -105,7 +107,9 @@ namespace AwARe.Data.Logic
 
         public void OnSaveNewRoomClick()
         {
-            nameSaveRoom.SetActive(true);
+
+            
+            //nameSaveRoom.SetActive(true);
         }
 
         /// <summary>
@@ -113,24 +117,5 @@ namespace AwARe.Data.Logic
         /// </summary>
         public void OnBackButtonClick() { SceneSwitcher.Get().LoadScene("Home"); }
 
-        /// <summary>
-        /// Unchecks the previous item and checks the given.
-        /// </summary>
-        /// <param name="index"> The index of the item to check/select. </param>
-        /// <param name="list"> The list of the item to check/select. </param>
-        /*public void OnCheckButtonClick(int index, string save)
-        {
-            // Check if button was not already checked.
-            int previousIndex = manager.IndexList;
-            if (index == previousIndex)
-                return;
-
-            // Switch active buttons
-            lists[previousIndex].Check(false);
-            lists[index].Check(true);
-
-            // Change active list
-            manager.CheckList(index, save);
-        }*/
     }
 }

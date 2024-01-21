@@ -1,15 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 using AwARe.AwARe.Data.Objects;
 using AwARe.Data.Logic;
 using AwARe.Database.Logic;
 using AwARe.IngredientList.Logic;
 using AwARe.InterScenes.Logic;
-
+using PlasticGui.Configuration.CloudEdition.Welcome;
 using TMPro;
-
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 using Storage = AwARe.InterScenes.Objects.Storage;
@@ -18,48 +19,40 @@ namespace AwARe
 {
     public class RoomListManager : MonoBehaviour
     {
+        private RoomListOverviewScreen overviewRooms;
+        
         public List<string> roomlist;
         public event Action OnRoomListChanged;
         public bool RoomListChangesMade { get; private set; }
         public string SelectedList { get; private set; } = null;
         public int IndexList { get; private set; } = -1;
+        public List<string> Lists { get; private set; }
 
-        public SaveLoadManager filehandler;
+        
         [SerializeField] private TMP_InputField inputName;
-
-     
+        [SerializeField] private SaveLoadManager filehandler;
+        
 
         private void Awake()
         {
-            roomlist = filehandler.LoadDataFromJson<List<string>>("rooms");
+            //roomlist = filehandler.LoadDataFromJson<List<string>>("rooms");
             //Lists = fileHandler.ReadFile();
-            InitializeLists();
+            LoadLists();
+            Debug.Log(roomlist);
+            overviewRooms.DisplayRoomLists();
+
+
         }
 
         private void InitializeLists()
-         {
-             
-             if (roomlist.Count == 0)
-             {
-                 roomlist.Add("FirstSave");
-                 NotifyRoomListChanged();
-            }
+        {
+           
+        }
 
-            // Set default checked list.
-            if (roomlist.Count > 0)
-             {
-                 IndexList = 0;
-                 var list = roomlist[0];
-                 //CheckedList = list;
-                 SelectedList = list;
-                 //Storage.Get().ActiveRoom = room;
-             }
-         }
-
-         /// <summary>
-         /// Notifies objects subscribed to this action that the current IngredientList has been changed.
-         /// </summary>
-         private void NotifyRoomListChanged()
+        /// <summary>
+        /// Notifies objects subscribed to this action that the current IngredientList has been changed.
+        /// </summary>
+        private void NotifyRoomListChanged()
          {
              RoomListChangesMade = true;
              OnRoomListChanged?.Invoke();
@@ -72,6 +65,7 @@ namespace AwARe
          public void SaveLists()
          {
              filehandler.SaveDataToJson("rooms",roomlist);
+
              RoomListChangesMade = false;
          }
 
@@ -80,7 +74,10 @@ namespace AwARe
          /// </summary>
          public void LoadLists()
          {
-            roomlist = filehandler.LoadDataFromJson<List<string>>("rooms");
+             SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
+
+            Debug.Log("Loading lists. Directory Path: " + saveLoadManager.directoryPath);
+            roomlist =saveLoadManager.LoadDataFromJson<List<string>>("rooms");
             RoomListChangesMade = false;
          }
 
@@ -94,7 +91,7 @@ namespace AwARe
              roomlist.Add(inputname);
              Debug.Log("after" +roomlist);
             NotifyRoomListChanged();
-            filehandler.SaveDataToJson("rooms",roomlist);
+            SaveLists();
          }
 
          /// <summary>
@@ -105,18 +102,9 @@ namespace AwARe
          {
              roomlist.Remove(save);
              NotifyRoomListChanged();
-            filehandler.SaveDataToJson("rooms",roomlist);
-         }
+             SaveLists();
+        }
 
-         /// <summary>
-         /// Changes the name of a list into it's newly give name.
-         /// </summary>
-         /// <param name="name"> The name that is to be given to the list. </param>
-         /*public void ChangeListName(string name)
-         {
-             SelectedList.ChangeName(name);
-             NotifyRoomListChanged();
-         }*/
 
 
     }
