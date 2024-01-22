@@ -7,16 +7,14 @@
 
 using System.IO;
 using System.Linq;
-
 using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
 using AwARe.Objects;
-using AwARe.RoomScan.Polygons.Objects;
 using AwARe.RoomScan.Path.Objects;
-
+using AwARe.RoomScan.Polygons.Objects;
+using AwARe.UI;
 using UnityEngine;
 using UnityEngine.TestTools;
-using AwARe.UI;
 
 namespace AwARe.RoomScan.Objects
 {
@@ -29,12 +27,12 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private PolygonManager polygonManager;
         [SerializeField] private PathManager pathManager;
         // [SerializeField] private VisualizePath pathVisualizer; //TODO: Get out of polygonScanning
-        
+
         // The UI
         [SerializeField] private RoomUI ui;
         [SerializeField] private Transform canvas;
         [SerializeField] private Transform sceneCanvas;
-        
+
         // Templates
         [SerializeField] private GameObject roomBase;
 
@@ -48,6 +46,8 @@ namespace AwARe.RoomScan.Objects
         /// The current state of the room scanner.
         /// </value>
         public State CurrentState { get; private set; } = State.Default;
+
+        public bool LockPlane { get => ui.LockPlane; set => ui.LockPlane = value; }
 
         [ExcludeFromCoverage]
         private void Awake()

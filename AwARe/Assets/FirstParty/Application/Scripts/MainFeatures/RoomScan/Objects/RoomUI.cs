@@ -135,6 +135,7 @@ namespace AwARe.RoomScan.Objects
         /// </value>
         public virtual Vector3 PointedAt =>
             pointer.PointedAt;
+        public bool LockPlane { get => pointer.LockPlane; set => pointer.LockPlane = value; }
 
         /// <summary>
         /// Called on create button click.

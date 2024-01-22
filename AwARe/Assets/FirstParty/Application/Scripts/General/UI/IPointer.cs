@@ -11,5 +11,7 @@ namespace AwARe.UI
         /// The current position pointed to by this object.
         /// </value>
         public Vector3 PointedAt { get; }
+
+        public bool LockPlane { get; set; }
     }
 }

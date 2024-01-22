@@ -26,7 +26,10 @@ namespace AwARe.UI.Objects
         [SerializeField] private new Camera camera;
 
         // Tracking Data
+        public bool foundFirstPlane = false;
         public Plane lastHitPlane = default;
+
+        public bool LockPlane { get; set; } = false;
 
         /// <inheritdoc/>
         public virtual Vector3 PointedAt =>
@@ -72,8 +75,9 @@ namespace AwARe.UI.Objects
         {
             // Check if the hit point is on a horizontal ar plane.
             // If so, set pointer to that point.
-            if (HitsARPlane(hits, out Vector3 intersection, out Plane plane))
+            if (!LockPlane && HitsARPlane(hits, out Vector3 intersection, out Plane plane))
             {
+                foundFirstPlane = true;
                 transform.position = intersection;
                 lastHitPlane = plane;
                 return;

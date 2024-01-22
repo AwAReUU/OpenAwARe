@@ -11,6 +11,7 @@ using AwARe.Data.Objects;
 using AwARe.Objects;
 using AwARe.RoomScan.Objects;
 using AwARe.UI;
+using AwARe.UI.Objects;
 using UnityEngine;
 
 namespace AwARe.RoomScan.Polygons.Objects
@@ -41,6 +42,8 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// The current state of the polygon scanner.
         /// </value>
         public State CurrentState { get; private set; }
+
+        public bool LockPlane { get => manager.LockPlane; set => manager.LockPlane = value; }
 
         public bool IsActive =>
             CurrentState is State.Drawing or State.SettingHeight;
@@ -107,7 +110,11 @@ namespace AwARe.RoomScan.Polygons.Objects
         public void OnUIMiss()
         {
             if(CurrentState == State.Drawing)
+            {
                 polygonDrawer.AddPoint();
+
+                polygonDrawer.pointer.Value.LockPlane = true;
+            }
         }
 
         /// <summary>

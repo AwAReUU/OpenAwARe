@@ -71,7 +71,7 @@ namespace AwARe.ObjectGeneration
             Bounds bounds = CalculateBounds(posPolygon);
 
             // Define the height of the Polygon
-            float y = posPolygon.points[0].y;
+            float y = room.Y.Value;
 
             // Get all points in bounding box in grid pattern with spacing "spacing" in between
             for (float x = bounds.min.x; x <= bounds.max.x; x += spacing)

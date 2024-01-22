@@ -81,9 +81,10 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// Adds a point to the drawn polygon.
         /// </summary>
         [ExcludeFromCoverage]
-        public void AddPoint() =>
+        public void AddPoint()
+        {
             AddPoint(PointedAt);
-
+        }
 
         /// <summary>
         /// Adds a point to the drawn polygon.
@@ -94,6 +95,7 @@ namespace AwARe.RoomScan.Polygons.Objects
                 return;
 
             Polygon.points.Add(point);
+            
             polygonLine.UpdateLine();
         }
 

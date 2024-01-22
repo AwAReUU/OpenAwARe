@@ -71,8 +71,8 @@ namespace AwARe.Data.Logic
 
             // Construct the vertices.
             int n = points.Count;
-            Vector3 min = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
-            Vector3 max = new Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+            Vector2 min = new Vector3(float.PositiveInfinity, float.PositiveInfinity);
+            Vector2 max = new Vector3(float.NegativeInfinity, float.NegativeInfinity);
             Vector3[] vertices = new Vector3[n * 2 + 1];
             for (int i = 0, j = 0; i < n; i++)
             {
@@ -81,14 +81,12 @@ namespace AwARe.Data.Logic
 
                 // Keep track of outer points
                 min.x = Math.Min(min.x, points[i].x);
-                min.y = Math.Min(min.y, points[i].y);
-                min.z = Math.Min(min.z, points[i].z);
+                min.y = Math.Min(min.y, points[i].z);
                 max.x = Math.Max(max.x, points[i].x);
-                max.y = Math.Max(max.y, points[i].y);
-                max.z = Math.Max(max.z, points[i].z);
+                max.y = Math.Max(max.y, points[i].z);
             }
             // Add middle point
-            vertices[n * 2] = new Vector3((min.x + max.x) / 2, (min.y + max.y) / 2 + height, (min.z + max.z) / 2);
+            vertices[n * 2] = new Vector3((min.x + max.x) / 2, polygon.Y + height, (min.y + max.y) / 2);
 
             // Construct the faces/triangles.
             n = vertices.Length - 1;
