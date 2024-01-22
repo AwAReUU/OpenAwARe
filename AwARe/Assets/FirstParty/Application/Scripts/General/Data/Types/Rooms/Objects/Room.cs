@@ -50,20 +50,6 @@ namespace AwARe.Data.Objects
         /// </summary>
         public List<Polygon> negativePolygons;
 
-        public List<Vector3> Anchors = new List<Vector3>();
-        public void TryAddAnchor(Vector3 anchor)
-        {
-            if (Anchors.Count >= 2) return;
-
-            Anchors.Add(anchor);
-        }
-        public void RemoveLastAnchor()
-        {
-            if (Anchors.Count == 0) return;
-
-            Anchors.RemoveAt(Anchors.Count - 1);
-        }
-
         /// <summary>
         /// Adds this component to a given GameObject and initializes the components members.
         /// </summary>

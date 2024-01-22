@@ -18,6 +18,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using AwARe.UI;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace AwARe.RoomScan.Objects
 {
@@ -79,6 +80,27 @@ namespace AwARe.RoomScan.Objects
         public Vector3 PointedAt =>
             ui.PointedAt;
 
+        
+        private List<Vector3> sessionAnchors = new List<Vector3>();
+        [SerializeField] private GameObject anchorVisual;
+        public void TryAddAnchor(Vector3 anchorPoint, GameObject anchorVisual = null)
+        {
+            if (sessionAnchors.Count >= 2) return;
+
+            //UnityEngine.Debug.Log("Anchor count: " + sessionAnchors.Count);
+            sessionAnchors.Add(anchorPoint);
+            if (anchorVisual != null)
+                Instantiate(anchorVisual, anchorPoint, Quaternion.identity);
+        }
+        public void RemoveLastAnchor()
+        {
+            if (sessionAnchors.Count == 0) return;
+
+            sessionAnchors.RemoveAt(sessionAnchors.Count - 1);
+
+            // TODO remove visual
+        }
+
         /// <summary>
         /// Called when no UI element has been hit on click or press.
         /// </summary>
@@ -87,7 +109,25 @@ namespace AwARe.RoomScan.Objects
             polygonManager.OnUIMiss();
 
             if (CurrentState == State.SaveAnchoring)
-                Room.TryAddAnchor(PointedAt);
+            {
+                TryAddAnchor(PointedAt, anchorVisual);
+
+                if (sessionAnchors.Count >= 2)
+                {
+                    OnSaveButtonClick();
+                }
+            }
+
+            else if (CurrentState == State.LoadAnchoring)
+            {
+                TryAddAnchor(PointedAt, anchorVisual);
+
+                if (sessionAnchors.Count >= 2)
+                {
+                    OnLoadButtonClick();
+                }
+
+            }
         }
 
         /// <summary>
@@ -147,6 +187,7 @@ namespace AwARe.RoomScan.Objects
         public void OnStartSavingButtonClick()
         {
             //Storage.Get().ActiveRoom = Room.Data;
+            sessionAnchors.Clear();
             stateBefore = CurrentState;
             SwitchToState(State.SaveAnchoring);
         }
@@ -157,7 +198,7 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnSaveSlotClick(int slotIdx)
         {
-            //SaveRoom(slotIdx);
+            SaveRoom(slotIdx);
         }
 
         /// <summary>
@@ -173,6 +214,7 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnStartLoadingButtonClick()
         {
+            sessionAnchors.Clear();
             stateBefore = CurrentState;
             SwitchToState(State.LoadAnchoring);
         }
@@ -183,7 +225,7 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnLoadSlotClick(int slotIdx)
         {
-            //LoadRoom(slotIdx);
+            LoadRoom(slotIdx);
         }
 
         /// <summary>
@@ -233,7 +275,7 @@ namespace AwARe.RoomScan.Objects
             SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
 
             // Convert Room to RoomSerialization
-            RoomSerialization roomSerialization = new(Room.Data, Room.Anchors);
+            RoomSerialization roomSerialization = new(Room.Data, sessionAnchors);
 
             // Save RoomSerialization
             saveLoadManager.SaveDataToJson($"RoomSlot{slotIndex}", roomSerialization);
@@ -243,7 +285,7 @@ namespace AwARe.RoomScan.Objects
         /// Loads a previously saved room configuration from a specified save slot using the save load manager.
         /// </summary>
         /// <param name="slotIndex">The index of the save slot from which to load the room configuration.</param>
-        public void LoadRoom(int slotIndex, List<Vector3> sessionAnchors)
+        public void LoadRoom(int slotIndex)
         {
             SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
 
@@ -253,7 +295,7 @@ namespace AwARe.RoomScan.Objects
 
             if (!File.Exists(fullPath))
             {
-                Debug.LogError($"Room not found in slot {slotIndex}");
+                UnityEngine.Debug.LogError($"Room not found in slot {slotIndex}");
                 return;
             }
 
@@ -262,7 +304,7 @@ namespace AwARe.RoomScan.Objects
 
             if (loadedRoomSerialization == null)
             {
-                Debug.LogError("Loaded room serialization is null.");
+                UnityEngine.Debug.LogError("Loaded room serialization is null.");
                 return;
             }
 
@@ -273,12 +315,12 @@ namespace AwARe.RoomScan.Objects
 
             if (Room.Data == null)
             {
-                Debug.LogError("Loaded room is null after conversion.");
+                UnityEngine.Debug.LogError("Loaded room is null after conversion.");
                 return;
             }
             if (Room.positivePolygon == null || Room.positivePolygon.Data.points.Count == 0)
             {
-                Debug.LogError("Loaded room does not have a positive polygon.");
+                UnityEngine.Debug.LogError("Loaded room does not have a positive polygon.");
                 return;
             }
 
@@ -289,7 +331,8 @@ namespace AwARe.RoomScan.Objects
                 polygon.GetComponent<Mesher>().UpdateMesh();
                 polygon.GetComponent<Liner>().UpdateLine();
             }
-            pathManager.GenerateAndDrawPath();
+            
+            //pathManager.GenerateAndDrawPath();
         }
     }
 

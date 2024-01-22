@@ -116,13 +116,15 @@ namespace AwARe
         /// Calculate and set the polar points based on the initial world point values and the initial anchors.
         /// </summary>
         /// <param name="anchor2">The second anchor placed by the user.</param>
-        public void GetPolarPoints(Vector3Serialization anchor2)
+        public void GetPolarPoints(List<Vector3> anchors)
         {
-            polarPoints.Clear();
-            foreach (Vector3Serialization worldPoint in sessionWorldPoints)
+            polarPoints = new List<Vector3Serialization>();
+            foreach (Vector3Serialization worldPoint_ in sessionWorldPoints)
             {
-                polarPoints.Add(WorldToPolar(worldPoint, anchor2));
+                Vector3 worldPoint = worldPoint_.ToVector3();
+                polarPoints.Add(WorldToPolar(worldPoint, anchors));
             }
+
         }
 
         /// <summary>
@@ -130,12 +132,12 @@ namespace AwARe
         /// </summary>
         /// <param name="anchor1">The first anchor of the session, indicated by the user.</param>
         /// <param name="anchor2">The second anchor of the session, indicated by the user.</param>
-        public void GetSessionWorldPoints(Vector3Serialization anchor1, Vector3Serialization anchor2)
+        public void GetSessionWorldPoints(List<Vector3> anchors)
         {
-            sessionWorldPoints.Clear();
+            sessionWorldPoints = new List<Vector3Serialization>();
             foreach (Vector3Serialization polarPoint in polarPoints)
             {
-                sessionWorldPoints.Add(PolarToWorld(polarPoint, anchor1, anchor2));
+                sessionWorldPoints.Add(PolarToWorld(polarPoint, anchors));
             }
         }
 
@@ -145,12 +147,13 @@ namespace AwARe
         /// <param name="worldPoint">The worldpoint to be converted.</param>
         /// <param name="anchor2">The second anchor of the session, indicated by the user.</param>
         /// <returns></returns>
-        private Vector3Serialization WorldToPolar(Vector3Serialization worldPoint, Vector3Serialization anchor2)
+        private Vector3Serialization WorldToPolar(Vector3 worldPoint, List<Vector3> anchors)
         {
-            float r = GetVector2Distance(anchor2, worldPoint);
-            float alpha = GetVector2Alpha(anchor2, worldPoint);
+            float r = GetVector2Distance(anchors[1], worldPoint);
+            float alpha = GetVector2Alpha(anchors[1], worldPoint);
+            float anchorAlpha = GetVector2Alpha(anchors[0], anchors[1]);
 
-            Vector3 polarPoint = new(r, worldPoint.y, alpha);
+            Vector3 polarPoint = new(r, alpha - anchorAlpha, 0);
             return new Vector3Serialization(polarPoint);
         }
 
@@ -161,54 +164,55 @@ namespace AwARe
         /// <param name="anchor1">The first anchor of the session, indicated by the user.</param>
         /// <param name="anchor2">The second anchor of the session, indicated by the user.</param>
         /// <returns></returns>
-        private Vector3Serialization PolarToWorld(Vector3Serialization polarPoint, Vector3Serialization anchor1, Vector3Serialization anchor2)
+        private Vector3Serialization PolarToWorld(Vector3Serialization polarPoint, List<Vector3> anchors)
         {
             float r = polarPoint.x;
             float alpha = polarPoint.y;
-            float anchorAlpha = GetVector2Alpha(anchor1, anchor2);
+            float anchorAlpha = GetVector2Alpha(anchors[0], anchors[1]);
 
-            float wx = r * Mathf.Cos(alpha + anchorAlpha);
-            float wz = r * Mathf.Sin(alpha + anchorAlpha);
+            float wX = r * Mathf.Cos(alpha + anchorAlpha);
+            float wZ = r * Mathf.Sin(alpha + anchorAlpha);
 
-            Vector3 worldPoint = anchor2.ToVector3() + new Vector3(wx, polarPoint.y, wz);
+            Vector3 worldPoint = new Vector3(anchors[1].x + wX, anchors[1].y, anchors[1].z + wZ);
 
             return new Vector3Serialization(worldPoint);
         }
 
         /// <summary>
-        /// Get the 2D distance between two points.
+        /// Get the 2D distance between two points. 2D on the floor, meaning (z, x).
         /// </summary>
         /// <param name="a">The initial point.</param>
         /// <param name="b">The target point.</param>
         /// <returns>2D distance.</returns>
-        private float GetVector2Distance(Vector3Serialization a, Vector3Serialization b)
+        private float GetVector2Distance(Vector3 a, Vector3 b)
         {
             float dX = b.x - a.x;
-            float dY = b.y - a.y;
-            float r = Mathf.Sqrt(dX * dX + dY * dY);
+            float dZ = b.z - a.z;
+
+            float r = Mathf.Sqrt(dX * dX + dZ * dZ);
 
             return r;
         }
 
         /// <summary>
-        /// Get the 2D angle between two points.
+        /// Get the 2D angle between two points. 2D on the floor, meaning (z, x).
         /// </summary>
         /// <param name="a">The initial point.</param>
         /// <param name="b">The target point.</param>
         /// <returns>2D alpha (angle).</returns>
-        private float GetVector2Alpha(Vector3Serialization a, Vector3Serialization b)
+        public float GetVector2Alpha(Vector3 a, Vector3 b)
         {
             float dX = b.x - a.x;
-            float dY = b.y - a.y;
-            float alpha = Mathf.Atan(dY / dX);
+            float dZ = b.z - a.z;
+            float alpha = Mathf.Atan(dZ / dX);
 
-            if (dX < 0 && dY >= 0)
+            if (dX < 0 && dZ >= 0)
                 return alpha + Mathf.PI;
-            if (dX < 0 && dY < 0)
+            if (dX < 0 && dZ < 0)
                 return alpha - Mathf.PI;
 
-            //if (x >= 0 && y >= 0)
-            //|| (x >= 0 && y < 0)
+            //if (dX >= 0 && dY >= 0)
+            //|| (dX >= 0 && dY < 0)
             return alpha;
         }
         #endregion
@@ -222,24 +226,24 @@ namespace AwARe
     {
         public PolygonSerialization PositivePolygon;
         public List<PolygonSerialization> NegativePolygons;
-        public List<Vector3Serialization> Anchors;
 
         /// <summary>
         /// Constructor for RoomSerialization, initializes the object with serialized positive and negative polygons.
         /// </summary>
         /// <param name="positivePolygon">Serialized positive polygon.</param>
         /// <param name="negativePolygons">List of serialized negative polygons.</param>
-        public RoomSerialization(Room room, List<Vector3> anchors_)
+        public RoomSerialization(Room room, List<Vector3> anchors)
         {
             PositivePolygon = new(room.PositivePolygon);
             NegativePolygons = room.NegativePolygons.Select(polygon => new PolygonSerialization(polygon)).ToList();
-            Anchors = anchors_.Select(a => new Vector3Serialization(a)).ToList();
-            
-            PositivePolygon.GetPolarPoints(Anchors[1]);
+
+            PositivePolygon.GetPolarPoints(anchors);
             foreach (PolygonSerialization poly in NegativePolygons)
             {
-                poly.GetPolarPoints(Anchors[1]);
+                poly.GetPolarPoints(anchors);
             }
+
+
         }
 
         /// <summary>
@@ -247,18 +251,17 @@ namespace AwARe
         /// </summary>
         /// <param name="positivePolygon">Serialized positive polygon.</param>
         /// <param name="negativePolygons">List of serialized negative polygons.</param>
-        /// <param name="anchors_">List of anchors for the current session.</param>
+        /// <param name="anchors">List of anchors for the current session.</param>
         public RoomSerialization(PolygonSerialization positivePolygon,
-            List<PolygonSerialization> negativePolygons, List<Vector3Serialization> anchors_)
+            List<PolygonSerialization> negativePolygons, List<Vector3> anchors)
         {
             PositivePolygon = positivePolygon;
             NegativePolygons = negativePolygons;
-            Anchors = anchors_;
 
-            PositivePolygon.GetPolarPoints(Anchors[1]);
+            PositivePolygon.GetPolarPoints(anchors);
             foreach (PolygonSerialization poly in NegativePolygons)
             {
-                poly.GetPolarPoints(Anchors[1]);
+                poly.GetPolarPoints(anchors);
             }
         }
 
@@ -266,18 +269,18 @@ namespace AwARe
         /// Converts the serialized room back to a Room object.
         /// </summary>
         /// <returns>The deserialized Room.</returns>
-        public Room ToRoom(List<Vector3> sessionAnchors)
+        public Room ToRoom(List<Vector3> anchors)
         {
-            Anchors = sessionAnchors.Select(a => new Vector3Serialization(a)).ToList();
-            PositivePolygon.GetSessionWorldPoints(Anchors[0], Anchors[1]);
-            Polygon positivePolygon = PositivePolygon.ToPolygon();
-            
-            foreach (PolygonSerialization poly in NegativePolygons)
+            PositivePolygon.GetSessionWorldPoints(anchors);
+
+            foreach (PolygonSerialization p in NegativePolygons)
             {
-                poly.GetSessionWorldPoints(Anchors[0], Anchors[1]);
+                p.GetSessionWorldPoints(anchors);
             }
-            List<Polygon> negativePolygons = NegativePolygons.Select(polygonSerialization => polygonSerialization.ToPolygon()).ToList();
-            
+
+            Polygon positivePolygon = PositivePolygon.ToPolygon();
+            List<Polygon> negativePolygons = NegativePolygons.Select(p => p.ToPolygon()).ToList();
+
             return new Room(positivePolygon, negativePolygons);
         }
     }

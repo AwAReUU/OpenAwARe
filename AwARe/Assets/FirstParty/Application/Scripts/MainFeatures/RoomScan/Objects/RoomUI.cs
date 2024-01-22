@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Diagnostics;
 // /*                                                                                       *\
 //     This program has been developed by students from the bachelor Computer Science at
 //     Utrecht University within the Software Project course.
@@ -76,15 +78,20 @@ namespace AwARe.RoomScan.Objects
                     return;
                 }
 
+                //UnityEngine.Debug.Log(roomState.ToString());
                 switch (roomState)
                 {
                     case State.SaveAnchoring:
                         save = true;
                         conti = true;
+                        point = true;
+                        //startSaving = true;
                         return;
                     case State.LoadAnchoring:
                         load = true;
                         conti = true;
+                        point = true;
+                        //startLoading = true;
                         return;
                     case State.Saving:
                         conti = true;
@@ -100,8 +107,10 @@ namespace AwARe.RoomScan.Objects
                 {
                     case Polygons.State.Done:
                         create = true;
-                        save = true;
-                        load = true;
+                        startLoading = true;
+                        startSaving = true;
+                        //save = true;
+                        //load = true;
                         pathGen = true;
                         break;
                     case Polygons.State.SettingHeight:
@@ -115,7 +124,8 @@ namespace AwARe.RoomScan.Objects
                         break;
                     case Polygons.State.Default:
                     default:
-                        load = true;
+                        startLoading = true;
+                        //load = true;
                         create = true;
                         break;
                 }
@@ -196,7 +206,7 @@ namespace AwARe.RoomScan.Objects
 
         [ExcludeFromCoverage]
         public void OnStartSavingButtonClick() =>
-            manager.OnSaveButtonClick();
+            manager.OnStartSavingButtonClick();
 
         /// <summary>
         /// Called on save slot click.
@@ -214,7 +224,7 @@ namespace AwARe.RoomScan.Objects
 
         [ExcludeFromCoverage]
         public void OnStartLoadingButtonClick() =>
-            manager.OnLoadButtonClick();
+            manager.OnStartLoadingButtonClick();
 
         /// <summary>
         /// Called on load slot click.
