@@ -67,9 +67,7 @@ namespace AwARe.RoomScan.Objects
                 conti = false,
                 savenamebtn = false,
                 savelist = false;
-                
-
-           
+            
 
 
             // Set wanted elements to active
@@ -88,8 +86,8 @@ namespace AwARe.RoomScan.Objects
                         savenamebtn = true;
                         return;
                     case State.Loading:
-                        conti = true;
                         savelist = true;
+                        conti = true;
                         return;
                 }
 

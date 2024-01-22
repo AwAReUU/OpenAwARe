@@ -21,7 +21,7 @@ namespace AwARe
     {
         private RoomListOverviewScreen overviewRooms;
         
-        public List<string> roomlist;
+        public List<Room> roomlist;
         public event Action OnRoomListChanged;
         public bool RoomListChangesMade { get; private set; }
         public string SelectedList { get; private set; } = null;
@@ -77,18 +77,19 @@ namespace AwARe
              SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
 
             Debug.Log("Loading lists. Directory Path: " + saveLoadManager.directoryPath);
-            roomlist =saveLoadManager.LoadDataFromJson<List<string>>("rooms");
+            roomlist =saveLoadManager.LoadDataFromJson<List<Room>>("rooms");
             RoomListChangesMade = false;
          }
 
          /// <summary>
          /// Adds a new, empty IngredientList to the overview and calls the fileHandler to save all lists.
          /// </summary>
-         public void CreateList()
+         public void CreateList(Room currentroom)
          {
              string inputname = inputName.text;
              Debug.Log("before"+roomlist);
-             roomlist.Add(inputname);
+             currentroom.RoomName = inputname;
+             roomlist.Add(currentroom);
              Debug.Log("after" +roomlist);
             NotifyRoomListChanged();
             SaveLists();
@@ -98,7 +99,7 @@ namespace AwARe
          /// Removes the given list from the overview and calls the fileHandler to save all lists.
          /// </summary>
          /// <param name="list">The list to remove.</param>
-         public void DeleteList(string save)
+         public void DeleteList(Room save)
          {
              roomlist.Remove(save);
              NotifyRoomListChanged();

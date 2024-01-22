@@ -139,35 +139,8 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnSaveButtonClick()
         {
-            SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
-            if (CurrentState == State.Saving)
-            {
-                Storage.Get().ActiveRoom = Room.Data;
-                stateBefore = CurrentState;
-
-                // Load existing rooms
-                List<RoomSerialization> existingRooms = saveLoadManager.LoadRooms("rooms");
-
-                // Add the current room to the list
-                existingRooms.Add(new RoomSerialization(Room.Data));
-
-                // Save the updated list of rooms
-                saveLoadManager.SaveRooms("rooms", existingRooms);
-
-                SwitchToState(State.Default);
-            }
-            else
-            {
-                OnLoadButtonClick();
-            }
-
-            /*if (CurrentState == State.Saving)
-            {
-                Storage.Get().ActiveRoom = Room.Data;
-                stateBefore = CurrentState;
-                SwitchToState(State.Saving);
-            }
-            else OnLoadButtonClick();*/
+            SwitchToState(State.Saving);
+            
         }
 
         /// <summary>

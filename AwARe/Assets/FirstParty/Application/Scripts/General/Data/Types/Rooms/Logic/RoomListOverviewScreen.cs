@@ -13,6 +13,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using AwARe.IngredientList.Logic;
+using AwARe.RoomScan.Objects;
 
 namespace AwARe.Data.Logic
 {
@@ -29,6 +30,7 @@ namespace AwARe.Data.Logic
     {
         // The parent element
         [SerializeField] private RoomListManager manager;
+        [SerializeField] private RoomManager roommanager;
 
         // UI elements to control/copy
         [SerializeField] private GameObject listItemObject; //list item 'prefab'
@@ -48,14 +50,14 @@ namespace AwARe.Data.Logic
         {
             RemoveLists();
 
-            foreach (string roomsave in manager.roomlist)
+            foreach (Room roomsave in manager.roomlist)
             {
                 // create a new list item to display this list
                 GameObject itemObject = Instantiate(listItemObject, listItemObject.transform.parent);
 
                 // Set the ingredients of the item and keep track of it.
                 TMP_Text buttontext = itemObject.GetComponentInChildren<TMP_Text>();
-                buttontext.text = roomsave;
+                buttontext.text = roomsave.RoomName;
                 itemObject.SetActive(true);
                 // Set the ingredients of the item and keep track of it.
                 lists.Add(itemObject);
@@ -77,13 +79,13 @@ namespace AwARe.Data.Logic
         /// <summary>
         /// Calls an instance of manager to create a new ingredient list, then displays the new list of ingredient lists.
         /// </summary>
-        public void OnAddListButtonClick()
+        public void OnAddListButtonClick(Room currentroom)
         {
-            manager.CreateList();
+            manager.CreateList(currentroom);
             DisplayRoomLists();
         }
 
-        public void OnConfirmNameButton()
+        public void OnConfirmNameButton(Room currentroom)
         {
             nameSaveRoom.SetActive(false);
             // Check if RoomListManager is initialized
@@ -92,7 +94,7 @@ namespace AwARe.Data.Logic
                 // Check if roomlist is not null before accessing it
                 if (manager.roomlist != null)
                 {
-                    OnAddListButtonClick();
+                    OnAddListButtonClick(currentroom);
                 }
                 else
                 {
@@ -107,9 +109,7 @@ namespace AwARe.Data.Logic
 
         public void OnSaveNewRoomClick()
         {
-
-            
-            //nameSaveRoom.SetActive(true);
+            nameSaveRoom.SetActive(true);
         }
 
         /// <summary>

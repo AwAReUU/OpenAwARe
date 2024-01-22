@@ -38,7 +38,7 @@ namespace AwARe.Data.Logic
         /// <summary>
         /// Gets or sets the height of the room.
         /// </summary>
-        public int RoomHeight { get; set; }
+        public float RoomHeight { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Room"/> class.
@@ -48,7 +48,7 @@ namespace AwARe.Data.Logic
         /// <param name="negPolygons">The negative Polygons of the room.</param>
         /// <param name="roomName">The name of the room.</param>
         /// <param name="roomHeight">The height of the room.</param>
-        public Room(Polygon posPolygon = null, List<Polygon> negPolygons = null, string roomName = null, int roomHeight = 0)
+        public Room(Polygon posPolygon = null, List<Polygon> negPolygons = null, string roomName = null, float roomHeight = 0)
         {
             RoomName = roomName;
             RoomHeight = roomHeight;

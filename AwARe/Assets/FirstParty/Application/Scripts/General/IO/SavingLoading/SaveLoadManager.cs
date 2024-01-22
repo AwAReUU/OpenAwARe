@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using AwARe.Data.Logic;
 using AwARe.RoomScan.Polygons.Objects;
 using System;
+using System.Linq;
 
 namespace AwARe
 {
@@ -59,27 +60,25 @@ namespace AwARe
         }
 
         /// <summary>
-        /// Saves a list of rooms to a JSON file.
+        /// Saves a room list to a JSON file.
         /// </summary>
         /// <param name="fileName">The name of the file to save the JSON data to.</param>
-        /// <param name="rooms">The list of rooms to be serialized and saved.</param>
-        public void SaveRooms(string fileName, List<RoomSerialization> rooms)
+        /// <param name="roomList">The room list to be serialized and saved.</param>
+        public void SaveRoomList(string fileName, RoomListSerialization roomList)
         {
-            SaveDataToJson(fileName, rooms);
+            SaveDataToJson(fileName, roomList);
         }
-
-        // <summary>
-        /// Loads a list of rooms from a JSON file.
+        /// <summary>
+        /// Loads a room list from a JSON file.
         /// </summary>
         /// <param name="fileName">The name of the JSON file to load data from.</param>
-        /// <returns>The list of deserialized rooms.</returns>
-
-        public List<RoomSerialization> LoadRooms(string fileName)
+        /// <returns>The deserialized room list.</returns>
+        public RoomListSerialization LoadRoomList(string fileName)
         {
-            return LoadDataFromJson<List<RoomSerialization>>(fileName) ?? new List<RoomSerialization>();
+            return LoadDataFromJson<RoomListSerialization>(fileName);
         }
 
-
+      
         /// <summary>
         /// Loads data of type T from a JSON file with the specified fileName using the save load manager.
         /// </summary>
@@ -89,7 +88,7 @@ namespace AwARe
         {
             if (string.IsNullOrEmpty(directoryPath))
             {
-                Debug.LogError("path is null or empty.");
+                Debug.LogError("Path is null or empty.");
                 return default(T);
             }
 
@@ -100,7 +99,7 @@ namespace AwARe
                 try
                 {
                     string jsonData = File.ReadAllText(jsonFilePath);
-                    return JsonUtility.FromJson<T>(jsonData);
+                    return JsonConvert.DeserializeObject<T>(jsonData);
                 }
                 catch (Exception ex)
                 {

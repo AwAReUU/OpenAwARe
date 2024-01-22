@@ -12,6 +12,7 @@ using System.Linq;
 using AwARe.Data.Logic;
 using AwARe.RoomScan.Polygons.Logic;
 
+using Newtonsoft.Json;
 
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -68,6 +69,12 @@ namespace AwARe
             points = polygon?.points?.Select(v => new Vector3Serialization(v)).ToList() ?? new List<Vector3Serialization>();
         }
 
+        // Add a parameterless constructor for deserialization
+        [JsonConstructor]
+        public PolygonSerialization()
+        {
+            points = new List<Vector3Serialization>();
+        }
         /// <summary>
         /// Constructor for PolygonSerialization, initializes the object with a list of serialized Vector3.
         /// </summary>
@@ -112,7 +119,9 @@ namespace AwARe
         public PolygonSerialization PositivePolygon;
         public List<PolygonSerialization> NegativePolygons;
         public string RoomName;
-        public int RoomHeight;
+        public float RoomHeight;
+
+
 
         /// <summary>
         /// Constructor for RoomSerialization, initializes the object with serialized positive and negative polygons.
@@ -122,9 +131,19 @@ namespace AwARe
         public RoomSerialization(Room room)
         {
             RoomName="hello";
-            RoomHeight = (int)(room.PositivePolygon?.height ?? default);
+            RoomHeight = room.PositivePolygon?.height ?? default;
             PositivePolygon = new(room.PositivePolygon);
             NegativePolygons = room.NegativePolygons.Select(polygon => new PolygonSerialization(polygon)).ToList();
+        }
+
+        // Add a parameterless constructor for deserialization
+        [JsonConstructor]
+        public RoomSerialization()
+        {
+            PositivePolygon = new PolygonSerialization();
+            NegativePolygons = new List<PolygonSerialization>();
+            RoomName = "";
+            RoomHeight = 0;
         }
 
         /// <summary>
@@ -151,5 +170,28 @@ namespace AwARe
             return new Room(positivePolygon, negativePolygons, RoomName, RoomHeight);
         }
     }
-    
+
+    [System.Serializable]
+    public class RoomListSerialization
+    {
+        public List<RoomSerialization> Rooms;
+
+        public RoomListSerialization(List<RoomSerialization> rooms)
+        {
+            Rooms = rooms ?? new List<RoomSerialization>();
+        }
+
+        public RoomListSerialization()
+        {
+            Rooms = new List<RoomSerialization>();
+        }
+
+        // Add a constructor with a default value or empty parameters for deserialization
+        [JsonConstructor]
+        public RoomListSerialization(int dummy)
+        {
+            Rooms = new List<RoomSerialization>();
+        }
+    }
+
 }
