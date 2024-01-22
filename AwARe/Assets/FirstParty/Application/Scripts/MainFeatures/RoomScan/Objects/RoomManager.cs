@@ -40,7 +40,6 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private Transform canvas;
         [SerializeField] private Transform sceneCanvas;
         [SerializeField] private GameObject saveNameScreen;
-       
         
         // Templates
         [SerializeField] private GameObject roomBase;
@@ -141,6 +140,30 @@ namespace AwARe.RoomScan.Objects
         {
             SwitchToState(State.Saving);
             
+        }
+
+        public void OnConfirmSaveClick()
+        {
+            SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
+            Storage.Get().ActiveRoom = Room.Data;
+            stateBefore = CurrentState;
+
+            // Load existing room list
+            RoomListSerialization roomList = saveLoadManager.LoadRoomList("rooms");
+
+            // If there is no existing room list, create a new one
+            if (roomList == null)
+            {
+                roomList = new RoomListSerialization();
+            }
+
+            // Add the current room to the list
+            roomList.Rooms.Add(new RoomSerialization(Room.Data));
+
+            // Save the updated room list
+            saveLoadManager.SaveRoomList("rooms", roomList);
+
+            SwitchToState(State.Default);
         }
 
         /// <summary>

@@ -13,7 +13,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using AwARe.IngredientList.Logic;
+
+using AwARe.Data.Logic;
+using AwARe.Objects;
 using AwARe.RoomScan.Objects;
+using System.Linq;
 
 namespace AwARe.Data.Logic
 {
@@ -30,11 +34,15 @@ namespace AwARe.Data.Logic
     {
         // The parent element
         [SerializeField] private RoomListManager manager;
-        [SerializeField] private RoomManager roommanager;
 
         // UI elements to control/copy
         [SerializeField] private GameObject listItemObject; //list item 'prefab'
         [SerializeField] private GameObject nameSaveRoom;
+        [SerializeField] private TMP_InputField inputName;
+        public SaveLoadManager filehandler;
+        private List<Room> roomList;
+        public RoomManager roommanager;
+
 
         // Tracked UI elements
         readonly List<GameObject> lists = new();
@@ -46,24 +54,46 @@ namespace AwARe.Data.Logic
         /// <summary>
         /// Creates GameObjects with buttons to select or destroy every ingredient list.
         /// </summary>
+        /// 
+      
+        private void Awake()
+        {
+            //roomlist = filehandler.LoadDataFromJson<List<string>>("rooms");
+            //Lists = fileHandler.ReadFile();
+           DisplayRoomLists();
+
+
+        }
+
         public void DisplayRoomLists()
         {
-            RemoveLists();
+            roomList=LoadRoomList(roomList);
 
-            foreach (Room roomsave in manager.roomlist)
+            // Now you can work with the list of Room objects
+            foreach (Room room in roomList)
             {
                 // create a new list item to display this list
                 GameObject itemObject = Instantiate(listItemObject, listItemObject.transform.parent);
 
                 // Set the ingredients of the item and keep track of it.
                 TMP_Text buttontext = itemObject.GetComponentInChildren<TMP_Text>();
-                buttontext.text = roomsave.RoomName;
+                buttontext.text = room.RoomName;
                 itemObject.SetActive(true);
                 // Set the ingredients of the item and keep track of it.
                 lists.Add(itemObject);
-
+                // Do something with each room
+                Debug.Log($"Room Name: {room.RoomName}, Height: {room.RoomHeight}");
+                // Access polygons, e.g., room.PositivePolygon and room.NegativePolygons
             }
-         
+        }
+
+        public List<Room> LoadRoomList(List<Room> roomlist)
+        {
+            // Assuming roomListSerialization is an instance of RoomListSerialization loaded from a file
+            RoomListSerialization roomListSerialization = filehandler.LoadRoomList("rooms");
+
+            // Convert RoomListSerialization to a list of Room objects
+            return roomListSerialization.Rooms.Select(roomSerialization => roomSerialization.ToRoom()).ToList();
         }
 
         /// <summary>
@@ -85,27 +115,26 @@ namespace AwARe.Data.Logic
             DisplayRoomLists();
         }
 
-        public void OnConfirmNameButton(Room currentroom)
+        public void OnConfirmNameButton()
         {
+            RoomManager roommanager = GetComponent<RoomManager>();
             nameSaveRoom.SetActive(false);
-            // Check if RoomListManager is initialized
-            if (manager != null)
-            {
-                // Check if roomlist is not null before accessing it
-                if (manager.roomlist != null)
-                {
-                    OnAddListButtonClick(currentroom);
-                }
-                else
-                {
-                    Debug.LogError("roomlist in RoomListManager is null.");
-                }
-            }
-            else
-            {
-                Debug.LogError("RoomListManager is null.");
-            }
+            roommanager.OnConfirmSaveClick();
+
         }
+
+        /// <summary>
+        /// Adds a new, empty IngredientList to the overview and calls the fileHandler to save all lists.
+        /// </summary>
+       /* public void CreateList(Room currentroom)
+        {
+            string inputname = inputName.text;
+            
+            currentroom.RoomName = inputname;
+            roomlist.Add(currentroom);
+            NotifyRoomListChanged();
+            SaveLists();
+        }*/
 
         public void OnSaveNewRoomClick()
         {
@@ -117,5 +146,7 @@ namespace AwARe.Data.Logic
         /// </summary>
         public void OnBackButtonClick() { SceneSwitcher.Get().LoadScene("Home"); }
 
+
     }
+
 }

@@ -1993,7 +1993,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e8d92666e5023541b77ebcb48cb09fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomlist: []
   inputName: {fileID: 2000977758}
   filehandler: {fileID: 1749922119}
 --- !u!1 &1785564654
@@ -2047,6 +2046,8 @@ MonoBehaviour:
   manager: {fileID: 1749922120}
   listItemObject: {fileID: 697188395}
   nameSaveRoom: {fileID: 1307515699}
+  inputName: {fileID: 2000977758}
+  filehandler: {fileID: 1749922119}
 --- !u!1 &1809611634
 GameObject:
   m_ObjectHideFlags: 0
