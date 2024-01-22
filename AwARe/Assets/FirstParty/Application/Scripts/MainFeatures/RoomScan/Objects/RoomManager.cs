@@ -21,7 +21,7 @@ namespace AwARe.RoomScan.Objects
     /// <summary>
     /// Contains the Room and handles the different states within the Polygon scanning.
     /// </summary>
-    public class RoomManager : MonoBehaviour, IPointer
+    public class RoomManager : MonoBehaviour
     {
         // Objects to control
         [SerializeField] private PolygonManager polygonManager;
@@ -47,8 +47,6 @@ namespace AwARe.RoomScan.Objects
         /// </value>
         public State CurrentState { get; private set; } = State.Default;
 
-        public bool LockPlane { get => ui.LockPlane; set => ui.LockPlane = value; }
-
         [ExcludeFromCoverage]
         private void Awake()
         {
@@ -68,15 +66,6 @@ namespace AwARe.RoomScan.Objects
         /// The current room.
         /// </value>
         public Room Room { get; set; }
-
-        /// <summary>
-        /// Gets the current position of the pointer.
-        /// </summary>
-        /// <value>
-        /// The current position of the pointer.
-        /// </value>
-        public Vector3 PointedAt =>
-            ui.PointedAt;
 
         /// <summary>
         /// Called when no UI element has been hit on click or press.

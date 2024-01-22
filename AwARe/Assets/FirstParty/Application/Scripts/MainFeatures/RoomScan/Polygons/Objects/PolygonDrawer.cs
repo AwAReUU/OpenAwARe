@@ -24,7 +24,7 @@ namespace AwARe.RoomScan.Polygons.Objects
     public class PolygonDrawer : MonoBehaviour
     {
         // The pointer
-        public InterfaceReference<IPointer> pointer;
+        [SerializeField] public InterfaceReference<IPointer> pointer;
 
         // The line renderers and templates
         [SerializeField] private GameObject polygonBase; // the object that is instantiated to create the lines

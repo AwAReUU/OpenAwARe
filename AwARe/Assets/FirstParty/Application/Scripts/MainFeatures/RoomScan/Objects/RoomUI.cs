@@ -20,7 +20,7 @@ namespace AwARe.RoomScan.Objects
     /// <summary>
     /// UI in the polygon scan.
     /// </summary>
-    public class RoomUI : MonoBehaviour, IPointer
+    public class RoomUI : MonoBehaviour
     {
         // The manager
         [SerializeField] private RoomManager manager;
@@ -126,16 +126,6 @@ namespace AwARe.RoomScan.Objects
             this.loadSlots.SetActive(loadSlots);
             continueButton.SetActive(conti);
         }
-
-        /// <summary>
-        /// Gets the current position of the pointer.
-        /// </summary>
-        /// <value>
-        /// The current position of the pointer.
-        /// </value>
-        public virtual Vector3 PointedAt =>
-            pointer.PointedAt;
-        public bool LockPlane { get => pointer.LockPlane; set => pointer.LockPlane = value; }
 
         /// <summary>
         /// Called on create button click.

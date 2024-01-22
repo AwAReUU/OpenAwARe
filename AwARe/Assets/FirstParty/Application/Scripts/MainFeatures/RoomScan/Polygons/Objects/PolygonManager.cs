@@ -19,7 +19,7 @@ namespace AwARe.RoomScan.Polygons.Objects
     /// <summary>
     /// Contains the Room and handles the different states within the Polygon scanning.
     /// </summary>
-    public class PolygonManager : MonoBehaviour, IPointer
+    public class PolygonManager : MonoBehaviour
     {
         // The upper management
         [SerializeField] private RoomManager manager;
@@ -43,8 +43,6 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </value>
         public State CurrentState { get; private set; }
 
-        public bool LockPlane { get => manager.LockPlane; set => manager.LockPlane = value; }
-
         public bool IsActive =>
             CurrentState is State.Drawing or State.SettingHeight;
 
@@ -55,14 +53,6 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// A Room represented by the polygons.
         /// </value>
         public Room Room { get => manager.Room; private set => manager.Room = value; }
-        
-        /// <summary>
-        /// Gets the current position of the pointer.
-        /// </summary>
-        /// <value>
-        /// The current position of the pointer.
-        /// </value>
-        public Vector3 PointedAt => manager.PointedAt;
 
         void Start() =>
             SwitchToState(State.Default);
@@ -111,9 +101,14 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             if(CurrentState == State.Drawing)
             {
-                polygonDrawer.AddPoint();
+                if (!polygonDrawer.pointer.Value.FoundFirstPlane)
+                    Debug.LogError("No plane found yet. Please try again.");
+                else
+                {
+                    polygonDrawer.AddPoint();
 
-                polygonDrawer.pointer.Value.LockPlane = true;
+                    polygonDrawer.pointer.Value.LockPlane = true;
+                }
             }
         }
 
