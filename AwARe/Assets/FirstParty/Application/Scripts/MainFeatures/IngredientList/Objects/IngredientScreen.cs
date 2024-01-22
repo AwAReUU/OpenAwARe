@@ -9,9 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AwARe.IngredientList.Logic;
+using NSubstitute;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace AwARe.IngredientList.Objects
 {
@@ -53,10 +55,14 @@ namespace AwARe.IngredientList.Objects
         {
             // Set name label
             ingredientNameField.GetComponent<TMP_Text>().text = entry.ingredient.Name;
-            
-            // Set dropdown options
-            List<string> options = Enum.GetNames(typeof(QuantityType)).ToList();
+
             typeDropdown.ClearOptions();
+
+            // Get all valid dropdown options for the ingredient
+            List<string> options = Enum.GetValues(typeof(QuantityType)).Cast<QuantityType>()
+                .Where(qType => entry.ingredient.QuantityPossible(qType))
+                .Select(t => t.ToString()).ToList();
+
             typeDropdown.AddOptions(options);
 
             // Set default values
@@ -71,7 +77,7 @@ namespace AwARe.IngredientList.Objects
         {
             Ingredient ingredient = entry.ingredient;
             string quantityS = quantityField.text;
-            string typeS = typeDropdown.value.ToString();
+            string typeS = typeDropdown.options[typeDropdown.value].text;
 
             manager.ReadQuantity(ingredient, quantityS, typeS, out float quantity, out QuantityType type);
 

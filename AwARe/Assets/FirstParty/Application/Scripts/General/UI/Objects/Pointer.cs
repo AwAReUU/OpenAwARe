@@ -32,10 +32,10 @@ namespace AwARe.UI.Objects
         public virtual Vector3 PointedAt =>
             transform.position;
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             camera = camera != null ? camera : ARSecretary.Get().Camera;
-            lastHitPlane = new(camera.transform.position + 1.5f * Vector3.down, Vector3.up);
+            lastHitPlane = new(Vector3.up, camera.transform.position + 1.5f * Vector3.down);
 
             SetNextPosition();
         }
