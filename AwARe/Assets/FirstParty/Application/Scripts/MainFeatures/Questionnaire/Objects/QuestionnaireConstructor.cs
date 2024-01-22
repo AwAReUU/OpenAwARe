@@ -3,7 +3,6 @@ using System.Reflection;
 using AwARe.Questionnaire.Data;
 
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AwARe.Questionnaire.Objects
 {

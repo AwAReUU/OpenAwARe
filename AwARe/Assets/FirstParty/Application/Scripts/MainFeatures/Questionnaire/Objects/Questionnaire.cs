@@ -4,7 +4,6 @@ using AwARe.Questionnaire.Data;
 
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AwARe.Questionnaire.Objects
 {
@@ -22,7 +21,7 @@ namespace AwARe.Questionnaire.Objects
         /// </value>
         [SerializeField] private TextMeshProUGUI description;
         /// <value>
-        /// TODO: add comment.
+        /// Transform in which all questions are added.
         /// </value>
         [SerializeField] private Transform questionsWindow;
         /// <value>
@@ -36,21 +35,21 @@ namespace AwARe.Questionnaire.Objects
         /// <value>
         /// List of questions that this questionnaire is currently holding.
         /// </value>
-        private List<GameObject> questions { get; set; }
+        private List<GameObject> Questions { get; set; }
 
         /// <summary>
         /// Initialize a new <see cref="Questionnaire"/>.
         /// </summary>
         private void Awake()
         {
-            questions = new List<GameObject>();
+            Questions = new List<GameObject>();
         }
 
         /// <summary>
         /// Obtain the questions in this questionnaire.
         /// </summary>
         /// <returns>The question GameObjects that are inside of this questionnaire.</returns>
-        public List<GameObject> GetQuestions() => questions;
+        public List<GameObject> GetQuestions() => Questions;
 
         /// <summary>
         /// Set the title of the questionnaire in the UI.
@@ -74,7 +73,7 @@ namespace AwARe.Questionnaire.Objects
             GameObject questionObject = Instantiate(questionPrefab, questionsWindow);
             Question question = questionObject.GetComponent<Question>();
             questionObject.SetActive(true);
-            questions.Add(questionObject.gameObject);
+            Questions.Add(questionObject);
 
             question.SetTitle(data.questionTitle);
             question.SetIfYes(data.ifYes, data.ifYesTrigger);
@@ -107,7 +106,8 @@ namespace AwARe.Questionnaire.Objects
         /// <param name="data">The QuestionData containing information about the "ifYes" condition and associated questions.</param>
         private void AddIfYesQuestions(Question question, QuestionData data)
         {
-            if (!data.ifYes) return;
+            if (!data.ifYes) 
+                return;
 
             foreach (QuestionData ifYesQuestionData in data.ifYesQuestions)
             {

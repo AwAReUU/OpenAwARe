@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using AwARe.Questionnaire.Data;
 
@@ -52,15 +51,18 @@ namespace AwARe.Questionnaire.Objects
         /// <value>
         /// Counter which is used for assigning a unique index to an AnswerOption upon adding a new one.
         /// </value>
-        private int CurrentAnswerOptionIndex = 0;
+        private int currentAnswerOptionIndex = 0;
 
         private Questionnaire parentQuestionnaire;
+
+        private AnswerOptionSpawner answerOptionSpawner;
 
         private void Awake()
         {
             AnswerOptions = new List<GameObject>();
             AnswerOptionStates = new List<bool>();
             IfYesQuestions = new List<GameObject>();
+            answerOptionSpawner = new(this.gameObject, textInputPrefab, checkBoxPrefab, radioButtonPrefab);
         }
 
         /// <summary>
@@ -81,26 +83,28 @@ namespace AwARe.Questionnaire.Objects
         /// <param name="answerOptionData">The data representing the new option to be added.</param>
         public void AddAnswerOption(AnswerOptionData answerOptionData)
         {
-            AnswerOptionSpawner answerOptionFactory = CreateAnswerOptionSpawner((OptionType)Enum.Parse(typeof(OptionType), answerOptionData.optionType));
-            GameObject newOption = answerOptionFactory.CreateAnswerOption(answerOptionData.optionText);
-            AnswerOptions.Add(newOption);
+            AnswerOption answerOption = CreateAnswerOption(answerOptionData);
+            GameObject answerGameObject = answerOption.InstantiateAnswerOption(answerOptionData.optionText);
+
+            AnswerOptions.Add(answerGameObject);
             AnswerOptionStates.Add(false);
         }
 
         /// <summary>
-        /// Create the factory corresponding to this question's option type.
+        /// Create the correct type of AnswerOption instance, based on the provided answerOptionData.
         /// </summary>
-        /// <param name="optionType">The optionType of this question.</param>
-        /// <returns>A factory to construct the answer option corresponding to "optionType".</returns>
-        private AnswerOptionSpawner CreateAnswerOptionSpawner(OptionType optionType)
+        /// <param name="answerOptionData">The data representing the new option to be added.</param>
+        /// <returns>The instance of the subclass of <see cref="AnswerOption"/> corresponding to the data in answerOptionData.</returns>
+        private AnswerOption CreateAnswerOption(AnswerOptionData answerOptionData)
         {
+            OptionType optionType = (OptionType)Enum.Parse(typeof(OptionType), answerOptionData.optionType);
             return optionType switch
             {
-                OptionType.Radio    => new RadioAnswerOption(gameObject, radioButtonPrefab, CurrentAnswerOptionIndex++),
-                OptionType.Checkbox => new CheckBoxAnswerOption(gameObject, checkBoxPrefab, CurrentAnswerOptionIndex++),
-                OptionType.Textbox  => new TextAnswerOption(gameObject, textInputPrefab),
+                OptionType.Radio    => answerOptionSpawner.CreateRadioAnswerOption(currentAnswerOptionIndex++),
+                OptionType.Checkbox => answerOptionSpawner.CreateCheckBoxAnswerOption(currentAnswerOptionIndex++),
+                OptionType.Textbox  => answerOptionSpawner.CreateTextAnswerOption(),
                 OptionType.Error    => throw new System.ArgumentException("Invalid option type: " + optionType),
-                _                   => throw new System.ArgumentException("Invalid option type: " + optionType)
+                _          => throw new System.ArgumentException("Invalid option type: " + optionType)
             };
         }
 
