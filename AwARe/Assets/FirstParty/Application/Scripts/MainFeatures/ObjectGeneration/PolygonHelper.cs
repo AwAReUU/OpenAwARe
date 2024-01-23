@@ -8,6 +8,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AwARe.Data.Logic;
+using AwARe.RoomScan.Path;
 using AwARe.RoomScan.Polygons.Logic;
 
 using UnityEngine;
@@ -70,7 +71,9 @@ namespace AwARe.ObjectGeneration
         /// <param name="corners">Corners of the base of the bounding box of the Object.</param>
         /// <param name="room">The room.</param>
         /// <returns>Whether the object is inside the positive Polygon and outside the negative polygons.</returns>
-        public static bool ObjectColliderInPolygon(List<Vector3> corners, Room room)
-            => corners.All(corner => IsPointInsidePolygon(room.PositivePolygon, corner) && PointNotInPolygons(room.NegativePolygons, corner));
+        public static bool ObjectColliderInPolygon(List<Vector3> corners, Room room, PathData path)
+            => corners.All(corner => IsPointInsidePolygon(room.PositivePolygon, corner) 
+                                    && PointNotInPolygons(room.NegativePolygons, corner)
+                                    && !path.PointLiesOnPath(corner));
     }
 }
