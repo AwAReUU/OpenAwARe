@@ -63,6 +63,8 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <param name="polygon">A polygon.</param>
         public void AddPolygon(Polygon polygon)
         {
+            if (polygon.Data.points.Count <= 0) return; // Don't add an empty polygon
+
             if (Room.positivePolygon == null)
                 Room.positivePolygon = polygon;
             else
@@ -101,7 +103,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             if(CurrentState == State.Drawing)
             {
-                if (!polygonDrawer.pointer.Value.FoundFirstPlane)
+                if (!polygonDrawer.pointer.Value.FoundFirstPlane && !Application.isEditor)
                     Debug.LogError("No plane found yet. Please try again.");
                 else
                 {
@@ -119,16 +121,23 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             polygonDrawer.FinishDrawing(out Data.Logic.Polygon data);
 
-            activePolygon = Instantiate(polygon, transform);
-            activePolygon.gameObject.SetActive(true);
-            activePolygon.Data = data;
+            //if (data.points.Count > 0)
+            //{
+                activePolygon = Instantiate(polygon, transform);
+                activePolygon.gameObject.SetActive(true);
+                activePolygon.Data = data;
 
-            activePolygonMesh = activePolygon.GetComponent<Mesher>();
-            activePolygonMesh.UpdateMesh();
-            activePolygonLine = activePolygon.GetComponent<Liner>();
-            activePolygonLine.UpdateLine();
+                activePolygonMesh = activePolygon.GetComponent<Mesher>();
+                activePolygonMesh.UpdateMesh();
+                activePolygonLine = activePolygon.GetComponent<Liner>();
+                activePolygonLine.UpdateLine();
 
-            SwitchToState(State.SettingHeight);
+                SwitchToState(State.SettingHeight);
+            //}
+            //else
+            //{
+            //    SwitchToState(State.Done);
+            //}
         }
 
         /// <summary>
