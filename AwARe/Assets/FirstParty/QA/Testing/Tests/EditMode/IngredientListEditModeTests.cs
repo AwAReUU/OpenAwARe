@@ -41,14 +41,14 @@ namespace Tests
             Ingredient ingredient = new Ingredient(1, name);
 
             //Act and Assert: Get the ingredients name and assert it's the same as the one given to the constructor.
-            Assert.AreEqual(name,ingredient.Name);
+            Assert.AreEqual(name, ingredient.Name);
         }
 
         [Test, Description("Type conversion to ML is not possible if gramsPerML is null.")]
         [TestCase(null, ExpectedResult = false)] // gramsPerML = null is used to indicate conversion is not possible.
         [TestCase(-1f, ExpectedResult = true)] // negative gramsPerML is currently possible, but is actually physically impossible IRL.
-        [TestCase( 0f, ExpectedResult = true)] // gramsPerML = 0 is currently possible, but is also physically impossible IRL.
-        [TestCase( 1f, ExpectedResult = true)] // positive gramsPerML should always be possible.
+        [TestCase(0f, ExpectedResult = true)] // gramsPerML = 0 is currently possible, but is also physically impossible IRL.
+        [TestCase(1f, ExpectedResult = true)] // positive gramsPerML should always be possible.
         public bool Test_MLQuantityPossible(float? gramsPerML)
         {
             //Arrange: Create a Test Ingredient with the given conversion rate.
@@ -61,8 +61,8 @@ namespace Tests
         [Test, Description("Type conversion to ML is not possible if gramsPerML is null.")]
         [TestCase(null, ExpectedResult = false)] // gramsPerPiece = null is used to indicate conversion is not possible.
         [TestCase(-1f, ExpectedResult = true)] // negative gramsPerPiece is currently possible, but is actually physically impossible IRL.
-        [TestCase( 0f, ExpectedResult = true)] // gramsPerPiece = 0 is currently possible, but is also physically impossible IRL.
-        [TestCase( 1f, ExpectedResult = true)] // positive gramsPerPiece should always be possible.
+        [TestCase(0f, ExpectedResult = true)] // gramsPerPiece = 0 is currently possible, but is also physically impossible IRL.
+        [TestCase(1f, ExpectedResult = true)] // positive gramsPerPiece should always be possible.
         public bool Test_PieceQuantityPossible(float? gramsPerPiece)
         {
             //Arrange: Create a Test Ingredient with the given conversion rate.
@@ -86,8 +86,8 @@ namespace Tests
         }
 
         [Test, Description("Ingredient.GetNumberOfGrams correctly converts quantity from ML to G.")]
-        [TestCase( 0f, 11f, ExpectedResult = 0f)]
-        [TestCase(11f,  0f, ExpectedResult = 0f)]
+        [TestCase(0f, 11f, ExpectedResult = 0f)]
+        [TestCase(11f, 0f, ExpectedResult = 0f)]
         [TestCase(11f, 11f, ExpectedResult = 121f)]
         public float Test_GetNumberOfGrams_ML(float quantity, float gramsPerML)
         {
@@ -105,14 +105,15 @@ namespace Tests
             Ingredient ingr = new Ingredient(1, "test", gramsPerML: null);
 
             //Act and Assert: Try to get the number of grams using this conversion rate and Assert that it throws an Exception.
-            Assert.Throws<NullReferenceException>(delegate {
+            Assert.Throws<NullReferenceException>(delegate
+            {
                 ingr.GetNumberOfGrams(1f, QuantityType.ML);
             });
         }
 
         [Test, Description("Ingredient.GetNumberOfGrams correctly converts quantity from ML to G.")]
-        [TestCase( 0f, 11f, ExpectedResult = 0f)]
-        [TestCase(11f,  0f, ExpectedResult = 0f)]
+        [TestCase(0f, 11f, ExpectedResult = 0f)]
+        [TestCase(11f, 0f, ExpectedResult = 0f)]
         [TestCase(11f, 11f, ExpectedResult = 121f)]
         public float Test_GetNumberOfGrams_PCS(float quantity, float gramsPerPiece)
         {
@@ -130,7 +131,8 @@ namespace Tests
             Ingredient ingr = new Ingredient(1, "test", gramsPerPiece: null);
 
             //Act and Assert: Try to get the number of grams using this conversion rate and Assert that it throws an Exception.
-            Assert.Throws<NullReferenceException>(delegate {
+            Assert.Throws<NullReferenceException>(delegate
+            {
                 ingr.GetNumberOfGrams(1f, QuantityType.PCS);
             });
         }
@@ -198,8 +200,8 @@ namespace Tests
 
         [Test, Description("IngredientList.GetQuantity() returns the right quantity of the given ingredient.")]
         [TestCase(-100f)]
-        [TestCase(   0f)]
-        [TestCase( 100f)]
+        [TestCase(0f)]
+        [TestCase(100f)]
         public void Test_GetQuantity(
             float quantity)
         {
@@ -318,8 +320,8 @@ namespace Tests
 
         [Test, Description("IngredientList.UpdateIngredient() properly sets the dictionary quantity value to a new value.")]
         [TestCase(-1f)] // Negative quantities are currently allowed, even though they should be physically impossible.
-        [TestCase( 0f)] // It was also suggested to not allow or just remove an ingredient when quantity = 0.
-        [TestCase( 1f)]
+        [TestCase(0f)] // It was also suggested to not allow or just remove an ingredient when quantity = 0.
+        [TestCase(1f)]
         [TestCase(11f)]
         public void Test_UpdateIngredient_Quantity(float newQuantity)
         {
@@ -389,27 +391,27 @@ namespace Tests
         }
 
         [Test, Description("Tests whether loading a List containing a valid ingredientlist return a list with an item in it.")]
-        public void Test_Read_Simple_List()
+        public async void Test_Read_Simple_List()
         {
             //Arrange: Construct a FileHandler with a test ingredientlists file.
             string testFile = @".\Assets\FirstParty\QA\Testing\TestAssets\IngredientList\ListWithSimpleIngredientList";
             IngredientFileHandler ingredientFileHandler = new(new MockupIngredientDatabase(), testFile);
-            
+
             //Act: Read the file.
-            List<IngredientList> lists = ingredientFileHandler.ReadFile();
+            List<IngredientList> lists = await ingredientFileHandler.ReadFile();
 
             //Assert: The list contains a single ingredientList.
             Assert.True(lists.Count == 1);
         }
 
         [Test, Description("Tests whether trying to load a file that does not exist does not crash the program.")]
-        public void Test_Read_Invalid_Path_No_Crash()
+        public async void Test_Read_Invalid_Path_No_Crash()
         {
             //Arrange: Construct a FileHandler with an invalid path.
             IngredientFileHandler ingredientFileHandler = new(new MockupIngredientDatabase(), "Some path that does not exist");
 
             //Act: Read the file.
-            List<IngredientList> lists = ingredientFileHandler.ReadFile();
+            List<IngredientList> lists = await ingredientFileHandler.ReadFile();
 
             //Assert: The list contains a single ingredientList.
             Assert.True(lists.Count == 0);
@@ -422,12 +424,12 @@ namespace Tests
             IngredientFileHandler ingredientFileHandler = new(new MockupIngredientDatabase(), testFile);
 
             //Act & Assert: Reading the file throws an exeception.
-            Assert.Throws<Exception>(() =>ingredientFileHandler.ReadFile());
+            Assert.Throws<Exception>(() => ingredientFileHandler.ReadFile());
         }
 
         [Test, Description("Tests whether saving a loaded file does not alter the file," +
              " that is, the loaded and saved file are equal.")]
-        public void Test_Pure_Ingredientlists_Jsonstring_Conversion()
+        public async void Test_Pure_Ingredientlists_Jsonstring_Conversion()
         {
             //Arrange: Construct IngredientFileHandler and read contents of the file.
             string testFile = @".\Assets\FirstParty\QA\Testing\TestAssets\IngredientList\ListWithSimpleIngredientList";
@@ -435,7 +437,7 @@ namespace Tests
             string testFileContent = File.ReadAllText(testFile);
 
             //Act: Convert contents of the file to IngredientLists, convert that back to json string.
-            List<IngredientList> lists = ingredientFileHandler.ReadFile();
+            List<IngredientList> lists = await ingredientFileHandler.ReadFile();
             string convertedLists = IngredientListsJsonHelper.IngredientListsToJSONString(lists);
 
             //Assert: The converted list should be the same as the original file content.

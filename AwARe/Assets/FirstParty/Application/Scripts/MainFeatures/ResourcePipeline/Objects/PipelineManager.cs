@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using System.Threading.Tasks;
 using AwARe.Database;
 using AwARe.Database.Logic;
 using AwARe.IngredientList.Logic;
@@ -32,18 +32,18 @@ namespace AwARe.ResourcePipeline.Objects
         /// </summary>
         /// <param name="selectedList">IngredientList to convert to list of renderables.</param>
         /// <returns></returns>
-        public List<Renderable> GetRenderableList(IngredientList.Logic.IngredientList selectedList)
+        public async Task<List<Renderable>> GetRenderableList(IngredientList.Logic.IngredientList selectedList)
         {
-            ResourceDictionary resourceList = IngredientListToResourceList(selectedList);
+            ResourceDictionary resourceList = await IngredientListToResourceList(selectedList);
             Dictionary<int, int> modelQuantities = ResourceListToModelQuantities(resourceList);
-            return QuantityDictToRenderables(modelQuantities);
+            return await QuantityDictToRenderables(modelQuantities);
         }
 
         /// <summary>
         /// Converts an <see cref="IngredientList"/> to a <see cref="ResourceDictionary"/>
         /// </summary>
         /// <returns>Model list</returns>
-        private ResourceDictionary IngredientListToResourceList(IngredientList.Logic.IngredientList selectedList)
+        private Task<ResourceDictionary> IngredientListToResourceList(IngredientList.Logic.IngredientList selectedList)
         {
             ResourceCalculator resourceCalculator = new ResourceCalculator();
             return resourceCalculator.IngredientsToResources(selectedList);
@@ -56,7 +56,7 @@ namespace AwARe.ResourcePipeline.Objects
         /// <returns>modelDict</returns>
         public Dictionary<int, int> ResourceListToModelQuantities(ResourceDictionary resourceList)
         {
-            ModelCalculator modelCalculator = new ();
+            ModelCalculator modelCalculator = new();
 
             Dictionary<int, int> modelQuantities = new();
             foreach ((Resource resource, float quantityGrams) in resourceList.Resources)
@@ -72,23 +72,23 @@ namespace AwARe.ResourcePipeline.Objects
         /// </summary>
         /// <param name="quantityDictionary"></param>
         /// <returns></returns>
-        private List<Renderable> QuantityDictToRenderables(Dictionary<int, int> quantityDictionary)
+        private async Task<List<Renderable>> QuantityDictToRenderables(Dictionary<int, int> quantityDictionary)
         {
             const float sizeMultiplier = 1;
             List<Renderable> Renderables = new();
             foreach ((int modelId, int quantity) in quantityDictionary)
             {
-                GameObject prefab = GetPrefabFromPath(@"Models/" + modelDatabase.GetModel(modelId).PrefabPath);
+                GameObject prefab = GetPrefabFromPath(@"Models/" + (await modelDatabase.GetModel(modelId)).PrefabPath);
                 Vector3 halfExtents = GetHalfExtents(prefab);
 
                 //dirty temp code so that water does not have size 0.
-                float realHeight = modelDatabase.GetModel(modelId).RealHeight;
+                float realHeight = (await modelDatabase.GetModel(modelId)).RealHeight;
                 if (realHeight == 0)
                     realHeight = 1;
 
                 float modelSizeMultiplier = realHeight / (2 * halfExtents.y) * sizeMultiplier;
                 halfExtents *= modelSizeMultiplier;
-                ResourceType resourceType = modelDatabase.GetModel(modelId).Type;
+                ResourceType resourceType = (await modelDatabase.GetModel(modelId)).Type;
                 Renderable renderable = new(prefab, halfExtents, quantity, modelSizeMultiplier, resourceType);
                 Renderables.Add(renderable);
             }

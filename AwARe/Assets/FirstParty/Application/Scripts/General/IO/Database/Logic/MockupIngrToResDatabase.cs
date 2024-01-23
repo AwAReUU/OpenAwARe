@@ -7,7 +7,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 using AwARe.IngredientList.Logic;
 
 namespace AwARe.Database.Logic
@@ -72,14 +72,14 @@ namespace AwARe.Database.Logic
         }
 
         ///<inheritdoc cref="IIngrToResDatabase.GetResourceIDs"/>
-        public Dictionary<int, float> GetResourceIDs(Ingredient ingredient)
+        public Task<Dictionary<int, float>> GetResourceIDs(Ingredient ingredient)
         {
             IEnumerable<(int, float)> result =
                 from (int ingredientID, int ResourceID, float Ratio) x in requiresTable
                 where x.ingredientID == ingredient.ID
                 select (x.ResourceID, x.Ratio);
 
-            return result.ToDictionary(x => x.Item1, x => x.Item2);
+            return Task.Run(() => result.ToDictionary(x => x.Item1, x => x.Item2));
         }
     }
 }

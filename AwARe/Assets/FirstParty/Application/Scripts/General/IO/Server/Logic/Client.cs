@@ -13,16 +13,17 @@ namespace AwARe.Server.Logic
     /// A singleton that holds a connection with the server.
     /// This class can be used to login and register on the server.
     /// It can also send requests to the server. The Post() and Get() methods
-    /// are the easiest methods to send a Request.
+    /// are the preferred way to send a Request.
     ///
     /// <example>
     /// For example:
     /// <code>
-    /// Client.Init("localhost:8000", new User(..));
+    /// Client.Init("localhost:8000");
+    /// Client.GetInstance().Login(new User {..});
     /// string search = "{ 'input': 'orange' }";
-    /// Client.Post("/ingredients/search", search)
+    /// Client.GetInstance().Post("/ingredients/search", search)
     ///     .Then(res => Debug.Log(res.Get("list")))
-    ///     .Catch(err => Debug.LogError(err)) // Optional
+    ///     .Catch(err => Debug.LogError(err)) 
     ///     .Send();
     /// </code>
     /// </example>
@@ -125,13 +126,13 @@ namespace AwARe.Server.Logic
         /// <returns>
         /// Returns true if login succeeded.
         /// </returns>
-        public async Task<bool> Login(User user)
+        public Task<bool> Login(User user)
         {
             this.userEmail = user.email;
 
             string url = adress + "/auth/login";
 
-            return await AwaitRSGPromise<bool>(ret =>
+            return AwaitRSGPromise<bool>(ret =>
             {
                 RestClient.Post<TokenResponse>(url, user).Then(response =>
                 {
@@ -148,6 +149,7 @@ namespace AwARe.Server.Logic
                     ret.SetResult(false);
                 });
             });
+            // return false;
         }
 
         /// <summary>
@@ -204,34 +206,34 @@ namespace AwARe.Server.Logic
 
         }
 
-        /// <summary>
-        /// Refresh the login session.
-        /// </summary>
-        /// <returns>
-        /// Returns true if refreshing succeeded.
-        /// </returns>
-        private Task<bool> Refresh()
-        {
-            string url = adress + "/auth/refreshToken";
+        // /// <summary>
+        // /// Refresh the login session.
+        // /// </summary>
+        // /// <returns>
+        // /// Returns true if refreshing succeeded.
+        // /// </returns>
+        // private bool Refresh()
+        // {
+        //     string url = adress + "/auth/refreshToken";
 
-            return AwaitRSGPromise<bool>(ret =>
-            {
-                RestClient.Post<TokenResponse>(url, new RefreshRequest { email = this.userEmail, token = this.refreshToken }).Then(response =>
-                {
-                    this.accessToken = response.accessToken;
-                    this.refreshToken = response.refreshToken;
+        //     AwaitRSGPromise<bool>(ret =>
+        //     {
+        //         RestClient.Post<TokenResponse>(url, new RefreshRequest { email = this.userEmail, token = this.refreshToken }).Then(response =>
+        //         {
+        //             this.accessToken = response.accessToken;
+        //             this.refreshToken = response.refreshToken;
 
-                    Debug.Log("[client]: Refreshed login session");
+        //             Debug.Log("[client]: Refreshed login session");
 
-                    ret.SetResult(true);
-                }).Catch(err =>
-                {
-                    Debug.LogError("[client]: Failed to refresh login session: " + err.Message);
+        //             ret.SetResult(true);
+        //         }).Catch(err =>
+        //         {
+        //             Debug.LogError("[client]: Failed to refresh login session: " + err.Message);
 
-                    ret.SetResult(false);
-                });
-            });
-        }
+        //             ret.SetResult(false);
+        //         });
+        //     });
+        // }
 
         /// <summary>
         /// A helper method to add the authorization header to a request.
@@ -246,14 +248,14 @@ namespace AwARe.Server.Logic
         }
 
         /// <summary>
-        /// A helper method to await the Promises from the library that is used to send html requests.
+        /// A helper method to await RSGPromises that are used to send html requests.
         /// The library only supports using a callback mechanism, 
         /// but that makes sending request in a specific order very complicated.
         /// </summary>
-        /// <returns>
-        /// Returns a Task that can be awaited.
-        /// </returns>
-        private static async Task<T> AwaitRSGPromise<T>(Action<TaskCompletionSource<T>> action)
+        /// <return>
+        /// Returns T.
+        /// </jreturn>
+        private static Task<T> AwaitRSGPromise<T>(Action<TaskCompletionSource<T>> action)
         {
             // !!!
             // Volgens mij is dit heel omslachtig en niet efficient, maar weet niet hoe ik anders RestClient.Post(..) await.
@@ -261,15 +263,15 @@ namespace AwARe.Server.Logic
             // Om een of andere rede kun je het alleen d.m.v. callbacks gebruiken...
             var tcs = new TaskCompletionSource<T>();
             action(tcs);
-            return await tcs.Task;
+            return tcs.Task;
         }
 
         /// <summary>
         /// Send a Post request.
         /// </summary>
-        public async void SendPostRequest<B>(string url, B body, Action<string> on_then, Action<RequestException> on_catch)
+        public Task<R> SendPostRequest<B, R>(string url, B body, Func<string, R> on_then, Action<RequestException> on_catch)
         {
-            await AwaitRSGPromise<bool>(ret =>
+            return AwaitRSGPromise<R>(ret =>
             {
                 var rh = new RequestHelper
                 {
@@ -278,14 +280,14 @@ namespace AwARe.Server.Logic
                 };
                 RestClient.Post(Client.GetInstance().Authorize(rh)).Then(response =>
                 {
-                    on_then(response.Text);
+                    var res = on_then(response.Text);
 
-                    ret.SetResult(true);
+                    ret.SetResult(res);
                 }).Catch(err =>
                 {
                     on_catch(err as RequestException);
 
-                    ret.SetResult(false);
+                    ret.SetResult(default);
                 });
             });
         }
@@ -293,9 +295,9 @@ namespace AwARe.Server.Logic
         /// <summary>
         /// Send a Get request.
         /// </summary>
-        public async void SendGetRequest<B>(string url, B body, Action<string> on_then, Action<RequestException> on_catch)
+        public Task<R> SendGetRequest<B, R>(string url, B body, Func<string, R> on_then, Action<RequestException> on_catch)
         {
-            await AwaitRSGPromise<bool>(ret =>
+            return AwaitRSGPromise<R>(ret =>
             {
                 var rh = new RequestHelper
                 {
@@ -304,14 +306,14 @@ namespace AwARe.Server.Logic
                 };
                 RestClient.Get(Client.GetInstance().Authorize(rh)).Then(response =>
                 {
-                    on_then(response.Text);
+                    R res = on_then(response.Text);
 
-                    ret.SetResult(true);
+                    ret.SetResult(res);
                 }).Catch(err =>
                 {
                     on_catch(err as RequestException);
 
-                    ret.SetResult(false);
+                    ret.SetResult(default);
                 });
             });
         }
@@ -325,9 +327,9 @@ namespace AwARe.Server.Logic
         /// <returns>
         /// Returns a Request helper class.
         /// </returns>
-        public Request<B> Post<B>(string url, B body)
+        public Request<B, R> Post<B, R>(string url, B body)
         {
-            return new Request<B>(RequestType.POST, url, body);
+            return new Request<B, R>(RequestType.POST, url, body);
         }
 
         /// <summary>
@@ -336,9 +338,9 @@ namespace AwARe.Server.Logic
         /// <returns>
         /// Returns a Request helper class.
         /// </returns>
-        public Request<B> Get<B>(string url, B body)
+        public Request<B, R> Get<B, R>(string url, B body)
         {
-            return new Request<B>(RequestType.GET, url, body);
+            return new Request<B, R>(RequestType.GET, url, body);
         }
     }
 
@@ -354,7 +356,7 @@ namespace AwARe.Server.Logic
     /// A helper class to send html requests. Is uses the Builder pattern.
     /// Instead of Build() at the end, call Send().
     /// </summary>
-    public class Request<B>
+    public class Request<B, R>
     {
         /// <value> 
         /// The HTML request type.
@@ -374,7 +376,7 @@ namespace AwARe.Server.Logic
         /// <value> 
         /// The action to run if the request was successfull. 
         /// </value> 
-        private Action<string> on_then;
+        private Func<string, R> on_then;
 
         /// <value> 
         /// The action to run if the request was not successfull. 
@@ -391,7 +393,7 @@ namespace AwARe.Server.Logic
         /// <summary>
         /// Set the on_then action. This is optionial.
         /// </summary>
-        public Request<B> Then(Action<string> on_then)
+        public Request<B, R> Then(Func<string, R> on_then)
         {
             this.on_then = on_then;
             return this;
@@ -400,7 +402,7 @@ namespace AwARe.Server.Logic
         /// <summary>
         /// Set the on_catch action. This is optional.
         /// </summary>
-        public Request<B> Catch(Action<RequestException> on_catch)
+        public Request<B, R> Catch(Action<RequestException> on_catch)
         {
             this.on_catch = on_catch;
             return this;
@@ -409,27 +411,17 @@ namespace AwARe.Server.Logic
         /// <summary>
         /// Send the request. Should be called at the end.
         /// </summary>
-        public void Send()
+        public Task<R> Send()
         {
             switch (this.type)
             {
                 case RequestType.GET:
-                    this.Get();
-                    break;
+                    return Client.GetInstance().SendGetRequest(this.url, this.body, this.on_then, this.on_catch);
                 case RequestType.POST:
-                    this.Post();
-                    break;
+                    return Client.GetInstance().SendPostRequest(this.url, this.body, this.on_then, this.on_catch);
+                default:
+                    return default;
             }
-        }
-
-        private void Post()
-        {
-            Client.GetInstance().SendPostRequest(this.url, this.body, this.on_then, this.on_catch);
-        }
-
-        private void Get()
-        {
-            Client.GetInstance().SendGetRequest(this.url, this.body, this.on_then, this.on_catch);
         }
     }
 
@@ -472,9 +464,3 @@ namespace AwARe.Server.Logic
     struct EmptyResponse { }
 }
 
-
-// Init with server adress
-// (During runtime) Login
-// Send req. and catch a 440 for refreshing and try again.
-// On_then if successfull
-// On_catch if not, supply error code

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
 using AwARe.Database;
 using AwARe.Database.Logic;
 using AwARe.IngredientList.Logic;
@@ -30,14 +30,14 @@ namespace AwARe.ResourcePipeline.Logic
         /// </summary>
         /// <param name="ingredientList">ingredientList to obtain all resources from.</param>
         /// <returns>ResourceList obtained by converting the given ingredientList</returns>
-        public ResourceDictionary IngredientsToResources(IngredientList.Logic.IngredientList ingredientList)
+        public async Task<ResourceDictionary> IngredientsToResources(IngredientList.Logic.IngredientList ingredientList)
         {
             Dictionary<Resource, float> combinedResourceCosts = new();
 
-            foreach ((Ingredient ingredient, (float ingredientQuantity, QuantityType quantityType)) 
+            foreach ((Ingredient ingredient, (float ingredientQuantity, QuantityType quantityType))
                      in ingredientList.Ingredients)
             {
-                ResourceDictionary resourceCosts = GetIngredientResources(ingredient, ingredientQuantity, quantityType);
+                ResourceDictionary resourceCosts = await GetIngredientResources(ingredient, ingredientQuantity, quantityType);
 
                 foreach ((Resource resource, float resourceQuantity) in resourceCosts.Resources)
                 {
@@ -59,17 +59,17 @@ namespace AwARe.ResourcePipeline.Logic
         /// <param name="qt">Quantity of the given Ingredient.</param>
         /// <param name="type">QuantityType of the given ingredient.</param>
         /// <returns>All resources needed for given <see cref="Ingredient"/>, in the form of <see cref="ResourceDictionary"/></returns>
-        private ResourceDictionary GetIngredientResources(Ingredient ingredient, float qt, QuantityType type)
+        private async Task<ResourceDictionary> GetIngredientResources(Ingredient ingredient, float qt, QuantityType type)
         {
             //Get all resourceIds and quantities needed for this ingredient.
-            Dictionary<int, float> resourceQuantities = toResourceDatabase.GetResourceIDs(ingredient);
+            Dictionary<int, float> resourceQuantities = await toResourceDatabase.GetResourceIDs(ingredient);
             float ingredientQuantityGrams = ingredient.GetNumberOfGrams(qt, type);
 
             ResourceDictionary resourceCosts = new();
 
             foreach ((int resourceId, float resourceQuantityPerIngredientGram) in resourceQuantities)
             {
-                Resource resource = resourceDatabase.GetResource(resourceId);
+                Resource resource = await resourceDatabase.GetResource(resourceId);
                 float totalResourceQuantity = resourceQuantityPerIngredientGram * ingredientQuantityGrams;
                 resourceCosts.AddResource(resource, totalResourceQuantity);
             }

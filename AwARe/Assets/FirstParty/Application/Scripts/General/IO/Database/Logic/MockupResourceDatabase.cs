@@ -7,7 +7,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 using AwARe.ResourcePipeline.Logic;
 
 namespace AwARe.Database.Logic
@@ -28,7 +28,7 @@ namespace AwARe.Database.Logic
             resourceTable = new()
             {
                 new Resource( 1,      "Water",  ResourceType.Water,    null, 1),
-                new Resource( 2,      "Apple",  ResourceType.Plant,   10000, 7), 
+                new Resource( 2,      "Apple",  ResourceType.Plant,   10000, 7),
                 new Resource( 3,     "Banana",  ResourceType.Plant,   10000, 7),
                 new Resource( 4,       "Pear",  ResourceType.Plant,   10000, 7),
                 new Resource( 5,   "Mandarin",  ResourceType.Plant,    8000, 7),
@@ -50,21 +50,21 @@ namespace AwARe.Database.Logic
         }
 
         ///<inheritdoc cref="IResourceDatabase.GetResource"/>
-        public Resource GetResource(int id)
+        public Task<Resource> GetResource(int id)
         {
             // return the first resource that matches id, should be the only one since IDs are unique
-            return resourceTable.First(x => x.ID == id);
+            return Task.Run(() => resourceTable.First(x => x.ID == id));
         }
 
         ///<inheritdoc cref="IResourceDatabase.GetResources"/>
-        public List<Resource> GetResources(IEnumerable<int> ids)
+        public Task<List<Resource>> GetResources(IEnumerable<int> ids)
         {
             // perform an inner join of resource table and ids on resourceID
             IEnumerable<Resource> resources =
                 from id in ids
                 join resource in resourceTable on id equals resource.ID
                 select resource;
-            return resources.ToList();
+            return Task.Run(() => resources.ToList());
         }
     }
 }

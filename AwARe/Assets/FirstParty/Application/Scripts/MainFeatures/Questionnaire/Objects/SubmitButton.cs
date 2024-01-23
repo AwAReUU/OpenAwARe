@@ -1,6 +1,7 @@
 using System;
 using AwARe.InterScenes.Objects;
 using AwARe.Server.Logic;
+using Codice.CM.SEIDInfo;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,12 +24,13 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         public void Submit()
         {
-            Client.GetInstance().Post("quest/save", new QuestionnaireRequestBody
+            Client.GetInstance().Post<QuestionnaireRequestBody, object>("quest/save", new QuestionnaireRequestBody
             {
                 questionnaire = "Dit is een test" // TODO: Fill in the actual questionnaire.
             }).Then((_) =>
             {
                 // Do nothing, we dont expect any return values.
+                return null;
             }).Catch((err) =>
             {
                 // Warning: This is an async method that may run after "LoadScene(...)"!
@@ -40,7 +42,7 @@ namespace AwARe.Questionnaire.Objects
                 }
                 else
                 {
-                    Debug.LogError(err);
+                    Debug.LogError("Failed to send Questionnaire: " + err.ServerMessage);
                 }
             }).Send();
 

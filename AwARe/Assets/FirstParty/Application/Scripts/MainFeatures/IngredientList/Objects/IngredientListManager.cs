@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AwARe.Database;
 using AwARe.Database.Logic;
 using AwARe.IngredientList.Logic;
@@ -36,7 +37,7 @@ namespace AwARe.IngredientList.Objects
 
         public Logic.IngredientList SelectedList { get; private set; } = null;
 
-        public Entry SelectedEntry { get; private set; } = new (null, 0, QuantityType.G);
+        public Entry SelectedEntry { get; private set; } = new(null, 0, QuantityType.G);
         public bool SelectedIsNew { get; private set; } = true;
 
         public bool ChangesMade { get; private set; }
@@ -47,11 +48,12 @@ namespace AwARe.IngredientList.Objects
 
         public event Action OnIngredientListChanged;
 
-        private void Awake()
+        private async void Awake()
         {
             IngredientDatabase = new MockupIngredientDatabase();
+            // IngredientDatabase = new IngredientDatabaseHandle();
             fileHandler = new IngredientFileHandler(IngredientDatabase);
-            Lists = fileHandler.ReadFile();
+            Lists = await fileHandler.ReadFile();
             InitializeLists();
 
             listsOverviewScreen.SetActive(true);
@@ -157,9 +159,9 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Save all lists.
         /// </summary>
-        public void LoadLists()
+        public async void LoadLists()
         {
-            Lists = fileHandler.ReadFile();
+            Lists = await fileHandler.ReadFile();
             ChangesMade = false;
         }
 
@@ -274,7 +276,7 @@ namespace AwARe.IngredientList.Objects
         /// </summary>
         /// <param name="term">The search term.</param>
         /// <returns>The search results.</returns>
-        public List<Ingredient> SearchIngredient(string term) =>
-            SearchResults = IngredientDatabase.Search(term);
+        public async Task<List<Ingredient>> SearchIngredient(string term) =>
+            SearchResults = await IngredientDatabase.Search(term);
     }
 }

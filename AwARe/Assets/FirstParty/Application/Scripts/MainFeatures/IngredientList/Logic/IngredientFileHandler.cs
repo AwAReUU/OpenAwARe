@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-
+using System.Threading.Tasks;
 using AwARe.Database;
 
 using UnityEngine;
@@ -52,7 +52,7 @@ namespace AwARe.IngredientList.Logic
         /// </summary>
         /// <returns>The List of <see cref="IngredientList"/>s from converting th file contents.</returns>
         /// <exception cref="Exception">Thrown when a conversion from string to QuantityType fails.</exception>
-        public List<IngredientList> ReadFile()
+        public async Task<List<IngredientList>> ReadFile()
         {
             if (!File.Exists(filePath))
                 return new List<IngredientList>();
@@ -94,9 +94,9 @@ namespace AwARe.IngredientList.Logic
                         throw new Exception("Cannot convert string to QuantityType.");
                     try
                     {
-                        ingredients.Add(ingredientDatabase.GetIngredient(ingredientID), (ingredientQuantity, ingredientQuantityType));
+                        ingredients.Add(await ingredientDatabase.GetIngredient(ingredientID), (ingredientQuantity, ingredientQuantityType));
                     }
-                    catch(System.InvalidOperationException)
+                    catch (System.InvalidOperationException)
                     {
                         Debug.LogWarning("Could not find ingredient. Ingredient will be removed");
                     }

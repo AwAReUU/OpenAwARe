@@ -46,7 +46,7 @@ namespace AwARe.ObjectGeneration
         /// <value>
         /// <c>Room</c> that we are going to render.
         /// </value>
-        private Room SelectedRoom{ get; set; }
+        private Room SelectedRoom { get; set; }
 
         [SerializeField] private Data.Objects.Room roomObject;
 
@@ -71,8 +71,9 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <returns>The ingredient list that was selected by the user.</returns>
         private Ingredients.IngredientList RetrieveIngredientlist() => Storage.Get().ActiveIngredientList;
-        
-        void Awake() {
+
+        void Awake()
+        {
             this.pathMesh = new Mesh(); // Empty mesh for now. Once Path gen. is done, generate the mesh from PathData.
         }
 
@@ -96,11 +97,11 @@ namespace AwARe.ObjectGeneration
         /// Called when the place button is clicked. Manages the conversion of the selected
         /// IngredientList to renderables, and the placement of the renderables in the scene.
         /// </summary>
-        public void OnPlaceButtonClick()
+        public async void OnPlaceButtonClick()
         {
             SetSelectedList(RetrieveIngredientlist());
 
-            List<Renderable> renderables = new PipelineManager().GetRenderableList(SelectedList);
+            List<Renderable> renderables = await new PipelineManager().GetRenderableList(SelectedList);
 
             // Get the stored room as an object.
             LoadRoom();
@@ -108,14 +109,14 @@ namespace AwARe.ObjectGeneration
             // TODO:
             // Once pathgen is done, create mesh from PathData
             // this.pathMesh = pathData.CreateMesh()
-            if(SelectedRoom == null)
+            if (SelectedRoom == null)
                 return;
 
-            float roomSpace        = SelectedRoom.PositivePolygon.Area;
+            float roomSpace = SelectedRoom.PositivePolygon.Area;
             float renderablesSpace = ComputeRenderableSpaceNeeded(renderables);
 
             // Divide renderables in seperate rooms when there is not enough space 
-            if (renderablesSpace > roomSpace) 
+            if (renderablesSpace > roomSpace)
                 PlaceRoom(true);
             else PlaceRenderables(renderables, SelectedRoom, this.pathMesh);
         }
@@ -125,7 +126,7 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <param name="renderables">Objects to place in the Polygon.</param>
         /// <param name="room">Room consisting of polygons to place the objects in.</param>
-        public void PlaceRenderables(List<Renderable> renderables, Data.Logic.Room room, Mesh pathMesh) 
+        public void PlaceRenderables(List<Renderable> renderables, Data.Logic.Room room, Mesh pathMesh)
         {
             // clear the scene of any previously instantiated GameObjects 
             destroyer = gameObject.GetComponent<ObjectDestroyer>();
@@ -133,20 +134,20 @@ namespace AwARe.ObjectGeneration
             currentRoomRenderables = renderables;
             new ObjectPlacer().PlaceRenderables(renderables, room, pathMesh);
         }
-        
+
         /// <summary>
         /// Tries to place a partial list of renderables by distributing renderables in two seperate rooms.
         /// </summary>
         /// <param name="isFirstRoom">Serves as a 'switch' between the two rooms.</param>
-        public void PlaceRoom(bool isFirstRoom)
+        public async void PlaceRoom(bool isFirstRoom)
         {
             SetSelectedList(RetrieveIngredientlist());
-            List<Renderable> renderables = new PipelineManager().GetRenderableList(SelectedList);
+            List<Renderable> renderables = await new PipelineManager().GetRenderableList(SelectedList);
 
-            if (isFirstRoom) 
+            if (isFirstRoom)
                 renderables = renderables.Where(renderable => renderable.resourceType == ResourceType.Animal ||
                                                               renderable.resourceType == ResourceType.Water).ToList();
-            else 
+            else
                 renderables = renderables.Where(renderable => renderable.resourceType == ResourceType.Plant).ToList();
 
             Data.Logic.Room room = Storage.Get().ActiveRoom;
@@ -160,9 +161,9 @@ namespace AwARe.ObjectGeneration
         public float ComputeRenderableSpaceNeeded(List<Renderable> renderables)
         {
             float sumArea = 0;
-            foreach (var renderable in renderables) 
+            foreach (var renderable in renderables)
                 sumArea += renderable.ComputeSpaceNeeded();
-            
+
             return sumArea;
         }
 

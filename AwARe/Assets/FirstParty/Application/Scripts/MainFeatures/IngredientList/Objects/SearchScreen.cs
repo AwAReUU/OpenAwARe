@@ -25,14 +25,14 @@ namespace AwARe.IngredientList.Objects
     {
         // The parent element
         [SerializeField] private IngredientListManager manager; // TODO: Replace with parent UI element. (For division of responsibilities)
-        
+
         // UI elements to control
         [SerializeField] private TMP_InputField searchBar;
         [SerializeField] private GameObject resultTemplate;
-        
+
         // Tracked UI elements
         private readonly List<GameObject> results = new();
-        
+
         /// <summary>
         /// Corrects this UI element to represent data.
         /// </summary>

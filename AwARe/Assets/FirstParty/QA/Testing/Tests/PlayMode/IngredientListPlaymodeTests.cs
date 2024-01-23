@@ -8,7 +8,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 using AwARe.IngredientList.Logic;
 using AwARe.IngredientList.Objects;
 
@@ -23,7 +23,7 @@ namespace Tests
     public class IngredientListPlaymodeTests
     {
         private IngredientListManager ingredientListManager;
-        private readonly Ingredient mockIngredient = new (1, "name", 10, 10);
+        private readonly Ingredient mockIngredient = new(1, "name", 10, 10);
 
         [UnitySetUp, Description("Reset the scene before each test. Obtain the ingredientListManager")]
         public IEnumerator Setup()
@@ -47,13 +47,13 @@ namespace Tests
         }
 
         [UnityTest, Description("Tests whether searching an ingredient that does not exists does not crash the application")]
-        public IEnumerator Test_Ingredient_Invalid_Search_No_Crash()
+        public async IAsyncEnumerable<object> Test_Ingredient_Invalid_Search_No_Crash()
         {
             //Arrange: Create invalid ingredient name.
             const string INGREDIENT_NAME = "Invalid ingredient name";
 
             //Act: Search the ingredient in the database.
-            List<Ingredient> foundIngredients = ingredientListManager.SearchIngredient(INGREDIENT_NAME);
+            List<Ingredient> foundIngredients = await ingredientListManager.SearchIngredient(INGREDIENT_NAME);
             yield return null;
 
             //Arrange: 

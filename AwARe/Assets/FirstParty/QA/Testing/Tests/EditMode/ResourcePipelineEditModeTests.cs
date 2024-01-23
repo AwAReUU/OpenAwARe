@@ -15,14 +15,14 @@ namespace Tests
     {
         [Test, Description("Test whether all resource to model conversions result in atleast 1 model." +
              " Even if the quantity of the resource is just one.")]
-        public void Test_No_Resources_Conversion_Zero_Models()
+        public async void Test_No_Resources_Conversion_Zero_Models()
         {
             //Arrange: Create a mock resource database and retrieve its elements.
             const int MOCKUP_DATABASE_SIZE = 19;
             const int RESOURCE_QUANTITY = 1;
             ModelCalculator modelCalculator = new();
             MockupResourceDatabase mockupResourceDatabase = new();
-            List<Resource> resources = mockupResourceDatabase.GetResources(Enumerable.Range(1, MOCKUP_DATABASE_SIZE));
+            List<Resource> resources = await mockupResourceDatabase.GetResources(Enumerable.Range(1, MOCKUP_DATABASE_SIZE));
 
             //Act: Calculate model quantities for all resources in mockdatabase.
             IEnumerable<int> quantitiesList = Enumerable.Range(0, MOCKUP_DATABASE_SIZE)
@@ -43,12 +43,12 @@ namespace Tests
         }
 
         [Test, Description("Tests whether the constructor initializes the models dictionary.")]
-        public void Test_ModelDictionary_Add_Works()
+        public async void Test_ModelDictionary_Add_Works()
         {
             //Arrange: Construct the modelDictionary and obtain a model.
             MockupModelDatabase mockupModelDatabase = new();
             var modelDictionary = new ModelDictionary();
-            Model mockModel = mockupModelDatabase.GetModel(1);
+            Model mockModel = await mockupModelDatabase.GetModel(1);
 
             //Act: Add the model to the dictionary.
             modelDictionary.AddModel(mockModel, 10);

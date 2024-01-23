@@ -7,7 +7,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 using AwARe.IngredientList.Logic;
 
 namespace AwARe.Database.Logic
@@ -74,39 +74,39 @@ namespace AwARe.Database.Logic
         };
 
         ///<inheritdoc cref="IIngredientDatabase.Search"/>
-        public List<Ingredient> Search(string term)
+        public Task<List<Ingredient>> Search(string term)
         {
             IEnumerable<int> ids = (
                 from (int ID, string Name) s in SearchTable
-                // find the index of the search term in the possible name of the ingredient
+                    // find the index of the search term in the possible name of the ingredient
                 let index = s.Name.IndexOf(term, System.StringComparison.OrdinalIgnoreCase)
                 // IndexOf returns -1 if not found, filter these out
                 where index > -1
                 // order by the index of the search term, then by name
                 orderby (index, s.Name)
                 select s.ID).Distinct();
-                
+
 
             // get the ingredients with these found IDs
-            return GetIngredients(ids);
+            return Task.Run(() => GetIngredients(ids));
         }
 
         ///<inheritdoc cref="IIngredientDatabase.GetIngredient"/>
-        public Ingredient GetIngredient(int id)
+        public Task<Ingredient> GetIngredient(int id)
         {
             // return the first ingredient that matches id, should be the only one since IDs are unique
-            return ingredientTable.First(x => x.ID == id);
+            return Task.Run(() => ingredientTable.First(x => x.ID == id));
         }
 
         ///<inheritdoc cref="IIngredientDatabase.GetIngredients"/>
-        public List<Ingredient> GetIngredients(IEnumerable<int> ids)
+        public Task<List<Ingredient>> GetIngredients(IEnumerable<int> ids)
         {
             // perform an inner join of ingredient table and ids on ingredientID
-            IEnumerable<Ingredient> ingredients = 
+            IEnumerable<Ingredient> ingredients =
                 from id in ids
                 join ingredient in ingredientTable on id equals ingredient.ID
                 select ingredient;
-            return ingredients.ToList();
+            return Task.Run(() => ingredients.ToList());
         }
     }
 }
