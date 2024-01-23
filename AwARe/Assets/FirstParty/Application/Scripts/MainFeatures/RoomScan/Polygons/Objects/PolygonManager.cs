@@ -121,8 +121,8 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             polygonDrawer.FinishDrawing(out Data.Logic.Polygon data);
 
-            //if (data.points.Count > 0)
-            //{
+            if (data.points.Count > 0)
+            {
                 activePolygon = Instantiate(polygon, transform);
                 activePolygon.gameObject.SetActive(true);
                 activePolygon.Data = data;
@@ -133,11 +133,11 @@ namespace AwARe.RoomScan.Polygons.Objects
                 activePolygonLine.UpdateLine();
 
                 SwitchToState(State.SettingHeight);
-            //}
-            //else
-            //{
-            //    SwitchToState(State.Done);
-            //}
+            }
+            else
+            {
+                SwitchToState(State.Done);
+            }
         }
 
         /// <summary>
