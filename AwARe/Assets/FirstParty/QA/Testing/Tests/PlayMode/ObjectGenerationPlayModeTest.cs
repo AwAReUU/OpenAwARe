@@ -1,19 +1,23 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections;
 using System.Collections.Generic;
-
-using IL = AwARe.IngredientList.Logic;
+using System.Linq;
 using AwARe.IngredientList.Logic;
 using AwARe.InterScenes.Objects;
 using AwARe.ObjectGeneration;
 using AwARe.ResourcePipeline.Objects;
 using AwARe.RoomScan.Polygons.Logic;
-
 using NUnit.Framework;
-
 using UnityEngine;
-using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
-using System.Linq;
+using UnityEngine.TestTools;
+using IL = AwARe.IngredientList.Logic;
 
 namespace AwARe
 {

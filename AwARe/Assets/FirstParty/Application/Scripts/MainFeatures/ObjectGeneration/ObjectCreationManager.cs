@@ -121,6 +121,7 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <param name="renderables">Objects to place in the Polygon.</param>
         /// <param name="room">Room consisting of polygons to place the objects in.</param>
+        /// <param name="path">The path in the room.</param>
         public void PlaceRenderables(List<Renderable> renderables, Data.Logic.Room room, PathData path) 
         {
             // clear the scene of any previously instantiated GameObjects 

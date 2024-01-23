@@ -5,9 +5,9 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using AwARe.RoomScan.Path;
 using System.Collections.Generic;
 using System.Linq;
+using AwARe.RoomScan.Path;
 using UnityEngine;
 using static UnityEngine.UI.GridLayoutGroup;
 //#if DEBUG
@@ -79,6 +79,7 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <param name="renderables">All items that we are going to place.</param>
         /// <param name="room">Room to place the renderables in.</param>
+        /// <param name="path">Path in the room.</param>
         public void PlaceRenderables(
             List<Renderable> renderables, 
             Data.Logic.Room room, 
@@ -88,7 +89,7 @@ namespace AwARe.ObjectGeneration
                 return;
 
             // 1. Get valid spawnpoints
-            PolygonSpawnPointHandler spawnPointHandler = new PolygonSpawnPointHandler();
+            PolygonSpawnPointHandler spawnPointHandler = new();
             List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room, path);
 
             // 2. Initialize clusters where one object of each group is placed
@@ -231,7 +232,7 @@ namespace AwARe.ObjectGeneration
         /// Estimate the surface area of the spawn Polygon by squaring the distance between the points
         /// and multiplying this by a factor (not all space is usable on a sloped line).
         /// </summary>
-        /// <param name="spawnPointCount">The amount of spawnPoints</param>
+        /// <param name="spawnPointCount">The amount of spawnPoints.</param>
         /// <returns>Estimated surface area.</returns>
         private float EstimateAvailableSurfaceArea(int spawnPointCount) =>
             spawnPointCount * 0.1f * 0.1f * 0.9f;
@@ -249,7 +250,7 @@ namespace AwARe.ObjectGeneration
             Data.Logic.Room room,
             PathData path)
         {
-            Dictionary<Renderable, Vector3> initialSpawns = new Dictionary<Renderable, Vector3>();
+            Dictionary<Renderable, Vector3> initialSpawns = new();
             foreach (var renderable in renderables)
             {
                 // sort all spawnpoint with furthest distance to other initial spawnpoints first 
