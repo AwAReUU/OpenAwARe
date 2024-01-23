@@ -191,25 +191,11 @@ namespace AwARe.RoomScan.Objects
             manager.OnSaveButtonClick();
 
         /// <summary>
-        /// Called on save slot click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnSaveSlotClick(string slotIdx) =>
-            manager.OnSaveSlotClick(slotIdx);
-
-        /// <summary>
         /// Called on save button click.
         /// </summary>
         [ExcludeFromCoverage]
         public void OnLoadButtonClick() =>
             manager.OnLoadButtonClick();
-
-        /// <summary>
-        /// Called on load slot click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnLoadSlotClick(string slotIdx) =>
-            manager.OnLoadSlotClick(slotIdx);
 
         /// <summary>
         /// Called on continue button click.

@@ -94,9 +94,6 @@ namespace AwARe.Data.Logic
                 }
             
         }
-
-        
-
         /// <summary>
         /// Destroys all currently displayed GameObjects in the ScrollView.
         /// </summary>
@@ -126,24 +123,10 @@ namespace AwARe.Data.Logic
         }
         public void OnRoomItemClick(string name)
         {
-            Data.Logic.Room room2;
-            room2=manager.ChooseRoom(name);
-            manager.MakeRoom(room2);
+            Data.Logic.Room room;
+            room = manager.ChooseRoom(name);
+            manager.MakeRoom(room);
         }
-
-
-        /// <summary>
-        /// Adds a new, empty IngredientList to the overview and calls the fileHandler to save all lists.
-        /// </summary>
-       /* public void CreateList(Room currentroom)
-        {
-            string inputname = inputName.text;
-            
-            currentroom.RoomName = inputname;
-            roomlist.Add(currentroom);
-            NotifyRoomListChanged();
-            SaveLists();
-        }*/
 
         public void OnSaveNewRoomClick()
         {

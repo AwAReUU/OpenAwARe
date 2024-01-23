@@ -184,7 +184,6 @@ namespace AwARe.RoomScan.Objects
             // Load existing room list
             RoomListSerialization roomList = saveLoadManager.LoadRooms("rooms");
 
-            // If there is no existing room list, create a new one
             if (roomList == null)
             {
                 roomList = new RoomListSerialization();
@@ -199,8 +198,6 @@ namespace AwARe.RoomScan.Objects
             SwitchToState(State.Default);
         }
 
-
-
         public List<Data.Logic.Room> LoadRoomList()
         {
             
@@ -212,11 +209,10 @@ namespace AwARe.RoomScan.Objects
                 Debug.LogError("SaveLoadManager is null.");
                 return new List<Data.Logic.Room>();
             }
+            
 
-            // Assuming roomListSerialization is an instance of RoomListSerialization loaded from a file
             RoomListSerialization roomListSerialization = saveLoadManager.LoadRooms("rooms");
 
-            // Ensure that roomListSerialization is not null before proceeding
             if (roomListSerialization == null)
             {
                 //Debug.LogError("RoomListSerialization is null.");
@@ -227,15 +223,7 @@ namespace AwARe.RoomScan.Objects
             // Convert RoomListSerialization to a list of Room objects
             return roomListSerialization.Rooms?.Select(roomSerialization => roomSerialization.ToRoom()).ToList() ?? new List<Data.Logic.Room>();
         }
-
-
-        /// <summary>
-        /// Called on save slot click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnSaveSlotClick(string slotIdx) =>
-            SaveRoom(slotIdx);
-
+       
         /// <summary>
         /// Called on load button button click; changes state so user sees load slots.
         /// </summary>
@@ -245,13 +233,6 @@ namespace AwARe.RoomScan.Objects
             stateBefore = CurrentState; 
             SwitchToState(State.Loading);
         }
-
-        /// <summary>
-        /// Called on load slot click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnLoadSlotClick(string slotIdx) =>
-            LoadRoom(slotIdx);
 
         /// <summary>
         /// Called on continue button click.
@@ -291,77 +272,6 @@ namespace AwARe.RoomScan.Objects
             ui.SetActive(this.CurrentState, polygonManager.CurrentState, pathManager.CurrentState);
         }
 
-        /// <summary>
-        /// Saves the current room's configuration to a specified save slot using the save load manager.
-        /// </summary>
-        /// <param name="slotIndex">The index of the save slot to store the room configuration.</param>
-        public void SaveRoom(string slotName)
-        {
-            SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
-
-            // Convert Room to RoomSerialization
-            RoomSerialization roomSerialization = new(Room.Data);
-
-            // Save RoomSerialization
-            saveLoadManager.SaveDataToJson($"RoomSlot{slotName}", roomSerialization);
-        }
-
-
-
-
-        /// <summary>
-        /// Loads a previously saved room configuration from a specified save slot using the save load manager.
-        /// </summary>
-        /// <param name="slotIndex">The index of the save slot from which to load the room configuration.</param>
-
-        
-        public void LoadRoom(string slotName)
-        {
-            SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
-
-            // Check if the file exists before attempting to load
-            string filePath = $"RoomSlot{slotName}";
-            string fullPath = System.IO.Path.Combine(saveLoadManager.DirectoryPath, filePath);
-
-            if (!File.Exists(fullPath))
-            {
-                Debug.LogError($"Room not found in slot {slotName}");
-                return;
-            }
-
-            // Load RoomSerialization JSON using the save load manager
-            RoomSerialization loadedRoomSerialization = saveLoadManager.LoadDataFromJson<RoomSerialization>($"RoomSlot{slotName}");
-
-            if (loadedRoomSerialization == null)
-            {
-                Debug.LogError("Loaded room serialization is null.");
-                return;
-            }
-
-            // Convert RoomSerialization to Room
-            if(Room != null) Destroy(Room.gameObject);
-            Room = Instantiate(roomBase, transform).GetComponent<Room>();
-            Room.Data = loadedRoomSerialization.ToRoom();
-
-            if (Room.Data == null)
-            {
-                Debug.LogError("Loaded room is null after conversion.");
-                return;
-            }
-            if (Room.positivePolygon == null || Room.positivePolygon.Data.points.Count == 0)
-            {
-                Debug.LogError("Loaded room does not have a positive polygon.");
-                return;
-            }
-
-            Room.positivePolygon.GetComponent<Mesher>().UpdateMesh();
-            Room.positivePolygon.GetComponent<Liner>().UpdateLine();
-            foreach (var polygon in Room.negativePolygons) {
-                polygon.GetComponent<Mesher>().UpdateMesh(); 
-                polygon.GetComponent<Liner>().UpdateLine();
-            }
-            pathManager.GenerateAndDrawPath();
-        }
     }
 
     /// <summary>
