@@ -668,6 +668,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2642564353031555104, guid: 95ee9368753e14b48bab2a37ce7000e8,
+        type: 3}
+      propertyPath: m_CharacterLimit
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 2703036730720265148, guid: 95ee9368753e14b48bab2a37ce7000e8,
         type: 3}
       propertyPath: typeDropdown

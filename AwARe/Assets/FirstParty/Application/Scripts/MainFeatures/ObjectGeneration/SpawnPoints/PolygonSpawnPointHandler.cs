@@ -72,7 +72,7 @@ namespace AwARe.ObjectGeneration
             Bounds bounds = CalculateBounds(posPolygon);
 
             // Define the height of the Polygon
-            float y = posPolygon.points[0].y;
+            float y = room.Y.Value;
 
             // Get all points in bounding box in grid pattern with spacing "spacing" in between
             for (float x = bounds.min.x; x <= bounds.max.x; x += spacing)
@@ -81,20 +81,17 @@ namespace AwARe.ObjectGeneration
                 {
                     Vector3 gridPoint = new(x, y, z);
 
-                    // Check if the grid point is inside the Polygon
+                    // Check if the grid point is inside the Polygon and outside of the path
                     if (PolygonHelper.IsPointInsidePolygon(posPolygon, gridPoint)
-                        && PolygonHelper.PointNotInPolygons(room.NegativePolygons, gridPoint))
+                        && (path == null || !path.PointLiesOnPath(gridPoint)))
                     {
-                        // If there is a path, check if the grid point is not on the path
-                        if(path == null)
-                        {
-                            Debug.Log("No path found");
-                            result.Add(gridPoint);
-                        }
-                        else if (!path.PointLiesOnPath(gridPoint))
-                        {
-                            result.Add(gridPoint);
-                        }
+                        // Check if the grid point is also inside a negative Polygon
+                        Polygon polygon = PolygonHelper.PointInPolygons(room.NegativePolygons, gridPoint);
+
+                        if (polygon != null)
+                            gridPoint.y += polygon.height;
+
+                        result.Add(gridPoint);
                     }
                 }
             }
