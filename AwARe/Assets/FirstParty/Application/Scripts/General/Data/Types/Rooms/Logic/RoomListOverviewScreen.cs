@@ -1,3 +1,5 @@
+using System;
+
 using AwARe.IngredientList.Objects;
 using AwARe.InterScenes.Objects;
 using PlasticGui.Configuration.CloudEdition.Welcome;
@@ -18,6 +20,10 @@ using AwARe.Data.Logic;
 using AwARe.Objects;
 using AwARe.RoomScan.Objects;
 using System.Linq;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
+using AwARe.RoomScan.Path.Objects;
+
+using Object = System.Object;
 
 namespace AwARe.Data.Logic
 {
@@ -33,17 +39,18 @@ namespace AwARe.Data.Logic
     public class RoomListOverviewScreen : MonoBehaviour
     {
         // The parent element
-        [SerializeField] private RoomListManager manager;
+        // The manager
+        [SerializeField] private RoomManager manager;
+        [SerializeField] private PathManager pathManager;
+
 
         // UI elements to control/copy
         [SerializeField] private GameObject listItemObject; //list item 'prefab'
         [SerializeField] private GameObject nameSaveRoom;
-        [SerializeField] private TMP_InputField inputName;
         public SaveLoadManager filehandler;
         private List<Room> roomList;
-        public RoomManager roommanager;
 
-
+        public Data.Objects.Room room2;
         // Tracked UI elements
         readonly List<GameObject> lists = new();
 
@@ -60,41 +67,35 @@ namespace AwARe.Data.Logic
         {
             //roomlist = filehandler.LoadDataFromJson<List<string>>("rooms");
             //Lists = fileHandler.ReadFile();
-           DisplayRoomLists();
+           //DisplayRoomLists();
 
 
         }
 
         public void DisplayRoomLists()
         {
-            roomList=LoadRoomList(roomList);
+            
+                RemoveLists();
+                roomList = manager.LoadRoomList();
+                // Now you can work with the list of Room objects
+                foreach (Room room in roomList)
+                {
+                    // create a new list item to display this list
+                    GameObject itemObject = Instantiate(listItemObject, listItemObject.transform.parent);
 
-            // Now you can work with the list of Room objects
-            foreach (Room room in roomList)
-            {
-                // create a new list item to display this list
-                GameObject itemObject = Instantiate(listItemObject, listItemObject.transform.parent);
-
-                // Set the ingredients of the item and keep track of it.
-                TMP_Text buttontext = itemObject.GetComponentInChildren<TMP_Text>();
-                buttontext.text = room.RoomName;
-                itemObject.SetActive(true);
-                // Set the ingredients of the item and keep track of it.
-                lists.Add(itemObject);
-                // Do something with each room
-                Debug.Log($"Room Name: {room.RoomName}, Height: {room.RoomHeight}");
-                // Access polygons, e.g., room.PositivePolygon and room.NegativePolygons
-            }
+                    // Set the ingredients of the item and keep track of it.
+                    TMP_Text buttontext = itemObject.GetComponentInChildren<TMP_Text>();
+                    buttontext.text = room.RoomName;
+                    itemObject.SetActive(true);
+                    // Set the ingredients of the item and keep track of it.
+                    lists.Add(itemObject);
+                    // Do something with each room
+                    // Access polygons, e.g., room.PositivePolygon and room.NegativePolygons
+                }
+            
         }
 
-        public List<Room> LoadRoomList(List<Room> roomlist)
-        {
-            // Assuming roomListSerialization is an instance of RoomListSerialization loaded from a file
-            RoomListSerialization roomListSerialization = filehandler.LoadRoomList("rooms");
-
-            // Convert RoomListSerialization to a list of Room objects
-            return roomListSerialization.Rooms.Select(roomSerialization => roomSerialization.ToRoom()).ToList();
-        }
+        
 
         /// <summary>
         /// Destroys all currently displayed GameObjects in the ScrollView.
@@ -111,17 +112,25 @@ namespace AwARe.Data.Logic
         /// </summary>
         public void OnAddListButtonClick(Room currentroom)
         {
-            manager.CreateList(currentroom);
+            //manager.CreateList(currentroom);
             DisplayRoomLists();
         }
 
+        
         public void OnConfirmNameButton()
         {
-            RoomManager roommanager = GetComponent<RoomManager>();
+            
             nameSaveRoom.SetActive(false);
-            roommanager.OnConfirmSaveClick();
+            manager.OnConfirmSaveClick();
 
         }
+        public void OnRoomItemClick(string name)
+        {
+            Data.Logic.Room room2;
+            room2=manager.ChooseRoom(name);
+            manager.MakeRoom(room2);
+        }
+
 
         /// <summary>
         /// Adds a new, empty IngredientList to the overview and calls the fileHandler to save all lists.
@@ -139,6 +148,7 @@ namespace AwARe.Data.Logic
         public void OnSaveNewRoomClick()
         {
             nameSaveRoom.SetActive(true);
+            DisplayRoomLists();
         }
 
         /// <summary>

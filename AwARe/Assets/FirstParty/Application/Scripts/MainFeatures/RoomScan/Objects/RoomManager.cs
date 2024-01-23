@@ -8,7 +8,6 @@
 using System.IO;
 using System.Linq;
 
-using AwARe.Data.Objects;
 using AwARe.IngredientList.Objects;
 using AwARe.InterScenes.Objects;
 using AwARe.Objects;
@@ -21,7 +20,14 @@ using AwARe.UI;
 
 using TMPro;
 using System.Collections.Generic;
+
+using AwARe.Data.Logic;
+
 using Unity.IO.LowLevel.Unsafe;
+
+using Room = AwARe.Data.Objects.Room;
+using System.Collections;
+using AwARe.Data.Objects;
 
 namespace AwARe.RoomScan.Objects
 {
@@ -33,14 +39,16 @@ namespace AwARe.RoomScan.Objects
         // Objects to control
         [SerializeField] private PolygonManager polygonManager;
         [SerializeField] private PathManager pathManager;
+        [SerializeField] private RoomListOverviewScreen roomScreen;
         // [SerializeField] private VisualizePath pathVisualizer; //TODO: Get out of polygonScanning
-        
+
         // The UI
         [SerializeField] private RoomUI ui;
         [SerializeField] private Transform canvas;
         [SerializeField] private Transform sceneCanvas;
         [SerializeField] private GameObject saveNameScreen;
-        
+        [SerializeField] private TMP_InputField inputName;
+
         // Templates
         [SerializeField] private GameObject roomBase;
 
@@ -139,17 +147,42 @@ namespace AwARe.RoomScan.Objects
         public void OnSaveButtonClick()
         {
             SwitchToState(State.Saving);
-            
+            roomScreen.DisplayRoomLists();
         }
 
+
+        public Data.Logic.Room ChooseRoom(string name)
+        {
+            List<Data.Logic.Room> listofrooms = LoadRoomList();
+            // Now you can work with the list of Room objects
+            return listofrooms.Where(obj => obj.RoomName == name).SingleOrDefault();
+        }
+
+        public void MakeRoom(Data.Logic.Room room)
+        {
+            Room.Data = room;
+            Room.positivePolygon.GetComponent<Mesher>().UpdateMesh();
+            Room.positivePolygon.GetComponent<Liner>().UpdateLine();
+            foreach (var polygon in Room.negativePolygons)
+            {
+                polygon.GetComponent<Mesher>().UpdateMesh();
+                polygon.GetComponent<Liner>().UpdateLine();
+            }
+            //pathManager.GenerateAndDrawPath();
+        }
+
+       
         public void OnConfirmSaveClick()
         {
             SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
+            Debug.Log(Room.Data.RoomName);
             Storage.Get().ActiveRoom = Room.Data;
+            Storage.Get().ActiveRoom.RoomName = inputName.text;
+
             stateBefore = CurrentState;
 
             // Load existing room list
-            RoomListSerialization roomList = saveLoadManager.LoadRoomList("rooms");
+            RoomListSerialization roomList = saveLoadManager.LoadRooms("rooms");
 
             // If there is no existing room list, create a new one
             if (roomList == null)
@@ -158,13 +191,43 @@ namespace AwARe.RoomScan.Objects
             }
 
             // Add the current room to the list
-            roomList.Rooms.Add(new RoomSerialization(Room.Data));
+            roomList.Rooms.Add(new RoomSerialization(Storage.Get().ActiveRoom));
 
             // Save the updated room list
             saveLoadManager.SaveRoomList("rooms", roomList);
 
             SwitchToState(State.Default);
         }
+
+
+
+        public List<Data.Logic.Room> LoadRoomList()
+        {
+            
+            SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
+
+            // Ensure that saveLoadManager is not null before proceeding
+            if (saveLoadManager == null)
+            {
+                Debug.LogError("SaveLoadManager is null.");
+                return new List<Data.Logic.Room>();
+            }
+
+            // Assuming roomListSerialization is an instance of RoomListSerialization loaded from a file
+            RoomListSerialization roomListSerialization = saveLoadManager.LoadRooms("rooms");
+
+            // Ensure that roomListSerialization is not null before proceeding
+            if (roomListSerialization == null)
+            {
+                //Debug.LogError("RoomListSerialization is null.");
+                return new List<Data.Logic.Room>();
+            }
+            Debug.Log(roomListSerialization.Rooms?.Select(roomSerialization => roomSerialization.ToRoom()).ToList() ?? new List<Data.Logic.Room>());
+
+            // Convert RoomListSerialization to a list of Room objects
+            return roomListSerialization.Rooms?.Select(roomSerialization => roomSerialization.ToRoom()).ToList() ?? new List<Data.Logic.Room>();
+        }
+
 
         /// <summary>
         /// Called on save slot click.
@@ -246,11 +309,12 @@ namespace AwARe.RoomScan.Objects
 
 
 
-
         /// <summary>
         /// Loads a previously saved room configuration from a specified save slot using the save load manager.
         /// </summary>
         /// <param name="slotIndex">The index of the save slot from which to load the room configuration.</param>
+
+        
         public void LoadRoom(string slotName)
         {
             SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();

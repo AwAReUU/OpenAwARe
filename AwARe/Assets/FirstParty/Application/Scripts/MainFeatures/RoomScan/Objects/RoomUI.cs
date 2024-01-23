@@ -42,8 +42,10 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private GameObject continueButton;
         [SerializeField] private GameObject saveNameButton;
         [SerializeField] private GameObject saveNameObject;
+        [SerializeField] private GameObject roomlistscreen;
         [SerializeField] private TMP_InputField saveName;
         [SerializeField] private Button confirmName;
+
 
         /// <summary>
         /// Sets activity of UI elements based on the polygon state.
@@ -66,9 +68,8 @@ namespace AwARe.RoomScan.Objects
                 load = false,
                 conti = false,
                 savenamebtn = false,
-                savelist = false;
-            
-
+                savelist = false,
+                roomlist = false;
 
             // Set wanted elements to active
             void DecideActivities()
@@ -84,6 +85,7 @@ namespace AwARe.RoomScan.Objects
                     case State.Saving:
                         conti = true;
                         savenamebtn = true;
+                        roomlist = true;
                         return;
                     case State.Loading:
                         savelist = true;
@@ -126,6 +128,7 @@ namespace AwARe.RoomScan.Objects
             if (height) OnHeightSliderChanged();
             pointer.gameObject.SetActive(point);
             pathButton.SetActive(pathGen);
+            roomlistscreen.SetActive(roomlist);
             pathLoadingPopup.SetActive(pathLoading);
             saveButton.SetActive(save);
             saveNameButton.SetActive(savenamebtn);

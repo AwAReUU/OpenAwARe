@@ -130,7 +130,7 @@ namespace AwARe
         /// <param name="negativePolygons">List of serialized negative polygons.</param>
         public RoomSerialization(Room room)
         {
-            RoomName="hello";
+            RoomName = room.RoomName;
             RoomHeight = room.PositivePolygon?.height ?? default;
             PositivePolygon = new(room.PositivePolygon);
             NegativePolygons = room.NegativePolygons.Select(polygon => new PolygonSerialization(polygon)).ToList();

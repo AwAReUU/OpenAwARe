@@ -56,12 +56,6 @@ namespace AwARe.InterScenes.Objects
             set => Data.ActiveIngredientList = value;
         }
 
-        // todo get this out
-        public string ActiveRoomName
-        {
-            get => Data.ActiveRoomName;
-            set => Data.ActiveRoomName = value;
-        }
 
         /// <inheritdoc/>
         public Room ActiveRoom

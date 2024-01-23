@@ -28,7 +28,7 @@ namespace AwARe.InterScenes.Logic
         /// <inheritdoc/>
         public Room ActiveRoom { get; set; }
 
-        public string ActiveRoomName { get; set; }
+        
     }
 
 }

@@ -558,6 +558,41 @@ PrefabInstance:
       propertyPath: m_Color.g
       value: 0.935289
       objectReference: {fileID: 0}
+    - target: {fileID: 973489557085341736, guid: 2d4b4f2cc27ca8744ab77db3f13f2fe7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 973489557085341736, guid: 2d4b4f2cc27ca8744ab77db3f13f2fe7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 973489557085341736, guid: 2d4b4f2cc27ca8744ab77db3f13f2fe7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 697188399}
+    - target: {fileID: 973489557085341736, guid: 2d4b4f2cc27ca8744ab77db3f13f2fe7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 973489557085341736, guid: 2d4b4f2cc27ca8744ab77db3f13f2fe7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnRoomItemClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 973489557085341736, guid: 2d4b4f2cc27ca8744ab77db3f13f2fe7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AwARe.RoomListItem, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 973489557085341736, guid: 2d4b4f2cc27ca8744ab77db3f13f2fe7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1450758291430227895, guid: 2d4b4f2cc27ca8744ab77db3f13f2fe7,
         type: 3}
       propertyPath: m_Name
@@ -691,7 +726,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1450758291430227895, guid: 2d4b4f2cc27ca8744ab77db3f13f2fe7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 697188399}
   m_SourcePrefab: {fileID: 100100000, guid: 2d4b4f2cc27ca8744ab77db3f13f2fe7, type: 3}
 --- !u!224 &697188394 stripped
 RectTransform:
@@ -705,6 +744,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 697188393}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &697188399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697188395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3f1d900a7ebb3146a7bef15123bfcfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screen: {fileID: 1785564656}
+  nameLabel: {fileID: 1516420617}
 --- !u!1 &739383011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1748,6 +1801,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directoryPath: 
+--- !u!114 &1516420617 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5377006390042827955, guid: 2d4b4f2cc27ca8744ab77db3f13f2fe7,
+    type: 3}
+  m_PrefabInstance: {fileID: 697188393}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1554225303
 GameObject:
   m_ObjectHideFlags: 0
@@ -2023,7 +2088,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2065961606}
   m_Father: {fileID: 8073606245875888469}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2043,11 +2109,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2897114da0476a5409dc007d67370d31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 1749922120}
+  manager: {fileID: 995149059}
+  pathManager: {fileID: 0}
   listItemObject: {fileID: 697188395}
   nameSaveRoom: {fileID: 1307515699}
-  inputName: {fileID: 2000977758}
   filehandler: {fileID: 1749922119}
+  room2: {fileID: 0}
 --- !u!1 &1809611634
 GameObject:
   m_ObjectHideFlags: 0
@@ -2563,7 +2630,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2065961606
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2573,18 +2640,18 @@ RectTransform:
   m_GameObject: {fileID: 2065961605}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 1.0000408}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1.0000407}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 957668316}
   - {fileID: 1940643946}
   - {fileID: 1809611635}
-  m_Father: {fileID: 8073606245875888469}
+  m_Father: {fileID: 1785564655}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 273}
-  m_SizeDelta: {x: -0.00012207031, y: -517.78406}
+  m_SizeDelta: {x: 899.9999, y: 1382.216}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2065961607
 MonoBehaviour:
@@ -2763,6 +2830,16 @@ PrefabInstance:
       propertyPath: ui
       value: 
       objectReference: {fileID: 8073606245875888470}
+    - target: {fileID: 952778780584282331, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
+      propertyPath: inputName
+      value: 
+      objectReference: {fileID: 2000977758}
+    - target: {fileID: 952778780584282331, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
+      propertyPath: roomScreen
+      value: 
+      objectReference: {fileID: 1785564656}
     - target: {fileID: 952778780584282331, guid: d4c46bfcf9edf094f9024b003f22eb7b,
         type: 3}
       propertyPath: sceneCanvas
@@ -3075,6 +3152,11 @@ PrefabInstance:
       objectReference: {fileID: 1137290155}
     - target: {fileID: 263916399392710879, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
+      propertyPath: roomlistscreen
+      value: 
+      objectReference: {fileID: 1785564654}
+    - target: {fileID: 263916399392710879, guid: 97a22c8d200a71e41ab087637c121656,
+        type: 3}
       propertyPath: saveNameButton
       value: 
       objectReference: {fileID: 2110007108}
@@ -3261,7 +3343,7 @@ PrefabInstance:
     - target: {fileID: 5497501097806415932, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5518361557990577958, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
@@ -3272,16 +3354,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1785564656}
+      objectReference: {fileID: 995149059}
     - target: {fileID: 6191230670307278755, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnSaveNewRoomClick
+      value: OnContinueClick
       objectReference: {fileID: 0}
     - target: {fileID: 6191230670307278755, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AwARe.Data.Logic.RoomListOverviewScreen, Scripts
+      value: AwARe.RoomScan.Objects.RoomManager, Scripts
       objectReference: {fileID: 0}
     - target: {fileID: 6288881239579517376, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
@@ -3397,10 +3479,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1227758635}
-    - targetCorrespondingSourceObject: {fileID: 3189784242092857957, guid: 97a22c8d200a71e41ab087637c121656,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2065961606}
     - targetCorrespondingSourceObject: {fileID: 3189784242092857957, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
       insertIndex: -1

@@ -29,6 +29,8 @@ namespace AwARe.Data.Objects
         /// </summary>
         public Polygon negativePolygonBase;
 
+        public float height;
+
         /// <summary>
         /// Gets the data-type <see cref="Logic.Room"/> represented by this GameObject.
         /// </summary>
@@ -36,8 +38,14 @@ namespace AwARe.Data.Objects
         /// The data-type <see cref="Logic.Room"/> represented.
         /// </value>
         public Logic.Room Data
-        { 
-            get => new(positivePolygon ? positivePolygon.Data : null, negativePolygons.Select(x => x.Data).ToList());
+        {
+            get => new Logic.Room(
+                positivePolygon ? positivePolygon.Data : null,
+                negativePolygons.Select(x => x.Data).ToList()
+            )
+            {
+                RoomName = roomName, // Include roomName
+            };
             set => SetComponent(value);
         }
 
@@ -87,6 +95,7 @@ namespace AwARe.Data.Objects
 
         public void SetComponent(Logic.Room data)
         {
+            Debug.Log($"Setting component with RoomName: {data.RoomName}");
             Polygon SpawnPolygon(Polygon polygonBase, Logic.Polygon polygonData)
             {
                 if (polygonData == null)
@@ -100,6 +109,8 @@ namespace AwARe.Data.Objects
             var positivePolygon = SpawnPolygon(this.positivePolygonBase, data.PositivePolygon);
             var negativePolygons = data.NegativePolygons.Select(polygon => SpawnPolygon(this.negativePolygonBase, polygon)).ToList();
             SetComponent(positivePolygon, negativePolygons);
+            this.roomName = data.RoomName;
+            Debug.Log($"Updated RoomName: {this.roomName}");
         }
 
         public void SetComponent(Polygon positive, List<Polygon> negatives)
