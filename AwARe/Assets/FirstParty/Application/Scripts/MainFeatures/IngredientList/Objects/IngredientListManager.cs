@@ -265,7 +265,7 @@ namespace AwARe.IngredientList.Objects
             // check whether the quantity type is valid for this ingredient
             if (!ingredient.QuantityPossible(type))
             {
-                throw new Exception("Chosen QuantityType not available for this ingredient.");
+                throw new Exception("QuantityType " + type.ToString() + " not available for this ingredient.");
             }
         }
 
