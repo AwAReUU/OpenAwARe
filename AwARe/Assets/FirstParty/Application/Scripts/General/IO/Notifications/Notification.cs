@@ -12,30 +12,11 @@ namespace AwARe.Notifications
     /// </summary>
     public abstract class Notification
     {
-
-        /// <summary>
-        /// Returns an instance of a notification. 
-        /// This is nessecary because you cannot have a method that is both abstract and static.
-        /// Used solely for calling the unschedule method.
-        /// </summary>
-        /// <returns>A platform-specific notification instance.</returns>
-        public static Notification Create()
-        {
-#if UNITY_EDITOR
-            return new EditorNotif();
-#elif UNITY_ANDROID
-            return new AndroidNotif();
-#elif UNITY_IOS
-            return new IOSNotif();
-#endif
-        }
-
         public abstract void SetFireTime(DateTime time);
         public abstract void SetTitle(string title);
         public abstract void Setbody(string body);
         public abstract void SetQuestionnaire(string questionnaire);
         public abstract ScheduledNotificationData Schedule();
-        public abstract void Unschedule(ScheduledNotificationData data);
     }
 
     /// <summary>
@@ -54,9 +35,9 @@ namespace AwARe.Notifications
     public class ScheduledNotificationData
     {
         public string notificationID;
-        public DateTime scheduledTime;
+        public string scheduledTime;
         public bool cancellable;
-        public ScheduledNotificationData(string notificationID, DateTime scheduledTime, bool cancellable = true)
+        public ScheduledNotificationData(string notificationID, string scheduledTime, bool cancellable = true)
         {
             this.notificationID = notificationID;
             this.scheduledTime = scheduledTime;

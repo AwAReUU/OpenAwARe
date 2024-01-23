@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine;
 using AwARe.Notifications.Logic;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace AwARe.Notifications.Objects
 {
@@ -33,6 +34,11 @@ namespace AwARe.Notifications.Objects
         string folderpath;
 
         /// <summary>
+        /// How many days notifications for this app should be scheduled on.
+        /// </summary>
+        int scheduleAheadDays;
+
+        /// <summary>
         /// Unity method that is called immediately upon object creation.
         /// Initialises the platform enum variable.
         /// </summary>
@@ -47,60 +53,69 @@ namespace AwARe.Notifications.Objects
             #endif
 
             folderpath = Path.Combine(Application.persistentDataPath, "Data/ScheduledNotifications");
+            scheduleAheadDays = 14;
         }
 
         /// <summary>
         /// Unity method that is called before the first frame update.
-        /// Schedules a notification that repeats daily.
+        /// Schedules notifications for the upcoming 2 weeks, unless a notification is already scheduled on a day.
         /// </summary>
         void Start()
         {
             //create the folderpath if it doesn't exist already on the device
-            if(!Directory.Exists(folderpath))
+            if (!Directory.Exists(folderpath))
             {
                 Directory.CreateDirectory(folderpath);
             }
 
-            string[] filepaths = Directory.GetFiles(folderpath);
-
-            for(int i = 0; i < filepaths.Count(); i++)
+            //create fake notification files for if there aren't enough files in the directory
+            for (int i = 0; i < scheduleAheadDays; i++)
             {
-                ScheduledNotificationData data = Load(filepaths[i]);
-
-                if (!data.cancellable) continue;
-
-                //for testing purposes use this to unschedule without conditions:
-                //Notification.Create().Unschedule(data);
-
-                //if the notification has been sent already, delete the file
-                //but do not unschedule it, so that it remains in the device's status bar
-                //and the user does not receive more than one daily notification in one day
-                if(data.scheduledTime.Date < DateTime.Now)
+                string path = Path.Combine(folderpath, "notification" + i);
+                if (!File.Exists(path))
                 {
-                    File.Delete(filepaths[i]);
-                    continue;
-                }
-
-                //check the date. unschedule it if it isn't scheduled on today.
-                if(data.scheduledTime.Day != DateTime.Now.Day)
-                {
-                    Notification.Create().Unschedule(data);
-                    File.Delete(filepaths[i]);
+                    ScheduledNotificationData fakedata = new ScheduledNotificationData("fakedata", DateTime.Now.AddDays(-1).ToString());
+                    Save(fakedata, path);
                 }
             }
 
-            //create and schedule notifications for the next 2 weeks
-            for(int i = 1; i < 15; i++)
+            //get the filepaths of saved notifications
+            string[] filepaths = Directory.GetFiles(folderpath);
+
+            //get the date at which the latest notification is scheduled, 
+            //as well as the file paths of any files that store notifications that have passed.
+            List<string> unusedFiles = new();
+            DateTime latestScheduledNotification = DateTime.MinValue;
+            for (int i = 0; i < filepaths.Count(); i++)
             {
-                ScheduledNotificationData data = ScheduleNotification("Daily AwARe Notification", 
-                "Your daily notification has arrived.", DateTime.Now.AddDays(i));
+                ScheduledNotificationData data = Load(filepaths[i]);
 
-                //for testing purposes use:
-                //ScheduledNotificationData data = ScheduleNotification("Test notification " + i, 
-                //"Test notification body text", DateTime.Now.AddMinutes(i * 2));
+                DateTime scheduledDateTime = DateTime.Parse(data.scheduledTime);
 
-                string path = Path.Combine(folderpath, "notification" + i);
+                if (scheduledDateTime < DateTime.Now) unusedFiles.Add(filepaths[i]);
+                if (latestScheduledNotification < scheduledDateTime) latestScheduledNotification = scheduledDateTime;
+            }
+            if (latestScheduledNotification < DateTime.Now) latestScheduledNotification = DateTime.Now;
+
+            //schedule notifications for enough days such that there are notifications scheduled on every day
+            //for the number of scheduleAheadDays specified.
+            int addDays = (latestScheduledNotification - DateTime.Now).Days + 1;
+            int counter = 0;
+            foreach (string path in unusedFiles)
+            {
+                if (counter > scheduleAheadDays)
+                {
+                    Debug.Log("Somehow there are more files in the saved notifications directory than notifications that should be scheduled");
+                    break;
+                }
+
+                ScheduledNotificationData data = ScheduleNotification("Daily AwARe Notification",
+                "Your daily notification has arrived.", DateTime.Now.AddDays(addDays));
+
+                File.Delete(path);
                 Save(data, path);
+                addDays++;
+                counter++;
             }
         }
 

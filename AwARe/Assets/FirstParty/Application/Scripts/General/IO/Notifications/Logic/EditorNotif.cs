@@ -69,16 +69,7 @@ namespace AwARe.Notifications.Logic
         public override ScheduledNotificationData Schedule()
         {
             Debug.Log("Editor Notification Scheduled: Title: " + title + " Body:" + body + " Scheduled at: " + fireTime.ToString());
-            return new ScheduledNotificationData("editor debug id", fireTime);
-        }
-
-        /// <summary>
-        /// Removes a scheduled notification so that it is no longer sent.
-        /// </summary>
-        /// <param name="data">The data associated with the notification to be removed.</param>
-        public override void Unschedule(ScheduledNotificationData data)
-        {
-            Debug.Log("Unscheduled notification with id: " + data.notificationID);
+            return new ScheduledNotificationData("editor debug id", fireTime.ToString());
         }
     }
 }

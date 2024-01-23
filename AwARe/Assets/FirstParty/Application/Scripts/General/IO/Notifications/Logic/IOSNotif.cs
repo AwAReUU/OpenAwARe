@@ -85,16 +85,7 @@ namespace AwARe.Notifications.Logic
         public override ScheduledNotificationData Schedule()
         {
             iOSNotificationCenter.ScheduleNotification(notification);
-            return new ScheduledNotificationData(notification.Identifier, fireTime);
-        }
-
-        /// <summary>
-        /// Removes a scheduled notification so that it is no longer sent.
-        /// </summary>
-        /// <param name="data">The data associated with the notification to be removed.</param>
-        public override void Unschedule(ScheduledNotificationData data)
-        {
-            iOSNotificationCenter.RemoveScheduledNotification(data.notificationID);
+            return new ScheduledNotificationData(notification.Identifier, fireTime.ToString());
         }
     }
 }

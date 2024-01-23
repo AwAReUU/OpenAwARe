@@ -88,16 +88,7 @@ namespace AwARe.Notifications.Logic
         public override ScheduledNotificationData Schedule()
         {
             int ID = AndroidNotificationCenter.SendNotification(notification, "channel");
-            return new ScheduledNotificationData(ID.ToString(), notification.FireTime);
-        }
-
-        /// <summary>
-        /// Removes a scheduled notification so that it is no longer sent.
-        /// </summary>
-        /// <param name="data">The data associated with the notification to be removed.</param>
-        public override void Unschedule(ScheduledNotificationData data)
-        {
-            AndroidNotificationCenter.CancelScheduledNotification(int.Parse(data.notificationID));
+            return new ScheduledNotificationData(ID.ToString(), notification.FireTime.ToString());
         }
     }
 }
