@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AwARe.Data.Logic;
+using AwARe.RoomScan.Path;
 using UnityEngine;
 
 namespace AwARe.ObjectGeneration
@@ -12,6 +13,6 @@ namespace AwARe.ObjectGeneration
         /// <summary>
         /// returns a list of spawnpoints on which the objects are allowed to be spawned.
         /// </summary>
-        public List<Vector3> GetValidSpawnPoints(Room room, Mesh path);
+        public List<Vector3> GetValidSpawnPoints(Room room, PathData path);
     }
 }

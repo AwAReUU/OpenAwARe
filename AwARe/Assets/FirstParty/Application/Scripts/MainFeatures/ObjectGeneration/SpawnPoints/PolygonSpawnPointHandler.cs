@@ -7,6 +7,7 @@
 
 using System.Collections.Generic;
 using AwARe.Data.Logic;
+using AwARe.RoomScan.Path;
 using AwARe.RoomScan.Polygons.Logic;
 
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace AwARe.ObjectGeneration
         /// <param name="room">The room in which the objects will be spawned.</param>
         /// <param name="path">The pathway through the room.</param>
         /// <returns>A list of spawnpoints on which the objects are allowed to be spawned.</returns>
-        public List<Vector3> GetValidSpawnPoints(Room room, Mesh path) => GetGridPoints(room, path, gridSpacing);
+        public List<Vector3> GetValidSpawnPoints(Room room, PathData path) => GetGridPoints(room, path, gridSpacing);
 
         /// <summary>
         /// Create a 2d bounding box around the Polygon points.
@@ -61,12 +62,12 @@ namespace AwARe.ObjectGeneration
         /// <param name="room">Room to get spawnPoints from.</param>
         /// <param name="spacing">Distance between spawnPoints.</param>
         /// <returns>List of spawnPoints.</returns>
-        private List<Vector3> GetGridPoints(Room room, Mesh path, float spacing)
+        private List<Vector3> GetGridPoints(Room room, PathData path, float spacing)
         {
             List<Vector3> result = new();
 
             Polygon posPolygon = room.PositivePolygon;
-
+            
             // Calculate the bounds of the Polygon
             Bounds bounds = CalculateBounds(posPolygon);
 
@@ -82,9 +83,19 @@ namespace AwARe.ObjectGeneration
 
                     // Check if the grid point is inside the Polygon
                     if (PolygonHelper.IsPointInsidePolygon(posPolygon, gridPoint)
-                        && PolygonHelper.PointNotInPolygons(room.NegativePolygons, gridPoint) 
-                        && !PolygonHelper.IsPointInsidePath(path, gridPoint))
-                        result.Add(gridPoint);
+                        && PolygonHelper.PointNotInPolygons(room.NegativePolygons, gridPoint))
+                    {
+                        // If there is a path, check if the grid point is not on the path
+                        if(path == null)
+                        {
+                            Debug.Log("No path found");
+                            result.Add(gridPoint);
+                        }
+                        else if (!path.PointLiesOnPath(gridPoint))
+                        {
+                            result.Add(gridPoint);
+                        }
+                    }
                 }
             }
             return result;

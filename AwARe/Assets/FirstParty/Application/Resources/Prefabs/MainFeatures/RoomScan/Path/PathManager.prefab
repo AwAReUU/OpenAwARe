@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
-  pathVisualizerVisualizer: {fileID: 656520414517233154}
+  pathVisualizer: {fileID: 656520414517233154}
   testPolygon: {fileID: 0}
   path:
     points: []

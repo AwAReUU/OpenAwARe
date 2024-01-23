@@ -5,6 +5,7 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using AwARe.RoomScan.Path;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -68,7 +69,7 @@ namespace AwARe.ObjectGeneration
         public void PlaceRenderables(
             List<Renderable> renderables, 
             Data.Logic.Room room, 
-            Mesh path)
+            PathData path)
         {
             if (renderables.Count == 0)
                 return;
