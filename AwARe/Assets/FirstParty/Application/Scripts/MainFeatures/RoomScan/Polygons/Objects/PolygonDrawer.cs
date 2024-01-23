@@ -24,12 +24,12 @@ namespace AwARe.RoomScan.Polygons.Objects
     public class PolygonDrawer : MonoBehaviour
     {
         // The pointer
-        public InterfaceReference<IPointer> pointer;
+        [SerializeField] public InterfaceReference<IPointer> pointer;
 
         // The line renderers and templates
         [SerializeField] private GameObject polygonBase; // the object that is instantiated to create the lines
         [SerializeField] private LineRenderer activeLine; // the polygonLine from the last Polygon point to the current pointer position
-        [SerializeField] private LineRenderer closeLine; // the polygonLine from the current pointer position to the first Polygon point
+        [SerializeField] private LineRenderer closeLine; // the polygonLine from the last polygon point to the first Polygon point
         private Liner polygonLine; // the polygonLine representing the Polygon
         private PolygonLinerLogic polygonLineLogic;
 
@@ -81,9 +81,10 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// Adds a point to the drawn polygon.
         /// </summary>
         [ExcludeFromCoverage]
-        public void AddPoint() =>
+        public void AddPoint()
+        {
             AddPoint(PointedAt);
-
+        }
 
         /// <summary>
         /// Adds a point to the drawn polygon.
@@ -94,6 +95,7 @@ namespace AwARe.RoomScan.Polygons.Objects
                 return;
 
             Polygon.points.Add(point);
+            
             polygonLine.UpdateLine();
         }
 
@@ -137,7 +139,7 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             // Draw closing line
             closeLine.positionCount = 2;
-            closeLine.SetPositions(new[]{ PointedAt, Polygon.points[0] });
+            closeLine.SetPositions(new[]{ Polygon.points[^1], Polygon.points[0] });
         }
     }
 }

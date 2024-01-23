@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4d402a7cbc7f3d45a77d4526a654419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closedLine: 0
+  closedLine: 1
   polygon:
     _underlyingValue: {fileID: 8001080608682987098}
 --- !u!120 &664568508987546044

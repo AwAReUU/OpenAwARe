@@ -37,10 +37,17 @@ namespace AwARe.ObjectGeneration
                 LayerMask.GetMask("Placed Objects"))) //only check collisions with other materials.
                 return false;
 
-            // Check if the collider doesn't cross the Polygon border
+            // Check if the collider doesn't cross the positive Polygon's border
             List<Vector3> objectCorners = Renderable.CalculateColliderCorners(renderable, position);
-            if (!PolygonHelper.ObjectColliderInPolygon(objectCorners, room))
+            if (!PolygonHelper.ObjectColliderAllInPolygon(objectCorners, room.PositivePolygon))
                 return false;
+
+            // If the point does not lie on a negative polygon
+            if(position.y == room.PositivePolygon.points[0].y)
+                // Check if the collider isn't inside a Negative polygon
+                foreach (Data.Logic.Polygon negativePolygon in room.NegativePolygons)
+                    if (PolygonHelper.ObjectColliderAnyInPolygon(objectCorners, negativePolygon))
+                        return false;
 
             // Adjust object size according to scalar
             GameObject newObject = Object.Instantiate(renderable.GetPrefab(), position, Quaternion.identity);

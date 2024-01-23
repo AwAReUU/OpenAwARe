@@ -71,7 +71,7 @@ namespace AwARe.ObjectGeneration
             Bounds bounds = CalculateBounds(posPolygon);
 
             // Define the height of the Polygon
-            float y = posPolygon.points[0].y;
+            float y = room.Y.Value;
 
             // Get all points in bounding box in grid pattern with spacing "spacing" in between
             for (float x = bounds.min.x; x <= bounds.max.x; x += spacing)
@@ -82,9 +82,16 @@ namespace AwARe.ObjectGeneration
 
                     // Check if the grid point is inside the Polygon
                     if (PolygonHelper.IsPointInsidePolygon(posPolygon, gridPoint)
-                        && PolygonHelper.PointNotInPolygons(room.NegativePolygons, gridPoint) 
                         && !PolygonHelper.IsPointInsidePath(path, gridPoint))
+                    {
+                        // Check if the grid point is also inside a negative Polygon
+                        Polygon polygon = PolygonHelper.PointInPolygons(room.NegativePolygons, gridPoint);
+
+                        if (polygon != null)
+                            gridPoint.y += polygon.height;
+
                         result.Add(gridPoint);
+                    }
                 }
             }
             return result;
