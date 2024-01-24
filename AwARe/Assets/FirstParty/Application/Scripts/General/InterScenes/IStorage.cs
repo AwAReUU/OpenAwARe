@@ -6,7 +6,7 @@
 // \*                                                                                       */
 
 using AwARe.Data.Logic;
-
+using AwARe.RoomScan.Path;
 using Ingredients = AwARe.IngredientList.Logic;
 using Rooms = AwARe.RoomScan.Polygons.Logic;
 
@@ -33,5 +33,13 @@ namespace AwARe.InterScenes
         /// The currently active Room.
         /// </value>
         public Room ActiveRoom { get; set; }
+
+        /// <summary>
+        /// Gets or sets the path belonging to the currently active Room.
+        /// </summary>
+        /// <value>
+        /// The path belonging to the currently active Room.
+        /// </value>
+        public PathData ActivePath { get; set; }
     }
 }

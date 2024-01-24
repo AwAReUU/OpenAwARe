@@ -252,7 +252,7 @@ namespace AwARe.RoomScan.Objects
                 polygon.GetComponent<Mesher>().UpdateMesh(); 
                 polygon.GetComponent<Liner>().UpdateLine();
             }
-            pathManager.GenerateAndDrawPath();
+            Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
         }
     }
 

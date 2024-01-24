@@ -1,19 +1,23 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections;
 using System.Collections.Generic;
-
-using IL = AwARe.IngredientList.Logic;
+using System.Linq;
 using AwARe.IngredientList.Logic;
 using AwARe.InterScenes.Objects;
 using AwARe.ObjectGeneration;
 using AwARe.ResourcePipeline.Objects;
 using AwARe.RoomScan.Polygons.Logic;
-
 using NUnit.Framework;
-
 using UnityEngine;
-using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
-using System.Linq;
+using UnityEngine.TestTools;
+using IL = AwARe.IngredientList.Logic;
 
 namespace AwARe
 {
@@ -57,7 +61,7 @@ namespace AwARe
             List<Renderable> renderables = GetSingleRenderable(100f);
 
             //act: Try place Renderable in the Polygon.
-            objectCreationManager.PlaceRenderables(renderables, new TestRoom(), new Mesh());
+            objectCreationManager.PlaceRenderables(renderables, new TestRoom(), null);
 
             //assert: The amount of placed objects did not change.
             //yield return new WaitForSeconds(1);
@@ -73,7 +77,7 @@ namespace AwARe
             List<Renderable> renderables = GetSingleRenderable(0.1f);
 
             //act: Place the renderable
-            objectCreationManager.PlaceRenderables(renderables, new TestRoom(), new Mesh());
+            objectCreationManager.PlaceRenderables(renderables, new TestRoom(), null);
 
             //assert: There is one Renderable in the scene.
             yield return null;
@@ -123,7 +127,7 @@ namespace AwARe
             List<Renderable> renderables = GetMultipleRenderables(4, 0.1f);
 
             //act: Place the renderables
-            objectCreationManager.PlaceRenderables(renderables, new TestRoom(), new Mesh());
+            objectCreationManager.PlaceRenderables(renderables, new TestRoom(), null);
 
             //assert: There are 4 Renderables in the scene.
             yield return null;
@@ -138,7 +142,7 @@ namespace AwARe
             List<Renderable> renderables = GetMultipleRenderables(1000, 10f);
 
             //act: Place the renderable
-            objectCreationManager.PlaceRenderables(renderables, new TestRoom(), new Mesh());
+            objectCreationManager.PlaceRenderables(renderables, new TestRoom(), null);
 
             //assert: All renderables are in the scene and there is a stack
             yield return null;
@@ -164,7 +168,7 @@ namespace AwARe
             List<Renderable> renderables = new();
 
             //act: Place the renderable
-            objectCreationManager.PlaceRenderables(renderables, new TestRoom(), new Mesh());
+            objectCreationManager.PlaceRenderables(renderables, new TestRoom(), null);
 
             //assert: No objects have been placed
             yield return null;
