@@ -2296,8 +2296,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e8d92666e5023541b77ebcb48cb09fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputName: {fileID: 2000977758}
-  filehandler: {fileID: 1749922119}
 --- !u!1 &1785564654
 GameObject:
   m_ObjectHideFlags: 0
@@ -2352,7 +2350,6 @@ MonoBehaviour:
   listItemObject: {fileID: 697188395}
   nameSaveRoom: {fileID: 1307515699}
   filehandler: {fileID: 1749922119}
-  room2: {fileID: 0}
 --- !u!1 &1809611634
 GameObject:
   m_ObjectHideFlags: 0
@@ -3085,6 +3082,12 @@ PrefabInstance:
       objectReference: {fileID: 1640323068}
     - target: {fileID: 952778780584282331, guid: d4c46bfcf9edf094f9024b003f22eb7b,
         type: 3}
+      propertyPath: anchorVisual
+      value: 
+      objectReference: {fileID: 3627118026117903212, guid: 73887064abd120e4aac5781f4c192b8d,
+        type: 3}
+    - target: {fileID: 952778780584282331, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
       propertyPath: saveNameScreen
       value: 
       objectReference: {fileID: 1307515699}
@@ -3499,6 +3502,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2650784832709981709, guid: 97a22c8d200a71e41ab087637c121656,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnStartSavingButtonClick
+      objectReference: {fileID: 0}
     - target: {fileID: 2941828701964651090, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -3668,6 +3676,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6139971977790251193, guid: 97a22c8d200a71e41ab087637c121656,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnStartLoadingButtonClick
       objectReference: {fileID: 0}
     - target: {fileID: 6191230670307278755, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
