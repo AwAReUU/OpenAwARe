@@ -67,11 +67,12 @@ namespace AwARe.ObjectGeneration
 
         private PathData path;
 
+        public GameObject NoListSelectedPopup;
+
         private void Start()
         {
-            Ingredients.IngredientList ingredientList = RetrieveIngredientlist();
-            if (ingredientList == null) ;
-
+            // Set the no list selected popup active if the selected list is null
+            NoListSelectedPopup.SetActive(RetrieveIngredientlist() == null);
         }
 
         private void LoadRoom()

@@ -1,5 +1,3 @@
-using System.Globalization;
-using System.Diagnostics;
 // /*                                                                                       *\
 //     This program has been developed by students from the bachelor Computer Science at
 //     Utrecht University within the Software Project course.
@@ -7,15 +5,9 @@ using System.Diagnostics;
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System;
-using System.Collections.Generic;
-
-using AwARe.UI;
 using AwARe.UI.Objects;
 using TMPro;
-using Unity.VisualScripting.YamlDotNet.Core;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 
