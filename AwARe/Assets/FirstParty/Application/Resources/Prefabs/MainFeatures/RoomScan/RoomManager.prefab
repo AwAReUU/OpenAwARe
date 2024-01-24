@@ -51,10 +51,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   polygonManager: {fileID: 5023010627900976430}
   pathManager: {fileID: 3640766119165808141}
+  roomScreen: {fileID: 0}
   ui: {fileID: 7015775476962123354}
   canvas: {fileID: 1636308653749484015}
   sceneCanvas: {fileID: 0}
+  saveNameScreen: {fileID: 0}
+  inputName: {fileID: 0}
   roomBase: {fileID: 7730075809556534706}
+  pointer: {fileID: 369780462662613395}
+  anchorVisual: {fileID: 0}
 --- !u!1 &6207312226031155587
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,6 +326,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1dfb2951fd5247d189e0f156420bea2, type: 3}
+--- !u!114 &369780462662613395 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2097029883534406968, guid: c1dfb2951fd5247d189e0f156420bea2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1746161691974962347}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7045d468c0d523f42ba4ceb15b22c7a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1328726649130625566 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 741696555330217653, guid: c1dfb2951fd5247d189e0f156420bea2,
