@@ -9,11 +9,12 @@ using System.IO;
 using System.Linq;
 
 using AwARe.IngredientList.Objects;
+using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
 using AwARe.Objects;
-using AwARe.RoomScan.Polygons.Objects;
 using AwARe.RoomScan.Path.Objects;
-
+using AwARe.RoomScan.Polygons.Objects;
+using AwARe.UI;
 using UnityEngine;
 using UnityEngine.TestTools;
 using AwARe.UI;
@@ -30,13 +31,15 @@ using Unity.IO.LowLevel.Unsafe;
 using Room = AwARe.Data.Objects.Room;
 using System.Collections;
 using AwARe.Data.Objects;
+using AYellowpaper;
+using AwARe.UI.Objects;
 
 namespace AwARe.RoomScan.Objects
 {
     /// <summary>
     /// Contains the Room and handles the different states within the Polygon scanning.
     /// </summary>
-    public class RoomManager : MonoBehaviour, IPointer
+    public class RoomManager : MonoBehaviour
     {
         // Objects to control
         [SerializeField] private PolygonManager polygonManager;
@@ -53,6 +56,9 @@ namespace AwARe.RoomScan.Objects
 
         // Templates
         [SerializeField] private GameObject roomBase;
+
+        // The pointer
+        [SerializeField] public Pointer pointer;
 
         // Tracking
         private State stateBefore;
@@ -84,15 +90,6 @@ namespace AwARe.RoomScan.Objects
         /// The current room.
         /// </value>
         public Room Room { get; set; }
-
-        /// <summary>
-        /// Gets the current position of the pointer.
-        /// </summary>
-        /// <value>
-        /// The current position of the pointer.
-        /// </value>
-        public Vector3 PointedAt =>
-            ui.PointedAt;
 
         /// <summary>
         /// The session anchors used for saving/loading rooms.
@@ -136,7 +133,7 @@ namespace AwARe.RoomScan.Objects
 
             if (CurrentState == State.SaveAnchoring)
             {
-                TryAddAnchor(PointedAt, anchorVisual);
+                TryAddAnchor(pointer.PointedAt, anchorVisual);
 
                 if (sessionAnchors.Count >= 2)
                 {
@@ -146,7 +143,7 @@ namespace AwARe.RoomScan.Objects
 
             else if (CurrentState == State.LoadAnchoring)
             {
-                TryAddAnchor(PointedAt, anchorVisual);
+                TryAddAnchor(pointer.PointedAt, anchorVisual);
 
                 if (sessionAnchors.Count >= 2)
                 {
@@ -237,7 +234,7 @@ namespace AwARe.RoomScan.Objects
                 polygon.GetComponent<Mesher>().UpdateMesh();
                 polygon.GetComponent<Liner>().UpdateLine();
             }
-            //pathManager.GenerateAndDrawPath(); // due to current bug in path generation, when that is fixed please uncomment it
+            Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
         }
 
         /// <summary>

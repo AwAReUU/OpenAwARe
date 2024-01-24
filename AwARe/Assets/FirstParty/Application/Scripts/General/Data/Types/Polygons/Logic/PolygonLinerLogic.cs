@@ -5,9 +5,9 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using AYellowpaper;
 using System;
 using System.Collections.Generic;
+using AYellowpaper;
 using UnityEngine;
 
 namespace AwARe.Data.Logic
