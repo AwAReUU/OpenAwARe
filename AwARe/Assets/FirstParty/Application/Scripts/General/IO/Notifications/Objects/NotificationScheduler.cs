@@ -278,7 +278,7 @@ namespace AwARe.Notifications.Objects
         /// <param name="title">The title of the notification.</param>
         /// <param name="body">The body of the notification.</param>
         /// <param name="time">The time at which the notification will be sent.</param>
-        private void SetNotifParams(Notification notification, string title, string body, DateTime time, bool repeatingDaily = true)
+        private void SetNotifParams(Notification notification, string title, string body, DateTime time)
         {
             notification.SetFireTime(time);
             notification.SetTitle(title);
