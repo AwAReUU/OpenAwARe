@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,7 +39,7 @@ namespace AwARe.Questionnaire.Objects
             Question questionComponent = Question.GetComponent<Question>();
             if (questionComponent == null)
             {
-                Debug.LogError("ToggleHandler's questionComponent is null"); 
+                Debug.LogError("ToggleHandler's questionComponent is null");
                 return;
             }
             Toggle toggle = gameObject.GetComponent<Toggle>();
@@ -48,7 +55,7 @@ namespace AwARe.Questionnaire.Objects
         /// Set the question of this <see cref="ToggleHandler"/>.
         /// </summary>
         /// <param name="question">Question that this answerOption's toggleHandler is a child of.</param>
-        public void SetQuestion(GameObject question) => 
+        public void SetQuestion(GameObject question) =>
             Question = question;
 
         /// <summary>

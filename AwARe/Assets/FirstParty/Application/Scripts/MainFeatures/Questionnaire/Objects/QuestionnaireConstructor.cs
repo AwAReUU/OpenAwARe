@@ -1,9 +1,15 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Reflection;
 
 using AwARe.Questionnaire.Data;
 
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AwARe.Questionnaire.Objects
 {
@@ -39,7 +45,7 @@ namespace AwARe.Questionnaire.Objects
 
         /// <summary>
         /// Convert <paramref name="jsonText"/> to data object and creates a <see cref="Questionnaire"/> out of it.
-        /// (Deserialization)
+        /// (Deserialization).
         /// </summary>
         /// <param name="jsonText">The json text to be deserialized.</param>
         /// <returns>A questionnaire GameObject.</returns>
@@ -66,11 +72,11 @@ namespace AwARe.Questionnaire.Objects
             GameObject questionnaireObject = Instantiate(questionnairePrefab, subcanvas);
             questionnaireObject.SetActive(true);
 
-            Questionnaire questionnaireScript = questionnaireObject.gameObject.GetComponent<Questionnaire>();
+            Questionnaire questionnaireScript = questionnaireObject.GetComponent<Questionnaire>();
             questionnaireScript.SetTitle(questionnaireData.questionnaireTitle);
             questionnaireScript.SetDescription(questionnaireData.questionnaireDescription);
 
-            foreach(QuestionData question in questionnaireData.questions)
+            foreach (QuestionData question in questionnaireData.questions)
                 questionnaireScript.AddQuestion(question);
 
             return questionnaireObject;
@@ -99,7 +105,6 @@ namespace AwARe.Questionnaire.Objects
         /// Empty Start method, so no starting code is executed.
         /// </summary>
         private void Start() { }
-
         /// <summary>
         /// Initializes private serialize fields from inside the QuestionnaireConstructor using reflection. 
         /// If a value is provided for a field, it is set directly. 
