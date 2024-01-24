@@ -85,6 +85,8 @@ namespace AwARe.Data.Objects
 
         public void SetComponent(Logic.Room data)
         {
+            if (data.PositivePolygon == null) return;
+
             Polygon SpawnPolygon(Polygon polygonBase, Logic.Polygon polygonData)
             {
                 if (polygonData == null)

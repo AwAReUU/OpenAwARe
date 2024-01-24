@@ -92,7 +92,9 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void OnResetButtonClick()
         {
-            Room = new();
+            Data.Logic.Room roomData = new();
+            Room.Data = roomData;
+            polygonDrawer.Reset();
             StartScanning();
         }
 
