@@ -8,6 +8,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AwARe.Data.Logic;
+using AwARe.RoomScan.Path;
 using AwARe.RoomScan.Polygons.Logic;
 
 using UnityEngine;
@@ -62,34 +63,9 @@ namespace AwARe.ObjectGeneration
             }
             return null;
         }
-
+        
         /// <summary>
-        /// Check if the point lies inside the path.
-        /// </summary>
-        /// <param name="path">The path Mesh.</param>
-        /// <param name="point">The point to do the test on. </param>
-        /// <returns>Whether the point lies inside the path. </returns>
-        public static bool IsPointInsidePath(Mesh path, Vector3 point)
-        {
-            // Create Mesh Collider
-            var colliderObj = new GameObject("PathCollider");
-            var collider = colliderObj.AddComponent<MeshCollider>();
-            collider.sharedMesh = path;
-
-            // Cast ray on collider
-            bool hit = false;
-            if (Physics.Raycast(new Vector3(point.x, 10f, point.z), Vector3.down, out RaycastHit raycastHit))
-            {
-                hit = raycastHit.transform.name == "PathCollider";
-            }
-
-            GameObject.Destroy(colliderObj);
-
-            return hit;
-        }
-
-        /// <summary>
-        /// Check if all four base <paramref name="corners"/> are inside of the given olygon.
+        /// Check if all four base <paramref name="corners"/> are inside of the given polygon.
         /// </summary>
         /// <param name="corners">Corners of the base of the bounding box of the Object.</param>
         /// <param name="polygon">The polygon.</param>
@@ -98,7 +74,7 @@ namespace AwARe.ObjectGeneration
             => corners.All(corner => IsPointInsidePolygon(polygon, corner));
 
         /// <summary>
-        /// Check if any of the four base <paramref name="corners"/> is inside of the given olygon.
+        /// Check if any of the four base <paramref name="corners"/> is inside of the given polygon.
         /// </summary>
         /// <param name="corners">Corners of the base of the bounding box of the Object.</param>
         /// <param name="polygon">The polygon.</param>

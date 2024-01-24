@@ -6,6 +6,7 @@
 // \*                                                                                       */
 
 using AwARe.Data.Logic;
+using AwARe.RoomScan.Path;
 using Ingredients = AwARe.IngredientList.Logic;
 
 namespace AwARe.InterScenes.Logic
@@ -25,6 +26,9 @@ namespace AwARe.InterScenes.Logic
         
         /// <inheritdoc/>
         public Room ActiveRoom { get; set; }
+
+        /// <inheritdoc/>
+        public PathData ActivePath { get; set; }
     }
 
 }
