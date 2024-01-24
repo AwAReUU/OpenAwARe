@@ -141,7 +141,7 @@ namespace AwARe
         public IEnumerator TestObjectStackingNormal()
         {
             //arrange: Create a polygon and a lot of renderables
-            List<Renderable> renderables = GetMultipleRenderables(1000, 10f);
+            List<Renderable> renderables = GetMultipleRenderables(1000, 1);
 
             //act: Place the renderable
             objectCreationManager.PlaceRenderables(renderables, new TestRoom(), null);

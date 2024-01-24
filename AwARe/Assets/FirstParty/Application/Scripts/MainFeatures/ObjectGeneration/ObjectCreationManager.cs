@@ -7,6 +7,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using AwARe.Data.Objects;
@@ -43,7 +44,7 @@ namespace AwARe.ObjectGeneration
         /// <value>
         /// <c>Room</c> that we are going to render.
         /// </value>
-        private Data.Logic.Room SelectedRoom{ get; set; }
+        private Data.Logic.Room SelectedRoom { get; set; }
 
         [SerializeField] private Data.Objects.Room roomObject;
 
@@ -102,10 +103,10 @@ namespace AwARe.ObjectGeneration
             // TODO:
             // Once pathgen is done, create mesh from PathData
             // this.pathMesh = pathData.CreateMesh()
-            if(SelectedRoom == null)
+            if (SelectedRoom == null)
                 return;
 
-            float roomSpace        = SelectedRoom.PositivePolygon.Area;
+            float roomSpace = SelectedRoom.PositivePolygon.Area;
             float renderablesSpace = ComputeRenderableSpaceNeeded(renderables);
 
             // Divide renderables in seperate rooms when there is not enough space 
@@ -120,10 +121,10 @@ namespace AwARe.ObjectGeneration
         /// <param name="renderables">Objects to place in the Polygon.</param>
         /// <param name="room">Room consisting of polygons to place the objects in.</param>
         /// <param name="path">The path in the room.</param>
-        public void PlaceRenderables(List<Renderable> renderables, Data.Logic.Room room, PathData path) 
+        public void PlaceRenderables(List<Renderable> renderables, Data.Logic.Room room, PathData path)
         {
             currentRoomRenderables = renderables;
-            StartCoroutine(PlaceAfterDestroy(renderables, room, pathMesh));
+            StartCoroutine(PlaceAfterDestroy(renderables, room, path));
         }
 
         /// <summary>
@@ -133,7 +134,7 @@ namespace AwARe.ObjectGeneration
         /// <param name="room">Room consisting of polygons to place the objects in.</param>
         /// <param name="pathMesh">Mesh on which objects will not be placed.</param>
         /// <returns></returns>
-        private IEnumerator PlaceAfterDestroy(List<Renderable> renderables, Data.Logic.Room room, Mesh pathMesh)
+        private IEnumerator PlaceAfterDestroy(List<Renderable> renderables, Data.Logic.Room room, PathData path)
         {
             //Wait untill de ObjectDestroyer is done.
             destroyer = gameObject.GetComponent<ObjectDestroyer>();
@@ -200,9 +201,9 @@ namespace AwARe.ObjectGeneration
             PolygonSpawnPointHandler spawnPointHandler = new();
             List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room, path);
 
-        //    Gizmos.color = Color.red;
-        //    foreach (var p in validSpawnPoints)
-        //        Gizmos.DrawSphere(p, 0.05f);
-        //}
+            Gizmos.color = Color.red;
+            foreach (var p in validSpawnPoints)
+                Gizmos.DrawSphere(p, 0.05f);
+        }
     }
 }
