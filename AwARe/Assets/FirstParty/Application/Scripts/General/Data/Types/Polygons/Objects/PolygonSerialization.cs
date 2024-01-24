@@ -250,11 +250,11 @@ namespace AwARe
             PositivePolygon = new(room.PositivePolygon);
             NegativePolygons = room.NegativePolygons.Select(polygon => new PolygonSerialization(polygon)).ToList();
 
-            PositivePolygon.GetPolarPoints(anchors);
-            foreach (PolygonSerialization poly in NegativePolygons)
-            {
-                poly.GetPolarPoints(anchors);
-            }
+            // PositivePolygon.GetPolarPoints(anchors);
+            // foreach (PolygonSerialization poly in NegativePolygons)
+            // {
+            //     poly.GetPolarPoints(anchors);
+            // }
 
 
         }
@@ -282,11 +282,11 @@ namespace AwARe
             PositivePolygon = positivePolygon;
             NegativePolygons = negativePolygons;
 
-            PositivePolygon.GetPolarPoints(anchors);
-            foreach (PolygonSerialization poly in NegativePolygons)
-            {
-                poly.GetPolarPoints(anchors);
-            }
+            // PositivePolygon.GetPolarPoints(anchors);
+            // foreach (PolygonSerialization poly in NegativePolygons)
+            // {
+            //     poly.GetPolarPoints(anchors);
+            // }
         }
 
         /// <summary>
@@ -296,12 +296,12 @@ namespace AwARe
         /// <returns>The deserialized Room.</returns>
         public Room ToRoom(List<Vector3> anchors)
         {
-            PositivePolygon.GetSessionWorldPoints(anchors);
+            // PositivePolygon.GetSessionWorldPoints(anchors);
 
-            foreach (PolygonSerialization p in NegativePolygons)
-            {
-                p.GetSessionWorldPoints(anchors);
-            }
+            // foreach (PolygonSerialization p in NegativePolygons)
+            // {
+            //     p.GetSessionWorldPoints(anchors);
+            // }
 
             Polygon positivePolygon = PositivePolygon.ToPolygon();
             List<Polygon> negativePolygons = NegativePolygons.Select(polygonSerialization => polygonSerialization.ToPolygon()).ToList();
