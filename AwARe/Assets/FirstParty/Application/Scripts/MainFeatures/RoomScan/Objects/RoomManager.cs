@@ -80,9 +80,17 @@ namespace AwARe.RoomScan.Objects
         public Vector3 PointedAt =>
             ui.PointedAt;
 
-        
-        private List<Vector3> sessionAnchors = new List<Vector3>();
+        /// <summary>
+        /// The session anchors used for saving/loading rooms.
+        /// </summary>
+        private List<Vector3> sessionAnchors = new();
         [SerializeField] private GameObject anchorVisual;
+
+        /// <summary>
+        /// Add an anchor to the sessionAnchors list, fails if list is full (2 anchors max.).
+        /// </summary>
+        /// <param name="anchorPoint"></param>
+        /// <param name="anchorVisual"></param>
         public void TryAddAnchor(Vector3 anchorPoint, GameObject anchorVisual = null)
         {
             if (sessionAnchors.Count >= 2) return;
@@ -92,7 +100,11 @@ namespace AwARe.RoomScan.Objects
             if (anchorVisual != null)
                 Instantiate(anchorVisual, anchorPoint, Quaternion.identity);
         }
-        public void RemoveLastAnchor()
+
+        /// <summary>
+        /// Remove the last anchor from the sessionAnchors.
+        /// </summary>
+        public void TryRemoveLastAnchor()
         {
             if (sessionAnchors.Count == 0) return;
 

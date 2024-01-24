@@ -23,9 +23,7 @@ namespace AwARe
     [System.Serializable]
     public class Vector3Serialization
     {
-        public float x;
-        public float y;
-        public float z;
+        public float x, y, z;
 
         /// <summary>
         /// Constructor for Vector3Serialization, initializes the object with a <see cref="Vector3"/>.
@@ -53,9 +51,13 @@ namespace AwARe
     public class PolygonSerialization
     {
         /// <summary>
-        /// The points representing the polygon.
+        /// The points representing the polygon in the current session.
         /// </summary>
         [FormerlySerializedAs("listpoints")] public List<Vector3Serialization> sessionWorldPoints;
+
+        /// <summary>
+        /// The points saved relative to the first anchors. These are used to construct sessionWorldPoints for each session.
+        /// </summary>
         [FormerlySerializedAs("polarpoints")] public List<Vector3Serialization> polarPoints;
 
         /// <summary>
@@ -108,14 +110,13 @@ namespace AwARe
             2. When saving the room you add two anchor points in that same session. 
                 Then the world points get converted to polar points relative to the anchor points and save those polar points.
             3. Every time you load the room place the anchor points again in the new session.
-                (TODO: bound the anchors to be the same distance every time or some form of enforcing the same location or ...(Seanas screenshot thing?))
-            4. clear the last world points, recalculate them using the new anchor points of this session. == GetWorldPoints() and load those world points.
+            4. clear the last world points, recalculate them using the new anchor points of this session.
         */
 
         /// <summary>
         /// Calculate and set the polar points based on the initial world point values and the initial anchors.
         /// </summary>
-        /// <param name="anchor2">The second anchor placed by the user.</param>
+        /// <param name="anchors">List of anchors for the current session.</param>
         public void GetPolarPoints(List<Vector3> anchors)
         {
             polarPoints = new List<Vector3Serialization>();
@@ -130,8 +131,7 @@ namespace AwARe
         /// <summary>
         /// Calculate and set the world points for a respective session.
         /// </summary>
-        /// <param name="anchor1">The first anchor of the session, indicated by the user.</param>
-        /// <param name="anchor2">The second anchor of the session, indicated by the user.</param>
+        /// <param name="anchors">List of anchors for the current session.</param>
         public void GetSessionWorldPoints(List<Vector3> anchors)
         {
             sessionWorldPoints = new List<Vector3Serialization>();
@@ -145,8 +145,8 @@ namespace AwARe
         /// Calculate a polar point based on a world point.
         /// </summary>
         /// <param name="worldPoint">The worldpoint to be converted.</param>
-        /// <param name="anchor2">The second anchor of the session, indicated by the user.</param>
-        /// <returns></returns>
+        /// <param name="anchors">List of anchors for the current session.</param>
+        /// <returns>Polar point as Vector3Serialization (r, alpha, _).</returns>
         private Vector3Serialization WorldToPolar(Vector3 worldPoint, List<Vector3> anchors)
         {
             float r = GetVector2Distance(anchors[1], worldPoint);
@@ -161,9 +161,8 @@ namespace AwARe
         /// Calculate a world point based on a polar point.
         /// </summary>
         /// <param name="polarPoint">The polarpoint to be converted to a worldpoint.</param>
-        /// <param name="anchor1">The first anchor of the session, indicated by the user.</param>
-        /// <param name="anchor2">The second anchor of the session, indicated by the user.</param>
-        /// <returns></returns>
+        /// <param name="anchors">List of anchors for the current session.</param>
+        /// <returns>World point for the current session as a Vector3Serialization.</returns>
         private Vector3Serialization PolarToWorld(Vector3Serialization polarPoint, List<Vector3> anchors)
         {
             float r = polarPoint.x;
@@ -173,13 +172,13 @@ namespace AwARe
             float wX = r * Mathf.Cos(alpha + anchorAlpha);
             float wZ = r * Mathf.Sin(alpha + anchorAlpha);
 
-            Vector3 worldPoint = new Vector3(anchors[1].x + wX, anchors[1].y, anchors[1].z + wZ);
+            Vector3 worldPoint = new(anchors[1].x + wX, anchors[1].y, anchors[1].z + wZ);
 
             return new Vector3Serialization(worldPoint);
         }
 
         /// <summary>
-        /// Get the 2D distance between two points. 2D on the floor, meaning (z, x).
+        /// Get the 2D distance between two Vector3 points. 2D on the floor, which translates to (x, z).
         /// </summary>
         /// <param name="a">The initial point.</param>
         /// <param name="b">The target point.</param>
@@ -195,7 +194,7 @@ namespace AwARe
         }
 
         /// <summary>
-        /// Get the 2D angle between two points. 2D on the floor, meaning (z, x).
+        /// Get the 2D angle between two Vector3 points. 2D on the floor, which translates to (x, z).
         /// </summary>
         /// <param name="a">The initial point.</param>
         /// <param name="b">The target point.</param>
@@ -230,8 +229,8 @@ namespace AwARe
         /// <summary>
         /// Constructor for RoomSerialization, initializes the object with serialized positive and negative polygons.
         /// </summary>
-        /// <param name="positivePolygon">Serialized positive polygon.</param>
-        /// <param name="negativePolygons">List of serialized negative polygons.</param>
+        /// <param name="room">The room object for the current session.</param>
+        /// <param name="anchors">List of anchors for the current session.</param>
         public RoomSerialization(Room room, List<Vector3> anchors)
         {
             PositivePolygon = new(room.PositivePolygon);
@@ -268,6 +267,7 @@ namespace AwARe
         /// <summary>
         /// Converts the serialized room back to a Room object.
         /// </summary>
+        /// <param name="anchors">List of anchors for the current session.</param>
         /// <returns>The deserialized Room.</returns>
         public Room ToRoom(List<Vector3> anchors)
         {
