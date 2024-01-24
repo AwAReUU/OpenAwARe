@@ -23,6 +23,8 @@ using System.Linq;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using AwARe.RoomScan.Path.Objects;
 
+using UnityEngine.Analytics;
+
 using Object = System.Object;
 
 namespace AwARe.Data.Logic
@@ -80,16 +82,17 @@ namespace AwARe.Data.Logic
                 // Now you can work with the list of Room objects
                 foreach (Room room in roomList)
                 {
-                    // create a new list item to display this list
-                    GameObject itemObject = Instantiate(listItemObject, listItemObject.transform.parent);
-
+                // create a new list item to display this list
+                     GameObject itemObject = Instantiate(listItemObject, listItemObject.transform.parent);
                     // Set the ingredients of the item and keep track of it.
                     TMP_Text buttontext = itemObject.GetComponentInChildren<TMP_Text>();
-                    buttontext.text = room.RoomName;
+                     buttontext.text = room.RoomName;
                     itemObject.SetActive(true);
                     // Set the ingredients of the item and keep track of it.
                     lists.Add(itemObject);
-                }
+                    // Check if the room name already exists
+                   
+            }
             
         }
         /// <summary>
@@ -101,6 +104,7 @@ namespace AwARe.Data.Logic
                 Destroy(o.gameObject);
             lists.Clear();
         }
+
 
         /// <summary>
         /// Calls an instance of manager to create a new ingredient list, then displays the new list of ingredient lists.
@@ -115,9 +119,15 @@ namespace AwARe.Data.Logic
         public void OnConfirmNameButton()
         {
             nameSaveRoom.SetActive(false);
-            manager.SaveClick();
+
+            if (roomList.Where(obj => obj.RoomName == manager.inputName.text).Count() > 0)
+            {
+                Debug.Log(" this already exist");
+            }
+            else manager.SaveClick();
             //DisplayRoomLists(roomList); 
         }
+
 
         public void DeleteList(string name)
         {
@@ -127,8 +137,8 @@ namespace AwARe.Data.Logic
             Debug.Log(roomList.Count);
             manager.UpdateRoomList(roomList);
             DisplayRoomLists(roomList);
-
         }
+
         public void OnRoomItemClick(string name)
         {
             Data.Logic.Room room;

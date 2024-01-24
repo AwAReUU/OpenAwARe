@@ -47,7 +47,7 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private Transform canvas;
         [SerializeField] private Transform sceneCanvas;
         [SerializeField] private GameObject saveNameScreen;
-        [SerializeField] private TMP_InputField inputName;
+        [SerializeField] public TMP_InputField inputName;
 
         // Templates
         [SerializeField] private GameObject roomBase;
