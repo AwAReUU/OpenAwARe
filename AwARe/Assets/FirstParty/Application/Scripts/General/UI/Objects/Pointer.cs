@@ -28,6 +28,16 @@ namespace AwARe.UI.Objects
         // Tracking Data
         public Plane lastHitPlane = default;
 
+        /// <summary>
+        /// Whether the pointer should be locked on the last found plane.
+        /// </summary>
+        public bool LockPlane { get; set; } = false;
+
+        /// <summary>
+        /// Whether an AR plane has been found.
+        /// </summary>
+        public bool FoundFirstPlane { get; private set; } = false;
+
         /// <inheritdoc/>
         public virtual Vector3 PointedAt =>
             transform.position;
@@ -72,8 +82,9 @@ namespace AwARe.UI.Objects
         {
             // Check if the hit point is on a horizontal ar plane.
             // If so, set pointer to that point.
-            if (HitsARPlane(hits, out Vector3 intersection, out Plane plane))
+            if (!LockPlane && HitsARPlane(hits, out Vector3 intersection, out Plane plane))
             {
+                FoundFirstPlane = true;
                 transform.position = intersection;
                 lastHitPlane = plane;
                 return;

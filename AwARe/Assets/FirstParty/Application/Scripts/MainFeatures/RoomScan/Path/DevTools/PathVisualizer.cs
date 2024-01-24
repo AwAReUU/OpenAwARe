@@ -45,7 +45,9 @@ namespace AwARe.RoomScan.Path
         /// <summary>
         /// Set the path to visualize.
         /// </summary>
-        /// <param name="path">The path that should be visualized.</param>
+        /// <param name="points">The points of the path to visualize.</param>
+        /// <param name="edges">The edges of the path to visualize.</param>
+        /// <param name="radius">The radius of the path to visualize.</param>
         public void SetPath(List<Vector3> points, List<(Vector3, Vector3)> edges, float radius)
         {
             this.points = points;

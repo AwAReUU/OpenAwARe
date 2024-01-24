@@ -55,6 +55,14 @@ namespace AwARe.Data.Logic
         }
 
         /// <summary>
+        /// Returns the y-value of the polygon points.
+        /// </summary>
+        public float Y
+        {
+            get { return points[0].y; }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Polygon"/> class.
         /// </summary>
         /// <param name="points">A list of pre-defined points of which the Polygon consists.</param>

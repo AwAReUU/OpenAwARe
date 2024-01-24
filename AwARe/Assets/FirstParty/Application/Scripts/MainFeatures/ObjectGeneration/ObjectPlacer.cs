@@ -7,7 +7,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using AwARe.RoomScan.Path;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 //#if DEBUG
 //    using AwARe.DevTools.ObjectGeneration;
 //#endif
@@ -25,7 +27,8 @@ namespace AwARe.ObjectGeneration
         private bool TryPlaceObject(
             Renderable renderable,
             Vector3 position,
-            Data.Logic.Room room)
+            Data.Logic.Room room,
+            PathData path)
         {
             // Check if the box of the new object will overlap with any other colliders
             Vector3 boxCenter = position;
@@ -37,10 +40,21 @@ namespace AwARe.ObjectGeneration
                 LayerMask.GetMask("Placed Objects"))) //only check collisions with other materials.
                 return false;
 
-            // Check if the collider doesn't cross the Polygon border
+            // Check if the collider doesn't cross the positive Polygon's border
             List<Vector3> objectCorners = Renderable.CalculateColliderCorners(renderable, position);
-            if (!PolygonHelper.ObjectColliderInPolygon(objectCorners, room))
+            if (!PolygonHelper.ObjectColliderAllInPolygon(objectCorners, room.PositivePolygon))
                 return false;
+
+            // check if any of the objects corners lie on the path
+            if (path != null && objectCorners.Any(corner => path.PointLiesOnPath(corner)))
+                return false;
+
+            // If the point does not lie on a negative polygon
+            if (position.y == room.PositivePolygon.points[0].y)
+                // Check if the collider isn't inside a Negative polygon
+                foreach (Data.Logic.Polygon negativePolygon in room.NegativePolygons)
+                    if (PolygonHelper.ObjectColliderAnyInPolygon(objectCorners, negativePolygon))
+                        return false;
 
             // Adjust object size according to scalar
             GameObject newObject = Object.Instantiate(renderable.GetPrefab(), position, Quaternion.identity);
@@ -65,20 +79,21 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <param name="renderables">All items that we are going to place.</param>
         /// <param name="room">Room to place the renderables in.</param>
+        /// <param name="path">Path in the room.</param>
         public void PlaceRenderables(
             List<Renderable> renderables, 
             Data.Logic.Room room, 
-            Mesh path)
+            PathData path)
         {
             if (renderables.Count == 0)
                 return;
 
             // 1. Get valid spawnpoints
-            PolygonSpawnPointHandler spawnPointHandler = new PolygonSpawnPointHandler();
+            PolygonSpawnPointHandler spawnPointHandler = new();
             List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room, path);
 
             // 2. Initialize clusters where one object of each group is placed
-            Dictionary<Renderable, Vector3> initialSpawnsDictionary = InitializeClusters(validSpawnPoints, renderables, room);
+            Dictionary<Renderable, Vector3> initialSpawnsDictionary = InitializeClusters(validSpawnPoints, renderables, room, path);
 
             // 3. Each 'round' spawn or stack one of the renderables with the lowest area usage.
             bool allQuantitiesZero = false;
@@ -97,7 +112,8 @@ namespace AwARe.ObjectGeneration
                         initialSpawnPoint,
                         validSpawnPoints,
                         availableSurfaceArea,
-                        room);
+                        room,
+                        path);
 
                     renderableToPlace.quantity -= 1;
                     if (!placed) Debug.Log("Could not place this object");
@@ -123,7 +139,8 @@ namespace AwARe.ObjectGeneration
             Vector3 initialSpawnPoint, 
             List<Vector3> validSpawnPoints, 
             float availableSurfaceArea, 
-            Data.Logic.Room room)
+            Data.Logic.Room room,
+            PathData path)
         {
             // sort available spawn points by closest distance to initial spawn point
             validSpawnPoints = SortClosestSpawnPointsByDistance(initialSpawnPoint, validSpawnPoints);
@@ -135,7 +152,7 @@ namespace AwARe.ObjectGeneration
                 if (renderable.currentRatioUsage + ratioUsage < renderable.allowedSurfaceUsage)
                 {
                     // try placing
-                    bool hasPlaced = TryPlaceObject(renderable, point, room);
+                    bool hasPlaced = TryPlaceObject(renderable, point, room, path);
                     if (hasPlaced)
                     {
                         float height = point.y + 2 * renderable.GetHalfExtents().y;
@@ -147,7 +164,7 @@ namespace AwARe.ObjectGeneration
                 }
             }
 
-            return TryStack(renderable, room);
+            return TryStack(renderable, room, path);
         }
 
 
@@ -161,7 +178,8 @@ namespace AwARe.ObjectGeneration
         /// <returns>Whether the stacking was successful.</returns>
         private bool TryStack(
             Renderable renderable,
-            Data.Logic.Room room)
+            Data.Logic.Room room,
+            PathData path)
         {
             while (renderable.objStacks.Keys.ToList().Count > 0)
             {
@@ -195,7 +213,7 @@ namespace AwARe.ObjectGeneration
                 // 3. Test placement on new spot, check for collisions.
                 Vector3 newPos = smallestStackPos;
                 newPos.y = stackHeight + 0.05f;
-                bool hasPlaced = TryPlaceObject(renderable, newPos, room);
+                bool hasPlaced = TryPlaceObject(renderable, newPos, room, path);
                 if (hasPlaced)
                 {
                     renderable.objStacks[smallestStackPos] = newHeight;
@@ -214,7 +232,7 @@ namespace AwARe.ObjectGeneration
         /// Estimate the surface area of the spawn Polygon by squaring the distance between the points
         /// and multiplying this by a factor (not all space is usable on a sloped line).
         /// </summary>
-        /// <param name="spawnPointCount">The amount of spawnPoints</param>
+        /// <param name="spawnPointCount">The amount of spawnPoints.</param>
         /// <returns>Estimated surface area.</returns>
         private float EstimateAvailableSurfaceArea(int spawnPointCount) =>
             spawnPointCount * 0.1f * 0.1f * 0.9f;
@@ -229,16 +247,17 @@ namespace AwARe.ObjectGeneration
         private Dictionary<Renderable, Vector3> InitializeClusters(
             List<Vector3> spawnPoints, 
             List<Renderable> renderables, 
-            Data.Logic.Room room)
+            Data.Logic.Room room,
+            PathData path)
         {
-            Dictionary<Renderable, Vector3> initialSpawns = new Dictionary<Renderable, Vector3>();
+            Dictionary<Renderable, Vector3> initialSpawns = new();
             foreach (var renderable in renderables)
             {
                 // sort all spawnpoint with furthest distance to other initial spawnpoints first 
                 List<Vector3> sortedSpawnPoints = SortFurthestSpawnPointsByDistance(spawnPoints, initialSpawns.Values.ToList(), renderable.ComputeSpaceNeeded());
                 foreach (var point in sortedSpawnPoints)
                 {
-                    if (TryPlaceObject(renderable, point, room))
+                    if (TryPlaceObject(renderable, point, room, path))
                     {
                         renderable.quantity -= 1; // remove one renderable if the initial object is spawned
                         initialSpawns.Add(renderable, point);

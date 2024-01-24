@@ -45,7 +45,7 @@ namespace AwARe.Questionnaire.Objects
         protected void InitializeAnswerOption(GameObject option, string labelText)
         {
             option.SetActive(true);
-            option.transform.SetParent(Question.transform);
+            option.transform.SetParent(Question.transform, false);
             
             if (option.GetComponent<ToggleHandler>() == null) return;
             option.transform.Find("Label").GetComponent<TextMeshProUGUI>().text = labelText;
