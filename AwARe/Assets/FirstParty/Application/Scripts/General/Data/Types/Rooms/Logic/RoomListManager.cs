@@ -39,7 +39,7 @@ namespace AwARe
             //Lists = fileHandler.ReadFile();
             LoadLists();
             Debug.Log(roomlist);
-            overviewRooms.DisplayRoomLists();
+            //overviewRooms.DisplayRoomLists();
 
 
         }

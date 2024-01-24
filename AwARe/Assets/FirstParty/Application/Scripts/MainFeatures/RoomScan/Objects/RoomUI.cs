@@ -88,8 +88,8 @@ namespace AwARe.RoomScan.Objects
                         roomlist = true;
                         return;
                     case State.Loading:
-                        savelist = true;
                         conti = true;
+                        roomlist = true;
                         return;
                 }
 

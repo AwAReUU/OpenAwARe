@@ -147,9 +147,8 @@ namespace AwARe.RoomScan.Objects
         public void OnSaveButtonClick()
         {
             SwitchToState(State.Saving);
-            roomScreen.DisplayRoomLists();
+            //roomScreen.DisplayRoomLists(roomScreen.roomList);
         }
-
 
         public Data.Logic.Room ChooseRoom(string name)
         {
@@ -160,6 +159,8 @@ namespace AwARe.RoomScan.Objects
 
         public void MakeRoom(Data.Logic.Room room)
         {
+            ClearRoom();
+
             Room.Data = room;
             Room.positivePolygon.GetComponent<Mesher>().UpdateMesh();
             Room.positivePolygon.GetComponent<Liner>().UpdateLine();
@@ -168,11 +169,28 @@ namespace AwARe.RoomScan.Objects
                 polygon.GetComponent<Mesher>().UpdateMesh();
                 polygon.GetComponent<Liner>().UpdateLine();
             }
-            //pathManager.GenerateAndDrawPath();
+            //pathManager.GenerateAndDrawPath(); // due to current bug in path generation, when that is fixed please uncomment it
         }
 
-       
-        public void OnConfirmSaveClick()
+        private void ClearRoom()
+        {
+            // Destroy the existing positive polygon
+            if (Room.positivePolygon != null)
+                Destroy(Room.positivePolygon.gameObject);
+
+            // Destroy the existing negative polygons
+            if (Room.negativePolygons != null)
+            {
+                foreach (var polygon in Room.negativePolygons)
+                {
+                    if (polygon != null)
+                        Destroy(polygon.gameObject);
+                }
+            }
+
+        }
+
+        public void SaveClick()
         {
             SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
             Debug.Log(Room.Data.RoomName);
@@ -194,8 +212,23 @@ namespace AwARe.RoomScan.Objects
 
             // Save the updated room list
             saveLoadManager.SaveRoomList("rooms", roomList);
+            roomScreen.roomList = LoadRoomList();
+            roomScreen.DisplayRoomLists(roomScreen.roomList);
 
-            SwitchToState(State.Default);
+            //SwitchToState(State.Default);
+            
+        }
+
+        public void UpdateRoomList(List<Data.Logic.Room>roomlist)
+        {
+            SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
+            RoomListSerialization serroomlist = new RoomListSerialization();
+            foreach (Data.Logic.Room room in roomlist)
+            {
+                serroomlist.Rooms.Add(new RoomSerialization(room));
+            }
+            saveLoadManager.SaveRoomList("rooms",serroomlist);
+
         }
 
         public List<Data.Logic.Room> LoadRoomList()

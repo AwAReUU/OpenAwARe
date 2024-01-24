@@ -54,5 +54,8 @@ namespace AwARe
         public void OnRoomItemClick() =>
             screen.OnRoomItemClick(name);
 
+        public void DeleteList() =>
+            screen.DeleteList(name);
+
     }
 }

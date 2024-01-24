@@ -48,13 +48,13 @@ namespace AwARe.Data.Logic
         [SerializeField] private GameObject listItemObject; //list item 'prefab'
         [SerializeField] private GameObject nameSaveRoom;
         public SaveLoadManager filehandler;
-        private List<Room> roomList;
+        public List<Room> roomList { get; set; }
 
-        public Data.Objects.Room room2;
+        //public Data.Objects.Room room2;
         // Tracked UI elements
         readonly List<GameObject> lists = new();
 
-        private void OnEnable() { DisplayRoomLists(); }
+        private void OnEnable() { DisplayRoomLists(roomList); }
 
         private void OnDisable() { RemoveLists(); }
 
@@ -67,16 +67,16 @@ namespace AwARe.Data.Logic
         {
             //roomlist = filehandler.LoadDataFromJson<List<string>>("rooms");
             //Lists = fileHandler.ReadFile();
-           //DisplayRoomLists();
-
-
+            roomList = manager.LoadRoomList();
+            //DisplayRoomLists(roomList);
+            
         }
 
-        public void DisplayRoomLists()
+        public void DisplayRoomLists(List<Room> roomList)
         {
             
                 RemoveLists();
-                roomList = manager.LoadRoomList();
+                //roomList = manager.LoadRoomList();
                 // Now you can work with the list of Room objects
                 foreach (Room room in roomList)
                 {
@@ -89,8 +89,6 @@ namespace AwARe.Data.Logic
                     itemObject.SetActive(true);
                     // Set the ingredients of the item and keep track of it.
                     lists.Add(itemObject);
-                    // Do something with each room
-                    // Access polygons, e.g., room.PositivePolygon and room.NegativePolygons
                 }
             
         }
@@ -110,15 +108,25 @@ namespace AwARe.Data.Logic
         public void OnAddListButtonClick(Room currentroom)
         {
             //manager.CreateList(currentroom);
-            DisplayRoomLists();
+            //DisplayRoomLists(roomList);
         }
 
         
         public void OnConfirmNameButton()
         {
-            
             nameSaveRoom.SetActive(false);
-            manager.OnConfirmSaveClick();
+            manager.SaveClick();
+            //DisplayRoomLists(roomList); 
+        }
+
+        public void DeleteList(string name)
+        {
+            roomList = manager.LoadRoomList();
+            Debug.Log(roomList.Count);
+            roomList.Remove(roomList.Where(obj => obj.RoomName == name).SingleOrDefault());
+            Debug.Log(roomList.Count);
+            manager.UpdateRoomList(roomList);
+            DisplayRoomLists(roomList);
 
         }
         public void OnRoomItemClick(string name)
@@ -131,7 +139,7 @@ namespace AwARe.Data.Logic
         public void OnSaveNewRoomClick()
         {
             nameSaveRoom.SetActive(true);
-            DisplayRoomLists();
+            DisplayRoomLists(roomList);
         }
 
         /// <summary>
