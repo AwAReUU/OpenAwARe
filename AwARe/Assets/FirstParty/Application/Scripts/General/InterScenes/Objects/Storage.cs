@@ -7,6 +7,7 @@
 
 using AwARe.Data.Logic;
 using AwARe.Objects;
+using AwARe.RoomScan.Path;
 using UnityEngine;
 using Ingredients = AwARe.IngredientList.Logic;
 
@@ -60,7 +61,13 @@ namespace AwARe.InterScenes.Objects
             get => Data.ActiveRoom;
             set => Data.ActiveRoom = value;
         }
-        
+        /// <inheritdoc/>
+        public PathData ActivePath
+        {
+            get => Data.ActivePath;
+            set => Data.ActivePath = value;
+        }
+
         /// <summary>
         /// Instantiate a new instance of itself.
         /// </summary>
