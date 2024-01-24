@@ -71,18 +71,29 @@ namespace AwARe.Data.Logic
 
             // Construct the vertices.
             int n = points.Count;
-            Vector3[] vertices = new Vector3[n * 2];
+            Vector2 min = new Vector3(float.PositiveInfinity, float.PositiveInfinity);
+            Vector2 max = new Vector3(float.NegativeInfinity, float.NegativeInfinity);
+            Vector3[] vertices = new Vector3[n * 2 + 1];
             for (int i = 0, j = 0; i < n; i++)
             {
                 vertices[j++] = points[i];
                 vertices[j++] = points[i] + new Vector3(0f, height, 0f);
+
+                // Keep track of outer points
+                min.x = Math.Min(min.x, points[i].x);
+                min.y = Math.Min(min.y, points[i].z);
+                max.x = Math.Max(max.x, points[i].x);
+                max.y = Math.Max(max.y, points[i].z);
             }
+            // Add middle point
+            vertices[n * 2] = new Vector3((min.x + max.x) / 2, polygon.Y + height, (min.y + max.y) / 2);
 
             // Construct the faces/triangles.
-            n = vertices.Length;
-            int[] triangles = new int[n * 6];
+            n = vertices.Length - 1;
+            int[] triangles = new int[n * 12];
             for (int i = 0, j = 0; i < n; i += 2)
             {
+                // Walls
                 triangles[j++] = i;
                 triangles[j++] = (i + 3) % n;
                 triangles[j++] = (i + 1) % n;
@@ -98,6 +109,23 @@ namespace AwARe.Data.Logic
                 triangles[j++] = (i + 2) % n;
                 triangles[j++] = (i + 3) % n;
                 triangles[j++] = i;
+
+                // Top
+                triangles[j++] = n;
+                triangles[j++] = (i + 3) % n;
+                triangles[j++] = (i + 1) % n;
+
+                triangles[j++] = n;
+                triangles[j++] = (i + 1) % n;
+                triangles[j++] = (i + 3) % n;
+
+                triangles[j++] = n;
+                triangles[j++] = (i + 5) % n;
+                triangles[j++] = (i + 3) % n;
+
+                triangles[j++] = n;
+                triangles[j++] = (i + 3) % n;
+                triangles[j++] = (i + 5) % n;
             }
 
             // Return the mesh
