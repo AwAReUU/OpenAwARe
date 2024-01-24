@@ -25,6 +25,7 @@ namespace AwARe.RoomScan
 
         private Image image;
         private GameObject maskObj;
+        private GameObject outlineImageObj;
 
         void Start()
         {
@@ -48,7 +49,7 @@ namespace AwARe.RoomScan
         /// <param name="room">The room that the screenshot corresponds with.</param>
         /// <param name="index">The number of the anchorpoint that the screenshot corresponds with.</param>
         /// <returns>A string representing the file path.</returns>
-        private string GetPath(Room room, int index) => $"{Application.persistentDataPath}{index}.png"; // TODO: add room name
+        private string GetPath(Data.Logic.Room room, int index) => $"{Application.persistentDataPath}{index}.png"; // TODO: add room name
 
         /// <summary>
         /// Takes a screenshot for the given room with the anchorpoint's index
@@ -56,7 +57,7 @@ namespace AwARe.RoomScan
         /// </summary>
         /// <param name="room">The room that the screenshot corresponds with.</param>
         /// <param name="index">The number of the anchorpoint that the screenshot corresponds with.</param>
-        private IEnumerator TakeScreenshot(Room room, int index)
+        private IEnumerator TakeScreenshot(Data.Logic.Room room, int index)
         {
             yield return new WaitForEndOfFrame();
 
@@ -70,15 +71,16 @@ namespace AwARe.RoomScan
         /// <param name="room">The room that the screenshot corresponds with.</param>
         /// <param name="index">The number of the anchorpoint that the screenshot corresponds with.</param>
         /// <param name="transparent">Whether the image displaying the screenshot should be transparent.</param>
-        private void DisplayScreenshot(Room room, int index, bool transparent = false)
+        private void DisplayScreenshot(Data.Logic.Room room, int index, bool transparent = false)
         {
             // set the images color either to transparent or solid
             Color color = image.color;
-            if (transparent)    color.a = 0.4f;
-            else                color.a = 1;
+            if (transparent) color.a = 0.4f;
+            else color.a = 1;
             image.color = color;
 
             maskObj.SetActive(true);
+            outlineImageObj.SetActive(true);
             image.sprite = RetrieveScreenshot(GetPath(room, index));
         }
 
@@ -89,6 +91,7 @@ namespace AwARe.RoomScan
         {
             image.sprite = null;
             maskObj.SetActive(false);
+            outlineImageObj.SetActive(false);
         }
 
         /// <summary>
@@ -96,7 +99,7 @@ namespace AwARe.RoomScan
         /// </summary>
         /// <param name="room">The room that the screenshot corresponds with.</param>
         /// <param name="index">The number of the anchorpoint that the screenshot corresponds with.</param>
-        private void DeleteScreenshot(Room room, int index)
+        private void DeleteScreenshot(Data.Logic.Room room, int index)
         {
             File.Delete(GetPath(room, index));
         }
@@ -141,12 +144,15 @@ namespace AwARe.RoomScan
 
             image.rectTransform.sizeDelta = new Vector2(Screen.width, Screen.height);
 
-            GameObject outlineImageObj = new("OutlineImage");
+            outlineImageObj = new("OutlineImage");
             outlineImageObj.transform.parent = canvas.transform;
             Image outlineImage = outlineImageObj.AddComponent<Image>();
             outlineImage.sprite = outlineSprite;
             outlineImage.rectTransform.sizeDelta = new Vector2(maskSize, maskSize);
             outlineImage.rectTransform.localPosition = new Vector3(0, 0, 0);
+
+            maskObj.SetActive(false);
+            outlineImageObj.SetActive(false);
         }
 
         /// <summary>
@@ -155,7 +161,7 @@ namespace AwARe.RoomScan
         /// <param name="room">The room that the screenshot corresponds with.</param>
         /// <param name="index">The number of the anchorpoint that the screenshot corresponds with.</param>
         /// <returns>Whether the specified screenshot has been saved.</returns>
-        bool ScreenshotSaved(Room room, int index)
+        bool ScreenshotSaved(Data.Logic.Room room, int index)
         {
             return System.IO.File.Exists(GetPath(room, index));
         }
