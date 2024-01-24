@@ -16,20 +16,20 @@ namespace AwARe.ObjectGeneration
 {
     /// <summary>
     /// <c>PolygonHelper</c> is a class that contains some helper methods 
-    /// for object generation using the polygon method.
+    /// for object generation using the Polygon method.
     /// </summary>
     public class PolygonHelper
     {
         /// <summary>
         /// Check if the <paramref name="point"/> is inside of the <paramref name="polygon"/>,
-        /// by using a Point-in-polygon (even-odd) algorithm.
+        /// by using a Point-in-Polygon (even-odd) algorithm.
         /// </summary>
-        /// <param name="polygon">The polygon described by points.</param>
+        /// <param name="polygon">The Polygon described by points.</param>
         /// <param name="point">The point.</param>
         /// <returns>Whether the <paramref name="point"/> is inside the <paramref name="polygon"/>.</returns>
         public static bool IsPointInsidePolygon(Polygon polygon, Vector3 point)
         {
-            List<Vector3> polygonPoints = polygon.Points;
+            List<Vector3> polygonPoints = polygon.points;
 
             bool isInside = false;
             int j = polygonPoints.Count - 1;
@@ -53,14 +53,14 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <param name="polygons">The polygons the point should not be in.</param>
         /// <param name="point">The point to check.</param>
-        /// <returns>Whether the point is inside of any of the given polygons.</returns>
-        public static bool PointNotInPolygons(List<Polygon> polygons, Vector3 point)
+        /// <returns>The polygon in which the point lies. Null if it does not lie in any of the polygons.</returns>
+        public static Polygon PointInPolygons(List<Polygon> polygons, Vector3 point)
         {
             foreach (Polygon polygon in polygons)
             {
-                if (IsPointInsidePolygon(polygon, point)) return false;
+                if (IsPointInsidePolygon(polygon, point)) return polygon;
             }
-            return true;
+            return null;
         }
 
         /// <summary>
@@ -89,13 +89,21 @@ namespace AwARe.ObjectGeneration
         }
 
         /// <summary>
-        /// Check if all four base <paramref name="corners"/> are inside of the polygon
-        /// described by <paramref name="polygonPoints"/>.
+        /// Check if all four base <paramref name="corners"/> are inside of the given olygon.
         /// </summary>
         /// <param name="corners">Corners of the base of the bounding box of the Object.</param>
-        /// <param name="room">The room.</param>
-        /// <returns>Whether the object is inside the positive polygon and outside the negative polygons.</returns>
-        public static bool ObjectColliderInPolygon(List<Vector3> corners, Room room)
-            => corners.All(corner => IsPointInsidePolygon(room.PositivePolygon, corner) && PointNotInPolygons(room.NegativePolygons, corner));
+        /// <param name="polygon">The polygon.</param>
+        /// <returns>Whether the object is inside the given polygon.</returns>
+        public static bool ObjectColliderAllInPolygon(List<Vector3> corners, Polygon polygon)
+            => corners.All(corner => IsPointInsidePolygon(polygon, corner));
+
+        /// <summary>
+        /// Check if any of the four base <paramref name="corners"/> is inside of the given olygon.
+        /// </summary>
+        /// <param name="corners">Corners of the base of the bounding box of the Object.</param>
+        /// <param name="polygon">The polygon.</param>
+        /// <returns>Whether any part of the object is inside the given polygon.</returns>
+        public static bool ObjectColliderAnyInPolygon(List<Vector3> corners, Polygon polygon)
+            => corners.Any(corner => IsPointInsidePolygon(polygon, corner));
     }
 }

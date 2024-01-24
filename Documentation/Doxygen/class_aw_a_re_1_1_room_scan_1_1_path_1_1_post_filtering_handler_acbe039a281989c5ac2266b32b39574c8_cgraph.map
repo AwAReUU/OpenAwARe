@@ -1,0 +1,13 @@
+<map id="AwARe.RoomScan.Path.PostFilteringHandler.PostFiltering" name="AwARe.RoomScan.Path.PostFilteringHandler.PostFiltering">
+<area shape="rect" id="Node000001" title="Removes path branches that are too short." alt="" coords="5,80,200,123"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_room_scan_1_1_path_1_1_post_filtering_handler.html#a3da2267bae8c74b466064eb13e2b1238" title="Cuts off / erases any subpaths that are too short." alt="" coords="256,5,456,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,77,266,50,267,55,178,82"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_room_scan_1_1_path_1_1_post_filtering_handler.html#a0c643d0850217c5e5735ead5b8531b64" title="Finds the endpoints and junctions of a skeleton present in the grid and adds them to the global varia..." alt="" coords="258,72,454,131"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,99,242,99,242,104,200,104"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_room_scan_1_1_path_1_1_post_filtering_handler.html#a49bb3b0052c6fc2fe4bfcea70ab28e76" title="Merges any subpaths that are shorter than a given length in pixels if it is possible to do so." alt="" coords="248,155,464,197"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="178,121,267,147,266,152,177,126"/>
+<area shape="rect" id="Node000005" href="$class_aw_a_re_1_1_room_scan_1_1_path_1_1_line_drawer.html#a0ce101210a39b46d5a3ede8586086276" title="Draw a line of &#39;true&#39; values between 2 points on a given grid of booleans." alt="" coords="527,121,718,164"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="464,160,510,154,511,159,465,165"/>
+<area shape="rect" id="Node000006" href="$class_aw_a_re_1_1_object_generation_1_1_polygon_helper.html#a72d60df0ee7cb45741ffcb6353a193f0" title="Check if the point &#160;is inside of the polygon , by using a Point&#45;in&#45;Polygon (even&#45;odd) algorithm." alt="" coords="512,188,732,231"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="465,187,497,191,496,196,464,192"/>
+</map>

@@ -15,7 +15,7 @@ namespace AwARe.ObjectGeneration
 {
     /// <summary>
     /// Class <c>PolygonSpawnPointHandler</c> is an implementation of <see cref="ISpawnPointHandler"/>
-    /// in which a polygon from scanning is used to create spawnPoints on.
+    /// in which a Polygon from scanning is used to create spawnPoints on.
     /// </summary>
     public class PolygonSpawnPointHandler : ISpawnPointHandler
     {
@@ -39,13 +39,13 @@ namespace AwARe.ObjectGeneration
         public List<Vector3> GetValidSpawnPoints(Room room, Mesh path) => GetGridPoints(room, path, gridSpacing);
 
         /// <summary>
-        /// Create a 2d bounding box around the polygon points.
+        /// Create a 2d bounding box around the Polygon points.
         /// </summary>
-        /// <param name="polygon">The polygon to obtain the bounding box of.</param>
-        /// <returns>Bounding box of the polygon.</returns>
+        /// <param name="polygon">The Polygon to obtain the bounding box of.</param>
+        /// <returns>Bounding box of the Polygon.</returns>
         private Bounds CalculateBounds(Polygon polygon)
         {
-            List<Vector3> points = polygon.Points;
+            List<Vector3> points = polygon.points;
             Bounds bounds = new(points[0], Vector3.zero);
             foreach (var point in points)
             {
@@ -67,11 +67,11 @@ namespace AwARe.ObjectGeneration
 
             Polygon posPolygon = room.PositivePolygon;
 
-            // Calculate the bounds of the polygon
+            // Calculate the bounds of the Polygon
             Bounds bounds = CalculateBounds(posPolygon);
 
-            // Define the height of the polygon
-            float y = posPolygon.GetPoints()[0].y;
+            // Define the height of the Polygon
+            float y = room.Y.Value;
 
             // Get all points in bounding box in grid pattern with spacing "spacing" in between
             for (float x = bounds.min.x; x <= bounds.max.x; x += spacing)
@@ -80,11 +80,18 @@ namespace AwARe.ObjectGeneration
                 {
                     Vector3 gridPoint = new(x, y, z);
 
-                    // Check if the grid point is inside the polygon
+                    // Check if the grid point is inside the Polygon
                     if (PolygonHelper.IsPointInsidePolygon(posPolygon, gridPoint)
-                        && PolygonHelper.PointNotInPolygons(room.NegativePolygons, gridPoint) 
                         && !PolygonHelper.IsPointInsidePath(path, gridPoint))
+                    {
+                        // Check if the grid point is also inside a negative Polygon
+                        Polygon polygon = PolygonHelper.PointInPolygons(room.NegativePolygons, gridPoint);
+
+                        if (polygon != null)
+                            gridPoint.y += polygon.height;
+
                         result.Add(gridPoint);
+                    }
                 }
             }
             return result;

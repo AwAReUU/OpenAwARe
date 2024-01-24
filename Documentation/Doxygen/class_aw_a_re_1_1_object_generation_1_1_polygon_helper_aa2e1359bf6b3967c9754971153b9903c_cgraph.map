@@ -1,0 +1,5 @@
+<map id="AwARe.ObjectGeneration.PolygonHelper.PointNotInPolygons" name="AwARe.ObjectGeneration.PolygonHelper.PointNotInPolygons">
+<area shape="rect" id="Node000001" title="Check if the point is not inside of any of the given polygons." alt="" coords="5,5,226,48"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_object_generation_1_1_polygon_helper.html#a72d60df0ee7cb45741ffcb6353a193f0" title="Check if the point &#160;is inside of the polygon , by using a Point&#45;in&#45;Polygon (even&#45;odd) algorithm." alt="" coords="274,5,494,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,24,258,24,258,29,226,29"/>
+</map>

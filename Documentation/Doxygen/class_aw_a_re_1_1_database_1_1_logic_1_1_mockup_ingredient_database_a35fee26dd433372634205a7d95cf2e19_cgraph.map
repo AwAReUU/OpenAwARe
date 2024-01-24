@@ -1,0 +1,5 @@
+<map id="AwARe.Database.Logic.MockupIngredientDatabase.Search" name="AwARe.Database.Logic.MockupIngredientDatabase.Search">
+<area shape="rect" id="Node000001" title="inheritdoc cref=&quot;IIngredientDatabase.GetIngredient&quot;/&gt;" alt="" coords="5,5,214,48"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_database_1_1_logic_1_1_mockup_ingredient_database.html#a91972b8e715e23f4c884200733b631ab" title="Selects the full rows in the Ingredient table that match the given IDs." alt="" coords="262,5,482,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,24,246,24,246,29,214,29"/>
+</map>

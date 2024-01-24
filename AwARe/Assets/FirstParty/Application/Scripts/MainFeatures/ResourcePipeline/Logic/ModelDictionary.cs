@@ -60,7 +60,7 @@ namespace AwARe.ResourcePipeline.Logic
         /// </value>
         public float RealWidth { get; }
         /// <value>
-        /// Height of this model in real life in cm.
+        /// height of this model in real life in cm.
         /// </value>
         public float RealHeight { get; }
         /// <value>

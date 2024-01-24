@@ -1,11 +1,14 @@
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 namespace AwARe.ObjectInteraction.Objects
 {
+    
     /// <summary>
     /// TODO: implement pop-up screen with information when clicking on GameObject.
     /// Currently this class is just placeholder code that colors clicked objects. 
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class InteractObjectHandler : MonoBehaviour
     {
         [SerializeField] private Material black;

@@ -103,7 +103,7 @@ namespace AwARe.ResourcePipeline.Logic
     }
 
     /// <summary>
-    /// Animal, Plant, Water
+    /// Animal, Plant, Water.
     /// </summary>
     public enum ResourceType
     {

@@ -1,0 +1,9 @@
+<map id="AwARe.UI.Objects.Pointer.SetNextPosition" name="AwARe.UI.Objects.Pointer.SetNextPosition">
+<area shape="rect" id="Node000001" title="Sets the net position of the pointer based on the closest hit ARPlane &#160;&#160;or an intersection of the ext..." alt="" coords="5,39,184,81"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_u_i_1_1_objects_1_1_pointer.html#aad49beeffde3c63de3aced0da36510f0" title="Detects the intersection with the ray and the nearest AR Plane, if any." alt="" coords="232,5,410,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,44,216,39,216,45,185,49"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_u_i_1_1_objects_1_1_pointer.html#a194ff866b569379ce40df2e59f5a10ec" title="Checks whether the given ray and plane intersect." alt="" coords="232,72,410,115"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="185,71,216,75,216,81,184,76"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_u_i_1_1_objects_1_1_pointer.html#ab8b5d41423ba27a83f4d85f484f7d752" title="Gets the closest AR raycast hit among given." alt="" coords="458,5,636,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="411,24,442,24,442,29,411,29"/>
+</map>

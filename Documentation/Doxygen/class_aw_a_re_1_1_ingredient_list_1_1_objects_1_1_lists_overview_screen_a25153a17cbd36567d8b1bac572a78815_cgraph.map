@@ -1,0 +1,7 @@
+<map id="AwARe.IngredientList.Objects.ListsOverviewScreen.OnCheckButtonClick" name="AwARe.IngredientList.Objects.ListsOverviewScreen.OnCheckButtonClick">
+<area shape="rect" id="Node000001" title="Unchecks the previous item and checks the given." alt="" coords="5,5,271,48"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_ingredient_list_manager.html#a87d623a3229054593895a6fde0cfd814" title="Update which list is currentely checked." alt="" coords="319,5,529,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="271,24,303,24,303,29,271,29"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_inter_scenes_1_1_objects_1_1_storage.html#af7698e3f557905ced5998b96cece866c" title="Get its current instance. Instantiate a new instance if necessary." alt="" coords="577,5,767,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="529,24,562,24,562,29,529,29"/>
+</map>

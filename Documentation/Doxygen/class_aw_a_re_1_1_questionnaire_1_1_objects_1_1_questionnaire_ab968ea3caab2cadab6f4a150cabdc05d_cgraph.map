@@ -1,0 +1,14 @@
+<map id="AwARe.Questionnaire.Objects.Questionnaire.AddQuestion" name="AwARe.Questionnaire.Objects.Questionnaire.AddQuestion">
+<area shape="rect" id="Node000001" title="Instantiate a questionCreator and use it to create a new question." alt="" coords="5,105,207,148"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_questionnaire.html#aa9481ddac26126e784886b846d0d8747" title="Add a single answer option, using &quot;QuestionData&quot; to the given &quot;Question&quot;." alt="" coords="255,5,471,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,102,254,58,272,51,274,56,256,62,153,107"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_questionnaire.html#a24fbb38bf883de987b0991d6baff6630" title="Adds all IfYesQuestions from data &#160;to question &#160;if they exist. It sets them as inactive,..." alt="" coords="255,72,471,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="207,120,246,115,246,120,207,125"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_question.html#a283372fa95bfab3a532320f28f44e9df" title="Sets the index of the answerOption that triggers additional questions. ifYes &#160;should be set to true i..." alt="" coords="262,139,464,181"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="207,137,247,142,246,148,207,142"/>
+<area shape="rect" id="Node000005" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_question.html#a26f20d06d57ad42d3ae88972873c287d" title="Sets the parentQuestionnaire object where this question lives in." alt="" coords="255,205,471,248"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="153,146,256,191,274,197,272,202,254,196,151,151"/>
+<area shape="rect" id="Node000006" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_question.html#aa56d899e11928d1755569c0ee0cf0846" title="Set the title of this question." alt="" coords="262,272,464,315"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="128,146,182,202,217,232,256,258,266,263,263,267,253,262,214,236,178,206,124,150"/>
+<area shape="poly" id="edge3_Node000003_Node000001" title=" " alt="" coords="254,101,222,105,222,100,254,96"/>
+</map>

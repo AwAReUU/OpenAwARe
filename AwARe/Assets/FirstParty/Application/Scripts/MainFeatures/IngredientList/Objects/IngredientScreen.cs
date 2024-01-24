@@ -9,14 +9,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AwARe.IngredientList.Logic;
+using NSubstitute;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace AwARe.IngredientList.Objects
 {
     /// <summary>
-    /// An UI Element displaying and managing the single ingredient screen.
+    /// <para>
+    ///     Handles the UI of the Ingredient screen.
+    /// </para>
+    /// <para>
+    ///     Displays the name and quantity of the currently selected <see cref="Ingredient"/>.
+    ///     Allows the user to adjust this ingredient's quantity and QuantityType through UI elements.
+    /// </para>
     /// </summary>
     public class IngredientScreen : MonoBehaviour
     {
@@ -41,16 +49,20 @@ namespace AwARe.IngredientList.Objects
         }
 
         /// <summary>
-        /// Sets/corrects all UI elements on screen.
+        /// Initializes the quantityTypeDropdown.
         /// </summary>
         private void SetElements()
         {
             // Set name label
             ingredientNameField.GetComponent<TMP_Text>().text = entry.ingredient.Name;
-            
-            // Set dropdown options
-            List<string> options = Enum.GetNames(typeof(QuantityType)).ToList();
+
             typeDropdown.ClearOptions();
+
+            // Get all valid dropdown options for the ingredient
+            List<string> options = Enum.GetValues(typeof(QuantityType)).Cast<QuantityType>()
+                .Where(qType => entry.ingredient.QuantityPossible(qType))
+                .Select(t => t.ToString()).ToList();
+
             typeDropdown.AddOptions(options);
 
             // Set default values
@@ -65,7 +77,7 @@ namespace AwARe.IngredientList.Objects
         {
             Ingredient ingredient = entry.ingredient;
             string quantityS = quantityField.text;
-            string typeS = typeDropdown.value.ToString();
+            string typeS = typeDropdown.options[typeDropdown.value].text;
 
             manager.ReadQuantity(ingredient, quantityS, typeS, out float quantity, out QuantityType type);
 
