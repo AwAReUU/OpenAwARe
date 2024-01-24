@@ -67,12 +67,16 @@ namespace AwARe.ObjectGeneration
 
         private PathData path;
 
-        public GameObject NoListSelectedPopup;
+        private ObjGenUIHandler uiHandler;
 
         private void Start()
         {
+            uiHandler = GetComponent<ObjGenUIHandler>();
+
             // Set the no list selected popup active if the selected list is null
-            NoListSelectedPopup.SetActive(RetrieveIngredientlist() == null);
+            uiHandler.SetNoListSelectedPopup(RetrieveIngredientlist() == null);
+
+            uiHandler.SetSplitRoomsPopup(false);
         }
 
         private void LoadRoom()
@@ -108,18 +112,18 @@ namespace AwARe.ObjectGeneration
             // Get the stored room as an object.
             LoadRoom();
 
-            // TODO:
-            // Once pathgen is done, create mesh from PathData
-            // this.pathMesh = pathData.CreateMesh()
-            if(SelectedRoom == null)
-                return;
+            if (SelectedRoom == null)
+                Debug.LogError("No room selected");
 
             float roomSpace        = SelectedRoom.PositivePolygon.Area;
             float renderablesSpace = ComputeRenderableSpaceNeeded(renderables);
 
             // Divide renderables in seperate rooms when there is not enough space 
-            if (renderablesSpace > roomSpace) 
+            if (renderablesSpace > roomSpace)
+            {
                 PlaceRoom(true);
+                uiHandler.SetSplitRoomsPopup(true);
+            }
             else PlaceRenderables(renderables, SelectedRoom, path);
         }
 
