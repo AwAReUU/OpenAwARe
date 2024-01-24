@@ -16,7 +16,6 @@ using AwARe.Objects;
 using AwARe.ResourcePipeline.Logic;
 using AwARe.ResourcePipeline.Objects;
 using AwARe.RoomScan.Path;
-using Castle.Components.DictionaryAdapter.Xml;
 
 using UnityEngine;
 using Ingredients = AwARe.IngredientList.Logic;
@@ -67,6 +66,13 @@ namespace AwARe.ObjectGeneration
         private Ingredients.IngredientList RetrieveIngredientlist() => Storage.Get().ActiveIngredientList;
 
         private PathData path;
+
+        private void Start()
+        {
+            Ingredients.IngredientList ingredientList = RetrieveIngredientlist();
+            if (ingredientList == null) ;
+
+        }
 
         private void LoadRoom()
         {

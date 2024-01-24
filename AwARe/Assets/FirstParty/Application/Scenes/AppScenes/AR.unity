@@ -135,6 +135,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51de02e0eb10a3a4ebf6c0b54aac3302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1161795437 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4235560744308556, guid: fcc480f0014c8bb4daad32a369a433f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6882647332995502141}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f693dda691dc744aa4e0550f86f429, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1498580055
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,6 +285,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -356
+      objectReference: {fileID: 0}
+    - target: {fileID: 967698083947489713, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1161795437}
+    - target: {fileID: 967698083947489713, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DestroyAllObjects
+      objectReference: {fileID: 0}
+    - target: {fileID: 967698083947489713, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AwARe.ObjectGeneration.ObjectDestroyer, Scripts
       objectReference: {fileID: 0}
     - target: {fileID: 1039970193019735141, guid: 23b8a78ada484394780c76a671db8dfe,
         type: 3}
