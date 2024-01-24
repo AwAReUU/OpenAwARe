@@ -12,6 +12,8 @@ using System.Collections.Generic;
 
 using AwARe.UI;
 using AwARe.UI.Objects;
+using TMPro;
+using Unity.VisualScripting.YamlDotNet.Core;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.TestTools;
@@ -37,12 +39,15 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private GameObject pathButton;
         [SerializeField] private GameObject pathLoadingPopup;
         [SerializeField] private GameObject saveButton;
-        [SerializeField] private GameObject startAnchoringSaveButton;
-        [SerializeField] private GameObject saveSlots;
-        [SerializeField] private GameObject startAnchoringLoadButton;
         [SerializeField] private GameObject loadButton;
-        [SerializeField] private GameObject loadSlots;
+        [SerializeField] private GameObject saveList;
         [SerializeField] private GameObject continueButton;
+        [SerializeField] private GameObject saveNameButton;
+        [SerializeField] private GameObject saveNameObject;
+        [SerializeField] private GameObject roomlistscreen;
+        [SerializeField] private TMP_InputField saveName;
+        [SerializeField] private Button confirmName;
+
 
         /// <summary>
         /// Sets activity of UI elements based on the polygon state.
@@ -62,12 +67,11 @@ namespace AwARe.RoomScan.Objects
                 pathGen = false,
                 pathLoading = false,
                 save = false,
-                startSaving = false,
                 load = false,
-                startLoading = false,
-                saveSlots = false,
-                loadSlots = false,
-                conti = false;
+                conti = false,
+                savenamebtn = false,
+                savelist = false,
+                roomlist = false;
 
             // Set wanted elements to active
             void DecideActivities()
@@ -95,11 +99,12 @@ namespace AwARe.RoomScan.Objects
                         return;
                     case State.Saving:
                         conti = true;
-                        saveSlots = true;
+                        savenamebtn = true;
+                        roomlist = true;
                         return;
                     case State.Loading:
                         conti = true;
-                        loadSlots = true;
+                        roomlist = true;
                         return;
                 }
 
@@ -107,10 +112,8 @@ namespace AwARe.RoomScan.Objects
                 {
                     case Polygons.State.Done:
                         create = true;
-                        startLoading = true;
-                        startSaving = true;
-                        //save = true;
-                        //load = true;
+                        save = true;
+                        load = true;
                         pathGen = true;
                         break;
                     case Polygons.State.SettingHeight:
@@ -124,8 +127,7 @@ namespace AwARe.RoomScan.Objects
                         break;
                     case Polygons.State.Default:
                     default:
-                        startLoading = true;
-                        //load = true;
+                        load = true;
                         create = true;
                         break;
                 }
@@ -141,13 +143,12 @@ namespace AwARe.RoomScan.Objects
             if (height) OnHeightSliderChanged();
             pointer.gameObject.SetActive(point);
             pathButton.SetActive(pathGen);
+            roomlistscreen.SetActive(roomlist);
             pathLoadingPopup.SetActive(pathLoading);
             saveButton.SetActive(save);
-            startAnchoringSaveButton.SetActive(startSaving);
-            this.saveSlots.SetActive(saveSlots);
+            saveNameButton.SetActive(savenamebtn);
+            saveList.SetActive(savelist);
             loadButton.SetActive(load);
-            startAnchoringLoadButton.SetActive(startLoading);
-            this.loadSlots.SetActive(loadSlots);
             continueButton.SetActive(conti);
         }
 
@@ -209,13 +210,6 @@ namespace AwARe.RoomScan.Objects
             manager.OnStartSavingButtonClick();
 
         /// <summary>
-        /// Called on save slot click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnSaveSlotClick(int slotIdx) =>
-            manager.OnSaveSlotClick(slotIdx);
-
-        /// <summary>
         /// Called on save button click.
         /// </summary>
         [ExcludeFromCoverage]
@@ -225,13 +219,6 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnStartLoadingButtonClick() =>
             manager.OnStartLoadingButtonClick();
-
-        /// <summary>
-        /// Called on load slot click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnLoadSlotClick(int slotIdx) =>
-            manager.OnLoadSlotClick(slotIdx);
 
         /// <summary>
         /// Called on continue button click.

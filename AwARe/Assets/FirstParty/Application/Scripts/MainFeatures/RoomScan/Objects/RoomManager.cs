@@ -8,7 +8,7 @@
 using System.IO;
 using System.Linq;
 
-using AwARe.Data.Objects;
+using AwARe.IngredientList.Objects;
 using AwARe.InterScenes.Objects;
 using AwARe.Objects;
 using AwARe.RoomScan.Polygons.Objects;
@@ -20,6 +20,17 @@ using AwARe.UI;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using TMPro;
+using System.Collections.Generic;
+
+using AwARe.Data.Logic;
+
+using Unity.IO.LowLevel.Unsafe;
+
+using Room = AwARe.Data.Objects.Room;
+using System.Collections;
+using AwARe.Data.Objects;
+
 namespace AwARe.RoomScan.Objects
 {
     /// <summary>
@@ -30,12 +41,15 @@ namespace AwARe.RoomScan.Objects
         // Objects to control
         [SerializeField] private PolygonManager polygonManager;
         [SerializeField] private PathManager pathManager;
+        [SerializeField] private RoomListOverviewScreen roomScreen;
         // [SerializeField] private VisualizePath pathVisualizer; //TODO: Get out of polygonScanning
 
         // The UI
         [SerializeField] private RoomUI ui;
         [SerializeField] private Transform canvas;
         [SerializeField] private Transform sceneCanvas;
+        [SerializeField] private GameObject saveNameScreen;
+        [SerializeField] public TMP_InputField inputName;
 
         // Templates
         [SerializeField] private GameObject roomBase;
@@ -190,9 +204,16 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnSaveButtonClick()
         {
-            Storage.Get().ActiveRoom = Room.Data;
-            stateBefore = CurrentState;
             SwitchToState(State.Saving);
+            //roomScreen.DisplayRoomLists(roomScreen.roomList);
+        }
+        /// <summary>
+        /// get the room that is associated with the clicked button's name
+        /// </summary>
+        public Data.Logic.Room ChooseRoom(string name)
+        {
+            List<Data.Logic.Room> listofrooms = LoadRoomList();
+            return listofrooms.Where(obj => obj.RoomName == name).SingleOrDefault();
         }
 
         [ExcludeFromCoverage]
@@ -204,15 +225,117 @@ namespace AwARe.RoomScan.Objects
             SwitchToState(State.SaveAnchoring);
         }
 
-        /// <summary>
-        /// Called on save slot click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnSaveSlotClick(int slotIdx)
+        public void MakeRoom(Data.Logic.Room room)
         {
-            SaveRoom(slotIdx);
+            ClearRoom();
+
+            Room.Data = room;
+            Room.positivePolygon.GetComponent<Mesher>().UpdateMesh();
+            Room.positivePolygon.GetComponent<Liner>().UpdateLine();
+            foreach (var polygon in Room.negativePolygons)
+            {
+                polygon.GetComponent<Mesher>().UpdateMesh();
+                polygon.GetComponent<Liner>().UpdateLine();
+            }
+            //pathManager.GenerateAndDrawPath(); // due to current bug in path generation, when that is fixed please uncomment it
         }
 
+        /// <summary>
+        /// Clear room if new room is spawned so there is only one room at a time.
+        /// </summary>
+        private void ClearRoom()
+        {
+            // Destroy the existing positive polygon
+            if (Room.positivePolygon != null)
+                Destroy(Room.positivePolygon.gameObject);
+
+            // Destroy the existing negative polygons
+            if (Room.negativePolygons != null)
+            {
+                foreach (var polygon in Room.negativePolygons)
+                {
+                    if (polygon != null)
+                        Destroy(polygon.gameObject);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Save newly created room in rooms file
+        /// </summary>
+        public void SaveClick()
+        {
+            SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
+            UnityEngine.Debug.Log(Room.Data.RoomName);
+            Storage.Get().ActiveRoom = Room.Data;
+            Storage.Get().ActiveRoom.RoomName = inputName.text;
+
+            stateBefore = CurrentState;
+
+            // Load existing room list
+            RoomListSerialization roomList = saveLoadManager.LoadRooms("rooms");
+
+            if (roomList == null)
+            {
+                roomList = new RoomListSerialization();
+            }
+
+            // Add the current room to the list
+            roomList.Rooms.Add(new RoomSerialization(Storage.Get().ActiveRoom, sessionAnchors));
+
+            // Save the updated room list
+            saveLoadManager.SaveRoomList("rooms", roomList);
+            roomScreen.roomList = LoadRoomList();
+            roomScreen.DisplayRoomLists(roomScreen.roomList);
+
+            //SwitchToState(State.Default);
+            
+        }
+
+        /// <summary>
+        /// go from list of rooms to roomlist Serialization so that you can update the rooms file
+        /// </summary>
+        public void UpdateRoomList(List<Data.Logic.Room>roomlist)
+        {
+            SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
+            RoomListSerialization serroomlist = new RoomListSerialization();
+            foreach (Data.Logic.Room room in roomlist)
+            {
+                serroomlist.Rooms.Add(new RoomSerialization(room, sessionAnchors));
+            }
+            saveLoadManager.SaveRoomList("rooms",serroomlist);
+
+        }
+
+        /// <summary>
+        /// load in a list of rooms from roomListSerialization rooms
+        /// </summary>
+        public List<Data.Logic.Room> LoadRoomList()
+        {
+            
+            SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
+
+            // Ensure that saveLoadManager is not null before proceeding
+            if (saveLoadManager == null)
+            {
+                UnityEngine.Debug.LogError("SaveLoadManager is null.");
+                return new List<Data.Logic.Room>();
+            }
+            
+            RoomListSerialization roomListSerialization = saveLoadManager.LoadRooms("rooms");
+
+            if (roomListSerialization == null)
+            {
+                //Debug.LogError("RoomListSerialization is null.");
+                return new List<Data.Logic.Room>();
+            }
+            UnityEngine.Debug.Log(roomListSerialization.Rooms?.Select(roomSerialization => roomSerialization.ToRoom(sessionAnchors)).ToList() ?? new List<Data.Logic.Room>());
+
+            // Convert RoomListSerialization to a list of Room objects
+            return roomListSerialization.Rooms?.Select(roomSerialization => roomSerialization.ToRoom(sessionAnchors)).ToList() ?? new List<Data.Logic.Room>();
+        }
+       
         /// <summary>
         /// Called on load button button click; changes state so user sees load slots.
         /// </summary>
@@ -229,15 +352,6 @@ namespace AwARe.RoomScan.Objects
             sessionAnchors.Clear();
             stateBefore = CurrentState;
             SwitchToState(State.LoadAnchoring);
-        }
-
-        /// <summary>
-        /// Called on load slot click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnLoadSlotClick(int slotIdx)
-        {
-            LoadRoom(slotIdx);
         }
 
         /// <summary>
@@ -276,75 +390,6 @@ namespace AwARe.RoomScan.Objects
 
             // Set UI activity
             ui.SetActive(this.CurrentState, polygonManager.CurrentState, pathManager.CurrentState);
-        }
-
-        /// <summary>
-        /// Saves the current room's configuration to a specified save slot using the save load manager.
-        /// </summary>
-        /// <param name="slotIndex">The index of the save slot to store the room configuration.</param>
-        public void SaveRoom(int slotIndex)
-        {
-            SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
-
-            // Convert Room to RoomSerialization
-            RoomSerialization roomSerialization = new(Room.Data, sessionAnchors);
-
-            // Save RoomSerialization
-            saveLoadManager.SaveDataToJson($"RoomSlot{slotIndex}", roomSerialization);
-        }
-
-        /// <summary>
-        /// Loads a previously saved room configuration from a specified save slot using the save load manager.
-        /// </summary>
-        /// <param name="slotIndex">The index of the save slot from which to load the room configuration.</param>
-        public void LoadRoom(int slotIndex)
-        {
-            SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
-
-            // Check if the file exists before attempting to load
-            string filePath = $"RoomSlot{slotIndex}";
-            string fullPath = System.IO.Path.Combine(saveLoadManager.DirectoryPath, filePath);
-
-            if (!File.Exists(fullPath))
-            {
-                UnityEngine.Debug.LogError($"Room not found in slot {slotIndex}");
-                return;
-            }
-
-            // Load RoomSerialization JSON using the save load manager
-            RoomSerialization loadedRoomSerialization = saveLoadManager.LoadDataFromJson<RoomSerialization>($"RoomSlot{slotIndex}");
-
-            if (loadedRoomSerialization == null)
-            {
-                UnityEngine.Debug.LogError("Loaded room serialization is null.");
-                return;
-            }
-
-            // Convert RoomSerialization to Room
-            if (Room != null) Destroy(Room.gameObject);
-            Room = Instantiate(roomBase, transform).GetComponent<Room>();
-            Room.Data = loadedRoomSerialization.ToRoom(sessionAnchors);
-
-            if (Room.Data == null)
-            {
-                UnityEngine.Debug.LogError("Loaded room is null after conversion.");
-                return;
-            }
-            if (Room.positivePolygon == null || Room.positivePolygon.Data.points.Count == 0)
-            {
-                UnityEngine.Debug.LogError("Loaded room does not have a positive polygon.");
-                return;
-            }
-
-            Room.positivePolygon.GetComponent<Mesher>().UpdateMesh();
-            Room.positivePolygon.GetComponent<Liner>().UpdateLine();
-            foreach (var polygon in Room.negativePolygons)
-            {
-                polygon.GetComponent<Mesher>().UpdateMesh();
-                polygon.GetComponent<Liner>().UpdateLine();
-            }
-            
-            //pathManager.GenerateAndDrawPath();
         }
     }
 

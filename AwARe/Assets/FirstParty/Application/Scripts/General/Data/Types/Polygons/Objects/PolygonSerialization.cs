@@ -12,6 +12,8 @@ using System.Linq;
 using AwARe.Data.Logic;
 using AwARe.RoomScan.Polygons.Logic;
 
+using Newtonsoft.Json;
+
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -70,6 +72,12 @@ namespace AwARe
             sessionWorldPoints = polygon?.points?.Select(v => new Vector3Serialization(v)).ToList() ?? new List<Vector3Serialization>();
         }
 
+        // Add a parameterless constructor for deserialization
+        [JsonConstructor]
+        public PolygonSerialization()
+        {
+            sessionWorldPoints = new List<Vector3Serialization>();
+        }
         /// <summary>
         /// Constructor for PolygonSerialization, initializes the object with a list of serialized Vector3.
         /// </summary>
@@ -225,6 +233,10 @@ namespace AwARe
     {
         public PolygonSerialization PositivePolygon;
         public List<PolygonSerialization> NegativePolygons;
+        public string RoomName;
+        public float RoomHeight;
+
+
 
         /// <summary>
         /// Constructor for RoomSerialization, initializes the object with serialized positive and negative polygons.
@@ -233,6 +245,8 @@ namespace AwARe
         /// <param name="anchors">List of anchors for the current session.</param>
         public RoomSerialization(Room room, List<Vector3> anchors)
         {
+            RoomName = room.RoomName;
+            RoomHeight = room.PositivePolygon?.height ?? default;
             PositivePolygon = new(room.PositivePolygon);
             NegativePolygons = room.NegativePolygons.Select(polygon => new PolygonSerialization(polygon)).ToList();
 
@@ -245,15 +259,26 @@ namespace AwARe
 
         }
 
+        // Add a parameterless constructor for deserialization
+        [JsonConstructor]
+        public RoomSerialization()
+        {
+            PositivePolygon = new PolygonSerialization();
+            NegativePolygons = new List<PolygonSerialization>();
+            RoomName = "";
+            RoomHeight = 0;
+        }
+
         /// <summary>
         /// Constructor for RoomSerialization, initializes the object with serialized positive and negative polygons.
         /// </summary>
         /// <param name="positivePolygon">Serialized positive polygon.</param>
         /// <param name="negativePolygons">List of serialized negative polygons.</param>
-        /// <param name="anchors">List of anchors for the current session.</param>
-        public RoomSerialization(PolygonSerialization positivePolygon,
-            List<PolygonSerialization> negativePolygons, List<Vector3> anchors)
+        public RoomSerialization(PolygonSerialization positivePolygon, List<PolygonSerialization> negativePolygons,
+            List<Vector3> anchors, string roomName, int roomHeight)
         {
+            RoomName = roomName;
+            RoomHeight = roomHeight;
             PositivePolygon = positivePolygon;
             NegativePolygons = negativePolygons;
 
@@ -279,9 +304,32 @@ namespace AwARe
             }
 
             Polygon positivePolygon = PositivePolygon.ToPolygon();
-            List<Polygon> negativePolygons = NegativePolygons.Select(p => p.ToPolygon()).ToList();
-
-            return new Room(positivePolygon, negativePolygons);
+            List<Polygon> negativePolygons = NegativePolygons.Select(polygonSerialization => polygonSerialization.ToPolygon()).ToList();
+            return new Room(positivePolygon, negativePolygons, RoomName, RoomHeight);
         }
     }
+
+    [System.Serializable]
+    public class RoomListSerialization
+    {
+        public List<RoomSerialization> Rooms;
+
+        public RoomListSerialization(List<RoomSerialization> rooms)
+        {
+            Rooms = rooms ?? new List<RoomSerialization>();
+        }
+
+        public RoomListSerialization()
+        {
+            Rooms = new List<RoomSerialization>();
+        }
+
+        // Add a constructor with a default value or empty parameters for deserialization
+        [JsonConstructor]
+        public RoomListSerialization(int dummy)
+        {
+            Rooms = new List<RoomSerialization>();
+        }
+    }
+
 }

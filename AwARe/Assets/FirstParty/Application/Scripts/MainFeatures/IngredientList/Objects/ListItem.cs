@@ -18,7 +18,7 @@ namespace AwARe.IngredientList.Objects
     {
         // The parent element
         [SerializeField] private ListsOverviewScreen screen;
-        
+
         // UI elements to control
         [SerializeField] private TextMeshProUGUI nameLabel;
         [SerializeField] private TextMeshProUGUI quantityLabel;
