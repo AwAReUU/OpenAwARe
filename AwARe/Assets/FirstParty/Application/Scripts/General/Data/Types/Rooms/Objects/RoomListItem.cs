@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*  
+
 using AwARe.IngredientList.Objects;
 using System.Collections;
 using System.Collections.Generic;
@@ -51,9 +58,15 @@ namespace AwARe
             nameLabel.text = name;
             
         }
+        /// <summary>
+        /// Loads the room of which the name is on the roomlistitem
+        /// </summary>
         public void OnRoomItemClick() =>
             screen.OnRoomItemClick(name);
 
+        /// <summary>
+        /// Delete the roomlistitem
+        /// </summary>
         public void DeleteList() =>
             screen.DeleteList(name);
 

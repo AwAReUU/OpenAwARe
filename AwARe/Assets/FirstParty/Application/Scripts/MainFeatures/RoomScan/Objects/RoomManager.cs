@@ -149,14 +149,18 @@ namespace AwARe.RoomScan.Objects
             SwitchToState(State.Saving);
             //roomScreen.DisplayRoomLists(roomScreen.roomList);
         }
-
+        /// <summary>
+        /// get the room that is associated with the clicked button's name
+        /// </summary>
         public Data.Logic.Room ChooseRoom(string name)
         {
             List<Data.Logic.Room> listofrooms = LoadRoomList();
-            // Now you can work with the list of Room objects
             return listofrooms.Where(obj => obj.RoomName == name).SingleOrDefault();
         }
 
+        /// <summary>
+        /// Code for spawning the Room from a Data.Logic.Room
+        /// </summary>
         public void MakeRoom(Data.Logic.Room room)
         {
             ClearRoom();
@@ -172,6 +176,9 @@ namespace AwARe.RoomScan.Objects
             //pathManager.GenerateAndDrawPath(); // due to current bug in path generation, when that is fixed please uncomment it
         }
 
+        /// <summary>
+        /// Clear room if new room is spawned so there is only one room at a time.
+        /// </summary>
         private void ClearRoom()
         {
             // Destroy the existing positive polygon
@@ -190,6 +197,9 @@ namespace AwARe.RoomScan.Objects
 
         }
 
+        /// <summary>
+        /// Save newly created room in rooms file
+        /// </summary>
         public void SaveClick()
         {
             SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
@@ -219,6 +229,9 @@ namespace AwARe.RoomScan.Objects
             
         }
 
+        /// <summary>
+        /// go from list of rooms to roomlist Serialization so that you can update the rooms file
+        /// </summary>
         public void UpdateRoomList(List<Data.Logic.Room>roomlist)
         {
             SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
@@ -231,6 +244,9 @@ namespace AwARe.RoomScan.Objects
 
         }
 
+        /// <summary>
+        /// load in a list of rooms from roomListSerialization rooms
+        /// </summary>
         public List<Data.Logic.Room> LoadRoomList()
         {
             
@@ -243,7 +259,6 @@ namespace AwARe.RoomScan.Objects
                 return new List<Data.Logic.Room>();
             }
             
-
             RoomListSerialization roomListSerialization = saveLoadManager.LoadRooms("rooms");
 
             if (roomListSerialization == null)

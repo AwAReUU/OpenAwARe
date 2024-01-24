@@ -6,7 +6,6 @@ using PlasticGui.Configuration.CloudEdition.Welcome;
 using System.Collections;
 using System.Collections.Generic;
 
-using AwARe.AwARe.Data.Objects;
 
 using NSubstitute.ReturnsExtensions;
 
@@ -64,7 +63,6 @@ namespace AwARe.Data.Logic
         /// Creates GameObjects with buttons to select or destroy every ingredient list.
         /// </summary>
         /// 
-      
         private void Awake()
         {
             //roomlist = filehandler.LoadDataFromJson<List<string>>("rooms");
@@ -74,6 +72,10 @@ namespace AwARe.Data.Logic
             
         }
 
+        /// <summary>
+        /// For all the rooms in the rooms file make a button with the rooms name on it
+        /// </summary>
+        /// 
         public void DisplayRoomLists(List<Room> roomList)
         {
             
@@ -115,7 +117,9 @@ namespace AwARe.Data.Logic
             //DisplayRoomLists(roomList);
         }
 
-        
+        /// <summary>
+        /// Checks if room name already exists in the rooms file if not then it will be saved and will show up in the list of roomsaves
+        /// </summary>
         public void OnConfirmNameButton()
         {
             nameSaveRoom.SetActive(false);
@@ -128,16 +132,20 @@ namespace AwARe.Data.Logic
             //DisplayRoomLists(roomList); 
         }
 
-
+        /// <summary>
+        /// Deletes roomlistitem and the Roomdata in the "rooms" file so that it's gone
+        /// </summary>
         public void DeleteList(string name)
         {
             roomList = manager.LoadRoomList();
-            Debug.Log(roomList.Count);
             roomList.Remove(roomList.Where(obj => obj.RoomName == name).SingleOrDefault());
-            Debug.Log(roomList.Count);
             manager.UpdateRoomList(roomList);
             DisplayRoomLists(roomList);
         }
+
+        /// <summary>
+        /// Spawns the room that contains the name that is on the roomlistitem that has been clicked
+        /// </summary>
 
         public void OnRoomItemClick(string name)
         {
@@ -146,6 +154,9 @@ namespace AwARe.Data.Logic
             manager.MakeRoom(room);
         }
 
+        /// <summary>
+        /// Loads the informationscreen to put a name in for the roomlist item
+        /// </summary>
         public void OnSaveNewRoomClick()
         {
             nameSaveRoom.SetActive(true);
