@@ -85,9 +85,6 @@ namespace AwARe.Questionnaire.Objects
             question.SetTitle(data.questionTitle);
             question.SetIfYes(data.ifYes, data.ifYesTrigger);
 
-            // Instantiate the template and set its parent
-            //question.SetParentQuestionnaire(this);
-
             AddAnswerOptions(question, data);
             AddIfYesQuestions(question, data);
 

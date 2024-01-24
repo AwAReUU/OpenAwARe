@@ -77,8 +77,6 @@ namespace AwARe.Questionnaire.Objects
         /// </value>
         private int currentAnswerOptionIndex = 0;
 
-        //private Questionnaire parentQuestionnaire;
-
         private AnswerOptionSpawner answerOptionSpawner;
 
         private void Awake()
@@ -173,11 +171,5 @@ namespace AwARe.Questionnaire.Objects
             if (AnswerOptionStates[IfYesTriggerIndex])
                 LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)gameObject.transform.parent);
         }
-
-        /// <summary>
-        /// Sets the parentQuestionnaire object where this question lives in.
-        /// </summary>
-        /// <param name="parentQuestionnaire"></param>
-        //public void SetParentQuestionnaire(Questionnaire parentQuestionnaire) => this.parentQuestionnaire = parentQuestionnaire;
     }
 }
