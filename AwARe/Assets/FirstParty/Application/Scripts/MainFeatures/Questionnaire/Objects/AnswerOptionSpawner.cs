@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
+using UnityEngine;
 
 namespace AwARe.Questionnaire.Objects
 {
@@ -8,7 +15,7 @@ namespace AwARe.Questionnaire.Objects
     /// </summary>
     public class AnswerOptionSpawner
     {
-        private GameObject question;
+        private readonly GameObject question;
         private readonly GameObject textOptionPrefab;
         private readonly GameObject checkBoxOptionPrefab;
         private readonly GameObject radioOptionPrefab;
@@ -42,6 +49,7 @@ namespace AwARe.Questionnaire.Objects
         /// <summary>
         /// Create a radioButton answerOption for the question.
         /// </summary>
+        /// <param name="currentAnswerOptionIndex">Index that the answerOption will have.</param>
         /// <returns>A <see cref="RadioAnswerOption"/> instance.</returns>
         public RadioAnswerOption CreateRadioAnswerOption(int currentAnswerOptionIndex) =>
             new(question, radioOptionPrefab, currentAnswerOptionIndex);
@@ -49,6 +57,7 @@ namespace AwARe.Questionnaire.Objects
         /// <summary>
         /// Create a checkBox answerOption for the question.
         /// </summary>
+        /// <param name="currentAnswerOptionIndex">Index that the answerOption will have.</param>
         /// <returns>A <see cref="CheckBoxAnswerOption"/> instance.</returns>
         public CheckBoxAnswerOption CreateCheckBoxAnswerOption(int currentAnswerOptionIndex) =>
             new(question, checkBoxOptionPrefab, currentAnswerOptionIndex);

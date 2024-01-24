@@ -1,4 +1,11 @@
-﻿using TMPro;
+﻿// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -6,13 +13,16 @@ using Object = UnityEngine.Object;
 namespace AwARe.Questionnaire.Objects
 {
     /// <summary>
-    /// Class <c>AnswerOptionFactory</c> is a base class for creation and initializing answer option objects.
+    /// Class <c>AnswerOption</c> is a base class for creation and initializing answer option objects.
     /// </summary>
     public abstract class AnswerOption
     {
         /// <summary>
-        /// Question to add the answer option to.
+        /// Gets or sets the Question to add the answer option to.
         /// </summary>
+        /// <value>
+        /// The Question to add the answer option to.
+        /// </value>
         protected GameObject Question { get; set; }
 
         /// <summary>
@@ -21,7 +31,7 @@ namespace AwARe.Questionnaire.Objects
         protected readonly GameObject answerOptionPrefab;
 
         /// <summary>
-        /// Constructor. Used to create a new <see cref="AnswerOption"/>.
+        /// Initializes a new instance of the <see cref="AnswerOption"/> class.
         /// </summary>
         /// <param name="question">Parent container.</param>
         /// <param name="answerOptionPrefab">Prefab for the AnswerOption to be generated.</param>
@@ -34,7 +44,7 @@ namespace AwARe.Questionnaire.Objects
         /// <summary>
         /// Create an answer option using the given title. The implementation is defined in the subclasses.
         /// </summary>
-        /// <param name="title">The title of the question. (The question itself)</param>
+        /// <param name="title">The title of the question (The question itself).</param>
         /// <returns>An answer option GameObject.</returns>
         public abstract GameObject InstantiateAnswerOption(string title);
 
@@ -115,9 +125,7 @@ namespace AwARe.Questionnaire.Objects
         {
             answerOptionIndex = currentAnswerOptionIndex;
 
-            //Get toggleGroup of this question.
-            radiobuttonGroup = questionGameObject.GetComponent<ToggleGroup>();
-            if (radiobuttonGroup != null)
+            if (questionGameObject.TryGetComponent(out radiobuttonGroup))
                 return;
             radiobuttonGroup = questionGameObject.AddComponent<ToggleGroup>();
             radiobuttonGroup.allowSwitchOff = true;

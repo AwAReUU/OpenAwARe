@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections.Generic;
 
 using AwARe.Questionnaire.Data;
@@ -79,7 +86,7 @@ namespace AwARe.Questionnaire.Objects
             question.SetIfYes(data.ifYes, data.ifYesTrigger);
 
             // Instantiate the template and set its parent
-            question.SetParentQuestionnaire(this);
+            //question.SetParentQuestionnaire(this);
 
             AddAnswerOptions(question, data);
             AddIfYesQuestions(question, data);
@@ -106,7 +113,7 @@ namespace AwARe.Questionnaire.Objects
         /// <param name="data">The QuestionData containing information about the "ifYes" condition and associated questions.</param>
         private void AddIfYesQuestions(Question question, QuestionData data)
         {
-            if (!data.ifYes) 
+            if (!data.ifYes)
                 return;
 
             foreach (QuestionData ifYesQuestionData in data.ifYesQuestions)
