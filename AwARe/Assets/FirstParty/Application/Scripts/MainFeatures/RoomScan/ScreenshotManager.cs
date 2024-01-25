@@ -10,7 +10,6 @@ using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-using AwARe.RoomScan.Polygons.Logic;
 
 namespace AwARe.RoomScan
 {
@@ -27,19 +26,21 @@ namespace AwARe.RoomScan
         private GameObject maskObj;
         private GameObject outlineImageObj;
 
+        private Vector3 defaultPos;
+        private Vector2 defaultSize;
+
+        public bool screenshotDisplayed {get; private set;} = false;
+
         void Start()
         {
             SetupImage();
 
             maskObj.SetActive(false);
-        }
 
-        void Update()
-        {
-            if ((UnityEngine.Input.touchCount > 0 && UnityEngine.Input.GetTouch(0).phase == TouchPhase.Began)
-                || UnityEngine.Input.GetMouseButtonDown(0))
+            string basePath = $"{Application.persistentDataPath}/screenshots";
+            if(!Directory.Exists(basePath))
             {
-                //StartCoroutine(TakeScreenshot(0));
+                Directory.CreateDirectory(basePath);
             }
         }
 
@@ -49,19 +50,32 @@ namespace AwARe.RoomScan
         /// <param name="room">The room that the screenshot corresponds with.</param>
         /// <param name="index">The number of the anchorpoint that the screenshot corresponds with.</param>
         /// <returns>A string representing the file path.</returns>
-        private string GetPath(Data.Logic.Room room, int index) => $"{Application.persistentDataPath}{index}.png"; // TODO: add room name
+        private string GetPath(Data.Logic.Room room, int index) => $"{Application.persistentDataPath}/screenshots/{room.RoomName}{index}.png";
 
         /// <summary>
         /// Takes a screenshot for the given room with the anchorpoint's index
-        /// at the end of the frame and saves it locally.
+        /// at the end of the frame.
         /// </summary>
         /// <param name="room">The room that the screenshot corresponds with.</param>
         /// <param name="index">The number of the anchorpoint that the screenshot corresponds with.</param>
-        private IEnumerator TakeScreenshot(Data.Logic.Room room, int index)
+        public /*IEnumerator*/ Texture2D TakeScreenshot(Data.Logic.Room room, int index)
         {
-            yield return new WaitForEndOfFrame();
+            //yield return new WaitForEndOfFrame();
 
-            Texture2D screenshot = ScreenCapture.CaptureScreenshotAsTexture();
+            return ScreenCapture.CaptureScreenshotAsTexture();
+
+            //System.IO.File.WriteAllBytes(GetPath(room, index), screenshot.EncodeToPNG());
+        }
+
+        
+        /// <summary>
+        /// Save the given screenshot locally.
+        /// </summary>
+        /// <param name="screenshot">The screenshot to save.</param>
+        /// <param name="room">The room that the screenshot corresponds with.</param>
+        /// <param name="index">The number of the anchorpoint that the screenshot corresponds with.</param>
+        public void SaveScreenshot(Texture2D screenshot, Data.Logic.Room room, int index)
+        {
             System.IO.File.WriteAllBytes(GetPath(room, index), screenshot.EncodeToPNG());
         }
 
@@ -71,7 +85,11 @@ namespace AwARe.RoomScan
         /// <param name="room">The room that the screenshot corresponds with.</param>
         /// <param name="index">The number of the anchorpoint that the screenshot corresponds with.</param>
         /// <param name="transparent">Whether the image displaying the screenshot should be transparent.</param>
-        private void DisplayScreenshot(Data.Logic.Room room, int index, bool transparent = false)
+        public void DisplayScreenshot(
+            Sprite screenshot,
+            bool transparent = false,
+            ImageSize size = ImageSize.Large
+            )
         {
             // set the images color either to transparent or solid
             Color color = image.color;
@@ -79,19 +97,54 @@ namespace AwARe.RoomScan
             else color.a = 1;
             image.color = color;
 
+            switch (size)
+            {
+                case ImageSize.Large:
+                    SetImagePos(defaultPos);
+                    SetImageSize(defaultSize);
+                    break;
+                case ImageSize.Medium:
+                    SetImagePos(defaultPos);
+                    SetImageSize(defaultSize / 2);
+                    break;
+                case ImageSize.Small:
+                    SetImagePos(defaultPos - new Vector3(0, Screen.height / 1.5f, 0));
+                    SetImageSize(defaultSize / 3);
+                    break;
+            }
+
             maskObj.SetActive(true);
             outlineImageObj.SetActive(true);
-            image.sprite = RetrieveScreenshot(GetPath(room, index));
+            image.sprite = screenshot;
+
+            screenshotDisplayed = true;
+        }
+
+        public void DisplayScreenshotFromFile(
+            Data.Logic.Room room,
+            int index,
+            bool transparent = false,
+            ImageSize size = ImageSize.Large
+            )
+        {
+            DisplayScreenshot(RetrieveScreenshot(GetPath(room, index)), transparent, size);
         }
 
         /// <summary>
         /// Hides the screenshot being displayed on the screen.
         /// </summary>
-        private void HideScreenshot()
+        public void HideScreenshot()
         {
             image.sprite = null;
             maskObj.SetActive(false);
             outlineImageObj.SetActive(false);
+
+            screenshotDisplayed = false;
+        }
+
+        public Sprite TextureToSprite(Texture2D texture)
+        {
+            return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
         }
 
         /// <summary>
@@ -116,7 +169,7 @@ namespace AwARe.RoomScan
                 byte[] bytes = System.IO.File.ReadAllBytes(filePath);
                 Texture2D texture = new(1, 1);
                 texture.LoadImage(bytes);
-                return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                return TextureToSprite(texture);
             }
             throw new Exception("Screenshot cannot be found.");
         }
@@ -138,32 +191,43 @@ namespace AwARe.RoomScan
 
             // set image size to match screensize
             float maskSize = Screen.width / 1.5f;
-            maskImage.rectTransform.sizeDelta = new Vector2(maskSize, maskSize);
-            maskImage.rectTransform.localPosition = new Vector3(0, 0, 0);
             maskImage.raycastTarget = false;
 
             image.rectTransform.sizeDelta = new Vector2(Screen.width, Screen.height);
 
+            // create object for outline of the image
             outlineImageObj = new("OutlineImage");
             outlineImageObj.transform.parent = canvas.transform;
             Image outlineImage = outlineImageObj.AddComponent<Image>();
             outlineImage.sprite = outlineSprite;
-            outlineImage.rectTransform.sizeDelta = new Vector2(maskSize, maskSize);
-            outlineImage.rectTransform.localPosition = new Vector3(0, 0, 0);
+
+            defaultPos = new Vector3(0, 0, 0);
+            defaultSize = new Vector2(maskSize, maskSize);
+
+            SetImagePos(defaultPos);
+            SetImageSize(defaultSize);
 
             maskObj.SetActive(false);
             outlineImageObj.SetActive(false);
         }
 
-        /// <summary>
-        /// Checks whether the specified screenshot has been saved.
-        /// </summary>
-        /// <param name="room">The room that the screenshot corresponds with.</param>
-        /// <param name="index">The number of the anchorpoint that the screenshot corresponds with.</param>
-        /// <returns>Whether the specified screenshot has been saved.</returns>
-        bool ScreenshotSaved(Data.Logic.Room room, int index)
+        private void SetImagePos(Vector3 position)
         {
-            return System.IO.File.Exists(GetPath(room, index));
+            maskObj.GetComponent<Image>().rectTransform.localPosition = position;
+            outlineImageObj.GetComponent<Image>().rectTransform.localPosition = position;
+        }
+
+        private void SetImageSize(Vector2 size)
+        {
+            maskObj.GetComponent<Image>().rectTransform.sizeDelta = size;
+            outlineImageObj.GetComponent<Image>().rectTransform.sizeDelta = size;
+        }
+
+        public enum ImageSize
+        {
+            Small,
+            Medium,
+            Large
         }
     }
 }

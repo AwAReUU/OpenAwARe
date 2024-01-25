@@ -21,6 +21,9 @@ namespace AwARe.RoomScan.Objects
         // The manager
         [SerializeField] private RoomManager manager;
 
+        // The screenshot manager
+        [SerializeField] public ScreenshotManager screenshotManager;
+
         // The UI elements
         [SerializeField] private GameObject resetButton;
         [SerializeField] private GameObject createButton;
@@ -63,7 +66,8 @@ namespace AwARe.RoomScan.Objects
                 conti = false,
                 savenamebtn = false,
                 savelist = false,
-                roomlist = false;
+                roomlist = false,
+                displayScreenshot = false;
 
             // Set wanted elements to active
             void DecideActivities()
@@ -87,6 +91,7 @@ namespace AwARe.RoomScan.Objects
                         load = true;
                         conti = true;
                         point = true;
+                        displayScreenshot = true;
                         //startLoading = true;
                         return;
                     case State.Saving:
@@ -142,6 +147,28 @@ namespace AwARe.RoomScan.Objects
             saveList.SetActive(savelist);
             loadButton.SetActive(load);
             continueButton.SetActive(conti);
+
+            if(displayScreenshot)
+                DisplayAnchorLoadingImage(0);
+        }
+
+        /// <summary>
+        /// Display the screenshot with the given index for loading the anchors.
+        /// </summary>
+        /// <param name="index">The index of the screenshot.</param>
+        public void DisplayAnchorLoadingImage(int index)
+        {
+            screenshotManager.DisplayScreenshotFromFile(manager.Room.Data, index, false, ScreenshotManager.ImageSize.Small);
+        }
+
+        
+        /// <summary>
+        /// Display the screenshot with the given index for saving the anchors.
+        /// </summary>
+        /// <param name="index">The index of the screenshot.</param>
+        public void DisplayAnchorSavingImage(Texture2D screenshot)
+        {
+            screenshotManager.DisplayScreenshot(screenshotManager.TextureToSprite(screenshot), false, ScreenshotManager.ImageSize.Large);
         }
 
         /// <summary>
