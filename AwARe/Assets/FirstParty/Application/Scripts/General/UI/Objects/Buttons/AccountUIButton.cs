@@ -18,9 +18,11 @@ using UnityEngine.UI;
 
 namespace AwARe
 {
+    /// <summary>
+    /// Handles what happens when the backbutton of the accountpage gets pressed.
+    /// </summary>
     public class AccountUIButton : MonoBehaviour
     {
-
         // input fields
         [SerializeField] private TMP_InputField loginEmailInputField;
         [SerializeField] private TMP_InputField loginPasswordInputField;
