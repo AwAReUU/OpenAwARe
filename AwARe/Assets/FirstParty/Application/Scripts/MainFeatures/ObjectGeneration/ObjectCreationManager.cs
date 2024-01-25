@@ -5,22 +5,20 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
+using AwARe.Objects;
 using AwARe.ResourcePipeline.Logic;
 using AwARe.ResourcePipeline.Objects;
-
-using Castle.Components.DictionaryAdapter.Xml;
+using AwARe.RoomScan.Path;
 
 using UnityEngine;
 using Ingredients = AwARe.IngredientList.Logic;
-
-using Room = AwARe.Data.Logic.Room;
 
 namespace AwARe.ObjectGeneration
 {
@@ -42,18 +40,12 @@ namespace AwARe.ObjectGeneration
         /// </value>
         private Ingredients.IngredientList SelectedList { get; set; }
 
-
         /// <value>
         /// <c>Room</c> that we are going to render.
         /// </value>
-        private Room SelectedRoom{ get; set; }
+        private Data.Logic.Room SelectedRoom { get; set; }
 
         [SerializeField] private Data.Objects.Room roomObject;
-
-        /// <value>
-        /// <c>path</c> the Mesh from the generated path.
-        /// </value>
-        private Mesh pathMesh { get; set; }
 
         /// <value>
         /// list of renderables that are present in the current room.
@@ -71,25 +63,27 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <returns>The ingredient list that was selected by the user.</returns>
         private Ingredients.IngredientList RetrieveIngredientlist() => Storage.Get().ActiveIngredientList;
-        
-        void Awake() {
-            this.pathMesh = new Mesh(); // Empty mesh for now. Once Path gen. is done, generate the mesh from PathData.
-        }
+
+        private PathData path;
 
         private void LoadRoom()
         {
             // Load data from storage
-            Room roomData = Storage.Get().ActiveRoom;
+            Data.Logic.Room roomData = Storage.Get().ActiveRoom;
             if (roomData == null) return;
 
             // Construct new room
             SelectedRoom = roomData;
             roomObject.Data = SelectedRoom;
 
+            path = Storage.Get().ActivePath;
+
             // Visualize new room
             var roomLiner = roomObject.GetComponent<RoomLiner>();
             roomLiner.ResetLiners();
             roomLiner.UpdateLines();
+
+            ShowNegativePolygons(roomObject);
         }
 
         /// <summary>
@@ -108,16 +102,16 @@ namespace AwARe.ObjectGeneration
             // TODO:
             // Once pathgen is done, create mesh from PathData
             // this.pathMesh = pathData.CreateMesh()
-            if(SelectedRoom == null)
+            if (SelectedRoom == null)
                 return;
 
-            float roomSpace        = SelectedRoom.PositivePolygon.Area;
+            float roomSpace = SelectedRoom.PositivePolygon.Area;
             float renderablesSpace = ComputeRenderableSpaceNeeded(renderables);
 
             // Divide renderables in seperate rooms when there is not enough space 
-            if (renderablesSpace > roomSpace) 
+            if (renderablesSpace > roomSpace)
                 PlaceRoom(true);
-            else PlaceRenderables(renderables, SelectedRoom, this.pathMesh);
+            else PlaceRenderables(renderables, SelectedRoom, path);
         }
 
         /// <summary>
@@ -125,15 +119,28 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <param name="renderables">Objects to place in the Polygon.</param>
         /// <param name="room">Room consisting of polygons to place the objects in.</param>
-        public void PlaceRenderables(List<Renderable> renderables, Data.Logic.Room room, Mesh pathMesh) 
+        /// <param name="path">The path in the room.</param>
+        public void PlaceRenderables(List<Renderable> renderables, Data.Logic.Room room, PathData path)
         {
-            // clear the scene of any previously instantiated GameObjects 
-            destroyer = gameObject.GetComponent<ObjectDestroyer>();
-            destroyer.DestroyAllObjects();
             currentRoomRenderables = renderables;
-            new ObjectPlacer().PlaceRenderables(renderables, room, pathMesh);
+            StartCoroutine(PlaceAfterDestroy(renderables, room, path));
         }
-        
+
+        /// <summary>
+        /// Coroutine that only starts placing the renderables after all currently placed objects have been destroyed.
+        /// </summary>
+        /// <param name="renderables">Objects to place in the polygon.</param>
+        /// <param name="room">Room consisting of polygons to place the objects in.</param>
+        /// <param name="pathData">Mesh on which objects will not be placed.</param>
+        /// <returns>IEnumerator.</returns>
+        private IEnumerator PlaceAfterDestroy(List<Renderable> renderables, Data.Logic.Room room, PathData pathData)
+        {
+            //Wait untill de ObjectDestroyer is done.
+            destroyer = gameObject.GetComponent<ObjectDestroyer>();
+            yield return StartCoroutine(destroyer.DestroyAllObjects());
+            new ObjectPlacer().PlaceRenderables(renderables, room, pathData);
+        }
+
         /// <summary>
         /// Tries to place a partial list of renderables by distributing renderables in two seperate rooms.
         /// </summary>
@@ -143,27 +150,40 @@ namespace AwARe.ObjectGeneration
             SetSelectedList(RetrieveIngredientlist());
             List<Renderable> renderables = new PipelineManager().GetRenderableList(SelectedList);
 
-            if (isFirstRoom) 
-                renderables = renderables.Where(renderable => renderable.resourceType == ResourceType.Animal ||
-                                                              renderable.resourceType == ResourceType.Water).ToList();
-            else 
-                renderables = renderables.Where(renderable => renderable.resourceType == ResourceType.Plant).ToList();
+            if (isFirstRoom)
+                renderables = renderables.Where(renderable => renderable.ResourceType == ResourceType.Animal ||
+                                                              renderable.ResourceType == ResourceType.Water).ToList();
+            else
+                renderables = renderables.Where(renderable => renderable.ResourceType == ResourceType.Plant ||
+                                                              renderable.ResourceType == ResourceType.Water).ToList();
+
 
             Data.Logic.Room room = Storage.Get().ActiveRoom;
-            PlaceRenderables(renderables, room, this.pathMesh);
+            PlaceRenderables(renderables, room, path);
         }
 
         /// <summary>
         /// Returns the total area that all given renderables will cover.
         /// </summary>
         /// <param name="renderables">All the renderables that will be included in the calculation.</param>
+        /// <returns>The sum of space needed for the given Renderable list.</returns>
         public float ComputeRenderableSpaceNeeded(List<Renderable> renderables)
         {
             float sumArea = 0;
-            foreach (var renderable in renderables) 
+            foreach (var renderable in renderables)
                 sumArea += renderable.ComputeSpaceNeeded();
-            
+
             return sumArea;
+        }
+
+        /// <summary>
+        /// Shows the meshes of the negative polygons.
+        /// </summary>
+        /// <param name="room">The room of which the negative polygons should be shown.</param>
+        private void ShowNegativePolygons(Data.Objects.Room room)
+        {
+            foreach (Polygon p in room.negativePolygons)
+                p.GetComponent<Mesher>().UpdateMesh();
         }
 
         [ExcludeFromCodeCoverage]
@@ -172,12 +192,14 @@ namespace AwARe.ObjectGeneration
         /// </summary>.
         void OnDrawGizmos()
         {
-            Room room = Storage.Get().ActiveRoom;
+            Data.Logic.Room room = Storage.Get().ActiveRoom;
             if (room == null)
                 return;
 
+            path = Storage.Get().ActivePath;
+
             PolygonSpawnPointHandler spawnPointHandler = new();
-            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room, this.pathMesh);
+            List<Vector3> validSpawnPoints = spawnPointHandler.GetValidSpawnPoints(room, path);
 
             Gizmos.color = Color.red;
             foreach (var p in validSpawnPoints)

@@ -31,6 +31,7 @@ namespace AwARe.IngredientList.Objects
         
         // UI elements to control/copy
         [SerializeField] private TMP_InputField listTitle;
+        [SerializeField] private TextMeshProUGUI charactersLeftText;
         [SerializeField] private GameObject ingredientTemplate;
         [SerializeField] private GameObject addButton;
         [SerializeField] private GameObject deleteListPopup;
@@ -43,12 +44,21 @@ namespace AwARe.IngredientList.Objects
         {
             deleteListPopup.SetActive(false);
             unsavedChangesPopup.SetActive(false);
+            UpdateCharactersLeftText();
             DisplayIngredients();
         }
 
         private void OnDisable()
         {
             RemoveIngredients();
+        }
+
+        /// <summary>
+        /// Update the text that displays the number of characters left available for the list name.
+        /// </summary>
+        public void UpdateCharactersLeftText()
+        {
+            charactersLeftText.text = (listTitle.characterLimit - listTitle.text.Length).ToString();
         }
 
         /// <summary>

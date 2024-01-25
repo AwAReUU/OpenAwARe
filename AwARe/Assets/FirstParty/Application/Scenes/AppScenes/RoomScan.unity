@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -905,7 +905,7 @@ PrefabInstance:
         type: 3}
       propertyPath: pointer._underlyingValue
       value: 
-      objectReference: {fileID: 3138366139598441704}
+      objectReference: {fileID: 3138366139598441703}
     - target: {fileID: 606375266890446049, guid: d4c46bfcf9edf094f9024b003f22eb7b,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -960,6 +960,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879480404272446691, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.055
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879480404272446691, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.055
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879480404272446691, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.055
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879480404272446691, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0275
       objectReference: {fileID: 0}
     - target: {fileID: 2257827347711974419, guid: d4c46bfcf9edf094f9024b003f22eb7b,
         type: 3}
@@ -1178,18 +1198,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7045d468c0d523f42ba4ceb15b22c7a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3138366139598441704 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5023010627900976430, guid: d4c46bfcf9edf094f9024b003f22eb7b,
-    type: 3}
-  m_PrefabInstance: {fileID: 3138366139598441702}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 431464543eed94161bd50b82f7fc8103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &3138366139598441705 stripped

@@ -8,6 +8,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AwARe.Data.Logic;
+using AwARe.RoomScan.Path;
 using AwARe.RoomScan.Polygons.Logic;
 
 using UnityEngine;
@@ -53,49 +54,32 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <param name="polygons">The polygons the point should not be in.</param>
         /// <param name="point">The point to check.</param>
-        /// <returns>Whether the point is inside of any of the given polygons.</returns>
-        public static bool PointNotInPolygons(List<Polygon> polygons, Vector3 point)
+        /// <returns>The polygon in which the point lies. Null if it does not lie in any of the polygons.</returns>
+        public static Polygon PointInPolygons(List<Polygon> polygons, Vector3 point)
         {
             foreach (Polygon polygon in polygons)
             {
-                if (IsPointInsidePolygon(polygon, point)) return false;
+                if (IsPointInsidePolygon(polygon, point)) return polygon;
             }
-            return true;
+            return null;
         }
-
+        
         /// <summary>
-        /// Check if the point lies inside the path.
-        /// </summary>
-        /// <param name="path">The path Mesh.</param>
-        /// <param name="point">The point to do the test on. </param>
-        /// <returns>Whether the point lies inside the path. </returns>
-        public static bool IsPointInsidePath(Mesh path, Vector3 point)
-        {
-            // Create Mesh Collider
-            var colliderObj = new GameObject("PathCollider");
-            var collider = colliderObj.AddComponent<MeshCollider>();
-            collider.sharedMesh = path;
-
-            // Cast ray on collider
-            bool hit = false;
-            if (Physics.Raycast(new Vector3(point.x, 10f, point.z), Vector3.down, out RaycastHit raycastHit))
-            {
-                hit = raycastHit.transform.name == "PathCollider";
-            }
-
-            GameObject.Destroy(colliderObj);
-
-            return hit;
-        }
-
-        /// <summary>
-        /// Check if all four base <paramref name="corners"/> are inside of the Polygon
-        /// described by <paramref name="polygonPoints"/>.
+        /// Check if all four base <paramref name="corners"/> are inside of the given polygon.
         /// </summary>
         /// <param name="corners">Corners of the base of the bounding box of the Object.</param>
-        /// <param name="room">The room.</param>
-        /// <returns>Whether the object is inside the positive Polygon and outside the negative polygons.</returns>
-        public static bool ObjectColliderInPolygon(List<Vector3> corners, Room room)
-            => corners.All(corner => IsPointInsidePolygon(room.PositivePolygon, corner) && PointNotInPolygons(room.NegativePolygons, corner));
+        /// <param name="polygon">The polygon.</param>
+        /// <returns>Whether the object is inside the given polygon.</returns>
+        public static bool ObjectColliderAllInPolygon(List<Vector3> corners, Polygon polygon)
+            => corners.All(corner => IsPointInsidePolygon(polygon, corner));
+
+        /// <summary>
+        /// Check if any of the four base <paramref name="corners"/> is inside of the given polygon.
+        /// </summary>
+        /// <param name="corners">Corners of the base of the bounding box of the Object.</param>
+        /// <param name="polygon">The polygon.</param>
+        /// <returns>Whether any part of the object is inside the given polygon.</returns>
+        public static bool ObjectColliderAnyInPolygon(List<Vector3> corners, Polygon polygon)
+            => corners.Any(corner => IsPointInsidePolygon(polygon, corner));
     }
 }

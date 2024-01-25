@@ -34,6 +34,18 @@ namespace AwARe.Data.Logic
         public List<Polygon> NegativePolygons { get; set; }
 
         /// <summary>
+        /// Returns the y-value of the polygon points.
+        /// </summary>
+        public float? Y
+        {
+            get 
+            {
+                if(PositivePolygon != null) return PositivePolygon.Y;
+                else return null;
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Room"/> class.
         /// Either fills it with the given polygons or creates new ones.
         /// </summary>
