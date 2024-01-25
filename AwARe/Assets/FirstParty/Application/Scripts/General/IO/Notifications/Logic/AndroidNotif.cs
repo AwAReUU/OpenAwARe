@@ -1,7 +1,12 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 #if UNITY_ANDROID
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Notifications.Android;
 using UnityEngine;
 
@@ -19,8 +24,7 @@ namespace AwARe.Notifications.Logic
         private AndroidNotification notification;
 
         /// <summary>
-        /// Class constructor. initialises some variables necessary for sending notifications.
-        /// on the android platform.
+        /// Initializes a new instance of the <see cref="AndroidNotif"/> class.
         /// </summary>
         public AndroidNotif()
         {
@@ -38,12 +42,13 @@ namespace AwARe.Notifications.Logic
                 }
                 hasChannel = true;
             }
-            notification = new AndroidNotification();
-
-            //To change the icon, it must be changed in the project settings, mobile notifications tab.
-            notification.SmallIcon = "smallicon";
-            notification.ShowTimestamp = true;
-            notification.ShouldAutoCancel = false;
+            notification = new AndroidNotification
+            {
+                //To change the icon, it must be changed in the project settings, mobile notifications tab.
+                SmallIcon = "smallicon",
+                ShowTimestamp = true,
+                ShouldAutoCancel = false
+            };
         }
 
         /// <summary>
@@ -86,9 +91,11 @@ namespace AwARe.Notifications.Logic
         /// <summary>
         /// Schedules the notification to be sent at the time specified in the SetFireTime method.
         /// </summary>
-        public override void Send()
+        /// <returns>The data associated with this notification so it can be saved.</returns>
+        public override ScheduledNotificationData Schedule()
         {
-            AndroidNotificationCenter.SendNotification(notification, "channel");
+            int ID = AndroidNotificationCenter.SendNotification(notification, "channel");
+            return new ScheduledNotificationData(ID.ToString(), notification.FireTime.ToString());
         }
     }
 }
