@@ -24,6 +24,9 @@ namespace AwARe.InterScenes.Objects
         // Scene loading handler
         private SceneSecretary sceneSecretary;
 
+        // Stack with previous scenes
+        private Stack<int> sceneStack = new();
+
         /// <summary>
         /// Gets the set of scenes that should not be unloaded.
         /// </summary>
@@ -79,15 +82,44 @@ namespace AwARe.InterScenes.Objects
         /// </summary>
         /// <param name="sceneName">The name of the scene.</param>
         /// <param name="mode">Specify whether to keep other scenes loaded.</param>
-        public void LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single) =>
+        public void LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
+        {
+            RememberScene(SceneManager.GetActiveScene());
             sceneSecretary.LoadScene(sceneName, mode);
+        }
     
         /// <summary>
         /// Load the scene with the given build index.
         /// </summary>
         /// <param name="sceneBuildIndex">The build index of the scene.</param>
         /// <param name="mode">Specify whether to keep other scenes loaded.</param>
-        public void LoadScene(int sceneBuildIndex, LoadSceneMode mode = LoadSceneMode.Single) =>
+        public void LoadScene(int sceneBuildIndex, LoadSceneMode mode = LoadSceneMode.Single)
+        {
+            RememberScene(SceneManager.GetActiveScene());
             sceneSecretary.LoadScene(sceneBuildIndex, mode);
+        }
+
+        /// <summary>
+        /// Keep track of the current scene.
+        /// </summary>
+        /// <param name="scene">The current scene.</param>
+        private void RememberScene(Scene scene)
+        {
+            // Clear stack if switching from the home screen
+            if (scene.name == "Home")
+                sceneStack.Clear();
+
+            // Add current scene to stack
+            sceneStack.Push(scene.buildIndex);
+        }
+
+        /// <summary>
+        /// Load the previous scene.
+        /// </summary>
+        public void LoadLastScene()
+        {
+            int lastSceneBuildIndex = sceneStack.Pop();
+            sceneSecretary.LoadScene(lastSceneBuildIndex);
+        }
     }
 }

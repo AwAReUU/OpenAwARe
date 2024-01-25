@@ -1,30 +1,18 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
-
-using AwARe.IngredientList.Objects;
-using AwARe.InterScenes.Objects;
-using PlasticGui.Configuration.CloudEdition.Welcome;
-using System.Collections;
 using System.Collections.Generic;
-
-
-using NSubstitute.ReturnsExtensions;
-
-using TMPro;
-
-using UnityEngine;
-using UnityEngine.UI;
-using AwARe.IngredientList.Logic;
-
-using AwARe.Data.Logic;
-using AwARe.Objects;
-using AwARe.RoomScan.Objects;
 using System.Linq;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
+using AwARe.InterScenes.Objects;
+using AwARe.RoomScan.Objects;
 using AwARe.RoomScan.Path.Objects;
-
-using UnityEngine.Analytics;
-
-using Object = System.Object;
+using TMPro;
+using UnityEngine;
 
 namespace AwARe.Data.Logic
 {

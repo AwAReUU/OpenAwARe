@@ -16,7 +16,6 @@ using AwARe.Objects;
 using AwARe.ResourcePipeline.Logic;
 using AwARe.ResourcePipeline.Objects;
 using AwARe.RoomScan.Path;
-using Castle.Components.DictionaryAdapter.Xml;
 
 using UnityEngine;
 using Ingredients = AwARe.IngredientList.Logic;
@@ -68,6 +67,18 @@ namespace AwARe.ObjectGeneration
 
         private PathData path;
 
+        private ObjGenUIHandler uiHandler;
+
+        private void Start()
+        {
+            uiHandler = GetComponent<ObjGenUIHandler>();
+
+            // Set the no list selected popup active if the selected list is null
+            uiHandler.SetNoListSelectedPopup(RetrieveIngredientlist() == null);
+
+            uiHandler.SetSplitRoomsPopup(false);
+        }
+
         private void LoadRoom()
         {
             // Load data from storage
@@ -101,18 +112,18 @@ namespace AwARe.ObjectGeneration
             // Get the stored room as an object.
             LoadRoom();
 
-            // TODO:
-            // Once pathgen is done, create mesh from PathData
-            // this.pathMesh = pathData.CreateMesh()
-            if(SelectedRoom == null)
-                return;
+            if (SelectedRoom == null)
+                Debug.LogError("No room selected");
 
             float roomSpace        = SelectedRoom.PositivePolygon.Area;
             float renderablesSpace = ComputeRenderableSpaceNeeded(renderables);
 
             // Divide renderables in seperate rooms when there is not enough space 
-            if (renderablesSpace > roomSpace) 
+            if (renderablesSpace > roomSpace)
+            {
                 PlaceRoom(true);
+                uiHandler.SetSplitRoomsPopup(true);
+            }
             else PlaceRenderables(renderables, SelectedRoom, path);
         }
 
