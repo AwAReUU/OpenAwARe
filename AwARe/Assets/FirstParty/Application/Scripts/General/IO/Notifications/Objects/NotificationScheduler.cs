@@ -1,9 +1,16 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
-using System.IO;
-using UnityEngine;
-using AwARe.Notifications.Logic;
-using System.Linq;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using AwARe.Notifications.Logic;
+using UnityEngine;
 
 namespace AwARe.Notifications.Objects
 {
@@ -18,7 +25,7 @@ namespace AwARe.Notifications.Objects
     }
 
     /// <summary>
-    /// Class <c>NotificationScheduler</c> is responsible for 
+    /// Class <c>NotificationScheduler</c> is responsible for.
     /// </summary>
     public class NotificationScheduler : MonoBehaviour
     {
@@ -74,7 +81,7 @@ namespace AwARe.Notifications.Objects
                 string path = Path.Combine(folderpath, "notification" + i);
                 if (!File.Exists(path))
                 {
-                    ScheduledNotificationData fakedata = new ScheduledNotificationData("fakedata", DateTime.Now.AddDays(-1).ToString());
+                    ScheduledNotificationData fakedata = new("fakedata", DateTime.Now.AddDays(-1).ToString());
                     Save(fakedata, path);
                 }
             }
@@ -99,7 +106,7 @@ namespace AwARe.Notifications.Objects
 
             //schedule notifications for enough days such that there are notifications scheduled on every day
             //for the number of scheduleAheadDays specified.
-            int addDays = (latestScheduledNotification - DateTime.Now).Days + 1;
+            int addDays = (latestScheduledNotification - DateTime.Now).Minutes + 1;//(latestScheduledNotification - DateTime.Now).Days + 1;
             int counter = 0;
             foreach (string path in unusedFiles)
             {
@@ -110,7 +117,7 @@ namespace AwARe.Notifications.Objects
                 }
 
                 ScheduledNotificationData data = ScheduleNotification("Daily AwARe Notification",
-                "Your daily notification has arrived.", DateTime.Now.AddDays(addDays));
+                "Your daily notification has arrived.", DateTime.Now.AddMinutes(addDays)); //AddDays(addDays));
 
                 File.Delete(path);
                 Save(data, path);
@@ -171,7 +178,7 @@ namespace AwARe.Notifications.Objects
             }
 
             // load in the save data as byte array
-            string jsonData = null;
+            string jsonData;
 
             try
             {

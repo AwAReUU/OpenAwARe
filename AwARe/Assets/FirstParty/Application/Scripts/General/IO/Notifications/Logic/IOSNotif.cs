@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 #if UNITY_IOS
 using System;
 using System.Collections;
@@ -13,11 +20,12 @@ namespace AwARe.Notifications.Logic
     public class IOSNotif : Notification
     {
 
-        iOSNotification notification = new iOSNotification();
+        private readonly iOSNotification notification = new();
         DateTime fireTime;
 
-         /// <summary>
-        /// Class constructor. initialises some variables necessairy for sending notifications
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IOSNotif"/> class.
+        /// Initialises some variables necessairy for sending notifications
         /// on the IOS platform. 
         /// </summary>
         public IOSNotif()
