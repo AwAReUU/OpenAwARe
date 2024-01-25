@@ -21,11 +21,16 @@ namespace AwARe.RoomScan.Objects
         // The manager
         [SerializeField] private RoomManager manager;
 
+        // The screenshot manager
+        [SerializeField] public ScreenshotManager screenshotManager;
+
         // The UI elements
         [SerializeField] private GameObject resetButton;
         [SerializeField] private GameObject createButton;
         [SerializeField] private GameObject applyButton;
         [SerializeField] private GameObject confirmButton;
+        [SerializeField] private GameObject yesButton;
+        [SerializeField] private GameObject noButton;
         [SerializeField] private Slider heightSlider;
         [SerializeField] private Pointer pointer;
         [SerializeField] private GameObject pathButton;
@@ -63,7 +68,10 @@ namespace AwARe.RoomScan.Objects
                 conti = false,
                 savenamebtn = false,
                 savelist = false,
-                roomlist = false;
+                roomlist = false,
+                displayScreenshot = false,
+                yes = false,
+                no = false;
 
             // Set wanted elements to active
             void DecideActivities()
@@ -87,7 +95,12 @@ namespace AwARe.RoomScan.Objects
                         load = true;
                         conti = true;
                         point = true;
+                        displayScreenshot = true;
                         //startLoading = true;
+                        return;
+                    case State.LoadAnchoringConfirm:
+                        yes = true;
+                        no = true;
                         return;
                     case State.Saving:
                         conti = true;
@@ -142,6 +155,30 @@ namespace AwARe.RoomScan.Objects
             saveList.SetActive(savelist);
             loadButton.SetActive(load);
             continueButton.SetActive(conti);
+            yesButton.SetActive(yes);
+            noButton.SetActive(no);
+
+            if(displayScreenshot)
+                DisplayAnchorLoadingImage(0);
+        }
+
+        /// <summary>
+        /// Display the screenshot with the given index for loading the anchors.
+        /// </summary>
+        /// <param name="index">The index of the screenshot.</param>
+        public void DisplayAnchorLoadingImage(int index)
+        {
+            screenshotManager.DisplayScreenshotFromFile(manager.Room.Data, index, false, ScreenshotManager.ImageSize.Small);
+        }
+
+        
+        /// <summary>
+        /// Display the screenshot with the given index for saving the anchors.
+        /// </summary>
+        /// <param name="index">The index of the screenshot.</param>
+        public void DisplayAnchorSavingImage(Texture2D screenshot)
+        {
+            screenshotManager.DisplayScreenshot(screenshotManager.TextureToSprite(screenshot), false, ScreenshotManager.ImageSize.Large);
         }
 
         /// <summary>
@@ -216,5 +253,13 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnPathButtonClick() =>
             manager.OnPathButtonClick();
+
+        [ExcludeFromCoverage]
+        public void OnYesButtonClick() =>
+            manager.OnYesButtonClick();
+
+        [ExcludeFromCoverage]
+        public void OnNoButtonClick() =>
+            manager.OnNoButtonClick();
     }
 }

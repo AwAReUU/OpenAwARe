@@ -5,14 +5,9 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*  
 
-using AwARe.IngredientList.Objects;
-using System.Collections;
 using System.Collections.Generic;
-
 using AwARe.Data.Logic;
-
 using TMPro;
-
 using UnityEngine;
 
 namespace AwARe
@@ -30,12 +25,6 @@ namespace AwARe
         void Start()
         {
             name = nameLabel.text;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
         }
 
         /// <summary>

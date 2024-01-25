@@ -18,7 +18,7 @@ namespace AwARe.Data.Logic
     public class Room : IEquatable<Room>
     {
         /// <summary>
-        /// Gets or sets the main polygon.
+        /// Gets or sets the name of the room.
         /// </summary>
         public string RoomName { get; set; }
 

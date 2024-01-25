@@ -5,34 +5,18 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System.IO;
+using System.Collections.Generic;
 using System.Linq;
-
-using AwARe.IngredientList.Objects;
-using AwARe.Data.Objects;
+using AwARe.Data.Logic;
 using AwARe.InterScenes.Objects;
 using AwARe.Objects;
 using AwARe.RoomScan.Path.Objects;
 using AwARe.RoomScan.Polygons.Objects;
-using AwARe.UI;
+using AwARe.UI.Objects;
+using TMPro;
 using UnityEngine;
 using UnityEngine.TestTools;
-using AwARe.UI;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-using TMPro;
-using System.Collections.Generic;
-
-using AwARe.Data.Logic;
-
-using Unity.IO.LowLevel.Unsafe;
-
 using Room = AwARe.Data.Objects.Room;
-using System.Collections;
-using AwARe.Data.Objects;
-using AYellowpaper;
-using AwARe.UI.Objects;
 
 namespace AwARe.RoomScan.Objects
 {
@@ -98,6 +82,8 @@ namespace AwARe.RoomScan.Objects
         private List<Vector3> sessionAnchors = new();
         [SerializeField] private GameObject anchorVisual;
 
+        private List<Texture2D> screenshots = new();
+
         /// <summary>
         /// Add an anchor to the sessionAnchors list, fails if list is full (2 anchors max.).
         /// </summary>
@@ -133,26 +119,7 @@ namespace AwARe.RoomScan.Objects
         {
             polygonManager.OnUIMiss();
 
-            if (CurrentState == State.SaveAnchoring)
-            {
-                TryAddAnchor(pointer.PointedAt, anchorVisual);
-
-                if (sessionAnchors.Count >= 2)
-                {
-                    OnSaveButtonClick();
-                }
-            }
-
-            else if (CurrentState == State.LoadAnchoring)
-            {
-                TryAddAnchor(pointer.PointedAt, anchorVisual);
-
-                if (sessionAnchors.Count >= 2)
-                {
-                    LoadRoom();
-                }
-
-            }
+            OnSetPointButtonClick();
         }
 
         /// <summary>
@@ -188,6 +155,78 @@ namespace AwARe.RoomScan.Objects
         {
             polygonManager.OnConfirmButtonClick();
             SwitchToState(State.Done);
+        }
+
+        /// <summary>
+        /// Called on set point button click; Places anchors.
+        /// </summary>
+        public void OnSetPointButtonClick()
+        {
+            if (ui.screenshotManager.screenshotDisplayed)
+            {
+                ui.screenshotManager.HideScreenshot();
+                return;
+            }
+
+            if (CurrentState == State.SaveAnchoring)
+            {
+                TryAddAnchor(pointer.PointedAt, anchorVisual);
+
+                Texture2D screenshot = ui.screenshotManager.TakeScreenshot();
+                screenshots.Add(screenshot);
+
+                ui.DisplayAnchorSavingImage(screenshot);
+
+                if (sessionAnchors.Count == 2)
+                {
+                    for(int i = 0; i < screenshots.Count; i++)
+                    {
+                        ui.screenshotManager.SaveScreenshot(screenshots[i], Room.Data, i);
+                    }
+                    OnSaveButtonClick();
+                }
+            }
+            else if (CurrentState == State.LoadAnchoring)
+            {
+                if(sessionAnchors.Count >= 1)
+                {
+                    ui.DisplayAnchorLoadingImage(1);
+                }
+                else if (sessionAnchors.Count >= 2)
+                {
+                    LoadRoom();
+                }
+            }
+        }
+
+        public void OnYesButtonClick()
+        {
+            if(CurrentState == State.LoadAnchoring)
+            {
+                ui.screenshotManager.HideScreenshot();
+
+                if(sessionAnchors.Count < 2)
+                    SwitchToState(State.LoadAnchoring);
+                else
+                {
+                    LoadRoom();
+                }
+            }
+        }
+
+        public void OnNoButtonClick()
+        {
+            if(CurrentState == State.LoadAnchoring)
+            {
+                ui.screenshotManager.HideScreenshot();
+
+                if(sessionAnchors.Count < 2)
+                    SwitchToState(State.LoadAnchoring);
+                else
+                {
+                    LoadRoom();
+                }
+            }
         }
 
         /// <summary>
@@ -430,6 +469,7 @@ namespace AwARe.RoomScan.Objects
         Saving,
         Loading,
         SaveAnchoring,
-        LoadAnchoring
+        LoadAnchoring,
+        LoadAnchoringConfirm
     }
 }

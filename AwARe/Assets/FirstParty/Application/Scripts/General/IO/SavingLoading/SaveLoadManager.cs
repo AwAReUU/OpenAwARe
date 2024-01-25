@@ -4,14 +4,9 @@
 //
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \* 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
-using AwARe.Data.Logic;
-using AwARe.RoomScan.Polygons.Objects;
 using System;
-using System.Linq;
+using System.IO;
+using UnityEngine;
 
 namespace AwARe
 {
