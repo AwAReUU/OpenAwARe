@@ -132,7 +132,7 @@ namespace AwARe.RoomScan
 
         public void HideOutlineImage()
         {
-            outlineImageObj.SetActive(true);
+            outlineImageObj.SetActive(false);
         }
 
         /// <summary>
