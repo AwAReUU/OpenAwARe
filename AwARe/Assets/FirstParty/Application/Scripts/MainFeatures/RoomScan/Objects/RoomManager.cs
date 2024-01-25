@@ -199,27 +199,30 @@ namespace AwARe.RoomScan.Objects
         {
             if(CurrentState == State.LoadAnchoring)
             {
-                if (ui.screenshotManager.screenshotDisplayed)
-                {
-                    ui.screenshotManager.HideScreenshot();
-                }
+                ui.screenshotManager.HideScreenshot();
+
+                if(sessionAnchors.Count < 2)
+                    SwitchToState(State.LoadAnchoring);
                 else
                 {
-
+                    LoadRoom();
                 }
             }
         }
 
         public void OnNoButtonClick()
         {
-                if(sessionAnchors.Count >= 1)
-                {
-                    ui.DisplayAnchorLoadingImage(1);
-                }
-                else if (sessionAnchors.Count >= 2)
+            if(CurrentState == State.LoadAnchoring)
+            {
+                ui.screenshotManager.HideScreenshot();
+
+                if(sessionAnchors.Count < 2)
+                    SwitchToState(State.LoadAnchoring);
+                else
                 {
                     LoadRoom();
                 }
+            }
         }
 
         /// <summary>
@@ -462,6 +465,7 @@ namespace AwARe.RoomScan.Objects
         Saving,
         Loading,
         SaveAnchoring,
-        LoadAnchoring
+        LoadAnchoring,
+        LoadAnchoringConfirm
     }
 }

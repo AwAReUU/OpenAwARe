@@ -29,6 +29,8 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private GameObject createButton;
         [SerializeField] private GameObject applyButton;
         [SerializeField] private GameObject confirmButton;
+        [SerializeField] private GameObject yesButton;
+        [SerializeField] private GameObject noButton;
         [SerializeField] private Slider heightSlider;
         [SerializeField] private Pointer pointer;
         [SerializeField] private GameObject pathButton;
@@ -67,7 +69,9 @@ namespace AwARe.RoomScan.Objects
                 savenamebtn = false,
                 savelist = false,
                 roomlist = false,
-                displayScreenshot = false;
+                displayScreenshot = false,
+                yes = false,
+                no = false;
 
             // Set wanted elements to active
             void DecideActivities()
@@ -93,6 +97,10 @@ namespace AwARe.RoomScan.Objects
                         point = true;
                         displayScreenshot = true;
                         //startLoading = true;
+                        return;
+                    case State.LoadAnchoringConfirm:
+                        yes = true;
+                        no = true;
                         return;
                     case State.Saving:
                         conti = true;
@@ -147,6 +155,8 @@ namespace AwARe.RoomScan.Objects
             saveList.SetActive(savelist);
             loadButton.SetActive(load);
             continueButton.SetActive(conti);
+            yesButton.SetActive(yes);
+            noButton.SetActive(no);
 
             if(displayScreenshot)
                 DisplayAnchorLoadingImage(0);
