@@ -26,7 +26,7 @@ namespace AwARe.RoomScan.Path.Objects
         [SerializeField] private RoomScan.Objects.RoomManager manager;
 
         // Objects to control
-        [SerializeField] private PathVisualizer pathVisualizerVisualizer;
+        [SerializeField] private PathVisualizer pathVisualizer;
         //[SerializeField] private VisualizePath pathVisualizer; //TODO: Get out of polygonScanning
 
         // Test Objects for development
@@ -63,11 +63,11 @@ namespace AwARe.RoomScan.Path.Objects
         public IEnumerator MakePathAndRemovePopup()
         {
             yield return null;
-            GenerateAndDrawPath();
+            Storage.Get().ActivePath = GenerateAndDrawPath();
             SwitchToState(State.Default);
         }
 
-        public void GenerateAndDrawPath()
+        public PathData GenerateAndDrawPath()
         {
             PathGenerator startstate = new();
 
@@ -101,9 +101,11 @@ namespace AwARe.RoomScan.Path.Objects
             if (useTestPol)
                 testPolygon.GetComponent<Liner>().UpdateLine();
 
-            PathVisualizer visualizer = pathVisualizerVisualizer.GetComponent<PathVisualizer>();
+            PathVisualizer visualizer = pathVisualizer.GetComponent<PathVisualizer>();
             visualizer.SetPath(path);
             visualizer.Visualize();
+
+            return path;
         }
             
         /// <summary>

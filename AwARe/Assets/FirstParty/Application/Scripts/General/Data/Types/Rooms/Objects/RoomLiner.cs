@@ -85,6 +85,8 @@ namespace AwARe.Data.Objects
             
             foreach (var liner in negativePolygonLiners)
                 liner.UpdateLine();
+
+            newLines = false;
         }
         
         /// <summary>

@@ -7,34 +7,32 @@
 
 using System.IO;
 using System.Linq;
-
 using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
 using AwARe.Objects;
-using AwARe.RoomScan.Polygons.Objects;
 using AwARe.RoomScan.Path.Objects;
-
+using AwARe.RoomScan.Polygons.Objects;
+using AwARe.UI;
 using UnityEngine;
 using UnityEngine.TestTools;
-using AwARe.UI;
 
 namespace AwARe.RoomScan.Objects
 {
     /// <summary>
     /// Contains the Room and handles the different states within the Polygon scanning.
     /// </summary>
-    public class RoomManager : MonoBehaviour, IPointer
+    public class RoomManager : MonoBehaviour
     {
         // Objects to control
         [SerializeField] private PolygonManager polygonManager;
         [SerializeField] private PathManager pathManager;
         // [SerializeField] private VisualizePath pathVisualizer; //TODO: Get out of polygonScanning
-        
+
         // The UI
         [SerializeField] private RoomUI ui;
         [SerializeField] private Transform canvas;
         [SerializeField] private Transform sceneCanvas;
-        
+
         // Templates
         [SerializeField] private GameObject roomBase;
 
@@ -68,15 +66,6 @@ namespace AwARe.RoomScan.Objects
         /// The current room.
         /// </value>
         public Room Room { get; set; }
-
-        /// <summary>
-        /// Gets the current position of the pointer.
-        /// </summary>
-        /// <value>
-        /// The current position of the pointer.
-        /// </value>
-        public Vector3 PointedAt =>
-            ui.PointedAt;
 
         /// <summary>
         /// Called when no UI element has been hit on click or press.
@@ -263,7 +252,7 @@ namespace AwARe.RoomScan.Objects
                 polygon.GetComponent<Mesher>().UpdateMesh(); 
                 polygon.GetComponent<Liner>().UpdateLine();
             }
-            pathManager.GenerateAndDrawPath();
+            Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
         }
     }
 

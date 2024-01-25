@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using AwARe.RoomScan.Path.Jobs;
 using Unity.Collections;
 using Unity.Jobs;
+using UnityEngine;
 
 namespace AwARe.RoomScan.Path
 {
@@ -57,6 +58,18 @@ namespace AwARe.RoomScan.Path
 
             resultGrid.Dispose();
             inputGrid.Dispose();
+
+            //check that the entire grid hasn't been eroded away
+            bool allfalse = true;
+            for(int i = 0; i < output.GetLength(0) && allfalse; i++)
+                for(int j = 0; j < output.GetLength(1); j++)
+                    if(output[i,j])
+                    {
+                        allfalse = false;
+                        break;
+                    }
+
+            if(allfalse) Debug.LogError("Not enough floor space to generate a path");
 
             return output;
         }

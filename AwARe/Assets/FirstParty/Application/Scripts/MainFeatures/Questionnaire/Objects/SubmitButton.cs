@@ -1,9 +1,15 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
 using AwARe.InterScenes.Objects;
 using AwARe.Server.Logic;
 using Codice.CM.SEIDInfo;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace AwARe.Questionnaire.Objects
 {

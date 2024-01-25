@@ -24,17 +24,22 @@ namespace AwARe.RoomScan.Polygons.Objects
     public class PolygonDrawer : MonoBehaviour
     {
         // The pointer
-        public InterfaceReference<IPointer> pointer;
+        [SerializeField] public InterfaceReference<IPointer> pointer;
 
         // The line renderers and templates
         [SerializeField] private GameObject polygonBase; // the object that is instantiated to create the lines
         [SerializeField] private LineRenderer activeLine; // the polygonLine from the last Polygon point to the current pointer position
-        [SerializeField] private LineRenderer closeLine; // the polygonLine from the current pointer position to the first Polygon point
+        [SerializeField] private LineRenderer closeLine; // the polygonLine from the last polygon point to the first Polygon point
         private Liner polygonLine; // the polygonLine representing the Polygon
         private PolygonLinerLogic polygonLineLogic;
 
         // The tracking data
         private Polygon activePolygon;
+
+        /// <summary>
+        /// The object of the polygon currently being drawn.
+        /// </summary>
+        private GameObject activePolygonObject;
 
         /// <summary>
         /// Gets the position currently pointed at.
@@ -63,12 +68,12 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void StartDrawing()
         {
-            GameObject obj = Instantiate(polygonBase, transform);
-            activePolygon = obj.GetComponent<Polygon>();
-            polygonLine = obj.GetComponent<Liner>();
-            polygonLineLogic = obj.GetComponent<PolygonLinerLogic>();
-            
-            obj.SetActive(true);
+            activePolygonObject = Instantiate(polygonBase, transform);
+            activePolygon = activePolygonObject.GetComponent<Polygon>();
+            polygonLine = activePolygonObject.GetComponent<Liner>();
+            polygonLineLogic = activePolygonObject.GetComponent<PolygonLinerLogic>();
+
+            activePolygonObject.SetActive(true);
             activePolygon.Data = new();
             polygonLineLogic.closedLine = false;
 
@@ -77,13 +82,19 @@ namespace AwARe.RoomScan.Polygons.Objects
             UpdateLines();
         }
 
+        public void Reset()
+        {
+            Destroy(activePolygonObject);
+        }
+
         /// <summary>
         /// Adds a point to the drawn polygon.
         /// </summary>
         [ExcludeFromCoverage]
-        public void AddPoint() =>
+        public void AddPoint()
+        {
             AddPoint(PointedAt);
-
+        }
 
         /// <summary>
         /// Adds a point to the drawn polygon.
@@ -94,6 +105,7 @@ namespace AwARe.RoomScan.Polygons.Objects
                 return;
 
             Polygon.points.Add(point);
+            
             polygonLine.UpdateLine();
         }
 
@@ -137,7 +149,7 @@ namespace AwARe.RoomScan.Polygons.Objects
 
             // Draw closing line
             closeLine.positionCount = 2;
-            closeLine.SetPositions(new[]{ PointedAt, Polygon.points[0] });
+            closeLine.SetPositions(new[]{ Polygon.points[^1], Polygon.points[0] });
         }
     }
 }
