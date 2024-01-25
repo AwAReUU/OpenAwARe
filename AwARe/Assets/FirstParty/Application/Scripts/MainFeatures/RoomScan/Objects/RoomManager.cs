@@ -179,6 +179,10 @@ namespace AwARe.RoomScan.Objects
 
                 if (sessionAnchors.Count == 2)
                 {
+                    for(int i = 0; i < screenshots.Count; i++)
+                    {
+                        ui.screenshotManager.SaveScreenshot(screenshots[i], Room.Data, i);
+                    }
                     OnSaveButtonClick();
                 }
             }
