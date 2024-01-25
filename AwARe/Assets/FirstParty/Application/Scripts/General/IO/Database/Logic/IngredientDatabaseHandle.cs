@@ -25,6 +25,15 @@ namespace AwARe.Database.Logic
         public string query;
     }
 
+    [Serializable]
+    struct IngredientResponse
+    {
+        public int IngredientID;
+        public string PrefName;
+        public float GramsPerML;
+        public float GramsPerPiece;
+    }
+
     /// <summary>
     /// A handle to the remote database, that implements the Ingredient Database interface.
     /// The user must be logged in and connected to the server for this to work.
@@ -77,8 +86,13 @@ namespace AwARe.Database.Logic
                 query = term
             }).Then((res) =>
             {
-                Ingredient[] ingredients = JsonHelper.FromJsonString<Ingredient>("{ \"Items\": " + res + "}");
-                return ingredients.ToList();
+                IngredientResponse[] responses = JsonHelper.FromJsonString<IngredientResponse>("{ \"Items\": " + res + "}");
+                var ingredients = new List<Ingredient>();
+                foreach (IngredientResponse ingr in responses)
+                {
+                    ingredients.Add(new Ingredient(ingr.IngredientID, ingr.PrefName, ingr.GramsPerML, ingr.GramsPerPiece));
+                }
+                return ingredients;
             }).Catch((err) =>
                 {
                     if (err.StatusCode == 403)
@@ -91,6 +105,7 @@ namespace AwARe.Database.Logic
                         Debug.LogError("Failed to search ingredients on the server.: [" + err.StatusCode + "] " + err.ServerMessage);
                     }
                 }).Send();
+
 
             return results;
         }

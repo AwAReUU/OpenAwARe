@@ -62,6 +62,8 @@ INSERT OR IGNORE INTO Ingredient VALUES (13,   'Chicken', NULL,  250);
 INSERT OR IGNORE INTO Ingredient VALUES (14,      'Pork', NULL,  250);
 INSERT OR IGNORE INTO Ingredient VALUES (15,      'Duck', NULL,  250);
 INSERT OR IGNORE INTO Ingredient VALUES (16,      'Milk', 1.04, NULL);
+INSERT OR IGNORE INTO Ingredient VALUES (17,      'Potato', NULL, 100);
+INSERT OR IGNORE INTO Ingredient VALUES (18,      'Beet', NULL, 150);
 
 INSERT OR IGNORE INTO Search VALUES ( 1,         'Water');
 INSERT OR IGNORE INTO Search VALUES ( 2,         'Apple');

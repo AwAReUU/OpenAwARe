@@ -74,9 +74,9 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Finds all ingredients in the database that match with the text written in the searchbar and displays the results.
         /// </summary>
-        public void OnSearchClick()
+        public async void OnSearchClick()
         {
-            manager.SearchIngredient(searchBar.text);
+            await manager.SearchIngredient(searchBar.text);
             DisplayResults();
         }
 
