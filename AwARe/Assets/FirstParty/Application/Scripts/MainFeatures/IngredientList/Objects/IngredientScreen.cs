@@ -28,12 +28,12 @@ namespace AwARe.IngredientList.Objects
     {
         // The parent element
         [SerializeField] private IngredientListManager manager;
-        
+
         // UI elements to control
         [SerializeField] private GameObject ingredientNameField;
         [SerializeField] private TMP_InputField quantityField;
         [SerializeField] private TMP_Dropdown typeDropdown;
-        
+
         // The data represented/edited
         private Logic.IngredientList.Entry entry;
         private bool isNew; // TODO: Should be managed outside UI
@@ -52,8 +52,8 @@ namespace AwARe.IngredientList.Objects
         private void SetElements()
         {
             // Set name label
-            ingredientNameField.GetComponent<TMP_Text>().text = entry.ingredient.Name;
-            
+            ingredientNameField.GetComponent<TMP_Text>().text = entry.ingredient.PrefName;
+
             // Set dropdown options
             List<string> options = Enum.GetNames(typeof(QuantityType)).ToList();
             typeDropdown.ClearOptions();
@@ -75,7 +75,7 @@ namespace AwARe.IngredientList.Objects
 
             manager.ReadQuantity(ingredient, quantityS, typeS, out float quantity, out QuantityType type);
 
-            if(isNew)
+            if (isNew)
                 manager.AddIngredient(ingredient, quantity, type);
             else
                 manager.UpdateIngredient(quantity, type);

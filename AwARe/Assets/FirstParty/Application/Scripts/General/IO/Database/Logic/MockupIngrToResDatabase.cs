@@ -76,7 +76,7 @@ namespace AwARe.Database.Logic
         {
             IEnumerable<(int, float)> result =
                 from (int ingredientID, int ResourceID, float Ratio) x in requiresTable
-                where x.ingredientID == ingredient.ID
+                where x.ingredientID == ingredient.IngredientID
                 select (x.ResourceID, x.Ratio);
 
             return Task.Run(() => result.ToDictionary(x => x.Item1, x => x.Item2));

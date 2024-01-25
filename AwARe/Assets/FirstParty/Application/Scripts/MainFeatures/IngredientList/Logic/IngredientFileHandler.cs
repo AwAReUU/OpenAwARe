@@ -94,7 +94,11 @@ namespace AwARe.IngredientList.Logic
                         throw new Exception("Cannot convert string to QuantityType.");
                     try
                     {
-                        ingredients.Add(await ingredientDatabase.GetIngredient(ingredientID), (ingredientQuantity, ingredientQuantityType));
+                        var ingr = await ingredientDatabase.GetIngredient(ingredientID);
+                        if (ingr != null)
+                        {
+                            ingredients.Add(ingr, (ingredientQuantity, ingredientQuantityType));
+                        }
                     }
                     catch (System.InvalidOperationException)
                     {
@@ -191,7 +195,7 @@ namespace AwARe.IngredientList.Logic
                 for (int j = 0; j < ingredientLists[i].NumberOfIngredients(); j++)
                 {
                     Ingredient ingredient = ingredientLists[i].Ingredients.ElementAt(j).Key;
-                    info.ingredientIDs[i] += ingredient.ID.ToString() + ",";
+                    info.ingredientIDs[i] += ingredient.IngredientID.ToString() + ",";
                     info.ingredientQuantities[i] += ingredientLists[i].GetQuantity(ingredient).ToString() + ",";
                     info.ingredientQuantityTypes[i] += ingredientLists[i].GetQuantityType(ingredient).ToString() + ",";
                 }

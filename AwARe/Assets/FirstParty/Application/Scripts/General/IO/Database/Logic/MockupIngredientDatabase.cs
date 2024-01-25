@@ -95,7 +95,7 @@ namespace AwARe.Database.Logic
         public Task<Ingredient> GetIngredient(int id)
         {
             // return the first ingredient that matches id, should be the only one since IDs are unique
-            return Task.Run(() => ingredientTable.First(x => x.ID == id));
+            return Task.Run(() => ingredientTable.First(x => x.IngredientID == id));
         }
 
         ///<inheritdoc cref="IIngredientDatabase.GetIngredients"/>
@@ -104,7 +104,7 @@ namespace AwARe.Database.Logic
             // perform an inner join of ingredient table and ids on ingredientID
             IEnumerable<Ingredient> ingredients =
                 from id in ids
-                join ingredient in ingredientTable on id equals ingredient.ID
+                join ingredient in ingredientTable on id equals ingredient.IngredientID
                 select ingredient;
             return Task.Run(() => ingredients.ToList());
         }

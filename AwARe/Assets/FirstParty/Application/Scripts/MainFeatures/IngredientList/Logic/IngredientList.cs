@@ -143,7 +143,7 @@ namespace AwARe.IngredientList.Logic
             /// <param name="entry">The tuple representing on entry.</param>
             public static implicit operator Entry((Ingredient, float, QuantityType) entry) =>
                 new(entry.Item1, entry.Item2, entry.Item3);
-            
+
             /// <summary>
             /// Converts entry types to tuple form.
             /// </summary>
@@ -156,19 +156,20 @@ namespace AwARe.IngredientList.Logic
     /// <summary>
     /// Class that stores Ingredient data retrieved from the Ingredient Database.
     /// </summary>
+    [Serializable]
     public class Ingredient : IEquatable<Ingredient>
     {
         /// <summary>
         /// Gets the Unique Identifier of the Ingredient. Matches with the one in the Database.
         /// </summary>
         /// <value>The IngredientID of the Ingredient.</value>
-        public int ID { get; }
+        public int IngredientID { get; }
 
         /// <summary>
         /// Gets the Name of the Ingredient that is displayed throughout the UI.
         /// </summary>
         /// <value>The name of the Ingredient.</value>
-        public string Name { get; }
+        public string PrefName { get; }
 
         /// <summary>
         /// Gets the rate of converting the quantity from grams to millilitres. Null means conversion is impossible.
@@ -191,12 +192,12 @@ namespace AwARe.IngredientList.Logic
         /// <param name="gramsPerPiece">The grams per piece conversion rate.</param>
         public Ingredient(int id, string name, float? gramsPerML = null, float? gramsPerPiece = null)
         {
-            this.ID = id;
-            this.Name = name;
+            this.IngredientID = id;
+            this.PrefName = name;
             this.GramsPerML = gramsPerML;
             this.GramsPerPiece = gramsPerPiece;
         }
-        
+
         /// <summary>
         /// Verifies if the given quantity type is valid for this ingredient.
         /// </summary>
@@ -205,10 +206,10 @@ namespace AwARe.IngredientList.Logic
         public bool QuantityPossible(QuantityType type) =>
             type switch
             {
-                QuantityType.G   => true,
-                QuantityType.ML  => GramsPerML != null,
+                QuantityType.G => true,
+                QuantityType.ML => GramsPerML != null,
                 QuantityType.PCS => GramsPerPiece != null,
-                _                => false
+                _ => false
             };
 
         /// <summary>
@@ -263,13 +264,13 @@ namespace AwARe.IngredientList.Logic
         /// </summary>
         /// <param name="m">The Ingredient to compare to.</param>
         /// <returns>true if the Ingredients have the same ID, otherwise false.</returns>
-        public bool Equals(Ingredient m) => ID == m.ID;
+        public bool Equals(Ingredient m) => IngredientID == m.IngredientID;
 
         /// <summary>
         /// Gets the Hash Code of the Ingredient.
         /// </summary>
         /// <returns>The Hash Code of the Ingredient.</returns>
-        public override int GetHashCode() => ID.GetHashCode();
+        public override int GetHashCode() => IngredientID.GetHashCode();
     }
 
     /// <summary>

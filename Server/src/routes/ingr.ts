@@ -93,12 +93,12 @@ router.get("/getIngredientList", validateToken, async (req: any, res: any) => {
 
   db.all(
     `SELECT * FROM Ingredient WHERE IngredientID IN (` +
-      ids
-        .map(function () {
-          return "?";
-        })
-        .join(",") +
-      `);`,
+    ids
+      .map(function() {
+        return "?";
+      })
+      .join(",") +
+    `);`,
     ids,
     async (error: any, rows: any) => {
       if (error) {
@@ -186,12 +186,12 @@ router.get("/getResourceList", validateToken, async (req: any, res: any) => {
 
   db.all(
     `SELECT * FROM Resource WHERE ResourceID IN (` +
-      ids
-        .map(function () {
-          return "?";
-        })
-        .join(",") +
-      `);`,
+    ids
+      .map(function() {
+        return "?";
+      })
+      .join(",") +
+    `);`,
     ids,
     async (error: any, rows: any) => {
       if (error) {
@@ -250,12 +250,12 @@ router.get("/getModelList", validateToken, async (req: any, res: any) => {
 
   db.all(
     `SELECT * FROM Model WHERE ModelID IN (` +
-      ids
-        .map(function () {
-          return "?";
-        })
-        .join(",") +
-      `);`,
+    ids
+      .map(function() {
+        return "?";
+      })
+      .join(",") +
+    `);`,
     ids,
     async (error: any, rows: any) => {
       if (error) {

@@ -29,7 +29,7 @@ namespace Tests
             Ingredient ingredient = new Ingredient(id, "test");
 
             //Act and Assert: Get the ingredients name and assert it's the same as the one given to the constructor.
-            Assert.AreEqual(id, ingredient.ID);
+            Assert.AreEqual(id, ingredient.IngredientID);
         }
 
         [Test, Description("Can get the name of the ingredient.")]
@@ -41,7 +41,7 @@ namespace Tests
             Ingredient ingredient = new Ingredient(1, name);
 
             //Act and Assert: Get the ingredients name and assert it's the same as the one given to the constructor.
-            Assert.AreEqual(name, ingredient.Name);
+            Assert.AreEqual(name, ingredient.PrefName);
         }
 
         [Test, Description("Type conversion to ML is not possible if gramsPerML is null.")]

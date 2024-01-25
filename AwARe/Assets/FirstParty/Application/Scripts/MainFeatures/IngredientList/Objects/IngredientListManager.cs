@@ -50,8 +50,8 @@ namespace AwARe.IngredientList.Objects
 
         private async void Awake()
         {
-            IngredientDatabase = new MockupIngredientDatabase();
-            // IngredientDatabase = new IngredientDatabaseHandle();
+            // IngredientDatabase = new MockupIngredientDatabase();
+            IngredientDatabase = new IngredientDatabaseHandle();
             fileHandler = new IngredientFileHandler(IngredientDatabase);
             Lists = await fileHandler.ReadFile();
             InitializeLists();

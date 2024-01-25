@@ -18,10 +18,10 @@ namespace AwARe.IngredientList.Objects
     {
         // The parent element
         [SerializeField] private SearchScreen screen;
-        
+
         // UI elements to control
         [SerializeField] private TextMeshProUGUI nameLabel;
-        
+
         // The data represented.
         private Ingredient result;
 
@@ -34,14 +34,14 @@ namespace AwARe.IngredientList.Objects
             this.result = result;
             DisplayItem();
         }
-        
+
         /// <summary>
         /// Corrects this UI element to represent its data.
         /// </summary>
         private void DisplayItem()
         {
-            gameObject.name =  result.Name;
-            nameLabel.text = result.Name;
+            gameObject.name = result.PrefName;
+            nameLabel.text = result.PrefName;
         }
 
         /// <summary>

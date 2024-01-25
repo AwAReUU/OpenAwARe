@@ -26,7 +26,7 @@ namespace AwARe.IngredientList.Objects
 
         // The data represented.
         private Entry entry;
-        
+
         /// <summary>
         /// Sets this item to represent the given entry.
         /// </summary>
@@ -36,15 +36,15 @@ namespace AwARe.IngredientList.Objects
             this.entry = entry;
             DisplayItem();
         }
-        
+
         /// <summary>
         /// Corrects this UI element to represent its data.
         /// </summary>
         private void DisplayItem()
         {
             // change the text to match the ingredient info
-            gameObject.name =  entry.ingredient.Name;
-            ingredientLabel.text = entry.ingredient.Name;
+            gameObject.name = entry.ingredient.PrefName;
+            ingredientLabel.text = entry.ingredient.PrefName;
             quantityLabel.text = entry.quantity.ToString();
             quantityTypeLabel.text = entry.type.ToString();
         }

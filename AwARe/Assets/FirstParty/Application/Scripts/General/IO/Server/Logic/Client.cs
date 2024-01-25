@@ -278,6 +278,7 @@ namespace AwARe.Server.Logic
                     Uri = Client.GetInstance().adress + "/" + url,
                     Body = body,
                 };
+                Debug.Log(rh.Uri);
                 RestClient.Post(Client.GetInstance().Authorize(rh)).Then(response =>
                 {
                     var res = on_then(response.Text);
@@ -301,7 +302,7 @@ namespace AwARe.Server.Logic
             {
                 var rh = new RequestHelper
                 {
-                    Uri = Client.GetInstance().adress + url,
+                    Uri = Client.GetInstance().adress + "/" + url,
                     Body = body,
                 };
                 RestClient.Get(Client.GetInstance().Authorize(rh)).Then(response =>
