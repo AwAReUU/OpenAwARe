@@ -243,5 +243,13 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnPathButtonClick() =>
             manager.OnPathButtonClick();
+
+        [ExcludeFromCoverage]
+        public void OnYesButtonClick() =>
+            manager.OnYesButtonClick();
+
+        [ExcludeFromCoverage]
+        public void OnNoButtonClick() =>
+            manager.OnNoButtonClick();
     }
 }

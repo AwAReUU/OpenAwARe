@@ -36,6 +36,7 @@ namespace AwARe.RoomScan
             SetupImage();
 
             maskObj.SetActive(false);
+            outlineImageObj.SetActive(false);
 
             string basePath = $"{Application.persistentDataPath}/screenshots";
             if(!Directory.Exists(basePath))
@@ -53,18 +54,12 @@ namespace AwARe.RoomScan
         private string GetPath(Data.Logic.Room room, int index) => $"{Application.persistentDataPath}/screenshots/{room.RoomName}{index}.png";
 
         /// <summary>
-        /// Takes a screenshot for the given room with the anchorpoint's index
-        /// at the end of the frame.
+        /// Takes a screenshot and returns it as a Texture2D.
         /// </summary>
-        /// <param name="room">The room that the screenshot corresponds with.</param>
-        /// <param name="index">The number of the anchorpoint that the screenshot corresponds with.</param>
-        public /*IEnumerator*/ Texture2D TakeScreenshot(Data.Logic.Room room, int index)
+        /// <returns>The screenshot.</returns>
+        public Texture2D TakeScreenshot()
         {
-            //yield return new WaitForEndOfFrame();
-
             return ScreenCapture.CaptureScreenshotAsTexture();
-
-            //System.IO.File.WriteAllBytes(GetPath(room, index), screenshot.EncodeToPNG());
         }
 
         
@@ -128,6 +123,16 @@ namespace AwARe.RoomScan
             )
         {
             DisplayScreenshot(RetrieveScreenshot(GetPath(room, index)), transparent, size);
+        }
+
+        public void DisplayOutlineImage()
+        {
+            outlineImageObj.SetActive(true);
+        }
+
+        public void HideOutlineImage()
+        {
+            outlineImageObj.SetActive(true);
         }
 
         /// <summary>

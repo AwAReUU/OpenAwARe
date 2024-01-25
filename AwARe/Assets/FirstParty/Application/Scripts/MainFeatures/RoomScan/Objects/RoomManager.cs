@@ -82,8 +82,7 @@ namespace AwARe.RoomScan.Objects
         private List<Vector3> sessionAnchors = new();
         [SerializeField] private GameObject anchorVisual;
 
-        private Texture2D screenshot1;
-        private Texture2D screenshot2;
+        private List<Texture2D> screenshots = new();
 
         /// <summary>
         /// Add an anchor to the sessionAnchors list, fails if list is full (2 anchors max.).
@@ -119,12 +118,6 @@ namespace AwARe.RoomScan.Objects
         public void OnUIMiss()
         {
             polygonManager.OnUIMiss();
-
-            if (ui.screenshotManager.screenshotDisplayed)
-            {
-                ui.screenshotManager.HideScreenshot();
-                return;
-            }
 
             OnSetPointButtonClick();
         }
@@ -169,31 +162,28 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         public void OnSetPointButtonClick()
         {
+            if (ui.screenshotManager.screenshotDisplayed)
+            {
+                ui.screenshotManager.HideScreenshot();
+                return;
+            }
+
             if (CurrentState == State.SaveAnchoring)
             {
-                
                 TryAddAnchor(pointer.PointedAt, anchorVisual);
 
-                screenshot1 = ui.screenshotManager.TakeScreenshot(Room.Data, 0);
-                ui.DisplayAnchorSavingImage(screenshot1);
+                Texture2D screenshot = ui.screenshotManager.TakeScreenshot();
+                screenshots.Add(screenshot);
 
-                if(sessionAnchors.Count >= 1)
+                ui.DisplayAnchorSavingImage(screenshot);
+
+                if (sessionAnchors.Count == 2)
                 {
-                     screenshot2 = ui.screenshotManager.TakeScreenshot(Room.Data, 1);
-                     ui.DisplayAnchorSavingImage(screenshot2);
-                }
-                if (sessionAnchors.Count >= 2)
-                {
-                    
-                    ui.screenshotManager.SaveScreenshot(screenshot1, Room.Data, 0);
-                    ui.screenshotManager.SaveScreenshot(screenshot2, Room.Data,1);
                     OnSaveButtonClick();
                 }
             }
             else if (CurrentState == State.LoadAnchoring)
             {
-                TryAddAnchor(pointer.PointedAt, anchorVisual);
-
                 if(sessionAnchors.Count >= 1)
                 {
                     ui.DisplayAnchorLoadingImage(1);
@@ -203,6 +193,33 @@ namespace AwARe.RoomScan.Objects
                     LoadRoom();
                 }
             }
+        }
+
+        public void OnYesButtonClick()
+        {
+            if(CurrentState == State.LoadAnchoring)
+            {
+                if (ui.screenshotManager.screenshotDisplayed)
+                {
+                    ui.screenshotManager.HideScreenshot();
+                }
+                else
+                {
+
+                }
+            }
+        }
+
+        public void OnNoButtonClick()
+        {
+                if(sessionAnchors.Count >= 1)
+                {
+                    ui.DisplayAnchorLoadingImage(1);
+                }
+                else if (sessionAnchors.Count >= 2)
+                {
+                    LoadRoom();
+                }
         }
 
         /// <summary>
