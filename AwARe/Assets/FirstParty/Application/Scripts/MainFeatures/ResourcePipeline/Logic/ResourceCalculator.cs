@@ -19,8 +19,10 @@ namespace AwARe.ResourcePipeline.Logic
         /// </summary>
         public ResourceCalculator()
         {
-            toResourceDatabase = new MockupIngrToResDatabase();
-            resourceDatabase = new MockupResourceDatabase();
+            // toResourceDatabase = new MockupIngrToResDatabase();
+            // resourceDatabase = new MockupResourceDatabase();
+            toResourceDatabase = new IngrToResDatabaseHandle();
+            resourceDatabase = new ResourceDatabaseHandle();
         }
 
         /// <summary>
