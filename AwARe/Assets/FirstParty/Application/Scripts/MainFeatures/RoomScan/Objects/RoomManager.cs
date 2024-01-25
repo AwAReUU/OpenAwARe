@@ -91,6 +91,7 @@ namespace AwARe.RoomScan.Objects
         /// </value>
         public Room Room { get; set; }
 
+        #region Anchor Handling
         /// <summary>
         /// The session anchors used for saving/loading rooms.
         /// </summary>
@@ -123,6 +124,7 @@ namespace AwARe.RoomScan.Objects
 
             // TODO remove visual
         }
+        #endregion
 
         /// <summary>
         /// Called when no UI element has been hit on click or press.
@@ -147,7 +149,7 @@ namespace AwARe.RoomScan.Objects
 
                 if (sessionAnchors.Count >= 2)
                 {
-                    OnLoadButtonClick();
+                    LoadRoom();
                 }
 
             }
@@ -204,14 +206,6 @@ namespace AwARe.RoomScan.Objects
             SwitchToState(State.Saving);
             //roomScreen.DisplayRoomLists(roomScreen.roomList);
         }
-        /// <summary>
-        /// get the room that is associated with the clicked button's name
-        /// </summary>
-        public Data.Logic.Room ChooseRoom(string name)
-        {
-            List<Data.Logic.Room> listofrooms = LoadRoomList();
-            return listofrooms.Where(obj => obj.RoomName == name).SingleOrDefault();
-        }
 
         [ExcludeFromCoverage]
         public void OnStartSavingButtonClick()
@@ -222,6 +216,41 @@ namespace AwARe.RoomScan.Objects
             SwitchToState(State.SaveAnchoring);
         }
 
+        private string roomToLoad = "";
+        public void StartLoadingRoom(string name)
+        {
+            roomToLoad = name;
+            stateBefore = CurrentState;
+            SwitchToState(State.LoadAnchoring);
+        }
+
+        private void LoadRoom()
+        {
+            //SwitchToState(State.Loading);
+
+            Data.Logic.Room room;
+            room = ChooseRoom(roomToLoad);
+            MakeRoom(room);
+
+
+            stateBefore = CurrentState;
+            SwitchToState(State.Done);
+            //TODO: Switch to AR Scene
+        }
+
+        /// <summary>
+        /// get the room that is associated with the clicked button's name
+        /// </summary>
+        public Data.Logic.Room ChooseRoom(string name)
+        {
+            List<Data.Logic.Room> listofrooms = LoadRoomList();
+            return listofrooms.Where(obj => obj.RoomName == name).SingleOrDefault();
+        }
+
+        /// <summary>
+        /// Visualize the room in AR.
+        /// </summary>
+        /// <param name="room"></param>
         public void MakeRoom(Data.Logic.Room room)
         {
             ClearRoom();
@@ -287,13 +316,13 @@ namespace AwARe.RoomScan.Objects
             roomScreen.DisplayRoomLists(roomScreen.roomList);
 
             //SwitchToState(State.Default);
-            
+
         }
 
         /// <summary>
         /// go from list of rooms to roomlist Serialization so that you can update the rooms file
         /// </summary>
-        public void UpdateRoomList(List<Data.Logic.Room>roomlist)
+        public void UpdateRoomList(List<Data.Logic.Room> roomlist)
         {
             SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
             RoomListSerialization serroomlist = new RoomListSerialization();
@@ -301,7 +330,7 @@ namespace AwARe.RoomScan.Objects
             {
                 serroomlist.Rooms.Add(new RoomSerialization(room, sessionAnchors));
             }
-            saveLoadManager.SaveRoomList("rooms",serroomlist);
+            saveLoadManager.SaveRoomList("rooms", serroomlist);
 
         }
 
@@ -310,7 +339,7 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         public List<Data.Logic.Room> LoadRoomList()
         {
-            
+
             SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
 
             // Ensure that saveLoadManager is not null before proceeding
@@ -319,7 +348,7 @@ namespace AwARe.RoomScan.Objects
                 UnityEngine.Debug.LogError("SaveLoadManager is null.");
                 return new List<Data.Logic.Room>();
             }
-            
+
             RoomListSerialization roomListSerialization = saveLoadManager.LoadRooms("rooms");
 
             if (roomListSerialization == null)
@@ -332,7 +361,7 @@ namespace AwARe.RoomScan.Objects
             // Convert RoomListSerialization to a list of Room objects
             return roomListSerialization.Rooms?.Select(roomSerialization => roomSerialization.ToRoom(sessionAnchors)).ToList() ?? new List<Data.Logic.Room>();
         }
-       
+
         /// <summary>
         /// Called on load button button click; changes state so user sees load slots.
         /// </summary>

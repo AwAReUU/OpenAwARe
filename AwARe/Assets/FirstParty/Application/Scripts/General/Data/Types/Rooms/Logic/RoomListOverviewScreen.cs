@@ -149,9 +149,11 @@ namespace AwARe.Data.Logic
 
         public void OnRoomItemClick(string name)
         {
-            Data.Logic.Room room;
-            room = manager.ChooseRoom(name);
-            manager.MakeRoom(room);
+            // Data.Logic.Room room;
+            // room = manager.ChooseRoom(name);
+            // manager.MakeRoom(room);
+
+            manager.StartLoadingRoom(name);
         }
 
         /// <summary>

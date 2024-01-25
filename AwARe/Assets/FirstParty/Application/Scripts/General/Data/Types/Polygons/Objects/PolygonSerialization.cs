@@ -294,12 +294,16 @@ namespace AwARe
         /// </summary>
         /// <param name="anchors">List of anchors for the current session.</param>
         /// <returns>The deserialized Room.</returns>
-        public Room ToRoom(List<Vector3> anchors)
+        public Room ToRoom(List<Vector3> anchors_)
         {
-            if (anchors.Count < 2)
+            List<Vector3> anchors = new List<Vector3>{Vector3.zero, Vector3.zero};
+
+            if (anchors_.Count < 2)
             {
                 // TODO: catch error -- er zijn niet genoeg anchors -- dit zou nooit voor moeten komen maar ja
             }
+            else
+                anchors = anchors_;
 
             PositivePolygon.GetSessionWorldPoints(anchors);
 
@@ -307,6 +311,7 @@ namespace AwARe
             {
                 p.GetSessionWorldPoints(anchors);
             }
+
 
             Polygon positivePolygon = PositivePolygon.ToPolygon();
             List<Polygon> negativePolygons = NegativePolygons.Select(polygonSerialization => polygonSerialization.ToPolygon()).ToList();
