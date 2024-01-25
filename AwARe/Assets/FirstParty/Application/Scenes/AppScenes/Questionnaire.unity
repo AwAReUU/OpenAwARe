@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -147,7 +147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a97a468aa41dd44af7c16b0478fa4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: 1
 --- !u!1001 &420780765
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -452,6 +451,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2088494785}
+    - targetCorrespondingSourceObject: {fileID: 4385064017757354918, guid: 4fc43b1731833194a92b3f3065bc2465,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2088494789}
   m_SourcePrefab: {fileID: 100100000, guid: 4fc43b1731833194a92b3f3065bc2465, type: 3}
 --- !u!1001 &472832286
 PrefabInstance:
@@ -952,6 +955,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a94c9dae6719384e99867c336daa1fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questionnaireConstructor: {fileID: 2120452509}
+  filehandler: {fileID: 2088494789}
+--- !u!114 &2088494789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088494783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5cfe06e26a46f4f825acf89ec0ccfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2113072834
 GameObject:
   m_ObjectHideFlags: 0
@@ -989,6 +1006,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2120452509 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6104202614844971354, guid: 302bfe66d76fd944baebe76c92e15acf,
+    type: 3}
+  m_PrefabInstance: {fileID: 5917401583927289963}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acb0bbc8baa903944aec908cab0cc217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5917401583927289963
 PrefabInstance:
   m_ObjectHideFlags: 0

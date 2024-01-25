@@ -56,11 +56,14 @@ namespace AwARe.Questionnaire.Objects
 
         private Questionnaire parentQuestionnaire;
 
+        public List<AnswerData> UserAnswers { get; private set; }
+
         private void Awake()
         {
             AnswerOptions = new List<GameObject>();
             AnswerOptionStates = new List<bool>();
             IfYesQuestions = new List<GameObject>();
+            UserAnswers = new List<AnswerData>();
         }
 
         /// <summary>
@@ -144,6 +147,68 @@ namespace AwARe.Questionnaire.Objects
             //Fixes a bug where items are stacked on eachother:
             if (AnswerOptionStates[IfYesTriggerIndex])
                 LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)gameObject.transform.parent);
+            // Update UserAnswers based on the current state
+            UserAnswers.Clear();
+
+            for (int i = 0; i < AnswerOptions.Count; i++)
+            {
+                // Check if the object has the required component
+                TextAnswerOption textAnswerOption = AnswerOptions[i].GetComponent<TextAnswerOption>();
+                RadioAnswerOption radioAnswerOption = AnswerOptions[i].GetComponent<RadioAnswerOption>();
+                CheckBoxAnswerOption checkBoxAnswerOption = AnswerOptions[i].GetComponent<CheckBoxAnswerOption>();
+
+                if (textAnswerOption != null)
+                {
+                    // For TextAnswerOption
+                    var answerText = textAnswerOption.GetOptionText(AnswerOptions[i]);
+
+                    // Create a new AnswerData object with the obtained option text
+                    var answerData = new AnswerData
+                    {
+                        QuestionTitle = GetTitle(), 
+                        AnswerText = answerText, 
+                        SelectedAnswerIndex = -1, 
+                                                 
+                    };
+
+                    // Add the created AnswerData object to the UserAnswers list
+                    UserAnswers.Add(answerData);
+                }
+                else if (radioAnswerOption != null)
+                {
+                    // For RadioAnswerOption
+                    var answerText = radioAnswerOption.GetOptionText(AnswerOptions[i]);
+
+                    // Create a new AnswerData object with the obtained option text
+                    var answerData = new AnswerData
+                    {
+                        QuestionTitle = GetTitle(), 
+                        AnswerText = answerText, 
+                        SelectedAnswerIndex = -1, 
+                    };
+
+                    // Add the created AnswerData object to the UserAnswers list
+                    UserAnswers.Add(answerData);
+                }
+                else if (checkBoxAnswerOption != null)
+                {
+                    // For CheckBoxAnswerOption
+                    var answerText = checkBoxAnswerOption.GetOptionText(AnswerOptions[i]);
+
+                    // Create a new AnswerData object with the obtained option text
+                    var answerData = new AnswerData
+                    {
+                        QuestionTitle = GetTitle(), 
+                        AnswerText = answerText, 
+                        SelectedAnswerIndex = -1, 
+                    };
+
+                    // Add the created AnswerData object to the UserAnswers list
+                    UserAnswers.Add(answerData);
+                }
+            }
+
+
         }
 
         /// <summary>

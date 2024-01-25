@@ -91,6 +91,12 @@ namespace AwARe.Questionnaire.Objects
             inputField.tag = "InputField";
             return inputField;
         }
+
+        // Add this method to retrieve the entered text
+        public string GetOptionText(GameObject inputField)
+        {
+            return inputField.GetComponentInChildren<TMP_InputField>().text;
+        }
     }
 
     /// <summary>
@@ -133,6 +139,11 @@ namespace AwARe.Questionnaire.Objects
             radioButton.tag = "RadioButton";
             return radioButton;
         }
+        public string GetOptionText(GameObject radioButton)
+        {
+            Toggle toggle = radioButton.GetComponent<Toggle>();
+            return toggle.isOn ? radioButton.transform.Find("Label").GetComponent<TextMeshProUGUI>().text : "";
+        }
     }
     /// <summary>
     /// Represents an answer option that displays CheckBoxes.
@@ -165,6 +176,12 @@ namespace AwARe.Questionnaire.Objects
             InitializeToggleHandler(checkbox, answerOptionIndex);
             checkbox.tag = "CheckBox";
             return checkbox;
+        }
+
+        public string GetOptionText(GameObject checkbox)
+        {
+            Toggle toggle = checkbox.GetComponent<Toggle>();
+            return toggle.isOn ? checkbox.transform.Find("Label").GetComponent<TextMeshProUGUI>().text : "";
         }
     }
 }

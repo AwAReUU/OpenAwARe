@@ -13,6 +13,8 @@ using AwARe.Data.Logic;
 using AwARe.RoomScan.Polygons.Objects;
 using System;
 
+using Newtonsoft.Json;
+
 namespace AwARe
 {
     /// <summary>
@@ -49,7 +51,7 @@ namespace AwARe
             string jsonFilePath = Path.Combine(directoryPath, fileName);
             try
             {
-                string jsonData = JsonUtility.ToJson(data);
+                string jsonData = JsonConvert.SerializeObject(data);
                 File.WriteAllText(jsonFilePath, jsonData);
             }
             catch (Exception ex)
@@ -58,11 +60,6 @@ namespace AwARe
             }
         }
 
-        /// <summary>
-        /// Loads data of type T from a JSON file with the specified fileName using the save load manager.
-        /// </summary>
-        /// <typeparam name="T">Type of data to load.</typeparam>
-        /// <param name="fileName">The name of the JSON file to load data from.</param>
         public T LoadDataFromJson<T>(string fileName)
         {
             if (string.IsNullOrEmpty(directoryPath))
@@ -78,7 +75,7 @@ namespace AwARe
                 try
                 {
                     string jsonData = File.ReadAllText(jsonFilePath);
-                    return JsonUtility.FromJson<T>(jsonData);
+                    return JsonConvert.DeserializeObject<T>(jsonData);
                 }
                 catch (Exception ex)
                 {

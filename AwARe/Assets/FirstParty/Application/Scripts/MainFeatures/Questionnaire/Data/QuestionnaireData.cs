@@ -39,6 +39,14 @@ namespace AwARe.Questionnaire.Data
         public string optionText;
     }
 
+    [Serializable]
+    public class AnswerData
+    {
+        public string QuestionTitle;
+        public string AnswerText; // Use this for text input or selected option text
+        public int SelectedAnswerIndex; // Index of the selected answer option (-1 if none selected for radio/checkbox)
+    }
+
     /// <summary>
     /// Contains all data about a single question.
     /// </summary>
@@ -65,6 +73,8 @@ namespace AwARe.Questionnaire.Data
         /// The list of answer options for the question.
         /// </value>
         public List<AnswerOptionData> answerOptions;
+
+        public List<AnswerData> UserAnswers; // Include user responses here
     }
 
     /// <summary>

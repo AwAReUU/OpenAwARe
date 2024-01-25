@@ -36,7 +36,8 @@ namespace AwARe.Questionnaire.Objects
         /// <value>
         /// List of questions that this questionnaire is currently holding.
         /// </value>
-        private List<GameObject> questions { get; set; }
+        public List<GameObject> questions { get; set; }
+        public List<QuestionnaireData> collectedData;
 
         /// <summary>
         /// Initialize a new <see cref="Questionnaire"/>.
@@ -44,7 +45,9 @@ namespace AwARe.Questionnaire.Objects
         private void Awake()
         {
             questions = new List<GameObject>();
+            collectedData = new List<QuestionnaireData>();
         }
+        public List<QuestionnaireData> GetCollectedData() => collectedData;
 
         /// <summary>
         /// Obtain the questions in this questionnaire.
@@ -85,6 +88,17 @@ namespace AwARe.Questionnaire.Objects
             AddAnswerOptions(question, data);
             AddIfYesQuestions(question, data);
 
+            // Add user responses to the QuestionData
+            data.UserAnswers = new List<AnswerData>();
+
+            // Add the question data to the collected data
+            collectedData.Add(new QuestionnaireData
+            {
+                questionnaireTitle = "Modify this accordingly", // Modify this accordingly
+                questionnaireDescription = "Modify this accordingly", // Modify this accordingly
+                questions = new List<QuestionData> { data }
+            });
+
             return questionObject;
         }
 
@@ -116,5 +130,6 @@ namespace AwARe.Questionnaire.Objects
                 question.IfYesQuestions.Add(ifYesQuestion);
             }
         }
+       
     }
 }
