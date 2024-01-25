@@ -62,16 +62,12 @@ namespace AwARe.RoomScan.Path
             //check that the entire grid hasn't been eroded away
             bool allfalse = true;
             for(int i = 0; i < output.GetLength(0) && !allfalse; i++)
-            {
                 for(int j = 0; j < output.GetLength(1); j++)
-                {
                     if(output[i,j])
                     {
                         allfalse = false;
                         break;
                     }
-                }
-            }
 
             if(allfalse)
             {
