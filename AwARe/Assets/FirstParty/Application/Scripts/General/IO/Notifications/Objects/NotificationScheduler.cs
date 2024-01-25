@@ -41,9 +41,27 @@ namespace AwARe.Notifications.Objects
         string folderpath;
 
         /// <summary>
-        /// How many days notifications for this app should be scheduled on.
+        /// The number of notifications that should be scheduled (when the app is launched). 
         /// </summary>
-        int scheduleAheadDays;
+        [SerializeField] private int scheduleAheadNumber;
+
+        /// <summary>
+        /// The number of days that should be between every scheduled notification.
+        /// Is combined with the hourInterval and minuteInterval to determine the total time between notifications.
+        /// </summary>
+        [SerializeField] private int dayInterval;
+
+        /// <summary>
+        /// The number of days that should be between every scheduled notification.
+        /// Is combined with the dayInterval and minuteInterval to determine the total time between notifications.
+        /// </summary>
+        [SerializeField] private int hourInterval;
+
+        /// <summary>
+        /// The number of days that should be between every scheduled notification.
+        /// Is combined with the dayInterval and hourInterval to determine the total time between notifications.
+        /// </summary>
+        [SerializeField] private int minuteInterval;
 
         /// <summary>
         /// Unity method that is called immediately upon object creation.
@@ -60,7 +78,6 @@ namespace AwARe.Notifications.Objects
             #endif
 
             folderpath = Path.Combine(Application.persistentDataPath, "Data/ScheduledNotifications");
-            scheduleAheadDays = 14;
         }
 
         /// <summary>
@@ -76,7 +93,7 @@ namespace AwARe.Notifications.Objects
             }
 
             //create fake notification files for if there aren't enough files in the directory
-            for (int i = 0; i < scheduleAheadDays; i++)
+            for (int i = 0; i < scheduleAheadNumber; i++)
             {
                 string path = Path.Combine(folderpath, "notification" + i);
                 if (!File.Exists(path))
@@ -106,22 +123,26 @@ namespace AwARe.Notifications.Objects
 
             //schedule notifications for enough days such that there are notifications scheduled on every day
             //for the number of scheduleAheadDays specified.
-            int addDays = (latestScheduledNotification - DateTime.Now).Minutes + 1;//(latestScheduledNotification - DateTime.Now).Days + 1;
+            int addDays = (latestScheduledNotification - DateTime.Now).Days + dayInterval;
+            int addHours = (latestScheduledNotification - DateTime.Now).Hours + hourInterval;
+            int addMinutes = (latestScheduledNotification - DateTime.Now).Minutes + minuteInterval;
             int counter = 0;
             foreach (string path in unusedFiles)
             {
-                if (counter > scheduleAheadDays)
+                if (counter > scheduleAheadNumber)
                 {
                     Debug.Log("Somehow there are more files in the saved notifications directory than notifications that should be scheduled");
                     break;
                 }
 
                 ScheduledNotificationData data = ScheduleNotification("Daily AwARe Notification",
-                "Your daily notification has arrived.", DateTime.Now.AddMinutes(addDays)); //AddDays(addDays));
+                "Your daily notification has arrived.", DateTime.Now.AddDays(addDays).AddHours(addHours).AddMinutes(addMinutes));
 
                 File.Delete(path);
                 Save(data, path);
-                addDays++;
+                addDays += dayInterval;
+                addHours += hourInterval;
+                addMinutes += minuteInterval; 
                 counter++;
             }
         }
