@@ -52,7 +52,7 @@ namespace AwARe.ResourcePipeline.Logic
         /// </value>
         public string PrefabPath { get; }
         /// <value>
-        /// height of this model in real life in cm. Used to rescale models to their real-life size.
+        /// The height of this model in real life in meters. Used to rescale models to their real-life size.
         /// </value>
         public float RealHeight { get; }
 
@@ -62,7 +62,7 @@ namespace AwARe.ResourcePipeline.Logic
         /// <param name="id">id</param>
         /// <param name="type">ResourceType</param>
         /// <param name="path">Prefab path</param>
-        /// <param name="height">real life height</param>
+        /// <param name="height">Real life height in meters</param>
         public Model(
             int id,
             ResourceType type,
