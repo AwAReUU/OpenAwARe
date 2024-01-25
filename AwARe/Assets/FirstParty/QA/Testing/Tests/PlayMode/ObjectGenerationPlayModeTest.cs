@@ -91,7 +91,7 @@ namespace AwARe
             //Arrange: Create a gameObject in a layer.
             string layer = "Placed Objects";
             GameObject[] obtainedObjectsBefore = ObjectObtainer.FindGameObjectsInLayer(layer);
-            GameObject _ = new GameObject("TestObject") { layer = LayerMask.NameToLayer(layer) };
+            GameObject _ = new("TestObject") { layer = LayerMask.NameToLayer(layer) };
             yield return null;
 
             //Act: Count the amount of objects in the layer.
@@ -106,9 +106,11 @@ namespace AwARe
         {
             //Arrange: Create an empty gameObject in a layer.
             string layer = "Placed Objects";
-            GameObject testObject = new GameObject { 
+            GameObject testObject = new()
+            { 
                 layer = LayerMask.NameToLayer(layer), 
-                name = "testObject" };
+                name = "testObject" 
+            };
             GameObject[] obtainedObjectsBefore = ObjectObtainer.FindGameObjectsInLayer(layer);
 
             //Act: Destroy the object, and obtain the objects in the previously mentioned layer.
@@ -277,9 +279,9 @@ namespace AwARe
 
         private IL.IngredientList GetMixedIngredientList()
         {
-            Ingredient IngredientPlant = new Ingredient( 7,     "Grape",  null,    8);  // grape
-            Ingredient IngredientAnimal = new Ingredient(13,   "Chicken",  null,  250); // chicken
-            Ingredient IngredientWater = new Ingredient( 1,     "Water",  1.0f, null);  // water
+            Ingredient IngredientPlant = new( 7,     "Grape",  null,    8);  // grape
+            Ingredient IngredientAnimal = new(13,   "Chicken",  null,  250); // chicken
+            Ingredient IngredientWater = new( 1,     "Water",  1.0f, null);  // water
 
             IL.IngredientList ingredientList = new(
                "IngredientList",

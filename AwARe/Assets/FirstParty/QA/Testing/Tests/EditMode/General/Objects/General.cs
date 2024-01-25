@@ -51,7 +51,7 @@ namespace AwARe.Tests.EditMode.General.Objects
         public void Test_Data(Data.Logic.Polygon data)
         {
             // Arrange
-            GameObject obj = new GameObject("Polygon");
+            GameObject obj = new("Polygon");
             Polygon polygon = Polygon.AddComponentTo(obj, data);
 
             // Act

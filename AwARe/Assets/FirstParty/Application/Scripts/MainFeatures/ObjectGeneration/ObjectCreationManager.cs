@@ -16,7 +16,6 @@ using AwARe.Objects;
 using AwARe.ResourcePipeline.Logic;
 using AwARe.ResourcePipeline.Objects;
 using AwARe.RoomScan.Path;
-using Castle.Components.DictionaryAdapter.Xml;
 
 using UnityEngine;
 using Ingredients = AwARe.IngredientList.Logic;
@@ -132,14 +131,14 @@ namespace AwARe.ObjectGeneration
         /// </summary>
         /// <param name="renderables">Objects to place in the polygon.</param>
         /// <param name="room">Room consisting of polygons to place the objects in.</param>
-        /// <param name="pathMesh">Mesh on which objects will not be placed.</param>
-        /// <returns></returns>
-        private IEnumerator PlaceAfterDestroy(List<Renderable> renderables, Data.Logic.Room room, PathData path)
+        /// <param name="pathData">Mesh on which objects will not be placed.</param>
+        /// <returns>IEnumerator.</returns>
+        private IEnumerator PlaceAfterDestroy(List<Renderable> renderables, Data.Logic.Room room, PathData pathData)
         {
             //Wait untill de ObjectDestroyer is done.
             destroyer = gameObject.GetComponent<ObjectDestroyer>();
             yield return StartCoroutine(destroyer.DestroyAllObjects());
-            new ObjectPlacer().PlaceRenderables(renderables, room, path);
+            new ObjectPlacer().PlaceRenderables(renderables, room, pathData);
         }
 
         /// <summary>
@@ -167,6 +166,7 @@ namespace AwARe.ObjectGeneration
         /// Returns the total area that all given renderables will cover.
         /// </summary>
         /// <param name="renderables">All the renderables that will be included in the calculation.</param>
+        /// <returns>The sum of space needed for the given Renderable list.</returns>
         public float ComputeRenderableSpaceNeeded(List<Renderable> renderables)
         {
             float sumArea = 0;

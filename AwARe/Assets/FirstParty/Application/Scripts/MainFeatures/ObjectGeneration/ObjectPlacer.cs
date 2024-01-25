@@ -8,11 +8,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using AwARe.RoomScan.Path;
-using UnityEngine;
-using static UnityEngine.UI.GridLayoutGroup;
 using TMPro;
+using UnityEngine;
 #if DEBUG
-    using AwARe.DevTools.ObjectGeneration;
+using AwARe.DevTools.ObjectGeneration;
 #endif
 namespace AwARe.ObjectGeneration
 {
@@ -280,7 +279,7 @@ namespace AwARe.ObjectGeneration
             Data.Logic.Room room,
             PathData path)
         {
-            Dictionary<Renderable, Vector3> initialSpawns = new Dictionary<Renderable, Vector3>();
+            Dictionary<Renderable, Vector3> initialSpawns = new();
 
             SortWaterRenderables(ref renderables);
 
