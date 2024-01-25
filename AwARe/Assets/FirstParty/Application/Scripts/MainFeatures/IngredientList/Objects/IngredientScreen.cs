@@ -54,7 +54,7 @@ namespace AwARe.IngredientList.Objects
         private void SetElements()
         {
             // Set name label
-            ingredientNameField.GetComponent<TMP_Text>().text = entry.ingredient.Name;
+            ingredientNameField.GetComponent<TMP_Text>().text = entry.ingredient.PrefName;
 
             typeDropdown.ClearOptions();
 
