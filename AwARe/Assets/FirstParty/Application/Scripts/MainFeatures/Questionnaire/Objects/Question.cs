@@ -1,6 +1,12 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using AwARe.Questionnaire.Data;
 
@@ -10,6 +16,10 @@ using UnityEngine.UI;
 
 namespace AwARe.Questionnaire.Objects
 {
+    /// <summary>
+    /// Class <c>Question</c> represents a question inside of a questionnaire. 
+    /// It manages its title, answeroptions and optionally some "ifYes questions".
+    /// </summary>
     public class Question : MonoBehaviour
     {
         /// <value>
@@ -33,18 +43,31 @@ namespace AwARe.Questionnaire.Objects
         /// All AnswerOptions that this question has.
         /// </value>
         private List<GameObject> AnswerOptions { get; set; }
+        /// <summary>
+        /// Gets or sets the Indication of whether an AnswerOption at an index is checked or not.
+        /// </summary>
         /// <value>
         /// Indicates whether an AnswerOption at an index is checked or not.
         /// </value>
         public List<bool> AnswerOptionStates { get; set; }
+        /// <summary>
+        /// Gets the index of the answer option that toggles the IfYes questions.
+        /// </summary>
         /// <value>
         /// The index of the answer option that toggles the IfYes questions.
         /// </value>
         public int IfYesTriggerIndex { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether this question has ifYes questions.
+        /// </summary>
         /// <value>
-        /// Indicates whether this question has ifYes questions.
+        /// Whether this question has ifYes questions.
         /// </value>
         public bool IfYes { get; private set; }
+        /// <summary>
+        /// Gets or sets all IfYes questions that this question has.
+        /// </summary>
         /// <value>
         /// All IfYes questions that this question has.
         /// </value>
@@ -52,15 +75,16 @@ namespace AwARe.Questionnaire.Objects
         /// <value>
         /// Counter which is used for assigning a unique index to an AnswerOption upon adding a new one.
         /// </value>
-        private int CurrentAnswerOptionIndex = 0;
+        private int currentAnswerOptionIndex = 0;
 
-        private Questionnaire parentQuestionnaire;
+        private AnswerOptionSpawner answerOptionSpawner;
 
         private void Awake()
         {
             AnswerOptions = new List<GameObject>();
             AnswerOptionStates = new List<bool>();
             IfYesQuestions = new List<GameObject>();
+            answerOptionSpawner = new(this.gameObject, textInputPrefab, checkBoxPrefab, radioButtonPrefab);
         }
 
         /// <summary>
@@ -81,26 +105,28 @@ namespace AwARe.Questionnaire.Objects
         /// <param name="answerOptionData">The data representing the new option to be added.</param>
         public void AddAnswerOption(AnswerOptionData answerOptionData)
         {
-            AnswerOptionSpawner answerOptionFactory = CreateAnswerOptionSpawner((OptionType)Enum.Parse(typeof(OptionType), answerOptionData.optionType));
-            GameObject newOption = answerOptionFactory.CreateAnswerOption(answerOptionData.optionText);
-            AnswerOptions.Add(newOption);
+            AnswerOption answerOption = CreateAnswerOption(answerOptionData);
+            GameObject answerGameObject = answerOption.InstantiateAnswerOption(answerOptionData.optionText);
+
+            AnswerOptions.Add(answerGameObject);
             AnswerOptionStates.Add(false);
         }
 
         /// <summary>
-        /// Create the factory corresponding to this question's option type.
+        /// Create the correct type of AnswerOption instance, based on the provided answerOptionData.
         /// </summary>
-        /// <param name="optionType">The optionType of this question.</param>
-        /// <returns>A factory to construct the answer option corresponding to "optionType".</returns>
-        private AnswerOptionSpawner CreateAnswerOptionSpawner(OptionType optionType)
+        /// <param name="answerOptionData">The data representing the new option to be added.</param>
+        /// <returns>The instance of the subclass of <see cref="AnswerOption"/> corresponding to the data in answerOptionData.</returns>
+        private AnswerOption CreateAnswerOption(AnswerOptionData answerOptionData)
         {
+            OptionType optionType = (OptionType)Enum.Parse(typeof(OptionType), answerOptionData.optionType);
             return optionType switch
             {
-                OptionType.Radio    => new RadioAnswerOption(gameObject, radioButtonPrefab, CurrentAnswerOptionIndex++),
-                OptionType.Checkbox => new CheckBoxAnswerOption(gameObject, checkBoxPrefab, CurrentAnswerOptionIndex++),
-                OptionType.Textbox  => new TextAnswerOption(gameObject, textInputPrefab),
-                OptionType.Error    => throw new System.ArgumentException("Invalid option type: " + optionType),
-                _                   => throw new System.ArgumentException("Invalid option type: " + optionType)
+                OptionType.Radio => answerOptionSpawner.CreateRadioAnswerOption(currentAnswerOptionIndex++),
+                OptionType.Checkbox => answerOptionSpawner.CreateCheckBoxAnswerOption(currentAnswerOptionIndex++),
+                OptionType.Textbox => answerOptionSpawner.CreateTextAnswerOption(),
+                OptionType.Error => throw new System.ArgumentException("Invalid option type: " + optionType),
+                _ => throw new System.ArgumentException("Invalid option type: " + optionType)
             };
         }
 
@@ -145,11 +171,5 @@ namespace AwARe.Questionnaire.Objects
             if (AnswerOptionStates[IfYesTriggerIndex])
                 LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)gameObject.transform.parent);
         }
-
-        /// <summary>
-        /// Sets the parentQuestionnaire object where this question lives in.
-        /// </summary>
-        /// <param name="parentQuestionnaire"></param>
-        public void SetParentQuestionnaire(Questionnaire parentQuestionnaire) => this.parentQuestionnaire = parentQuestionnaire;
     }
 }

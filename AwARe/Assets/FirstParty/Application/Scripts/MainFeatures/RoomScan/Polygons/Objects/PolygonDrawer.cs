@@ -37,6 +37,11 @@ namespace AwARe.RoomScan.Polygons.Objects
         private Polygon activePolygon;
 
         /// <summary>
+        /// The object of the polygon currently being drawn.
+        /// </summary>
+        private GameObject activePolygonObject;
+
+        /// <summary>
         /// Gets the position currently pointed at.
         /// </summary>
         /// <value>
@@ -63,18 +68,23 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void StartDrawing()
         {
-            GameObject obj = Instantiate(polygonBase, transform);
-            activePolygon = obj.GetComponent<Polygon>();
-            polygonLine = obj.GetComponent<Liner>();
-            polygonLineLogic = obj.GetComponent<PolygonLinerLogic>();
-            
-            obj.SetActive(true);
+            activePolygonObject = Instantiate(polygonBase, transform);
+            activePolygon = activePolygonObject.GetComponent<Polygon>();
+            polygonLine = activePolygonObject.GetComponent<Liner>();
+            polygonLineLogic = activePolygonObject.GetComponent<PolygonLinerLogic>();
+
+            activePolygonObject.SetActive(true);
             activePolygon.Data = new();
             polygonLineLogic.closedLine = false;
 
             activeLine.gameObject.SetActive(true);
             closeLine.gameObject.SetActive(true);
             UpdateLines();
+        }
+
+        public void Reset()
+        {
+            Destroy(activePolygonObject);
         }
 
         /// <summary>
