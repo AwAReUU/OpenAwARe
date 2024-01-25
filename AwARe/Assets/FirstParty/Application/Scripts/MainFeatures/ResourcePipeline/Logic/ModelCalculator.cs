@@ -19,7 +19,7 @@ namespace AwARe.ResourcePipeline.Logic
                 return (int)Math.Ceiling((double)(resourceQuantity / resource.GramsPerModel));
             return resource.Name switch
             {
-                "Water" => (int)Math.Ceiling(resourceQuantity / 1500), 
+                "Water" => (int)Math.Ceiling(resourceQuantity / 1000), //liters
                 "Milk" => (int)Math.Ceiling(resourceQuantity / 1000),
                 _ => 1 //otherwise
             };

@@ -5,7 +5,7 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -16,7 +16,6 @@ using AwARe.Objects;
 using AwARe.ResourcePipeline.Logic;
 using AwARe.ResourcePipeline.Objects;
 using AwARe.RoomScan.Path;
-using Castle.Components.DictionaryAdapter.Xml;
 
 using UnityEngine;
 using Ingredients = AwARe.IngredientList.Logic;
@@ -41,11 +40,10 @@ namespace AwARe.ObjectGeneration
         /// </value>
         private Ingredients.IngredientList SelectedList { get; set; }
 
-
         /// <value>
         /// <c>Room</c> that we are going to render.
         /// </value>
-        private Data.Logic.Room SelectedRoom{ get; set; }
+        private Data.Logic.Room SelectedRoom { get; set; }
 
         [SerializeField] private Data.Objects.Room roomObject;
 
@@ -104,14 +102,14 @@ namespace AwARe.ObjectGeneration
             // TODO:
             // Once pathgen is done, create mesh from PathData
             // this.pathMesh = pathData.CreateMesh()
-            if(SelectedRoom == null)
+            if (SelectedRoom == null)
                 return;
 
-            float roomSpace        = SelectedRoom.PositivePolygon.Area;
+            float roomSpace = SelectedRoom.PositivePolygon.Area;
             float renderablesSpace = ComputeRenderableSpaceNeeded(renderables);
 
             // Divide renderables in seperate rooms when there is not enough space 
-            if (renderablesSpace > roomSpace) 
+            if (renderablesSpace > roomSpace)
                 PlaceRoom(true);
             else PlaceRenderables(renderables, SelectedRoom, path);
         }
@@ -122,15 +120,27 @@ namespace AwARe.ObjectGeneration
         /// <param name="renderables">Objects to place in the Polygon.</param>
         /// <param name="room">Room consisting of polygons to place the objects in.</param>
         /// <param name="path">The path in the room.</param>
-        public void PlaceRenderables(List<Renderable> renderables, Data.Logic.Room room, PathData path) 
+        public void PlaceRenderables(List<Renderable> renderables, Data.Logic.Room room, PathData path)
         {
-            // clear the scene of any previously instantiated GameObjects 
-            destroyer = gameObject.GetComponent<ObjectDestroyer>();
-            destroyer.DestroyAllObjects();
             currentRoomRenderables = renderables;
-            new ObjectPlacer().PlaceRenderables(renderables, room, path);
+            StartCoroutine(PlaceAfterDestroy(renderables, room, path));
         }
-        
+
+        /// <summary>
+        /// Coroutine that only starts placing the renderables after all currently placed objects have been destroyed.
+        /// </summary>
+        /// <param name="renderables">Objects to place in the polygon.</param>
+        /// <param name="room">Room consisting of polygons to place the objects in.</param>
+        /// <param name="pathData">Mesh on which objects will not be placed.</param>
+        /// <returns>IEnumerator.</returns>
+        private IEnumerator PlaceAfterDestroy(List<Renderable> renderables, Data.Logic.Room room, PathData pathData)
+        {
+            //Wait untill de ObjectDestroyer is done.
+            destroyer = gameObject.GetComponent<ObjectDestroyer>();
+            yield return StartCoroutine(destroyer.DestroyAllObjects());
+            new ObjectPlacer().PlaceRenderables(renderables, room, pathData);
+        }
+
         /// <summary>
         /// Tries to place a partial list of renderables by distributing renderables in two seperate rooms.
         /// </summary>
@@ -140,11 +150,13 @@ namespace AwARe.ObjectGeneration
             SetSelectedList(RetrieveIngredientlist());
             List<Renderable> renderables = new PipelineManager().GetRenderableList(SelectedList);
 
-            if (isFirstRoom) 
-                renderables = renderables.Where(renderable => renderable.resourceType == ResourceType.Animal ||
-                                                              renderable.resourceType == ResourceType.Water).ToList();
-            else 
-                renderables = renderables.Where(renderable => renderable.resourceType == ResourceType.Plant).ToList();
+            if (isFirstRoom)
+                renderables = renderables.Where(renderable => renderable.ResourceType == ResourceType.Animal ||
+                                                              renderable.ResourceType == ResourceType.Water).ToList();
+            else
+                renderables = renderables.Where(renderable => renderable.ResourceType == ResourceType.Plant ||
+                                                              renderable.ResourceType == ResourceType.Water).ToList();
+
 
             Data.Logic.Room room = Storage.Get().ActiveRoom;
             PlaceRenderables(renderables, room, path);
@@ -154,12 +166,13 @@ namespace AwARe.ObjectGeneration
         /// Returns the total area that all given renderables will cover.
         /// </summary>
         /// <param name="renderables">All the renderables that will be included in the calculation.</param>
+        /// <returns>The sum of space needed for the given Renderable list.</returns>
         public float ComputeRenderableSpaceNeeded(List<Renderable> renderables)
         {
             float sumArea = 0;
-            foreach (var renderable in renderables) 
+            foreach (var renderable in renderables)
                 sumArea += renderable.ComputeSpaceNeeded();
-            
+
             return sumArea;
         }
 

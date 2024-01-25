@@ -91,7 +91,7 @@ namespace AwARe
             //Arrange: Create a gameObject in a layer.
             string layer = "Placed Objects";
             GameObject[] obtainedObjectsBefore = ObjectObtainer.FindGameObjectsInLayer(layer);
-            GameObject _ = new GameObject("TestObject") { layer = LayerMask.NameToLayer(layer) };
+            GameObject _ = new("TestObject") { layer = LayerMask.NameToLayer(layer) };
             yield return null;
 
             //Act: Count the amount of objects in the layer.
@@ -106,13 +106,17 @@ namespace AwARe
         {
             //Arrange: Create an empty gameObject in a layer.
             string layer = "Placed Objects";
-            GameObject _ = new GameObject { layer = LayerMask.NameToLayer(layer) };
+            GameObject testObject = new()
+            { 
+                layer = LayerMask.NameToLayer(layer), 
+                name = "testObject" 
+            };
             GameObject[] obtainedObjectsBefore = ObjectObtainer.FindGameObjectsInLayer(layer);
 
             //Act: Destroy the object, and obtain the objects in the previously mentioned layer.
-            new GameObject().AddComponent<ObjectDestroyer>().DestroyAllObjects();
+            var destroyer = testObject.AddComponent<ObjectDestroyer>();
+            yield return destroyer.DestroyAllObjects();
 
-            yield return null;
             GameObject[] obtainedObjectsAfter = ObjectObtainer.FindGameObjectsInLayer(layer);
 
             //Assert: The Amount of gameObjects in the layer changed from 1 to 0.
@@ -139,7 +143,7 @@ namespace AwARe
         public IEnumerator TestObjectStackingNormal()
         {
             //arrange: Create a polygon and a lot of renderables
-            List<Renderable> renderables = GetMultipleRenderables(1000, 10f);
+            List<Renderable> renderables = GetMultipleRenderables(1000, 1);
 
             //act: Place the renderable
             objectCreationManager.PlaceRenderables(renderables, new TestRoom(), null);
@@ -152,7 +156,7 @@ namespace AwARe
             bool atleastonestacked = false;
             for(int i = 0; i < renderables.Count; i++)
             {
-                if(renderables[i].objStacks.Count > 0)
+                if(renderables[i].ObjStacks.Count > 0)
                 {
                     atleastonestacked = true;
                     break;
@@ -189,11 +193,11 @@ namespace AwARe
             // Act: Place all the renderables in the storage in the room & check if all are room1 resources
             objectCreationManager.OnPlaceButtonClick();
 
-            // check if all types are in the same room 
+            // check if all types are in the same room
             bool allTypesPresent = 
-            objectCreationManager.currentRoomRenderables.Any(x => x.resourceType == ResourcePipeline.Logic.ResourceType.Plant)
-            && objectCreationManager.currentRoomRenderables.Any(x => x.resourceType == ResourcePipeline.Logic.ResourceType.Animal)
-            && objectCreationManager.currentRoomRenderables.Any(x => x.resourceType == ResourcePipeline.Logic.ResourceType.Water);
+            objectCreationManager.currentRoomRenderables.Any(x => x.ResourceType == ResourcePipeline.Logic.ResourceType.Plant)
+            && objectCreationManager.currentRoomRenderables.Any(x => x.ResourceType == ResourcePipeline.Logic.ResourceType.Animal)
+            && objectCreationManager.currentRoomRenderables.Any(x => x.ResourceType == ResourcePipeline.Logic.ResourceType.Water);
 
             // Assert: Check if the correct renderables are placed in each room.
             yield return null;
@@ -211,7 +215,7 @@ namespace AwARe
 
             // Act: Place all the renderables in the storage in the room 
             objectCreationManager.OnPlaceButtonClick();
-            bool AllAreRoom1Resources = !objectCreationManager.currentRoomRenderables.Any(x => x.resourceType == ResourcePipeline.Logic.ResourceType.Plant);
+            bool AllAreRoom1Resources = !objectCreationManager.currentRoomRenderables.Any(x => x.ResourceType == ResourcePipeline.Logic.ResourceType.Plant);
             
             // Assert: Check if the correct renderables are placed in each room.
             yield return null;
@@ -230,8 +234,8 @@ namespace AwARe
             GameObject model = Resources.Load<GameObject>(@"Models/Shapes/Cube");
             Vector3 halfExtents = PipelineManager.GetHalfExtents(model);
             float scale = 1;
-            list1.Add(new Renderable(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Water));
-            list2.Add(new Renderable(model, halfExtents, 5, scale, ResourcePipeline.Logic.ResourceType.Water));
+            list1.Add(new Renderable(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Animal));
+            list2.Add(new Renderable(model, halfExtents, 5, scale, ResourcePipeline.Logic.ResourceType.Animal));
             float list0spaceNeeded = objectCreationManager.ComputeRenderableSpaceNeeded(list0);
             float list1spaceNeeded = objectCreationManager.ComputeRenderableSpaceNeeded(list1);
             float list2spaceNeeded = objectCreationManager.ComputeRenderableSpaceNeeded(list2);
@@ -255,7 +259,7 @@ namespace AwARe
 
             Vector3 halfExtents = PipelineManager.GetHalfExtents(model);
             halfExtents *= scale;
-            Renderable renderable = new(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Water);
+            Renderable renderable = new(model, halfExtents, 1, scale, ResourcePipeline.Logic.ResourceType.Animal);
             List<Renderable> renderables = new() { renderable };
             renderables = Renderable.SetSurfaceRatios(renderables);
             return renderables;
@@ -267,7 +271,7 @@ namespace AwARe
 
             Vector3 halfExtents = PipelineManager.GetHalfExtents(model);
             halfExtents *= scale;
-            Renderable renderable = new(model, halfExtents, numberofrenderables, scale, ResourcePipeline.Logic.ResourceType.Water);
+            Renderable renderable = new(model, halfExtents, numberofrenderables, scale, ResourcePipeline.Logic.ResourceType.Animal);
             List<Renderable> renderables = new() { renderable };
             renderables = Renderable.SetSurfaceRatios(renderables);
             return renderables;
@@ -275,9 +279,9 @@ namespace AwARe
 
         private IL.IngredientList GetMixedIngredientList()
         {
-            Ingredient IngredientPlant = new Ingredient( 7,     "Grape",  null,    8);  // grape
-            Ingredient IngredientAnimal = new Ingredient(13,   "Chicken",  null,  250); // chicken
-            Ingredient IngredientWater = new Ingredient( 1,     "Water",  1.0f, null);  // water
+            Ingredient IngredientPlant = new( 7,     "Grape",  null,    8);  // grape
+            Ingredient IngredientAnimal = new(13,   "Chicken",  null,  250); // chicken
+            Ingredient IngredientWater = new( 1,     "Water",  1.0f, null);  // water
 
             IL.IngredientList ingredientList = new(
                "IngredientList",
