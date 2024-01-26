@@ -10,7 +10,7 @@ using System.Linq;
 using AwARe.RoomScan.Path;
 using TMPro;
 using UnityEngine;
-#if DEBUG
+#if UNITY_EDITOR
 using AwARe.DevTools.ObjectGeneration;
 #endif
 namespace AwARe.ObjectGeneration
@@ -79,7 +79,7 @@ namespace AwARe.ObjectGeneration
             // Add collider after changing object size
             BoxCollider bc = newObject.AddComponent<BoxCollider>();
 
-            #if DEBUG
+            #if UNITY_EDITOR
                 BoxColliderVisualizer visualBox = new(bc);
             #endif
 
