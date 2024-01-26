@@ -8,11 +8,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using AwARe.RoomScan.Path;
+using TMPro;
 using UnityEngine;
-using static UnityEngine.UI.GridLayoutGroup;
-//#if DEBUG
-//    using AwARe.DevTools.ObjectGeneration;
-//#endif
+#if DEBUG
+using AwARe.DevTools.ObjectGeneration;
+#endif
 namespace AwARe.ObjectGeneration
 {
     public class ObjectPlacer
@@ -32,10 +32,10 @@ namespace AwARe.ObjectGeneration
         {
             // Check if the box of the new object will overlap with any other colliders
             Vector3 boxCenter = position;
-            boxCenter.y += renderable.GetHalfExtents().y;
+            boxCenter.y += renderable.HalfExtents.y;
             if (Physics.CheckBox(
                 boxCenter,
-                renderable.GetHalfExtents(),
+                renderable.HalfExtents,
                 Quaternion.identity,
                 LayerMask.GetMask("Placed Objects"))) //only check collisions with other materials.
                 return false;
@@ -57,17 +57,31 @@ namespace AwARe.ObjectGeneration
                         return false;
 
             // Adjust object size according to scalar
-            GameObject newObject = Object.Instantiate(renderable.GetPrefab(), position, Quaternion.identity);
+            GameObject newObject = Object.Instantiate(renderable.Prefab, position, Quaternion.identity);
             newObject.layer = LayerMask.NameToLayer("Placed Objects");
             newObject.transform.localScale =
-                new Vector3(renderable.GetScaling(), renderable.GetScaling(), renderable.GetScaling());
+                new Vector3(renderable.Scaling, renderable.Scaling, renderable.Scaling);
+
+            if (renderable.ResourceType == ResourcePipeline.Logic.ResourceType.Water)
+            {
+                //The pivot point of water is in the center of the cube. Move it down.
+                Vector3 trsf = new(0, renderable.HalfExtents.y, 0);
+                newObject.transform.Translate(trsf); //move half extent up, otherwise its inside the world.
+
+                //Set text to the watercube labels
+                string newLabelText = "Water\n" + ((float)renderable.Quantity).ToString() + "L";
+                TextMeshPro[] textMeshProComponents = newObject.GetComponentsInChildren<TextMeshPro>();
+                foreach (TextMeshPro textMeshPro in textMeshProComponents)
+                    textMeshPro.text = newLabelText;
+                renderable.Quantity = 0;
+            }
 
             // Add collider after changing object size
             BoxCollider bc = newObject.AddComponent<BoxCollider>();
 
-            //#if DEBUG
-            //    BoxColliderVisualizer visualBox = new(bc);
-            //#endif
+            #if DEBUG
+                BoxColliderVisualizer visualBox = new(bc);
+            #endif
 
             return true;
         }
@@ -102,7 +116,7 @@ namespace AwARe.ObjectGeneration
                 allQuantitiesZero = true;
                 Renderable renderableToPlace = GetRenderableWithLowestAreaUsage(initialSpawnsDictionary.Keys.ToList());
 
-                if (renderableToPlace != null && renderableToPlace.GetQuantity() > 0)
+                if (renderableToPlace != null && renderableToPlace.Quantity > 0)
                 {
                     float availableSurfaceArea = EstimateAvailableSurfaceArea(validSpawnPoints.Count);
                     Vector3 initialSpawnPoint = initialSpawnsDictionary[renderableToPlace];
@@ -115,11 +129,11 @@ namespace AwARe.ObjectGeneration
                         room,
                         path);
 
-                    renderableToPlace.quantity -= 1;
+                    renderableToPlace.Quantity -= 1;
                     if (!placed) Debug.Log("Could not place this object");
 
                     // Check if there are any renderables left to spawn
-                    if (initialSpawnsDictionary.Keys.Any(r => r.GetQuantity() > 0))
+                    if (initialSpawnsDictionary.Keys.Any(r => r.Quantity > 0))
                         allQuantitiesZero = false;
                 }
             }
@@ -148,16 +162,16 @@ namespace AwARe.ObjectGeneration
             foreach (var point in validSpawnPoints)
             {
                 // check if area-ratio is allowed 
-                float ratioUsage = renderable.GetHalfExtents().x * renderable.GetHalfExtents().z * 4 / availableSurfaceArea;
-                if (renderable.currentRatioUsage + ratioUsage < renderable.allowedSurfaceUsage)
+                float ratioUsage = renderable.HalfExtents.x * renderable.HalfExtents.z * 4 / availableSurfaceArea;
+                if (renderable.CurrentRatioUsage + ratioUsage < renderable.AllowedSurfaceUsage)
                 {
                     // try placing
                     bool hasPlaced = TryPlaceObject(renderable, point, room, path);
                     if (hasPlaced)
                     {
-                        float height = point.y + 2 * renderable.GetHalfExtents().y;
-                        renderable.currentRatioUsage += ratioUsage;
-                        renderable.objStacks.Add(point, height);
+                        float height = point.y + 2 * renderable.HalfExtents.y;
+                        renderable.CurrentRatioUsage += ratioUsage;
+                        renderable.ObjStacks.Add(point, height);
                         return true;
                     }
                     else { } // try again at next closest spawn point
@@ -181,12 +195,12 @@ namespace AwARe.ObjectGeneration
             Data.Logic.Room room,
             PathData path)
         {
-            while (renderable.objStacks.Keys.ToList().Count > 0)
+            while (renderable.ObjStacks.Keys.ToList().Count > 0)
             {
                 // 1. find the smallest stack.
                 float smallestStackHeight = float.MaxValue;
                 Vector3 smallestStackPos = Vector3.zero;
-                foreach (KeyValuePair<Vector3, float> kvp in renderable.objStacks)
+                foreach (KeyValuePair<Vector3, float> kvp in renderable.ObjStacks)
                 {
                     if (kvp.Value < smallestStackHeight)
                     {
@@ -200,13 +214,13 @@ namespace AwARe.ObjectGeneration
                 }
 
                 // 2. check if it doesnt reach through the roof.
-                float stackHeight = renderable.objStacks[smallestStackPos];
-                float newHeight = stackHeight + renderable.GetHalfExtents().y * 2 + 0.05f;
-                float maxHeight = 100.0f;
+                float stackHeight = renderable.ObjStacks[smallestStackPos];
+                float newHeight = stackHeight + renderable.HalfExtents.y * 2 + 0.05f;
+                float maxHeight = room.PositivePolygon.height;
                 //prevent placement if this stack will reach higher than 'x' meters with the additional current object on top
                 if (newHeight > maxHeight)
                 {
-                    renderable.objStacks.Remove(smallestStackPos);
+                    renderable.ObjStacks.Remove(smallestStackPos);
                     return false;
                 }
 
@@ -216,11 +230,11 @@ namespace AwARe.ObjectGeneration
                 bool hasPlaced = TryPlaceObject(renderable, newPos, room, path);
                 if (hasPlaced)
                 {
-                    renderable.objStacks[smallestStackPos] = newHeight;
+                    renderable.ObjStacks[smallestStackPos] = newHeight;
                     return true;
                 }
                 else
-                    renderable.objStacks.Remove(smallestStackPos);
+                    renderable.ObjStacks.Remove(smallestStackPos);
             }
 
 
@@ -238,6 +252,21 @@ namespace AwARe.ObjectGeneration
             spawnPointCount * 0.1f * 0.1f * 0.9f;
 
         /// <summary>
+        /// Extract all renderables of <see cref="ResourceType"> water, and place those at the front of the list.
+        /// This is done to ensure that it will be placed at the same location for the plant and the animal room.
+        /// </summary>
+        /// <param name="renderables">Renderables to be sorted.</param>
+        private void SortWaterRenderables(ref List<Renderable> renderables)
+        {
+            List<Renderable> waterRenderables = renderables.Where(
+                x => x.ResourceType == ResourcePipeline.Logic.ResourceType.Water).ToList();
+
+            renderables.RemoveAll(x => x.ResourceType == ResourcePipeline.Logic.ResourceType.Water);
+
+            renderables.InsertRange(0, waterRenderables);
+        }
+
+        /// <summary>
         /// Spawns one object of each renderable at a valid spawnoint. The initial objects are spawned as far apart from eachother as possible.
         /// </summary>
         /// <param name="spawnPoints">All the allowed spawn points in the Polygon.</param>
@@ -251,15 +280,22 @@ namespace AwARe.ObjectGeneration
             PathData path)
         {
             Dictionary<Renderable, Vector3> initialSpawns = new();
+
+            SortWaterRenderables(ref renderables);
+
             foreach (var renderable in renderables)
             {
                 // sort all spawnpoint with furthest distance to other initial spawnpoints first 
-                List<Vector3> sortedSpawnPoints = SortFurthestSpawnPointsByDistance(spawnPoints, initialSpawns.Values.ToList(), renderable.ComputeSpaceNeeded());
+                List<Vector3> sortedSpawnPoints = SortFurthestSpawnPointsByDistance(
+                    spawnPoints, initialSpawns.Values.ToList(), renderable.ComputeSpaceNeeded());
                 foreach (var point in sortedSpawnPoints)
                 {
                     if (TryPlaceObject(renderable, point, room, path))
                     {
-                        renderable.quantity -= 1; // remove one renderable if the initial object is spawned
+                        if (renderable.ResourceType == ResourcePipeline.Logic.ResourceType.Water)
+                            renderable.Quantity = 0;
+                        else
+                            renderable.Quantity -= 1; // remove one renderable if the initial object is spawned
                         initialSpawns.Add(renderable, point);
                         break; // Exit the loop once a valid point is found
                     }
@@ -322,8 +358,8 @@ namespace AwARe.ObjectGeneration
         private Renderable GetRenderableWithLowestAreaUsage(List<Renderable> renderables)
         {
             return renderables
-                .Where(r => r.GetQuantity() > 0)
-                .OrderBy(r => r.currentRatioUsage)
+                .Where(r => r.Quantity > 0)
+                .OrderBy(r => r.CurrentRatioUsage)
                 .FirstOrDefault();
         }
     }

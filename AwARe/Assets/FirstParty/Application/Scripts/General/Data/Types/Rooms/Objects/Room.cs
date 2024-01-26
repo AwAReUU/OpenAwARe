@@ -96,7 +96,8 @@ namespace AwARe.Data.Objects
 
         public void SetComponent(Logic.Room data)
         {
-            Debug.Log($"Setting component with RoomName: {data.RoomName}");
+            if (data.PositivePolygon == null) return;
+
             Polygon SpawnPolygon(Polygon polygonBase, Logic.Polygon polygonData)
             {
                 if (polygonData == null)
