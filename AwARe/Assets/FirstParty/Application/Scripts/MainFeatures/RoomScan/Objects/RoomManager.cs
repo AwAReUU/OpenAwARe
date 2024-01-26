@@ -214,13 +214,8 @@ namespace AwARe.RoomScan.Objects
         {
             if (CurrentState == State.AskForSave)
             {
-                GoToARScene();
+                LoadRoom();
             }
-        }
-
-        public void GoToARScene()
-        {
-            SceneSwitcher.Get().LoadScene("AR");
         }
 
         [ExcludeFromCoverage]
@@ -247,7 +242,7 @@ namespace AwARe.RoomScan.Objects
             SwitchToState(State.LoadAnchoring);
         }
 
-        private void LoadRoom()
+        public void LoadRoom()
         {
             Data.Logic.Room room;
             room = ChooseRoom(roomToLoad);

@@ -117,7 +117,7 @@ namespace AwARe.Data.Logic
                 Debug.Log(" this already exist");
             }
             else 
-                manager.GoToARScene();
+                manager.LoadRoom();
                 //manager.SaveClick();
             //DisplayRoomLists(roomList); 
         }
