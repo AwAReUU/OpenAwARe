@@ -325,7 +325,6 @@ namespace AwARe.RoomScan.Objects
                         Destroy(polygon.gameObject);
                 }
             }
-
         }
 
         /// <summary>
@@ -333,8 +332,10 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         public void SaveClick()
         {
+            Debug.Log("inputNametext: " + inputName.text);
+            Debug.Log("nullcheck: " + Room.Data.RoomName == null);
             Room.Data.RoomName = inputName.text;
-            Debug.Log(Room.Data.RoomName);
+            Debug.Log("managerRoomname: " + Room.Data.RoomName);
             Storage.Get().ActiveRoom = Room.Data;
             Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
 
@@ -355,6 +356,7 @@ namespace AwARe.RoomScan.Objects
 
             //SwitchToState(State.Default);
 
+            //LoadRoom();
         }
 
         /// <summary>

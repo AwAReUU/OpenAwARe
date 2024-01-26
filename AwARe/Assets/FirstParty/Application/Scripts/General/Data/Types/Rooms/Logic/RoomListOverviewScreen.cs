@@ -110,7 +110,8 @@ namespace AwARe.Data.Logic
         /// </summary>
         public void OnConfirmNameButton()
         {
-            nameSaveRoom.SetActive(false);
+            Debug.Log("Confirm click");
+            Debug.Log("confirmRoomname: " + manager.inputName.text);
 
             if (roomList.Where(obj => obj.RoomName == manager.inputName.text).Count() > 0)
             {
@@ -119,8 +120,10 @@ namespace AwARe.Data.Logic
             else
             {
                 manager.SaveClick();
-                SceneSwitcher.Get().LoadScene("AR");
+                //SceneSwitcher.Get().LoadScene("AR");
             }
+            
+            nameSaveRoom.SetActive(false);
         }
 
         /// <summary>
