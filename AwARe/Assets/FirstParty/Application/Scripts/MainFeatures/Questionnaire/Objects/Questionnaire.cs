@@ -42,7 +42,7 @@ namespace AwARe.Questionnaire.Objects
         /// <value>
         /// List of questions that this questionnaire is currently holding.
         /// </value>
-        private List<GameObject> Questions { get; set; }
+        public List<GameObject> Questions { get; set; }
 
         /// <summary>
         /// Initialize a new <see cref="Questionnaire"/>.
@@ -85,7 +85,7 @@ namespace AwARe.Questionnaire.Objects
             question.SetTitle(data.questionTitle);
             question.SetIfYes(data.ifYes, data.ifYesTrigger);
 
-            AddAnswerOptions(question, data);
+            AddAnswerOption(question, data);
             AddIfYesQuestions(question, data);
 
             return questionObject;
@@ -96,7 +96,7 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         /// <param name="question">The question to add the new answer option to.</param>
         /// <param name="data">The data needed to construct the new answer option.</param>
-        private void AddAnswerOptions(Question question, QuestionData data)
+        private void AddAnswerOption(Question question, QuestionData data)
         {
             foreach (AnswerOptionData answer in data.answerOptions)
                 question.AddAnswerOption(answer);

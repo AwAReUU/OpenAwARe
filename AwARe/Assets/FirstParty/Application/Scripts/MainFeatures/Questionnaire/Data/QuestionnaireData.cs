@@ -72,6 +72,33 @@ namespace AwARe.Questionnaire.Data
         /// The list of answer options for the question.
         /// </value>
         public List<AnswerOptionData> answerOptions;
+
+        /// <summary>
+        /// The list of responses a user has given to this question.
+        /// </summary>
+        public List<AnswerData> UserAnswers;
+    }
+
+    /// <summary>
+    /// Contains data to save about a single answer.
+    /// </summary>
+    [Serializable]
+    public class AnswerData
+    {
+        /// <summary>
+        /// The title of the question
+        /// </summary>
+        public string QuestionTitle;
+
+        /// <summary>
+        /// The text of the given anwer
+        /// </summary>
+        public string AnswerText;
+
+        /// <summary>
+        /// The index of the selected answer option (-1 if none selected for radio/checkbox)
+        /// </summary>
+        public int SelectedAnswerIndex;
     }
 
     /// <summary>
