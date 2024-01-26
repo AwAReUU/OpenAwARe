@@ -97,6 +97,7 @@ namespace AwARe.RoomScan.Objects
                         //save = true;
                         //conti = true;
                         point = true;
+                        no = true;
                         //startSaving = true;
                         return;
                     case State.LoadAnchoring:
@@ -217,8 +218,8 @@ namespace AwARe.RoomScan.Objects
         /// Called on select point button click.
         /// </summary>
         [ExcludeFromCoverage]
-        public void OnSetPointButtonClick() =>
-            manager.OnSetPointButtonClick();
+        public void OnSelectButtonClick() =>
+            manager.OnSelectButtonClick();
 
         /// <summary>
         /// Called on confirm button click.
