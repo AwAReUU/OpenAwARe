@@ -120,7 +120,7 @@ namespace AwARe.Data.Logic
             else
             {
                 manager.SaveClick();
-                //SceneSwitcher.Get().LoadScene("AR");
+                SceneSwitcher.Get().LoadScene("AR");
             }
             
             nameSaveRoom.SetActive(false);

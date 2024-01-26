@@ -334,8 +334,10 @@ namespace AwARe.RoomScan.Objects
         {
             Debug.Log("inputNametext: " + inputName.text);
             Debug.Log("nullcheck: " + Room.Data.RoomName == null);
-            Room.Data.RoomName = inputName.text;
-            Debug.Log("managerRoomname: " + Room.Data.RoomName);
+            //Room.Data.RoomName = inputName.text;
+            //Debug.Log("managerRoomname: " + Room.Data.RoomName);
+            Room.roomName = inputName.text;
+            Debug.Log("managerRoomname: " + Room.roomName);
             Storage.Get().ActiveRoom = Room.Data;
             Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
 
