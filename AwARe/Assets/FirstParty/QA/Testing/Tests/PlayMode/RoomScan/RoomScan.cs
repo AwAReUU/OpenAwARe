@@ -147,7 +147,7 @@ namespace AwARe.Tests.PlayMode.RoomScan
                     roomManager.OnUIMiss();
                     yield return null;
                 }
-                roomManager.OnApplyButtonClick();
+                roomManager.OnConfirmButtonClick();
                 yield return null;
                 roomManager.OnHeightSliderChanged(polygon.height);
                 yield return null;

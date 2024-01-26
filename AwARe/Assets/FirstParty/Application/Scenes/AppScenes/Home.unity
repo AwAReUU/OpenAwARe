@@ -611,6 +611,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ShowPopUp
       objectReference: {fileID: 0}
+    - target: {fileID: 4725538401118949541, guid: fcd65c81bbf31f5418bb5642aa1faa34,
+        type: 3}
+      propertyPath: m_text
+      value: Rooms
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

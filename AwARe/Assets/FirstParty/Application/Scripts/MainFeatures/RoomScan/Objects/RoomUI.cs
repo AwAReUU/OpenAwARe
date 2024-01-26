@@ -27,18 +27,13 @@ namespace AwARe.RoomScan.Objects
         // The UI elements
         [SerializeField] private GameObject resetButton;
         [SerializeField] private GameObject createButton;
-        [SerializeField] private GameObject applyButton;
         [SerializeField] private GameObject confirmButton;
-        [SerializeField] private GameObject yesButton;
         [SerializeField] private GameObject noButton;
         [SerializeField] private Slider heightSlider;
         [SerializeField] private Pointer pointer;
-        [SerializeField] private GameObject pathButton;
         [SerializeField] private GameObject pathLoadingPopup;
         [SerializeField] private GameObject saveButton;
-        [SerializeField] private GameObject loadButton;
         [SerializeField] private GameObject saveList;
-        [SerializeField] private GameObject continueButton;
         [SerializeField] private GameObject saveNameButton;
         [SerializeField] private GameObject saveNameObject;
         [SerializeField] private GameObject selectPointButton;
@@ -47,6 +42,8 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private Button confirmName;
         [SerializeField] private GameObject findPointText;
         [SerializeField] private GameObject askForSaveText;
+        [SerializeField] private GameObject placeAnchorText;
+        [SerializeField] private GameObject anchorRecognizableText;
 
 
         /// <summary>
@@ -63,23 +60,19 @@ namespace AwARe.RoomScan.Objects
             // Set all to inactive.
             bool reset = false,
                 create = false,
-                apply = false,
                 confirm = false,
                 height = false,
                 point = false,
-                pathGen = false,
                 pathLoading = false,
                 save = false,
-                load = false,
-                conti = false,
                 savenamebtn = false,
                 savelist = false,
                 roomlist = false,
                 displayScreenshot = false,
-                yes = false,
                 no = false,
                 findPoint = false,
-                selectPoint = false;
+                placeText = false,
+                anchorRecogText = false;
 
             // Set wanted elements to active
             void DecideActivities()
@@ -94,24 +87,24 @@ namespace AwARe.RoomScan.Objects
                 switch (roomState)
                 {
                     case State.SaveAnchoring:
-                        //save = true;
-                        //conti = true;
                         point = true;
-                        //startSaving = true;
+                        placeText = true;
+                        return;
+                    case State.SaveAnchoringCheck:
+                        confirm = true;
+                        no = true;
+                        anchorRecogText = true;
                         return;
                     case State.LoadAnchoring:
                         point = true;
                         findPoint = true;
                         displayScreenshot = true;
-                        selectPoint = true;
                         return;
                     case State.Saving:
-                        //conti = true;
                         savenamebtn = true;
                         roomlist = true;
                         return;
                     case State.Loading:
-                        conti = true;
                         roomlist = true;
                         create = true;
                         return;
@@ -120,10 +113,7 @@ namespace AwARe.RoomScan.Objects
                 switch (polygonState)
                 {
                     case Polygons.State.Done:
-                        //create = true;
                         save = true;
-                        //load = true;
-                        //pathGen = true;
                         no = true;
                         break;
                     case Polygons.State.SettingHeight:
@@ -131,13 +121,12 @@ namespace AwARe.RoomScan.Objects
                         confirm = true;
                         break;
                     case Polygons.State.Drawing:
-                        apply = true;
+                        confirm = true;
                         reset = true;
                         point = true;
                         break;
                     case Polygons.State.Default:
                     default:
-                        load = true;
                         create = true;
                         break;
                 }
@@ -147,25 +136,22 @@ namespace AwARe.RoomScan.Objects
             // Actual (de)activation.
             resetButton.SetActive(reset);
             createButton.SetActive(create);
-            applyButton.SetActive(apply);
             confirmButton.SetActive(confirm);
             heightSlider.gameObject.SetActive(height);
             if (height) OnHeightSliderChanged();
             pointer.gameObject.SetActive(point);
-            pathButton.SetActive(pathGen);
             roomlistscreen.SetActive(roomlist);
             pathLoadingPopup.SetActive(pathLoading);
             saveButton.SetActive(save);
             saveNameButton.SetActive(savenamebtn);
             saveList.SetActive(savelist);
-            loadButton.SetActive(load);
-            continueButton.SetActive(conti);
-            yesButton.SetActive(yes);
             noButton.SetActive(no);
             findPointText.SetActive(findPoint);
             selectPointButton.SetActive(point);
             if (askForSaveText != null)
                 askForSaveText.SetActive(save);
+            placeAnchorText.SetActive(placeText);
+            anchorRecognizableText.SetActive(anchorRecogText);
 
             if (displayScreenshot)
                 DisplayAnchorLoadingImage(0);
@@ -204,14 +190,6 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnResetButtonClick() =>
             manager.OnResetButtonClick();
-
-
-        /// <summary>
-        /// Called on apply button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnApplyButtonClick() =>
-            manager.OnApplyButtonClick();
 
         /// <summary>
         /// Called on select point button click.
@@ -268,13 +246,6 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnPathButtonClick() =>
             manager.OnPathButtonClick();
-
-        /// <summary>
-        /// Called on yes button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnYesButtonClick() =>
-            manager.OnYesButtonClick();
 
         /// <summary>
         /// Called on no button click.

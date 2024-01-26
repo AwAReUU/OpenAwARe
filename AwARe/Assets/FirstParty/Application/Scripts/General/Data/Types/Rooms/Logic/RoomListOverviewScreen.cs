@@ -116,10 +116,12 @@ namespace AwARe.Data.Logic
             {
                 Debug.Log(" this already exist");
             }
-            else 
+            else
+            {
+                manager.SetActiveRoom();
+                manager.SaveClick();
                 manager.LoadRoom();
-                //manager.SaveClick();
-            //DisplayRoomLists(roomList); 
+            }
         }
 
         /// <summary>
