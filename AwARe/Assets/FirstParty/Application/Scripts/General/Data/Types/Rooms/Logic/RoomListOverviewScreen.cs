@@ -116,7 +116,9 @@ namespace AwARe.Data.Logic
             {
                 Debug.Log(" this already exist");
             }
-            else manager.SaveClick();
+            else 
+                manager.GoToARScene();
+                //manager.SaveClick();
             //DisplayRoomLists(roomList); 
         }
 

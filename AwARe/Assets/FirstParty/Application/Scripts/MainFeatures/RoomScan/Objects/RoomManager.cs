@@ -7,6 +7,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using AwARe.Data.Logic;
 using AwARe.InterScenes.Objects;
 using AwARe.Objects;
@@ -60,7 +61,7 @@ namespace AwARe.RoomScan.Objects
         /// <value>
         /// The current state of the room scanner.
         /// </value>
-        public State CurrentState { get; private set; } = State.Default;
+        public State CurrentState { get; private set; }
 
         [ExcludeFromCoverage]
         private void Awake()
@@ -71,7 +72,8 @@ namespace AwARe.RoomScan.Objects
             // Instantiate a room to construct.
             Room = Instantiate(roomBase, transform).GetComponent<Room>();
 
-            SwitchToState(State.Default);
+            SwitchToState(startState);
+            CurrentState = startState;
         }
 
         /// <summary>
@@ -124,7 +126,7 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         public void OnUIMiss()
         {
-            polygonManager.OnUIMiss();
+            //polygonManager.OnUIMiss();
         }
 
         /// <summary>
@@ -159,7 +161,8 @@ namespace AwARe.RoomScan.Objects
         public void OnConfirmButtonClick()
         {
             polygonManager.OnConfirmButtonClick();
-            SwitchToState(State.Done);
+            pathManager.OnPathButtonClick();
+            SwitchToState(State.AskForSave);
         }
 
         /// <summary>
@@ -167,6 +170,11 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         public void OnSetPointButtonClick()
         {
+            if (CurrentState == State.Scanning)
+            {
+                polygonManager.TryAddPoint();
+            }
+
             if (CurrentState == State.SaveAnchoring)
             {
                 TryAddAnchor(pointer.PointedAt, anchorVisual);
@@ -182,7 +190,7 @@ namespace AwARe.RoomScan.Objects
                     {
                         ui.screenshotManager.SaveScreenshot(screenshots[i], Room.Data, i);
                     }
-                    OnSaveButtonClick();
+                    SwitchToState(State.Saving);
                 }
             }
             else if (CurrentState == State.LoadAnchoring)
@@ -204,7 +212,24 @@ namespace AwARe.RoomScan.Objects
 
         public void OnNoButtonClick()
         {
-            
+            if (CurrentState == State.AskForSave)
+            {
+                GoToARScene();
+            }
+        }
+
+        public void GoToARScene()
+        {
+            SceneSwitcher.Get().LoadScene("AR");
+        }
+
+        [ExcludeFromCoverage]
+        public void OnSaveButtonClick()
+        {
+            //Storage.Get().ActiveRoom = Room.Data;
+            sessionAnchors.Clear();
+            stateBefore = CurrentState;
+            SwitchToState(State.SaveAnchoring);
         }
 
         /// <summary>
@@ -213,25 +238,6 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnHeightSliderChanged(float value) =>
             polygonManager.OnHeightSliderChanged(value);
-
-        /// <summary>
-        /// Called on save button click; Stores the current room and switches to the home screen.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnSaveButtonClick()
-        {
-            SwitchToState(State.Saving);
-            //roomScreen.DisplayRoomLists(roomScreen.roomList);
-        }
-
-        [ExcludeFromCoverage]
-        public void OnStartSavingButtonClick()
-        {
-            //Storage.Get().ActiveRoom = Room.Data;
-            sessionAnchors.Clear();
-            stateBefore = CurrentState;
-            SwitchToState(State.SaveAnchoring);
-        }
 
         private string roomToLoad = "";
         public void StartLoadingRoom(string name)
@@ -252,7 +258,7 @@ namespace AwARe.RoomScan.Objects
             Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
 
             stateBefore = CurrentState;
-            SwitchToState(State.Done);
+            SwitchToState(State.AskForSave);
             
             SceneSwitcher.Get().LoadScene("AR");
         }
@@ -312,7 +318,7 @@ namespace AwARe.RoomScan.Objects
         public void SaveClick()
         {
             SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
-            UnityEngine.Debug.Log(Room.Data.RoomName);
+            UnityEngine.Debug.Log("Room.Data.RoomName: " + Room.Data.RoomName);
             Storage.Get().ActiveRoom = Room.Data;
             Storage.Get().ActiveRoom.RoomName = inputName.text;
 
@@ -442,7 +448,7 @@ namespace AwARe.RoomScan.Objects
         public void SetActive()
         {
             if (CurrentState == State.Scanning && !(pathManager.IsActive || polygonManager.IsActive))
-                CurrentState = State.Done;
+                CurrentState = State.AskForSave;
 
             // Set UI activity
             ui.SetActive(this.CurrentState, polygonManager.CurrentState, pathManager.CurrentState);
@@ -456,7 +462,7 @@ namespace AwARe.RoomScan.Objects
     {
         Default,
         Scanning,
-        Done,
+        AskForSave,
         Saving,
         Loading,
         SaveAnchoring,

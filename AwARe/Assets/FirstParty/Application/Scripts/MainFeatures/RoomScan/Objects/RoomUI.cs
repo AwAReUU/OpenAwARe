@@ -46,6 +46,7 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private TMP_InputField saveName;
         [SerializeField] private Button confirmName;
         [SerializeField] private GameObject findPointText;
+        [SerializeField] private GameObject askForSaveText;
 
 
         /// <summary>
@@ -56,6 +57,9 @@ namespace AwARe.RoomScan.Objects
         /// <param name="pathState">Current/new path state.</param>
         public void SetActive(State roomState, Polygons.State polygonState, Path.State pathState)
         {
+            Debug.Log("Roomstate: " + roomState);
+            Debug.Log("PolyState: " + roomState);
+
             // Set all to inactive.
             bool reset = false,
                 create = false,
@@ -90,8 +94,8 @@ namespace AwARe.RoomScan.Objects
                 switch (roomState)
                 {
                     case State.SaveAnchoring:
-                        save = true;
-                        conti = true;
+                        //save = true;
+                        //conti = true;
                         point = true;
                         //startSaving = true;
                         return;
@@ -102,7 +106,7 @@ namespace AwARe.RoomScan.Objects
                         selectPoint = true;
                         return;
                     case State.Saving:
-                        conti = true;
+                        //conti = true;
                         savenamebtn = true;
                         roomlist = true;
                         return;
@@ -115,10 +119,11 @@ namespace AwARe.RoomScan.Objects
                 switch (polygonState)
                 {
                     case Polygons.State.Done:
-                        create = true;
+                        //create = true;
                         save = true;
-                        load = true;
-                        pathGen = true;
+                        //load = true;
+                        //pathGen = true;
+                        no = true;
                         break;
                     case Polygons.State.SettingHeight:
                         height = true;
@@ -157,9 +162,11 @@ namespace AwARe.RoomScan.Objects
             yesButton.SetActive(yes);
             noButton.SetActive(no);
             findPointText.SetActive(findPoint);
-            selectPointButton.SetActive(selectPoint);
+            selectPointButton.SetActive(point);
+            if (askForSaveText != null)
+                askForSaveText.SetActive(save);
 
-            if(displayScreenshot)
+            if (displayScreenshot)
                 DisplayAnchorLoadingImage(0);
         }
 
@@ -172,7 +179,7 @@ namespace AwARe.RoomScan.Objects
             screenshotManager.DisplayScreenshotFromFile(manager.Room.Data, index, false, ScreenshotManager.ImageSize.Small);
         }
 
-        
+
         /// <summary>
         /// Display the screenshot with the given index for saving the anchors.
         /// </summary>
@@ -232,13 +239,6 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnSaveButtonClick() =>
             manager.OnSaveButtonClick();
-
-        /// <summary>
-        /// Called on start saving button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnStartSavingButtonClick() =>
-            manager.OnStartSavingButtonClick();
 
         /// <summary>
         /// Called on load button click.

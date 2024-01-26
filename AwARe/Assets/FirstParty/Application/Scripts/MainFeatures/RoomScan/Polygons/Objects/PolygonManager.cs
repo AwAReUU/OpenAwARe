@@ -103,7 +103,12 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void OnUIMiss()
         {
-            if(CurrentState == State.Drawing)
+            //TryAddPoint();
+        }
+
+        public void TryAddPoint()
+        {
+            if (CurrentState == State.Drawing)
             {
                 if (!polygonDrawer.pointer.Value.FoundFirstPlane && !Application.isEditor)
                     Debug.LogError("No plane found yet. Please try again.");
