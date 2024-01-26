@@ -183,10 +183,6 @@ namespace AwARe.RoomScan.Objects
                 ui.screenshotManager.HideScreenshot();
                 if (sessionAnchors.Count >= 2)
                 {
-                    for (int i = 0; i < screenshots.Count; i++)
-                    {
-                        ui.screenshotManager.SaveScreenshot(screenshots[i], Room.Data, i);
-                    }
                     SwitchToState(State.Saving);
                 }
                 else
@@ -253,7 +249,6 @@ namespace AwARe.RoomScan.Objects
         {
             //Storage.Get().ActiveRoom = Room.Data;
             sessionAnchors.Clear();
-            stateBefore = CurrentState;
             SwitchToState(State.SaveAnchoring);
         }
 
@@ -266,14 +261,14 @@ namespace AwARe.RoomScan.Objects
 
         public void StartLoadingRoom(Data.Logic.Room room)
         {
-            roomToLoad = room;
+            Room.Data = room;
             stateBefore = CurrentState;
             SwitchToState(State.LoadAnchoring);
         }
 
         public void LoadRoom()
         {
-            Storage.Get().ActiveRoom = roomToLoad;
+            Storage.Get().ActiveRoom = Room.Data;
             Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
             SceneSwitcher.Get().LoadScene("AR");
         }
@@ -285,7 +280,11 @@ namespace AwARe.RoomScan.Objects
         {
             Room.roomName = roomOverviewScreen.nameInput.text;
 
-            stateBefore = CurrentState;
+            // Save screenshots
+            for (int i = 0; i < screenshots.Count; i++)
+            {
+                ui.screenshotManager.SaveScreenshot(screenshots[i], Room.Data, i);
+            }
 
             // Load existing room list
             RoomListSerialization roomList = saveLoadManager.LoadRooms("rooms");
@@ -355,7 +354,6 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnLoadButtonClick()
         {
-            stateBefore = CurrentState;
             SwitchToState(State.Loading);
         }
 
@@ -369,13 +367,6 @@ namespace AwARe.RoomScan.Objects
             stateBefore = CurrentState;
             SwitchToState(State.LoadAnchoring);
         }
-
-        /// <summary>
-        /// Called on continue button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnContinueClick() =>
-            SwitchToState(stateBefore);
 
         /// <summary>
         /// Called on path button click.

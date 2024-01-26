@@ -232,13 +232,6 @@ namespace AwARe.RoomScan.Objects
             manager.OnStartLoadingButtonClick();
 
         /// <summary>
-        /// Called on continue button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnContinueClick() =>
-            manager.OnContinueClick();
-
-        /// <summary>
         /// Called on path button click.
         /// </summary>
         [ExcludeFromCoverage]
