@@ -333,7 +333,7 @@ namespace AwARe.RoomScan.Objects
         /// <returns>The list of rooms.</returns>
         public List<Data.Logic.Room> LoadRoomList()
         {
-
+            if(saveLoadManager == null) Debug.Log("null");
             RoomListSerialization roomListSerialization = saveLoadManager.LoadRooms("rooms");
 
             if (roomListSerialization == null)

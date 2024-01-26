@@ -123,6 +123,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &188172645 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2280647731711443633, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3138366139598441702}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &614084962
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -879,6 +885,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1493193997251477035, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
+      propertyPath: m_text
+      value: Please fill in a name for the room
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493193997251477035, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1915950239260986905, guid: d4c46bfcf9edf094f9024b003f22eb7b,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -893,6 +909,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2280647731711443633, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2538426425006486495, guid: d4c46bfcf9edf094f9024b003f22eb7b,
         type: 3}
@@ -979,6 +1000,11 @@ PrefabInstance:
       propertyPath: m_HorizontalScrollbar
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4019439104956935226, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
+      propertyPath: saveButton
+      value: 
+      objectReference: {fileID: 188172645}
     - target: {fileID: 4302306378239719452, guid: d4c46bfcf9edf094f9024b003f22eb7b,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1092,7 +1118,7 @@ PrefabInstance:
     - target: {fileID: 6551054410790664886, guid: d4c46bfcf9edf094f9024b003f22eb7b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00006952472
+      value: -0.00020801855
       objectReference: {fileID: 0}
     - target: {fileID: 7399119283959331754, guid: d4c46bfcf9edf094f9024b003f22eb7b,
         type: 3}
@@ -1153,6 +1179,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321764607117086022, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8563082916646068318, guid: d4c46bfcf9edf094f9024b003f22eb7b,
         type: 3}

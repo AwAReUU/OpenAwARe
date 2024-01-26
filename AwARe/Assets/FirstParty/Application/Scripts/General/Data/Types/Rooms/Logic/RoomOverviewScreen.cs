@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using AwARe.InterScenes.Objects;
 using AwARe.RoomScan.Objects;
 using TMPro;
 using UnityEngine;
@@ -31,6 +30,7 @@ namespace AwARe.Data.Logic
         // UI elements to control
         [SerializeField] private GameObject listItemObject; //list item 'prefab'
         [SerializeField] private GameObject nameInputWindow;
+        [SerializeField] private GameObject saveButton;
         [SerializeField] public TMP_InputField nameInput;
 
         // Tracked UI elements
@@ -117,6 +117,8 @@ namespace AwARe.Data.Logic
         public void OnSaveNewRoomClick()
         {
             nameInputWindow.SetActive(true);
+            saveButton.SetActive(false);
+
             DisplayList();
         }
     }
