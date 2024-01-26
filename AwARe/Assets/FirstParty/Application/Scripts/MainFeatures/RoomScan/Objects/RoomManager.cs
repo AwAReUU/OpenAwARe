@@ -149,7 +149,7 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         public void OnCreateButtonClick()
         {
-            if(CurrentState == State.Default || CurrentState == State.AskForSave)
+            if (CurrentState == State.Default || CurrentState == State.AskForSave)
             {
                 SwitchToState(State.Scanning);
                 polygonManager.OnCreateButtonClick();
@@ -174,7 +174,7 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnConfirmButtonClick()
         {
-            if(polygonManager.CurrentState == Polygons.State.Drawing)
+            if (polygonManager.CurrentState == Polygons.State.Drawing)
                 polygonManager.OnApplyButtonClick();
             if (CurrentState == State.Scanning)
             {
@@ -182,12 +182,12 @@ namespace AwARe.RoomScan.Objects
                 pathManager.OnPathButtonClick();
                 SwitchToState(State.AskForSave);
             }
-            else if(CurrentState == State.SaveAnchoringCheck)
+            else if (CurrentState == State.SaveAnchoringCheck)
             {
                 ui.screenshotManager.HideScreenshot();
-                if(sessionAnchors.Count >= 2)
+                if (sessionAnchors.Count >= 2)
                 {
-                    for(int i = 0; i < screenshots.Count; i++)
+                    for (int i = 0; i < screenshots.Count; i++)
                     {
                         ui.screenshotManager.SaveScreenshot(screenshots[i], Room.Data, i);
                     }
@@ -216,7 +216,7 @@ namespace AwARe.RoomScan.Objects
                 Texture2D screenshot = ui.screenshotManager.TakeScreenshot();
                 screenshots.Add(screenshot);
 
-               // ui.DisplayAnchorSavingImage(screenshot);
+                ui.DisplayAnchorSavingImage(screenshot);
 
                 SwitchToState(State.SaveAnchoringCheck);
             }
@@ -225,7 +225,7 @@ namespace AwARe.RoomScan.Objects
                 TryAddAnchor(pointer.PointedAt, anchorVisual);
                 screenshots.Add(ui.screenshotManager.TakeScreenshot());
 
-                if(sessionAnchors.Count < 2)
+                if (sessionAnchors.Count < 2)
                     ui.DisplayAnchorLoadingImage(sessionAnchors.Count);
                 else
                 {
@@ -240,7 +240,7 @@ namespace AwARe.RoomScan.Objects
             {
                 LoadRoom();
             }
-            else if(CurrentState == State.SaveAnchoringCheck)
+            else if (CurrentState == State.SaveAnchoringCheck)
             {
                 sessionAnchors.RemoveAt(sessionAnchors.Count - 1);
                 screenshots.RemoveAt(screenshots.Count - 1);
@@ -288,7 +288,7 @@ namespace AwARe.RoomScan.Objects
         public void LoadRoom()
         {
             SetActiveRoom();
-            
+
             SceneSwitcher.Get().LoadScene("AR");
         }
 
