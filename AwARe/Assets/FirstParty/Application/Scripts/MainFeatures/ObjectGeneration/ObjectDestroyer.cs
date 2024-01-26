@@ -17,6 +17,11 @@ namespace AwARe.ObjectGeneration
     /// </summary>
     public class ObjectDestroyer : MonoBehaviour
     {
+        public void StartDestroyingObjects()
+        {
+            StartCoroutine(DestroyAllObjects());
+        }
+
         /// <summary>
         /// Destroy all GameObjects in the "Placed Objects" layer.
         /// </summary>
