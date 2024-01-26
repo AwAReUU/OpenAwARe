@@ -52,7 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   polygonManager: {fileID: 5023010627900976430}
   pathManager: {fileID: 3640766119165808141}
-  roomOverviewScreen: {fileID: 0}
+  roomOverviewScreen: {fileID: 4019439104956935226}
   ui: {fileID: 8677877673986583829}
   canvas: {fileID: 1636308653749484015}
   sceneCanvas: {fileID: 0}
@@ -883,6 +883,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97a22c8d200a71e41ab087637c121656, type: 3}
+--- !u!114 &4019439104956935226 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5476508833418650096, guid: 97a22c8d200a71e41ab087637c121656,
+    type: 3}
+  m_PrefabInstance: {fileID: 8919270576610119114}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2897114da0476a5409dc007d67370d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &6306163778122012591 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3189784242092857957, guid: 97a22c8d200a71e41ab087637c121656,

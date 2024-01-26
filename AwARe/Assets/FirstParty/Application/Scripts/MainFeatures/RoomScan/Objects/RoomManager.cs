@@ -69,15 +69,17 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         private void Awake()
         {
+            saveLoadManager = new();
+            
+            rooms = LoadRoomList();
+
+            ui.gameObject.SetActive(true);
+
             // Move all content prefab canvas to scene canvas.
             Mover.MoveAllChildren(canvas, sceneCanvas, true);
 
             // Instantiate a room to construct.
             Room = Instantiate(roomBase, transform).GetComponent<Room>();
-
-            saveLoadManager = new();
-
-            rooms = LoadRoomList();
 
             SwitchToState(startState);
         }
@@ -170,7 +172,7 @@ namespace AwARe.RoomScan.Objects
         {
             if (polygonManager.CurrentState == Polygons.State.Drawing)
                 polygonManager.OnApplyButtonClick();
-            if (CurrentState == State.Scanning)
+            else if (CurrentState == State.Scanning)
             {
                 polygonManager.OnConfirmButtonClick();
                 pathManager.OnPathButtonClick();
