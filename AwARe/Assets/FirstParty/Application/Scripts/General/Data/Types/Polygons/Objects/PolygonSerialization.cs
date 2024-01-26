@@ -3,7 +3,7 @@
 //     Utrecht University within the Software Project course.
 //
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
-// \* 
+// \*                                                                                       */
 
 using System.Collections;
 using System.Collections.Generic;
@@ -28,7 +28,8 @@ namespace AwARe
         public float x, y, z;
 
         /// <summary>
-        /// Constructor for Vector3Serialization, initializes the object with a <see cref="Vector3"/>.
+        /// Initializes a new instance of the <see cref="Vector3Serialization"/> class,
+        /// with a <see cref="Vector3"/>.
         /// </summary>
         /// <param name="vector">Vector3 to use for initialization.</param>
         public Vector3Serialization(Vector3 vector)
@@ -270,7 +271,8 @@ namespace AwARe
         }
 
         /// <summary>
-        /// Constructor for RoomSerialization, initializes the object with serialized positive and negative polygons.
+        /// Initializes a new instance of the <see cref="RoomSerialization"/> class,
+        /// with serialized positive and negative polygons.
         /// </summary>
         /// <param name="positivePolygon">Serialized positive polygon.</param>
         /// <param name="negativePolygons">List of serialized negative polygons.</param>
@@ -292,7 +294,7 @@ namespace AwARe
         /// <summary>
         /// Converts the serialized room back to a Room object.
         /// </summary>
-        /// <param name="anchors">List of anchors for the current session.</param>
+        /// <param name="anchors_">List of anchors for the current session.</param>
         /// <returns>The deserialized Room.</returns>
         public Room ToRoom(List<Vector3> anchors_)
         {

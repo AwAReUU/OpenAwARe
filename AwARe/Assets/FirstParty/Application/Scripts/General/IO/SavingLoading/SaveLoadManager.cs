@@ -3,7 +3,7 @@
 //     Utrecht University within the Software Project course.
 //
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
-// \* 
+// \*                                                                                       */
 
 using System;
 using System.IO;
@@ -17,8 +17,6 @@ namespace AwARe
     public class SaveLoadManager : MonoBehaviour
     {
         public string directoryPath;
-        public string DirectoryPath =>
-            directoryPath;
 
         private void Start()
         {
@@ -97,7 +95,7 @@ namespace AwARe
             if (string.IsNullOrEmpty(directoryPath))
             {
                 Debug.LogError("path is null or empty.");
-                return default(T);
+                return default;
             }
 
             string jsonFilePath = Path.Combine(directoryPath, fileName);
@@ -112,13 +110,13 @@ namespace AwARe
                 catch (Exception ex)
                 {
                     Debug.LogError($"Error reading file {fileName}: {ex.Message}");
-                    return default(T);
+                    return default;
                 }
             }
             else
             {
                 Debug.LogWarning("File not found: " + jsonFilePath);
-                return default(T);
+                return default;
             }
         }
 

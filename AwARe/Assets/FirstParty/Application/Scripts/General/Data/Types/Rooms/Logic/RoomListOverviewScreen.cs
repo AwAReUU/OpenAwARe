@@ -61,7 +61,7 @@ namespace AwARe.Data.Logic
         }
 
         /// <summary>
-        /// For all the rooms in the rooms file make a button with the rooms name on it
+        /// For all the rooms in the rooms file make a button with the rooms name on it.
         /// </summary>
         /// 
         public void DisplayRoomLists(List<Room> roomList)
@@ -106,7 +106,7 @@ namespace AwARe.Data.Logic
         }
 
         /// <summary>
-        /// Checks if room name already exists in the rooms file if not then it will be saved and will show up in the list of roomsaves
+        /// Checks if room name already exists in the rooms file if not then it will be saved and will show up in the list of roomsaves.
         /// </summary>
         public void OnConfirmNameButton()
         {
@@ -121,18 +121,20 @@ namespace AwARe.Data.Logic
         }
 
         /// <summary>
-        /// Deletes roomlistitem and the Roomdata in the "rooms" file so that it's gone
+        /// Deletes roomlistitem and the Roomdata in the "rooms" file so that it's gone.
         /// </summary>
         public void DeleteList(string name)
         {
             roomList = manager.LoadRoomList();
-            roomList.Remove(roomList.Where(obj => obj.RoomName == name).SingleOrDefault());
+            Room room = roomList.Where(obj => obj.RoomName == name).SingleOrDefault();
+            roomList.Remove(room);
+            manager.DeleteRoom(room);
             manager.UpdateRoomList(roomList);
             DisplayRoomLists(roomList);
         }
 
         /// <summary>
-        /// Spawns the room that contains the name that is on the roomlistitem that has been clicked
+        /// Spawns the room that contains the name that is on the roomlistitem that has been clicked.
         /// </summary>
 
         public void OnRoomItemClick(string name)
@@ -145,7 +147,7 @@ namespace AwARe.Data.Logic
         }
 
         /// <summary>
-        /// Loads the informationscreen to put a name in for the roomlist item
+        /// Loads the informationscreen to put a name in for the roomlist item.
         /// </summary>
         public void OnSaveNewRoomClick()
         {

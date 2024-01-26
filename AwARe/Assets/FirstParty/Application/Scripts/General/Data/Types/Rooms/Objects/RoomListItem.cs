@@ -3,7 +3,7 @@
 //     Utrecht University within the Software Project course.
 //
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
-// \*  
+// \*                                                                                       */
 
 using System.Collections.Generic;
 using AwARe.Data.Logic;
@@ -48,13 +48,13 @@ namespace AwARe
             
         }
         /// <summary>
-        /// Loads the room of which the name is on the roomlistitem
+        /// Loads the room of which the name is on the roomlistitem.
         /// </summary>
         public void OnRoomItemClick() =>
             screen.OnRoomItemClick(name);
 
         /// <summary>
-        /// Delete the roomlistitem
+        /// Delete the roomlistitem.
         /// </summary>
         public void DeleteList() =>
             screen.DeleteList(name);

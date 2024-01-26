@@ -176,7 +176,7 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Display the screenshot with the given index for saving the anchors.
         /// </summary>
-        /// <param name="index">The index of the screenshot.</param>
+        /// <param name="screenshot">The screenshot.</param>
         public void DisplayAnchorSavingImage(Texture2D screenshot)
         {
             screenshotManager.DisplayScreenshot(screenshotManager.TextureToSprite(screenshot), false, ScreenshotManager.ImageSize.Large);
@@ -233,17 +233,23 @@ namespace AwARe.RoomScan.Objects
         public void OnSaveButtonClick() =>
             manager.OnSaveButtonClick();
 
+        /// <summary>
+        /// Called on start saving button click.
+        /// </summary>
         [ExcludeFromCoverage]
         public void OnStartSavingButtonClick() =>
             manager.OnStartSavingButtonClick();
 
         /// <summary>
-        /// Called on save button click.
+        /// Called on load button click.
         /// </summary>
         [ExcludeFromCoverage]
         public void OnLoadButtonClick() =>
             manager.OnLoadButtonClick();
 
+        /// <summary>
+        /// Called on start loading button click.
+        /// </summary>
         [ExcludeFromCoverage]
         public void OnStartLoadingButtonClick() =>
             manager.OnStartLoadingButtonClick();
@@ -262,10 +268,16 @@ namespace AwARe.RoomScan.Objects
         public void OnPathButtonClick() =>
             manager.OnPathButtonClick();
 
+        /// <summary>
+        /// Called on yes button click.
+        /// </summary>
         [ExcludeFromCoverage]
         public void OnYesButtonClick() =>
             manager.OnYesButtonClick();
 
+        /// <summary>
+        /// Called on no button click.
+        /// </summary>
         [ExcludeFromCoverage]
         public void OnNoButtonClick() =>
             manager.OnNoButtonClick();

@@ -44,9 +44,14 @@ namespace AwARe.RoomScan.Objects
         // The pointer
         [SerializeField] public Pointer pointer;
 
+        /// <summary>
+        /// The state the scene should start in.
+        /// </summary>
         public State startState = State.Default;
 
-        // Tracking
+        /// <summary>
+        /// The previous state; used for tracking.
+        /// </summary>
         private State stateBefore;
 
         /// <summary>
@@ -89,7 +94,7 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Add an anchor to the sessionAnchors list, fails if list is full (2 anchors max.).
         /// </summary>
-        /// <param name="anchorPoint"></param>
+        /// <param name="anchorPoint">The location of the anchor.</param>
         /// <param name="anchorVisual"></param>
         public void TryAddAnchor(Vector3 anchorPoint, GameObject anchorVisual = null)
         {
@@ -240,7 +245,11 @@ namespace AwARe.RoomScan.Objects
         {
             Data.Logic.Room room;
             room = ChooseRoom(roomToLoad);
-            MakeRoom(room);
+
+            //VisualizeRoom(room);
+
+            Storage.Get().ActiveRoom = room;
+            Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
 
             stateBefore = CurrentState;
             SwitchToState(State.Done);
@@ -249,8 +258,9 @@ namespace AwARe.RoomScan.Objects
         }
 
         /// <summary>
-        /// get the room that is associated with the clicked button's name
+        /// get the room that is associated with the clicked button's name.
         /// </summary>
+        /// <param name="name">The clicked button's name.</param>
         public Data.Logic.Room ChooseRoom(string name)
         {
             List<Data.Logic.Room> listofrooms = LoadRoomList();
@@ -260,8 +270,8 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Visualize the room in AR.
         /// </summary>
-        /// <param name="room"></param>
-        public void MakeRoom(Data.Logic.Room room)
+        /// <param name="room">The room to visualize.</param>
+        public void VisualizeRoom(Data.Logic.Room room)
         {
             ClearRoom();
 
@@ -273,8 +283,6 @@ namespace AwARe.RoomScan.Objects
                 polygon.GetComponent<Mesher>().UpdateMesh();
                 polygon.GetComponent<Liner>().UpdateLine();
             }
-            Storage.Get().ActiveRoom = room;
-            Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
         }
 
         /// <summary>
@@ -299,7 +307,7 @@ namespace AwARe.RoomScan.Objects
         }
 
         /// <summary>
-        /// Save newly created room in rooms file
+        /// Save newly created room in rooms file.
         /// </summary>
         public void SaveClick()
         {
@@ -313,10 +321,7 @@ namespace AwARe.RoomScan.Objects
             // Load existing room list
             RoomListSerialization roomList = saveLoadManager.LoadRooms("rooms");
 
-            if (roomList == null)
-            {
-                roomList = new RoomListSerialization();
-            }
+            roomList ??= new RoomListSerialization();
 
             // Add the current room to the list
             roomList.Rooms.Add(new RoomSerialization(Storage.Get().ActiveRoom, sessionAnchors));
@@ -331,7 +336,17 @@ namespace AwARe.RoomScan.Objects
         }
 
         /// <summary>
-        /// go from list of rooms to roomlist Serialization so that you can update the rooms file
+        /// Remove the screenshots in the given room.
+        /// </summary>
+        /// <param name="room">The room that is being deleted.</param>
+        public void DeleteRoom(Data.Logic.Room room)
+        {
+            ui.screenshotManager.DeleteScreenshot(room, 0);
+            ui.screenshotManager.DeleteScreenshot(room, 1);
+        }
+
+        /// <summary>
+        /// Go from list of rooms to roomlist Serialization so that you can update the rooms file.
         /// </summary>
         public void UpdateRoomList(List<Data.Logic.Room> roomlist)
         {
@@ -346,8 +361,9 @@ namespace AwARe.RoomScan.Objects
         }
 
         /// <summary>
-        /// load in a list of rooms from roomListSerialization rooms
+        /// Load in a list of rooms from roomListSerialization rooms.
         /// </summary>
+        /// <returns>The list of rooms.</returns>
         public List<Data.Logic.Room> LoadRoomList()
         {
 
@@ -383,6 +399,9 @@ namespace AwARe.RoomScan.Objects
             SwitchToState(State.Loading);
         }
 
+        /// <summary>
+        /// Called on start loading button click.
+        /// </summary>
         [ExcludeFromCoverage]
         public void OnStartLoadingButtonClick()
         {
