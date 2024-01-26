@@ -596,6 +596,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HomeMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 3177389297916454895, guid: fcd65c81bbf31f5418bb5642aa1faa34,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: RoomLoad
+      objectReference: {fileID: 0}
     - target: {fileID: 4188624900712702479, guid: fcd65c81bbf31f5418bb5642aa1faa34,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

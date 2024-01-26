@@ -3070,6 +3070,11 @@ PrefabInstance:
       objectReference: {fileID: 1785564656}
     - target: {fileID: 952778780584282331, guid: d4c46bfcf9edf094f9024b003f22eb7b,
         type: 3}
+      propertyPath: startState
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 952778780584282331, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
       propertyPath: sceneCanvas
       value: 
       objectReference: {fileID: 1640323068}
@@ -3418,10 +3423,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoomUI
       objectReference: {fileID: 0}
+    - target: {fileID: 1179721173116475463, guid: 97a22c8d200a71e41ab087637c121656,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1329323779567084969, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1556798916730774139, guid: 97a22c8d200a71e41ab087637c121656,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 299
+      objectReference: {fileID: 0}
+    - target: {fileID: 1556798916730774139, guid: 97a22c8d200a71e41ab087637c121656,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -967
       objectReference: {fileID: 0}
     - target: {fileID: 1949308108057872742, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
@@ -3601,6 +3621,11 @@ PrefabInstance:
     - target: {fileID: 5518361557990577958, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747136445741429435, guid: 97a22c8d200a71e41ab087637c121656,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6139971977790251193, guid: 97a22c8d200a71e41ab087637c121656,
@@ -3627,6 +3652,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6783067125109802327, guid: 97a22c8d200a71e41ab087637c121656,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -280
+      objectReference: {fileID: 0}
+    - target: {fileID: 6783067125109802327, guid: 97a22c8d200a71e41ab087637c121656,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -967
       objectReference: {fileID: 0}
     - target: {fileID: 7068757501907555438, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
@@ -3687,6 +3722,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7689129640424885029, guid: 97a22c8d200a71e41ab087637c121656,
+        type: 3}
+      propertyPath: m_Name
+      value: SelectPointButton
       objectReference: {fileID: 0}
     - target: {fileID: 8109778564627499163, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}

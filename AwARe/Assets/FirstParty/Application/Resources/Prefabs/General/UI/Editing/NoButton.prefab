@@ -147,6 +147,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: NoButton
       objectReference: {fileID: 0}
+    - target: {fileID: 5858794357139250052, guid: 58baa29befc3a3f4f8eea909b9f7545c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858794357139250052, guid: 58baa29befc3a3f4f8eea909b9f7545c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858794357139250052, guid: 58baa29befc3a3f4f8eea909b9f7545c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8176621818180774439, guid: 58baa29befc3a3f4f8eea909b9f7545c,
         type: 3}
       propertyPath: m_Pivot.x

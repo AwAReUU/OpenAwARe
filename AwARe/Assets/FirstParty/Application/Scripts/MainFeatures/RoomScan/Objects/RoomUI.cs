@@ -41,9 +41,11 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private GameObject continueButton;
         [SerializeField] private GameObject saveNameButton;
         [SerializeField] private GameObject saveNameObject;
+        [SerializeField] private GameObject selectPointButton;
         [SerializeField] private GameObject roomlistscreen;
         [SerializeField] private TMP_InputField saveName;
         [SerializeField] private Button confirmName;
+        [SerializeField] private GameObject findPointText;
 
 
         /// <summary>
@@ -71,7 +73,9 @@ namespace AwARe.RoomScan.Objects
                 roomlist = false,
                 displayScreenshot = false,
                 yes = false,
-                no = false;
+                no = false,
+                findPoint = false,
+                selectPoint = false;
 
             // Set wanted elements to active
             void DecideActivities()
@@ -92,15 +96,10 @@ namespace AwARe.RoomScan.Objects
                         //startSaving = true;
                         return;
                     case State.LoadAnchoring:
-                        load = true;
-                        conti = true;
                         point = true;
+                        findPoint = true;
                         displayScreenshot = true;
-                        //startLoading = true;
-                        return;
-                    case State.LoadAnchoringConfirm:
-                        yes = true;
-                        no = true;
+                        selectPoint = true;
                         return;
                     case State.Saving:
                         conti = true;
@@ -157,6 +156,8 @@ namespace AwARe.RoomScan.Objects
             continueButton.SetActive(conti);
             yesButton.SetActive(yes);
             noButton.SetActive(no);
+            findPointText.SetActive(findPoint);
+            selectPointButton.SetActive(selectPoint);
 
             if(displayScreenshot)
                 DisplayAnchorLoadingImage(0);
@@ -203,6 +204,13 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnApplyButtonClick() =>
             manager.OnApplyButtonClick();
+
+        /// <summary>
+        /// Called on select point button click.
+        /// </summary>
+        [ExcludeFromCoverage]
+        public void OnSetPointButtonClick() =>
+            manager.OnSetPointButtonClick();
 
         /// <summary>
         /// Called on confirm button click.
