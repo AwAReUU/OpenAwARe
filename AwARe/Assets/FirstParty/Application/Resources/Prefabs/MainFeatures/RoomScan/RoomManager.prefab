@@ -61,7 +61,8 @@ MonoBehaviour:
   roomBase: {fileID: 7730075809556534706}
   pointer: {fileID: 369780462662613395}
   startState: 0
-  anchorVisual: {fileID: 0}
+  anchorVisual: {fileID: 3627118026117903212, guid: 73887064abd120e4aac5781f4c192b8d,
+    type: 3}
 --- !u!1 &6207312226031155587
 GameObject:
   m_ObjectHideFlags: 0

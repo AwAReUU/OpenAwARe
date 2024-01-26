@@ -16,6 +16,7 @@ using AwARe.RoomScan.Path.Objects;
 using AwARe.RoomScan.Polygons.Objects;
 using AwARe.UI.Objects;
 using TMPro;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Room = AwARe.Data.Objects.Room;
@@ -108,10 +109,14 @@ namespace AwARe.RoomScan.Objects
         {
             if (sessionAnchors.Count >= 2) return;
 
-            //UnityEngine.Debug.Log("Anchor count: " + sessionAnchors.Count);
             sessionAnchors.Add(anchorPoint);
             if (anchorVisual != null)
-                Instantiate(anchorVisual, anchorPoint, Quaternion.identity);
+            {
+                GameObject anchorVisualObject;
+                anchorVisualObject = Instantiate(anchorVisual, anchorPoint, Quaternion.identity) as GameObject;
+                anchorVisualObject.transform.parent = transform;
+                anchorVisualObject.name = "Anchor_" + sessionAnchors.Count.ToString();
+            }
         }
 
         /// <summary>
@@ -121,9 +126,13 @@ namespace AwARe.RoomScan.Objects
         {
             if (sessionAnchors.Count == 0) return;
 
-            sessionAnchors.RemoveAt(sessionAnchors.Count - 1);
+            GameObject anchorVisualObject = GameObject.Find("Anchor_" + sessionAnchors.Count.ToString());
+            if (anchorVisualObject != null)
+            {
+                Destroy(anchorVisualObject);
+            }
 
-            // TODO remove visual
+            sessionAnchors.RemoveAt(sessionAnchors.Count - 1);
         }
         #endregion
 
@@ -194,7 +203,7 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Called on set point button click; Places anchors.
         /// </summary>
-        public void OnSetPointButtonClick()
+        public void OnSelectButtonClick()
         {
             if (CurrentState == State.Scanning)
             {
@@ -207,7 +216,7 @@ namespace AwARe.RoomScan.Objects
                 Texture2D screenshot = ui.screenshotManager.TakeScreenshot();
                 screenshots.Add(screenshot);
 
-                ui.DisplayAnchorSavingImage(screenshot);
+               // ui.DisplayAnchorSavingImage(screenshot);
 
                 SwitchToState(State.SaveAnchoringCheck);
             }
@@ -236,6 +245,10 @@ namespace AwARe.RoomScan.Objects
                 sessionAnchors.RemoveAt(sessionAnchors.Count - 1);
                 screenshots.RemoveAt(screenshots.Count - 1);
                 SwitchToState(State.SaveAnchoring);
+            }
+            if (CurrentState == State.SaveAnchoring)
+            {
+                TryRemoveLastAnchor();
             }
         }
 
