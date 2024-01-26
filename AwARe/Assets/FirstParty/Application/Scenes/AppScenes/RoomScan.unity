@@ -4265,6 +4265,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8292782545436327098, guid: 97a22c8d200a71e41ab087637c121656,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSelectButtonClick
+      objectReference: {fileID: 0}
     - target: {fileID: 8431340684653154586, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
       propertyPath: m_AnchoredPosition.x
