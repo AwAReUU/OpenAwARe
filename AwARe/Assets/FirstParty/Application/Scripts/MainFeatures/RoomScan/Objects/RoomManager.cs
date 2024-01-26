@@ -7,16 +7,13 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using AwARe.Data.Logic;
-using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
 using AwARe.Objects;
 using AwARe.RoomScan.Path.Objects;
 using AwARe.RoomScan.Polygons.Objects;
 using AwARe.UI.Objects;
 using TMPro;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Room = AwARe.Data.Objects.Room;
