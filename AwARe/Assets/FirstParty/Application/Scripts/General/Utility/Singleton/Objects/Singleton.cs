@@ -45,8 +45,12 @@ namespace AwARe.Objects
         /// <param name="instantiate">An instantiation callback.</param>
         /// <returns>The current instance.</returns>
         public static T Get<T>(ref T instance, Func<T> instantiate)
-            where T : MonoBehaviour =>
-            instance ??= instantiate();
+            where T : MonoBehaviour
+        {
+            if(instance == null)
+                instance = instantiate();
+            return instance;
+        }
 
         /// <summary>
         /// Behaviour on <c>Awake</c>.
