@@ -118,9 +118,8 @@ namespace AwARe.Data.Logic
             }
             else
             {
-                manager.SetActiveRoom();
                 manager.SaveClick();
-                manager.LoadRoom();
+                SceneSwitcher.Get().LoadScene("AR");
             }
         }
 

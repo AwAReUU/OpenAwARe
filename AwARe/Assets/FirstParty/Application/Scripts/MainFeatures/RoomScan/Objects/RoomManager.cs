@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AwARe.Data.Logic;
+using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
 using AwARe.Objects;
 using AwARe.RoomScan.Path.Objects;
@@ -219,7 +220,6 @@ namespace AwARe.RoomScan.Objects
                     ui.DisplayAnchorLoadingImage(sessionAnchors.Count);
                 else
                 {
-                    SetActiveRoom();
                     LoadRoom();
                 }
             }
@@ -229,7 +229,6 @@ namespace AwARe.RoomScan.Objects
         {
             if (CurrentState == State.AskForSave)
             {
-                SetActiveRoom();
                 LoadRoom();
             }
             else if(CurrentState == State.SaveAnchoringCheck)
@@ -334,9 +333,10 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         public void SaveClick()
         {
-            UnityEngine.Debug.Log(Room.Data.RoomName);
+            Room.Data.RoomName = inputName.text;
+            Debug.Log(Room.Data.RoomName);
             Storage.Get().ActiveRoom = Room.Data;
-            Storage.Get().ActiveRoom.RoomName = inputName.text;
+            Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
 
             stateBefore = CurrentState;
 
