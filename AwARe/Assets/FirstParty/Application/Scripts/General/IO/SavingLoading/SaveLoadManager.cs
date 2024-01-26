@@ -14,16 +14,16 @@ namespace AwARe
     /// <summary>
     /// Class <c>PolygonSaveLoadManager</c> is responsible for managing the storage of polygons on the disc. (Done and loading).
     /// </summary>
-    public class SaveLoadManager : MonoBehaviour
+    public class SaveLoadManager
     {
-        public string directoryPath;
+        readonly string filePath;
 
-        private void Start()
+        public SaveLoadManager()
         {
-            directoryPath = Application.persistentDataPath;
+            filePath = Application.persistentDataPath;
             // Create the directory if it doesn't exist
-            if (!Directory.Exists(directoryPath))
-                Directory.CreateDirectory(directoryPath);
+            if (!Directory.Exists(filePath))
+                Directory.CreateDirectory(filePath);
         }
 
         /// <summary>
@@ -34,12 +34,12 @@ namespace AwARe
         /// 
         public void SaveDataToJson<T>(string fileName, T data)
         {
-            if (string.IsNullOrEmpty(directoryPath))
+            if (string.IsNullOrEmpty(filePath))
             {
                 Debug.LogError(" path is null or empty.");
                 return;
             }
-            string jsonFilePath = Path.Combine(directoryPath, fileName);
+            string jsonFilePath = Path.Combine(filePath, fileName);
             try
             {
                 string jsonData = JsonUtility.ToJson(data);
@@ -92,13 +92,13 @@ namespace AwARe
         /// <param name="fileName">The name of the JSON file to load data from.</param>
         public T LoadDataFromJson<T>(string fileName)
         {
-            if (string.IsNullOrEmpty(directoryPath))
+            if (string.IsNullOrEmpty(filePath))
             {
                 Debug.LogError("path is null or empty.");
                 return default;
             }
 
-            string jsonFilePath = Path.Combine(directoryPath, fileName);
+            string jsonFilePath = Path.Combine(filePath, fileName);
 
             if (File.Exists(jsonFilePath))
             {

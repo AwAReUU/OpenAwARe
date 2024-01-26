@@ -45,6 +45,8 @@ namespace AwARe.RoomScan.Objects
         // The pointer
         [SerializeField] public Pointer pointer;
 
+        private SaveLoadManager saveLoadManager;
+
         /// <summary>
         /// The state the scene should start in.
         /// </summary>
@@ -72,8 +74,8 @@ namespace AwARe.RoomScan.Objects
             // Instantiate a room to construct.
             Room = Instantiate(roomBase, transform).GetComponent<Room>();
 
+            saveLoadManager = new();
             SwitchToState(startState);
-            CurrentState = startState;
         }
 
         /// <summary>
@@ -91,6 +93,9 @@ namespace AwARe.RoomScan.Objects
         private List<Vector3> sessionAnchors = new();
         [SerializeField] private GameObject anchorVisual;
 
+        /// <summary>
+        /// The screenshots used for saving/loading rooms.
+        /// </summary>
         private List<Texture2D> screenshots = new();
 
         /// <summary>
@@ -132,11 +137,17 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Called on create button click.
         /// </summary>
-        [ExcludeFromCoverage]
         public void OnCreateButtonClick()
         {
-            SwitchToState(State.Scanning);
-            polygonManager.OnCreateButtonClick();
+            if(CurrentState == State.Default || CurrentState == State.AskForSave)
+            {
+                SwitchToState(State.Scanning);
+                polygonManager.OnCreateButtonClick();
+            }
+            else if (CurrentState == State.Loading)
+            {
+                SceneSwitcher.Get().LoadScene("RoomScan");
+            }
         }
 
         /// <summary>
@@ -252,8 +263,8 @@ namespace AwARe.RoomScan.Objects
             Storage.Get().ActiveRoom = room;
             Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
 
-            stateBefore = CurrentState;
-            SwitchToState(State.AskForSave);
+            //stateBefore = CurrentState;
+            //SwitchToState(State.Done);
             
             SceneSwitcher.Get().LoadScene("AR");
         }
@@ -312,8 +323,7 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         public void SaveClick()
         {
-            SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
-            UnityEngine.Debug.Log("Room.Data.RoomName: " + Room.Data.RoomName);
+            UnityEngine.Debug.Log(Room.Data.RoomName);
             Storage.Get().ActiveRoom = Room.Data;
             Storage.Get().ActiveRoom.RoomName = inputName.text;
 
@@ -351,7 +361,6 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         public void UpdateRoomList(List<Data.Logic.Room> roomlist)
         {
-            SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
             RoomListSerialization serroomlist = new RoomListSerialization();
             foreach (Data.Logic.Room room in roomlist)
             {
@@ -367,15 +376,6 @@ namespace AwARe.RoomScan.Objects
         /// <returns>The list of rooms.</returns>
         public List<Data.Logic.Room> LoadRoomList()
         {
-
-            SaveLoadManager saveLoadManager = GetComponent<SaveLoadManager>();
-
-            // Ensure that saveLoadManager is not null before proceeding
-            if (saveLoadManager == null)
-            {
-                UnityEngine.Debug.LogError("SaveLoadManager is null.");
-                return new List<Data.Logic.Room>();
-            }
 
             RoomListSerialization roomListSerialization = saveLoadManager.LoadRooms("rooms");
 

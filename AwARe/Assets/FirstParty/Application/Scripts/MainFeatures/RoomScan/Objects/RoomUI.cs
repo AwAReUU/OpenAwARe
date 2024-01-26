@@ -113,6 +113,7 @@ namespace AwARe.RoomScan.Objects
                     case State.Loading:
                         conti = true;
                         roomlist = true;
+                        create = true;
                         return;
                 }
 

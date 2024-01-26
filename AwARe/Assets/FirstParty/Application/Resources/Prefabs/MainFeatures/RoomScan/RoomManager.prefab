@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2538426425006486495}
   - component: {fileID: 952778780584282331}
-  - component: {fileID: 4073135117061616699}
   m_Layer: 0
   m_Name: RoomManager
   m_TagString: Untagged
@@ -61,20 +60,8 @@ MonoBehaviour:
   inputName: {fileID: 0}
   roomBase: {fileID: 7730075809556534706}
   pointer: {fileID: 369780462662613395}
+  startState: 0
   anchorVisual: {fileID: 0}
---- !u!114 &4073135117061616699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2565106091806081052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be5cfe06e26a46f4f825acf89ec0ccfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  directoryPath: 
 --- !u!1 &6207312226031155587
 GameObject:
   m_ObjectHideFlags: 0
