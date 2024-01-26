@@ -21,7 +21,7 @@ namespace AwARe.IngredientList.Logic
     /// Handles the loading and parsing of a local JSON file to a <see cref="List{T}"/> of <see cref="IngredientList"/> and vice versa.
     /// </summary>
     public class IngredientFileHandler
-    {
+    { 
         readonly string filePath;
         readonly IIngredientDatabase ingredientDatabase;
 
