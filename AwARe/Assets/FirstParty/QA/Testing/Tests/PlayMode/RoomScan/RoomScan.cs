@@ -144,7 +144,6 @@ namespace AwARe.Tests.PlayMode.RoomScan
                 foreach (var point in polygon.points)
                 {
                     pointer.PointedAt.Returns(point);
-                    roomManager.OnUIMiss();
                     yield return null;
                 }
                 roomManager.OnConfirmButtonClick();

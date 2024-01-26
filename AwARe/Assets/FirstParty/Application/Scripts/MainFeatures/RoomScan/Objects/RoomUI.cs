@@ -33,7 +33,6 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private Pointer pointer;
         [SerializeField] private GameObject pathLoadingPopup;
         [SerializeField] private GameObject saveButton;
-        [SerializeField] private GameObject saveList;
         [SerializeField] private GameObject saveNameButton;
         [SerializeField] private GameObject saveNameObject;
         [SerializeField] private GameObject selectPointButton;
@@ -66,7 +65,6 @@ namespace AwARe.RoomScan.Objects
                 pathLoading = false,
                 save = false,
                 savenamebtn = false,
-                savelist = false,
                 roomlist = false,
                 displayScreenshot = false,
                 no = false,
@@ -145,7 +143,6 @@ namespace AwARe.RoomScan.Objects
             pathLoadingPopup.SetActive(pathLoading);
             saveButton.SetActive(save);
             saveNameButton.SetActive(savenamebtn);
-            saveList.SetActive(savelist);
             noButton.SetActive(no);
             findPointText.SetActive(findPoint);
             selectPointButton.SetActive(point);

@@ -28,15 +28,13 @@ namespace AwARe.RoomScan.Objects
         // Objects to control
         [SerializeField] private PolygonManager polygonManager;
         [SerializeField] private PathManager pathManager;
-        [SerializeField] private RoomListOverviewScreen roomScreen;
-        // [SerializeField] private VisualizePath pathVisualizer; //TODO: Get out of polygonScanning
+        [SerializeField] private RoomOverviewScreen roomOverviewScreen;
 
         // The UI
         [SerializeField] private RoomUI ui;
         [SerializeField] private Transform canvas;
         [SerializeField] private Transform sceneCanvas;
         [SerializeField] private GameObject saveNameScreen;
-        [SerializeField] public TMP_InputField inputName;
 
         // Templates
         [SerializeField] private GameObject roomBase;
@@ -55,6 +53,10 @@ namespace AwARe.RoomScan.Objects
         /// The previous state; used for tracking.
         /// </summary>
         private State stateBefore;
+        
+        private Data.Logic.Room roomToLoad;
+
+        public List<Data.Logic.Room> rooms { get; private set; }
 
         /// <summary>
         /// Gets the current state of the room scanner.
@@ -74,6 +76,9 @@ namespace AwARe.RoomScan.Objects
             Room = Instantiate(roomBase, transform).GetComponent<Room>();
 
             saveLoadManager = new();
+
+            rooms = LoadRoomList();
+
             SwitchToState(startState);
         }
 
@@ -132,14 +137,6 @@ namespace AwARe.RoomScan.Objects
             sessionAnchors.RemoveAt(sessionAnchors.Count - 1);
         }
         #endregion
-
-        /// <summary>
-        /// Called when no UI element has been hit on click or press.
-        /// </summary>
-        public void OnUIMiss()
-        {
-            //polygonManager.OnUIMiss();
-        }
 
         /// <summary>
         /// Called on create button click.
@@ -265,91 +262,26 @@ namespace AwARe.RoomScan.Objects
         public void OnHeightSliderChanged(float value) =>
             polygonManager.OnHeightSliderChanged(value);
 
-        private string roomToLoad = "";
-        public void StartLoadingRoom(string name)
+        public void StartLoadingRoom(Data.Logic.Room room)
         {
-            roomToLoad = name;
+            roomToLoad = room;
             stateBefore = CurrentState;
             SwitchToState(State.LoadAnchoring);
         }
 
-        public void SetActiveRoom()
-        {
-            Data.Logic.Room room;
-            room = ChooseRoom(roomToLoad);
-
-            Storage.Get().ActiveRoom = room;
-            Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
-        }
-
         public void LoadRoom()
         {
-            SetActiveRoom();
-
+            Storage.Get().ActiveRoom = roomToLoad;
+            Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
             SceneSwitcher.Get().LoadScene("AR");
-        }
-
-        /// <summary>
-        /// get the room that is associated with the clicked button's name.
-        /// </summary>
-        /// <param name="name">The clicked button's name.</param>
-        public Data.Logic.Room ChooseRoom(string name)
-        {
-            List<Data.Logic.Room> listofrooms = LoadRoomList();
-            return listofrooms.Where(obj => obj.RoomName == name).SingleOrDefault();
-        }
-
-        /// <summary>
-        /// Visualize the room in AR.
-        /// </summary>
-        /// <param name="room">The room to visualize.</param>
-        public void VisualizeRoom(Data.Logic.Room room)
-        {
-            ClearRoom();
-
-            Room.Data = room;
-            Room.positivePolygon.GetComponent<Mesher>().UpdateMesh();
-            Room.positivePolygon.GetComponent<Liner>().UpdateLine();
-            foreach (var polygon in Room.negativePolygons)
-            {
-                polygon.GetComponent<Mesher>().UpdateMesh();
-                polygon.GetComponent<Liner>().UpdateLine();
-            }
-        }
-
-        /// <summary>
-        /// Clear room if new room is spawned so there is only one room at a time.
-        /// </summary>
-        private void ClearRoom()
-        {
-            // Destroy the existing positive polygon
-            if (Room.positivePolygon != null)
-                Destroy(Room.positivePolygon.gameObject);
-
-            // Destroy the existing negative polygons
-            if (Room.negativePolygons != null)
-            {
-                foreach (var polygon in Room.negativePolygons)
-                {
-                    if (polygon != null)
-                        Destroy(polygon.gameObject);
-                }
-            }
         }
 
         /// <summary>
         /// Save newly created room in rooms file.
         /// </summary>
-        public void SaveClick()
+        public void SaveRoom()
         {
-            Debug.Log("inputNametext: " + inputName.text);
-            Debug.Log("nullcheck: " + Room.Data.RoomName == null);
-            //Room.Data.RoomName = inputName.text;
-            //Debug.Log("managerRoomname: " + Room.Data.RoomName);
-            Room.roomName = inputName.text;
-            Debug.Log("managerRoomname: " + Room.roomName);
-            Storage.Get().ActiveRoom = Room.Data;
-            Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
+            Room.roomName = roomOverviewScreen.nameInput.text;
 
             stateBefore = CurrentState;
 
@@ -359,26 +291,26 @@ namespace AwARe.RoomScan.Objects
             roomList ??= new RoomListSerialization();
 
             // Add the current room to the list
-            roomList.Rooms.Add(new RoomSerialization(Storage.Get().ActiveRoom, sessionAnchors));
+            roomList.Rooms.Add(new RoomSerialization(Room.Data, sessionAnchors));
 
             // Save the updated room list
             saveLoadManager.SaveRoomList("rooms", roomList);
-            roomScreen.roomList = LoadRoomList();
-            roomScreen.DisplayRoomLists(roomScreen.roomList);
-
-            //SwitchToState(State.Default);
-
-            //LoadRoom();
+            roomOverviewScreen.DisplayList();
+            
+            LoadRoom();
         }
 
         /// <summary>
-        /// Remove the screenshots in the given room.
+        /// Deletes the data and screenshots of the given room.
         /// </summary>
         /// <param name="room">The room that is being deleted.</param>
         public void DeleteRoom(Data.Logic.Room room)
         {
             ui.screenshotManager.DeleteScreenshot(room, 0);
             ui.screenshotManager.DeleteScreenshot(room, 1);
+            rooms.Remove(room);
+            DeleteRoom(room);
+            UpdateRoomList(rooms);
         }
 
         /// <summary>

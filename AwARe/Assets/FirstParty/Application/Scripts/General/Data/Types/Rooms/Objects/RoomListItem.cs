@@ -5,7 +5,6 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System.Collections.Generic;
 using AwARe.Data.Logic;
 using TMPro;
 using UnityEngine;
@@ -14,50 +13,45 @@ namespace AwARe
 {
     public class RoomListItem : MonoBehaviour
     {
-        [SerializeField] private RoomListOverviewScreen screen;
-        [SerializeField] private TextMeshProUGUI nameLabel;
-        private int index;
+        // The parent element
+        [SerializeField] private RoomOverviewScreen screen;
 
-        private string name;
+        // UI element to control
+        [SerializeField] private TextMeshProUGUI nameLabel;
+
         // The data represented.
-        private List<string> list;
-        // Start is called before the first frame update
-        void Start()
-        {
-            name = nameLabel.text;
-        }
+        private Data.Logic.Room room;
 
         /// <summary>
         /// Sets this item to represent the given result.
         /// </summary>
         /// <param name="index">The index in the item list.</param>
-        /// <param name="list">The new ingredient list represented.</param>
-        public void SetRoomItem(int index, List<string> list, string name)
+        /// <param name="room">The room represented.</param>
+        public void SetItem(Data.Logic.Room room)
         {
-            this.index = index;
-            this.list = list;
-            DisplayRoomItem(name);
+            this.room = room;
+            DisplayItem();
         }
         /// <summary>
         /// Corrects this UI element to represent its data.
         /// </summary>
-        private void DisplayRoomItem(string name)
+        private void DisplayItem()
         {
-            gameObject.name = name;
-            nameLabel.text = name;
+            gameObject.name = room.RoomName;
+            nameLabel.text = room.RoomName;
             
         }
         /// <summary>
-        /// Loads the room of which the name is on the roomlistitem.
+        /// Loads the room of corresponding to this listItem.
         /// </summary>
-        public void OnRoomItemClick() =>
-            screen.OnRoomItemClick(name);
+        public void OnItemClick() =>
+            screen.OnItemClick(room);
 
         /// <summary>
-        /// Delete the roomlistitem.
+        /// Delete the room of corresponding to this listItem.
         /// </summary>
-        public void DeleteList() =>
-            screen.DeleteList(name);
+        public void OnDeleteButtonClick() =>
+            screen.OnDeleteButtonClick(room);
 
     }
 }

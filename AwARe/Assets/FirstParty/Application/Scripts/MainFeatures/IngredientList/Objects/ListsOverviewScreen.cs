@@ -6,7 +6,6 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
-using AwARe.InterScenes.Objects;
 using UnityEngine;
 
 namespace AwARe.IngredientList.Objects
@@ -93,14 +92,6 @@ namespace AwARe.IngredientList.Objects
         public void OnItemClick(Logic.IngredientList list)
         {
             manager.ChangeToIngredientListScreen(list, this.gameObject);
-        }
-
-        /// <summary>
-        /// Loads the Home scene.
-        /// </summary>
-        public void OnBackButtonClick()
-        {
-            SceneSwitcher.Get().LoadScene("Home");
         }
 
         /// <summary>
