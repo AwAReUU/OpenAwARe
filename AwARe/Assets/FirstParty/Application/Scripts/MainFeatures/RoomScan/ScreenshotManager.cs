@@ -26,7 +26,7 @@ namespace AwARe.RoomScan
         private GameObject outlineImageObj;
 
         private Vector3 defaultPos;
-        private Vector2 defaultSize;
+        private Vector3 defaultScale;
 
         /// <summary>
         /// Gets a value indicating whether a screenshot is currently being displayed.
@@ -93,11 +93,11 @@ namespace AwARe.RoomScan
             {
                 case ImageSize.Large:
                     SetImagePos(defaultPos);
-                    SetImageSize(defaultSize);
+                    SetImageScale(defaultScale);
                     break;
                 case ImageSize.Small:
-                    SetImagePos(defaultPos + new Vector3(0, Screen.height / 1.15f, 0));
-                    SetImageSize(defaultSize / 3);
+                    SetImagePos(defaultPos + new Vector3(0, 350, 0));
+                    SetImageScale(defaultScale / 3);
                     break;
             }
 
@@ -205,10 +205,16 @@ namespace AwARe.RoomScan
             outlineImage.sprite = outlineSprite;
 
             defaultPos = new Vector3(0, 0, 0);
-            defaultSize = new Vector2(maskSize, maskSize);
+
+            Vector2 size = new Vector2(maskSize, maskSize);
+
+            maskObj.GetComponent<Image>().rectTransform.sizeDelta = size;
+            outlineImageObj.GetComponent<Image>().rectTransform.sizeDelta = size;
+            
+            defaultScale = maskObj.transform.localScale;
 
             SetImagePos(defaultPos);
-            SetImageSize(defaultSize);
+            SetImageScale(defaultScale);
 
             maskObj.SetActive(false);
             outlineImageObj.SetActive(false);
@@ -225,13 +231,13 @@ namespace AwARe.RoomScan
         }
 
         /// <summary>
-        /// Sets the size of the image to the given size.
+        /// Sets the scale of the image to the given scale.
         /// </summary>
-        /// <param name="size">The size to set the object to.</param>
-        private void SetImageSize(Vector2 size)
+        /// <param name="scale">The scale to set the object to.</param>
+        private void SetImageScale(Vector3 scale)
         {
-            maskObj.GetComponent<Image>().rectTransform.sizeDelta = size;
-            outlineImageObj.GetComponent<Image>().rectTransform.sizeDelta = size;
+            maskObj.transform.localScale = scale;
+            outlineImageObj.transform.localScale = scale;
         }
 
         /// <summary>
