@@ -6,20 +6,17 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
-using System.Linq;
 using AwARe.RoomScan.Objects;
-using TMPro;
 using UnityEngine;
 
 namespace AwARe.Data.Logic
 {
     /// <summary>
     /// <para>
-    ///     Handles the UI of the ingredient list overview screen.
+    ///     Handles the UI of the RoomOverviewScreen screen.
     /// </para>
     /// <para>
-    ///     Shows an overview of all <see cref="IngredientList"/>s that have been created and saved by the user.
-    ///     Allows the user to select a list to edit and tick a checkbox of the list they want to be visualized in AR.
+    ///     Shows an overview of all <see cref="RoomListItem"/>s that have been created and saved by the user.
     /// </para>
     /// </summary>
     public class RoomOverviewScreen : MonoBehaviour
@@ -63,7 +60,6 @@ namespace AwARe.Data.Logic
 
                 // Set the room of the item.
                 RoomListItem item = itemObject.GetComponent<RoomListItem>();
-                int index = i;
                 item.SetItem(i, roomList[i].RoomName);
                 list.Add(item);
             }
@@ -82,6 +78,7 @@ namespace AwARe.Data.Logic
         /// <summary>
         /// Calls an instance of manager to start loading the room that has been clicked.
         /// </summary>
+        /// <param name="roomIndex">The index of the room to delete.</param>
         public void OnItemClick(int roomIndex)
         {
             manager.StartLoadingRoom(roomIndex);
@@ -90,7 +87,7 @@ namespace AwARe.Data.Logic
         /// <summary>
         /// Deletes the given room.
         /// </summary>
-        /// <param name="room">The room to delete.</param>
+        /// <param name="roomIndex">The index of the room to delete.</param>
         public void OnDeleteButtonClick(int roomIndex)
         {
             manager.DeleteRoom(roomIndex);

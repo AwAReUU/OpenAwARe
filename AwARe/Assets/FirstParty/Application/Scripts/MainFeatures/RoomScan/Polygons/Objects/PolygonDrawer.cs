@@ -55,12 +55,17 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <value>
         /// The polygon currently being drawn.
         /// </value>
-        private Data.Logic.Polygon Polygon => activePolygon.Data;
+        public Data.Logic.Polygon Polygon => activePolygon.Data;
 
         private void Update()
         {
             if(activePolygon != null)
                 UpdateLines();
+        }
+
+        public void Reset()
+        {
+            Destroy(activePolygonObject);
         }
 
         /// <summary>
@@ -80,11 +85,6 @@ namespace AwARe.RoomScan.Polygons.Objects
             activeLine.gameObject.SetActive(true);
             closeLine.gameObject.SetActive(true);
             UpdateLines();
-        }
-
-        public void Reset()
-        {
-            Destroy(activePolygonObject);
         }
 
         /// <summary>

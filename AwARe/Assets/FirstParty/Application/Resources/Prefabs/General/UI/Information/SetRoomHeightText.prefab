@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 434426508189233873, guid: 7d354177638892f4b9f14ef778296504,
         type: 3}
       propertyPath: m_text
-      value: Do you want to cut out an obstacle?
+      value: Please set the height of the room
       objectReference: {fileID: 0}
     - target: {fileID: 434426508189233873, guid: 7d354177638892f4b9f14ef778296504,
         type: 3}
@@ -41,7 +41,7 @@ PrefabInstance:
     - target: {fileID: 1091958201170924174, guid: 7d354177638892f4b9f14ef778296504,
         type: 3}
       propertyPath: m_Name
-      value: AskForNegPolygonsText
+      value: SetRoomHeightText
       objectReference: {fileID: 0}
     - target: {fileID: 6125694693647379885, guid: 7d354177638892f4b9f14ef778296504,
         type: 3}

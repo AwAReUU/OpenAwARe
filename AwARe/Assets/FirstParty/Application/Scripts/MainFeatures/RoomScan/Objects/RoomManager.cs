@@ -11,7 +11,6 @@ using AwARe.Data.Logic;
 using AwARe.InterScenes.Objects;
 using AwARe.RoomScan.Path.Objects;
 using AwARe.RoomScan.Polygons.Objects;
-using AwARe.UI.Objects;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Room = AwARe.Data.Objects.Room;
@@ -27,6 +26,7 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private PolygonManager polygonManager;
         [SerializeField] private PathManager pathManager;
         [SerializeField] private RoomListManager roomListManager;
+        private AnchorHandler anchorHandler;
 
         // The UI
         [SerializeField] private RoomUI ui;
@@ -34,20 +34,32 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private Transform sceneCanvas;
         [SerializeField] private RoomOverviewScreen roomOverviewScreen;
 
-        // Templates
+        // Template
         [SerializeField] private GameObject roomBase;
 
-        // The pointer
-        [SerializeField] public Pointer pointer;
-
         /// <summary>
-        /// The state the scene should start in.
+        /// Gets a serialized room list.
         /// </summary>
-        public State startState = State.Default;
-
+        /// <value>
+        /// A serialized room list.
+        /// </value>
         public RoomListSerialization RoomListSerialization => roomListManager.GetSerRoomList();
 
-        private readonly int anchorCount = 2;
+        /// <summary>
+        /// Gets or sets the current room; used for saving.
+        /// </summary>
+        /// <value>
+        /// >The current room; used for saving.
+        /// </value>
+        public Room Room { get; set; }
+
+        /// <summary>
+        /// Gets or sets the serialized room; used for loading.
+        /// </summary>
+        /// <value>
+        /// Serialized room; used for loading.
+        /// </value>
+        public RoomSerialization SerRoom { get; set; }
 
         /// <summary>
         /// Gets the current state of the room scanner.
@@ -57,9 +69,16 @@ namespace AwARe.RoomScan.Objects
         /// </value>
         public State CurrentState { get; private set; }
 
+        /// <summary>
+        /// The screenshots used for saving/loading rooms.
+        /// </summary>
+        private readonly List<Texture2D> screenshots = new();
+
         [ExcludeFromCoverage]
         private void Awake()
         {
+            anchorHandler = gameObject.GetComponent<AnchorHandler>();
+
             ui.gameObject.SetActive(true);
 
             // Move all content prefab canvas to scene canvas.
@@ -68,76 +87,69 @@ namespace AwARe.RoomScan.Objects
             // Instantiate a room to construct.
             Room = Instantiate(roomBase, transform).GetComponent<Room>();
 
-            SwitchToState(startState);
+            SwitchToState(State.RoomList);
         }
 
         /// <summary>
-        /// Room used for saving.
+        /// Starts the process of loading the room.
         /// </summary>
-        /// <value>
-        /// The current room.
-        /// </value>
-        public Room Room { get; set; }
-
-        /// <summary>
-        /// Room used for loading.
-        /// </summary>
-        public RoomSerialization SerRoom { get; set; }
-
-        #region Anchor Handling
-        /// <summary>
-        /// The session anchors used for saving/loading rooms.
-        /// </summary>
-        private List<Vector3> sessionAnchors = new();
-        [SerializeField] private GameObject anchorVisual;
-
-        /// <summary>
-        /// The screenshots used for saving/loading rooms.
-        /// </summary>
-        private List<Texture2D> screenshots = new();
-
-        /// <summary>
-        /// Add an anchor to the sessionAnchors list, fails if list is full (2 anchors max.).
-        /// </summary>
-        /// <param name="anchorPoint">The location of the anchor.</param>
-        /// <param name="anchorVisual"></param>
-        public void TryAddAnchor(Vector3 anchorPoint, GameObject anchorVisual = null)
+        /// <param name="roomIndex">The index of the desired room in the serialized room list.</param>
+        public void StartLoadingRoom(int roomIndex)
         {
-            if (sessionAnchors.Count >= anchorCount) return;
-
-            sessionAnchors.Add(anchorPoint);
-            if (anchorVisual != null)
-            {
-                GameObject anchorVisualObject;
-                anchorVisualObject = Instantiate(anchorVisual, anchorPoint, Quaternion.identity) as GameObject;
-                anchorVisualObject.transform.parent = transform;
-                anchorVisualObject.name = "Anchor_" + sessionAnchors.Count.ToString();
-            }
+            SerRoom = roomListManager.GetSerRoomList().Rooms[roomIndex];
+            anchorHandler.SessionAnchors.Clear();
+            screenshots.Clear();
+            SwitchToState(State.LoadAnchoring);
         }
 
         /// <summary>
-        /// Remove the last anchor from the sessionAnchors.
+        /// Go to the AR scene with the desired room active.
         /// </summary>
-        public void TryRemoveLastAnchor()
+        /// <param name="room">The room to be active in the AR scene.</param>
+        public void GoToRoom(Data.Logic.Room room)
         {
-            if (sessionAnchors.Count == 0) return;
-
-            GameObject anchorVisualObject = GameObject.Find("Anchor_" + sessionAnchors.Count.ToString());
-            if (anchorVisualObject != null)
-            {
-                Destroy(anchorVisualObject);
-            }
-
-            sessionAnchors.RemoveAt(sessionAnchors.Count - 1);
+            Storage.Get().ActiveRoom = room;
+            Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
+            SceneSwitcher.Get().LoadScene("AR");
         }
-        #endregion
+
+        /// <summary>
+        /// Save newly created room in rooms file.
+        /// </summary>
+        /// <param name="roomName">The name of the Room.</param>
+        public void SaveRoom(string roomName)
+        {
+            Room.roomName = roomName;
+            roomListManager.SaveRoom(Room.Data, anchorHandler.SessionAnchors, screenshots);
+
+            roomOverviewScreen.DisplayList();
+
+            GoToRoom(Room.Data);
+        }
+
+        /// <summary>
+        /// Deletes the data and screenshots of the given room.
+        /// </summary>
+        /// <param name="roomIndex">The index of the room that is being deleted.</param>
+        public void DeleteRoom(int roomIndex)
+        {
+            roomListManager.DeleteRoom(roomIndex, anchorHandler.anchorCount);
+            roomOverviewScreen.DisplayList();
+        }
+
+        /// <summary>
+        /// Whether the polygon being drawn is the positive polygon.
+        /// </summary>
+        /// <returns>Whether positivePolygon is null (meaning no polygon has been added to the room yet).</returns>
+        public bool IsFirstPolygon() =>
+            polygonManager.IsFirstPolygon();
 
         /// <summary>
         /// Called on create button click.
         /// </summary>
         public void OnCreateButtonClick()
         {
-            if (CurrentState == State.Default || CurrentState == State.AskForSave || CurrentState == State.Loading)
+            if (CurrentState == State.AskToSave || CurrentState == State.RoomList)
             {
                 SwitchToState(State.Scanning);
                 polygonManager.OnCreateButtonClick();
@@ -157,158 +169,112 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnConfirmButtonClick()
         {
-            if (polygonManager.CurrentState == Polygons.State.Drawing)
-                polygonManager.OnApplyButtonClick();
-            else if (CurrentState == State.Scanning)
+            switch (CurrentState)
             {
-                polygonManager.OnConfirmButtonClick();
-                SwitchToState(State.AskForSave);
-            }
-            else if (CurrentState == State.SaveAnchoringCheck)
-            {
-                ui.screenshotManager.HideScreenshot();
-                if (sessionAnchors.Count >= anchorCount)
-                {
-                    SwitchToState(State.Saving);
-                }
-                else
-                {
+                case State.Scanning:
+                    polygonManager.OnConfirmButtonClick();
+                    break;
+                case State.AskToSave:
+                    // user wants to save the room; emtpy lists and start the anchoring process
+                    anchorHandler.SessionAnchors.Clear();
+                    screenshots.Clear();
                     SwitchToState(State.SaveAnchoring);
-                }
+                    break;
+                case State.SaveAnchoringCheck:
+                    // anchor accepted; hide screenshot and either continue with next or finish anchoring
+                    ui.HideScreenshot();
+                    if (anchorHandler.AnchoringFinished())
+                        SwitchToState(State.InputtingName);
+                    else
+                        SwitchToState(State.SaveAnchoring);
+                    break;
             }
         }
 
         /// <summary>
-        /// Called on set point button click; Places anchors.
+        /// Called on the select button click; Places points/anchors.
         /// </summary>
         public void OnSelectButtonClick()
         {
-            if (CurrentState == State.Scanning)
+            switch (CurrentState)
             {
-                polygonManager.TryAddPoint();
-            }
-            else if (CurrentState == State.SaveAnchoring)
-            {
-                TryAddAnchor(pointer.PointedAt, anchorVisual);
+                case State.Scanning:
+                    // Add a point to the polygon
+                    polygonManager.TryAddPoint();
+                    break;
+                case State.SaveAnchoring:
+                    // Add an anchor and take a screenshot
+                    anchorHandler.TryAddAnchor();
+                    Texture2D screenshot = ui.screenshotManager.TakeScreenshot();
+                    screenshots.Add(screenshot);
 
-                Texture2D screenshot = ui.screenshotManager.TakeScreenshot();
-                screenshots.Add(screenshot);
+                    // Display the taken screenshot
+                    ui.DisplayAnchorSavingImage(screenshot);
 
-                ui.DisplayAnchorSavingImage(screenshot);
+                    SwitchToState(State.SaveAnchoringCheck);
+                    break;
+                case State.LoadAnchoring:
+                    // Add an anchor
+                    anchorHandler.TryAddAnchor();
 
-                SwitchToState(State.SaveAnchoringCheck);
-            }
-            else if (CurrentState == State.LoadAnchoring)
-            {
-                TryAddAnchor(pointer.PointedAt, anchorVisual);
-                screenshots.Add(ui.screenshotManager.TakeScreenshot());
-
-                if (sessionAnchors.Count < anchorCount)
-                    ui.DisplayAnchorLoadingImage(sessionAnchors.Count);
-                else
-                {
-                    Data.Logic.Room room = roomListManager.LoadRoom(SerRoom, sessionAnchors);
-                    GoToRoom(room);
-                }
+                    if (!anchorHandler.AnchoringFinished())
+                        // Load the next screenshot
+                        ui.DisplayAnchorLoadingImage(anchorHandler.SessionAnchors.Count);
+                    else
+                    {
+                        // Finished placing anchors; load in the room
+                        Data.Logic.Room room = roomListManager.LoadRoom(SerRoom, anchorHandler.SessionAnchors);
+                        GoToRoom(room);
+                    }
+                    break;
             }
         }
 
+        /// <summary>
+        /// Called on 'No' button click.
+        /// </summary>
         public void OnNoButtonClick()
         {
-            if (CurrentState == State.AskForSave)
+            switch (CurrentState)
             {
-                GoToRoom(Room.Data);
+                case State.Scanning:
+                    if(polygonManager.CurrentState == Polygons.State.AskForNegPolygons)
+                        // The user does not want to place a negative polygon; stop scanning
+                        SwitchToState(State.AskToSave);
+                    break;
+                case State.AskToSave:
+                    // The user does not want to save; go to AR scene
+                    GoToRoom(Room.Data);
+                    break;
+                case State.SaveAnchoringCheck:
+                    // The point was not recognizable; revert placing the anchor
+                    anchorHandler.TryRemoveLastAnchor();
+                    screenshots.RemoveAt(screenshots.Count - 1);
+                    ui.HideScreenshot();
+                    SwitchToState(State.SaveAnchoring);
+                    break;
             }
-            else if (CurrentState == State.SaveAnchoringCheck)
-            {
-                //sessionAnchors.RemoveAt(sessionAnchors.Count - 1);
-                TryRemoveLastAnchor();
-                screenshots.RemoveAt(screenshots.Count - 1);
-                SwitchToState(State.SaveAnchoring);
-            }
-        }
-
-        [ExcludeFromCoverage]
-        public void OnSaveButtonClick()
-        {
-            sessionAnchors.Clear();
-            SwitchToState(State.SaveAnchoring);
         }
 
         /// <summary>
         /// Called on changing the slider.
         /// </summary>
+        /// <param name="value">The value of the slider.</param>
         [ExcludeFromCoverage]
         public void OnHeightSliderChanged(float value) =>
             polygonManager.OnHeightSliderChanged(value);
-
-        public void StartLoadingRoom(int roomIndex)
-        {
-            SerRoom = roomListManager.GetSerRoomList().Rooms[roomIndex];
-            sessionAnchors.Clear();
-            screenshots.Clear();
-            SwitchToState(State.LoadAnchoring);
-        }
-
-        public void GoToRoom(Data.Logic.Room room)
-        {
-            Storage.Get().ActiveRoom = room;
-            Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
-            SceneSwitcher.Get().LoadScene("AR");
-        }
-
-        /// <summary>
-        /// Save newly created room in rooms file.
-        /// </summary>
-        public void SaveRoom(string roomName)
-        {
-            Room.roomName = roomName;
-            roomListManager.SaveRoom(Room.Data, sessionAnchors, screenshots);
-
-            roomOverviewScreen.DisplayList();
-            
-            GoToRoom(Room.Data);
-        }
-
-        /// <summary>
-        /// Deletes the data and screenshots of the given room.
-        /// </summary>
-        /// <param name="room">The room that is being deleted.</param>
-        public void DeleteRoom(int roomIndex)
-        {
-            roomListManager.DeleteRoom(roomIndex, anchorCount);
-            roomOverviewScreen.DisplayList();
-        }
-
-        /// <summary>
-        /// Called on load button button click; changes state so user sees load slots.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnLoadButtonClick()
-        {
-            SwitchToState(State.Loading);
-        }
-
-        /// <summary>
-        /// Called on path button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnPathButtonClick() =>
-            pathManager.OnPathButtonClick();
 
         /// <summary>
         /// Checks if room name already exists in the rooms file;
         /// if not then it will be saved and will show up in the list of roomsaves.
         /// </summary>
+        /// <param name="roomName">The name of the room.</param>
         public void OnConfirmNameButtonClick(string roomName)
         {
-            
             if (RoomListSerialization.Rooms.Where(obj => obj.RoomName == roomName).Count() > 0)
                 Debug.LogError("This name already exists");
             else
-            {
                 SaveRoom(roomName);
-            }
         }
 
         /// <summary>
@@ -324,30 +290,25 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Sets activity of components.
         /// </summary>
-        /// <param name="state">Current/new state.</param>
         [ExcludeFromCoverage]
         public void SetActive()
         {
-            if (CurrentState == State.Scanning && !(pathManager.IsActive || polygonManager.IsActive))
-                CurrentState = State.AskForSave;
-
             // Set UI activity
             ui.SetActive(this.CurrentState, polygonManager.CurrentState, pathManager.CurrentState);
         }
     }
 
     /// <summary>
-    /// The different states within the Room scanning process.
+    /// The different states within the Room scanning and loading process.
     /// </summary>
     public enum State
     {
-        Default,
-        Scanning,
-        AskForSave,
-        Saving,
-        Loading,
-        SaveAnchoring,
-        SaveAnchoringCheck,
-        LoadAnchoring
+        RoomList,           // shows the list with rooms
+        Scanning,           // in the scanning process
+        AskToSave,          // question whether the user wants to save the room
+        InputtingName,      // inputting name for the room being saved
+        SaveAnchoring,      // placing anchors for saving a room
+        SaveAnchoringCheck, // question if the placed anchor is correct
+        LoadAnchoring       // placing anchors for loading a room
     }
 }

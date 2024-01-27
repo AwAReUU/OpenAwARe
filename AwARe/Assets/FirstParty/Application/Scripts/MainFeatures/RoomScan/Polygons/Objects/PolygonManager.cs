@@ -10,8 +10,6 @@ using System.Linq;
 using AwARe.Data.Objects;
 using AwARe.Objects;
 using AwARe.RoomScan.Objects;
-using AwARe.UI;
-using AwARe.UI.Objects;
 using UnityEngine;
 
 namespace AwARe.RoomScan.Polygons.Objects
@@ -43,9 +41,6 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </value>
         public State CurrentState { get; private set; }
 
-        public bool IsActive =>
-            CurrentState is State.Drawing or State.SettingHeight;
-
         /// <summary>
         /// Gets the currently active room.
         /// </summary>
@@ -53,9 +48,6 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// A Room represented by the polygons.
         /// </value>
         public Room Room { get => manager.Room; private set => manager.Room = value; }
-
-        void Start() =>
-            SwitchToState(State.Default);
 
         /// <summary>
         /// Add the given polygon to the room.
@@ -82,6 +74,59 @@ namespace AwARe.RoomScan.Polygons.Objects
         }
 
         /// <summary>
+        /// Adds a point if the current state is drawing.
+        /// </summary>
+        public void TryAddPoint()
+        {
+            if (CurrentState == State.Drawing)
+                polygonDrawer.AddPoint();
+        }
+
+        /// <summary>
+        /// Finishes drawing the current Polygon.
+        /// </summary>
+        public void FinishPolygon()
+        {
+            if (polygonDrawer.Polygon.points.Count > 0)
+            {
+                polygonDrawer.FinishDrawing(out Data.Logic.Polygon data);
+
+                activePolygon = Instantiate(polygon, transform);
+                activePolygon.gameObject.SetActive(true);
+                activePolygon.Data = data;
+
+                activePolygonMesh = activePolygon.GetComponent<Mesher>();
+                activePolygonMesh.UpdateMesh();
+                activePolygonLine = activePolygon.GetComponent<Liner>();
+                activePolygonLine.UpdateLine();
+            }
+            else
+            {
+                throw new System.Exception("Empty polygon");
+            }
+        }
+
+        /// <summary>
+        /// Finishes drawing the polygon mesh.
+        /// </summary>
+        private void FinishPolygonMesh()
+        {
+            // Set color for the finished polygon
+            Color polygonColor = Color.green; // You can choose any color
+            Mesh mesh = activePolygonMesh.meshFilter.mesh;
+            mesh.colors = mesh.vertices.Select(_ => polygonColor).ToArray();
+            activePolygonMesh.meshFilter.mesh = mesh;
+            activePolygonMesh.UpdateMesh();
+        }
+
+        /// <summary>
+        /// Whether the polygon being drawn is the positive polygon.
+        /// </summary>
+        /// <returns>Whether positivePolygon is null (meaning no polygon has been added to the room yet).</returns>
+        public bool IsFirstPolygon() =>
+            Room.Data.PositivePolygon == null;
+
+        /// <summary>
         /// Called on create button click; Starts a new Polygon scan.
         /// </summary>
         public void OnCreateButtonClick() =>
@@ -92,75 +137,31 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void OnResetButtonClick()
         {
-            Data.Logic.Room roomData = new();
-            Room.Data = roomData;
+            Room.Data = new();
             polygonDrawer.Reset();
             StartScanning();
         }
 
         /// <summary>
-        /// Called when no UI element has been hit on click or press.
-        /// </summary>
-        public void OnUIMiss()
-        {
-            //TryAddPoint();
-        }
-
-        public void TryAddPoint()
-        {
-            if (CurrentState == State.Drawing)
-            {
-                if (!polygonDrawer.pointer.Value.FoundFirstPlane && !Application.isEditor)
-                    Debug.LogError("No plane found yet. Please try again.");
-                else
-                {
-                    polygonDrawer.AddPoint();
-
-                    polygonDrawer.pointer.Value.LockPlane = true;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Called on apply button click; adds and draws the current Polygon.
-        /// </summary>
-        public void OnApplyButtonClick()
-        {
-            polygonDrawer.FinishDrawing(out Data.Logic.Polygon data);
-
-            if (data.points.Count > 0)
-            {
-                activePolygon = Instantiate(polygon, transform);
-                activePolygon.gameObject.SetActive(true);
-                activePolygon.Data = data;
-
-                activePolygonMesh = activePolygon.GetComponent<Mesher>();
-                activePolygonMesh.UpdateMesh();
-                activePolygonLine = activePolygon.GetComponent<Liner>();
-                activePolygonLine.UpdateLine();
-
-                SwitchToState(State.SettingHeight);
-            }
-            else
-            {
-                SwitchToState(State.Done);
-            }
-        }
-
-        /// <summary>
-        /// Called on confirm button click; sets the height of the Polygon.
+        /// Called on confirm button click.
         /// </summary>
         public void OnConfirmButtonClick()
         {
-            AddPolygon(activePolygon);
-            SwitchToState(State.Done);
-
-            // Set color for the finished polygon
-            Color polygonColor = Color.green; // You can choose any color
-            Mesh mesh = activePolygonMesh.meshFilter.mesh;
-            mesh.colors = mesh.vertices.Select(_ => polygonColor).ToArray();
-            activePolygonMesh.meshFilter.mesh = mesh;
-            activePolygonMesh.UpdateMesh();
+            switch (CurrentState)
+            {
+                case State.Drawing:
+                    FinishPolygon();
+                    SwitchToState(State.SettingHeight);
+                    break;
+                case State.SettingHeight:
+                    AddPolygon(activePolygon);
+                    FinishPolygonMesh();
+                    SwitchToState(State.AskForNegPolygons);
+                    break;
+                case State.AskForNegPolygons:
+                    StartScanning();
+                    break;
+            }
         }
 
         /// <summary>

@@ -12,13 +12,16 @@ using UnityEngine;
 namespace AwARe
 {
     /// <summary>
-    /// Class <c>PolygonSaveLoadManager</c> is responsible for managing the storage of polygons on the disc. (Done and loading).
+    /// Handles the loading and parsing of a local JSON file to a <see cref="List{T}"/> of <see cref="Room"/> and vice versa.
     /// </summary>
-    public class SaveLoadManager
+    public class RoomFileHandler
     {
         readonly string filePath;
 
-        public SaveLoadManager()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RoomFileHandler"/> class.
+        /// </summary>
+        public RoomFileHandler()
         {
             filePath = Application.persistentDataPath;
             // Create the directory if it doesn't exist
@@ -31,7 +34,6 @@ namespace AwARe
         /// </summary>
         /// <param name="fileName">The name of the file to save the JSON data to.</param>
         /// <param name="data">The object containing the data to be serialized to JSON.</param>
-        /// 
         public void SaveDataToJson<T>(string fileName, T data)
         {
             if (string.IsNullOrEmpty(filePath))
@@ -51,8 +53,6 @@ namespace AwARe
             }
         }
 
-
-
         /// <summary>
         /// Saves a room list to a JSON file.
         /// </summary>
@@ -62,31 +62,17 @@ namespace AwARe
         {
             SaveDataToJson(fileName, roomList);
         }
+
         /// <summary>
         /// Loads a room list from a JSON file.
         /// </summary>
         /// <param name="fileName">The name of the JSON file to load data from.</param>
         /// <returns>The deserialized room list.</returns>
-
-        public RoomListSerialization LoadRooms(string fileName)
-        {
-            RoomListSerialization roomListSerialization = LoadDataFromJson<RoomListSerialization>(fileName);
-
-            if (roomListSerialization == null)
-            {
-                //Debug.LogError($"Failed to load RoomListSerialization from file: {fileName}");
-            }
-            else
-            {
-                //Debug.Log($"Loaded RoomListSerialization: {JsonConvert.SerializeObject(roomListSerialization)}");
-            }
-
-            return roomListSerialization;
-        }
-
+        public RoomListSerialization LoadRooms(string fileName) =>
+            LoadDataFromJson<RoomListSerialization>(fileName);
 
         /// <summary>
-        /// Loads data of type T from a JSON file with the specified fileName using the save load manager.
+        /// Loads data of type T from a JSON file with the specified fileName.
         /// </summary>
         /// <typeparam name="T">Type of data to load.</typeparam>
         /// <param name="fileName">The name of the JSON file to load data from.</param>
@@ -94,7 +80,7 @@ namespace AwARe
         {
             if (string.IsNullOrEmpty(filePath))
             {
-                Debug.LogError("path is null or empty.");
+                Debug.LogError("File path is null or empty.");
                 return default;
             }
 

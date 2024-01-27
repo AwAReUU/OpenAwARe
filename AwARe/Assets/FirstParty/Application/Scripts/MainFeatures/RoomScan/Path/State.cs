@@ -13,7 +13,6 @@ namespace AwARe.RoomScan.Path
     public enum State
     {
         Default,
-        Generating,
-        Done
+        Generating
     }
 }

@@ -1,10 +1,13 @@
-using System.Collections;
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
 
-using AwARe.Data.Objects;
+using System.Collections;
 using AwARe.RoomScan.Objects;
-using AwARe.RoomScan.Path;
 using AwARe.RoomScan.Path.Objects;
-using AwARe.RoomScan.Polygons.Objects;
 
 using NUnit.Framework;
 
@@ -17,17 +20,17 @@ namespace AwARe.Testing.PlayMode
     public class PathGenTests
     {
         private RoomManager roomManager;
+        private PathManager pathManager;
 
-        [OneTimeSetUp, Description("Load the test scene once.")]
-        public void OneTimeSetup() => SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/RoomScan");
-
-        [UnitySetUp, Description("Reset the scene before each test. Obtain the PolygonManager")]
+        [UnitySetUp, Description("Reset the scene before each test. Obtain the RoomManager")]
         public IEnumerator Setup()
         {
-            yield return null; //skip one frame to ensure the scene has been loaded.
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/Rooms");
+            SceneManager.LoadScene("FirstParty/Application/Scenes/Support/GeneralSupport", LoadSceneMode.Additive);
+            SceneManager.LoadScene("FirstParty/Application/Scenes/Support/ARSupport", LoadSceneMode.Additive);
             yield return null; //skip one frame to ensure the scene has been reloaded.
             roomManager = GameObject.Find("RoomManager").GetComponent<RoomManager>();
+            yield return null;
         }
 
         [UnityTest, Description("Program should not crash when generating a path with the expected input")]
@@ -43,7 +46,7 @@ namespace AwARe.Testing.PlayMode
             roomManager.Room.Data = room;
 
             //act & assert
-            Assert.DoesNotThrow(() => roomManager.OnPathButtonClick());
+            Assert.DoesNotThrow(() => pathManager.StartPathGen());
             yield return null;
         }
 
@@ -52,7 +55,7 @@ namespace AwARe.Testing.PlayMode
         {
             //arrange, act not present (as is the point of this test)
             //assert
-            Assert.DoesNotThrow(() => roomManager.OnPathButtonClick());
+            Assert.DoesNotThrow(() => pathManager.StartPathGen());
             yield return null;
         }
 
@@ -63,26 +66,26 @@ namespace AwARe.Testing.PlayMode
             //arrange
             Data.Logic.Polygon polygon = new();
             polygon.points.Add(new Vector3(1, 0, 1));
-            polygon.points.Add(new Vector3(2, 0, 1));
-            polygon.points.Add(new Vector3(2, 0, 2));
-            polygon.points.Add(new Vector3(1, 0, 2));
+            polygon.points.Add(new Vector3(3, 0, 1));
+            polygon.points.Add(new Vector3(3, 0, 3));
+            polygon.points.Add(new Vector3(1, 0, 3));
             Data.Logic.Room room = new(polygon, new());
             roomManager.Room.Data = room;
 
             //act & assert
-            Assert.DoesNotThrow(() => roomManager.OnPathButtonClick());
+            Assert.DoesNotThrow(() => pathManager.StartPathGen());
             yield return null;
 
             //arrange
             polygon = new();
             polygon.points.Add(new Vector3(1, 0, 1));
-            polygon.points.Add(new Vector3(2, 0, 1));
-            polygon.points.Add(new Vector3(2, 0, 2));
+            polygon.points.Add(new Vector3(3, 0, 1));
+            polygon.points.Add(new Vector3(3, 0, 3));
             room = new(polygon, new());
             roomManager.Room.Data = room;
 
             //act & assert
-            Assert.DoesNotThrow(() => roomManager.OnPathButtonClick());
+            Assert.DoesNotThrow(() => pathManager.StartPathGen());
             yield return null;
         }
     }

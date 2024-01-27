@@ -6,7 +6,6 @@
 // \*                                                                                       */
 
 using AwARe.UI.Objects;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -25,24 +24,37 @@ namespace AwARe.RoomScan.Objects
         // The screenshot manager
         [SerializeField] public ScreenshotManager screenshotManager;
 
-        // The UI elements
+        // Buttons
         [SerializeField] private GameObject resetButton;
         [SerializeField] private GameObject createButton;
         [SerializeField] private GameObject confirmButton;
         [SerializeField] private GameObject noButton;
-        [SerializeField] private Slider heightSlider;
-        [SerializeField] private Pointer pointer;
-        [SerializeField] private GameObject pathLoadingPopup;
-        [SerializeField] private GameObject saveButton;
         [SerializeField] private GameObject selectPointButton;
-        [SerializeField] private GameObject roomlistscreen;
+
+        // The list of rooms
+        [SerializeField] private GameObject roomList;
+
+        // The window for inputting a room name to save
         [SerializeField] private GameObject nameInputWindow;
-        [SerializeField] public TMP_InputField nameInput;
+        [SerializeField] private TMP_InputField nameInput;
+        
+        // The slider for setting the mesh height
+        [SerializeField] private Slider heightSlider;
+        
+        // The popup for generating a path
+        [SerializeField] private GameObject pathLoadingPopup;
+
+        // The pointer
+        [SerializeField] private Pointer pointer;
+
+        // Text blocks
         [SerializeField] private GameObject findPointText;
         [SerializeField] private GameObject askForSaveText;
         [SerializeField] private GameObject placeAnchorText;
         [SerializeField] private GameObject anchorRecognizableText;
         [SerializeField] private GameObject askForNegPolygonsText;
+        [SerializeField] private GameObject setRoomHeightText;
+        [SerializeField] private GameObject setObstacleHeightText;
 
 
         /// <summary>
@@ -60,18 +72,20 @@ namespace AwARe.RoomScan.Objects
             bool resetBtn = false,
                 createBtn = false,
                 confirmBtn = false,
+                noBtn = false,
                 heightSlider = false,
                 pointer = false,
                 pathPopup = false,
-                saveBtn = false,
                 roomlist = false,
                 displayScreenshot = false,
-                noBtn = false,
                 nameInputWin = false,
                 findPointText = false,
                 placeText = false,
+                askSaveText = false,
                 anchorRecogText = false,
-                negPolygonsText = false;
+                negPolygonsText = false,
+                roomHeightText = false,
+                obstacleHeightText = false;
 
             // Set wanted elements to active
             void DecideActivities()
@@ -82,9 +96,20 @@ namespace AwARe.RoomScan.Objects
                     return;
                 }
 
-                //UnityEngine.Debug.Log(roomState.ToString());
                 switch (roomState)
                 {
+                    case State.RoomList:
+                        roomlist = true;
+                        createBtn = true;
+                        return;
+                    case State.AskToSave:
+                        confirmBtn = true;
+                        noBtn = true;
+                        askSaveText = true;
+                        return;
+                    case State.InputtingName:
+                        nameInputWin = true;
+                        return;
                     case State.SaveAnchoring:
                         pointer = true;
                         placeText = true;
@@ -99,25 +124,17 @@ namespace AwARe.RoomScan.Objects
                         findPointText = true;
                         displayScreenshot = true;
                         return;
-                    case State.Saving:
-                        nameInputWin = true;
-                        return;
-                    case State.Loading:
-                        roomlist = true;
-                        createBtn = true;
-                        return;
                 }
 
                 switch (polygonState)
                 {
-                    case Polygons.State.Done:
-                        saveBtn = true;
-                        noBtn = true;
-                        createBtn = true;
-                        break;
                     case Polygons.State.SettingHeight:
                         heightSlider = true;
                         confirmBtn = true;
+                        if(manager.IsFirstPolygon())
+                            roomHeightText = true;
+                        else
+                            obstacleHeightText = true;
                         break;
                     case Polygons.State.Drawing:
                         confirmBtn = true;
@@ -129,33 +146,44 @@ namespace AwARe.RoomScan.Objects
                         confirmBtn = true;
                         noBtn = true;
                         break;
-                    case Polygons.State.Default:
-                    default:
-                        createBtn = true;
-                        break;
                 }
             }
             DecideActivities();
 
             // Actual (de)activation.
+
+            // Buttons
             resetButton.SetActive(resetBtn);
             createButton.SetActive(createBtn);
             confirmButton.SetActive(confirmBtn);
-            this.heightSlider.gameObject.SetActive(heightSlider);
-            if (heightSlider) OnHeightSliderChanged();
-            this.pointer.gameObject.SetActive(pointer);
-            roomlistscreen.SetActive(roomlist);
-            pathLoadingPopup.SetActive(pathPopup);
-            saveButton.SetActive(saveBtn);
             noButton.SetActive(noBtn);
-            nameInputWindow.SetActive(nameInputWin);
+
+            // Text
             this.findPointText.SetActive(findPointText);
-            selectPointButton.SetActive(pointer);
-            askForSaveText.SetActive(saveBtn);
+            askForSaveText.SetActive(askSaveText);
             placeAnchorText.SetActive(placeText);
             anchorRecognizableText.SetActive(anchorRecogText);
             askForNegPolygonsText.SetActive(negPolygonsText);
+            setRoomHeightText.SetActive(roomHeightText);
+            setObstacleHeightText.SetActive(obstacleHeightText);
+            
+            // Height slider
+            this.heightSlider.gameObject.SetActive(heightSlider);
+            if (heightSlider)
+                OnHeightSliderChanged();
 
+            // Pointer UI
+            this.pointer.gameObject.SetActive(pointer);
+            selectPointButton.SetActive(pointer);
+
+            // The room list
+            roomList.SetActive(roomlist);
+
+            // Popups
+            pathLoadingPopup.SetActive(pathPopup);
+            nameInputWindow.SetActive(nameInputWin);
+
+            // Screenshot
             if (displayScreenshot)
                 DisplayAnchorLoadingImage(0);
         }
@@ -169,7 +197,6 @@ namespace AwARe.RoomScan.Objects
             screenshotManager.DisplayScreenshotFromFile(manager.SerRoom.RoomName, index, false, ScreenshotManager.ImageSize.Small);
         }
 
-
         /// <summary>
         /// Display the screenshot with the given index for saving the anchors.
         /// </summary>
@@ -178,6 +205,12 @@ namespace AwARe.RoomScan.Objects
         {
             screenshotManager.DisplayScreenshot(screenshotManager.TextureToSprite(screenshot), false);
         }
+
+        /// <summary>
+        /// Hide the shown screenshot.
+        /// </summary>
+        public void HideScreenshot() =>
+            screenshotManager.HideScreenshot();
 
         /// <summary>
         /// Called on create button click.
@@ -214,20 +247,6 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnHeightSliderChanged() =>
             manager.OnHeightSliderChanged(heightSlider.value);
-
-        /// <summary>
-        /// Called on save button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnSaveButtonClick() =>
-            manager.OnSaveButtonClick();
-
-        /// <summary>
-        /// Called on load button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnLoadButtonClick() =>
-            manager.OnLoadButtonClick();
 
         /// <summary>
         /// Called on no button click.
