@@ -162,7 +162,6 @@ namespace AwARe.RoomScan.Objects
             else if (CurrentState == State.Scanning)
             {
                 polygonManager.OnConfirmButtonClick();
-                SwitchToState(State.AskForSave);
             }
             else if (CurrentState == State.SaveAnchoringCheck)
             {
@@ -225,6 +224,10 @@ namespace AwARe.RoomScan.Objects
                 TryRemoveLastAnchor();
                 screenshots.RemoveAt(screenshots.Count - 1);
                 SwitchToState(State.SaveAnchoring);
+            }
+            else if (polygonManager.CurrentState == Polygons.State.AskForNegPolygons)
+            {
+                SwitchToState(State.AskForSave);
             }
         }
 
@@ -328,9 +331,6 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void SetActive()
         {
-            if (CurrentState == State.Scanning && !(pathManager.IsActive || polygonManager.IsActive))
-                CurrentState = State.AskForSave;
-
             // Set UI activity
             ui.SetActive(this.CurrentState, polygonManager.CurrentState, pathManager.CurrentState);
         }

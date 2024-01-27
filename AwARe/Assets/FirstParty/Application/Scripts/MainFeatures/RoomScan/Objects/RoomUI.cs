@@ -70,6 +70,7 @@ namespace AwARe.RoomScan.Objects
                 nameInputWin = false,
                 findPointText = false,
                 placeText = false,
+                askSaveText = false,
                 anchorRecogText = false,
                 negPolygonsText = false;
 
@@ -93,6 +94,11 @@ namespace AwARe.RoomScan.Objects
                         confirmBtn = true;
                         anchorRecogText = true;
                         noBtn = true;
+                        return;
+                    case State.AskForSave:
+                        saveBtn = true;
+                        noBtn = true;
+                        askSaveText = true;
                         return;
                     case State.LoadAnchoring:
                         pointer = true;
@@ -151,7 +157,7 @@ namespace AwARe.RoomScan.Objects
             nameInputWindow.SetActive(nameInputWin);
             this.findPointText.SetActive(findPointText);
             selectPointButton.SetActive(pointer);
-            askForSaveText.SetActive(saveBtn);
+            askForSaveText.SetActive(askSaveText);
             placeAnchorText.SetActive(placeText);
             anchorRecognizableText.SetActive(anchorRecogText);
             askForNegPolygonsText.SetActive(negPolygonsText);

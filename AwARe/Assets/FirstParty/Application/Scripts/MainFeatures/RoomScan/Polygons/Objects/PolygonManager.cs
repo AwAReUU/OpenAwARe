@@ -152,15 +152,22 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void OnConfirmButtonClick()
         {
-            AddPolygon(activePolygon);
-            SwitchToState(State.Done);
+            if(CurrentState == State.SettingHeight)
+            {
+                AddPolygon(activePolygon);
+                SwitchToState(State.AskForNegPolygons);
 
-            // Set color for the finished polygon
-            Color polygonColor = Color.green; // You can choose any color
-            Mesh mesh = activePolygonMesh.meshFilter.mesh;
-            mesh.colors = mesh.vertices.Select(_ => polygonColor).ToArray();
-            activePolygonMesh.meshFilter.mesh = mesh;
-            activePolygonMesh.UpdateMesh();
+                // Set color for the finished polygon
+                Color polygonColor = Color.green; // You can choose any color
+                Mesh mesh = activePolygonMesh.meshFilter.mesh;
+                mesh.colors = mesh.vertices.Select(_ => polygonColor).ToArray();
+                activePolygonMesh.meshFilter.mesh = mesh;
+                activePolygonMesh.UpdateMesh();
+            }
+            else if(CurrentState == State.AskForNegPolygons)
+            {
+                StartScanning();
+            }
         }
 
         /// <summary>
