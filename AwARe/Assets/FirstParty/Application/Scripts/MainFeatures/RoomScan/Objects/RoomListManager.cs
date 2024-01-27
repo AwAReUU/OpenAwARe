@@ -17,12 +17,12 @@ namespace AwARe.RoomScan.Objects
     {
         private RoomListSerialization RoomListSerialization;
 
-        private SaveLoadManager saveLoadManager;
+        private RoomFileHandler fileHandler;
         [SerializeField] private ScreenshotManager screenshotManager;
 
         private void Awake()
         {
-            saveLoadManager = new();
+            fileHandler = new();
         }
         /// <summary>
         /// Saves the room by adding the Room to the local save file and the serialized rooms list if the room doesn't already exist
@@ -47,7 +47,7 @@ namespace AwARe.RoomScan.Objects
                 screenshotManager.DeleteScreenshot(roomName, i);
 
             RoomListSerialization.Rooms.RemoveAt(roomIndex);
-            saveLoadManager.SaveRoomList("rooms", RoomListSerialization);
+            fileHandler.SaveRoomList("rooms", RoomListSerialization);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace AwARe.RoomScan.Objects
                 screenshotManager.SaveScreenshot(screenshots[i], room, i);
 
             RoomListSerialization.Rooms[index] = new(room, anchors);
-            saveLoadManager.SaveRoomList("rooms", RoomListSerialization);
+            fileHandler.SaveRoomList("rooms", RoomListSerialization);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace AwARe.RoomScan.Objects
                 screenshotManager.SaveScreenshot(screenshots[i], room, i);
 
             RoomListSerialization.Rooms.Add(new(room, anchors));
-            saveLoadManager.SaveRoomList("rooms", RoomListSerialization);
+            fileHandler.SaveRoomList("rooms", RoomListSerialization);
         }
 
         /// <summary>
@@ -97,9 +97,9 @@ namespace AwARe.RoomScan.Objects
         /// <returns>The serialized list of rooms.</returns>
         private RoomListSerialization LoadSerRoomList()
         {
-            saveLoadManager ??= new();
+            fileHandler ??= new();
 
-            RoomListSerialization = saveLoadManager.LoadRooms("rooms") ?? new();
+            RoomListSerialization = fileHandler.LoadRooms("rooms") ?? new();
             return RoomListSerialization;
         }
 

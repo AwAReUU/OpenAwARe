@@ -12,16 +12,16 @@ using UnityEngine;
 namespace AwARe
 {
     /// <summary>
-    /// Class <c>PolygonSaveLoadManager</c> is responsible for managing the storage of polygons on the disc. (Done and loading).
+    /// Handles the loading and parsing of a local JSON file to a <see cref="List{T}"/> of <see cref="Room"/> and vice versa.
     /// </summary>
-    public class SaveLoadManager
+    public class RoomFileHandler
     {
         readonly string filePath;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SaveLoadManager"/> class.
+        /// Initializes a new instance of the <see cref="RoomFileHandler"/> class.
         /// </summary>
-        public SaveLoadManager()
+        public RoomFileHandler()
         {
             filePath = Application.persistentDataPath;
             // Create the directory if it doesn't exist
@@ -68,13 +68,8 @@ namespace AwARe
         /// </summary>
         /// <param name="fileName">The name of the JSON file to load data from.</param>
         /// <returns>The deserialized room list.</returns>
-        public RoomListSerialization LoadRooms(string fileName)
-        {
-            RoomListSerialization roomListSerialization = LoadDataFromJson<RoomListSerialization>(fileName);
-
-            return roomListSerialization;
-        }
-
+        public RoomListSerialization LoadRooms(string fileName) =>
+            LoadDataFromJson<RoomListSerialization>(fileName);
 
         /// <summary>
         /// Loads data of type T from a JSON file with the specified fileName.
@@ -85,7 +80,7 @@ namespace AwARe
         {
             if (string.IsNullOrEmpty(filePath))
             {
-                Debug.LogError("path is null or empty.");
+                Debug.LogError("File path is null or empty.");
                 return default;
             }
 
