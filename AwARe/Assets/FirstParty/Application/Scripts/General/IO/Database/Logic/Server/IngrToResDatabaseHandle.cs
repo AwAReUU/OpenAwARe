@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AwARe.IngredientList.Logic;
 using AwARe.Server.Logic;
+using Proyecto26;
 using UnityEngine;
 
 namespace AwARe.Database.Logic
@@ -19,6 +20,14 @@ namespace AwARe.Database.Logic
     struct GetRequirementsRequestBody
     {
         public int id;
+    }
+
+    [Serializable]
+    struct RequirementResponse
+    {
+        public int IngredientID;
+        public int ResourceID;
+        public float ResPerIngr;
     }
 
     /// <summary>
@@ -33,10 +42,15 @@ namespace AwARe.Database.Logic
                 id = ingredient.IngredientID
             }).Then((res) =>
             {
-                Debug.Log(res);
-                // resources ingr = JsonUtility.FromJson<resources>(res);
-                // return ingr;
-                return null;
+                Debug.Log(res); // [{"IngredientID":12,"ResourceID":1,"ResPerIngr":1000},{"IngredientID":12,"ResourceID":12,"ResPerIngr":1},{"IngredientID":12,"ResourceID":17,"ResPerIngr":10}]
+
+                RequirementResponse[] responses = JsonHelper.FromJsonString<RequirementResponse>("{ \"Items\": " + res + "}");
+                var requirements = new Dictionary<int, float>();
+                foreach (RequirementResponse req in responses)
+                {
+                    requirements.Add(req.ResourceID, req.ResPerIngr);
+                }
+                return requirements;
             }).Catch((err) =>
                 {
                     if (err.StatusCode == 403)

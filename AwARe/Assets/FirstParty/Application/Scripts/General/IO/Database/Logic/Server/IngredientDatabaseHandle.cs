@@ -47,8 +47,9 @@ namespace AwARe.Database.Logic
                 id = id
             }).Then((res) =>
             {
-                Ingredient ingr = JsonUtility.FromJson<Ingredient>(res);
-                return ingr;
+                IngredientResponse ingr = JsonUtility.FromJson<IngredientResponse>(res);
+
+                return new Ingredient(ingr.IngredientID, ingr.PrefName, ingr.GramsPerML, ingr.GramsPerPiece);
             }).Catch((err) =>
                 {
                     if (err.StatusCode == 403)

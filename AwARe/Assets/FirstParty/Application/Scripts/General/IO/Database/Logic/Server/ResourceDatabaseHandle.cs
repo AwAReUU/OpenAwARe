@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AwARe.ResourcePipeline.Logic;
 using AwARe.Server.Logic;
+using Proyecto26;
 using UnityEngine;
 
 namespace AwARe.Database.Logic
@@ -19,6 +20,16 @@ namespace AwARe.Database.Logic
     struct GetResourceRequestBody
     {
         public int id;
+    }
+
+    [Serializable]
+    struct ResourceResponse
+    {
+        public int ResourceID;
+        public string Name;
+        public string Type;
+        public int GramsPerModel;
+        public int ModelID;
     }
 
     /// <summary>
@@ -33,10 +44,26 @@ namespace AwARe.Database.Logic
                 id = id
             }).Then((res) =>
             {
-                Debug.Log(res);
-                // resources ingr = JsonUtility.FromJson<resources>(res);
-                // return ingr;
-                return null;
+                Debug.Log(res); // {"ResourceID":1,"Name":"Water","Type":"Water","GramsPerModel":null,"ModelID":1}
+
+                ResourceResponse response = JsonUtility.FromJson<ResourceResponse>(res);
+                ResourceType resourceType = ResourceType.Plant;
+
+                switch (response.Type)
+                {
+                    case "Water":
+                        resourceType = ResourceType.Water;
+                        break;
+                    case "Plant":
+                        resourceType = ResourceType.Plant;
+                        break;
+                    case "Animal":
+                        resourceType = ResourceType.Animal;
+                        break;
+                }
+
+                return new Resource(response.ResourceID, response.Name, resourceType, response.GramsPerModel, response.ModelID);
+
             }).Catch((err) =>
                 {
                     if (err.StatusCode == 403)
