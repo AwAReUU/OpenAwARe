@@ -12,7 +12,7 @@ using UnityEngine.TestTools;
 namespace AwARe.UI.Objects
 {
     /// <summary>
-    /// Non-singleton class to access scene switching for buttons and such.
+    /// Non-singleton class, attachable to buttons or managers for access to scene switching.
     /// </summary>
     [ExcludeFromCoverage]
     public class SceneSwitchHandler : MonoBehaviour

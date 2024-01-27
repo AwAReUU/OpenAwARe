@@ -27,7 +27,7 @@ namespace AwARe.Database.Logic
         {
             modelTable = new()
             {
-                new Model( 1, ResourceType.Water,    @"Water/Water_bottle", 0.3f ),
+                new Model( 1, ResourceType.Water,    @"Water/WaterCube", 0.3f ),
                 new Model( 2, ResourceType.Animal, @"Animals/CowBlW",       1.5f ),
                 new Model( 3, ResourceType.Animal, @"Animals/ChickenBrown", 0.5f ),
                 new Model( 4, ResourceType.Animal, @"Animals/Pig",          1f   ),
