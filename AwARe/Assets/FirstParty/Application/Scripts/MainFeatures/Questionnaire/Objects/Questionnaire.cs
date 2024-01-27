@@ -8,7 +8,6 @@
 using System.Collections.Generic;
 
 using AwARe.Questionnaire.Data;
-
 using TMPro;
 using UnityEngine;
 
@@ -63,6 +62,13 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         /// <param name="questionnaireTitle">Title to set to the UI.</param>
         public void SetTitle(string questionnaireTitle) => title.text = questionnaireTitle;
+
+        /// <summary>
+        /// Get the title of the questionnaire in the UI.
+        /// </summary>
+        /// <returns>The title of this questionnaire.</returns>
+        public string GetTitle() => title.text;
+
         /// <summary>
         /// Set the description of the questionnaire in the UI.
         /// </summary>

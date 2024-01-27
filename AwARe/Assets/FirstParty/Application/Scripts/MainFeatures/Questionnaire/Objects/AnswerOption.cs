@@ -157,7 +157,7 @@ namespace AwARe.Questionnaire.Objects
         public override string GetOptionText(GameObject radioButton)
         {
             Toggle toggle = radioButton.GetComponent<Toggle>();
-            return toggle.isOn ? radioButton.transform.Find("Label").GetComponent<TextMeshProUGUI>().text : "";
+            return toggle.isOn ? radioButton.transform.Find("Label").GetComponent<TextMeshProUGUI>().text : null;
         }
     }
     /// <summary>
@@ -196,7 +196,7 @@ namespace AwARe.Questionnaire.Objects
         public override string GetOptionText(GameObject checkbox)
         {
             Toggle toggle = checkbox.GetComponent<Toggle>();
-            return toggle.isOn ? checkbox.transform.Find("Label").GetComponent<TextMeshProUGUI>().text : "";
+            return toggle.isOn ? checkbox.transform.Find("Label").GetComponent<TextMeshProUGUI>().text : null;
         }
     }
 }

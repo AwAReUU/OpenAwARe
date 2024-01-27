@@ -7,9 +7,7 @@
 
 using System;
 using System.Collections.Generic;
-
 using AwARe.Questionnaire.Data;
-
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,7 +40,7 @@ namespace AwARe.Questionnaire.Objects
         /// <value>
         /// All AnswerOptions that this question has.
         /// </value>
-        private List<GameObject> AnswerOptions { get; set; }
+        public List<(AnswerOption, GameObject)> AnswerOptions { get; set; }
         /// <summary>
         /// Gets or sets the Indication of whether an AnswerOption at an index is checked or not.
         /// </summary>
@@ -79,15 +77,12 @@ namespace AwARe.Questionnaire.Objects
 
         private AnswerOptionSpawner answerOptionSpawner;
 
-        public List<AnswerData> UserAnswers { get; private set; }
-
         private void Awake()
         {
-            AnswerOptions = new List<GameObject>();
+            AnswerOptions = new List<(AnswerOption, GameObject)>();
             AnswerOptionStates = new List<bool>();
             IfYesQuestions = new List<GameObject>();
             answerOptionSpawner = new(this.gameObject, textInputPrefab, checkBoxPrefab, radioButtonPrefab);
-            UserAnswers = new List<AnswerData>();
         }
 
         /// <summary>
@@ -109,9 +104,9 @@ namespace AwARe.Questionnaire.Objects
         public void AddAnswerOption(AnswerOptionData answerOptionData)
         {
             AnswerOption answerOption = CreateAnswerOption(answerOptionData);
-            GameObject answerGameObject = answerOption.InstantiateAnswerOption(answerOptionData.optionText);
+            GameObject answerOptionObject = answerOption.InstantiateAnswerOption(answerOptionData.optionText);
 
-            AnswerOptions.Add(answerGameObject);
+            AnswerOptions.Add((answerOption, answerOptionObject));
             AnswerOptionStates.Add(false);
         }
 
@@ -173,67 +168,6 @@ namespace AwARe.Questionnaire.Objects
             //Fixes a bug where items are stacked on eachother:
             if (AnswerOptionStates[IfYesTriggerIndex])
                 LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)gameObject.transform.parent);
-
-            // Update UserAnswers based on the current state
-            UserAnswers.Clear();
-
-            for (int i = 0; i < AnswerOptions.Count; i++)
-            {
-                // Check if the object has the required component
-                TextAnswerOption textAnswerOption = AnswerOptions[i].GetComponent<TextAnswerOption>();
-                RadioAnswerOption radioAnswerOption = AnswerOptions[i].GetComponent<RadioAnswerOption>();
-                CheckBoxAnswerOption checkBoxAnswerOption = AnswerOptions[i].GetComponent<CheckBoxAnswerOption>();
-
-                if (textAnswerOption != null)
-                {
-                    // For TextAnswerOption
-                    var answerText = textAnswerOption.GetOptionText(AnswerOptions[i]);
-
-                    // Create a new AnswerData object with the obtained option text
-                    var answerData = new AnswerData
-                    {
-                        QuestionTitle = GetTitle(),
-                        AnswerText = answerText,
-                        SelectedAnswerIndex = -1,
-
-                    };
-
-                    // Add the created AnswerData object to the UserAnswers list
-                    UserAnswers.Add(answerData);
-                }
-                else if (radioAnswerOption != null)
-                {
-                    // For RadioAnswerOption
-                    var answerText = radioAnswerOption.GetOptionText(AnswerOptions[i]);
-
-                    // Create a new AnswerData object with the obtained option text
-                    var answerData = new AnswerData
-                    {
-                        QuestionTitle = GetTitle(),
-                        AnswerText = answerText,
-                        SelectedAnswerIndex = -1,
-                    };
-
-                    // Add the created AnswerData object to the UserAnswers list
-                    UserAnswers.Add(answerData);
-                }
-                else if (checkBoxAnswerOption != null)
-                {
-                    // For CheckBoxAnswerOption
-                    var answerText = checkBoxAnswerOption.GetOptionText(AnswerOptions[i]);
-
-                    // Create a new AnswerData object with the obtained option text
-                    var answerData = new AnswerData
-                    {
-                        QuestionTitle = GetTitle(),
-                        AnswerText = answerText,
-                        SelectedAnswerIndex = -1,
-                    };
-
-                    // Add the created AnswerData object to the UserAnswers list
-                    UserAnswers.Add(answerData);
-                }
-            }
         }
     }
 }

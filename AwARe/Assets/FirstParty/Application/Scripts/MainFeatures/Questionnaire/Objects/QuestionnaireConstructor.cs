@@ -6,9 +6,7 @@
 // \*                                                                                       */
 
 using System.Reflection;
-
 using AwARe.Questionnaire.Data;
-
 using UnityEngine;
 
 namespace AwARe.Questionnaire.Objects
@@ -30,6 +28,11 @@ namespace AwARe.Questionnaire.Objects
         /// Reference to an input jsonFile to be used for constructing the <see cref="Questionnaire"/>.
         /// </value>
         [SerializeField] private TextAsset jsonFile;
+        /// <summary>
+        /// Refeference to the submit button object.
+        /// </summary>
+        [SerializeField] private GameObject submitButton;
+
         /// <value>
         /// Deserialized JSON data of which a <see cref="Questionnaire"/> can be created.
         /// </value>
@@ -49,10 +52,20 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         /// <param name="jsonText">The json text to be deserialized.</param>
         /// <returns>A questionnaire GameObject.</returns>
-        public GameObject QuestionnaireFromJsonString(string jsonText)
+        private GameObject QuestionnaireFromJsonString(string jsonText)
         {
             Data = JsonUtility.FromJson<QuestionnaireData>(jsonText);
-            return Data == null ? null : MakeQuestionnaire(Data);
+            if (Data == null)
+            {
+                Debug.LogError("Questionnaire data was null");
+                return null;
+            }
+            else
+            {
+                GameObject questionnaireobject = MakeQuestionnaire(Data);
+                submitButton.GetComponent<SubmitButton>().questionnaireObject = questionnaireobject;
+                return questionnaireobject;
+            }
         }
         /// <summary>
         /// Convert Json string from the SerializeField TextAsset to data object
