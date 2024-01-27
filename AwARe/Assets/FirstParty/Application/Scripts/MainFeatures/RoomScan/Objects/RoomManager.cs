@@ -6,6 +6,7 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
+using System.Linq;
 using AwARe.Data.Logic;
 using AwARe.InterScenes.Objects;
 using AwARe.RoomScan.Path.Objects;
@@ -136,12 +137,7 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         public void OnCreateButtonClick()
         {
-            if (CurrentState == State.Default || CurrentState == State.AskForSave)
-            {
-                SwitchToState(State.Scanning);
-                polygonManager.OnCreateButtonClick();
-            }
-            else if (CurrentState == State.Loading)
+            if (CurrentState == State.Default || CurrentState == State.AskForSave || CurrentState == State.Loading)
             {
                 SwitchToState(State.Scanning);
                 polygonManager.OnCreateButtonClick();
@@ -264,9 +260,9 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Save newly created room in rooms file.
         /// </summary>
-        public void SaveRoom()
+        public void SaveRoom(string roomName)
         {
-            Room.roomName = roomOverviewScreen.nameInput.text;
+            Room.roomName = roomName;
             roomListManager.SaveRoom(Room.Data, sessionAnchors, screenshots);
 
             roomOverviewScreen.DisplayList();
@@ -284,41 +280,6 @@ namespace AwARe.RoomScan.Objects
             roomOverviewScreen.DisplayList();
         }
 
-        /*
-        /// <summary>
-        /// Go from list of rooms to roomlist Serialization so that you can update the rooms file.
-        /// </summary>
-        public void UpdateRoomList(List<Data.Logic.Room> roomlist)
-        {
-            RoomListSerialization serRoomlist = new RoomListSerialization();
-            foreach (Data.Logic.Room room in roomlist)
-            {
-                serRoomlist.Rooms.Add(new RoomSerialization(room, sessionAnchors));
-            }
-            saveLoadManager.SaveRoomList("rooms", serRoomlist);
-
-        }
-        */
-        /*
-        /// <summary>
-        /// Load in a list of rooms from roomListSerialization rooms.
-        /// </summary>
-        /// <returns>The list of rooms.</returns>
-        public List<Data.Logic.Room> LoadRoomList()
-        {
-            RoomListSerialization roomListSerialization = saveLoadManager.LoadRooms("rooms");
-
-            if (roomListSerialization == null)
-            {
-                //Debug.LogError("RoomListSerialization is null.");
-                return new List<Data.Logic.Room>();
-            }
-            UnityEngine.Debug.Log(roomListSerialization.Rooms?.Select(roomSerialization => roomSerialization.ToRoom(sessionAnchors)).ToList() ?? new List<Data.Logic.Room>());
-
-            // Convert RoomListSerialization to a list of Room objects
-            return roomListSerialization.Rooms?.Select(roomSerialization => roomSerialization.ToRoom(sessionAnchors)).ToList() ?? new List<Data.Logic.Room>();
-        }
-        */
         /// <summary>
         /// Called on load button button click; changes state so user sees load slots.
         /// </summary>
@@ -334,6 +295,21 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnPathButtonClick() =>
             pathManager.OnPathButtonClick();
+
+        /// <summary>
+        /// Checks if room name already exists in the rooms file;
+        /// if not then it will be saved and will show up in the list of roomsaves.
+        /// </summary>
+        public void OnConfirmNameButtonClick(string roomName)
+        {
+            
+            if (RoomListSerialization.Rooms.Where(obj => obj.RoomName == roomName).Count() > 0)
+                Debug.LogError("This name already exists");
+            else
+            {
+                SaveRoom(roomName);
+            }
+        }
 
         /// <summary>
         /// Sets all Objects activities to match new state.
