@@ -53,6 +53,7 @@ public class QuestionnaireMockJsonTests
     private MockQuestionnaireConstructor mockQuestionnaireConstructor;
     private TextAsset testFormat;
     private GameObject questionnairePrefab;
+    private GameObject submitButton;
 
     [OneTimeSetUp, Description("Load the test scene once.")]
     public void OneTimeSetup()
@@ -61,6 +62,7 @@ public class QuestionnaireMockJsonTests
         SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/AR");
         testFormat = Resources.Load<TextAsset>("Data/Questionnaire/Testformat");
         questionnairePrefab = Resources.Load<GameObject>("Prefabs/MainFeatures/Questionnaire/Questionnaire");
+        submitButton = Resources.Load<GameObject>("Prefabs/MainFeatures/Questionnaire/SubmitButton");
     }
 
     [UnitySetUp, Description("Reset the scene before each test. Obtain the questionnaireConstructor")]
@@ -78,7 +80,7 @@ public class QuestionnaireMockJsonTests
     public IEnumerator Test_EmptyJsonObject_NoCrash()
     {
         TextAsset newText = new("{}");
-        mockQuestionnaireConstructor.InitializeFields(newText, questionnairePrefab);
+        mockQuestionnaireConstructor.InitializeFields(newText, questionnairePrefab, submitButton);
         GameObject questionnaire = mockQuestionnaireConstructor.QuestionnaireFromJsonString();
         Assert.IsNotNull(questionnaire);
         yield return null;
@@ -89,7 +91,7 @@ public class QuestionnaireMockJsonTests
     //public IEnumerator Test_EmptyStringJson_NoCrash()
     //{
     //    TextAsset newText = new("");
-    //    mockQuestionnaireConstructor.InitializeFields(newText, questionnairePrefab);
+    //    mockQuestionnaireConstructor.InitializeFields(newText, questionnairePrefab, submitButton);
     //    GameObject questionnaire = mockQuestionnaireConstructor.QuestionnaireFromJsonString();
     //    Assert.IsNotNull(questionnaire);
     //    yield return null;
@@ -100,7 +102,7 @@ public class QuestionnaireMockJsonTests
     {
         //Arrange: Create a questionnaire with questions from the testFormat.
         GameObject[] questions = new GameObject[8];
-        mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab);
+        mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab, submitButton);
         GameObject questionnaire = mockQuestionnaireConstructor.QuestionnaireFromJsonString();
         string[] titles =
         {
@@ -141,7 +143,7 @@ public class QuestionnaireMockJsonTests
     public IEnumerator Test_CheckBoxCreation()
     {
         //Arrange: Create constructor
-        mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab);
+        mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab, submitButton);
         //Act: Initialize the questions.
         GameObject _ = mockQuestionnaireConstructor.QuestionnaireFromJsonString();
         yield return null;
@@ -155,7 +157,7 @@ public class QuestionnaireMockJsonTests
     public IEnumerator Test_RadioButtonCreation()
     {
         //Arrange: Create constructor
-        mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab);
+        mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab, submitButton);
         //Act: Initialize the questions.
         GameObject _ = mockQuestionnaireConstructor.QuestionnaireFromJsonString();
         yield return null;
@@ -169,7 +171,7 @@ public class QuestionnaireMockJsonTests
     public IEnumerator Test_InputFieldCreation()
     {
         //Arrange: Create constructor
-        mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab);
+        mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab, submitButton);
         //Act: Initialize the questions.
         GameObject _ = mockQuestionnaireConstructor.QuestionnaireFromJsonString();
         yield return null;
@@ -183,7 +185,7 @@ public class QuestionnaireMockJsonTests
     public IEnumerator Test_ToggleIfYes()
     {
         //Arrange: Create constructor
-        mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab);
+        mockQuestionnaireConstructor.InitializeFields(testFormat, questionnairePrefab, submitButton);
         GameObject questionnaireGameObject = mockQuestionnaireConstructor.QuestionnaireFromJsonString();
         yield return null;
         //Act: activate the IfYes questions.

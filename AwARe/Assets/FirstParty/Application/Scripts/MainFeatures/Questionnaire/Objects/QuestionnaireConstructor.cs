@@ -106,6 +106,12 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         /// <returns>Questionnaire prefab GameObject obtained from the serialize field.</returns>
         public GameObject GetQuestionnairePrefab() => questionnairePrefab;
+
+        /// <summary>
+        /// Obtain the SubmitButton form the serialize field.
+        /// </summary>
+        /// <returns>Submit button GameObject obtained from the serialize field.</returns>
+        public GameObject GetSubmitButton() => submitButton;
     }
 
     /// <summary>
@@ -125,7 +131,8 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         /// <param name="jsonTextAsset">Optional: TextAsset containing JSON data for the questionnaire.</param>
         /// <param name="questionnairePrefab">Optional: GameObject template for the questionnaire.</param>
-        public void InitializeFields(TextAsset jsonTextAsset = null, GameObject questionnairePrefab = null)
+        /// <param name="submitButton">Optional: The submit button in the scene.</param>
+        public void InitializeFields(TextAsset jsonTextAsset = null, GameObject questionnairePrefab = null, GameObject submitButton = null)
         {
             FieldInfo jsonFileField = typeof(QuestionnaireConstructor).
                 GetField("jsonFile", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -136,6 +143,11 @@ namespace AwARe.Questionnaire.Objects
                 GetField("questionnairePrefab", BindingFlags.Instance | BindingFlags.NonPublic);
             if (prefabField == null) return;
             prefabField.SetValue(this, questionnairePrefab != null ? questionnairePrefab : GetQuestionnairePrefab());
+
+            FieldInfo submitButtonField = typeof(QuestionnaireConstructor).
+                GetField("submitButton", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (submitButtonField == null) return;
+            submitButtonField.SetValue(this, submitButton != null ? submitButton : GetSubmitButton());
         }
     }
 }

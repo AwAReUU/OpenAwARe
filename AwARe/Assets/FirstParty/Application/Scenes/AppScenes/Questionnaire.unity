@@ -451,10 +451,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2088494785}
-    - targetCorrespondingSourceObject: {fileID: 4385064017757354918, guid: 4fc43b1731833194a92b3f3065bc2465,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2088494786}
   m_SourcePrefab: {fileID: 100100000, guid: 4fc43b1731833194a92b3f3065bc2465, type: 3}
 --- !u!1001 &472832286
 PrefabInstance:
@@ -961,19 +957,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questionnaireObject: {fileID: 0}
-  filehandler: {fileID: 2088494786}
---- !u!114 &2088494786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2088494783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be5cfe06e26a46f4f825acf89ec0ccfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2113072834
 GameObject:
   m_ObjectHideFlags: 0
