@@ -132,7 +132,11 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void OnConfirmButtonClick()
         {
-            if(CurrentState == State.SettingHeight)
+            if(CurrentState == State.Drawing)
+            {
+                OnApplyButtonClick();
+            }
+            else if(CurrentState == State.SettingHeight)
             {
                 AddPolygon(activePolygon);
                 SwitchToState(State.AskForNegPolygons);

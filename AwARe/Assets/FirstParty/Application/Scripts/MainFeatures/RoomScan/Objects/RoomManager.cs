@@ -115,16 +115,14 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnConfirmButtonClick()
         {
-            if (polygonManager.CurrentState == Polygons.State.Drawing)
-                polygonManager.OnApplyButtonClick();
-            else if (CurrentState == State.Scanning)
+            if (CurrentState == State.Scanning)
             {
                 polygonManager.OnConfirmButtonClick();
             }
             else if (CurrentState == State.SaveAnchoringCheck)
             {
-                roomListManager.screenshotManager.HideScreenshot();
-                if (anchorHandler.SessionAnchors.Count >= anchorHandler.AnchorCount)
+                ui.HideScreenshot();
+                if (anchorHandler.AnchoringFinished())
                 {
                     SwitchToState(State.Saving);
                 }
@@ -165,7 +163,7 @@ namespace AwARe.RoomScan.Objects
                     anchorHandler.TryAddAnchor();
                     screenshots.Add(ui.screenshotManager.TakeScreenshot());
 
-                    if (anchorHandler.SessionAnchors.Count < anchorHandler.AnchorCount)
+                    if (!anchorHandler.AnchoringFinished())
                         ui.DisplayAnchorLoadingImage(anchorHandler.SessionAnchors.Count);
                     else
                     {
@@ -249,7 +247,7 @@ namespace AwARe.RoomScan.Objects
         /// <param name="roomIndex">The index of the room that is being deleted.</param>
         public void DeleteRoom(int roomIndex)
         {
-            roomListManager.DeleteRoom(roomIndex, anchorHandler.AnchorCount);
+            roomListManager.DeleteRoom(roomIndex, anchorHandler.anchorCount);
             roomOverviewScreen.DisplayList();
         }
 
@@ -264,10 +262,8 @@ namespace AwARe.RoomScan.Objects
         /// Called on load button button click; changes state so user sees load slots.
         /// </summary>
         [ExcludeFromCoverage]
-        public void OnLoadButtonClick()
-        {
+        public void OnLoadButtonClick() =>
             SwitchToState(State.RoomList);
-        }
 
         /// <summary>
         /// Checks if room name already exists in the rooms file;
@@ -279,9 +275,7 @@ namespace AwARe.RoomScan.Objects
             if (RoomListSerialization.Rooms.Where(obj => obj.RoomName == roomName).Count() > 0)
                 Debug.LogError("This name already exists");
             else
-            {
                 SaveRoom(roomName);
-            }
         }
 
         /// <summary>
@@ -297,7 +291,6 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Sets activity of components.
         /// </summary>
-        /// <param name="state">Current/new state.</param>
         [ExcludeFromCoverage]
         public void SetActive()
         {

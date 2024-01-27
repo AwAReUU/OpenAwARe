@@ -1,10 +1,13 @@
-using System.Collections;
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
 
-using AwARe.Data.Objects;
+using System.Collections;
 using AwARe.RoomScan.Objects;
-using AwARe.RoomScan.Path;
 using AwARe.RoomScan.Path.Objects;
-using AwARe.RoomScan.Polygons.Objects;
 
 using NUnit.Framework;
 

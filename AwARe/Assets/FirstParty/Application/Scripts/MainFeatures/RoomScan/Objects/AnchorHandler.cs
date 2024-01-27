@@ -11,6 +11,9 @@ using UnityEngine;
 
 namespace AwARe.RoomScan.Objects
 {
+    /// <summary>
+    /// Handles placing the anchors.
+    /// </summary>
     public class AnchorHandler : MonoBehaviour
     {
         /// <summary>
@@ -24,14 +27,14 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private Pointer pointer;
 
         /// <summary>
-        /// The session anchors used for saving/loading rooms.
+        /// Gets the session anchors used for saving/loading rooms.
         /// </summary>
         public List<Vector3> SessionAnchors { get; private set; }= new();
 
         /// <summary>
         /// The number of anchors that need to be placed.
         /// </summary>
-        public int AnchorCount { get; } = 2;
+        public readonly int anchorCount = 2;
 
         /// <summary>
         /// Add an anchor to the sessionAnchors list, fails if list is full.
@@ -40,7 +43,7 @@ namespace AwARe.RoomScan.Objects
         {
             Vector3 anchorPoint = pointer.PointedAt;
 
-            if (SessionAnchors.Count >= AnchorCount) return;
+            if (AnchoringFinished()) return;
 
             SessionAnchors.Add(anchorPoint);
             if (anchorVisual != null)
@@ -67,5 +70,12 @@ namespace AwARe.RoomScan.Objects
 
             SessionAnchors.RemoveAt(SessionAnchors.Count - 1);
         }
+
+        /// <summary>
+        /// Checks if there are enough anchors.
+        /// </summary>
+        /// <returns>Whether the number of anchors is equal to the needed number of anchors.</returns>
+        public bool AnchoringFinished() =>
+            SessionAnchors.Count >= anchorCount;
     }
 }

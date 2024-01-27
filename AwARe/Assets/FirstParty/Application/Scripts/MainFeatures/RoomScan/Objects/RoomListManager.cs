@@ -18,7 +18,7 @@ namespace AwARe.RoomScan.Objects
         private RoomListSerialization RoomListSerialization;
 
         private SaveLoadManager saveLoadManager;
-        [SerializeField] public ScreenshotManager screenshotManager;
+        [SerializeField] private ScreenshotManager screenshotManager;
 
         private void Awake()
         {
@@ -67,7 +67,9 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Load in a list of rooms from roomListSerialization rooms.
         /// </summary>
-        /// <returns>The list of rooms.</returns>
+        /// <param name="roomSer">The serialized room.</param>
+        /// <param name="anchors">The set anchors.</param>
+        /// <returns>The room data.</returns>
         public Data.Logic.Room LoadRoom(RoomSerialization roomSer, List<Vector3> anchors)
         {
             return roomSer.ToRoom(anchors);
@@ -75,8 +77,7 @@ namespace AwARe.RoomScan.Objects
 
         public RoomListSerialization GetSerRoomList()
         {
-            if(RoomListSerialization == null)
-                RoomListSerialization = LoadSerRoomList();
+            RoomListSerialization ??= LoadSerRoomList();
             return RoomListSerialization;
         }
 
@@ -86,8 +87,7 @@ namespace AwARe.RoomScan.Objects
         /// <returns>The serialized list of rooms.</returns>
         private RoomListSerialization LoadSerRoomList()
         {
-            if(saveLoadManager == null)
-                saveLoadManager = new();
+            saveLoadManager ??= new();
 
             RoomListSerialization = saveLoadManager.LoadRooms("rooms") ?? new();
             return RoomListSerialization;
