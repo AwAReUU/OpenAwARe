@@ -7,9 +7,7 @@
 
 using System.Collections.Generic;
 using AwARe.Objects;
-using Unity.XR.CoreUtils;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 namespace AwARe.InterScenes.Objects
