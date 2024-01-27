@@ -11,7 +11,6 @@ using AwARe.Data.Logic;
 using AwARe.InterScenes.Objects;
 using AwARe.RoomScan.Path.Objects;
 using AwARe.RoomScan.Polygons.Objects;
-using AwARe.UI.Objects;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Room = AwARe.Data.Objects.Room;
@@ -27,6 +26,7 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private PolygonManager polygonManager;
         [SerializeField] private PathManager pathManager;
         [SerializeField] private RoomListManager roomListManager;
+        private AnchorHandler anchorHandler;
 
         // The UI
         [SerializeField] private RoomUI ui;
@@ -34,20 +34,28 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private Transform sceneCanvas;
         [SerializeField] private RoomOverviewScreen roomOverviewScreen;
 
-        // Templates
+        // Template
         [SerializeField] private GameObject roomBase;
-
-        // The pointer
-        [SerializeField] public Pointer pointer;
 
         /// <summary>
         /// The state the scene should start in.
         /// </summary>
         public State startState = State.Default;
 
+        /// <summary>
+        /// A serialized room list.
+        /// </summary>
         public RoomListSerialization RoomListSerialization => roomListManager.GetSerRoomList();
 
-        private readonly int anchorCount = 2;
+        /// <summary>
+        /// Gets or sets the current room; used for saving.
+        /// </summary>
+        public Room Room { get; set; }
+
+        /// <summary>
+        /// Serialized room; used for loading.
+        /// </summary>
+        public RoomSerialization SerRoom { get; set; }
 
         /// <summary>
         /// Gets the current state of the room scanner.
@@ -57,9 +65,16 @@ namespace AwARe.RoomScan.Objects
         /// </value>
         public State CurrentState { get; private set; }
 
+        /// <summary>
+        /// The screenshots used for saving/loading rooms.
+        /// </summary>
+        private List<Texture2D> screenshots = new();
+
         [ExcludeFromCoverage]
         private void Awake()
         {
+            anchorHandler = gameObject.GetComponent<AnchorHandler>();
+
             ui.gameObject.SetActive(true);
 
             // Move all content prefab canvas to scene canvas.
@@ -71,66 +86,7 @@ namespace AwARe.RoomScan.Objects
             SwitchToState(startState);
         }
 
-        /// <summary>
-        /// Room used for saving.
-        /// </summary>
-        /// <value>
-        /// The current room.
-        /// </value>
-        public Room Room { get; set; }
-
-        /// <summary>
-        /// Room used for loading.
-        /// </summary>
-        public RoomSerialization SerRoom { get; set; }
-
-        #region Anchor Handling
-        /// <summary>
-        /// The session anchors used for saving/loading rooms.
-        /// </summary>
-        private List<Vector3> sessionAnchors = new();
-        [SerializeField] private GameObject anchorVisual;
-
-        /// <summary>
-        /// The screenshots used for saving/loading rooms.
-        /// </summary>
-        private List<Texture2D> screenshots = new();
-
-        /// <summary>
-        /// Add an anchor to the sessionAnchors list, fails if list is full (2 anchors max.).
-        /// </summary>
-        /// <param name="anchorPoint">The location of the anchor.</param>
-        /// <param name="anchorVisual"></param>
-        public void TryAddAnchor(Vector3 anchorPoint, GameObject anchorVisual = null)
-        {
-            if (sessionAnchors.Count >= anchorCount) return;
-
-            sessionAnchors.Add(anchorPoint);
-            if (anchorVisual != null)
-            {
-                GameObject anchorVisualObject;
-                anchorVisualObject = Instantiate(anchorVisual, anchorPoint, Quaternion.identity) as GameObject;
-                anchorVisualObject.transform.parent = transform;
-                anchorVisualObject.name = "Anchor_" + sessionAnchors.Count.ToString();
-            }
-        }
-
-        /// <summary>
-        /// Remove the last anchor from the sessionAnchors.
-        /// </summary>
-        public void TryRemoveLastAnchor()
-        {
-            if (sessionAnchors.Count == 0) return;
-
-            GameObject anchorVisualObject = GameObject.Find("Anchor_" + sessionAnchors.Count.ToString());
-            if (anchorVisualObject != null)
-            {
-                Destroy(anchorVisualObject);
-            }
-
-            sessionAnchors.RemoveAt(sessionAnchors.Count - 1);
-        }
-        #endregion
+        
 
         /// <summary>
         /// Called on create button click.
@@ -166,7 +122,7 @@ namespace AwARe.RoomScan.Objects
             else if (CurrentState == State.SaveAnchoringCheck)
             {
                 roomListManager.screenshotManager.HideScreenshot();
-                if (sessionAnchors.Count >= anchorCount)
+                if (anchorHandler.SessionAnchors.Count >= anchorHandler.AnchorCount)
                 {
                     SwitchToState(State.Saving);
                 }
@@ -177,7 +133,7 @@ namespace AwARe.RoomScan.Objects
             }
             else if(CurrentState == State.AskForSave)
             {
-                sessionAnchors.Clear();
+                anchorHandler.SessionAnchors.Clear();
                 screenshots.Clear();
                 SwitchToState(State.SaveAnchoring);
             }
@@ -194,7 +150,7 @@ namespace AwARe.RoomScan.Objects
             }
             else if (CurrentState == State.SaveAnchoring)
             {
-                TryAddAnchor(pointer.PointedAt, anchorVisual);
+                anchorHandler.TryAddAnchor();
 
                 Texture2D screenshot = ui.screenshotManager.TakeScreenshot();
                 screenshots.Add(screenshot);
@@ -205,14 +161,14 @@ namespace AwARe.RoomScan.Objects
             }
             else if (CurrentState == State.LoadAnchoring)
             {
-                TryAddAnchor(pointer.PointedAt, anchorVisual);
+                anchorHandler.TryAddAnchor();
                 screenshots.Add(ui.screenshotManager.TakeScreenshot());
 
-                if (sessionAnchors.Count < anchorCount)
-                    ui.DisplayAnchorLoadingImage(sessionAnchors.Count);
+                if (anchorHandler.SessionAnchors.Count < anchorHandler.AnchorCount)
+                    ui.DisplayAnchorLoadingImage(anchorHandler.SessionAnchors.Count);
                 else
                 {
-                    Data.Logic.Room room = roomListManager.LoadRoom(SerRoom, sessionAnchors);
+                    Data.Logic.Room room = roomListManager.LoadRoom(SerRoom, anchorHandler.SessionAnchors);
                     GoToRoom(room);
                 }
             }
@@ -226,8 +182,7 @@ namespace AwARe.RoomScan.Objects
             }
             else if (CurrentState == State.SaveAnchoringCheck)
             {
-                //sessionAnchors.RemoveAt(sessionAnchors.Count - 1);
-                TryRemoveLastAnchor();
+                anchorHandler.TryRemoveLastAnchor();
                 screenshots.RemoveAt(screenshots.Count - 1);
                 ui.HideScreenshot();
                 SwitchToState(State.SaveAnchoring);
@@ -248,7 +203,7 @@ namespace AwARe.RoomScan.Objects
         public void StartLoadingRoom(int roomIndex)
         {
             SerRoom = roomListManager.GetSerRoomList().Rooms[roomIndex];
-            sessionAnchors.Clear();
+            anchorHandler.SessionAnchors.Clear();
             screenshots.Clear();
             SwitchToState(State.LoadAnchoring);
         }
@@ -266,7 +221,7 @@ namespace AwARe.RoomScan.Objects
         public void SaveRoom(string roomName)
         {
             Room.roomName = roomName;
-            roomListManager.SaveRoom(Room.Data, sessionAnchors, screenshots);
+            roomListManager.SaveRoom(Room.Data, anchorHandler.SessionAnchors, screenshots);
 
             roomOverviewScreen.DisplayList();
             
@@ -279,7 +234,7 @@ namespace AwARe.RoomScan.Objects
         /// <param name="room">The room that is being deleted.</param>
         public void DeleteRoom(int roomIndex)
         {
-            roomListManager.DeleteRoom(roomIndex, anchorCount);
+            roomListManager.DeleteRoom(roomIndex, anchorHandler.AnchorCount);
             roomOverviewScreen.DisplayList();
         }
         

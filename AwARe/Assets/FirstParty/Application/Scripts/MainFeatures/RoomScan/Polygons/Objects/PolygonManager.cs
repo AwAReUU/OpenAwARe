@@ -10,8 +10,6 @@ using System.Linq;
 using AwARe.Data.Objects;
 using AwARe.Objects;
 using AwARe.RoomScan.Objects;
-using AwARe.UI;
-using AwARe.UI.Objects;
 using UnityEngine;
 
 namespace AwARe.RoomScan.Polygons.Objects
