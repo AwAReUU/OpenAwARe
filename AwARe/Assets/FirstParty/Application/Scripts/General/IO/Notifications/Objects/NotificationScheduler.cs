@@ -38,7 +38,7 @@ namespace AwARe.Notifications.Objects
         /// <summary>
         /// The path in which scheduled notification data are stored.
         /// </summary>
-        string folderpath;
+        private string folderpath;
 
         /// <summary>
         /// The number of notifications that should be scheduled (when the app is launched). 
