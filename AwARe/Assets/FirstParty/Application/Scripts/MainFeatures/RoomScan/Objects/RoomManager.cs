@@ -38,18 +38,27 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private GameObject roomBase;
 
         /// <summary>
-        /// A serialized room list.
+        /// Gets a serialized room list.
         /// </summary>
+        /// <value>
+        /// A serialized room list.
+        /// </value>
         public RoomListSerialization RoomListSerialization => roomListManager.GetSerRoomList();
 
         /// <summary>
         /// Gets or sets the current room; used for saving.
         /// </summary>
+        /// <value>
+        /// >The current room; used for saving.
+        /// </value>
         public Room Room { get; set; }
 
         /// <summary>
-        /// Serialized room; used for loading.
+        /// Gets or sets the serialized room; used for loading.
         /// </summary>
+        /// <value>
+        /// Serialized room; used for loading.
+        /// </value>
         public RoomSerialization SerRoom { get; set; }
 
         /// <summary>
@@ -63,7 +72,7 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// The screenshots used for saving/loading rooms.
         /// </summary>
-        private List<Texture2D> screenshots = new();
+        private readonly List<Texture2D> screenshots = new();
 
         [ExcludeFromCoverage]
         private void Awake()
@@ -80,8 +89,6 @@ namespace AwARe.RoomScan.Objects
 
             SwitchToState(State.RoomList);
         }
-
-        
 
         /// <summary>
         /// Called on create button click.
@@ -126,7 +133,7 @@ namespace AwARe.RoomScan.Objects
                     SwitchToState(State.SaveAnchoring);
                 }
             }
-            else if(CurrentState == State.AskForSave)
+            else if (CurrentState == State.AskForSave)
             {
                 anchorHandler.SessionAnchors.Clear();
                 screenshots.Clear();
@@ -169,6 +176,9 @@ namespace AwARe.RoomScan.Objects
             }
         }
 
+        /// <summary>
+        /// Called on 'No' button click.
+        /// </summary>
         public void OnNoButtonClick()
         {
             if (CurrentState == State.AskForSave)
@@ -191,10 +201,15 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Called on changing the slider.
         /// </summary>
+        /// <param name="value">The value of the slider.</param>
         [ExcludeFromCoverage]
         public void OnHeightSliderChanged(float value) =>
             polygonManager.OnHeightSliderChanged(value);
 
+        /// <summary>
+        /// Starts the process of loading the room.
+        /// </summary>
+        /// <param name="roomIndex">The index of the desired room in the serialized room list.</param>
         public void StartLoadingRoom(int roomIndex)
         {
             SerRoom = roomListManager.GetSerRoomList().Rooms[roomIndex];
@@ -203,6 +218,10 @@ namespace AwARe.RoomScan.Objects
             SwitchToState(State.LoadAnchoring);
         }
 
+        /// <summary>
+        /// Go to the AR scene with the desired room active.
+        /// </summary>
+        /// <param name="room">The room to be active in the AR scene.</param>
         public void GoToRoom(Data.Logic.Room room)
         {
             Storage.Get().ActiveRoom = room;
@@ -213,26 +232,31 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Save newly created room in rooms file.
         /// </summary>
+        /// <param name="roomName">The name of the Room.</param>
         public void SaveRoom(string roomName)
         {
             Room.roomName = roomName;
             roomListManager.SaveRoom(Room.Data, anchorHandler.SessionAnchors, screenshots);
 
             roomOverviewScreen.DisplayList();
-            
+
             GoToRoom(Room.Data);
         }
 
         /// <summary>
         /// Deletes the data and screenshots of the given room.
         /// </summary>
-        /// <param name="room">The room that is being deleted.</param>
+        /// <param name="roomIndex">The index of the room that is being deleted.</param>
         public void DeleteRoom(int roomIndex)
         {
             roomListManager.DeleteRoom(roomIndex, anchorHandler.AnchorCount);
             roomOverviewScreen.DisplayList();
         }
-        
+
+        /// <summary>
+        /// Checks if a positive polygon exists.
+        /// </summary>
+        /// <returns>Positive polygon == null.</returns>
         public bool IsFirstPolygon() =>
             polygonManager.IsFirstPolygon();
 
@@ -246,19 +270,12 @@ namespace AwARe.RoomScan.Objects
         }
 
         /// <summary>
-        /// Called on path button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnPathButtonClick() =>
-            pathManager.OnPathButtonClick();
-
-        /// <summary>
         /// Checks if room name already exists in the rooms file;
         /// if not then it will be saved and will show up in the list of roomsaves.
         /// </summary>
+        /// <param name="roomName">The name of the room.</param>
         public void OnConfirmNameButtonClick(string roomName)
         {
-            
             if (RoomListSerialization.Rooms.Where(obj => obj.RoomName == roomName).Count() > 0)
                 Debug.LogError("This name already exists");
             else
@@ -290,7 +307,7 @@ namespace AwARe.RoomScan.Objects
     }
 
     /// <summary>
-    /// The different states within the Room scanning process.
+    /// The different states within the Room scanning and loading process.
     /// </summary>
     public enum State
     {

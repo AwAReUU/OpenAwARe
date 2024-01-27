@@ -53,14 +53,14 @@ namespace AwARe.RoomScan.Path.Objects
         /// </value>
         public Room Room { get => manager.Room; private set => manager.Room = value; }
 
-        public void OnPathButtonClick()
+        public void StartPathGen()
         {
             //activate the popup
             SwitchToState(State.Generating);
             StartCoroutine(MakePathAndRemovePopup());
         }
 
-        public IEnumerator MakePathAndRemovePopup()
+        private IEnumerator MakePathAndRemovePopup()
         {
             yield return null;
             Storage.Get().ActivePath = GenerateAndDrawPath();
