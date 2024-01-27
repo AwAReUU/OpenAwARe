@@ -107,6 +107,11 @@ namespace AwARe
             {
                 Debug.LogError("Failed to login");
             }
+            else
+            {
+                // Refresh the login session every 5 minutes. This is to prevent the server from logging out automatically after 15 minutes.
+                GameObject.Find("ClientSetup").GetComponent<ClientSetup>().InvokeRefreshLoginSession(5 * 60);
+            }
         }
 
         /// <summary>
@@ -193,7 +198,7 @@ namespace AwARe
         /// <summary>
         /// Handles the logic when the register button is clicked.
         /// </summary>
-        public void OnRegisterButtonClick()
+        public async void OnRegisterButtonClick()
         {
             warningAllFields.SetActive(false);
             //TODO : warningPWEIncorrect.SetActive(false); and something with it
@@ -245,7 +250,7 @@ namespace AwARe
                 return;
             }
 
-            Client.GetInstance().Register(new AccountDetails
+            await Client.GetInstance().Register(new AccountDetails
             {
                 firstName = registerfirstname,
                 lastName = registerlastname,
@@ -253,8 +258,8 @@ namespace AwARe
                 password = registerpassword,
                 confirmPassword = registerconfirmpassword,
             });
-
         }
+
 
     }
 }

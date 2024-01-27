@@ -200,34 +200,34 @@ namespace AwARe.Server.Logic
 
         }
 
-        // /// <summary>
-        // /// Refresh the login session.
-        // /// </summary>
-        // /// <returns>
-        // /// Returns true if refreshing succeeded.
-        // /// </returns>
-        // private bool Refresh()
-        // {
-        //     string url = adress + "/auth/refreshToken";
+        /// <summary>
+        /// Refresh the login session.
+        /// </summary>
+        /// <returns>
+        /// Returns true if refreshing succeeded.
+        /// </returns>
+        public Task<bool> Refresh()
+        {
+            string url = adress + "/auth/refresh";
 
-        //     AwaitRSGPromise<bool>(ret =>
-        //     {
-        //         RestClient.Post<TokenResponse>(url, new RefreshRequest { email = this.userEmail, token = this.refreshToken }).Then(response =>
-        //         {
-        //             this.accessToken = response.accessToken;
-        //             this.refreshToken = response.refreshToken;
+            return AwaitRSGPromise<bool>(ret =>
+            {
+                RestClient.Post<TokenResponse>(url, new RefreshRequest { email = this.userEmail, token = this.refreshToken }).Then(response =>
+                {
+                    this.accessToken = response.accessToken;
+                    this.refreshToken = response.refreshToken;
 
-        //             Debug.Log("[client]: Refreshed login session");
+                    Debug.Log("[client]: Refreshed login session");
 
-        //             ret.SetResult(true);
-        //         }).Catch(err =>
-        //         {
-        //             Debug.LogError("[client]: Failed to refresh login session: " + err.Message);
+                    ret.SetResult(true);
+                }).Catch(err =>
+                {
+                    Debug.LogError("[client]: Failed to refresh login session: " + err.Message);
 
-        //             ret.SetResult(false);
-        //         });
-        //     });
-        // }
+                    ret.SetResult(false);
+                });
+            });
+        }
 
         /// <summary>
         /// A helper method to add the authorization header to a request.

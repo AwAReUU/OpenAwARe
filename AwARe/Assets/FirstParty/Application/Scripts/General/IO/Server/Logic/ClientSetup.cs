@@ -5,6 +5,10 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AwARe.InterScenes.Objects;
 using UnityEngine;
 
 namespace AwARe.Server.Logic
@@ -42,11 +46,17 @@ namespace AwARe.Server.Logic
         /// <value> If true, use the debug server. </value>
         private bool debug = false;
 
+        /// <value> If true, a coroutine is already running to refresh the login session. </value>
+        private bool refreshing = false;
+
         /// <summary>
         /// At startup initialise the client-server connection.
         /// </summary>
         public void Awake()
         {
+            // Keep the scene alive
+            SceneSwitcher.Get().Keepers.Add(gameObject.scene);
+
             Client.Init(this.Adress());
         }
 
@@ -63,6 +73,31 @@ namespace AwARe.Server.Logic
             {
                 return remoteAdress + ":" + remotePort;
             }
+        }
+
+        /// <summary>
+        /// Refresh the login session every x seconds.
+        /// </summary>
+        public void InvokeRefreshLoginSession(int interval)
+        {
+            if (!refreshing)
+            {
+                refreshing = true;
+                RefreshLoginSession(interval);
+            }
+        }
+
+
+        /// <summary>
+        /// Refresh the login session every x seconds.
+        /// </summary>
+        private async void RefreshLoginSession(int interval)
+        {
+            while (await Client.GetInstance().Refresh())
+            {
+                await Task.Delay(interval * 1000);
+            }
+            refreshing = false;
         }
     }
 }
