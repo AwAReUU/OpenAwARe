@@ -15,8 +15,7 @@ namespace AwARe.RoomScan.Objects
     /// </summary>
     public class RoomListManager : MonoBehaviour
     {
-        private RoomListSerialization roomListSerialization;
-        public List<Data.Logic.Room> Rooms { get; private set; }
+        private RoomListSerialization RoomListSerialization;
 
         private SaveLoadManager saveLoadManager;
         [SerializeField] private ScreenshotManager screenshotManager;
@@ -28,32 +27,32 @@ namespace AwARe.RoomScan.Objects
 
         public void SaveRoom(Data.Logic.Room room, List<Vector3> anchors, List<Texture2D> screenshots)
         {
-            if(Rooms.Contains(room))
-                UpdateRoom(room, anchors, screenshots);
+            int index = RoomNameIndex(room.RoomName);
+
+            if(index != -1) // The room already exists
+                UpdateRoom(room, index, anchors, screenshots);
             else
                 AddRoom(room, anchors, screenshots);
         }
 
-        public void DeleteRoom(Data.Logic.Room room, List<Texture2D> screenshots)
+        public void DeleteRoom(int roomIndex, int anchorCount)
         {
-            for (var i = 0; i < screenshots.Count; i++)
-                screenshotManager.DeleteScreenshot(room, i);
+            string roomName = GetSerRoomList().Rooms[roomIndex].RoomName;
 
-            var idx = Rooms.FindIndex(r => r == room);
-            Rooms.RemoveAt(idx);
-            roomListSerialization.Rooms.RemoveAt(idx);
-            saveLoadManager.SaveRoomList("rooms", roomListSerialization);
+            for (var i = 0; i < anchorCount; i++)
+                screenshotManager.DeleteScreenshot(roomName, i);
+
+            RoomListSerialization.Rooms.RemoveAt(roomIndex);
+            saveLoadManager.SaveRoomList("rooms", RoomListSerialization);
         }
 
-        public void UpdateRoom(Data.Logic.Room room, List<Vector3> anchors, List<Texture2D> screenshots)
+        public void UpdateRoom(Data.Logic.Room room, int index, List<Vector3> anchors, List<Texture2D> screenshots)
         {
             for (var i = 0; i < screenshots.Count; i++)
                 screenshotManager.SaveScreenshot(screenshots[i], room, i);
 
-            var idx = Rooms.FindIndex(r => r == room);
-            Rooms[idx] = room;
-            roomListSerialization.Rooms[idx] = new(room, anchors);
-            saveLoadManager.SaveRoomList("rooms", roomListSerialization);
+            RoomListSerialization.Rooms[index] = new(room, anchors);
+            saveLoadManager.SaveRoomList("rooms", RoomListSerialization);
         }
 
         public void AddRoom(Data.Logic.Room room, List<Vector3> anchors, List<Texture2D> screenshots)
@@ -61,28 +60,46 @@ namespace AwARe.RoomScan.Objects
             for(var i = 0; i < screenshots.Count; i++)
                 screenshotManager.SaveScreenshot(screenshots[i], room, i);
 
-            Rooms.Add(room);
-            roomListSerialization.Rooms.Add(new(room, anchors));
-            saveLoadManager.SaveRoomList("rooms", roomListSerialization);
+            RoomListSerialization.Rooms.Add(new(room, anchors));
+            saveLoadManager.SaveRoomList("rooms", RoomListSerialization);
         }
 
         /// <summary>
         /// Load in a list of rooms from roomListSerialization rooms.
         /// </summary>
         /// <returns>The list of rooms.</returns>
-        public Data.Logic.Room LoadRoom(int idx, List<Vector3> anchors)
+        public Data.Logic.Room LoadRoom(RoomSerialization roomSer, List<Vector3> anchors)
         {
-            return roomListSerialization.Rooms?[idx].ToRoom(anchors);
+            return roomSer.ToRoom(anchors);
+        }
+
+        public RoomListSerialization GetSerRoomList()
+        {
+            if(RoomListSerialization == null)
+                RoomListSerialization = LoadSerRoomList();
+            return RoomListSerialization;
         }
 
         /// <summary>
-        /// Load in a list of rooms from roomListSerialization rooms.
+        /// Load in a serialized list of rooms.
         /// </summary>
-        /// <returns>The list of rooms.</returns>
-        public RoomListSerialization LoadList(List<Vector3> anchors)
+        /// <returns>The serialized list of rooms.</returns>
+        private RoomListSerialization LoadSerRoomList()
         {
-            roomListSerialization = saveLoadManager.LoadRooms("rooms") ?? new();
-            return roomListSerialization;
+            if(saveLoadManager == null)
+                saveLoadManager = new();
+
+            RoomListSerialization = saveLoadManager.LoadRooms("rooms") ?? new();
+            return RoomListSerialization;
+        }
+
+        private int RoomNameIndex(string name)
+        {
+            List<RoomSerialization> roomList = RoomListSerialization.Rooms;
+            for(int i = 0; i <  roomList.Count; i++)
+            foreach(RoomSerialization room in RoomListSerialization.Rooms)
+                if(room.RoomName == name) return i;
+            return -1;
         }
     }
 }

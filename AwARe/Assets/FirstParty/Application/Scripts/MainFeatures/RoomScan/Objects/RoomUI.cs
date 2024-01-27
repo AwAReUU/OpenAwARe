@@ -161,7 +161,7 @@ namespace AwARe.RoomScan.Objects
         /// <param name="index">The index of the screenshot.</param>
         public void DisplayAnchorLoadingImage(int index)
         {
-            screenshotManager.DisplayScreenshotFromFile(manager.Room.Data, index, false, ScreenshotManager.ImageSize.Small);
+            screenshotManager.DisplayScreenshotFromFile(manager.SerRoom.RoomName, index, false, ScreenshotManager.ImageSize.Small);
         }
 
 

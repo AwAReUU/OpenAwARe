@@ -20,16 +20,18 @@ namespace AwARe
         [SerializeField] private TextMeshProUGUI nameLabel;
 
         // The data represented.
-        private Data.Logic.Room room;
+        private int roomIndex;
+        private string roomName;
 
         /// <summary>
         /// Sets this item to represent the given result.
         /// </summary>
         /// <param name="index">The index in the item list.</param>
         /// <param name="room">The room represented.</param>
-        public void SetItem(Data.Logic.Room room)
+        public void SetItem(int roomIndex, string roomName)
         {
-            this.room = room;
+            this.roomIndex = roomIndex;
+            this.roomName = roomName;
             DisplayItem();
         }
         /// <summary>
@@ -37,21 +39,21 @@ namespace AwARe
         /// </summary>
         private void DisplayItem()
         {
-            gameObject.name = room.RoomName;
-            nameLabel.text = room.RoomName;
+            gameObject.name = roomName;
+            nameLabel.text = roomName;
         }
 
         /// <summary>
         /// Loads the room of corresponding to this listItem.
         /// </summary>
         public void OnItemClick() =>
-            screen.OnItemClick(room);
+            screen.OnItemClick(roomIndex);
 
         /// <summary>
         /// Delete the room of corresponding to this listItem.
         /// </summary>
         public void OnDeleteButtonClick() =>
-            screen.OnDeleteButtonClick(room);
+            screen.OnDeleteButtonClick(roomIndex);
 
     }
 }

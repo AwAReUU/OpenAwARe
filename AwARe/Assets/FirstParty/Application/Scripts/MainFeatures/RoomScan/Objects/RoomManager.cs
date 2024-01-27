@@ -6,14 +6,11 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
-using System.Linq;
 using AwARe.Data.Logic;
 using AwARe.InterScenes.Objects;
-using AwARe.Objects;
 using AwARe.RoomScan.Path.Objects;
 using AwARe.RoomScan.Polygons.Objects;
 using AwARe.UI.Objects;
-using TMPro;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Room = AwARe.Data.Objects.Room;
@@ -30,13 +27,11 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private PathManager pathManager;
         [SerializeField] private RoomListManager roomListManager;
 
-        [SerializeField] private RoomOverviewScreen roomOverviewScreen;
-
         // The UI
         [SerializeField] private RoomUI ui;
         [SerializeField] private Transform canvas;
         [SerializeField] private Transform sceneCanvas;
-        [SerializeField] private GameObject saveNameScreen;
+        [SerializeField] private RoomOverviewScreen roomOverviewScreen;
 
         // Templates
         [SerializeField] private GameObject roomBase;
@@ -49,7 +44,9 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         public State startState = State.Default;
 
-        public List<Data.Logic.Room> Rooms => roomListManager.Rooms;
+        public RoomListSerialization RoomListSerialization => roomListManager.GetSerRoomList();
+
+        private readonly int anchorCount = 2;
 
         /// <summary>
         /// Gets the current state of the room scanner.
@@ -74,12 +71,17 @@ namespace AwARe.RoomScan.Objects
         }
 
         /// <summary>
-        /// Gets or sets the current room.
+        /// Room used for saving.
         /// </summary>
         /// <value>
         /// The current room.
         /// </value>
         public Room Room { get; set; }
+
+        /// <summary>
+        /// Room used for loading.
+        /// </summary>
+        public RoomSerialization SerRoom { get; set; }
 
         #region Anchor Handling
         /// <summary>
@@ -100,7 +102,7 @@ namespace AwARe.RoomScan.Objects
         /// <param name="anchorVisual"></param>
         public void TryAddAnchor(Vector3 anchorPoint, GameObject anchorVisual = null)
         {
-            if (sessionAnchors.Count >= 2) return;
+            if (sessionAnchors.Count >= anchorCount) return;
 
             sessionAnchors.Add(anchorPoint);
             if (anchorVisual != null)
@@ -169,7 +171,7 @@ namespace AwARe.RoomScan.Objects
             else if (CurrentState == State.SaveAnchoringCheck)
             {
                 ui.screenshotManager.HideScreenshot();
-                if (sessionAnchors.Count >= 2)
+                if (sessionAnchors.Count >= anchorCount)
                 {
                     SwitchToState(State.Saving);
                 }
@@ -205,11 +207,12 @@ namespace AwARe.RoomScan.Objects
                 TryAddAnchor(pointer.PointedAt, anchorVisual);
                 screenshots.Add(ui.screenshotManager.TakeScreenshot());
 
-                if (sessionAnchors.Count < 2)
+                if (sessionAnchors.Count < anchorCount)
                     ui.DisplayAnchorLoadingImage(sessionAnchors.Count);
                 else
                 {
-                    LoadRoom();
+                    Data.Logic.Room room = roomListManager.LoadRoom(SerRoom, sessionAnchors);
+                    GoToRoom(room);
                 }
             }
         }
@@ -218,7 +221,7 @@ namespace AwARe.RoomScan.Objects
         {
             if (CurrentState == State.AskForSave)
             {
-                LoadRoom();
+                GoToRoom(Room.Data);
             }
             else if (CurrentState == State.SaveAnchoringCheck)
             {
@@ -232,7 +235,6 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnSaveButtonClick()
         {
-            //Storage.Get().ActiveRoom = Room.Data;
             sessionAnchors.Clear();
             SwitchToState(State.SaveAnchoring);
         }
@@ -244,17 +246,17 @@ namespace AwARe.RoomScan.Objects
         public void OnHeightSliderChanged(float value) =>
             polygonManager.OnHeightSliderChanged(value);
 
-        public void StartLoadingRoom(Data.Logic.Room room)
+        public void StartLoadingRoom(int roomIndex)
         {
-            Room.Data = room;
+            SerRoom = roomListManager.GetSerRoomList().Rooms[roomIndex];
             sessionAnchors.Clear();
             screenshots.Clear();
             SwitchToState(State.LoadAnchoring);
         }
 
-        public void LoadRoom()
+        public void GoToRoom(Data.Logic.Room room)
         {
-            Storage.Get().ActiveRoom = Room.Data;
+            Storage.Get().ActiveRoom = room;
             Storage.Get().ActivePath = pathManager.GenerateAndDrawPath();
             SceneSwitcher.Get().LoadScene("AR");
         }
@@ -265,55 +267,39 @@ namespace AwARe.RoomScan.Objects
         public void SaveRoom()
         {
             Room.roomName = roomOverviewScreen.nameInput.text;
+            roomListManager.SaveRoom(Room.Data, sessionAnchors, screenshots);
 
-            // Save screenshots
-            for (int i = 0; i < screenshots.Count; i++)
-            {
-                ui.screenshotManager.SaveScreenshot(screenshots[i], Room.Data, i);
-            }
-
-            // Load existing room list
-            RoomListSerialization roomList = saveLoadManager.LoadRooms("rooms");
-
-            roomList ??= new RoomListSerialization();
-
-            // Add the current room to the list
-            roomList.Rooms.Add(new RoomSerialization(Room.Data, sessionAnchors));
-
-            // Save the updated room list
-            saveLoadManager.SaveRoomList("rooms", roomList);
             roomOverviewScreen.DisplayList();
             
-            LoadRoom();
+            GoToRoom(Room.Data);
         }
 
         /// <summary>
         /// Deletes the data and screenshots of the given room.
         /// </summary>
         /// <param name="room">The room that is being deleted.</param>
-        public void DeleteRoom(Data.Logic.Room room)
+        public void DeleteRoom(int roomIndex)
         {
-            ui.screenshotManager.DeleteScreenshot(room, 0);
-            ui.screenshotManager.DeleteScreenshot(room, 1);
-            Rooms.Remove(room);
-            DeleteRoom(room);
-            UpdateRoomList(Rooms);
+            roomListManager.DeleteRoom(roomIndex, anchorCount);
+            roomOverviewScreen.DisplayList();
         }
 
+        /*
         /// <summary>
         /// Go from list of rooms to roomlist Serialization so that you can update the rooms file.
         /// </summary>
         public void UpdateRoomList(List<Data.Logic.Room> roomlist)
         {
-            RoomListSerialization serroomlist = new RoomListSerialization();
+            RoomListSerialization serRoomlist = new RoomListSerialization();
             foreach (Data.Logic.Room room in roomlist)
             {
-                serroomlist.Rooms.Add(new RoomSerialization(room, sessionAnchors));
+                serRoomlist.Rooms.Add(new RoomSerialization(room, sessionAnchors));
             }
-            saveLoadManager.SaveRoomList("rooms", serroomlist);
+            saveLoadManager.SaveRoomList("rooms", serRoomlist);
 
         }
-
+        */
+        /*
         /// <summary>
         /// Load in a list of rooms from roomListSerialization rooms.
         /// </summary>
@@ -332,7 +318,7 @@ namespace AwARe.RoomScan.Objects
             // Convert RoomListSerialization to a list of Room objects
             return roomListSerialization.Rooms?.Select(roomSerialization => roomSerialization.ToRoom(sessionAnchors)).ToList() ?? new List<Data.Logic.Room>();
         }
-
+        */
         /// <summary>
         /// Called on load button button click; changes state so user sees load slots.
         /// </summary>

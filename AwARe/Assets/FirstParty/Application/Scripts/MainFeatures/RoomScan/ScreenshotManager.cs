@@ -48,10 +48,10 @@ namespace AwARe.RoomScan
         /// <summary>
         /// Returns a file path based on the given room and index of the anchorpoint.
         /// </summary>
-        /// <param name="room">The room that the screenshot corresponds with.</param>
+        /// <param name="roomName">The name of the room that the screenshot corresponds with.</param>
         /// <param name="index">The number of the anchorpoint that the screenshot corresponds with.</param>
         /// <returns>A string representing the file path.</returns>
-        private string GetPath(Data.Logic.Room room, int index) => $"{Application.persistentDataPath}/screenshots/{room.RoomName}{index}.png";
+        private string GetPath(string roomName, int index) => $"{Application.persistentDataPath}/screenshots/{roomName}{index}.png";
 
         /// <summary>
         /// Takes a screenshot and returns it as a Texture2D.
@@ -67,7 +67,7 @@ namespace AwARe.RoomScan
         /// <param name="room">The room that the screenshot corresponds with.</param>
         /// <param name="index">The number of the anchorpoint that the screenshot corresponds with.</param>
         public void SaveScreenshot(Texture2D screenshot, Data.Logic.Room room, int index) =>
-            System.IO.File.WriteAllBytes(GetPath(room, index), screenshot.EncodeToPNG());
+            System.IO.File.WriteAllBytes(GetPath(room.RoomName, index), screenshot.EncodeToPNG());
 
         /// <summary>
         /// Displays the specified screenshot on the screen.
@@ -109,18 +109,18 @@ namespace AwARe.RoomScan
         /// <summary>
         /// Gets a screenshot from the file and displays it on screen.
         /// </summary>
-        /// <param name="room">The room corresponding with the screenshot.</param>
+        /// <param name="roomName">The name of the room corresponding with the screenshot.</param>
         /// <param name="index">The index corresponding with the screenshot.</param>
         /// <param name="transparent">Whether the image displaying the screenshot should be transparent.</param>
         /// <param name="size">The relative size the screenshot should be shown in.</param>
         public void DisplayScreenshotFromFile(
-            Data.Logic.Room room,
+            string roomName,
             int index,
             bool transparent = false,
             ImageSize size = ImageSize.Large
             )
         {
-            DisplayScreenshot(RetrieveScreenshot(GetPath(room, index)), transparent, size);
+            DisplayScreenshot(RetrieveScreenshot(GetPath(roomName, index)), transparent, size);
         }
 
         /// <summary>
@@ -148,11 +148,11 @@ namespace AwARe.RoomScan
         /// <summary>
         /// Deletes the specified screenshot.
         /// </summary>
-        /// <param name="room">The room that the screenshot corresponds with.</param>
+        /// <param name="roomName">The name of the room that the screenshot corresponds with.</param>
         /// <param name="index">The number of the anchorpoint that the screenshot corresponds with.</param>
-        public void DeleteScreenshot(Data.Logic.Room room, int index)
+        public void DeleteScreenshot(string roomName, int index)
         {
-            File.Delete(GetPath(room, index));
+            File.Delete(GetPath(roomName, index));
         }
 
         /// <summary>

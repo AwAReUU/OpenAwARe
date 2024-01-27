@@ -54,9 +54,12 @@ namespace AwARe.Data.Logic
         {
             RemoveList();
 
-            List<Room> roomList = manager.LoadRoomList();
+            List<RoomSerialization> roomList = manager.RoomListSerialization.Rooms;
 
-            foreach (Room room in roomList)
+            if(roomList.Count == 0)
+                Debug.Log("Empty room list");
+
+            for(int i = 0; i < roomList.Count; i++)
             {
                 // create a new list item to display this list
                 GameObject itemObject = Instantiate(listItemObject, listItemObject.transform.parent);
@@ -64,7 +67,8 @@ namespace AwARe.Data.Logic
 
                 // Set the room of the item.
                 RoomListItem item = itemObject.GetComponent<RoomListItem>();
-                item.SetItem(room);
+                int index = i;
+                item.SetItem(i, roomList[i].RoomName);
                 list.Add(item);
             }
         }
@@ -82,18 +86,18 @@ namespace AwARe.Data.Logic
         /// <summary>
         /// Calls an instance of manager to start loading the room that has been clicked.
         /// </summary>
-        public void OnItemClick(Logic.Room room)
+        public void OnItemClick(int roomIndex)
         {
-            manager.StartLoadingRoom(room);
+            manager.StartLoadingRoom(roomIndex);
         }
 
         /// <summary>
         /// Deletes the given room.
         /// </summary>
         /// <param name="room">The room to delete.</param>
-        public void OnDeleteButtonClick(Logic.Room room)
+        public void OnDeleteButtonClick(int roomIndex)
         {
-            manager.DeleteRoom(room);
+            manager.DeleteRoom(roomIndex);
         }
 
         /// <summary>
@@ -102,7 +106,7 @@ namespace AwARe.Data.Logic
         /// </summary>
         public void OnConfirmNameButton()
         {
-            if (manager.Rooms.Where(obj => obj.RoomName == nameInput.text).Count() > 0)
+            if (manager.RoomListSerialization.Rooms.Where(obj => obj.RoomName == nameInput.text).Count() > 0)
                 Debug.LogError("This name already exists");
             else
             {

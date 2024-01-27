@@ -396,7 +396,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 3138366139598441702}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 3138366139598441703}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d025760a64e49e479287fe46ec8bb45, type: 3}
@@ -855,6 +855,11 @@ PrefabInstance:
       propertyPath: sceneCanvas
       value: 
       objectReference: {fileID: 1640323068}
+    - target: {fileID: 952778780584282331, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
+      propertyPath: roomListManager
+      value: 
+      objectReference: {fileID: 3138366139598441705}
     - target: {fileID: 1164344303911238166, guid: d4c46bfcf9edf094f9024b003f22eb7b,
         type: 3}
       propertyPath: m_Size
@@ -1229,8 +1234,43 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 4635521484540505370, guid: d4c46bfcf9edf094f9024b003f22eb7b, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2565106091806081052, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3138366139598441705}
   m_SourcePrefab: {fileID: 100100000, guid: d4c46bfcf9edf094f9024b003f22eb7b, type: 3}
+--- !u!1 &3138366139598441703 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2565106091806081052, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3138366139598441702}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3138366139598441704 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7624466021395011079, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3138366139598441702}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f134636311eb34bb2eb166ffe08b11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3138366139598441705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3138366139598441703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05e4777d02ba85247a059a5837454665, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screenshotManager: {fileID: 3138366139598441704}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

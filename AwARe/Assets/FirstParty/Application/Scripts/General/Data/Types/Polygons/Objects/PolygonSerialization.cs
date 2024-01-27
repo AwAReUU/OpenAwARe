@@ -302,7 +302,7 @@ namespace AwARe
 
             if (anchors_.Count < 2)
             {
-                // TODO: catch error -- er zijn niet genoeg anchors -- dit zou nooit voor moeten komen maar ja
+                Debug.LogError("Not enough anchors");
             }
             else
                 anchors = anchors_;
