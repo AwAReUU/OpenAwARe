@@ -53,6 +53,12 @@ namespace AwARe.IngredientList.Objects
             RemoveIngredients();
         }
 
+        public void FocusOnListTitle()
+        {
+            listTitle.onFocusSelectAll = true;
+            listTitle.Select();
+        }
+
         /// <summary>
         /// Update the text that displays the number of characters left available for the list name.
         /// </summary>

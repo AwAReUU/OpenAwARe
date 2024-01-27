@@ -112,7 +112,8 @@ namespace AwARe.IngredientList.Objects
         /// <param name="fromScreen"> The screen from which the IngredientListScreen is opened. </param>
         public void ChangeToIngredientListScreen(Logic.IngredientList list, GameObject fromScreen)
         {
-            fromScreen.SetActive(false);
+            if(fromScreen != null)
+                fromScreen.SetActive(false);
 
             SelectedEntry = null;
             SelectedList = list;
@@ -136,7 +137,8 @@ namespace AwARe.IngredientList.Objects
         /// <param name="fromScreen"> The screen from which the Ingredient Screen is opened. </param>
         public void ChangeToIngredientScreen(Entry entry, bool isNew, GameObject fromScreen)
         {
-            fromScreen.SetActive(false);
+            if(fromScreen != null)
+                fromScreen.SetActive(false);
 
             SelectedEntry = entry;
             SelectedIsNew = isNew;
@@ -177,12 +179,13 @@ namespace AwARe.IngredientList.Objects
         /// <summary>
         /// Adds a new, empty IngredientList to the overview and calls the fileHandler to save all lists.
         /// </summary>
-        public void CreateList()
+        public void CreateList(GameObject fromScreen = null)
         {
-            // TODO: let user pick list name --> add separate screen
-
-            Lists.Add(new Logic.IngredientList("MyList", new Dictionary<Ingredient, (float, QuantityType)>()));
-            fileHandler.SaveLists(Lists);
+            Logic.IngredientList list = new("NewList", new());
+            Lists.Add(list);
+            ChangesMade = true;
+            ChangeToIngredientListScreen(list, fromScreen);
+            ingredientListScreen.GetComponent<IngredientListScreen>().FocusOnListTitle();
         }
 
         /// <summary>

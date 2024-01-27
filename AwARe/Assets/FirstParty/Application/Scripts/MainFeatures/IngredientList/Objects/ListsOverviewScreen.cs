@@ -81,8 +81,7 @@ namespace AwARe.IngredientList.Objects
         /// </summary>
         public void OnAddListButtonClick()
         {
-            manager.CreateList();
-            DisplayLists();
+            manager.CreateList(this.gameObject);
         }
 
         /// <summary>
