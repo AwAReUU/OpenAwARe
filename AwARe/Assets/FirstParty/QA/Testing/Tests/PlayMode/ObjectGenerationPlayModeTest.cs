@@ -45,8 +45,9 @@ namespace AwARe
                "Empty list",
                 ingredients: new Dictionary<Ingredient, (float, QuantityType)>());
             Storage storage = Storage.Get();
+            storage.ActiveRoom = new TestRoom();
             storage.ActiveIngredientList = emptyList;
-
+            
             //Act & Assert: Retrieve ingredientList from storage, convert to list of renderables,
             //and place the renderables.
             Assert.DoesNotThrow(() => objectCreationManager.OnPlaceButtonClick());

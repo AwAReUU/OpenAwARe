@@ -19,7 +19,7 @@ namespace AwARe.Testing.PlayMode
         private RoomManager roomManager;
 
         [OneTimeSetUp, Description("Load the test scene once.")]
-        public void OneTimeSetup() => SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/RoomScan");
+        public void OneTimeSetup() => SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/Rooms");
 
         [UnitySetUp, Description("Reset the scene before each test. Obtain the PolygonManager")]
         public IEnumerator Setup()
@@ -63,9 +63,9 @@ namespace AwARe.Testing.PlayMode
             //arrange
             Data.Logic.Polygon polygon = new();
             polygon.points.Add(new Vector3(1, 0, 1));
-            polygon.points.Add(new Vector3(2, 0, 1));
-            polygon.points.Add(new Vector3(2, 0, 2));
-            polygon.points.Add(new Vector3(1, 0, 2));
+            polygon.points.Add(new Vector3(3, 0, 1));
+            polygon.points.Add(new Vector3(3, 0, 3));
+            polygon.points.Add(new Vector3(1, 0, 3));
             Data.Logic.Room room = new(polygon, new());
             roomManager.Room.Data = room;
 
@@ -76,8 +76,8 @@ namespace AwARe.Testing.PlayMode
             //arrange
             polygon = new();
             polygon.points.Add(new Vector3(1, 0, 1));
-            polygon.points.Add(new Vector3(2, 0, 1));
-            polygon.points.Add(new Vector3(2, 0, 2));
+            polygon.points.Add(new Vector3(3, 0, 1));
+            polygon.points.Add(new Vector3(3, 0, 3));
             room = new(polygon, new());
             roomManager.Room.Data = room;
 

@@ -81,8 +81,6 @@ namespace AwARe.RoomScan.Objects
             SwitchToState(State.RoomList);
         }
 
-        
-
         /// <summary>
         /// Called on create button click.
         /// </summary>
@@ -139,33 +137,33 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         public void OnSelectButtonClick()
         {
-            if (CurrentState == State.Scanning)
+            switch (CurrentState)
             {
-                polygonManager.TryAddPoint();
-            }
-            else if (CurrentState == State.SaveAnchoring)
-            {
-                anchorHandler.TryAddAnchor();
+                case State.Scanning:
+                    polygonManager.TryAddPoint();
+                    break;
+                case State.SaveAnchoring:
+                    anchorHandler.TryAddAnchor();
 
-                Texture2D screenshot = ui.screenshotManager.TakeScreenshot();
-                screenshots.Add(screenshot);
+                    Texture2D screenshot = ui.screenshotManager.TakeScreenshot();
+                    screenshots.Add(screenshot);
 
-                ui.DisplayAnchorSavingImage(screenshot);
+                    ui.DisplayAnchorSavingImage(screenshot);
 
-                SwitchToState(State.SaveAnchoringCheck);
-            }
-            else if (CurrentState == State.LoadAnchoring)
-            {
-                anchorHandler.TryAddAnchor();
-                screenshots.Add(ui.screenshotManager.TakeScreenshot());
+                    SwitchToState(State.SaveAnchoringCheck);
+                    break;
+                case State.LoadAnchoring:
+                    anchorHandler.TryAddAnchor();
+                    screenshots.Add(ui.screenshotManager.TakeScreenshot());
 
-                if (anchorHandler.SessionAnchors.Count < anchorHandler.AnchorCount)
-                    ui.DisplayAnchorLoadingImage(anchorHandler.SessionAnchors.Count);
-                else
-                {
-                    Data.Logic.Room room = roomListManager.LoadRoom(SerRoom, anchorHandler.SessionAnchors);
-                    GoToRoom(room);
-                }
+                    if (anchorHandler.SessionAnchors.Count < anchorHandler.AnchorCount)
+                        ui.DisplayAnchorLoadingImage(anchorHandler.SessionAnchors.Count);
+                    else
+                    {
+                        Data.Logic.Room room = roomListManager.LoadRoom(SerRoom, anchorHandler.SessionAnchors);
+                        GoToRoom(room);
+                    }
+                    break;
             }
         }
 
@@ -226,7 +224,7 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Deletes the data and screenshots of the given room.
         /// </summary>
-        /// <param name="room">The room that is being deleted.</param>
+        /// <param name="roomIndex">The index of the room that is being deleted.</param>
         public void DeleteRoom(int roomIndex)
         {
             roomListManager.DeleteRoom(roomIndex, anchorHandler.AnchorCount);
