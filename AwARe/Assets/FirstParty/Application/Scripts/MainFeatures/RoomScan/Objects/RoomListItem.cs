@@ -11,6 +11,9 @@ using UnityEngine;
 
 namespace AwARe
 {
+    /// <summary>
+    /// An object for representaing a room in a list.
+    /// </summary>
     public class RoomListItem : MonoBehaviour
     {
         // The parent element
@@ -26,8 +29,8 @@ namespace AwARe
         /// <summary>
         /// Sets this item to represent the given result.
         /// </summary>
-        /// <param name="index">The index in the item list.</param>
-        /// <param name="room">The room represented.</param>
+        /// <param name="roomIndex">The index in the item list.</param>
+        /// <param name="roomName">The name of the room represented.</param>
         public void SetItem(int roomIndex, string roomName)
         {
             this.roomIndex = roomIndex;

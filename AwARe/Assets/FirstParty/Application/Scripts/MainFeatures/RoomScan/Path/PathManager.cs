@@ -27,11 +27,13 @@ namespace AwARe.RoomScan.Path.Objects
 
         // Objects to control
         [SerializeField] private PathVisualizer pathVisualizer;
-        //[SerializeField] private VisualizePath pathVisualizer; //TODO: Get out of polygonScanning
 
-        // Test Objects for development
+        // Test Object for development
         public Polygon testPolygon;
 
+        /// <summary>
+        /// The path.
+        /// </summary>
         public PathData path;
 
         /// <summary>
@@ -42,9 +44,6 @@ namespace AwARe.RoomScan.Path.Objects
         /// </value>
         public State CurrentState { get; private set; }
 
-        public bool IsActive =>
-            CurrentState is State.Default or State.Done;
-
         /// <summary>
         /// Gets the currently active room.
         /// </summary>
@@ -53,6 +52,9 @@ namespace AwARe.RoomScan.Path.Objects
         /// </value>
         public Room Room { get => manager.Room; private set => manager.Room = value; }
 
+        /// <summary>
+        /// Activates the popup and starts the path generation process.
+        /// </summary>
         public void StartPathGen()
         {
             //activate the popup
@@ -60,6 +62,9 @@ namespace AwARe.RoomScan.Path.Objects
             StartCoroutine(MakePathAndRemovePopup());
         }
 
+        /// <summary>
+        /// Creates the path and removes the popup.
+        /// </summary>
         private IEnumerator MakePathAndRemovePopup()
         {
             yield return null;
@@ -67,6 +72,10 @@ namespace AwARe.RoomScan.Path.Objects
             SwitchToState(State.Default);
         }
 
+        /// <summary>
+        /// Creates the path.
+        /// </summary>
+        /// <returns>The path.</returns>
         public PathData GenerateAndDrawPath()
         {
             PathGenerator startstate = new();
@@ -79,17 +88,11 @@ namespace AwARe.RoomScan.Path.Objects
             {
                 List<Vector3> points = new()
                 {
-                    //new(0.3290718f, 0, -1.92463f),
-                    //new(-0.5819738f, 0, -2.569284f),
-                    //new(3.357841f, 0, -3.58952f),
-                    //new(3.824386f, 0, -2.0016f),
-
                     new(-3.330043f, 0, -3.042626f),
                     new(-2.702615f, 0, -5.299197f),
                     new(-1.407629f, 0, -4.649026f),
                     new(-0.4994112f, 0, -2.780823f),
                     new(-2.009388f, 0, -0.5163946f),
-
                 };
 
                 testPolygon.Data = new(points, 1f);

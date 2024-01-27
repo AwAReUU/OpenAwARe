@@ -63,6 +63,11 @@ namespace AwARe.RoomScan.Polygons.Objects
                 UpdateLines();
         }
 
+        public void Reset()
+        {
+            Destroy(activePolygonObject);
+        }
+
         /// <summary>
         /// Starts the drawing process.
         /// </summary>
@@ -80,11 +85,6 @@ namespace AwARe.RoomScan.Polygons.Objects
             activeLine.gameObject.SetActive(true);
             closeLine.gameObject.SetActive(true);
             UpdateLines();
-        }
-
-        public void Reset()
-        {
-            Destroy(activePolygonObject);
         }
 
         /// <summary>

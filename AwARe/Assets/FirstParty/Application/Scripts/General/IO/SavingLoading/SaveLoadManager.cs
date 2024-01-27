@@ -18,6 +18,9 @@ namespace AwARe
     {
         readonly string filePath;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SaveLoadManager"/> class.
+        /// </summary>
         public SaveLoadManager()
         {
             filePath = Application.persistentDataPath;
@@ -31,7 +34,6 @@ namespace AwARe
         /// </summary>
         /// <param name="fileName">The name of the file to save the JSON data to.</param>
         /// <param name="data">The object containing the data to be serialized to JSON.</param>
-        /// 
         public void SaveDataToJson<T>(string fileName, T data)
         {
             if (string.IsNullOrEmpty(filePath))
@@ -50,8 +52,6 @@ namespace AwARe
                 Debug.LogError($"Error writing to file: {ex.Message}");
             }
         }
-
-
 
         /// <summary>
         /// Saves a room list to a JSON file.

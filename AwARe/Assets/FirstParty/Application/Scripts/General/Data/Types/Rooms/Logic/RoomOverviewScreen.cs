@@ -6,9 +6,7 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
-using System.Linq;
 using AwARe.RoomScan.Objects;
-using TMPro;
 using UnityEngine;
 
 namespace AwARe.Data.Logic
@@ -63,7 +61,6 @@ namespace AwARe.Data.Logic
 
                 // Set the room of the item.
                 RoomListItem item = itemObject.GetComponent<RoomListItem>();
-                int index = i;
                 item.SetItem(i, roomList[i].RoomName);
                 list.Add(item);
             }
@@ -82,6 +79,7 @@ namespace AwARe.Data.Logic
         /// <summary>
         /// Calls an instance of manager to start loading the room that has been clicked.
         /// </summary>
+        /// <param name="roomIndex">The index of the room to delete.</param>
         public void OnItemClick(int roomIndex)
         {
             manager.StartLoadingRoom(roomIndex);
@@ -90,7 +88,7 @@ namespace AwARe.Data.Logic
         /// <summary>
         /// Deletes the given room.
         /// </summary>
-        /// <param name="room">The room to delete.</param>
+        /// <param name="roomIndex">The index of the room to delete.</param>
         public void OnDeleteButtonClick(int roomIndex)
         {
             manager.DeleteRoom(roomIndex);

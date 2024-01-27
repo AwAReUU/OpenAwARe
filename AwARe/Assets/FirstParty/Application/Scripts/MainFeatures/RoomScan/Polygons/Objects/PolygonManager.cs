@@ -41,9 +41,6 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </value>
         public State CurrentState { get; private set; }
 
-        public bool IsActive =>
-            CurrentState is State.Drawing or State.SettingHeight;
-
         /// <summary>
         /// Gets the currently active room.
         /// </summary>
@@ -77,34 +74,18 @@ namespace AwARe.RoomScan.Polygons.Objects
         }
 
         /// <summary>
-        /// Called on create button click; Starts a new Polygon scan.
+        /// Adds a point if the current state is drawing.
         /// </summary>
-        public void OnCreateButtonClick() =>
-            StartScanning();
-
-        /// <summary>
-        /// Called on reset button click; Clears the room and starts a new Polygon scan.
-        /// </summary>
-        public void OnResetButtonClick()
-        {
-            Data.Logic.Room roomData = new();
-            Room.Data = roomData;
-            polygonDrawer.Reset();
-            StartScanning();
-        }
-
         public void TryAddPoint()
         {
             if (CurrentState == State.Drawing)
-            {
                 polygonDrawer.AddPoint();
-            }
         }
 
         /// <summary>
-        /// Called on apply button click; adds and draws the current Polygon.
+        /// Finishes drawing the current Polygon.
         /// </summary>
-        public void OnApplyButtonClick()
+        public void FinishPolygon()
         {
             if (polygonDrawer.Polygon.points.Count > 0)
             {
@@ -118,8 +99,6 @@ namespace AwARe.RoomScan.Polygons.Objects
                 activePolygonMesh.UpdateMesh();
                 activePolygonLine = activePolygon.GetComponent<Liner>();
                 activePolygonLine.UpdateLine();
-
-                SwitchToState(State.SettingHeight);
             }
             else
             {
@@ -128,39 +107,15 @@ namespace AwARe.RoomScan.Polygons.Objects
         }
 
         /// <summary>
-        /// Called on confirm button click; sets the height of the Polygon.
+        /// Finishes drawing the polygon mesh.
         /// </summary>
-        public void OnConfirmButtonClick()
+        private void FinishPolygonMesh()
         {
-            if(CurrentState == State.Drawing)
-            {
-                OnApplyButtonClick();
-            }
-            else if(CurrentState == State.SettingHeight)
-            {
-                AddPolygon(activePolygon);
-                SwitchToState(State.AskForNegPolygons);
-
-                // Set color for the finished polygon
-                Color polygonColor = Color.green; // You can choose any color
-                Mesh mesh = activePolygonMesh.meshFilter.mesh;
-                mesh.colors = mesh.vertices.Select(_ => polygonColor).ToArray();
-                activePolygonMesh.meshFilter.mesh = mesh;
-                activePolygonMesh.UpdateMesh();
-            }
-            else if(CurrentState == State.AskForNegPolygons)
-            {
-                StartScanning();
-            }
-        }
-
-        /// <summary>
-        /// Called on changing the slider; sets the height of the Polygon mesh.
-        /// </summary>
-        /// <param name="height">height the slider is currently at.</param>
-        public void OnHeightSliderChanged(float height)
-        {
-            activePolygon.Data.height = height;
+            // Set color for the finished polygon
+            Color polygonColor = Color.green; // You can choose any color
+            Mesh mesh = activePolygonMesh.meshFilter.mesh;
+            mesh.colors = mesh.vertices.Select(_ => polygonColor).ToArray();
+            activePolygonMesh.meshFilter.mesh = mesh;
             activePolygonMesh.UpdateMesh();
         }
 
@@ -174,9 +129,59 @@ namespace AwARe.RoomScan.Polygons.Objects
             manager.SetActive();
         }
 
-        public bool IsFirstPolygon()
+        /// <summary>
+        /// Whether the polygon being drawn is the positive polygon.
+        /// </summary>
+        /// <returns>Whether positivePolygon is null (meaning no polygon has been added to the room yet).</returns>
+        public bool IsFirstPolygon() =>
+            Room.Data.PositivePolygon == null;
+
+        /// <summary>
+        /// Called on create button click; Starts a new Polygon scan.
+        /// </summary>
+        public void OnCreateButtonClick() =>
+            StartScanning();
+
+        /// <summary>
+        /// Called on reset button click; Clears the room and starts a new Polygon scan.
+        /// </summary>
+        public void OnResetButtonClick()
         {
-            return Room.Data.PositivePolygon == null;
+            Room.Data = new();
+            polygonDrawer.Reset();
+            StartScanning();
+        }
+
+        /// <summary>
+        /// Called on confirm button click.
+        /// </summary>
+        public void OnConfirmButtonClick()
+        {
+            switch (CurrentState)
+            {
+                case State.Drawing:
+                    FinishPolygon();
+                    SwitchToState(State.SettingHeight);
+                    break;
+                case State.SettingHeight:
+                    AddPolygon(activePolygon);
+                    FinishPolygonMesh();
+                    SwitchToState(State.AskForNegPolygons);
+                    break;
+                case State.AskForNegPolygons:
+                    StartScanning();
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Called on changing the slider; sets the height of the Polygon mesh.
+        /// </summary>
+        /// <param name="height">height the slider is currently at.</param>
+        public void OnHeightSliderChanged(float height)
+        {
+            activePolygon.Data.height = height;
+            activePolygonMesh.UpdateMesh();
         }
     }
 }

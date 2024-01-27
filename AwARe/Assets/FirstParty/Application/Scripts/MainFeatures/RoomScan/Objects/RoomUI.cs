@@ -86,7 +86,6 @@ namespace AwARe.RoomScan.Objects
                     return;
                 }
 
-                //UnityEngine.Debug.Log(roomState.ToString());
                 switch (roomState)
                 {
                     case State.SaveAnchoring:
