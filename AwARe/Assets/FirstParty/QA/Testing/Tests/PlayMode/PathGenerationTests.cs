@@ -22,16 +22,15 @@ namespace AwARe.Testing.PlayMode
         private RoomManager roomManager;
         private PathManager pathManager;
 
-        [OneTimeSetUp, Description("Load the test scene once.")]
-        public void OneTimeSetup() => SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/Rooms");
-
-        [UnitySetUp, Description("Reset the scene before each test. Obtain the PolygonManager")]
+        [UnitySetUp, Description("Reset the scene before each test. Obtain the RoomManager")]
         public IEnumerator Setup()
         {
-            yield return null; //skip one frame to ensure the scene has been loaded.
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/Rooms");
+            SceneManager.LoadScene("FirstParty/Application/Scenes/Support/GeneralSupport", LoadSceneMode.Additive);
+            SceneManager.LoadScene("FirstParty/Application/Scenes/Support/ARSupport", LoadSceneMode.Additive);
             yield return null; //skip one frame to ensure the scene has been reloaded.
             roomManager = GameObject.Find("RoomManager").GetComponent<RoomManager>();
+            yield return null;
         }
 
         [UnityTest, Description("Program should not crash when generating a path with the expected input")]

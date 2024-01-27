@@ -300,6 +300,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pointer
       objectReference: {fileID: 0}
+    - target: {fileID: 731774212705481670, guid: c1dfb2951fd5247d189e0f156420bea2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 741696555330217653, guid: c1dfb2951fd5247d189e0f156420bea2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1316,6 +1321,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1690223556121449838, guid: 97a22c8d200a71e41ab087637c121656,
+        type: 3}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2119346716440524384, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1349,7 +1359,7 @@ PrefabInstance:
     - target: {fileID: 2390734181708494716, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00000333786
+      value: -0.00000055840314
       objectReference: {fileID: 0}
     - target: {fileID: 3189784242092857957, guid: 97a22c8d200a71e41ab087637c121656,
         type: 3}
