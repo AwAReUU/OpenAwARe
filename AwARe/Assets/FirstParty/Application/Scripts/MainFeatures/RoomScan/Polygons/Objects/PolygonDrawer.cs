@@ -55,7 +55,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// <value>
         /// The polygon currently being drawn.
         /// </value>
-        private Data.Logic.Polygon Polygon => activePolygon.Data;
+        public Data.Logic.Polygon Polygon => activePolygon.Data;
 
         private void Update()
         {

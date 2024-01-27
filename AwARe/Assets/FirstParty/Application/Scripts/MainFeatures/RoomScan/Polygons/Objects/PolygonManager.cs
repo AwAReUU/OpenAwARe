@@ -111,10 +111,10 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// </summary>
         public void OnApplyButtonClick()
         {
-            polygonDrawer.FinishDrawing(out Data.Logic.Polygon data);
-
-            if (data.points.Count > 0)
+            if (polygonDrawer.Polygon.points.Count > 0)
             {
+                polygonDrawer.FinishDrawing(out Data.Logic.Polygon data);
+
                 activePolygon = Instantiate(polygon, transform);
                 activePolygon.gameObject.SetActive(true);
                 activePolygon.Data = data;
@@ -128,7 +128,7 @@ namespace AwARe.RoomScan.Polygons.Objects
             }
             else
             {
-                SwitchToState(State.Done);
+                throw new System.Exception("Empty polygon");
             }
         }
 

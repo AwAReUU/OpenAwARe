@@ -121,11 +121,6 @@ namespace AwARe.RoomScan.Objects
 
                 switch (polygonState)
                 {
-                    case Polygons.State.Done:
-                        saveBtn = true;
-                        noBtn = true;
-                        createBtn = true;
-                        break;
                     case Polygons.State.SettingHeight:
                         heightSlider = true;
                         confirmBtn = true;
