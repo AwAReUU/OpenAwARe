@@ -8,6 +8,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using AwARe.Server.Logic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -68,8 +69,8 @@ namespace AwARe
             visibilitylogsec = false;
 
             // character limit for email input fields (emails can be much longer)
-            registerEmailInputField.characterLimit=80;
-            loginEmailInputField.characterLimit=80;
+            registerEmailInputField.characterLimit = 80;
+            loginEmailInputField.characterLimit = 80;
 
             // character limit for input fields
             SetCharacterLimit(registerPasswordInputField);
@@ -92,9 +93,20 @@ namespace AwARe
         /// <summary>
         /// Handles the logic when the login button is clicked.
         /// </summary>
-        public void OnLoginButtonClick()
+        public async void OnLoginButtonClick()
         {
-           // TODO for checking if password and email correspond with credentials saved on the server
+            // TODO for checking if password and email correspond with credentials saved on the server
+
+            await Client.GetInstance().Login(new User
+            {
+                email = this.loginEmailInputField.text,
+                password = this.loginPasswordInputField.text,
+            });
+
+            if (!await Client.GetInstance().CheckLogin())
+            {
+                Debug.LogError("Failed to login");
+            }
         }
 
         /// <summary>
@@ -133,10 +145,10 @@ namespace AwARe
         /// </summary>
         public void OnRSecurityButtonClick()
         {
-            Image securityimage1=securityButtonRegister.transform.GetChild(0).GetComponent<Image>();
-            
+            Image securityimage1 = securityButtonRegister.transform.GetChild(0).GetComponent<Image>();
 
-            if (visibilityregsec==false)
+
+            if (visibilityregsec == false)
             {
                 registerPasswordInputField.contentType = TMP_InputField.ContentType.Standard;
                 securityimage1.sprite = seen;
@@ -162,7 +174,7 @@ namespace AwARe
         {
             Image securityimage2 = securityButtonLogin.transform.GetChild(0).GetComponent<Image>();
 
-            if (visibilitylogsec==false)
+            if (visibilitylogsec == false)
             {
                 loginPasswordInputField.contentType = TMP_InputField.ContentType.Standard;
                 securityimage2.sprite = seen;
@@ -232,6 +244,15 @@ namespace AwARe
                 warningIncorrectEmail.SetActive(true);
                 return;
             }
+
+            Client.GetInstance().Register(new AccountDetails
+            {
+                firstName = registerfirstname,
+                lastName = registerlastname,
+                email = registeremail,
+                password = registerpassword,
+                confirmPassword = registerconfirmpassword,
+            });
 
         }
 

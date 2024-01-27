@@ -32,37 +32,6 @@ namespace AwARe.Server.Logic
     /// </summary>
     public class Client
     {
-        // ----------------------------------------------------------------------------
-        // Static methods. No login needed, so it is not part of the singleton instance:
-
-        /// <summary>
-        /// Register an account on the server.
-        /// </summary>
-        /// <returns>
-        /// Returns true if registration succeeded.
-        /// </returns>
-        public static Task<bool> Register(string adress, AccountDetails account)
-        {
-            string url = adress + "/auth/register";
-
-            return AwaitRSGPromise<bool>(ret =>
-            {
-                RestClient.Post(url, account).Then(response =>
-                {
-                    Debug.Log("[client]: Registration is succesfull");
-
-                    ret.SetResult(true);
-                }).Catch(err =>
-                {
-                    Debug.LogError("[client]: Failed to register user: " + err.Message);
-                    ret.SetResult(false);
-                });
-            });
-        }
-
-        // ----------------------------------------------------------------------------
-        // Singleton:
-
         /// <value> 
         /// The singleton instance.
         /// </value> 
@@ -121,6 +90,32 @@ namespace AwARe.Server.Logic
         }
 
         /// <summary>
+        /// Register an account on the server.
+        /// </summary>
+        /// <returns>
+        /// Returns true if registration succeeded.
+        /// </returns>
+        public Task<bool> Register(AccountDetails account)
+        {
+            string url = adress + "/auth/register";
+
+            return AwaitRSGPromise<bool>(ret =>
+            {
+                RestClient.Post(url, account).Then(response =>
+                {
+                    Debug.Log("[client]: Registration is succesfull");
+
+                    ret.SetResult(true);
+                }).Catch(err =>
+                {
+                    Debug.LogError("[client]: Failed to register user: " + err.Message);
+                    ret.SetResult(false);
+                });
+            });
+        }
+
+
+        /// <summary>
         /// Login on the server.
         /// </summary>
         /// <returns>
@@ -149,7 +144,6 @@ namespace AwARe.Server.Logic
                     ret.SetResult(false);
                 });
             });
-            // return false;
         }
 
         /// <summary>

@@ -44,8 +44,6 @@ namespace AwARe.Database.Logic
                 id = id
             }).Then((res) =>
             {
-                Debug.Log(res); // {"ResourceID":1,"Name":"Water","Type":"Water","GramsPerModel":null,"ModelID":1}
-
                 ResourceResponse response = JsonUtility.FromJson<ResourceResponse>(res);
                 ResourceType resourceType = ResourceType.Plant;
 

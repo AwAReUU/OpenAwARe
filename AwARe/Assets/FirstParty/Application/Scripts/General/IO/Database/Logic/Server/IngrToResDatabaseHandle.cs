@@ -42,8 +42,6 @@ namespace AwARe.Database.Logic
                 id = ingredient.IngredientID
             }).Then((res) =>
             {
-                Debug.Log(res); // [{"IngredientID":12,"ResourceID":1,"ResPerIngr":1000},{"IngredientID":12,"ResourceID":12,"ResPerIngr":1},{"IngredientID":12,"ResourceID":17,"ResPerIngr":10}]
-
                 RequirementResponse[] responses = JsonHelper.FromJsonString<RequirementResponse>("{ \"Items\": " + res + "}");
                 var requirements = new Dictionary<int, float>();
                 foreach (RequirementResponse req in responses)

@@ -26,6 +26,11 @@ namespace AwARe.Database.Logic
             public int id;
         }
 
+        [Serializable]
+        struct ModelResponse
+        {
+        }
+
         public Task<Model> GetModel(int id)
         {
             var model = Client.GetInstance().Get<GetModelRequestBody, Model>("ingr/getModel", new GetModelRequestBody
@@ -35,9 +40,7 @@ namespace AwARe.Database.Logic
             {
                 Debug.Log(res);
 
-                // ResourceResponse response = JsonUtility.FromJson<ResourceResponse>(res);
-                // ResourceType resourceType = ResourceType.Plant;
-
+                ModelResponse response = JsonUtility.FromJson<ModelResponse>(res);
 
                 return null;
 
