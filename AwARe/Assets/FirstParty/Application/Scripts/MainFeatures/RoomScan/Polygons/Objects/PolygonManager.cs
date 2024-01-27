@@ -10,8 +10,6 @@ using System.Linq;
 using AwARe.Data.Objects;
 using AwARe.Objects;
 using AwARe.RoomScan.Objects;
-using AwARe.UI;
-using AwARe.UI.Objects;
 using UnityEngine;
 
 namespace AwARe.RoomScan.Polygons.Objects
@@ -53,9 +51,6 @@ namespace AwARe.RoomScan.Polygons.Objects
         /// A Room represented by the polygons.
         /// </value>
         public Room Room { get => manager.Room; private set => manager.Room = value; }
-
-        void Start() =>
-            SwitchToState(State.Default);
 
         /// <summary>
         /// Add the given polygon to the room.

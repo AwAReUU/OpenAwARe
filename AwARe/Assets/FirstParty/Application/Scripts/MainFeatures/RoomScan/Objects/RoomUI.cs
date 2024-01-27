@@ -65,7 +65,6 @@ namespace AwARe.RoomScan.Objects
                 heightSlider = false,
                 pointer = false,
                 pathPopup = false,
-                saveBtn = false,
                 roomlist = false,
                 displayScreenshot = false,
                 noBtn = false,
@@ -112,7 +111,7 @@ namespace AwARe.RoomScan.Objects
                     case State.Saving:
                         nameInputWin = true;
                         return;
-                    case State.Loading:
+                    case State.RoomList:
                         roomlist = true;
                         createBtn = true;
                         return;
@@ -137,10 +136,6 @@ namespace AwARe.RoomScan.Objects
                         negPolygonsText = true;
                         confirmBtn = true;
                         noBtn = true;
-                        break;
-                    case Polygons.State.Default:
-                    default:
-                        createBtn = true;
                         break;
                 }
             }
@@ -227,13 +222,6 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnHeightSliderChanged() =>
             manager.OnHeightSliderChanged(heightSlider.value);
-
-        /// <summary>
-        /// Called on load button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnLoadButtonClick() =>
-            manager.OnLoadButtonClick();
 
         /// <summary>
         /// Called on no button click.
