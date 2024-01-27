@@ -81,6 +81,8 @@ namespace AwARe.RoomScan.Objects
             SwitchToState(State.RoomList);
         }
 
+        
+
         /// <summary>
         /// Called on create button click.
         /// </summary>
@@ -224,7 +226,7 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Deletes the data and screenshots of the given room.
         /// </summary>
-        /// <param name="roomIndex">The index of the room that is being deleted.</param>
+        /// <param name="room">The room that is being deleted.</param>
         public void DeleteRoom(int roomIndex)
         {
             roomListManager.DeleteRoom(roomIndex, anchorHandler.AnchorCount);
