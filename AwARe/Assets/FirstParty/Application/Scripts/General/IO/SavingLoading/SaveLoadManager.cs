@@ -51,8 +51,6 @@ namespace AwARe
             }
         }
 
-
-
         /// <summary>
         /// Saves a room list to a JSON file.
         /// </summary>
@@ -62,31 +60,22 @@ namespace AwARe
         {
             SaveDataToJson(fileName, roomList);
         }
+
         /// <summary>
         /// Loads a room list from a JSON file.
         /// </summary>
         /// <param name="fileName">The name of the JSON file to load data from.</param>
         /// <returns>The deserialized room list.</returns>
-
         public RoomListSerialization LoadRooms(string fileName)
         {
             RoomListSerialization roomListSerialization = LoadDataFromJson<RoomListSerialization>(fileName);
-
-            if (roomListSerialization == null)
-            {
-                //Debug.LogError($"Failed to load RoomListSerialization from file: {fileName}");
-            }
-            else
-            {
-                //Debug.Log($"Loaded RoomListSerialization: {JsonConvert.SerializeObject(roomListSerialization)}");
-            }
 
             return roomListSerialization;
         }
 
 
         /// <summary>
-        /// Loads data of type T from a JSON file with the specified fileName using the save load manager.
+        /// Loads data of type T from a JSON file with the specified fileName.
         /// </summary>
         /// <typeparam name="T">Type of data to load.</typeparam>
         /// <param name="fileName">The name of the JSON file to load data from.</param>
