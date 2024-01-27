@@ -38,11 +38,6 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private GameObject roomBase;
 
         /// <summary>
-        /// The state the scene should start in.
-        /// </summary>
-        public State startState = State.Default;
-
-        /// <summary>
         /// A serialized room list.
         /// </summary>
         public RoomListSerialization RoomListSerialization => roomListManager.GetSerRoomList();
@@ -83,7 +78,7 @@ namespace AwARe.RoomScan.Objects
             // Instantiate a room to construct.
             Room = Instantiate(roomBase, transform).GetComponent<Room>();
 
-            SwitchToState(startState);
+            SwitchToState(State.RoomList);
         }
 
         
@@ -93,7 +88,7 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         public void OnCreateButtonClick()
         {
-            if (CurrentState == State.Default || CurrentState == State.AskForSave || CurrentState == State.Loading)
+            if (CurrentState == State.AskForSave || CurrentState == State.RoomList)
             {
                 SwitchToState(State.Scanning);
                 polygonManager.OnCreateButtonClick();
@@ -247,7 +242,7 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnLoadButtonClick()
         {
-            SwitchToState(State.Loading);
+            SwitchToState(State.RoomList);
         }
 
         /// <summary>
@@ -299,11 +294,10 @@ namespace AwARe.RoomScan.Objects
     /// </summary>
     public enum State
     {
-        Default,
         Scanning,
         AskForSave,
         Saving,
-        Loading,
+        RoomList,
         SaveAnchoring,
         SaveAnchoringCheck,
         LoadAnchoring
