@@ -397,7 +397,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2088494785}
+      objectReference: {fileID: 446709230}
     - target: {fileID: 2700549126558272569, guid: 4fc43b1731833194a92b3f3065bc2465,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -446,12 +446,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4385064017757354918, guid: 4fc43b1731833194a92b3f3065bc2465,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2088494785}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fc43b1731833194a92b3f3065bc2465, type: 3}
+--- !u!114 &446709230 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 610158231703965253, guid: 4fc43b1731833194a92b3f3065bc2465,
+    type: 3}
+  m_PrefabInstance: {fileID: 446709229}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088494783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a94c9dae6719384e99867c336daa1fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &472832286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -944,19 +952,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 446709229}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2088494785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2088494783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a94c9dae6719384e99867c336daa1fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  questionnaireObject: {fileID: 0}
 --- !u!1 &2113072834
 GameObject:
   m_ObjectHideFlags: 0

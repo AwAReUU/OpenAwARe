@@ -105,7 +105,7 @@ namespace AwARe.Questionnaire.Objects
             }
             else
             {
-                Debug.LogError("filehandler or questionnaireObject is null.");
+                Debug.LogError("questionnaireObject is null.");
             }
         }
 
