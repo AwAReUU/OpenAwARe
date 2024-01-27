@@ -24,7 +24,9 @@ namespace AwARe.RoomScan.Objects
         {
             saveLoadManager = new();
         }
-
+        /// <summary>
+        /// Saves the room by adding the Room to the local save file and the serialized rooms list if the room doesn't already exist
+        /// </summary>
         public void SaveRoom(Data.Logic.Room room, List<Vector3> anchors, List<Texture2D> screenshots)
         {
             int index = RoomNameIndex(room.RoomName);
@@ -34,7 +36,9 @@ namespace AwARe.RoomScan.Objects
             else
                 AddRoom(room, anchors, screenshots);
         }
-
+        /// <summary>
+        /// Deletes the room by removing the Room from the local save file and the serialized rooms list 
+        /// </summary>
         public void DeleteRoom(int roomIndex, int anchorCount)
         {
             string roomName = GetSerRoomList().Rooms[roomIndex].RoomName;
@@ -46,6 +50,9 @@ namespace AwARe.RoomScan.Objects
             saveLoadManager.SaveRoomList("rooms", RoomListSerialization);
         }
 
+        /// <summary>
+        /// Updates the room by modifying the Room in the local save file and the serialized rooms list.
+        /// </summary>
         public void UpdateRoom(Data.Logic.Room room, int index, List<Vector3> anchors, List<Texture2D> screenshots)
         {
             for (var i = 0; i < screenshots.Count; i++)
@@ -55,6 +62,9 @@ namespace AwARe.RoomScan.Objects
             saveLoadManager.SaveRoomList("rooms", RoomListSerialization);
         }
 
+        /// <summary>
+        /// Adds a new room by saving the Room to the local save file and adding it to the serialized rooms list.
+        /// </summary>
         public void AddRoom(Data.Logic.Room room, List<Vector3> anchors, List<Texture2D> screenshots)
         {
             for(var i = 0; i < screenshots.Count; i++)
@@ -93,6 +103,11 @@ namespace AwARe.RoomScan.Objects
             return RoomListSerialization;
         }
 
+        /// <summary>
+        /// Finds the index of a room with the given name in the serialized room list.
+        /// </summary>
+        /// <param name="name">The name of the room.</param>
+        /// <returns>The index of the room in the list or -1 if not found.</returns>
         private int RoomNameIndex(string name)
         {
             List<RoomSerialization> roomList = RoomListSerialization.Rooms;

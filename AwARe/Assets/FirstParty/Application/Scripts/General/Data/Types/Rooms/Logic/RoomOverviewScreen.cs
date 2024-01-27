@@ -13,11 +13,10 @@ namespace AwARe.Data.Logic
 {
     /// <summary>
     /// <para>
-    ///     Handles the UI of the ingredient list overview screen.
+    ///     Handles the UI of the RoomOverviewScreen screen.
     /// </para>
     /// <para>
-    ///     Shows an overview of all <see cref="IngredientList"/>s that have been created and saved by the user.
-    ///     Allows the user to select a list to edit and tick a checkbox of the list they want to be visualized in AR.
+    ///     Shows an overview of all <see cref="RoomListItem"/>s that have been created and saved by the user.
     /// </para>
     /// </summary>
     public class RoomOverviewScreen : MonoBehaviour
