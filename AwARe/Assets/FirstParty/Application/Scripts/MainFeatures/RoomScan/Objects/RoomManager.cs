@@ -175,6 +175,12 @@ namespace AwARe.RoomScan.Objects
                     SwitchToState(State.SaveAnchoring);
                 }
             }
+            else if(CurrentState == State.AskForSave)
+            {
+                sessionAnchors.Clear();
+                screenshots.Clear();
+                SwitchToState(State.SaveAnchoring);
+            }
         }
 
         /// <summary>
@@ -230,13 +236,6 @@ namespace AwARe.RoomScan.Objects
             {
                 SwitchToState(State.AskForSave);
             }
-        }
-
-        [ExcludeFromCoverage]
-        public void OnSaveButtonClick()
-        {
-            sessionAnchors.Clear();
-            SwitchToState(State.SaveAnchoring);
         }
 
         /// <summary>

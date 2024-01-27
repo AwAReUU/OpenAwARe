@@ -34,7 +34,6 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private Slider heightSlider;
         [SerializeField] private Pointer pointer;
         [SerializeField] private GameObject pathLoadingPopup;
-        [SerializeField] private GameObject saveButton;
         [SerializeField] private GameObject selectPointButton;
         [SerializeField] private GameObject roomlistscreen;
         [SerializeField] private GameObject nameInputWindow;
@@ -101,7 +100,7 @@ namespace AwARe.RoomScan.Objects
                         noBtn = true;
                         return;
                     case State.AskForSave:
-                        saveBtn = true;
+                        confirmBtn = true;
                         noBtn = true;
                         askSaveText = true;
                         return;
@@ -156,7 +155,6 @@ namespace AwARe.RoomScan.Objects
             this.pointer.gameObject.SetActive(pointer);
             roomlistscreen.SetActive(roomlist);
             pathLoadingPopup.SetActive(pathPopup);
-            saveButton.SetActive(saveBtn);
             noButton.SetActive(noBtn);
             nameInputWindow.SetActive(nameInputWin);
             this.findPointText.SetActive(findPointText);
@@ -229,13 +227,6 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnHeightSliderChanged() =>
             manager.OnHeightSliderChanged(heightSlider.value);
-
-        /// <summary>
-        /// Called on save button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnSaveButtonClick() =>
-            manager.OnSaveButtonClick();
 
         /// <summary>
         /// Called on load button click.
