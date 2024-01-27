@@ -47,7 +47,7 @@ namespace AwARe.RoomScan.Objects
 
         public RoomListSerialization RoomListSerialization => roomListManager.GetSerRoomList();
 
-        private readonly int anchorCount = 2;
+        private readonly int anchorMaxCount = 2;
 
         /// <summary>
         /// Gets the current state of the room scanner.
@@ -103,7 +103,7 @@ namespace AwARe.RoomScan.Objects
         /// <param name="anchorVisual"></param>
         public void TryAddAnchor(Vector3 anchorPoint, GameObject anchorVisual = null)
         {
-            if (sessionAnchors.Count >= anchorCount) return;
+            if (sessionAnchors.Count >= anchorMaxCount) return;
 
             sessionAnchors.Add(anchorPoint);
             if (anchorVisual != null)
@@ -166,7 +166,7 @@ namespace AwARe.RoomScan.Objects
             else if (CurrentState == State.SaveAnchoringCheck)
             {
                 roomListManager.screenshotManager.HideScreenshot();
-                if (sessionAnchors.Count >= anchorCount)
+                if (sessionAnchors.Count >= anchorMaxCount)
                 {
                     SwitchToState(State.Saving);
                 }
@@ -208,7 +208,7 @@ namespace AwARe.RoomScan.Objects
                 TryAddAnchor(pointer.PointedAt, anchorVisual);
                 screenshots.Add(ui.screenshotManager.TakeScreenshot());
 
-                if (sessionAnchors.Count < anchorCount)
+                if (sessionAnchors.Count < anchorMaxCount)
                     ui.DisplayAnchorLoadingImage(sessionAnchors.Count);
                 else
                 {
@@ -279,7 +279,7 @@ namespace AwARe.RoomScan.Objects
         /// <param name="room">The room that is being deleted.</param>
         public void DeleteRoom(int roomIndex)
         {
-            roomListManager.DeleteRoom(roomIndex, anchorCount);
+            roomListManager.DeleteRoom(roomIndex, anchorMaxCount);
             roomOverviewScreen.DisplayList();
         }
         
