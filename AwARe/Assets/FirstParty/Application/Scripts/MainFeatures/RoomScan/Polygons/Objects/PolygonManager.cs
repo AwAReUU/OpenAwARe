@@ -120,16 +120,6 @@ namespace AwARe.RoomScan.Polygons.Objects
         }
 
         /// <summary>
-        /// Sets all Objects activities to match new state.
-        /// </summary>
-        /// <param name="state">The new state switched to.</param>
-        private void SwitchToState(State state)
-        {
-            CurrentState = state;
-            manager.SetActive();
-        }
-
-        /// <summary>
         /// Whether the polygon being drawn is the positive polygon.
         /// </summary>
         /// <returns>Whether positivePolygon is null (meaning no polygon has been added to the room yet).</returns>
@@ -182,6 +172,16 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             activePolygon.Data.height = height;
             activePolygonMesh.UpdateMesh();
+        }
+
+        /// <summary>
+        /// Sets all Objects activities to match new state.
+        /// </summary>
+        /// <param name="state">The new state switched to.</param>
+        private void SwitchToState(State state)
+        {
+            CurrentState = state;
+            manager.SetActive();
         }
     }
 }

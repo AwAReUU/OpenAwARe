@@ -91,120 +91,6 @@ namespace AwARe.RoomScan.Objects
         }
 
         /// <summary>
-        /// Called on create button click.
-        /// </summary>
-        public void OnCreateButtonClick()
-        {
-            if (CurrentState == State.AskForSave || CurrentState == State.RoomList)
-            {
-                SwitchToState(State.Scanning);
-                polygonManager.OnCreateButtonClick();
-            }
-        }
-
-        /// <summary>
-        /// Called on reset button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnResetButtonClick() =>
-            polygonManager.OnResetButtonClick();
-
-        /// <summary>
-        /// Called on confirm button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnConfirmButtonClick()
-        {
-            if (CurrentState == State.Scanning)
-            {
-                polygonManager.OnConfirmButtonClick();
-            }
-            else if (CurrentState == State.SaveAnchoringCheck)
-            {
-                ui.HideScreenshot();
-                if (anchorHandler.AnchoringFinished())
-                {
-                    SwitchToState(State.Saving);
-                }
-                else
-                {
-                    SwitchToState(State.SaveAnchoring);
-                }
-            }
-            else if (CurrentState == State.AskForSave)
-            {
-                anchorHandler.SessionAnchors.Clear();
-                screenshots.Clear();
-                SwitchToState(State.SaveAnchoring);
-            }
-        }
-
-        /// <summary>
-        /// Called on set point button click; Places anchors.
-        /// </summary>
-        public void OnSelectButtonClick()
-        {
-            switch (CurrentState)
-            {
-                case State.Scanning:
-                    polygonManager.TryAddPoint();
-                    break;
-                case State.SaveAnchoring:
-                    anchorHandler.TryAddAnchor();
-
-                    Texture2D screenshot = ui.screenshotManager.TakeScreenshot();
-                    screenshots.Add(screenshot);
-
-                    ui.DisplayAnchorSavingImage(screenshot);
-
-                    SwitchToState(State.SaveAnchoringCheck);
-                    break;
-                case State.LoadAnchoring:
-                    anchorHandler.TryAddAnchor();
-                    screenshots.Add(ui.screenshotManager.TakeScreenshot());
-
-                    if (!anchorHandler.AnchoringFinished())
-                        ui.DisplayAnchorLoadingImage(anchorHandler.SessionAnchors.Count);
-                    else
-                    {
-                        Data.Logic.Room room = roomListManager.LoadRoom(SerRoom, anchorHandler.SessionAnchors);
-                        GoToRoom(room);
-                    }
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Called on 'No' button click.
-        /// </summary>
-        public void OnNoButtonClick()
-        {
-            if (CurrentState == State.AskForSave)
-            {
-                GoToRoom(Room.Data);
-            }
-            else if (CurrentState == State.SaveAnchoringCheck)
-            {
-                anchorHandler.TryRemoveLastAnchor();
-                screenshots.RemoveAt(screenshots.Count - 1);
-                ui.HideScreenshot();
-                SwitchToState(State.SaveAnchoring);
-            }
-            else if (polygonManager.CurrentState == Polygons.State.AskForNegPolygons)
-            {
-                SwitchToState(State.AskForSave);
-            }
-        }
-
-        /// <summary>
-        /// Called on changing the slider.
-        /// </summary>
-        /// <param name="value">The value of the slider.</param>
-        [ExcludeFromCoverage]
-        public void OnHeightSliderChanged(float value) =>
-            polygonManager.OnHeightSliderChanged(value);
-
-        /// <summary>
         /// Starts the process of loading the room.
         /// </summary>
         /// <param name="roomIndex">The index of the desired room in the serialized room list.</param>
@@ -252,18 +138,131 @@ namespace AwARe.RoomScan.Objects
         }
 
         /// <summary>
-        /// Checks if a positive polygon exists.
+        /// Whether the polygon being drawn is the positive polygon.
         /// </summary>
-        /// <returns>Positive polygon == null.</returns>
+        /// <returns>Whether positivePolygon is null (meaning no polygon has been added to the room yet).</returns>
         public bool IsFirstPolygon() =>
             polygonManager.IsFirstPolygon();
 
         /// <summary>
-        /// Called on load button button click; changes state so user sees load slots.
+        /// Called on create button click.
+        /// </summary>
+        public void OnCreateButtonClick()
+        {
+            if (CurrentState == State.AskToSave || CurrentState == State.RoomList)
+            {
+                SwitchToState(State.Scanning);
+                polygonManager.OnCreateButtonClick();
+            }
+        }
+
+        /// <summary>
+        /// Called on reset button click.
         /// </summary>
         [ExcludeFromCoverage]
-        public void OnLoadButtonClick() =>
-            SwitchToState(State.RoomList);
+        public void OnResetButtonClick() =>
+            polygonManager.OnResetButtonClick();
+
+        /// <summary>
+        /// Called on confirm button click.
+        /// </summary>
+        [ExcludeFromCoverage]
+        public void OnConfirmButtonClick()
+        {
+            switch (CurrentState)
+            {
+                case State.Scanning:
+                    polygonManager.OnConfirmButtonClick();
+                    break;
+                case State.AskToSave:
+                    // user wants to save the room; emtpy lists and start the anchoring process
+                    anchorHandler.SessionAnchors.Clear();
+                    screenshots.Clear();
+                    SwitchToState(State.SaveAnchoring);
+                    break;
+                case State.SaveAnchoringCheck:
+                    // anchor accepted; hide screenshot and either continue with next or finish anchoring
+                    ui.HideScreenshot();
+                    if (anchorHandler.AnchoringFinished())
+                        SwitchToState(State.InputtingName);
+                    else
+                        SwitchToState(State.SaveAnchoring);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Called on the select button click; Places points/anchors.
+        /// </summary>
+        public void OnSelectButtonClick()
+        {
+            switch (CurrentState)
+            {
+                case State.Scanning:
+                    // Add a point to the polygon
+                    polygonManager.TryAddPoint();
+                    break;
+                case State.SaveAnchoring:
+                    // Add an anchor and take a screenshot
+                    anchorHandler.TryAddAnchor();
+                    Texture2D screenshot = ui.screenshotManager.TakeScreenshot();
+                    screenshots.Add(screenshot);
+
+                    // Display the taken screenshot
+                    ui.DisplayAnchorSavingImage(screenshot);
+
+                    SwitchToState(State.SaveAnchoringCheck);
+                    break;
+                case State.LoadAnchoring:
+                    // Add an anchor
+                    anchorHandler.TryAddAnchor();
+
+                    if (!anchorHandler.AnchoringFinished())
+                        // Load the next screenshot
+                        ui.DisplayAnchorLoadingImage(anchorHandler.SessionAnchors.Count);
+                    else
+                    {
+                        // Finished placing anchors; load in the room
+                        Data.Logic.Room room = roomListManager.LoadRoom(SerRoom, anchorHandler.SessionAnchors);
+                        GoToRoom(room);
+                    }
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Called on 'No' button click.
+        /// </summary>
+        public void OnNoButtonClick()
+        {
+            switch (CurrentState)
+            {
+                case State.Scanning:
+                    if(polygonManager.CurrentState == Polygons.State.AskForNegPolygons)
+                        // The user does not want to place a negative polygon; stop scanning
+                        SwitchToState(State.AskToSave);
+                    break;
+                case State.AskToSave:
+                    // The user does not want to save; go to AR scene
+                    GoToRoom(Room.Data);
+                    break;
+                case State.SaveAnchoringCheck:
+                    // The point was not recognizable; revert placing the anchor
+                    anchorHandler.TryRemoveLastAnchor();
+                    screenshots.RemoveAt(screenshots.Count - 1);
+                    ui.HideScreenshot();
+                    SwitchToState(State.SaveAnchoring);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Called on changing the slider.
+        /// </summary>
+        /// <param name="value">The value of the slider.</param>
+        [ExcludeFromCoverage]
+        public void OnHeightSliderChanged(float value) =>
+            polygonManager.OnHeightSliderChanged(value);
 
         /// <summary>
         /// Checks if room name already exists in the rooms file;
@@ -304,12 +303,12 @@ namespace AwARe.RoomScan.Objects
     /// </summary>
     public enum State
     {
-        Scanning,
-        AskForSave,
-        Saving,
-        RoomList,
-        SaveAnchoring,
-        SaveAnchoringCheck,
-        LoadAnchoring
+        RoomList,           // shows the list with rooms
+        Scanning,           // in the scanning process
+        AskToSave,          // question whether the user wants to save the room
+        InputtingName,      // inputting name for the room being saved
+        SaveAnchoring,      // placing anchors for saving a room
+        SaveAnchoringCheck, // question if the placed anchor is correct
+        LoadAnchoring       // placing anchors for loading a room
     }
 }

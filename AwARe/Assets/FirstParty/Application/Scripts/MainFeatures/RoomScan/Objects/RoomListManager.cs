@@ -25,7 +25,7 @@ namespace AwARe.RoomScan.Objects
             fileHandler = new();
         }
         /// <summary>
-        /// Saves the room by adding the Room to the local save file and the serialized rooms list if the room doesn't already exist
+        /// Saves the room by adding the Room to the local save file and the serialized rooms list if the room doesn't already exist.
         /// </summary>
         public void SaveRoom(Data.Logic.Room room, List<Vector3> anchors, List<Texture2D> screenshots)
         {
@@ -37,7 +37,7 @@ namespace AwARe.RoomScan.Objects
                 AddRoom(room, anchors, screenshots);
         }
         /// <summary>
-        /// Deletes the room by removing the Room from the local save file and the serialized rooms list 
+        /// Deletes the room by removing the Room from the local save file and the serialized rooms list.
         /// </summary>
         public void DeleteRoom(int roomIndex, int anchorCount)
         {
@@ -85,6 +85,11 @@ namespace AwARe.RoomScan.Objects
             return roomSer.ToRoom(anchors);
         }
 
+        /// <summary>
+        /// Checks if the list with serialized rooms has been loaded,
+        /// and loads them if not.
+        /// </summary>
+        /// <returns>The serialized list of rooms.</returns>
         public RoomListSerialization GetSerRoomList()
         {
             RoomListSerialization ??= LoadSerRoomList();

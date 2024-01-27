@@ -5,9 +5,7 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using AwARe.RoomScan.Polygons.Objects;
 using AwARe.UI.Objects;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -26,18 +24,30 @@ namespace AwARe.RoomScan.Objects
         // The screenshot manager
         [SerializeField] public ScreenshotManager screenshotManager;
 
-        // The UI elements
+        // Buttons
         [SerializeField] private GameObject resetButton;
         [SerializeField] private GameObject createButton;
         [SerializeField] private GameObject confirmButton;
         [SerializeField] private GameObject noButton;
-        [SerializeField] private Slider heightSlider;
-        [SerializeField] private Pointer pointer;
-        [SerializeField] private GameObject pathLoadingPopup;
         [SerializeField] private GameObject selectPointButton;
-        [SerializeField] private GameObject roomlistscreen;
+
+        // The list of rooms
+        [SerializeField] private GameObject roomList;
+
+        // The window for inputting a room name to save
         [SerializeField] private GameObject nameInputWindow;
-        [SerializeField] public TMP_InputField nameInput;
+        [SerializeField] private TMP_InputField nameInput;
+        
+        // The slider for setting the mesh height
+        [SerializeField] private Slider heightSlider;
+        
+        // The popup for generating a path
+        [SerializeField] private GameObject pathLoadingPopup;
+
+        // The pointer
+        [SerializeField] private Pointer pointer;
+
+        // Text blocks
         [SerializeField] private GameObject findPointText;
         [SerializeField] private GameObject askForSaveText;
         [SerializeField] private GameObject placeAnchorText;
@@ -62,12 +72,12 @@ namespace AwARe.RoomScan.Objects
             bool resetBtn = false,
                 createBtn = false,
                 confirmBtn = false,
+                noBtn = false,
                 heightSlider = false,
                 pointer = false,
                 pathPopup = false,
                 roomlist = false,
                 displayScreenshot = false,
-                noBtn = false,
                 nameInputWin = false,
                 findPointText = false,
                 placeText = false,
@@ -88,6 +98,18 @@ namespace AwARe.RoomScan.Objects
 
                 switch (roomState)
                 {
+                    case State.RoomList:
+                        roomlist = true;
+                        createBtn = true;
+                        return;
+                    case State.AskToSave:
+                        confirmBtn = true;
+                        noBtn = true;
+                        askSaveText = true;
+                        return;
+                    case State.InputtingName:
+                        nameInputWin = true;
+                        return;
                     case State.SaveAnchoring:
                         pointer = true;
                         placeText = true;
@@ -97,22 +119,10 @@ namespace AwARe.RoomScan.Objects
                         anchorRecogText = true;
                         noBtn = true;
                         return;
-                    case State.AskForSave:
-                        confirmBtn = true;
-                        noBtn = true;
-                        askSaveText = true;
-                        return;
                     case State.LoadAnchoring:
                         pointer = true;
                         findPointText = true;
                         displayScreenshot = true;
-                        return;
-                    case State.Saving:
-                        nameInputWin = true;
-                        return;
-                    case State.RoomList:
-                        roomlist = true;
-                        createBtn = true;
                         return;
                 }
 
@@ -141,25 +151,39 @@ namespace AwARe.RoomScan.Objects
             DecideActivities();
 
             // Actual (de)activation.
+
+            // Buttons
             resetButton.SetActive(resetBtn);
             createButton.SetActive(createBtn);
             confirmButton.SetActive(confirmBtn);
-            this.heightSlider.gameObject.SetActive(heightSlider);
-            if (heightSlider) OnHeightSliderChanged();
-            this.pointer.gameObject.SetActive(pointer);
-            roomlistscreen.SetActive(roomlist);
-            pathLoadingPopup.SetActive(pathPopup);
             noButton.SetActive(noBtn);
-            nameInputWindow.SetActive(nameInputWin);
+
+            // Text
             this.findPointText.SetActive(findPointText);
-            selectPointButton.SetActive(pointer);
             askForSaveText.SetActive(askSaveText);
             placeAnchorText.SetActive(placeText);
             anchorRecognizableText.SetActive(anchorRecogText);
             askForNegPolygonsText.SetActive(negPolygonsText);
             setRoomHeightText.SetActive(roomHeightText);
             setObstacleHeightText.SetActive(obstacleHeightText);
+            
+            // Height slider
+            this.heightSlider.gameObject.SetActive(heightSlider);
+            if (heightSlider)
+                OnHeightSliderChanged();
 
+            // Pointer UI
+            this.pointer.gameObject.SetActive(pointer);
+            selectPointButton.SetActive(pointer);
+
+            // The room list
+            roomList.SetActive(roomlist);
+
+            // Popups
+            pathLoadingPopup.SetActive(pathPopup);
+            nameInputWindow.SetActive(nameInputWin);
+
+            // Screenshot
             if (displayScreenshot)
                 DisplayAnchorLoadingImage(0);
         }
@@ -173,7 +197,6 @@ namespace AwARe.RoomScan.Objects
             screenshotManager.DisplayScreenshotFromFile(manager.SerRoom.RoomName, index, false, ScreenshotManager.ImageSize.Small);
         }
 
-
         /// <summary>
         /// Display the screenshot with the given index for saving the anchors.
         /// </summary>
@@ -183,6 +206,9 @@ namespace AwARe.RoomScan.Objects
             screenshotManager.DisplayScreenshot(screenshotManager.TextureToSprite(screenshot), false);
         }
 
+        /// <summary>
+        /// Hide the shown screenshot.
+        /// </summary>
         public void HideScreenshot() =>
             screenshotManager.HideScreenshot();
 
