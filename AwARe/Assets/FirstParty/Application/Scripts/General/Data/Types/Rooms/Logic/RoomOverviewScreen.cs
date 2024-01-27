@@ -29,16 +29,12 @@ namespace AwARe.Data.Logic
 
         // UI elements to control
         [SerializeField] private GameObject listItemObject; //list item 'prefab'
-        [SerializeField] private GameObject nameInputWindow;
-        [SerializeField] private GameObject saveButton;
-        [SerializeField] public TMP_InputField nameInput;
 
         // Tracked UI elements
         readonly List<RoomListItem> list = new();
 
         private void OnEnable()
         {
-            nameInputWindow.SetActive(false);
             DisplayList();
         }
 
@@ -98,32 +94,6 @@ namespace AwARe.Data.Logic
         public void OnDeleteButtonClick(int roomIndex)
         {
             manager.DeleteRoom(roomIndex);
-        }
-
-        /// <summary>
-        /// Checks if room name already exists in the rooms file;
-        /// if not then it will be saved and will show up in the list of roomsaves.
-        /// </summary>
-        public void OnConfirmNameButton()
-        {
-            if (manager.RoomListSerialization.Rooms.Where(obj => obj.RoomName == nameInput.text).Count() > 0)
-                Debug.LogError("This name already exists");
-            else
-            {
-                manager.SaveRoom();
-                nameInputWindow.SetActive(false);
-            }
-        }
-
-        /// <summary>
-        /// Loads the informationscreen to put a name in for the roomlist item.
-        /// </summary>
-        public void OnSaveNewRoomClick()
-        {
-            nameInputWindow.SetActive(true);
-            saveButton.SetActive(false);
-
-            DisplayList();
         }
     }
 }

@@ -6,6 +6,7 @@
 // \*                                                                                       */
 
 using AwARe.UI.Objects;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -33,16 +34,15 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private Pointer pointer;
         [SerializeField] private GameObject pathLoadingPopup;
         [SerializeField] private GameObject saveButton;
-        [SerializeField] private GameObject saveNameButton;
-        [SerializeField] private GameObject saveNameObject;
         [SerializeField] private GameObject selectPointButton;
         [SerializeField] private GameObject roomlistscreen;
-        [SerializeField] private TMP_InputField saveName;
-        [SerializeField] private Button confirmName;
+        [SerializeField] private GameObject nameInputWindow;
+        [SerializeField] public TMP_InputField nameInput;
         [SerializeField] private GameObject findPointText;
         [SerializeField] private GameObject askForSaveText;
         [SerializeField] private GameObject placeAnchorText;
         [SerializeField] private GameObject anchorRecognizableText;
+        [SerializeField] private GameObject askForNegPolygonsText;
 
 
         /// <summary>
@@ -57,27 +57,28 @@ namespace AwARe.RoomScan.Objects
             Debug.Log("PolyState: " + roomState);
 
             // Set all to inactive.
-            bool reset = false,
-                create = false,
-                confirm = false,
-                height = false,
-                point = false,
-                pathLoading = false,
-                save = false,
-                savenamebtn = false,
+            bool resetBtn = false,
+                createBtn = false,
+                confirmBtn = false,
+                heightSlider = false,
+                pointer = false,
+                pathPopup = false,
+                saveBtn = false,
                 roomlist = false,
                 displayScreenshot = false,
-                no = false,
-                findPoint = false,
+                noBtn = false,
+                nameInputWin = false,
+                findPointText = false,
                 placeText = false,
-                anchorRecogText = false;
+                anchorRecogText = false,
+                negPolygonsText = false;
 
             // Set wanted elements to active
             void DecideActivities()
             {
                 if (pathState == Path.State.Generating)
                 {
-                    pathLoading = true;
+                    pathPopup = true;
                     return;
                 }
 
@@ -85,71 +86,75 @@ namespace AwARe.RoomScan.Objects
                 switch (roomState)
                 {
                     case State.SaveAnchoring:
-                        point = true;
+                        pointer = true;
                         placeText = true;
                         return;
                     case State.SaveAnchoringCheck:
-                        confirm = true;
+                        confirmBtn = true;
                         anchorRecogText = true;
-                        no = true;
+                        noBtn = true;
                         return;
                     case State.LoadAnchoring:
-                        point = true;
-                        findPoint = true;
+                        pointer = true;
+                        findPointText = true;
                         displayScreenshot = true;
                         return;
                     case State.Saving:
-                        savenamebtn = true;
-                        roomlist = true;
+                        nameInputWin = true;
                         return;
                     case State.Loading:
                         roomlist = true;
-                        create = true;
+                        createBtn = true;
                         return;
                 }
 
                 switch (polygonState)
                 {
                     case Polygons.State.Done:
-                        save = true;
-                        no = true;
-                        create = true;
+                        saveBtn = true;
+                        noBtn = true;
+                        createBtn = true;
                         break;
                     case Polygons.State.SettingHeight:
-                        height = true;
-                        confirm = true;
+                        heightSlider = true;
+                        confirmBtn = true;
                         break;
                     case Polygons.State.Drawing:
-                        confirm = true;
-                        reset = true;
-                        point = true;
+                        confirmBtn = true;
+                        resetBtn = true;
+                        pointer = true;
+                        break;
+                    case Polygons.State.AskForNegPolygons:
+                        negPolygonsText = true;
+                        confirmBtn = true;
+                        noBtn = true;
                         break;
                     case Polygons.State.Default:
                     default:
-                        create = true;
+                        createBtn = true;
                         break;
                 }
             }
             DecideActivities();
 
             // Actual (de)activation.
-            resetButton.SetActive(reset);
-            createButton.SetActive(create);
-            confirmButton.SetActive(confirm);
-            heightSlider.gameObject.SetActive(height);
-            if (height) OnHeightSliderChanged();
-            pointer.gameObject.SetActive(point);
+            resetButton.SetActive(resetBtn);
+            createButton.SetActive(createBtn);
+            confirmButton.SetActive(confirmBtn);
+            this.heightSlider.gameObject.SetActive(heightSlider);
+            if (heightSlider) OnHeightSliderChanged();
+            this.pointer.gameObject.SetActive(pointer);
             roomlistscreen.SetActive(roomlist);
-            pathLoadingPopup.SetActive(pathLoading);
-            saveButton.SetActive(save);
-            saveNameButton.SetActive(savenamebtn);
-            noButton.SetActive(no);
-            findPointText.SetActive(findPoint);
-            selectPointButton.SetActive(point);
-            if (askForSaveText != null)
-                askForSaveText.SetActive(save);
+            pathLoadingPopup.SetActive(pathPopup);
+            saveButton.SetActive(saveBtn);
+            noButton.SetActive(noBtn);
+            nameInputWindow.SetActive(nameInputWin);
+            this.findPointText.SetActive(findPointText);
+            selectPointButton.SetActive(pointer);
+            askForSaveText.SetActive(saveBtn);
             placeAnchorText.SetActive(placeText);
             anchorRecognizableText.SetActive(anchorRecogText);
+            askForNegPolygonsText.SetActive(negPolygonsText);
 
             if (displayScreenshot)
                 DisplayAnchorLoadingImage(0);
@@ -171,7 +176,7 @@ namespace AwARe.RoomScan.Objects
         /// <param name="screenshot">The screenshot.</param>
         public void DisplayAnchorSavingImage(Texture2D screenshot)
         {
-            screenshotManager.DisplayScreenshot(screenshotManager.TextureToSprite(screenshot), false, ScreenshotManager.ImageSize.Large);
+            screenshotManager.DisplayScreenshot(screenshotManager.TextureToSprite(screenshot), false);
         }
 
         /// <summary>
@@ -230,5 +235,11 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         public void OnNoButtonClick() =>
             manager.OnNoButtonClick();
+
+        /// <summary>
+        /// Called on confirm name button click.
+        /// </summary>
+        public void OnConfirmNameButtonClick() =>
+            manager.OnConfirmNameButtonClick(nameInput.text);
     }
 }

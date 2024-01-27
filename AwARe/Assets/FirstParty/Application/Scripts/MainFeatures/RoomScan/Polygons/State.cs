@@ -15,6 +15,7 @@ namespace AwARe.RoomScan.Polygons
         Default,
         Drawing,
         SettingHeight,
+        AskForNegPolygons,
         Done,
         Anchoring
     }
