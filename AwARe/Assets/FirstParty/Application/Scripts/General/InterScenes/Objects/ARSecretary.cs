@@ -5,10 +5,14 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System.Collections;
+using System.Runtime.InteropServices.ComTypes;
+
 using AwARe.Objects;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.XR.ARFoundation;
 
@@ -108,10 +112,41 @@ namespace AwARe.InterScenes.Objects
             sceneSwitcher.Keepers.Add(gameObject.scene);
             // Keep alive between scenes
             DontDestroyOnLoad(this.gameObject);
+
+#if UNITY_EDITOR
+            // Find Simulation Scene and keep it alive aswell
+            StartCoroutine(ProtectSimulationScene());
+#endif
         }
 
         private void OnDestroy() =>
             Singleton.OnDestroy(ref instance, this);
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// Finds the XR simulation environment scene and keep it alive during the application.
+        /// </summary>
+        /// <returns>The coroutine that seeks out the environment scene.</returns>
+        private IEnumerator ProtectSimulationScene()
+        {
+            bool searching = true;
+            Scene scene;
+            while(searching)
+            {
+                for (int i = 0; searching && i < SceneManager.sceneCount; i++)
+                {
+                    scene = SceneManager.GetSceneAt(i);
+                    if (!scene.name.Contains("Simulated Environment Scene"))
+                        continue;
+
+                    SceneSwitcher.Get().Keepers.Add(scene);
+                    searching = false;
+                }
+                yield return null;
+            }
+            yield return null;
+        }
+#endif
 
         /// <summary>
         /// Get its current instance.
