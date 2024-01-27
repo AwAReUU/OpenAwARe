@@ -102,7 +102,7 @@ namespace AwARe.Data.Logic
         /// </summary>
         public void OnConfirmNameButton()
         {
-            if (manager.rooms.Where(obj => obj.RoomName == nameInput.text).Count() > 0)
+            if (manager.Rooms.Where(obj => obj.RoomName == nameInput.text).Count() > 0)
                 Debug.LogError("This name already exists");
             else
             {

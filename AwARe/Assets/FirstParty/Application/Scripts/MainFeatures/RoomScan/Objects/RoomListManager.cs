@@ -16,14 +16,19 @@ namespace AwARe.RoomScan.Objects
     public class RoomListManager : MonoBehaviour
     {
         private RoomListSerialization roomListSerialization;
-        private List<Data.Logic.Room> rooms;
+        public List<Data.Logic.Room> Rooms { get; private set; }
 
-        private SaveLoadManager saveLoadManager = new();
-        private ScreenshotManager screenshotManager;
+        private SaveLoadManager saveLoadManager;
+        [SerializeField] private ScreenshotManager screenshotManager;
+
+        private void Awake()
+        {
+            saveLoadManager = new();
+        }
 
         public void SaveRoom(Data.Logic.Room room, List<Vector3> anchors, List<Texture2D> screenshots)
         {
-            if(rooms.Contains(room))
+            if(Rooms.Contains(room))
                 UpdateRoom(room, anchors, screenshots);
             else
                 AddRoom(room, anchors, screenshots);
@@ -34,8 +39,8 @@ namespace AwARe.RoomScan.Objects
             for (var i = 0; i < screenshots.Count; i++)
                 screenshotManager.DeleteScreenshot(room, i);
 
-            var idx = rooms.FindIndex(r => r == room);
-            rooms.RemoveAt(idx);
+            var idx = Rooms.FindIndex(r => r == room);
+            Rooms.RemoveAt(idx);
             roomListSerialization.Rooms.RemoveAt(idx);
             saveLoadManager.SaveRoomList("rooms", roomListSerialization);
         }
@@ -45,8 +50,8 @@ namespace AwARe.RoomScan.Objects
             for (var i = 0; i < screenshots.Count; i++)
                 screenshotManager.SaveScreenshot(screenshots[i], room, i);
 
-            var idx = rooms.FindIndex(r => r == room);
-            rooms[idx] = room;
+            var idx = Rooms.FindIndex(r => r == room);
+            Rooms[idx] = room;
             roomListSerialization.Rooms[idx] = new(room, anchors);
             saveLoadManager.SaveRoomList("rooms", roomListSerialization);
         }
@@ -56,7 +61,7 @@ namespace AwARe.RoomScan.Objects
             for(var i = 0; i < screenshots.Count; i++)
                 screenshotManager.SaveScreenshot(screenshots[i], room, i);
 
-            rooms.Add(room);
+            Rooms.Add(room);
             roomListSerialization.Rooms.Add(new(room, anchors));
             saveLoadManager.SaveRoomList("rooms", roomListSerialization);
         }

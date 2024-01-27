@@ -28,6 +28,8 @@ namespace AwARe.RoomScan.Objects
         // Objects to control
         [SerializeField] private PolygonManager polygonManager;
         [SerializeField] private PathManager pathManager;
+        [SerializeField] private RoomListManager roomListManager;
+
         [SerializeField] private RoomOverviewScreen roomOverviewScreen;
 
         // The UI
@@ -42,14 +44,12 @@ namespace AwARe.RoomScan.Objects
         // The pointer
         [SerializeField] public Pointer pointer;
 
-        private SaveLoadManager saveLoadManager;
-
         /// <summary>
         /// The state the scene should start in.
         /// </summary>
         public State startState = State.Default;
 
-        public List<Data.Logic.Room> rooms { get; private set; }
+        public List<Data.Logic.Room> Rooms => roomListManager.Rooms;
 
         /// <summary>
         /// Gets the current state of the room scanner.
@@ -62,10 +62,6 @@ namespace AwARe.RoomScan.Objects
         [ExcludeFromCoverage]
         private void Awake()
         {
-            saveLoadManager = new();
-            
-            rooms = LoadRoomList();
-
             ui.gameObject.SetActive(true);
 
             // Move all content prefab canvas to scene canvas.
@@ -299,9 +295,9 @@ namespace AwARe.RoomScan.Objects
         {
             ui.screenshotManager.DeleteScreenshot(room, 0);
             ui.screenshotManager.DeleteScreenshot(room, 1);
-            rooms.Remove(room);
+            Rooms.Remove(room);
             DeleteRoom(room);
-            UpdateRoomList(rooms);
+            UpdateRoomList(Rooms);
         }
 
         /// <summary>
