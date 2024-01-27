@@ -92,7 +92,6 @@ namespace AwARe.RoomScan.Objects
                         confirm = true;
                         anchorRecogText = true;
                         no = true;
-                        //startSaving = true;
                         return;
                     case State.LoadAnchoring:
                         point = true;
@@ -114,6 +113,7 @@ namespace AwARe.RoomScan.Objects
                     case Polygons.State.Done:
                         save = true;
                         no = true;
+                        create = true;
                         break;
                     case Polygons.State.SettingHeight:
                         height = true;

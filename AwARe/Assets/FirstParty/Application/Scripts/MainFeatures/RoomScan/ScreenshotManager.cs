@@ -94,8 +94,8 @@ namespace AwARe.RoomScan
                     SetImageScale(defaultScale);
                     break;
                 case ImageSize.Small:
-                    SetImagePos(defaultPos + new Vector3(0, 350, 0));
-                    SetImageScale(defaultScale / 3);
+                    SetImagePos(defaultPos + new Vector3(0, 500, 0));
+                    SetImageScale(defaultScale / 1.5f);
                     break;
             }
 
