@@ -110,14 +110,7 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             if (CurrentState == State.Drawing)
             {
-                if (!polygonDrawer.pointer.Value.FoundFirstPlane && !Application.isEditor)
-                    Debug.LogError("No plane found yet. Please try again.");
-                else
-                {
-                    polygonDrawer.AddPoint();
-
-                    polygonDrawer.pointer.Value.LockPlane = true;
-                }
+                polygonDrawer.AddPoint();
             }
         }
 
