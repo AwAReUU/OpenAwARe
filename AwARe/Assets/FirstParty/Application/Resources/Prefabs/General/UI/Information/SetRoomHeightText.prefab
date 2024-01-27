@@ -33,10 +33,15 @@ PrefabInstance:
       propertyPath: m_margin.z
       value: -409.29828
       objectReference: {fileID: 0}
+    - target: {fileID: 434426508189233873, guid: 7d354177638892f4b9f14ef778296504,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1091958201170924174, guid: 7d354177638892f4b9f14ef778296504,
         type: 3}
       propertyPath: m_Name
-      value: SetHeightText
+      value: SetRoomHeightText
       objectReference: {fileID: 0}
     - target: {fileID: 6125694693647379885, guid: 7d354177638892f4b9f14ef778296504,
         type: 3}
