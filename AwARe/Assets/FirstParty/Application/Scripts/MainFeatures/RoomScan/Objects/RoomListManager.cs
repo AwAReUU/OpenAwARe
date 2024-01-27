@@ -18,7 +18,7 @@ namespace AwARe.RoomScan.Objects
         private RoomListSerialization RoomListSerialization;
 
         private SaveLoadManager saveLoadManager;
-        [SerializeField] private ScreenshotManager screenshotManager;
+        [SerializeField] public ScreenshotManager screenshotManager;
 
         private void Awake()
         {

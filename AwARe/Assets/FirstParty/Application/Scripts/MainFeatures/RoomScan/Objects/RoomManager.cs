@@ -165,7 +165,7 @@ namespace AwARe.RoomScan.Objects
             }
             else if (CurrentState == State.SaveAnchoringCheck)
             {
-                ui.screenshotManager.HideScreenshot();
+                roomListManager.screenshotManager.HideScreenshot();
                 if (sessionAnchors.Count >= anchorCount)
                 {
                     SwitchToState(State.Saving);
@@ -223,6 +223,7 @@ namespace AwARe.RoomScan.Objects
                 //sessionAnchors.RemoveAt(sessionAnchors.Count - 1);
                 TryRemoveLastAnchor();
                 screenshots.RemoveAt(screenshots.Count - 1);
+                ui.HideScreenshot();
                 SwitchToState(State.SaveAnchoring);
             }
             else if (polygonManager.CurrentState == Polygons.State.AskForNegPolygons)

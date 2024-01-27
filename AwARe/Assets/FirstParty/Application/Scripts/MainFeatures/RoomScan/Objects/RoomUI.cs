@@ -185,6 +185,9 @@ namespace AwARe.RoomScan.Objects
             screenshotManager.DisplayScreenshot(screenshotManager.TextureToSprite(screenshot), false);
         }
 
+        public void HideScreenshot() =>
+            screenshotManager.HideScreenshot();
+
         /// <summary>
         /// Called on create button click.
         /// </summary>
