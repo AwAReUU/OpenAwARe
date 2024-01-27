@@ -225,20 +225,6 @@ namespace AwARe.RoomScan.Objects
             manager.OnLoadButtonClick();
 
         /// <summary>
-        /// Called on start loading button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnStartLoadingButtonClick() =>
-            manager.OnStartLoadingButtonClick();
-
-        /// <summary>
-        /// Called on path button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnPathButtonClick() =>
-            manager.OnPathButtonClick();
-
-        /// <summary>
         /// Called on no button click.
         /// </summary>
         [ExcludeFromCoverage]

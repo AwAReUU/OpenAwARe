@@ -49,13 +49,6 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         public State startState = State.Default;
 
-        /// <summary>
-        /// The previous state; used for tracking.
-        /// </summary>
-        private State stateBefore;
-        
-        private Data.Logic.Room roomToLoad;
-
         public List<Data.Logic.Room> rooms { get; private set; }
 
         /// <summary>
@@ -175,7 +168,6 @@ namespace AwARe.RoomScan.Objects
             else if (CurrentState == State.Scanning)
             {
                 polygonManager.OnConfirmButtonClick();
-                pathManager.OnPathButtonClick();
                 SwitchToState(State.AskForSave);
             }
             else if (CurrentState == State.SaveAnchoringCheck)
@@ -234,13 +226,10 @@ namespace AwARe.RoomScan.Objects
             }
             else if (CurrentState == State.SaveAnchoringCheck)
             {
-                sessionAnchors.RemoveAt(sessionAnchors.Count - 1);
+                //sessionAnchors.RemoveAt(sessionAnchors.Count - 1);
+                TryRemoveLastAnchor();
                 screenshots.RemoveAt(screenshots.Count - 1);
                 SwitchToState(State.SaveAnchoring);
-            }
-            if (CurrentState == State.SaveAnchoring)
-            {
-                TryRemoveLastAnchor();
             }
         }
 
@@ -262,7 +251,8 @@ namespace AwARe.RoomScan.Objects
         public void StartLoadingRoom(Data.Logic.Room room)
         {
             Room.Data = room;
-            stateBefore = CurrentState;
+            sessionAnchors.Clear();
+            screenshots.Clear();
             SwitchToState(State.LoadAnchoring);
         }
 
@@ -334,7 +324,6 @@ namespace AwARe.RoomScan.Objects
         /// <returns>The list of rooms.</returns>
         public List<Data.Logic.Room> LoadRoomList()
         {
-            if(saveLoadManager == null) Debug.Log("null");
             RoomListSerialization roomListSerialization = saveLoadManager.LoadRooms("rooms");
 
             if (roomListSerialization == null)
@@ -355,17 +344,6 @@ namespace AwARe.RoomScan.Objects
         public void OnLoadButtonClick()
         {
             SwitchToState(State.Loading);
-        }
-
-        /// <summary>
-        /// Called on start loading button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnStartLoadingButtonClick()
-        {
-            sessionAnchors.Clear();
-            stateBefore = CurrentState;
-            SwitchToState(State.LoadAnchoring);
         }
 
         /// <summary>

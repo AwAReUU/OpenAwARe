@@ -39,8 +39,8 @@ namespace AwARe
         {
             gameObject.name = room.RoomName;
             nameLabel.text = room.RoomName;
-            
         }
+
         /// <summary>
         /// Loads the room of corresponding to this listItem.
         /// </summary>
