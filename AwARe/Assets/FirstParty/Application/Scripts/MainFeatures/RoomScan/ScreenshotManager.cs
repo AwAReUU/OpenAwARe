@@ -57,11 +57,9 @@ namespace AwARe.RoomScan
         /// Takes a screenshot and returns it as a Texture2D.
         /// </summary>
         /// <returns>The screenshot.</returns>
-        public Texture2D TakeScreenshot()
-        {
-            return ScreenCapture.CaptureScreenshotAsTexture();
-        }
-        
+        public Texture2D TakeScreenshot() =>
+            ScreenCapture.CaptureScreenshotAsTexture();
+
         /// <summary>
         /// Save the given screenshot locally.
         /// </summary>
