@@ -5,6 +5,7 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using AwARe.RoomScan.Polygons.Objects;
 using AwARe.UI.Objects;
 using System.Linq;
 using TMPro;
@@ -43,6 +44,8 @@ namespace AwARe.RoomScan.Objects
         [SerializeField] private GameObject placeAnchorText;
         [SerializeField] private GameObject anchorRecognizableText;
         [SerializeField] private GameObject askForNegPolygonsText;
+        [SerializeField] private GameObject setRoomHeightText;
+        [SerializeField] private GameObject setObstacleHeightText;
 
 
         /// <summary>
@@ -72,7 +75,9 @@ namespace AwARe.RoomScan.Objects
                 placeText = false,
                 askSaveText = false,
                 anchorRecogText = false,
-                negPolygonsText = false;
+                negPolygonsText = false,
+                roomHeightText = false,
+                obstacleHeightText = false;
 
             // Set wanted elements to active
             void DecideActivities()
@@ -124,6 +129,10 @@ namespace AwARe.RoomScan.Objects
                     case Polygons.State.SettingHeight:
                         heightSlider = true;
                         confirmBtn = true;
+                        if(manager.IsFirstPolygon())
+                            roomHeightText = true;
+                        else
+                            obstacleHeightText = true;
                         break;
                     case Polygons.State.Drawing:
                         confirmBtn = true;
@@ -161,6 +170,8 @@ namespace AwARe.RoomScan.Objects
             placeAnchorText.SetActive(placeText);
             anchorRecognizableText.SetActive(anchorRecogText);
             askForNegPolygonsText.SetActive(negPolygonsText);
+            setRoomHeightText.SetActive(roomHeightText);
+            setObstacleHeightText.SetActive(obstacleHeightText);
 
             if (displayScreenshot)
                 DisplayAnchorLoadingImage(0);

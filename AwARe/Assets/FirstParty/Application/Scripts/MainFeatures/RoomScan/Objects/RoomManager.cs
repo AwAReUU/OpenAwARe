@@ -283,6 +283,9 @@ namespace AwARe.RoomScan.Objects
             roomListManager.DeleteRoom(roomIndex, anchorCount);
             roomOverviewScreen.DisplayList();
         }
+        
+        public bool IsFirstPolygon() =>
+            polygonManager.IsFirstPolygon();
 
         /// <summary>
         /// Called on load button button click; changes state so user sees load slots.

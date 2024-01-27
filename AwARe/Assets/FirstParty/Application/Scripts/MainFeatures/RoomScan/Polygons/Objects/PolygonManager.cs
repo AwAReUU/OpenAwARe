@@ -98,14 +98,6 @@ namespace AwARe.RoomScan.Polygons.Objects
             StartScanning();
         }
 
-        /// <summary>
-        /// Called when no UI element has been hit on click or press.
-        /// </summary>
-        public void OnUIMiss()
-        {
-            //TryAddPoint();
-        }
-
         public void TryAddPoint()
         {
             if (CurrentState == State.Drawing)
@@ -181,6 +173,11 @@ namespace AwARe.RoomScan.Polygons.Objects
         {
             CurrentState = state;
             manager.SetActive();
+        }
+
+        public bool IsFirstPolygon()
+        {
+            return Room.Data.PositivePolygon == null;
         }
     }
 }
