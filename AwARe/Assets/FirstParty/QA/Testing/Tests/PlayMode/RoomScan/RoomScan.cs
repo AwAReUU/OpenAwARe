@@ -101,6 +101,7 @@ namespace AwARe.Tests.PlayMode.RoomScan
         [UnitySetUp, Description("Reset the scene before each test. Obtain the polygon manager.")]
         public IEnumerator Setup()
         {
+            for (int i = 0; i < 5; i++) { yield return null; }
             SceneManager.LoadScene(appScene);
             SceneManager.LoadScene(supportScene, LoadSceneMode.Additive);
             SceneManager.LoadScene(ARSupportScene, LoadSceneMode.Additive);

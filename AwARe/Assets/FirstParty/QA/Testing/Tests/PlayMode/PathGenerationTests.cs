@@ -25,11 +25,13 @@ namespace AwARe.Testing.PlayMode
         [UnitySetUp, Description("Reset the scene before each test. Obtain the RoomManager")]
         public IEnumerator Setup()
         {
+            for (int i = 0; i < 5; i++) { yield return null;}
             SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/Rooms");
             SceneManager.LoadScene("FirstParty/Application/Scenes/Support/GeneralSupport", LoadSceneMode.Additive);
             SceneManager.LoadScene("FirstParty/Application/Scenes/Support/ARSupport", LoadSceneMode.Additive);
             yield return null; //skip one frame to ensure the scene has been reloaded.
-            roomManager = GameObject.Find("RoomManager").GetComponent<RoomManager>();
+            roomManager = GameObject.FindObjectOfType<RoomManager>();
+            pathManager = GameObject.FindObjectOfType<PathManager>();
             yield return null;
         }
 
