@@ -17,6 +17,7 @@ namespace AwARe.Testing.PlayMode
     public class PathGenTests
     {
         private RoomManager roomManager;
+        private PathManager pathManager;
 
         [OneTimeSetUp, Description("Load the test scene once.")]
         public void OneTimeSetup() => SceneManager.LoadScene("FirstParty/Application/Scenes/AppScenes/Rooms");
@@ -43,7 +44,7 @@ namespace AwARe.Testing.PlayMode
             roomManager.Room.Data = room;
 
             //act & assert
-            Assert.DoesNotThrow(() => roomManager.OnPathButtonClick());
+            Assert.DoesNotThrow(() => pathManager.StartPathGen());
             yield return null;
         }
 
@@ -52,7 +53,7 @@ namespace AwARe.Testing.PlayMode
         {
             //arrange, act not present (as is the point of this test)
             //assert
-            Assert.DoesNotThrow(() => roomManager.OnPathButtonClick());
+            Assert.DoesNotThrow(() => pathManager.StartPathGen());
             yield return null;
         }
 
@@ -70,7 +71,7 @@ namespace AwARe.Testing.PlayMode
             roomManager.Room.Data = room;
 
             //act & assert
-            Assert.DoesNotThrow(() => roomManager.OnPathButtonClick());
+            Assert.DoesNotThrow(() => pathManager.StartPathGen());
             yield return null;
 
             //arrange
@@ -82,7 +83,7 @@ namespace AwARe.Testing.PlayMode
             roomManager.Room.Data = room;
 
             //act & assert
-            Assert.DoesNotThrow(() => roomManager.OnPathButtonClick());
+            Assert.DoesNotThrow(() => pathManager.StartPathGen());
             yield return null;
         }
     }
