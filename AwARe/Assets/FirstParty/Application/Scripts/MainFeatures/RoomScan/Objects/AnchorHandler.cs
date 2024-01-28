@@ -17,7 +17,7 @@ namespace AwARe.RoomScan.Objects
     public class AnchorHandler : MonoBehaviour
     {
         /// <summary>
-        /// A gameobject representing an anchor.
+        /// A game object representing an anchor.
         /// </summary>
         [SerializeField] private GameObject anchorVisual;
         
@@ -29,6 +29,9 @@ namespace AwARe.RoomScan.Objects
         /// <summary>
         /// Gets the session anchors used for saving/loading rooms.
         /// </summary>
+        /// <value>
+        /// The current session anchors.
+        /// </value>
         public List<Vector3> SessionAnchors { get; private set; }= new();
 
         /// <summary>
@@ -41,18 +44,19 @@ namespace AwARe.RoomScan.Objects
         /// </summary>
         public void TryAddAnchor()
         {
-            Vector3 anchorPoint = pointer.PointedAt;
+            Vector3? pointedAt = pointer.PointedAt;
 
-            if (AnchoringFinished()) return;
+            if (!pointedAt.HasValue || AnchoringFinished()) return;
+
+            Vector3 anchorPoint = pointedAt.Value;
 
             SessionAnchors.Add(anchorPoint);
-            if (anchorVisual != null)
-            {
-                GameObject anchorVisualObject;
-                anchorVisualObject = Instantiate(anchorVisual, anchorPoint, Quaternion.identity) as GameObject;
-                anchorVisualObject.transform.parent = transform;
-                anchorVisualObject.name = "Anchor_" + SessionAnchors.Count.ToString();
-            }
+            if (anchorVisual == null) return;
+
+            GameObject anchorVisualObject;
+            anchorVisualObject = Instantiate(anchorVisual, anchorPoint, Quaternion.identity) as GameObject;
+            anchorVisualObject.transform.SetParent(transform, true);
+            anchorVisualObject.name = "Anchor_" + SessionAnchors.Count;
         }
 
         /// <summary>
@@ -62,11 +66,9 @@ namespace AwARe.RoomScan.Objects
         {
             if (SessionAnchors.Count == 0) return;
 
-            GameObject anchorVisualObject = GameObject.Find("Anchor_" + SessionAnchors.Count.ToString());
+            GameObject anchorVisualObject = GameObject.Find("Anchor_" + SessionAnchors.Count);
             if (anchorVisualObject != null)
-            {
                 Destroy(anchorVisualObject);
-            }
 
             SessionAnchors.RemoveAt(SessionAnchors.Count - 1);
         }

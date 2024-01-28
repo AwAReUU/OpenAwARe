@@ -17,15 +17,13 @@ namespace AwARe.ObjectGeneration
     /// </summary>
     public class ObjectDestroyer : MonoBehaviour
     {
-        public void StartDestroyingObjects()
-        {
-            StartCoroutine(DestroyAllObjects());
-        }
+        public void DestroyAllObjects() =>
+            StartCoroutine(DestroyAllObjects_Coroutine());
 
         /// <summary>
         /// Destroy all GameObjects in the "Placed Objects" layer.
         /// </summary>
-        public IEnumerator DestroyAllObjects()
+        public IEnumerator DestroyAllObjects_Coroutine()
         {
             GameObject[] generatedObjects = ObjectObtainer.FindGameObjectsInLayer("Placed Objects");
             if (generatedObjects == null)

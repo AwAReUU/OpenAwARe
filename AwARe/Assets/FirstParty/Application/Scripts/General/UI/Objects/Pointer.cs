@@ -8,7 +8,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using AwARe.InterScenes.Objects;
-using AwARe.RoomScan.Polygons.Objects;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.XR.ARFoundation;
@@ -40,17 +39,18 @@ namespace AwARe.UI.Objects
         public bool FoundFirstPlane { get; private set; } = false;
 
         /// <inheritdoc/>
-        public virtual Vector3 PointedAt
+        public virtual Vector3? PointedAt
         {   get
             {
                 // Only return value if it is from a detected plane
-                if(!FoundFirstPlane && !Application.isEditor)
-                    throw new System.Exception("No plane found yet. Please try again.");
-                else
+                if (!FoundFirstPlane && !Application.isEditor)
                 {
-                    LockPlane = true;
-                    return transform.position;
+                    Debug.LogError("No plane found yet. Please try again.");
+                    return null;
                 }
+
+                LockPlane = true;
+                return transform.position;
             }
         }
             

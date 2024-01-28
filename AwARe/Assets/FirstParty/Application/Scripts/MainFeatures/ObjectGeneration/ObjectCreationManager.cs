@@ -47,9 +47,9 @@ namespace AwARe.ObjectGeneration
 
         [SerializeField] private Data.Objects.Room roomObject;
 
-        /// <value>
+        /// <summary>
         /// list of renderables that are present in the current room.
-        /// </value>
+        /// </summary>
         public List<Renderable> currentRoomRenderables;
 
         /// <summary>
@@ -70,11 +70,9 @@ namespace AwARe.ObjectGeneration
 
         private void Start()
         {
-            uiHandler = GetComponent<ObjGenUIHandler>();
-
             // Set the no list selected popup active if the selected list is null
+            uiHandler = GetComponent<ObjGenUIHandler>();
             uiHandler.SetNoListSelectedPopup(RetrieveIngredientlist() == null);
-
             uiHandler.SetSplitRoomsPopup(false);
         }
 
@@ -149,7 +147,7 @@ namespace AwARe.ObjectGeneration
         {
             //Wait untill de ObjectDestroyer is done.
             destroyer = gameObject.GetComponent<ObjectDestroyer>();
-            yield return StartCoroutine(destroyer.DestroyAllObjects());
+            yield return StartCoroutine(destroyer.DestroyAllObjects_Coroutine());
             new ObjectPlacer().PlaceRenderables(renderables, room, pathData);
         }
 

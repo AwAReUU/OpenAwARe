@@ -24,8 +24,10 @@ namespace AwARe.IngredientList.Objects
         // The parent element
         [SerializeField] private IngredientListManager manager;
         
-        // UI elements to control/copy
-        [SerializeField] public GameObject listItemObject; //list item 'prefab'
+        /// <summary>
+        /// The base GameObject for construction the UI-list of saved Ingredient Lists.
+        /// </summary>
+        public GameObject listItemObject;
         
         // Tracked UI elements
         readonly List<ListItem> lists = new();

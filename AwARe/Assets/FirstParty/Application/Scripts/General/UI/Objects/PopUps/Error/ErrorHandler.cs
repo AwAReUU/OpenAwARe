@@ -68,12 +68,16 @@ namespace AwARe.UI.Objects
         /// <param name="type">The kind of <see cref="LogType"/> message.</param>
         private void HandleLog(string logString, string stackTrace, LogType type)
         {
-            if (type != LogType.Exception && type != LogType.Error) return;
+            if (type != LogType.Exception && type != LogType.Error)
+                return;
+
             ShowPopUp();
-#if DEBUG
+#if !DEBUG
+            if (type == LogType.Exception)
+                return;
+#endif
             // Show the specific error
             activePopUp.GetComponentInChildren<TextMeshProUGUI>().text = logString;
-#endif
         }
     }
 }

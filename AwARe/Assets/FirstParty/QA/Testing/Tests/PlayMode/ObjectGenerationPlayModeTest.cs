@@ -116,7 +116,7 @@ namespace AwARe
 
             //Act: Destroy the object, and obtain the objects in the previously mentioned layer.
             var destroyer = testObject.AddComponent<ObjectDestroyer>();
-            yield return destroyer.DestroyAllObjects();
+            yield return destroyer.DestroyAllObjects_Coroutine();
 
             GameObject[] obtainedObjectsAfter = ObjectObtainer.FindGameObjectsInLayer(layer);
 

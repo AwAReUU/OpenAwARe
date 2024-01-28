@@ -6,7 +6,6 @@
 // \*                                                                                       */
 
 using System.Collections;
-using System.Collections.Generic;
 
 using AwARe.Objects;
 using UnityEngine;
@@ -29,6 +28,9 @@ namespace AwARe.RoomScan.Path.Objects
         [SerializeField] private PathVisualizer pathVisualizer;
 
         // Test Object for development
+        /// <summary>
+        /// Positive polygon which can be passed for testing.
+        /// </summary>
         public Polygon testPolygon;
 
         /// <summary>
@@ -78,32 +80,24 @@ namespace AwARe.RoomScan.Path.Objects
         /// <returns>The path.</returns>
         public PathData GenerateAndDrawPath()
         {
+            // Initialize variables for generation
             PathGenerator startstate = new();
-
-            bool useTestPol = testPolygon != null;
             Data.Logic.Room roomData = Room.Data;
             Data.Logic.Polygon positivePolygon = roomData.PositivePolygon;
 
+            // Use a test polygon if given.
+            bool useTestPol = testPolygon != null;
             if (useTestPol)
-            {
-                List<Vector3> points = new()
-                {
-                    new(-3.330043f, 0, -3.042626f),
-                    new(-2.702615f, 0, -5.299197f),
-                    new(-1.407629f, 0, -4.649026f),
-                    new(-0.4994112f, 0, -2.780823f),
-                    new(-2.009388f, 0, -0.5163946f),
-                };
-
-                testPolygon.Data = new(points, 1f);
                 positivePolygon = testPolygon.Data;
-            }
             
+            // Generate a new path
             path = startstate.GeneratePath(positivePolygon, roomData.NegativePolygons);
-
+            
+            // Draw test polygon
             if (useTestPol)
                 testPolygon.GetComponent<Liner>().UpdateLine();
 
+            // Visualize the path
             PathVisualizer visualizer = pathVisualizer.GetComponent<PathVisualizer>();
             visualizer.SetPath(path);
             visualizer.Visualize();

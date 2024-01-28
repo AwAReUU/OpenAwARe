@@ -13,7 +13,7 @@ using UnityEngine.UI;
 namespace AwARe.RoomScan
 {
     /// <summary>
-    /// Handles all behaviour regarding screenshots.
+    /// Controls all behaviour regarding screenshots.
     /// </summary>
     public class ScreenshotManager : MonoBehaviour
     {
@@ -31,6 +31,9 @@ namespace AwARe.RoomScan
         /// <summary>
         /// Gets a value indicating whether a screenshot is currently being displayed.
         /// </summary>
+        /// <value>
+        /// True if a screenshot is currently displayed.
+        /// </value>
         public bool ScreenshotDisplayed {get; private set;} = false;
 
         void Start()
@@ -83,8 +86,7 @@ namespace AwARe.RoomScan
         {
             // set the images color either to transparent or solid
             Color color = image.color;
-            if (transparent) color.a = 0.4f;
-            else color.a = 1;
+            color.a = transparent ? 0.4f : 1f;
             image.color = color;
 
             switch (size)
@@ -113,15 +115,8 @@ namespace AwARe.RoomScan
         /// <param name="index">The index corresponding with the screenshot.</param>
         /// <param name="transparent">Whether the image displaying the screenshot should be transparent.</param>
         /// <param name="size">The relative size the screenshot should be shown in.</param>
-        public void DisplayScreenshotFromFile(
-            string roomName,
-            int index,
-            bool transparent = false,
-            ImageSize size = ImageSize.Large
-            )
-        {
+        public void DisplayScreenshotFromFile(string roomName, int index, bool transparent = false, ImageSize size = ImageSize.Large) =>
             DisplayScreenshot(RetrieveScreenshot(GetPath(roomName, index)), transparent, size);
-        }
 
         /// <summary>
         /// Hides the screenshot being displayed on the screen.
@@ -140,20 +135,16 @@ namespace AwARe.RoomScan
         /// </summary>
         /// <param name="texture">The texture to convert.</param>
         /// <returns>The sprite.</returns>
-        public Sprite TextureToSprite(Texture2D texture)
-        {
-            return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-        }
+        public Sprite TextureToSprite(Texture2D texture) =>
+            Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
 
         /// <summary>
         /// Deletes the specified screenshot.
         /// </summary>
         /// <param name="roomName">The name of the room that the screenshot corresponds with.</param>
         /// <param name="index">The number of the anchorpoint that the screenshot corresponds with.</param>
-        public void DeleteScreenshot(string roomName, int index)
-        {
+        public void DeleteScreenshot(string roomName, int index) =>
             File.Delete(GetPath(roomName, index));
-        }
 
         /// <summary>
         /// Retrieves the screenshot from local memory at the given file path.
@@ -162,14 +153,12 @@ namespace AwARe.RoomScan
         /// <returns>The screenshot.</returns>
         private Sprite RetrieveScreenshot(string filePath)
         {
-            if (System.IO.File.Exists(filePath))
-            {
-                byte[] bytes = System.IO.File.ReadAllBytes(filePath);
-                Texture2D texture = new(1, 1);
-                texture.LoadImage(bytes);
-                return TextureToSprite(texture);
-            }
-            throw new Exception("Screenshot cannot be found.");
+            if (!File.Exists(filePath))
+                throw new Exception("Screenshot cannot be found.");
+            byte[] bytes = File.ReadAllBytes(filePath);
+            Texture2D texture = new(1, 1);
+            texture.LoadImage(bytes);
+            return TextureToSprite(texture);
         }
 
         /// <summary>
@@ -178,7 +167,7 @@ namespace AwARe.RoomScan
         private void SetupImage()
         {
             // create a mask object
-            maskObj = new GameObject("ScreenshotMask");
+            maskObj = new("ScreenshotMask");
             maskObj.transform.parent = canvas.transform;
             Image maskImage = maskObj.AddComponent<Image>();
             Mask mask = maskObj.AddComponent<Mask>();
@@ -198,13 +187,13 @@ namespace AwARe.RoomScan
 
             // create object for outline of the image
             outlineImageObj = new("OutlineImage");
-            outlineImageObj.transform.parent = canvas.transform;
+            outlineImageObj.transform.SetParent(canvas.transform, true);
             Image outlineImage = outlineImageObj.AddComponent<Image>();
             outlineImage.sprite = outlineSprite;
 
             defaultPos = new Vector3(0, 0, 0);
 
-            Vector2 size = new Vector2(maskSize, maskSize);
+            Vector2 size = new (maskSize, maskSize);
 
             maskObj.GetComponent<Image>().rectTransform.sizeDelta = size;
             outlineImageObj.GetComponent<Image>().rectTransform.sizeDelta = size;
