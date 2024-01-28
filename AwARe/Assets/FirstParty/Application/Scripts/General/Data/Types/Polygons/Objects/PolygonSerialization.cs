@@ -5,19 +5,15 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
-using AwARe.Data.Logic;
-using AwARe.RoomScan.Polygons.Logic;
 
 using Newtonsoft.Json;
 
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace AwARe
+namespace AwARe.Data.Objects
 {
     /// <summary>
     /// Class <c>PolygonSerialization</c> is responsible for serializing polygons represented by <see cref="Vector3"/>'s to a Room.
@@ -25,6 +21,11 @@ namespace AwARe
     [System.Serializable]
     public class PolygonSerialization
     {
+        /// <summary>
+        /// The height of the polygon in the current session.
+        /// </summary>
+        public float height;
+
         /// <summary>
         /// The points representing the polygon in the current session.
         /// </summary>
@@ -39,9 +40,9 @@ namespace AwARe
         /// Constructor for PolygonSerialization, initializes the object with a list of serialized Vector3.
         /// </summary>
         /// <param name="points">points to use in the object.</param>
-        public PolygonSerialization(Polygon polygon)
+        public PolygonSerialization(Logic.Polygon polygon)
         {
-            float height = polygon?.height ?? default;
+            height = polygon?.height ?? default;
             sessionWorldPoints = polygon?.points?.Select(v => new Vector3Serialization(v)).ToList() ?? new List<Vector3Serialization>();
         }
 
@@ -49,6 +50,7 @@ namespace AwARe
         [JsonConstructor]
         public PolygonSerialization()
         {
+            height = default;
             sessionWorldPoints = new List<Vector3Serialization>();
         }
 
@@ -56,7 +58,7 @@ namespace AwARe
         /// Converts the serialized polygon back to a Polygon object.
         /// </summary>
         /// <returns>The deserialized Polygon.</returns>
-        public Polygon ToPolygon()
+        public Logic.Polygon ToPolygon()
         {
             if (sessionWorldPoints == null)
             {
@@ -65,7 +67,7 @@ namespace AwARe
             }
 
             List<Vector3> convertedlistpoints = sessionWorldPoints.Select(v => v.ToVector3()).ToList();
-            return new Polygon(convertedlistpoints);
+            return new(convertedlistpoints, height);
         }
 
         #region Point Conversion

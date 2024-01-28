@@ -7,6 +7,9 @@
 
 using System;
 using System.IO;
+
+using AwARe.Data.Objects;
+
 using UnityEngine;
 
 namespace AwARe

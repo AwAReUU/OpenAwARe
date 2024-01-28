@@ -5,22 +5,17 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*  
 
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
-using AwARe.Data.Logic;
-using AwARe.RoomScan.Polygons.Logic;
 
 using Newtonsoft.Json;
 
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace AwARe
+namespace AwARe.Data.Objects
 {
     /// <summary>
-    /// Class <c>RoomSerialization</c> is responsible for Serializing <see cref="Polygon"/>s to a <see cref="Room"/>.
+    /// Class <c>RoomSerialization</c> is responsible for Serializing <see cref="Data.Logic.Polygon"/>s to a <see cref="Data.Logic.Room"/>.
     /// </summary>
     [System.Serializable]
     public class RoomSerialization
@@ -50,7 +45,7 @@ namespace AwARe
         /// </summary>
         /// <param name="room">The room object for the current session.</param>
         /// <param name="anchors">List of anchors for the current session.</param>
-        public RoomSerialization(Room room, List<Vector3> anchors)
+        public RoomSerialization(Logic.Room room, List<Vector3> anchors)
         {
             RoomName = room.RoomName;
             RoomHeight = room.PositivePolygon?.height ?? default;
@@ -106,7 +101,7 @@ namespace AwARe
         /// </summary>
         /// <param name="anchors_">List of anchors for the current session.</param>
         /// <returns>The deserialized Room.</returns>
-        public Room ToRoom(List<Vector3> anchors_)
+        public Logic.Room ToRoom(List<Vector3> anchors_)
         {
             List<Vector3> anchors = new List<Vector3> { Vector3.zero, Vector3.zero };
 
@@ -122,14 +117,14 @@ namespace AwARe
                 p.GetSessionWorldPoints(anchors);
             }
 
-            Polygon positivePolygon = PositivePolygon.ToPolygon();
-            List<Polygon> negativePolygons = NegativePolygons.Select(polygonSerialization => polygonSerialization.ToPolygon()).ToList();
-            return new Room(positivePolygon, negativePolygons, RoomName, RoomHeight);
+            Logic.Polygon positivePolygon = PositivePolygon.ToPolygon();
+            List<Logic.Polygon> negativePolygons = NegativePolygons.Select(polygonSerialization => polygonSerialization.ToPolygon()).ToList();
+            return new Logic.Room(positivePolygon, negativePolygons, RoomName, RoomHeight);
         }
     }
 
     /// <summary>
-    /// Class <c>RoomListSerialization</c> is responsible for Serializing a list of <see cref="Room"/>.
+    /// Class <c>RoomListSerialization</c> is responsible for Serializing a list of <see cref="Logic.Room"/>.
     /// </summary>
     [System.Serializable]
     public class RoomListSerialization

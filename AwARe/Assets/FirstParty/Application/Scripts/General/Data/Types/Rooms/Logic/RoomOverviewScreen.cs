@@ -6,6 +6,8 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
+
+using AwARe.Data.Objects;
 using AwARe.RoomScan.Objects;
 using UnityEngine;
 

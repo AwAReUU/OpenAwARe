@@ -23,7 +23,7 @@ using Pointer = AwARe.UI.Objects.Pointer;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
-namespace AwARe.Tests.EditMode.General.Objects
+namespace AwARe.Tests.General.Objects
 {
     /// <summary>
     /// Test regarding the <see cref="Polygon"/> class.
