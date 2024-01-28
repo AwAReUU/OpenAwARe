@@ -12,20 +12,12 @@ const app: Express = express();
 // Setup automatic parsing to JSON
 app.use(bodyParser.json());
 
-// Catch syntax errors. This happens if the user sends incorrectly formatted json for example.
-app.use(function(error: any, _req: any, res: any, next: any) {
-    if (error instanceof SyntaxError) {
-        res.status(400).send("SyntaxError: request is not formatted correctly.");
-    } else {
-        next();
-    }
-});
-
 // ----------------------------------------------------------------------------
 // Routes:
 
+// Add home route to check if server is online/offline.
 app.get("/", (_req: Request, res: Response) => {
-    res.send("Hello world!");
+    res.send("Server online");
 });
 
 app.use("/auth", auth);

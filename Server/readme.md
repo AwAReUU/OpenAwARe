@@ -23,9 +23,9 @@ $ npm run dev
 For testing purposes, you can disable the login authorization for protected routes
 by setting the `VALIDATION` environment variable to "FALSE".
 
-## Connect
+## Testing
 
-Ip adress: 131.211.32.146:8000
+Run tests with `npm test`. For code coverage use `npm run coverage`.
 
 ## Routes
 
@@ -160,4 +160,4 @@ Ip adress: 131.211.32.146:8000
 
 ## Tips
 
--   Use **Postman** for testing post requests manually.
+- Use **Postman** for testing post requests manually.

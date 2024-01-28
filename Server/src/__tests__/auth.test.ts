@@ -129,3 +129,9 @@ test("POST /auth/refresh", async () => {
   };
   await api.post("/auth/refresh").send(body).expect(400);
 });
+
+// 11) Test homepage
+test("GET /", async () => {
+  let ret: any = await api.get("/").send().expect(200);
+  expect(ret.text).toEqual("Server online");
+});

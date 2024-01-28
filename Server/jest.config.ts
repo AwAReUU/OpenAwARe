@@ -9,7 +9,6 @@ const config: Config = {
     "./setup.ts",
     "./teardown.ts",
     "./util.ts",
-    // "./ingr.test.ts"
   ],
   setupFilesAfterEnv: ["<rootDir>/src/__tests__/setup.ts"],
 };
