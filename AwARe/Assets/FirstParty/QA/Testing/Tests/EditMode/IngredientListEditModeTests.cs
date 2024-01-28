@@ -437,7 +437,7 @@ namespace AwARe.Tests.IngredientList
             string testFileContent = File.ReadAllText(testFile);
 
             //Act: Convert contents of the file to IngredientLists, convert that back to json string.
-            List<AwARe.IngredientList.Logic.IngredientList> lists = ingredientFileHandler.ReadFile();
+            List<AwARe.IngredientList.Logic.IngredientList> lists = await ingredientFileHandler.ReadFile();
             string convertedLists = IngredientListsJsonHelper.IngredientListsToJSONString(lists);
 
             //Assert: The converted list should be the same as the original file content.

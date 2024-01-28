@@ -47,13 +47,19 @@ namespace AwARe.Questionnaire.Objects
 
         /// <summary>
         /// Switches the scene back to the home screen.
-        /// TODO: Format and Send answers to the server.
         /// </summary>
         public void Submit()
         {
+            var data = GetData();
+            if (data == null) {
+                Debug.LogError("Questionnaire data is null.");
+                return;
+            }
+
+            string jsonData = JsonUtility.ToJson(data, true);
             Client.GetInstance().Post<QuestionnaireRequestBody, object>("quest/save", new QuestionnaireRequestBody
             {
-                questionnaire = "Dit is een test" // TODO: Fill in the actual questionnaire.
+                questionnaire = jsonData
             }).Then((_) =>
             {
                 // Do nothing, we dont expect any return values.
@@ -74,14 +80,13 @@ namespace AwARe.Questionnaire.Objects
             }).Send();
 
             SceneSwitcher.Get().LoadScene("Home");
-            SaveQuestionnaire();
+            SaveQuestionnaire(data);
         }
-
+        
         /// <summary>
-        /// Saves the questionnare to a file.
+        /// Get the questionnare data.
         /// </summary>
-        public void SaveQuestionnaire()
-        {
+        private AnsweredQuestionnaireData GetData() {
             if (questionnaireObject != null)
             {
                 Questionnaire questionnaire = questionnaireObject.GetComponent<Questionnaire>();
@@ -122,22 +127,28 @@ namespace AwARe.Questionnaire.Objects
 
                         questionnaireData.AnsweredQuestions.Add(answeredQuestionData);
                     }
+                    
+                    return questionnaireData;
 
-                    // Save collected data
-                    int number =  Directory.GetFiles(folderpath).Length;
-                    string path = Path.Combine(folderpath, "submission" + (number + 1));
-                    Save(questionnaireData, path);
-                    Debug.Log("Saved questionnaire results to a file");
                 }
                 else
                 {
                     Debug.LogError("Questionnaire component not found on the questionnaireObject.");
+                    return null;
                 }
-            }
-            else
-            {
-                Debug.LogError("questionnaireObject is null.");
-            }
+            } else {return null;}
+        }
+
+        /// <summary>
+        /// Saves the questionnare to a file.
+        /// </summary>
+        private void SaveQuestionnaire(AnsweredQuestionnaireData data)
+        {
+            // Save collected data
+            int number =  Directory.GetFiles(folderpath).Length;
+            string path = Path.Combine(folderpath, "submission" + (number + 1));
+            Save(data, path);
+            Debug.Log("Saved questionnaire results to a file");
         }
 
         /// <summary>
