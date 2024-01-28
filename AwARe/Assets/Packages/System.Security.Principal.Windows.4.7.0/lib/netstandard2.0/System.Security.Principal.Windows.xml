@@ -119,9 +119,9 @@
         <paramref name="identity" /> is <see langword="null" />.</exception>
     </member>
     <member name="M:System.Security.Principal.IdentityReferenceCollection.CopyTo(System.Security.Principal.IdentityReference[],System.Int32)">
-      <summary>Copies the <see cref="T:System.Security.Principal.IdentityReferenceCollection" /> collection to an <see cref="T:System.Security.Principal.IdentityReferenceCollection" /> array, starting at the specified index.</summary>
+      <summary>Copies the <see cref="T:System.Security.Principal.IdentityReferenceCollection" /> collection to an <see cref="T:System.Security.Principal.IdentityReferenceCollection" /> array, starting at the specified roomIndex.</summary>
       <param name="array">An <see cref="T:System.Security.Principal.IdentityReferenceCollection" /> array object to which the <see cref="T:System.Security.Principal.IdentityReferenceCollection" /> collection is to be copied.</param>
-      <param name="offset">The zero-based index in <paramref name="array" /> where the <see cref="T:System.Security.Principal.IdentityReferenceCollection" /> collection is to be copied.</param>
+      <param name="offset">The zero-based roomIndex in <paramref name="array" /> where the <see cref="T:System.Security.Principal.IdentityReferenceCollection" /> collection is to be copied.</param>
     </member>
     <member name="P:System.Security.Principal.IdentityReferenceCollection.Count">
       <summary>Gets the number of items in the <see cref="T:System.Security.Principal.IdentityReferenceCollection" /> collection.</summary>
@@ -132,9 +132,9 @@
       <returns>An enumerator for the <see cref="T:System.Security.Principal.IdentityReferenceCollection" /> collection.</returns>
     </member>
     <member name="P:System.Security.Principal.IdentityReferenceCollection.Item(System.Int32)">
-      <summary>Sets or gets the node at the specified index of the <see cref="T:System.Security.Principal.IdentityReferenceCollection" /> collection.</summary>
-      <param name="index">The zero-based index in the <see cref="T:System.Security.Principal.IdentityReferenceCollection" /> collection.</param>
-      <returns>The <see cref="T:System.Security.Principal.IdentityReference" /> at the specified index in the collection. If <paramref name="index" /> is greater than or equal to the number of nodes in the collection, the return value is <see langword="null" />.</returns>
+      <summary>Sets or gets the node at the specified roomIndex of the <see cref="T:System.Security.Principal.IdentityReferenceCollection" /> collection.</summary>
+      <param name="roomIndex">The zero-based roomIndex in the <see cref="T:System.Security.Principal.IdentityReferenceCollection" /> collection.</param>
+      <returns>The <see cref="T:System.Security.Principal.IdentityReference" /> at the specified roomIndex in the collection. If <paramref name="roomIndex" /> is greater than or equal to the number of nodes in the collection, the return value is <see langword="null" />.</returns>
     </member>
     <member name="M:System.Security.Principal.IdentityReferenceCollection.Remove(System.Security.Principal.IdentityReference)">
       <summary>Removes the specified <see cref="T:System.Security.Principal.IdentityReference" /> object from the collection.</summary>
@@ -247,7 +247,7 @@ A Win32 error code was returned.</exception>
     <member name="M:System.Security.Principal.SecurityIdentifier.#ctor(System.Byte[],System.Int32)">
       <summary>Initializes a new instance of the <see cref="T:System.Security.Principal.SecurityIdentifier" /> class by using a specified binary representation of a security identifier (SID).</summary>
       <param name="binaryForm">The byte array that represents the SID.</param>
-      <param name="offset">The byte offset to use as the starting index in <paramref name="binaryForm" />.</param>
+      <param name="offset">The byte offset to use as the starting roomIndex in <paramref name="binaryForm" />.</param>
     </member>
     <member name="M:System.Security.Principal.SecurityIdentifier.#ctor(System.IntPtr)">
       <summary>Initializes a new instance of the <see cref="T:System.Security.Principal.SecurityIdentifier" /> class by using an integer that represents the binary form of a security identifier (SID).</summary>
@@ -318,7 +318,7 @@ A Win32 error code was returned.</exception>
     <member name="M:System.Security.Principal.SecurityIdentifier.GetBinaryForm(System.Byte[],System.Int32)">
       <summary>Copies the binary representation of the specified security identifier (SID) represented by the <see cref="T:System.Security.Principal.SecurityIdentifier" /> class to a byte array.</summary>
       <param name="binaryForm">The byte array to receive the copied SID.</param>
-      <param name="offset">The byte offset to use as the starting index in <paramref name="binaryForm" />.</param>
+      <param name="offset">The byte offset to use as the starting roomIndex in <paramref name="binaryForm" />.</param>
     </member>
     <member name="M:System.Security.Principal.SecurityIdentifier.GetHashCode">
       <summary>Serves as a hash function for the current <see cref="T:System.Security.Principal.SecurityIdentifier" /> object. The <see cref="M:System.Security.Principal.SecurityIdentifier.GetHashCode" /> method is suitable for hashing algorithms and data structures like a hash table.</summary>

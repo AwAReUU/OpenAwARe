@@ -970,7 +970,7 @@
             Gets a string containing the same characters as the specified range of characters in the given array.
             </summary>
             <param name="key">The character array containing the name to find.</param>
-            <param name="start">The zero-based index into the array specifying the first character of the name.</param>
+            <param name="start">The zero-based roomIndex into the array specifying the first character of the name.</param>
             <param name="length">The number of characters in the name.</param>
             <returns>A string containing the same characters as the specified range of characters in the given array.</returns>
         </member>
@@ -1972,7 +1972,7 @@
             Gets a string containing the same characters as the specified range of characters in the given array.
             </summary>
             <param name="key">The character array containing the name to find.</param>
-            <param name="start">The zero-based index into the array specifying the first character of the name.</param>
+            <param name="start">The zero-based roomIndex into the array specifying the first character of the name.</param>
             <param name="length">The number of characters in the name.</param>
             <returns>A string containing the same characters as the specified range of characters in the given array.</returns>
         </member>
@@ -2391,7 +2391,7 @@
             </summary>
             <param name="newToken">The new token.</param>
             <param name="value">The value.</param>
-            <param name="updateIndex">A flag indicating whether the position index inside an array should be updated.</param>
+            <param name="updateIndex">A flag indicating whether the position roomIndex inside an array should be updated.</param>
         </member>
         <member name="M:Newtonsoft.Json.JsonReader.SetStateBasedOnCurrent">
             <summary>
@@ -4492,36 +4492,36 @@
         </member>
         <member name="P:Newtonsoft.Json.Linq.JArray.Item(System.Int32)">
             <summary>
-            Gets or sets the <see cref="T:Newtonsoft.Json.Linq.JToken"/> at the specified index.
+            Gets or sets the <see cref="T:Newtonsoft.Json.Linq.JToken"/> at the specified roomIndex.
             </summary>
             <value></value>
         </member>
         <member name="M:Newtonsoft.Json.Linq.JArray.IndexOf(Newtonsoft.Json.Linq.JToken)">
             <summary>
-            Determines the index of a specific item in the <see cref="T:Newtonsoft.Json.Linq.JArray"/>.
+            Determines the roomIndex of a specific item in the <see cref="T:Newtonsoft.Json.Linq.JArray"/>.
             </summary>
             <param name="item">The @polygon to locate in the <see cref="T:Newtonsoft.Json.Linq.JArray"/>.</param>
             <returns>
-            The index of <paramref name="item"/> if found in the list; otherwise, -1.
+            The roomIndex of <paramref name="item"/> if found in the list; otherwise, -1.
             </returns>
         </member>
         <member name="M:Newtonsoft.Json.Linq.JArray.Insert(System.Int32,Newtonsoft.Json.Linq.JToken)">
             <summary>
-            Inserts an item to the <see cref="T:Newtonsoft.Json.Linq.JArray"/> at the specified index.
+            Inserts an item to the <see cref="T:Newtonsoft.Json.Linq.JArray"/> at the specified roomIndex.
             </summary>
-            <param name="index">The zero-based index at which <paramref name="item"/> should be inserted.</param>
+            <param name="roomIndex">The zero-based roomIndex at which <paramref name="item"/> should be inserted.</param>
             <param name="item">The @polygon to insert into the <see cref="T:Newtonsoft.Json.Linq.JArray"/>.</param>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            <paramref name="index"/> is not a valid index in the <see cref="T:Newtonsoft.Json.Linq.JArray"/>.
+            <paramref name="roomIndex"/> is not a valid roomIndex in the <see cref="T:Newtonsoft.Json.Linq.JArray"/>.
             </exception>
         </member>
         <member name="M:Newtonsoft.Json.Linq.JArray.RemoveAt(System.Int32)">
             <summary>
-            Removes the <see cref="T:Newtonsoft.Json.Linq.JArray"/> item at the specified index.
+            Removes the <see cref="T:Newtonsoft.Json.Linq.JArray"/> item at the specified roomIndex.
             </summary>
-            <param name="index">The zero-based index of the item to remove.</param>
+            <param name="roomIndex">The zero-based roomIndex of the item to remove.</param>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            <paramref name="index"/> is not a valid index in the <see cref="T:Newtonsoft.Json.Linq.JArray"/>.
+            <paramref name="roomIndex"/> is not a valid roomIndex in the <see cref="T:Newtonsoft.Json.Linq.JArray"/>.
             </exception>
         </member>
         <member name="M:Newtonsoft.Json.Linq.JArray.GetEnumerator">
@@ -4554,7 +4554,7 @@
         </member>
         <member name="M:Newtonsoft.Json.Linq.JArray.CopyTo(Newtonsoft.Json.Linq.JToken[],System.Int32)">
             <summary>
-            Copies the elements of the <see cref="T:Newtonsoft.Json.Linq.JArray"/> to an array, starting at a particular array index.
+            Copies the elements of the <see cref="T:Newtonsoft.Json.Linq.JArray"/> to an array, starting at a particular array roomIndex.
             </summary>
             <param name="array">The array.</param>
             <param name="arrayIndex">Index of the array.</param>
@@ -6872,7 +6872,7 @@
             <summary>Replace all array items.</summary>
         </member>
         <member name="F:Newtonsoft.Json.Linq.MergeArrayHandling.Merge">
-            <summary>Merge array items together, matched by index.</summary>
+            <summary>Merge array items together, matched by roomIndex.</summary>
         </member>
         <member name="T:Newtonsoft.Json.Linq.MergeNullValueHandling">
             <summary>
@@ -9215,7 +9215,7 @@
         <member name="M:Newtonsoft.Json.Utilities.LinqBridge.Enumerable.Where``1(System.Collections.Generic.IEnumerable{``0},Newtonsoft.Json.Serialization.Func{``0,System.Int32,System.Boolean})">
             <summary>
             Filters a sequence of values based on a predicate. 
-            Each element's index is used in the logic of the predicate function.
+            Each element's roomIndex is used in the logic of the predicate function.
             </summary>
         </member>
         <member name="M:Newtonsoft.Json.Utilities.LinqBridge.Enumerable.Select``2(System.Collections.Generic.IEnumerable{``0},Newtonsoft.Json.Serialization.Func{``0,``1})">
@@ -9226,7 +9226,7 @@
         <member name="M:Newtonsoft.Json.Utilities.LinqBridge.Enumerable.Select``2(System.Collections.Generic.IEnumerable{``0},Newtonsoft.Json.Serialization.Func{``0,System.Int32,``1})">
             <summary>
             Projects each element of a sequence into a new form by 
-            incorporating the element's index.
+            incorporating the element's roomIndex.
             </summary>
         </member>
         <member name="M:Newtonsoft.Json.Utilities.LinqBridge.Enumerable.SelectMany``2(System.Collections.Generic.IEnumerable{``0},Newtonsoft.Json.Serialization.Func{``0,System.Collections.Generic.IEnumerable{``1}})">
@@ -9239,7 +9239,7 @@
             <summary>
             Projects each element of a sequence to an <see cref="T:System.Collections.Generic.IEnumerable`1" />, 
             and flattens the resulting sequences into one sequence. The 
-            index of each source element is used in the projected form of 
+            roomIndex of each source element is used in the projected form of 
             that element.
             </summary>
         </member>
@@ -9254,7 +9254,7 @@
             <summary>
             Projects each element of a sequence to an <see cref="T:System.Collections.Generic.IEnumerable`1" />, 
             flattens the resulting sequences into one sequence, and invokes 
-            a result selector function on each element therein. The index of 
+            a result selector function on each element therein. The roomIndex of 
             each source element is used in the intermediate projected form 
             of that element.
             </summary>
@@ -9267,7 +9267,7 @@
         <member name="M:Newtonsoft.Json.Utilities.LinqBridge.Enumerable.TakeWhile``1(System.Collections.Generic.IEnumerable{``0},Newtonsoft.Json.Serialization.Func{``0,System.Int32,System.Boolean})">
             <summary>
             Returns elements from a sequence as long as a specified condition is true.
-            The element's index is used in the logic of the predicate function.
+            The element's roomIndex is used in the logic of the predicate function.
             </summary>
         </member>
         <member name="M:Newtonsoft.Json.Utilities.LinqBridge.Enumerable.FirstImpl``1(System.Collections.Generic.IEnumerable{``0},Newtonsoft.Json.Serialization.Func{``0})">
@@ -9360,13 +9360,13 @@
         </member>
         <member name="M:Newtonsoft.Json.Utilities.LinqBridge.Enumerable.ElementAt``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
             <summary>
-            Returns the element at a specified index in a sequence.
+            Returns the element at a specified roomIndex in a sequence.
             </summary>
         </member>
         <member name="M:Newtonsoft.Json.Utilities.LinqBridge.Enumerable.ElementAtOrDefault``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
             <summary>
-            Returns the element at a specified index in a sequence or a 
-            default value if the index is out of range.
+            Returns the element at a specified roomIndex in a sequence or a 
+            default value if the roomIndex is out of range.
             </summary>
         </member>
         <member name="M:Newtonsoft.Json.Utilities.LinqBridge.Enumerable.Reverse``1(System.Collections.Generic.IEnumerable{``0})">
@@ -9396,7 +9396,7 @@
             <summary>
             Bypasses elements in a sequence as long as a specified condition 
             is true and then returns the remaining elements. The element's 
-            index is used in the logic of the predicate function.
+            roomIndex is used in the logic of the predicate function.
             </summary>
         </member>
         <member name="M:Newtonsoft.Json.Utilities.LinqBridge.Enumerable.Count``1(System.Collections.Generic.IEnumerable{``0})">
