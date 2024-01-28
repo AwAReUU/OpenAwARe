@@ -8,10 +8,8 @@
 using System;
 using AwARe.InterScenes.Objects;
 using AwARe.Server.Logic;
-using Codice.CM.SEIDInfo;
 using System.Collections.Generic;
 using System.IO;
-using AwARe.InterScenes.Objects;
 using AwARe.Questionnaire.Data;
 using UnityEngine;
 
@@ -51,7 +49,8 @@ namespace AwARe.Questionnaire.Objects
         public void Submit()
         {
             var data = GetData();
-            if (data == null) {
+            if (data == null)
+            {
                 Debug.LogError("Questionnaire data is null.");
                 return;
             }
@@ -84,11 +83,12 @@ namespace AwARe.Questionnaire.Objects
             SceneSwitcher.Get().LoadScene("Home");
             SaveQuestionnaire(data);
         }
-        
+
         /// <summary>
         /// Get the questionnare data.
         /// </summary>
-        private AnsweredQuestionnaireData GetData() {
+        private AnsweredQuestionnaireData GetData()
+        {
             if (questionnaireObject != null)
             {
                 Questionnaire questionnaire = questionnaireObject.GetComponent<Questionnaire>();
@@ -129,7 +129,7 @@ namespace AwARe.Questionnaire.Objects
 
                         questionnaireData.AnsweredQuestions.Add(answeredQuestionData);
                     }
-                    
+
                     return questionnaireData;
 
                 }
@@ -138,7 +138,8 @@ namespace AwARe.Questionnaire.Objects
                     Debug.LogError("Questionnaire component not found on the questionnaireObject.");
                     return null;
                 }
-            } else {return null;}
+            }
+            else { return null; }
         }
 
         /// <summary>
@@ -147,7 +148,7 @@ namespace AwARe.Questionnaire.Objects
         private void SaveQuestionnaire(AnsweredQuestionnaireData data)
         {
             // Save collected data
-            int number =  Directory.GetFiles(folderpath).Length;
+            int number = Directory.GetFiles(folderpath).Length;
             string path = Path.Combine(folderpath, "submission" + (number + 1));
             Save(data, path);
             Debug.Log("Saved questionnaire results to a file");
