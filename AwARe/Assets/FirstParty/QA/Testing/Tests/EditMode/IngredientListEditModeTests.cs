@@ -13,7 +13,7 @@ using AwARe.Database.Logic;
 using AwARe.IngredientList.Logic;
 using NUnit.Framework;
 
-namespace Tests
+namespace AwARe.Tests.IngredientList
 {
     /// <summary>
     /// Test regarding the <c>Ingredient</c> object class.
@@ -192,7 +192,7 @@ namespace Tests
         public void Test_Constructor_ingredientsNull()
         {
             //Arrange: Create a new IngredientList using the constructor without ingredients.
-            IngredientList list = new("testList");
+            AwARe.IngredientList.Logic.IngredientList list = new("testList");
 
             //Assert: The List.Ingredients is an empty Dictionary.
             Assert.AreEqual(list.Ingredients, new Dictionary<Ingredient, (float, QuantityType)>());
@@ -212,7 +212,7 @@ namespace Tests
             {
                 { ingredient, (quantity, QuantityType.G) }
             };
-            IngredientList list = new("testList", ingredients);
+            AwARe.IngredientList.Logic.IngredientList list = new("testList", ingredients);
 
             //Assert: list.GetQuantity() returns the same value as the set quantity of the ingredient.
             Assert.AreEqual(quantity, list.GetQuantity(ingredient));
@@ -232,7 +232,7 @@ namespace Tests
             {
                 { ingredient,(0,quantityType) }
             };
-            IngredientList list = new("testList", ingredients);
+            AwARe.IngredientList.Logic.IngredientList list = new("testList", ingredients);
 
             //Assert: list.GetQuantityType() returns the same value as the set QuantityType of the ingredient.
             Assert.AreEqual(quantityType, list.GetQuantityType(ingredient));
@@ -244,7 +244,7 @@ namespace Tests
             Dictionary<Ingredient, (float, QuantityType)> ingredients)
         {
             //Arrange: Create an IngredientList with the given ingredients Dictionary.
-            IngredientList list = new("testList", ingredients);
+            AwARe.IngredientList.Logic.IngredientList list = new("testList", ingredients);
 
             //Act: calculate the expected and actual number of ingredients in this list.
             int expected = ingredients.Count;
@@ -261,7 +261,7 @@ namespace Tests
         public void Test_ChangeName(string name)
         {
             //Arrange: Create an ingredientList.
-            IngredientList list = new IngredientList("");
+            AwARe.IngredientList.Logic.IngredientList list = new("");
 
             //Act: Change the ListName using ChangeName()
             list.ChangeName(name);
@@ -274,7 +274,7 @@ namespace Tests
         public void Test_AddIngredient()
         {
             //Arrange: Create an empty IngredientList and a new Ingredient.
-            IngredientList list = new("testList");
+            AwARe.IngredientList.Logic.IngredientList list = new("testList");
             Ingredient ingredient = new(1, "test");
 
             //Act: Add the Ingredient to the list using the method.
@@ -294,7 +294,7 @@ namespace Tests
                 { new(1,"test1"),(0f,QuantityType.G) },
                 { new(2,"test2"),(0f,QuantityType.G) }
             };
-            IngredientList list = new("testList", ingredients);
+            AwARe.IngredientList.Logic.IngredientList list = new("testList", ingredients);
             Ingredient ingredient = new(1, "test");
 
             //Act and Assert: list.AddIngredient() throws an exception when trying to add this ingredient.s
@@ -307,7 +307,7 @@ namespace Tests
         {
             //Arrange: Create an ingredientList with the given ingredients Dictionary,
             //and an Ingredient with an ID that may or may not be part of the dictionary.
-            IngredientList list = new("testList", ingredients);
+            AwARe.IngredientList.Logic.IngredientList list = new("testList", ingredients);
             Ingredient ingredient = new(1, "test");
 
             //Act: Remove the ingredient from the list.
@@ -331,7 +331,7 @@ namespace Tests
             {
                 { ingredient,(0f,QuantityType.G) }
             };
-            IngredientList list = new("testList", ingredients);
+            AwARe.IngredientList.Logic.IngredientList list = new("testList", ingredients);
 
             //Act: Update the value at key == ingredient and retrieve the updated quantity.
             list.UpdateIngredient(ingredient, newQuantity, QuantityType.G);
@@ -353,7 +353,7 @@ namespace Tests
             {
                 { ingredient,(0f,QuantityType.G) }
             };
-            IngredientList list = new("testList", ingredients);
+            AwARe.IngredientList.Logic.IngredientList list = new("testList", ingredients);
 
             //Act: Update the value at key == ingredient and retrieve the updated quantity type.
             list.UpdateIngredient(ingredient, 0f, newQuantityType);
@@ -369,7 +369,7 @@ namespace Tests
             //Arrange: Create an Ingredient, an empty IngredientList, and some "new" values.
             Ingredient ingredient = new(1, "test", 1f, 1f);
             Dictionary<Ingredient, (float, QuantityType)> ingredients = new();
-            IngredientList list = new("testList", ingredients);
+            AwARe.IngredientList.Logic.IngredientList list = new("testList", ingredients);
             float newQuantity = 1f;
             QuantityType newType = QuantityType.PCS;
 
@@ -385,7 +385,7 @@ namespace Tests
         {
             //Arrange: Create a list without any ingredientlists in it.
             IngredientFileHandler ingredientFileHandler = new(new MockupIngredientDatabase());
-            List<IngredientList> ingredientLists = new();
+            List<AwARe.IngredientList.Logic.IngredientList> ingredientLists = new();
             //Act + Assert: Save the empty list. Check whether it does not crash the application.
             Assert.DoesNotThrow(() => ingredientFileHandler.SaveLists(ingredientLists));
         }
@@ -398,7 +398,7 @@ namespace Tests
             IngredientFileHandler ingredientFileHandler = new(new MockupIngredientDatabase(), testFile);
 
             //Act: Read the file.
-            List<IngredientList> lists = await ingredientFileHandler.ReadFile();
+            List<AwARe.IngredientList.Logic.IngredientList> lists = await ingredientFileHandler.ReadFile();
 
             //Assert: The list contains a single ingredientList.
             Assert.True(lists.Count == 1);
@@ -411,7 +411,7 @@ namespace Tests
             IngredientFileHandler ingredientFileHandler = new(new MockupIngredientDatabase(), "Some path that does not exist");
 
             //Act: Read the file.
-            List<IngredientList> lists = await ingredientFileHandler.ReadFile();
+            List<AwARe.IngredientList.Logic.IngredientList> lists = await ingredientFileHandler.ReadFile();
 
             //Assert: The list contains a single ingredientList.
             Assert.True(lists.Count == 0);
@@ -437,7 +437,7 @@ namespace Tests
             string testFileContent = File.ReadAllText(testFile);
 
             //Act: Convert contents of the file to IngredientLists, convert that back to json string.
-            List<IngredientList> lists = await ingredientFileHandler.ReadFile();
+            List<AwARe.IngredientList.Logic.IngredientList> lists = ingredientFileHandler.ReadFile();
             string convertedLists = IngredientListsJsonHelper.IngredientListsToJSONString(lists);
 
             //Assert: The converted list should be the same as the original file content.

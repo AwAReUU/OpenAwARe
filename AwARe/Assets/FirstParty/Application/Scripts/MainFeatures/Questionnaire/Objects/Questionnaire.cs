@@ -8,7 +8,6 @@
 using System.Collections.Generic;
 
 using AwARe.Questionnaire.Data;
-
 using TMPro;
 using UnityEngine;
 
@@ -42,7 +41,7 @@ namespace AwARe.Questionnaire.Objects
         /// <value>
         /// List of questions that this questionnaire is currently holding.
         /// </value>
-        private List<GameObject> Questions { get; set; }
+        public List<GameObject> Questions { get; set; }
 
         /// <summary>
         /// Initialize a new <see cref="Questionnaire"/>.
@@ -63,6 +62,13 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         /// <param name="questionnaireTitle">Title to set to the UI.</param>
         public void SetTitle(string questionnaireTitle) => title.text = questionnaireTitle;
+
+        /// <summary>
+        /// Get the title of the questionnaire in the UI.
+        /// </summary>
+        /// <returns>The title of this questionnaire.</returns>
+        public string GetTitle() => title.text;
+
         /// <summary>
         /// Set the description of the questionnaire in the UI.
         /// </summary>
@@ -85,7 +91,7 @@ namespace AwARe.Questionnaire.Objects
             question.SetTitle(data.questionTitle);
             question.SetIfYes(data.ifYes, data.ifYesTrigger);
 
-            AddAnswerOptions(question, data);
+            AddAnswerOption(question, data);
             AddIfYesQuestions(question, data);
 
             return questionObject;
@@ -96,7 +102,7 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         /// <param name="question">The question to add the new answer option to.</param>
         /// <param name="data">The data needed to construct the new answer option.</param>
-        private void AddAnswerOptions(Question question, QuestionData data)
+        private void AddAnswerOption(Question question, QuestionData data)
         {
             foreach (AnswerOptionData answer in data.answerOptions)
                 question.AddAnswerOption(answer);

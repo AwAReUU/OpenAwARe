@@ -7,9 +7,7 @@
 
 using System;
 using System.Collections.Generic;
-
 using AwARe.Questionnaire.Data;
-
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,7 +40,7 @@ namespace AwARe.Questionnaire.Objects
         /// <value>
         /// All AnswerOptions that this question has.
         /// </value>
-        private List<GameObject> AnswerOptions { get; set; }
+        public List<(AnswerOption, GameObject)> AnswerOptions { get; set; }
         /// <summary>
         /// Gets or sets the Indication of whether an AnswerOption at an index is checked or not.
         /// </summary>
@@ -81,7 +79,7 @@ namespace AwARe.Questionnaire.Objects
 
         private void Awake()
         {
-            AnswerOptions = new List<GameObject>();
+            AnswerOptions = new List<(AnswerOption, GameObject)>();
             AnswerOptionStates = new List<bool>();
             IfYesQuestions = new List<GameObject>();
             answerOptionSpawner = new(this.gameObject, textInputPrefab, checkBoxPrefab, radioButtonPrefab);
@@ -106,9 +104,9 @@ namespace AwARe.Questionnaire.Objects
         public void AddAnswerOption(AnswerOptionData answerOptionData)
         {
             AnswerOption answerOption = CreateAnswerOption(answerOptionData);
-            GameObject answerGameObject = answerOption.InstantiateAnswerOption(answerOptionData.optionText);
+            GameObject answerOptionObject = answerOption.InstantiateAnswerOption(answerOptionData.optionText);
 
-            AnswerOptions.Add(answerGameObject);
+            AnswerOptions.Add((answerOption, answerOptionObject));
             AnswerOptionStates.Add(false);
         }
 

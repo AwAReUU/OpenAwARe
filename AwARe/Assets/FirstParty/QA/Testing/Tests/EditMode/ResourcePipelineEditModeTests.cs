@@ -1,15 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-
 using AwARe.Database.Logic;
-
 using NUnit.Framework;
 using AwARe.ResourcePipeline.Logic;
 
-using UnityEngine;
-
-namespace Tests
+namespace AwARe.Tests.ResourcePipeline
 {
     public class IngredientListPipelineEditModeTests
     {
