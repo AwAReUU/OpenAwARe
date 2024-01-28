@@ -1,21 +1,21 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System;
-using System.CodeDom.Compiler;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Security.Permissions;
 using AwARe.Data.Logic;
 using AwARe.RoomScan.Path;
 using AwARe.RoomScan.Path.Jobs;
-using AwARe.RoomScan.Polygons.Objects;
-using JetBrains.Annotations;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 using Unity.Collections;
 using UnityEngine;
-using UnityEngine.TestTools;
 
-namespace Tests
+namespace AwARe.Tests.RoomScan
 {
     public class PathGenTests
     {

@@ -20,7 +20,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using IL = AwARe.IngredientList.Logic;
 
-namespace AwARe
+namespace AwARe.Tests.ObjectGeneration
 {
     /// <summary>
     /// Class <c>ObjectGenerationTest</c> Contains some playGroundTests to ensure proper object generation.

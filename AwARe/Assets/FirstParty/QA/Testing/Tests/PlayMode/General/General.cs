@@ -18,7 +18,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-namespace AwARe.Tests.PlayMode.General
+namespace AwARe.Tests.General
 {
     /// <summary>
     /// Dummy scenes for testing.
