@@ -40,7 +40,7 @@ namespace AwARe.Data.Objects
         /// Constructor for PolygonSerialization, initializes the object with a list of serialized Vector3.
         /// </summary>
         /// <param name="polygon">The polygon to use in the object.</param>
-        public PolygonSerialization(Polygon polygon)
+        public PolygonSerialization(Data.Logic.Polygon polygon)
         {
             height = polygon?.height ?? default;
             sessionWorldPoints = polygon?.points?.Select(v => new Vector3Serialization(v)).ToList() ?? new List<Vector3Serialization>();
