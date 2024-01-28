@@ -453,8 +453,8 @@
             <summary>
             Gets the nth argument to this call.
             </summary>
-            <param name="index">Index of argument</param>
-            <returns>The value of the argument at the given index</returns>
+            <param name="roomIndex">Index of argument</param>
+            <returns>The value of the argument at the given roomIndex</returns>
         </member>
         <member name="M:NSubstitute.Core.CallInfo.Args">
             <summary>

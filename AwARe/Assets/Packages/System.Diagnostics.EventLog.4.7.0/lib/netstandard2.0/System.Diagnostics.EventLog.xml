@@ -1789,8 +1789,8 @@ The source name results in a registry key path longer than 254 characters.</exce
       <returns>The application-specific identifier for the event message.</returns>
     </member>
     <member name="P:System.Diagnostics.EventLogEntry.Index">
-      <summary>Gets the index of this entry in the event log.</summary>
-      <returns>The index of this entry in the event log.</returns>
+      <summary>Gets the roomIndex of this entry in the event log.</summary>
+      <returns>The roomIndex of this entry in the event log.</returns>
     </member>
     <member name="P:System.Diagnostics.EventLogEntry.InstanceId">
       <summary>Gets the resource identifier that designates the message text of the event entry.</summary>
@@ -1835,9 +1835,9 @@ The source name results in a registry key path longer than 254 characters.</exce
       <summary>Defines size and enumerators for a collection of <see cref="T:System.Diagnostics.EventLogEntry" /> instances.</summary>
     </member>
     <member name="M:System.Diagnostics.EventLogEntryCollection.CopyTo(System.Diagnostics.EventLogEntry[],System.Int32)">
-      <summary>Copies the elements of the <see cref="T:System.Diagnostics.EventLogEntryCollection" /> to an array of <see cref="T:System.Diagnostics.EventLogEntry" /> instances, starting at a particular array index.</summary>
+      <summary>Copies the elements of the <see cref="T:System.Diagnostics.EventLogEntryCollection" /> to an array of <see cref="T:System.Diagnostics.EventLogEntry" /> instances, starting at a particular array roomIndex.</summary>
       <param name="entries">The one-dimensional array of <see cref="T:System.Diagnostics.EventLogEntry" /> instances that is the destination of the elements copied from the collection. The array must have zero-based indexing.</param>
-      <param name="index">The zero-based index in the array at which copying begins.</param>
+      <param name="roomIndex">The zero-based roomIndex in the array at which copying begins.</param>
     </member>
     <member name="P:System.Diagnostics.EventLogEntryCollection.Count">
       <summary>Gets the number of entries in the event log (that is, the number of elements in the <see cref="T:System.Diagnostics.EventLogEntry" /> collection).</summary>
@@ -1848,14 +1848,14 @@ The source name results in a registry key path longer than 254 characters.</exce
       <returns>An object that can be used to iterate over the collection.</returns>
     </member>
     <member name="P:System.Diagnostics.EventLogEntryCollection.Item(System.Int32)">
-      <summary>Gets an entry in the event log, based on an index that starts at 0 (zero).</summary>
-      <param name="index">The zero-based index that is associated with the event log entry.</param>
-      <returns>The event log entry at the location that is specified by the <paramref name="index" /> parameter.</returns>
+      <summary>Gets an entry in the event log, based on an roomIndex that starts at 0 (zero).</summary>
+      <param name="roomIndex">The zero-based roomIndex that is associated with the event log entry.</param>
+      <returns>The event log entry at the location that is specified by the <paramref name="roomIndex" /> parameter.</returns>
     </member>
     <member name="M:System.Diagnostics.EventLogEntryCollection.System#Collections#ICollection#CopyTo(System.Array,System.Int32)">
-      <summary>Copies the elements of the collection to an <see cref="T:System.Array" />, starting at a particular <see cref="T:System.Array" /> index.</summary>
+      <summary>Copies the elements of the collection to an <see cref="T:System.Array" />, starting at a particular <see cref="T:System.Array" /> roomIndex.</summary>
       <param name="array">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements that are copied from the collection. The <see cref="T:System.Array" /> must have zero-based indexing.</param>
-      <param name="index">The zero-based index in <paramref name="array" /> at which copying begins.</param>
+      <param name="roomIndex">The zero-based roomIndex in <paramref name="array" /> at which copying begins.</param>
     </member>
     <member name="P:System.Diagnostics.EventLogEntryCollection.System#Collections#ICollection#IsSynchronized">
       <summary>Gets a value that indicates whether access to the <see cref="T:System.Diagnostics.EventLogEntryCollection" /> is synchronized (thread-safe).</summary>

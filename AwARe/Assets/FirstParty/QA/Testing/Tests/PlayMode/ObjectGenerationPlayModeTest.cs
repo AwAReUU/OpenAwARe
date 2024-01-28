@@ -46,8 +46,9 @@ namespace AwARe.Tests.ObjectGeneration
                "Empty list",
                 ingredients: new Dictionary<Ingredient, (float, QuantityType)>());
             Storage storage = Storage.Get();
+            storage.ActiveRoom = new TestRoom();
             storage.ActiveIngredientList = emptyList;
-
+            
             //Act & Assert: Retrieve ingredientList from storage, convert to list of renderables,
             //and place the renderables.
             Assert.DoesNotThrow(() => objectCreationManager.OnPlaceButtonClick());
@@ -116,7 +117,7 @@ namespace AwARe.Tests.ObjectGeneration
 
             //Act: Destroy the object, and obtain the objects in the previously mentioned layer.
             var destroyer = testObject.AddComponent<ObjectDestroyer>();
-            yield return destroyer.DestroyAllObjects();
+            yield return destroyer.DestroyAllObjects_Coroutine();
 
             GameObject[] obtainedObjectsAfter = ObjectObtainer.FindGameObjectsInLayer(layer);
 

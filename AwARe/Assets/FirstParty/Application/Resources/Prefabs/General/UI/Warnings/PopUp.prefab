@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 700, y: 100}
+  m_SizeDelta: {x: 700, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7231161396981130804
 CanvasRenderer:
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <Warning>
+  m_text: This feature is not yet implemented
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 6476204267502711833}
   - component: {fileID: 1111444824906006428}
   - component: {fileID: 3316078432458314982}
-  - component: {fileID: 9173376385971703569}
+  - component: {fileID: 3145878489051119821}
   m_Layer: 5
   m_Name: PopUp
   m_TagString: Untagged
@@ -203,8 +203,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 2aad3620eabf0c74db2ce0ce642ff5a5, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -239,7 +239,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &9173376385971703569
+--- !u!114 &3145878489051119821
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,7 +273,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 9173376385971703569}
+      objectReference: {fileID: 3145878489051119821}
     - target: {fileID: 5267251626110288312, guid: 6d4b1805f0feeaf44bcdb3ced0b6878b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -282,7 +282,7 @@ PrefabInstance:
     - target: {fileID: 5267251626110288312, guid: 6d4b1805f0feeaf44bcdb3ced0b6878b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Toggle
+      value: Destroy
       objectReference: {fileID: 0}
     - target: {fileID: 5267251626110288312, guid: 6d4b1805f0feeaf44bcdb3ced0b6878b,
         type: 3}

@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+
 using AwARe.Database;
 
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace AwARe.IngredientList.Logic
     /// Handles the loading and parsing of a local JSON file to a <see cref="List{T}"/> of <see cref="IngredientList"/> and vice versa.
     /// </summary>
     public class IngredientFileHandler
-    {
+    { 
         readonly string filePath;
         readonly IIngredientDatabase ingredientDatabase;
 
