@@ -57,6 +57,9 @@ namespace AwARe.Questionnaire.Objects
             }
 
             string jsonData = JsonUtility.ToJson(data, true);
+
+            // Warning: Send() is an async method that may run after "LoadScene(...) because it is not awaited!
+            // Await is not needed here, because we dont need any return value.
             Client.GetInstance().Post<QuestionnaireRequestBody, object>("quest/save", new QuestionnaireRequestBody
             {
                 questionnaire = jsonData
@@ -66,7 +69,6 @@ namespace AwARe.Questionnaire.Objects
                 return null;
             }).Catch((err) =>
             {
-                // Warning: This is an async method that may run after "LoadScene(...)"!
 
                 if (err.StatusCode == 403)
                 {
