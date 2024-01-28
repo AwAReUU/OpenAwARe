@@ -38,7 +38,7 @@ namespace AwARe
         /// <summary>
         /// Constructor for PolygonSerialization, initializes the object with a list of serialized Vector3.
         /// </summary>
-        /// <param name="points">points to use in the object.</param>
+        /// <param name="polygon">The polygon to use in the object.</param>
         public PolygonSerialization(Polygon polygon)
         {
             float height = polygon?.height ?? default;

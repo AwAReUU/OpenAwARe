@@ -5,17 +5,14 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*  
 
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 using AwARe.Data.Logic;
-using AwARe.RoomScan.Polygons.Logic;
 
 using Newtonsoft.Json;
 
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AwARe
 {
