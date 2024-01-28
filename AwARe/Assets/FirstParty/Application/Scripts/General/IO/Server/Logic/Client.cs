@@ -55,7 +55,6 @@ namespace AwARe.Server.Logic
             if (Client.instance == null)
             {
                 Debug.LogAssertion("Client.Init() must be called first");
-                // TODO: throw error
             }
             return Client.instance;
         }

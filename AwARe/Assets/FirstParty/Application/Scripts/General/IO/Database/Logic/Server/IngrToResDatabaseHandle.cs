@@ -35,6 +35,7 @@ namespace AwARe.Database.Logic
     /// </summary>
     public class IngrToResDatabaseHandle : IIngrToResDatabase
     {
+        /// <inheritdoc/>
         public Task<Dictionary<int, float>> GetResourceIDs(Ingredient ingredient)
         {
             var ingrToResource = Client.GetInstance().Get<GetRequirementsRequestBody, Dictionary<int, float>>("ingr/getRequirements", new GetRequirementsRequestBody

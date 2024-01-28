@@ -44,7 +44,11 @@ namespace AwARe.Server.Logic
         [Header("Setttings:")]
         [SerializeField]
         /// <value> If true, use the debug server. </value>
-        private bool debug = false;
+        private bool useDebugServer = false;
+
+        [SerializeField]
+        /// <value> If true, use the mock database. </value>
+        public bool useMockDatabase = false;
 
         /// <value> If true, a coroutine is already running to refresh the login session. </value>
         private bool refreshing = false;
@@ -65,7 +69,7 @@ namespace AwARe.Server.Logic
         /// </summary>
         private string Adress()
         {
-            if (debug)
+            if (useDebugServer)
             {
                 return debugAdress + ":" + debugPort;
             }

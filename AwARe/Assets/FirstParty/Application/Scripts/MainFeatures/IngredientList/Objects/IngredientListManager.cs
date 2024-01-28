@@ -12,6 +12,7 @@ using AwARe.Database;
 using AwARe.Database.Logic;
 using AwARe.IngredientList.Logic;
 using AwARe.InterScenes.Objects;
+using AwARe.Server.Logic;
 using UnityEngine;
 using static AwARe.IngredientList.Logic.IngredientList;
 
@@ -50,8 +51,10 @@ namespace AwARe.IngredientList.Objects
 
         private async void Awake()
         {
-            // IngredientDatabase = new MockupIngredientDatabase();
-            IngredientDatabase = new IngredientDatabaseHandle();
+            if (GameObject.Find("ClientSetup").GetComponent<ClientSetup>().useMockDatabase)
+                IngredientDatabase = new MockupIngredientDatabase();
+            else
+                IngredientDatabase = new IngredientDatabaseHandle();
             fileHandler = new IngredientFileHandler(IngredientDatabase);
             Lists = await fileHandler.ReadFile();
             InitializeLists();

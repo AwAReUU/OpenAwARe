@@ -37,6 +37,7 @@ namespace AwARe.Database.Logic
     /// </summary>
     public class ResourceDatabaseHandle : IResourceDatabase
     {
+        /// <inheritdoc/>
         public Task<Resource> GetResource(int id)
         {
             var resource = Client.GetInstance().Get<GetResourceRequestBody, Resource>("ingr/getResource", new GetResourceRequestBody
@@ -78,6 +79,7 @@ namespace AwARe.Database.Logic
             return resource;
         }
 
+        /// <inheritdoc/>
         public Task<List<Resource>> GetResources(IEnumerable<int> ids)
         {
             return Task.Run(async () =>

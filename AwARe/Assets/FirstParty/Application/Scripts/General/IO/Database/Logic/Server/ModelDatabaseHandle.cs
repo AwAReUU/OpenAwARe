@@ -32,6 +32,7 @@ namespace AwARe.Database.Logic
         {
         }
 
+        /// <inheritdoc/>
         public Task<Model> GetModel(int id)
         {
             var model = Client.GetInstance().Get<GetModelRequestBody, Model>("ingr/getModel", new GetModelRequestBody
@@ -61,6 +62,7 @@ namespace AwARe.Database.Logic
             return model;
         }
 
+        /// <inheritdoc/>
         public Task<List<Model>> GetModels(IEnumerable<int> ids)
         {
             return Task.Run(async () =>

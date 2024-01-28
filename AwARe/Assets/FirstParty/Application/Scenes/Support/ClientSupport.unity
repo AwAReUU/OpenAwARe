@@ -191,6 +191,16 @@ PrefabInstance:
       propertyPath: debug
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7496598612853364633, guid: bb64af3ed233c42f8ab0ec4f5043bbea,
+        type: 3}
+      propertyPath: useDebugServer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7496598612853364633, guid: bb64af3ed233c42f8ab0ec4f5043bbea,
+        type: 3}
+      propertyPath: useMockDatabase
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

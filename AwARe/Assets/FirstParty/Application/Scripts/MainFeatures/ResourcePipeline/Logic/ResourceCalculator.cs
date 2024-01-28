@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using AwARe.Database;
 using AwARe.Database.Logic;
 using AwARe.IngredientList.Logic;
+using AwARe.Server.Logic;
+using UnityEngine;
 
 namespace AwARe.ResourcePipeline.Logic
 {
@@ -19,10 +21,16 @@ namespace AwARe.ResourcePipeline.Logic
         /// </summary>
         public ResourceCalculator()
         {
-            // toResourceDatabase = new MockupIngrToResDatabase();
-            // resourceDatabase = new MockupResourceDatabase();
-            toResourceDatabase = new IngrToResDatabaseHandle();
-            resourceDatabase = new ResourceDatabaseHandle();
+            if (GameObject.Find("ClientSetup").GetComponent<ClientSetup>().useMockDatabase)
+            {
+                toResourceDatabase = new MockupIngrToResDatabase();
+                resourceDatabase = new MockupResourceDatabase();
+            }
+            else
+            {
+                toResourceDatabase = new IngrToResDatabaseHandle();
+                resourceDatabase = new ResourceDatabaseHandle();
+            }
         }
 
         /// <summary>

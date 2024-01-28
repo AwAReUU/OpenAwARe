@@ -40,6 +40,7 @@ namespace AwARe.Database.Logic
     /// </summary>
     public class IngredientDatabaseHandle : IIngredientDatabase
     {
+        /// <inheritdoc/>
         public Task<Ingredient> GetIngredient(int id)
         {
             var ingredient = Client.GetInstance().Get<GetIngredientRequestBody, Ingredient>("ingr/getIngredient", new GetIngredientRequestBody
@@ -67,6 +68,7 @@ namespace AwARe.Database.Logic
             return ingredient;
         }
 
+        /// <inheritdoc/>
         public Task<List<Ingredient>> GetIngredients(IEnumerable<int> ids)
         {
             return Task.Run(async () =>
@@ -80,6 +82,7 @@ namespace AwARe.Database.Logic
             });
         }
 
+        /// <inheritdoc/>
         public Task<List<Ingredient>> Search(string term)
         {
             var results = Client.GetInstance().Get<SearchRequestBody, List<Ingredient>>("ingr/search", new SearchRequestBody
