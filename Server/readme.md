@@ -21,7 +21,7 @@ On Android/iOS you can't use "localhost" to connect with the server running on a
 
 Now you can build for Android/iOS, but make sure:
 - The server/desktop is configured to listen for incoming connections on the previously obtained ip adress and port.
-- The Firewalls allow incomming connections on the previously obtained ip adress and port.
+- The Firewalls allow incoming connections on the previously obtained ip adress and port.
 
 
 ## How to run
