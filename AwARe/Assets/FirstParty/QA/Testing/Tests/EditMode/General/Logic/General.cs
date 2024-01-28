@@ -13,12 +13,12 @@ using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace AwARe.Tests.EditMode.General.Logic
+namespace AwARe.Tests.General
 {
     /// <summary>
     /// Test regarding the <see cref="Polygon"/> class.
     /// </summary>
-    public class Polygon_Tests
+    public class PolygonData_Tests
     {
         private const float EPS = 0.0001f;
 
@@ -238,7 +238,7 @@ namespace AwARe.Tests.EditMode.General.Logic
     /// <summary>
     /// Test regarding the <see cref="Room"/> class.
     /// </summary>
-    public class Room_Tests
+    public class RoomData_Tests
     {
         public static IEnumerable TestCases_Polygons
         {
