@@ -1,3 +1,16 @@
+# AwARe Server
+
+## How to connect Unity with server
+
+Before you can use any server features inside the Unity app, you must connect Unity with an instance of this server.
+
+1. Start the AwARe server on a local device or on a remote server. For instructions see "How to run".
+2. Load the AwARe project in the Unity Editor.
+3. Make sure the ClientSupport scene is loaded.
+4. Go to the GameObject "ClientSetup".
+5. Scroll down to the "ClientSetup" (script) component.
+6. Fill in the server adress and port. Use "localhost" if the server is running on the same machine and you only want to test the app inside the Editor but not on a mobile device. The default port number is "8000".
+
 ## How to run
 
 1. Navigate to directory:
@@ -17,6 +30,8 @@ $ npm install
 ```console
 $ npm run dev
 ```
+
+
 
 ## Debugging
 
@@ -155,6 +170,29 @@ Run tests with `npm test`. For code coverage use `npm run coverage`.
     <td><b>json:</b> { [row] }</td>
     <td> Get a full rows of the models with the IDs in the list </td>
   </tr>
+</tbody>
+</table>
+
+### Questionnaire: _/quest_
+
+<table >
+<thead>
+  <tr>
+    <th>Route</span></th>
+    <th>Type</th>
+    <th>Headers / Body</th>
+    <th>Returns</th>
+    <th>Description</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td><pre>/quest/save</pre></td>
+    <td><b>POST</b></td>
+    <td><b>body (json):</b> { questionnaire }</td>
+    <td>-</td>
+    <td> Save a questionnaire on the server. <b>questionnaire</b> must be a string.  </td>
+  
 </tbody>
 </table>
 
