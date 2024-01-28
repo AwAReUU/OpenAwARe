@@ -8,6 +8,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AwARe.Data.Logic;
+using AwARe.Data.Objects;
 using AwARe.InterScenes.Objects;
 using AwARe.RoomScan.Path.Objects;
 using AwARe.RoomScan.Polygons.Objects;
