@@ -19,7 +19,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-namespace AwARe.Tests.PlayMode.RoomScan
+namespace AwARe.Tests.RoomScan
 {
     /// <summary>
     /// Test regarding the <see cref="PolygonDrawer"/> class.

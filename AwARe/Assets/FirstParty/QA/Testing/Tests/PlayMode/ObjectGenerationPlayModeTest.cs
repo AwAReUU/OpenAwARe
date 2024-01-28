@@ -11,6 +11,7 @@ using System.Linq;
 using AwARe.IngredientList.Logic;
 using AwARe.InterScenes.Objects;
 using AwARe.ObjectGeneration;
+using AwARe.ResourcePipeline.Logic;
 using AwARe.ResourcePipeline.Objects;
 using AwARe.RoomScan.Polygons.Logic;
 using NUnit.Framework;
@@ -19,7 +20,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using IL = AwARe.IngredientList.Logic;
 
-namespace AwARe
+namespace AwARe.Tests.ObjectGeneration
 {
     /// <summary>
     /// Class <c>ObjectGenerationTest</c> Contains some playGroundTests to ensure proper object generation.
@@ -211,16 +212,17 @@ namespace AwARe
             // Arrange: Fill storage with necessary ingredient list & room 
             Storage storage = Storage.Get();
             storage.ActiveIngredientList = GetMixedIngredientList();
-            storage.ActiveRoom = new TestRoom(0.4f); // small room
+            storage.ActiveRoom = new TestRoom(0.3f); // small room
             yield return null;
 
             // Act: Place all the renderables in the storage in the room 
             objectCreationManager.OnPlaceButtonClick();
-            bool AllAreRoom1Resources = !objectCreationManager.currentRoomRenderables.Any(x => x.ResourceType == ResourcePipeline.Logic.ResourceType.Plant);
-            
-            // Assert: Check if the correct renderables are placed in each room.
+            bool allAreRoom1Resources = objectCreationManager.currentRoomRenderables.All(
+                x => x.ResourceType != ResourceType.Plant);
+
+            // Assert: Check if all resources are room1 resources (no plants)
             yield return null;
-            Assert.True(AllAreRoom1Resources); // all resources are room1 resources (no plants)
+            Assert.True(allAreRoom1Resources);
         }
 
         [UnityTest, Description("Makes sure that area of the renderables are computed correctly")]

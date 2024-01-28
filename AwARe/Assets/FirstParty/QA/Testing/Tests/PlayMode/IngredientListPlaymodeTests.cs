@@ -18,7 +18,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-namespace Tests
+namespace AwARe.Tests.IngredientList
 {
     public class IngredientListPlaymodeTests
     {

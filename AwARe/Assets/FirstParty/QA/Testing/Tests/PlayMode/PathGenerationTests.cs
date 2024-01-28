@@ -15,7 +15,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-namespace AwARe.Testing.PlayMode
+namespace AwARe.Tests.RoomScan
 {
     public class PathGenTests
     {

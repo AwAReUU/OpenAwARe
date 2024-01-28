@@ -31,7 +31,7 @@ namespace AwARe.Questionnaire.Data
     }
 
     /// <summary>
-    /// Contains information about the answer
+    /// Contains information about the answer.
     /// </summary>
     [Serializable]
     public class AnswerOptionData
@@ -72,6 +72,50 @@ namespace AwARe.Questionnaire.Data
         /// The list of answer options for the question.
         /// </value>
         public List<AnswerOptionData> answerOptions;
+    }
+
+    /// <summary>
+    /// Contains data to save about a single answer.
+    /// </summary>
+    [Serializable]
+    public class AnsweredQuestionData
+    {
+        /// <summary>
+        /// The title of the question.
+        /// </summary>
+        public string QuestionTitle;
+
+        /// <summary>
+        /// List of texts for each selected answer.
+        /// </summary>
+        public List<string> Answers;
+    }
+
+    /// <summary>
+    /// Contains data to save a questionnaire (which can later be sent to the server).
+    /// </summary>
+    [Serializable]
+    public class AnsweredQuestionnaireData
+    {
+        /// <summary>
+        /// The title of the questionnaire.
+        /// </summary>
+        public string Questionnairetitle;
+
+        /// <summary>
+        /// The ID of the user account that filled in this questionnaire.
+        /// </summary>
+        public string UserID;
+
+        /// <summary>
+        /// The date and time the questionnare was submitted (obtained by using DateTime.Now.ToString()).
+        /// </summary>
+        public string SubmissionDate;
+
+        /// <summary>
+        /// List of data about each question that was answered in this questionnaire.
+        /// </summary>
+        public List<AnsweredQuestionData> AnsweredQuestions;
     }
 
     /// <summary>
