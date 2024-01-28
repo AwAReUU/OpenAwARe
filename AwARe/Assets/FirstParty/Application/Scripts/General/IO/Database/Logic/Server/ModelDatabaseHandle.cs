@@ -17,6 +17,7 @@ namespace AwARe.Database.Logic
 {
     /// <summary>
     /// Implementation of the Model Database interface, that uses the remote database.
+    /// Currently unused.
     /// </summary>
     public class ModelDatabaseHandle : IModelDatabase
     {
