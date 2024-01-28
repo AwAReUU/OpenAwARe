@@ -5,6 +5,8 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System.Collections.Generic;
+
 using AwARe.Data.Logic;
 using AwARe.RoomScan.Path;
 using Ingredients = AwARe.IngredientList.Logic;

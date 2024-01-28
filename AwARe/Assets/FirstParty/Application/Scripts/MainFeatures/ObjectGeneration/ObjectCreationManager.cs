@@ -47,9 +47,9 @@ namespace AwARe.ObjectGeneration
 
         [SerializeField] private Data.Objects.Room roomObject;
 
-        /// <value>
+        /// <summary>
         /// list of renderables that are present in the current room.
-        /// </value>
+        /// </summary>
         public List<Renderable> currentRoomRenderables;
 
         /// <summary>
@@ -65,6 +65,16 @@ namespace AwARe.ObjectGeneration
         private Ingredients.IngredientList RetrieveIngredientlist() => Storage.Get().ActiveIngredientList;
 
         private PathData path;
+
+        private ObjGenUIHandler uiHandler;
+
+        private void Start()
+        {
+            // Set the no list selected popup active if the selected list is null
+            uiHandler = GetComponent<ObjGenUIHandler>();
+            uiHandler.SetNoListSelectedPopup(RetrieveIngredientlist() == null);
+            uiHandler.SetSplitRoomsPopup(false);
+        }
 
         private void LoadRoom()
         {
@@ -99,18 +109,18 @@ namespace AwARe.ObjectGeneration
             // Get the stored room as an object.
             LoadRoom();
 
-            // TODO:
-            // Once pathgen is done, create mesh from PathData
-            // this.pathMesh = pathData.CreateMesh()
             if (SelectedRoom == null)
-                return;
+                Debug.LogError("No room selected");
 
             float roomSpace = SelectedRoom.PositivePolygon.Area;
             float renderablesSpace = ComputeRenderableSpaceNeeded(renderables);
 
             // Divide renderables in seperate rooms when there is not enough space 
             if (renderablesSpace > roomSpace)
+            {
                 PlaceRoom(true);
+                uiHandler.SetSplitRoomsPopup(true);
+            }
             else PlaceRenderables(renderables, SelectedRoom, path);
         }
 
@@ -137,7 +147,7 @@ namespace AwARe.ObjectGeneration
         {
             //Wait untill de ObjectDestroyer is done.
             destroyer = gameObject.GetComponent<ObjectDestroyer>();
-            yield return StartCoroutine(destroyer.DestroyAllObjects());
+            yield return StartCoroutine(destroyer.DestroyAllObjects_Coroutine());
             new ObjectPlacer().PlaceRenderables(renderables, room, pathData);
         }
 

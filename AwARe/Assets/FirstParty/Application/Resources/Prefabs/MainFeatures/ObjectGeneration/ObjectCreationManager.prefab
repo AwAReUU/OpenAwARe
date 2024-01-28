@@ -45,10 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4ac592ce8d017b488658b59632b94d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomName: 
   positivePolygonBase: {fileID: 8001080608682987098, guid: 2839e1a583d774500830f1f13268cf78,
     type: 3}
   negativePolygonBase: {fileID: 8001080608682987098, guid: 2839e1a583d774500830f1f13268cf78,
     type: 3}
+  height: 0
   positivePolygon: {fileID: 0}
   negativePolygons: []
 --- !u!114 &7157615531351550376
@@ -78,6 +80,7 @@ GameObject:
   - component: {fileID: 1926213980602752890}
   - component: {fileID: 8436992508482813262}
   - component: {fileID: 4235560744308556}
+  - component: {fileID: 6134747488999365922}
   m_Layer: 0
   m_Name: ObjectCreationManager
   m_TagString: Untagged
@@ -114,6 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomObject: {fileID: 4322624009184441980}
+  uiHandler: {fileID: 0}
 --- !u!114 &4235560744308556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,3 +130,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f693dda691dc744aa4e0550f86f429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6134747488999365922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7705265519357200600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0747ecce99e9e7f4d985691f226e3029, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NoListSelectedPopup: {fileID: 6932284027697482204, guid: 225a28cda67a97742b8c2e612cf877ba,
+    type: 3}
+  SplitRoomsPopup: {fileID: 7554576387261958772, guid: caaedcf89222bb44e86761152c91a274,
+    type: 3}

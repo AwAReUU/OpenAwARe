@@ -91,7 +91,7 @@ namespace AwARe.Tests.RoomScan
     /// </summary>
     public class PolygonScan_Tests
     {
-        private const string appScene = "FirstParty/Application/Scenes/AppScenes/RoomScan";
+        private const string appScene = "FirstParty/Application/Scenes/AppScenes/Rooms";
         private const string supportScene = "FirstParty/Application/Scenes/Support/GeneralSupport";
         private const string ARSupportScene = "FirstParty/Application/Scenes/Support/ARSupport";
         private RoomUI ui;
@@ -101,17 +101,18 @@ namespace AwARe.Tests.RoomScan
         [UnitySetUp, Description("Reset the scene before each test. Obtain the polygon manager.")]
         public IEnumerator Setup()
         {
+            for (int i = 0; i < 5; i++) { yield return null; }
             SceneManager.LoadScene(appScene);
             SceneManager.LoadScene(supportScene, LoadSceneMode.Additive);
             SceneManager.LoadScene(ARSupportScene, LoadSceneMode.Additive);
             yield return null;
 
-            ui = GameObject.Find("RoomUI").GetComponent<RoomUI>();
-            roomManager = GameObject.Find("RoomManager").GetComponent<RoomManager>();
+            ui = GameObject.FindObjectOfType<RoomUI>();
+            roomManager = GameObject.FindObjectOfType<RoomManager>();
             pointer = Substitute.For<IPointer>();
             pointer.PointedAt.Returns(Vector3.zero);
 
-            var drawer = GameObject.Find("PolygonDrawer").GetComponent<PolygonDrawer>();
+            var drawer = GameObject.FindObjectOfType<PolygonDrawer>();
             drawer.pointer = new SubstituteReference<IPointer>(pointer);
             yield return null;
         }
@@ -144,12 +145,14 @@ namespace AwARe.Tests.RoomScan
                 foreach (var point in polygon.points)
                 {
                     pointer.PointedAt.Returns(point);
-                    roomManager.OnUIMiss();
+                    roomManager.OnSelectButtonClick();
                     yield return null;
                 }
-                roomManager.OnApplyButtonClick();
+                roomManager.OnConfirmButtonClick();
                 yield return null;
                 roomManager.OnHeightSliderChanged(polygon.height);
+                yield return null;
+                roomManager.OnConfirmButtonClick();
                 yield return null;
                 roomManager.OnConfirmButtonClick();
                 yield return null;

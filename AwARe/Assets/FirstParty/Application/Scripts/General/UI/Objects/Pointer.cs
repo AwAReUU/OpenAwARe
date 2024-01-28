@@ -39,8 +39,21 @@ namespace AwARe.UI.Objects
         public bool FoundFirstPlane { get; private set; } = false;
 
         /// <inheritdoc/>
-        public virtual Vector3 PointedAt =>
-            transform.position;
+        public virtual Vector3? PointedAt
+        {   get
+            {
+                // Only return value if it is from a detected plane
+                if (!FoundFirstPlane && !Application.isEditor)
+                {
+                    Debug.LogError("No plane found yet. Please try again.");
+                    return null;
+                }
+
+                LockPlane = true;
+                return transform.position;
+            }
+        }
+            
 
         protected virtual void Awake()
         {

@@ -708,6 +708,21 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3620502869089411880, guid: 95ee9368753e14b48bab2a37ce7000e8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 9096070518862588417}
+    - target: {fileID: 3620502869089411880, guid: 95ee9368753e14b48bab2a37ce7000e8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadLastScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620502869089411880, guid: 95ee9368753e14b48bab2a37ce7000e8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AwARe.UI.Objects.SceneSwitchHandler, Scripts
+      objectReference: {fileID: 0}
     - target: {fileID: 4490847416970116267, guid: 95ee9368753e14b48bab2a37ce7000e8,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -943,6 +958,18 @@ PrefabInstance:
       addedObject: {fileID: 598519382}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95ee9368753e14b48bab2a37ce7000e8, type: 3}
+--- !u!114 &9096070518862588417 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8425788779405226733, guid: 95ee9368753e14b48bab2a37ce7000e8,
+    type: 3}
+  m_PrefabInstance: {fileID: 9096070518862588416}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a97a468aa41dd44af7c16b0478fa4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

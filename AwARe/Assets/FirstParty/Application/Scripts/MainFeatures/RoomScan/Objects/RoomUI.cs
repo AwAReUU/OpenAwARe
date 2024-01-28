@@ -5,13 +5,9 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System;
-using System.Collections.Generic;
-
-using AwARe.UI;
 using AwARe.UI.Objects;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 
@@ -25,20 +21,41 @@ namespace AwARe.RoomScan.Objects
         // The manager
         [SerializeField] private RoomManager manager;
 
-        // The UI elements
+        // The screenshot manager
+        [SerializeField] public ScreenshotManager screenshotManager;
+
+        // Buttons
         [SerializeField] private GameObject resetButton;
         [SerializeField] private GameObject createButton;
-        [SerializeField] private GameObject applyButton;
         [SerializeField] private GameObject confirmButton;
+        [SerializeField] private GameObject noButton;
+        [SerializeField] private GameObject selectPointButton;
+
+        // The list of rooms
+        [SerializeField] private GameObject roomList;
+
+        // The window for inputting a room name to save
+        [SerializeField] private GameObject nameInputWindow;
+        [SerializeField] private TMP_InputField nameInput;
+        
+        // The slider for setting the mesh height
         [SerializeField] private Slider heightSlider;
-        [SerializeField] private Pointer pointer;
-        [SerializeField] private GameObject pathButton;
+        
+        // The popup for generating a path
         [SerializeField] private GameObject pathLoadingPopup;
-        [SerializeField] private GameObject saveButton;
-        [SerializeField] private GameObject saveSlots;
-        [SerializeField] private GameObject loadButton;
-        [SerializeField] private GameObject loadSlots;
-        [SerializeField] private GameObject continueButton;
+
+        // The pointer
+        [SerializeField] private Pointer pointer;
+
+        // Text blocks
+        [SerializeField] private GameObject findPointText;
+        [SerializeField] private GameObject askForSaveText;
+        [SerializeField] private GameObject placeAnchorText;
+        [SerializeField] private GameObject anchorRecognizableText;
+        [SerializeField] private GameObject askForNegPolygonsText;
+        [SerializeField] private GameObject setRoomHeightText;
+        [SerializeField] private GameObject setObstacleHeightText;
+
 
         /// <summary>
         /// Sets activity of UI elements based on the polygon state.
@@ -48,84 +65,152 @@ namespace AwARe.RoomScan.Objects
         /// <param name="pathState">Current/new path state.</param>
         public void SetActive(State roomState, Polygons.State polygonState, Path.State pathState)
         {
+            Debug.Log("Roomstate: " + roomState);
+            Debug.Log("PolyState: " + roomState);
+
             // Set all to inactive.
-            bool reset = false,
-                create = false,
-                apply = false,
-                confirm = false,
-                height = false,
-                point = false,
-                pathGen = false,
-                pathLoading = false,
-                save = false,
-                load = false,
-                saveSlots = false,
-                loadSlots = false,
-                conti = false;
+            bool resetBtn = false,
+                createBtn = false,
+                confirmBtn = false,
+                noBtn = false,
+                heightSlider = false,
+                pointer = false,
+                pathPopup = false,
+                roomlist = false,
+                displayScreenshot = false,
+                nameInputWin = false,
+                findPointText = false,
+                placeText = false,
+                askSaveText = false,
+                anchorRecogText = false,
+                negPolygonsText = false,
+                roomHeightText = false,
+                obstacleHeightText = false;
 
             // Set wanted elements to active
             void DecideActivities()
             {
                 if (pathState == Path.State.Generating)
                 {
-                    pathLoading = true;
+                    pathPopup = true;
                     return;
                 }
 
                 switch (roomState)
                 {
-                    case State.Saving:
-                        conti = true;
-                        saveSlots = true;
+                    case State.RoomList:
+                        roomlist = true;
+                        createBtn = true;
                         return;
-                    case State.Loading:
-                        conti = true;
-                        loadSlots = true;
+                    case State.AskToSave:
+                        confirmBtn = true;
+                        noBtn = true;
+                        askSaveText = true;
+                        return;
+                    case State.InputtingName:
+                        nameInputWin = true;
+                        return;
+                    case State.SaveAnchoring:
+                        pointer = true;
+                        placeText = true;
+                        return;
+                    case State.SaveAnchoringCheck:
+                        confirmBtn = true;
+                        anchorRecogText = true;
+                        noBtn = true;
+                        return;
+                    case State.LoadAnchoring:
+                        pointer = true;
+                        findPointText = true;
+                        displayScreenshot = true;
                         return;
                 }
 
                 switch (polygonState)
                 {
-                    case Polygons.State.Done:
-                        create = true;
-                        save = true;
-                        load = true;
-                        pathGen = true;
-                        break;
                     case Polygons.State.SettingHeight:
-                        height = true;
-                        confirm = true;
+                        heightSlider = true;
+                        confirmBtn = true;
+                        if(manager.IsFirstPolygon())
+                            roomHeightText = true;
+                        else
+                            obstacleHeightText = true;
                         break;
                     case Polygons.State.Drawing:
-                        apply = true;
-                        reset = true;
-                        point = true;
+                        confirmBtn = true;
+                        resetBtn = true;
+                        pointer = true;
                         break;
-                    case Polygons.State.Default:
-                    default:
-                        load = true;
-                        create = true;
+                    case Polygons.State.AskForNegPolygons:
+                        negPolygonsText = true;
+                        confirmBtn = true;
+                        noBtn = true;
                         break;
                 }
             }
             DecideActivities();
 
             // Actual (de)activation.
-            resetButton.SetActive(reset);
-            createButton.SetActive(create);
-            applyButton.SetActive(apply);
-            confirmButton.SetActive(confirm);
-            heightSlider.gameObject.SetActive(height);
-            if (height) OnHeightSliderChanged();
-            pointer.gameObject.SetActive(point);
-            pathButton.SetActive(pathGen);
-            pathLoadingPopup.SetActive(pathLoading);
-            saveButton.SetActive(save);
-            this.saveSlots.SetActive(saveSlots);
-            loadButton.SetActive(load);
-            this.loadSlots.SetActive(loadSlots);
-            continueButton.SetActive(conti);
+
+            // Buttons
+            resetButton.SetActive(resetBtn);
+            createButton.SetActive(createBtn);
+            confirmButton.SetActive(confirmBtn);
+            noButton.SetActive(noBtn);
+
+            // Text
+            this.findPointText.SetActive(findPointText);
+            askForSaveText.SetActive(askSaveText);
+            placeAnchorText.SetActive(placeText);
+            anchorRecognizableText.SetActive(anchorRecogText);
+            askForNegPolygonsText.SetActive(negPolygonsText);
+            setRoomHeightText.SetActive(roomHeightText);
+            setObstacleHeightText.SetActive(obstacleHeightText);
+            
+            // Height slider
+            this.heightSlider.gameObject.SetActive(heightSlider);
+            if (heightSlider)
+                OnHeightSliderChanged();
+
+            // Pointer UI
+            this.pointer.gameObject.SetActive(pointer);
+            selectPointButton.SetActive(pointer);
+
+            // The room list
+            roomList.SetActive(roomlist);
+
+            // Popups
+            pathLoadingPopup.SetActive(pathPopup);
+            nameInputWindow.SetActive(nameInputWin);
+
+            // Screenshot
+            if (displayScreenshot)
+                DisplayAnchorLoadingImage(0);
         }
+
+        /// <summary>
+        /// Display the screenshot with the given index for loading the anchors.
+        /// </summary>
+        /// <param name="index">The index of the screenshot.</param>
+        public void DisplayAnchorLoadingImage(int index)
+        {
+            screenshotManager.DisplayScreenshotFromFile(manager.SerRoom.RoomName, index, false, ScreenshotManager.ImageSize.Small);
+        }
+
+        /// <summary>
+        /// Display the screenshot with the given index for saving the anchors.
+        /// </summary>
+        /// <param name="screenshot">The screenshot.</param>
+        public void DisplayAnchorSavingImage(Texture2D screenshot)
+        {
+            screenshotManager.DisplayScreenshot(screenshotManager.TextureToSprite(screenshot), false);
+        }
+
+        /// <summary>
+        /// Hide the shown screenshot.
+        /// </summary>
+        public void HideScreenshot() =>
+            screenshotManager.HideScreenshot();
 
         /// <summary>
         /// Called on create button click.
@@ -142,13 +227,12 @@ namespace AwARe.RoomScan.Objects
         public void OnResetButtonClick() =>
             manager.OnResetButtonClick();
 
-
         /// <summary>
-        /// Called on apply button click.
+        /// Called on select point button click.
         /// </summary>
         [ExcludeFromCoverage]
-        public void OnApplyButtonClick() =>
-            manager.OnApplyButtonClick();
+        public void OnSelectButtonClick() =>
+            manager.OnSelectButtonClick();
 
         /// <summary>
         /// Called on confirm button click.
@@ -165,45 +249,16 @@ namespace AwARe.RoomScan.Objects
             manager.OnHeightSliderChanged(heightSlider.value);
 
         /// <summary>
-        /// Called on save button click.
+        /// Called on no button click.
         /// </summary>
         [ExcludeFromCoverage]
-        public void OnSaveButtonClick() =>
-            manager.OnSaveButtonClick();
+        public void OnNoButtonClick() =>
+            manager.OnNoButtonClick();
 
         /// <summary>
-        /// Called on save slot click.
+        /// Called on confirm name button click.
         /// </summary>
-        [ExcludeFromCoverage]
-        public void OnSaveSlotClick(int slotIdx) =>
-            manager.OnSaveSlotClick(slotIdx);
-
-        /// <summary>
-        /// Called on save button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnLoadButtonClick() =>
-            manager.OnLoadButtonClick();
-
-        /// <summary>
-        /// Called on load slot click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnLoadSlotClick(int slotIdx) =>
-            manager.OnLoadSlotClick(slotIdx);
-
-        /// <summary>
-        /// Called on continue button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnContinueClick() =>
-            manager.OnContinueClick();
-
-        /// <summary>
-        /// Called on path button click.
-        /// </summary>
-        [ExcludeFromCoverage]
-        public void OnPathButtonClick() =>
-            manager.OnPathButtonClick();
+        public void OnConfirmNameButtonClick() =>
+            manager.OnConfirmNameButtonClick(nameInput.text);
     }
 }

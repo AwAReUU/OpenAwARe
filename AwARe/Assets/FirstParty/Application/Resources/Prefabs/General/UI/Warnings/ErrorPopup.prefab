@@ -131,12 +131,7 @@ PrefabInstance:
     - target: {fileID: 1035658593641630351, guid: 87a77da3e6c17d44597b4055754054c5,
         type: 3}
       propertyPath: m_text
-      value: An error occurred
-      objectReference: {fileID: 0}
-    - target: {fileID: 3119158945908447161, guid: 87a77da3e6c17d44597b4055754054c5,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Destroy
+      value: Something went wrong...
       objectReference: {fileID: 0}
     - target: {fileID: 8282695331562951961, guid: 87a77da3e6c17d44597b4055754054c5,
         type: 3}
@@ -147,11 +142,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8282695331562951961, guid: 87a77da3e6c17d44597b4055754054c5,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 8282695331562951961, guid: 87a77da3e6c17d44597b4055754054c5,
         type: 3}

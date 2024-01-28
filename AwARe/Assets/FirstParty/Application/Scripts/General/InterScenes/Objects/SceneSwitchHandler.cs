@@ -30,5 +30,11 @@ namespace AwARe.UI.Objects
         /// <param name="sceneBuildIndex">The build index of the scene.</param>
         public void LoadScene(int sceneBuildIndex) =>
             SceneSwitcher.Get().LoadScene(sceneBuildIndex);
+
+        /// <summary>
+        /// Load the previous scene.
+        /// </summary>
+        public void LoadLastScene() =>
+            SceneSwitcher.Get().LoadLastScene();
     }
 }

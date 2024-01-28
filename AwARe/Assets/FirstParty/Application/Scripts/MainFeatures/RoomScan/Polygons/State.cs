@@ -12,9 +12,9 @@ namespace AwARe.RoomScan.Polygons
     /// </summary>
     public enum State
     {
-        Default,
         Drawing,
         SettingHeight,
-        Done
+        AskForNegPolygons,
+        Anchoring
     }
 }
