@@ -1,10 +1,15 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections.Generic;
 
 using AwARe.Questionnaire.Data;
-
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AwARe.Questionnaire.Objects
 {
@@ -22,7 +27,7 @@ namespace AwARe.Questionnaire.Objects
         /// </value>
         [SerializeField] private TextMeshProUGUI description;
         /// <value>
-        /// TODO: add comment.
+        /// Transform in which all questions are added.
         /// </value>
         [SerializeField] private Transform questionsWindow;
         /// <value>
@@ -36,27 +41,34 @@ namespace AwARe.Questionnaire.Objects
         /// <value>
         /// List of questions that this questionnaire is currently holding.
         /// </value>
-        private List<GameObject> questions { get; set; }
+        public List<GameObject> Questions { get; set; }
 
         /// <summary>
         /// Initialize a new <see cref="Questionnaire"/>.
         /// </summary>
         private void Awake()
         {
-            questions = new List<GameObject>();
+            Questions = new List<GameObject>();
         }
 
         /// <summary>
         /// Obtain the questions in this questionnaire.
         /// </summary>
         /// <returns>The question GameObjects that are inside of this questionnaire.</returns>
-        public List<GameObject> GetQuestions() => questions;
+        public List<GameObject> GetQuestions() => Questions;
 
         /// <summary>
         /// Set the title of the questionnaire in the UI.
         /// </summary>
         /// <param name="questionnaireTitle">Title to set to the UI.</param>
         public void SetTitle(string questionnaireTitle) => title.text = questionnaireTitle;
+
+        /// <summary>
+        /// Get the title of the questionnaire in the UI.
+        /// </summary>
+        /// <returns>The title of this questionnaire.</returns>
+        public string GetTitle() => title.text;
+
         /// <summary>
         /// Set the description of the questionnaire in the UI.
         /// </summary>
@@ -74,15 +86,12 @@ namespace AwARe.Questionnaire.Objects
             GameObject questionObject = Instantiate(questionPrefab, questionsWindow);
             Question question = questionObject.GetComponent<Question>();
             questionObject.SetActive(true);
-            questions.Add(questionObject.gameObject);
+            Questions.Add(questionObject);
 
             question.SetTitle(data.questionTitle);
             question.SetIfYes(data.ifYes, data.ifYesTrigger);
 
-            // Instantiate the template and set its parent
-            question.SetParentQuestionnaire(this);
-
-            AddAnswerOptions(question, data);
+            AddAnswerOption(question, data);
             AddIfYesQuestions(question, data);
 
             return questionObject;
@@ -93,7 +102,7 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         /// <param name="question">The question to add the new answer option to.</param>
         /// <param name="data">The data needed to construct the new answer option.</param>
-        private void AddAnswerOptions(Question question, QuestionData data)
+        private void AddAnswerOption(Question question, QuestionData data)
         {
             foreach (AnswerOptionData answer in data.answerOptions)
                 question.AddAnswerOption(answer);
@@ -107,7 +116,8 @@ namespace AwARe.Questionnaire.Objects
         /// <param name="data">The QuestionData containing information about the "ifYes" condition and associated questions.</param>
         private void AddIfYesQuestions(Question question, QuestionData data)
         {
-            if (!data.ifYes) return;
+            if (!data.ifYes)
+                return;
 
             foreach (QuestionData ifYesQuestionData in data.ifYesQuestions)
             {

@@ -1,0 +1,5 @@
+<map id="AwARe.UI.Objects.SceneSwitchHandler" name="AwARe.UI.Objects.SceneSwitchHandler">
+<area shape="rect" id="Node000001" title="Non&#45;singleton class, attachable to buttons or managers for access to scene switching." alt="" coords="5,80,215,123"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="55,5,165,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,48,113,80,107,80,107,48"/>
+</map>

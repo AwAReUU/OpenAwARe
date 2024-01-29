@@ -5,6 +5,7 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System.Collections;
 using UnityEngine;
 
 namespace AwARe.ObjectGeneration
@@ -16,17 +17,22 @@ namespace AwARe.ObjectGeneration
     /// </summary>
     public class ObjectDestroyer : MonoBehaviour
     {
+        public void DestroyAllObjects() =>
+            StartCoroutine(DestroyAllObjects_Coroutine());
+
         /// <summary>
-        /// Destroy all GameObjects in the "Placed Objects" layer
+        /// Destroy all GameObjects in the "Placed Objects" layer.
         /// </summary>
-        public void DestroyAllObjects()
+        public IEnumerator DestroyAllObjects_Coroutine()
         {
             GameObject[] generatedObjects = ObjectObtainer.FindGameObjectsInLayer("Placed Objects");
             if (generatedObjects == null)
-                return;
+                yield break;
 
             foreach (GameObject target in generatedObjects)
                 Destroy(target);
+
+            yield return null;
         }
     }
 }

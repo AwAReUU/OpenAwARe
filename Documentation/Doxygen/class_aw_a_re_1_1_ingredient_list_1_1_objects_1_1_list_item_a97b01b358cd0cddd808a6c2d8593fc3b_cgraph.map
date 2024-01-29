@@ -1,0 +1,5 @@
+<map id="AwARe.IngredientList.Objects.ListItem.SetItem" name="AwARe.IngredientList.Objects.ListItem.SetItem">
+<area shape="rect" id="Node000001" title="Sets this item to represent the given result." alt="" coords="5,5,204,48"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_list_item.html#af738422a0c25da858117f81b713cf24f" title="Corrects this UI element to represent its data." alt="" coords="252,5,450,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,24,236,24,236,29,204,29"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="AwARe.RoomScan.Path.FloodFillHandler.FloodArea" name="AwARe.RoomScan.Path.FloodFillHandler.FloodArea">
+<area shape="rect" id="Node000001" title="Flood an area of the grid with &#39;true&#39; from a given start position. It is assumed that there is a boun..." alt="" coords="5,5,205,48"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_room_scan_1_1_path_1_1_flood_fill_handler.html#a035d24a4b10a214ebe0d34683be1d23d" title="Enqueue the 4 neighbours of a given position into the given queue if possible." alt="" coords="253,5,452,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,24,237,24,237,29,205,29"/>
+</map>

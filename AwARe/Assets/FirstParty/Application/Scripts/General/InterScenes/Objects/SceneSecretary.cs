@@ -9,26 +9,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace AwARe.InterScenes.Objects
 {
-    
     /// <summary>
     /// An implementation of the Scene Secretary fit for AR.
     /// The Scene Secretary is an adapter on top of the Scene Manager.
     /// </summary>
-    public class SceneSecretary : SceneSecretary_Template
+    public class SceneSecretary : MonoBehaviour, ISceneSecretary
     {
-        /// <summary>
-        /// Load the scene with the given name.
-        /// </summary>
-        /// <param name="sceneName">The name of the scene.</param>
-        /// <param name="mode">Specify whether to keep other scenes loaded.</param>
-        /// <returns>The asynchronous operation of loading.</returns>
-        public override YieldInstruction LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
+        // Tracking
+        private int isBusy;
+        private bool IsBusy => isBusy > 0;
+
+        /// <inheritdoc/>
+        public HashSet<Scene> Keepers { get; private set; } = new();
+
+        /// <inheritdoc/>
+        public YieldInstruction LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
         {
             AsyncOperation Load() => SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             void SetActive() => SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
@@ -36,13 +38,8 @@ namespace AwARe.InterScenes.Objects
             return StartCoroutine(DoLoading(Load, SetActive, mode));
         }
 
-        /// <summary>
-        /// Load the scene with the given build index.
-        /// </summary>
-        /// <param name="sceneBuildIndex">The build index of the scene.</param>
-        /// <param name="mode">Specify whether to keep other scenes loaded.</param>
-        /// <returns>The asynchronous operation of loading.</returns>
-        public override YieldInstruction LoadScene(int sceneBuildIndex, LoadSceneMode mode = LoadSceneMode.Single)
+        /// <inheritdoc/>
+        public YieldInstruction LoadScene(int sceneBuildIndex, LoadSceneMode mode = LoadSceneMode.Single)
         {
             AsyncOperation Load() => SceneManager.LoadSceneAsync(sceneBuildIndex, LoadSceneMode.Additive);
             void SetActive() => SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(sceneBuildIndex));
@@ -58,13 +55,35 @@ namespace AwARe.InterScenes.Objects
         /// <param name="mode">Specify whether to keep other scenes loaded.</param>
         /// <returns>An enumerator for the coroutine.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when an invalid LoadSceneMode is thrown.</exception>
-        private IEnumerator DoLoading(Func<AsyncOperation> loadScene, Action setActive, LoadSceneMode mode) =>
-            mode switch
+        private IEnumerator DoLoading(Func<AsyncOperation> loadScene, Action setActive, LoadSceneMode mode)
+        {
+            // Atomic Lock
+            if (BusyLock())
+                yield return null;
+            else
             {
-                LoadSceneMode.Additive => DoLoading_Additive(loadScene),
-                LoadSceneMode.Single   => DoLoading_Single(loadScene, setActive),
-                _                      => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
-            };
+                // Loading strategy
+                IEnumerator loading =
+                    mode switch
+                    {
+                        LoadSceneMode.Additive => DoLoading_Additive(loadScene),
+                        LoadSceneMode.Single   => DoLoading_Single(loadScene, setActive),
+                        _                      => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
+                    };
+                while (loading.MoveNext())
+                    yield return loading.Current;
+
+                // Unlock
+                BusyUnlock();
+                yield return null;
+            }
+        }
+
+        private bool BusyLock() =>
+            Interlocked.CompareExchange(ref isBusy, 1, 0) > 0;
+
+        private void BusyUnlock() =>
+            Interlocked.Exchange(ref isBusy, 0);
 
         /// <summary>
         /// Helper method and body of the LoadScene methods.
@@ -129,35 +148,5 @@ namespace AwARe.InterScenes.Objects
             foreach (AsyncOperation operation in operations)
                 yield return new WaitUntil(() => operation.isDone);
         }
-    }
-
-    /// <summary>
-    /// A template for the Scene Secretary.
-    /// The Scene Secretary is an adapter on top of the Scene Manager.
-    /// </summary>
-    public abstract class SceneSecretary_Template : MonoBehaviour
-    {
-        /// <summary>
-        /// Gets the set of scenes that should not be unloaded.
-        /// </summary>
-        /// <value>Scenes to keep alive.</value>
-        public HashSet<Scene> Keepers { get; private set; } = new();
-
-        /// <summary>
-        /// Load the scene with the given name.
-        /// </summary>
-        /// <param name="sceneName">The name of the scene.</param>
-        /// <param name="mode">Specify whether to keep other scenes loaded.</param>
-        /// <returns>The asynchronous operation of loading.</returns>
-        public abstract YieldInstruction LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single);
-
-
-        /// <summary>
-        /// Load the scene with the given build index.
-        /// </summary>
-        /// <param name="sceneBuildIndex">The build index of the scene.</param>
-        /// <param name="mode">Specify whether to keep other scenes loaded.</param>
-        /// <returns>The asynchronous operation of loading.</returns>
-        public abstract YieldInstruction LoadScene(int sceneBuildIndex, LoadSceneMode mode = LoadSceneMode.Single);
     }
 }

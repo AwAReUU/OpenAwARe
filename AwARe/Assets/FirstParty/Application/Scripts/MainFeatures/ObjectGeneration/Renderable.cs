@@ -5,6 +5,7 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System;
 using System.Collections.Generic;
 using AwARe.ResourcePipeline.Logic;
 using UnityEngine;
@@ -13,119 +14,102 @@ namespace AwARe.ObjectGeneration
 {
     /// <summary>
     /// <c>Renderable</c> is a class that contains properties
-    /// we need to render a specific gameObject
+    /// we need to render a specific gameObject.
     /// </summary>
     public class Renderable
     {
         /// <value>
-        /// The amount of this renderable to render
+        /// The amount of this renderable to render.
         /// </value>
-        public int quantity { get; set; }
+        public int Quantity { get; set; }
 
         /// <value>
-        /// The percentage of surface area that this object is allowed to use.
+        /// The percentage of surface area that this object is allowed to use (percentage).
         /// </value>
-        public float allowedSurfaceUsage { get; set; } //percentage
+        public float AllowedSurfaceUsage { get; set; } 
 
         /// <value>
         /// The GameObject prefab to render
         /// </value>
-        private GameObject prefab { get; set; }
+        public GameObject Prefab { get; private set; }
 
         /// <value>
         /// Distance from center of object to walls, in all 3 directions.
         /// </value>
-        private Vector3 halfExtents { get; set; }
+        public Vector3 HalfExtents { get; set; }
 
         /// <value>
         /// The scaling to apply to the prefab.
         /// </value>
-        private float scaling { get; set; }
+        public float Scaling { get; set; }
 
         /// <value>
         /// The resource type of this renderable.
         /// </value>
-        public ResourceType resourceType { get; set; }
+        public ResourceType ResourceType { get; private set; }
 
         /// <value>
         /// The current percentage of surface area used by this renderable.
         /// </value>
-        public float currentRatioUsage { get; set; }
+        public float CurrentRatioUsage { get; set; }
 
         /// <value>
         /// Dictionary containing locations of instances of this renderable & the stacked height at that point. 
         /// </value>
-        public Dictionary<Vector3, float> objStacks { get; set; }
+        public Dictionary<Vector3, float> ObjStacks { get; set; }
 
         /// <summary>
         /// Construct a new Renderable. Note that we do not fill in the allowedSurfaceUsage yet, since this
         /// is based on the sum of all renderables.
         /// </summary>
-        /// <param name="prefab">Prefab to render</param>
+        /// <param name="prefab">Prefab to render.</param>
         /// <param name="halfExtents">halfExtents of the prefab. Scaling is already applied to this.</param>
         /// <param name="quantity">Quantity of this renderable to be placed.</param>
         /// <param name="scaling">scale of this renderable.</param>
         /// <param name="resourceType">the resource type of this renderable.</param>
         public Renderable(GameObject prefab, Vector3 halfExtents, int quantity, float scaling, ResourceType resourceType)
         {
-            this.quantity = quantity;
+            this.Quantity = quantity;
             //this.allowedSurfaceUsage = only known after all renderables are known
-            this.prefab = prefab;
-            this.halfExtents = halfExtents;
-            this.scaling = scaling;
-            this.resourceType = resourceType;
-            this.currentRatioUsage = 0;
-            this.objStacks = new();
+            this.Prefab = prefab;
+            this.HalfExtents = halfExtents;
+            this.Scaling = scaling;
+            this.ResourceType = resourceType;
+            this.CurrentRatioUsage = 0;
+            this.ObjStacks = new();
+
+            //Change scaling if it is water
+            if (resourceType == ResourceType.Water)
+            {
+                float quantityMililiter = quantity * 1000;
+                float sideLength = (float)Math.Pow(quantityMililiter, 1.0 / 3.0) / 100f; //convert ml volume to meters side length.
+                this.Scaling = sideLength;
+                this.HalfExtents *= sideLength;
+            }
         }
-
-        /// <summary>
-        /// Return the quantity of the current Renderable.
-        /// </summary>
-        /// <returns>The quantity of the current Renderable.</returns>
-        public int GetQuantity() => this.quantity;
-
-        /// <summary>
-        /// Return the halfExtents of the current Renderable.
-        /// </summary>
-        public Vector3 GetHalfExtents() => this.halfExtents;
-
-        /// <summary>
-        /// Return the scaling of the current Renderable.
-        /// </summary>
-        public float GetScaling() => this.scaling;
-
-        /// <summary>
-        /// Return the gameobject prefab of the current Renderable.
-        /// </summary>
-        public GameObject GetPrefab() => this.prefab;
-
-        /// <summary>
-        /// Return the resource type of the current Renderable.
-        /// </summary>
-        public ResourceType GetResourceType() => this.resourceType;
 
         /// <summary>
         /// For each unique object, find out the percentage of space it will need.
         /// </summary>
-        /// <param name="renderables"></param>
-        /// <returns>the renderables list with surface ratios added</returns>
+        /// <param name="renderables">The renderables to obtain update the surface ratio's of.</param>
+        /// <returns>The renderables list with surface ratios added.</returns>
         public static List<Renderable> SetSurfaceRatios(List<Renderable> renderables)
         {
             //compute the sum of area of all gameObjects that will be spawned.
             float sumArea = 0;
             for (int i = 0; i < renderables.Count; i++)
             {
-                int quantity = renderables[i].quantity;
-                Vector3 halfExtents = renderables[i].halfExtents;
+                int quantity = renderables[i].Quantity;
+                Vector3 halfExtents = renderables[i].HalfExtents;
                 float areaPerClone = halfExtents.x * halfExtents.z * 4;
                 float areaClonesSum = areaPerClone * quantity;
 
-                renderables[i].allowedSurfaceUsage = areaClonesSum;
+                renderables[i].AllowedSurfaceUsage = areaClonesSum;
                 sumArea += areaClonesSum;
             }
 
             for (int i = 0; i < renderables.Count; i++)
-                renderables[i].allowedSurfaceUsage /= sumArea;
+                renderables[i].AllowedSurfaceUsage /= sumArea;
 
             return renderables;
         }
@@ -140,7 +124,7 @@ namespace AwARe.ObjectGeneration
         public static List<Vector3> CalculateColliderCorners(Renderable renderable, Vector3 position)
         {
             // Get the size of the BoxCollider
-            Vector3 size = renderable.halfExtents;
+            Vector3 size = renderable.HalfExtents;
 
             // Calculate the corners
             return new List<Vector3>
@@ -159,8 +143,8 @@ namespace AwARe.ObjectGeneration
         /// <returns>The amount of surface area that all objects of this renderabe will need.</returns>
         public float ComputeSpaceNeeded()
         {
-            float area = halfExtents.x * halfExtents.z * 4;
-            return area * quantity;
+            float area = HalfExtents.x * HalfExtents.z * 4;
+            return area * Quantity;
         }
     }
 }

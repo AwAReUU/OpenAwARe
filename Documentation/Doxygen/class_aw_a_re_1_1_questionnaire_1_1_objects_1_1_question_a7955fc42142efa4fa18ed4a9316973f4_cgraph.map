@@ -1,0 +1,13 @@
+<map id="AwARe.Questionnaire.Objects.Question.AddAnswerOption" name="AwARe.Questionnaire.Objects.Question.AddAnswerOption">
+<area shape="rect" id="Node000001" title="Add an answer option to this question." alt="" coords="5,129,207,172"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_question.html#a0e3cf7a3af6b2455bd319871fc42030d" title="Create the correct type of AnswerOption instance, based on the provided answerOptionData." alt="" coords="278,96,479,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,136,262,129,263,134,207,141"/>
+<area shape="rect" id="Node000006" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html#a8bf2b10bd0510ba935c04dae26e33494" title="Create an answer option using the given title. The implementation is defined in the subclasses." alt="" coords="255,163,502,205"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="207,160,240,164,239,170,207,166"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#a3d22f2a0a2d5c56bbdb291bbc2d450f1" title="Create a checkBox answerOption for the question." alt="" coords="566,5,797,64"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="459,93,556,66,557,71,460,98"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#abe1cbb0631a2a4239444f573cdee439f" title="Create a radioButton answerOption for the question." alt="" coords="568,88,795,147"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="480,115,552,115,552,120,480,120"/>
+<area shape="rect" id="Node000005" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#ac7d6543933a89d7167418f7e4c090b90" title="Create a text answerOption for the question." alt="" coords="550,171,812,229"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="461,137,503,148,558,163,557,169,501,153,459,142"/>
+</map>

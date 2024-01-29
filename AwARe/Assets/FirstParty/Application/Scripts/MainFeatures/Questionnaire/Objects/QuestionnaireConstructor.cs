@@ -1,9 +1,13 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Reflection;
-
 using AwARe.Questionnaire.Data;
-
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AwARe.Questionnaire.Objects
 {
@@ -24,6 +28,11 @@ namespace AwARe.Questionnaire.Objects
         /// Reference to an input jsonFile to be used for constructing the <see cref="Questionnaire"/>.
         /// </value>
         [SerializeField] private TextAsset jsonFile;
+        /// <summary>
+        /// Refeference to the submit button object.
+        /// </summary>
+        [SerializeField] private GameObject submitButton;
+
         /// <value>
         /// Deserialized JSON data of which a <see cref="Questionnaire"/> can be created.
         /// </value>
@@ -39,14 +48,24 @@ namespace AwARe.Questionnaire.Objects
 
         /// <summary>
         /// Convert <paramref name="jsonText"/> to data object and creates a <see cref="Questionnaire"/> out of it.
-        /// (Deserialization)
+        /// (Deserialization).
         /// </summary>
         /// <param name="jsonText">The json text to be deserialized.</param>
         /// <returns>A questionnaire GameObject.</returns>
-        public GameObject QuestionnaireFromJsonString(string jsonText)
+        private GameObject QuestionnaireFromJsonString(string jsonText)
         {
             Data = JsonUtility.FromJson<QuestionnaireData>(jsonText);
-            return Data == null ? null : MakeQuestionnaire(Data);
+            if (Data == null)
+            {
+                Debug.LogError("Questionnaire data was null");
+                return null;
+            }
+            else
+            {
+                GameObject questionnaireobject = MakeQuestionnaire(Data);
+                submitButton.GetComponent<SubmitButton>().questionnaireObject = questionnaireobject;
+                return questionnaireobject;
+            }
         }
         /// <summary>
         /// Convert Json string from the SerializeField TextAsset to data object
@@ -66,11 +85,11 @@ namespace AwARe.Questionnaire.Objects
             GameObject questionnaireObject = Instantiate(questionnairePrefab, subcanvas);
             questionnaireObject.SetActive(true);
 
-            Questionnaire questionnaireScript = questionnaireObject.gameObject.GetComponent<Questionnaire>();
+            Questionnaire questionnaireScript = questionnaireObject.GetComponent<Questionnaire>();
             questionnaireScript.SetTitle(questionnaireData.questionnaireTitle);
             questionnaireScript.SetDescription(questionnaireData.questionnaireDescription);
 
-            foreach(QuestionData question in questionnaireData.questions)
+            foreach (QuestionData question in questionnaireData.questions)
                 questionnaireScript.AddQuestion(question);
 
             return questionnaireObject;
@@ -87,6 +106,12 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         /// <returns>Questionnaire prefab GameObject obtained from the serialize field.</returns>
         public GameObject GetQuestionnairePrefab() => questionnairePrefab;
+
+        /// <summary>
+        /// Obtain the SubmitButton form the serialize field.
+        /// </summary>
+        /// <returns>Submit button GameObject obtained from the serialize field.</returns>
+        public GameObject GetSubmitButton() => submitButton;
     }
 
     /// <summary>
@@ -99,7 +124,6 @@ namespace AwARe.Questionnaire.Objects
         /// Empty Start method, so no starting code is executed.
         /// </summary>
         private void Start() { }
-
         /// <summary>
         /// Initializes private serialize fields from inside the QuestionnaireConstructor using reflection. 
         /// If a value is provided for a field, it is set directly. 
@@ -107,7 +131,8 @@ namespace AwARe.Questionnaire.Objects
         /// </summary>
         /// <param name="jsonTextAsset">Optional: TextAsset containing JSON data for the questionnaire.</param>
         /// <param name="questionnairePrefab">Optional: GameObject template for the questionnaire.</param>
-        public void InitializeFields(TextAsset jsonTextAsset = null, GameObject questionnairePrefab = null)
+        /// <param name="submitButton">Optional: The submit button in the scene.</param>
+        public void InitializeFields(TextAsset jsonTextAsset = null, GameObject questionnairePrefab = null, GameObject submitButton = null)
         {
             FieldInfo jsonFileField = typeof(QuestionnaireConstructor).
                 GetField("jsonFile", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -118,6 +143,11 @@ namespace AwARe.Questionnaire.Objects
                 GetField("questionnairePrefab", BindingFlags.Instance | BindingFlags.NonPublic);
             if (prefabField == null) return;
             prefabField.SetValue(this, questionnairePrefab != null ? questionnairePrefab : GetQuestionnairePrefab());
+
+            FieldInfo submitButtonField = typeof(QuestionnaireConstructor).
+                GetField("submitButton", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (submitButtonField == null) return;
+            submitButtonField.SetValue(this, submitButton != null ? submitButton : GetSubmitButton());
         }
     }
 }

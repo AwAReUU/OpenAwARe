@@ -1,0 +1,5 @@
+<map id="AwARe.UI.Objects.Pointer.HitsARPlane" name="AwARe.UI.Objects.Pointer.HitsARPlane">
+<area shape="rect" id="Node000001" title="Detects the intersection with the ray and the nearest AR Plane, if any." alt="" coords="5,5,184,48"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_u_i_1_1_objects_1_1_pointer.html#ab8b5d41423ba27a83f4d85f484f7d752" title="Gets the closest AR raycast hit among given." alt="" coords="232,5,410,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,24,216,24,216,29,184,29"/>
+</map>

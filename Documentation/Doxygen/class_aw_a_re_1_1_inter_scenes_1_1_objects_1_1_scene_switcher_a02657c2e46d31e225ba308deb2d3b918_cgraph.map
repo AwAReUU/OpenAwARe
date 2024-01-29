@@ -1,0 +1,5 @@
+<map id="AwARe.InterScenes.Objects.SceneSwitcher.SetComponent" name="AwARe.InterScenes.Objects.SceneSwitcher.SetComponent">
+<area shape="rect" id="Node000001" title="Initialize this singleton component." alt="" coords="5,5,204,48"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_inter_scenes_1_1_objects_1_1_scene_switcher.html#a99b10ba33719050ac4395ff26ba93c5b" title="Get its current instance. Instantiate a new instance if necessary." alt="" coords="252,5,442,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,24,236,24,236,29,204,29"/>
+</map>

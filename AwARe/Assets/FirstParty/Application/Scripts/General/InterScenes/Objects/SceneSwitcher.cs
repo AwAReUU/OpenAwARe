@@ -5,13 +5,8 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-
-using AwARe.Logic;
-
+using AwARe.Objects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,42 +22,31 @@ namespace AwARe.InterScenes.Objects
         // Scene loading handler
         private SceneSecretary sceneSecretary;
 
+        // Stack with previous scenes
+        private Stack<int> sceneStack = new();
+
         /// <summary>
         /// Gets the set of scenes that should not be unloaded.
         /// </summary>
         /// <value>Scenes to keep alive.</value>
         public HashSet<Scene> Keepers => sceneSecretary.Keepers;
 
+        
         /// <summary>
-        /// Gets the look-up table from standard scenes to their file paths.
-        /// Centralizes modifications to scene navigation.
+        /// Initialize this singleton component.
         /// </summary>
-        /// <value>The look-up table from standard scene to filepath.</value>
-        public IReadOnlyDictionary<AppScene, string> AppSceneFilePaths { get; private set; } = new Dictionary<AppScene, string>
+        /// <param name="secretary">The secretary/adapter to the Scene Manager.</param>
+        public static SceneSwitcher SetComponent(SceneSecretary secretary)
         {
-            { AppScene.Start , ""},
-            { AppScene.Home , ""},
-            { AppScene.Settings , ""},
-            { AppScene.AR , ""},
-            { AppScene.RoomScan , ""},
-            { AppScene.IngredientList , ""},
-            { AppScene.Questionnaire , ""}
-        };
-
-        /// <summary>
-        /// Gets the look-up table from standard scenes to their build index.
-        /// Centralizes modifications to scene navigation.
-        /// Has to be constructed from the AppSceneFilePaths table at initialization.
-        /// </summary>
-        /// <value>The look-up table from standard scene to build index.</value>
-        public IReadOnlyDictionary<AppScene, int> AppSceneBuildIndex { get; private set; }
+            SceneSwitcher switcher = Get();
+            switcher.sceneSecretary = secretary;
+            return switcher;
+        }
 
         private void Awake()
         {
             // Setup singleton behaviour
             Singleton.Awake(ref instance, this);
-            // TODO: Set build index reference to standard scenes.
-            AppSceneBuildIndex = AppSceneFilePaths.ToDictionary(x => x.Key, x => SceneUtility.GetBuildIndexByScenePath(x.Value));
             // Set scene (un)loading behaviour.
             sceneSecretary = GetComponent<SceneSecretary>();
             // Keep alive between scenes
@@ -84,7 +68,7 @@ namespace AwARe.InterScenes.Objects
         /// Instantiate a new instance of itself.
         /// </summary>
         /// <returns>An instance of itself.</returns>
-        public static SceneSwitcher Instantiate()
+        private static SceneSwitcher Instantiate()
         {
             GameObject me = new("SceneSwitcher");
             me.AddComponent<SceneSecretary>();
@@ -96,30 +80,44 @@ namespace AwARe.InterScenes.Objects
         /// </summary>
         /// <param name="sceneName">The name of the scene.</param>
         /// <param name="mode">Specify whether to keep other scenes loaded.</param>
-        public void LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single) =>
+        public void LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
+        {
+            RememberScene(SceneManager.GetActiveScene());
             sceneSecretary.LoadScene(sceneName, mode);
+        }
     
         /// <summary>
         /// Load the scene with the given build index.
         /// </summary>
         /// <param name="sceneBuildIndex">The build index of the scene.</param>
         /// <param name="mode">Specify whether to keep other scenes loaded.</param>
-        public void LoadScene(int sceneBuildIndex, LoadSceneMode mode = LoadSceneMode.Single) =>
+        public void LoadScene(int sceneBuildIndex, LoadSceneMode mode = LoadSceneMode.Single)
+        {
+            RememberScene(SceneManager.GetActiveScene());
             sceneSecretary.LoadScene(sceneBuildIndex, mode);
-    
-        /// <summary>
-        /// Load the standard scene.
-        /// </summary>
-        /// <param name="scene">The standard scene.</param>
-        /// <param name="mode">Specify whether to keep other scenes loaded.</param>
-        public void LoadScene(AppScene scene, LoadSceneMode mode = LoadSceneMode.Single) =>
-            LoadScene(AppSceneBuildIndex[scene], mode);
-    }
+        }
 
-    /// <summary>
-    /// All standard scenes used across the application.
-    /// Centralizes modifications to scene navigation.
-    /// </summary>
-    [Serializable]
-    public enum AppScene { Start, Home, AR, RoomScan, IngredientList, Questionnaire, Settings }
+        /// <summary>
+        /// Keep track of the current scene.
+        /// </summary>
+        /// <param name="scene">The current scene.</param>
+        private void RememberScene(Scene scene)
+        {
+            // Clear stack if switching from the home screen
+            if (scene.name == "Home")
+                sceneStack.Clear();
+
+            // Add current scene to stack
+            sceneStack.Push(scene.buildIndex);
+        }
+
+        /// <summary>
+        /// Load the previous scene.
+        /// </summary>
+        public void LoadLastScene()
+        {
+            int lastSceneBuildIndex = sceneStack.Pop();
+            sceneSecretary.LoadScene(lastSceneBuildIndex);
+        }
+    }
 }

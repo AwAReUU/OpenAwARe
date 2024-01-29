@@ -1,3 +1,10 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 #if UNITY_IOS
 using System;
 using System.Collections;
@@ -8,15 +15,18 @@ using UnityEngine;
 namespace AwARe.Notifications.Logic
 {
     /// <summary>
-    /// implementation of the abstract notification class for the IOS platform
+    /// Implementation of the abstract notification class for the IOS platform.
     /// </summary>
+    [ExcludeFromCoverage]
     public class IOSNotif : Notification
     {
 
-        iOSNotification notification = new iOSNotification();
+        private readonly iOSNotification notification = new();
+        DateTime fireTime;
 
-         /// <summary>
-        /// class constructor. initialises some variables necessairy for sending notifications
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IOSNotif"/> class.
+        /// Initialises some variables necessairy for sending notifications
         /// on the IOS platform. 
         /// </summary>
         public IOSNotif()
@@ -29,9 +39,9 @@ namespace AwARe.Notifications.Logic
         }
 
         /// <summary>
-        /// sets the time at which this notification is sent
+        /// Sets the time at which this notification is sent.
         /// </summary>
-        /// <param name="time">the exact date and time when this notification should be sent</param>
+        /// <param name="time">The exact date and time when this notification should be sent.</param>
         public override void SetFireTime(DateTime time)
         {
             var trigger = new iOSNotificationCalendarTrigger()
@@ -44,34 +54,33 @@ namespace AwARe.Notifications.Logic
                 Second = time.Second,
                 Repeats = false
             };
-
             notification.Trigger = trigger;
-
+            fireTime = time;
             Debug.Log("fire time set to " + time.ToString());
         }
 
         /// <summary>
-        /// sets the title text of the notification
+        /// Sets the title text of the notification.
         /// </summary>
-        /// <param name="title">the title text to be displayed</param>
+        /// <param name="title">The title text to be displayed.</param>
         public override void SetTitle(string title)
         {
             notification.Title = title;
         }
 
         /// <summary>
-        /// sets the body text of the notification
+        /// Sets the body text of the notification.
         /// </summary>
-        /// <param name="body">the body text to be displayed</param>
+        /// <param name="body">The body text to be displayed.</param>
         public override void Setbody(string body)
         {
             notification.Body = body;
         }
 
         /// <summary>
-        /// unimplemented. When implemented, sets the questionnaire associated with this notification
+        /// Unimplemented. When implemented, sets the questionnaire associated with this notification.
         /// </summary>
-        /// <param name="questionnaire">the questionnaire string</param>
+        /// <param name="questionnaire">The questionnaire string.</param>
         public override void SetQuestionnaire(string questionnaire)
         {
             //implementation will probably use notification.data
@@ -79,13 +88,13 @@ namespace AwARe.Notifications.Logic
         }
 
         /// <summary>
-        /// schedules the notification to be sent at the time specified in the SetFireTime method
+        /// Schedules the notification to be sent at the time specified in the SetFireTime method.
         /// </summary>
-        public override void Send()
+        /// <returns>The data associated with this notification so it can be saved and unscheduled.</returns>
+        public override ScheduledNotificationData Schedule()
         {
             iOSNotificationCenter.ScheduleNotification(notification);
-
-            Debug.Log("notification sent/scheduled");
+            return new ScheduledNotificationData(notification.Identifier, fireTime.ToString());
         }
     }
 }

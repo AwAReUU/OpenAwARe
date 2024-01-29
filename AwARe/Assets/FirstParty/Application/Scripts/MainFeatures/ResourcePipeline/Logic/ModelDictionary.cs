@@ -52,25 +52,9 @@ namespace AwARe.ResourcePipeline.Logic
         /// </value>
         public string PrefabPath { get; }
         /// <value>
-        /// Length of this model in real life in cm.
-        /// </value>
-        public float RealLength { get; }
-        /// <value>
-        /// Width of this model in real life in cm.
-        /// </value>
-        public float RealWidth { get; }
-        /// <value>
-        /// Height of this model in real life in cm.
+        /// The height of this model in real life in meters. Used to rescale models to their real-life size.
         /// </value>
         public float RealHeight { get; }
-        /// <value>
-        /// Extra spacing nessesary between models in the x direction.
-        /// </value>
-        public float DistanceX { get; }
-        /// <value> 
-        /// Extra spacing nessesary between models in the y direction.
-        /// </value>        //TODO: Verify this. This should be Z???
-        public float DistanceY { get; }
 
         /// <summary>
         /// Construct a Model with the given parameters.
@@ -78,29 +62,17 @@ namespace AwARe.ResourcePipeline.Logic
         /// <param name="id">id</param>
         /// <param name="type">ResourceType</param>
         /// <param name="path">Prefab path</param>
-        /// <param name="length">real life length</param>
-        /// <param name="width">real life width</param>
-        /// <param name="height">real life height</param>
-        /// <param name="distanceX">space it needs in the x direction</param>
-        /// <param name="distanceY">space it needs in the y(should be z?) direction</param>
+        /// <param name="height">Real life height in meters</param>
         public Model(
             int id,
             ResourceType type,
             string path,
-            float length,
-            float width,
-            float height,
-            float distanceX,
-            float distanceY)
+            float height)
         {
             ID = id;
             Type = type;
-            PrefabPath = path; 
-            RealLength = length;
-            RealWidth = width;
-            RealHeight = height; 
-            DistanceX = distanceX;
-            DistanceY = distanceY;
+            PrefabPath = path;
+            RealHeight = height;
         }
 
         /// <summary>

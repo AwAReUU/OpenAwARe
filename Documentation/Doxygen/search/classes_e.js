@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['radioansweroption_0',['RadioAnswerOption',['../class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_radio_answer_option.html',1,'AwARe::Questionnaire::Objects']]],
+  ['refreshrequest_1',['RefreshRequest',['../struct_aw_a_re_1_1_server_1_1_logic_1_1_refresh_request.html',1,'AwARe::Server::Logic']]],
+  ['renderable_2',['Renderable',['../class_aw_a_re_1_1_object_generation_1_1_renderable.html',1,'AwARe::ObjectGeneration']]],
+  ['request_3',['Request',['../class_aw_a_re_1_1_server_1_1_logic_1_1_request.html',1,'AwARe::Server::Logic']]],
+  ['resource_4',['Resource',['../class_aw_a_re_1_1_resource_pipeline_1_1_logic_1_1_resource.html',1,'AwARe::ResourcePipeline::Logic']]],
+  ['resourcecalculator_5',['ResourceCalculator',['../class_aw_a_re_1_1_resource_pipeline_1_1_logic_1_1_resource_calculator.html',1,'AwARe::ResourcePipeline::Logic']]],
+  ['resourcedictionary_6',['ResourceDictionary',['../class_aw_a_re_1_1_resource_pipeline_1_1_logic_1_1_resource_dictionary.html',1,'AwARe::ResourcePipeline::Logic']]],
+  ['room_7',['room',['../class_aw_a_re_1_1_data_1_1_logic_1_1_room.html',1,'AwARe.Data.Logic.Room'],['../class_aw_a_re_1_1_data_1_1_objects_1_1_room.html',1,'AwARe.Data.Objects.Room']]],
+  ['roomfilehandler_8',['RoomFileHandler',['../class_aw_a_re_1_1_room_file_handler.html',1,'AwARe']]],
+  ['roomliner_9',['RoomLiner',['../class_aw_a_re_1_1_data_1_1_objects_1_1_room_liner.html',1,'AwARe::Data::Objects']]],
+  ['roomlistitem_10',['RoomListItem',['../class_aw_a_re_1_1_room_list_item.html',1,'AwARe']]],
+  ['roomlistmanager_11',['RoomListManager',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_list_manager.html',1,'AwARe::RoomScan::Objects']]],
+  ['roomlistserialization_12',['RoomListSerialization',['../class_aw_a_re_1_1_data_1_1_objects_1_1_room_list_serialization.html',1,'AwARe::Data::Objects']]],
+  ['roommanager_13',['RoomManager',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_manager.html',1,'AwARe::RoomScan::Objects']]],
+  ['roomoverviewscreen_14',['RoomOverviewScreen',['../class_aw_a_re_1_1_data_1_1_logic_1_1_room_overview_screen.html',1,'AwARe::Data::Logic']]],
+  ['roomserialization_15',['RoomSerialization',['../class_aw_a_re_1_1_data_1_1_objects_1_1_room_serialization.html',1,'AwARe::Data::Objects']]],
+  ['roomui_16',['RoomUI',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html',1,'AwARe::RoomScan::Objects']]]
+];

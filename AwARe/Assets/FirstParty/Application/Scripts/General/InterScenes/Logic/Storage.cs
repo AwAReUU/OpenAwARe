@@ -5,12 +5,14 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
+using System.Collections.Generic;
+
+using AwARe.Data.Logic;
+using AwARe.RoomScan.Path;
 using Ingredients = AwARe.IngredientList.Logic;
-using Rooms = AwARe.RoomScan.Polygons.Logic;
 
 namespace AwARe.InterScenes.Logic
 {
-    
     /// <summary>
     /// The in-between-scenes stored data.
     /// </summary>
@@ -25,8 +27,10 @@ namespace AwARe.InterScenes.Logic
         public Ingredients.IngredientList ActiveIngredientList { get; set; }
         
         /// <inheritdoc/>
-        public Rooms.Room ActiveRoom { get; set; }
+        public Room ActiveRoom { get; set; }
 
+        /// <inheritdoc/>
+        public PathData ActivePath { get; set; }
     }
 
 }

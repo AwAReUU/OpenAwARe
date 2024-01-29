@@ -1,0 +1,5 @@
+<map id="AwARe.RoomScan.Objects.RoomUI" name="AwARe.RoomScan.Objects.RoomUI">
+<area shape="rect" id="Node000001" title="UI in the polygon scan." alt="" coords="5,80,237,107"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="66,5,176,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,48,124,80,118,80,118,48"/>
+</map>

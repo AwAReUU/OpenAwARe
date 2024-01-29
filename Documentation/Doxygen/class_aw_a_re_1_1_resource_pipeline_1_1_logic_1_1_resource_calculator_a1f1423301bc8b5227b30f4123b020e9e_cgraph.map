@@ -1,0 +1,11 @@
+<map id="AwARe.ResourcePipeline.Logic.ResourceCalculator.GetIngredientResources" name="AwARe.ResourcePipeline.Logic.ResourceCalculator.GetIngredientResources">
+<area shape="rect" id="Node000001" title="Converts a single ingredient to a list of its resource cost." alt="" coords="5,97,221,156"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_resource_pipeline_1_1_logic_1_1_resource_dictionary.html#a74a4e8fa2f90d00dd4d896c2aa3faa0f" title="Add a Resource to the ResourceDictionary" alt="" coords="269,5,485,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,94,268,58,287,51,288,56,270,62,180,99"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient.html#a5fb3bd3f44a6603a381788f327767b5a" title="Calculates the number of grams in the given quantity." alt="" coords="277,72,477,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,110,261,105,262,111,222,116"/>
+<area shape="rect" id="Node000004" href="$interface_aw_a_re_1_1_database_1_1_i_resource_database.html#ab0b0f6c5a4026b00a7fde3a5fd5fee5f" title="Selects a full row in the Resource table that matches the given ID." alt="" coords="284,139,470,181"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="222,138,269,144,269,149,221,143"/>
+<area shape="rect" id="Node000005" href="$interface_aw_a_re_1_1_database_1_1_i_ingr_to_res_database.html#a71d923157d69edb1d71e82204f1ec6b6" title="Selects all resource IDs and their quantities required to produce 1 gram of the given ingredient." alt="" coords="283,205,471,248"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="180,154,270,191,288,198,287,203,268,196,178,159"/>
+</map>

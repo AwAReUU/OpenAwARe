@@ -68,10 +68,9 @@ namespace AwARe.ResourcePipeline.Objects
         }
 
         /// <summary>
-        /// 
+        /// Given a dictionary of (modelId, quantity), create a <see cref="Renderable"/> for each modelId.
         /// </summary>
         /// <param name="quantityDictionary"></param>
-        /// <param name="modelDatabase"></param>
         /// <returns></returns>
         private List<Renderable> QuantityDictToRenderables(Dictionary<int, int> quantityDictionary)
         {
@@ -88,8 +87,9 @@ namespace AwARe.ResourcePipeline.Objects
                     realHeight = 1;
 
                 float modelSizeMultiplier = realHeight / (2 * halfExtents.y) * sizeMultiplier;
-                halfExtents *= modelSizeMultiplier;
                 ResourceType resourceType = modelDatabase.GetModel(modelId).Type;
+                if(resourceType != ResourceType.Water)
+                    halfExtents *= modelSizeMultiplier;
                 Renderable renderable = new(prefab, halfExtents, quantity, modelSizeMultiplier, resourceType);
                 Renderables.Add(renderable);
             }
@@ -99,7 +99,8 @@ namespace AwARe.ResourcePipeline.Objects
 
         /// <summary>
         /// Get the <see cref="GameObject"/> prefab from modelPath.
-        /// If no <see cref="GameObject"/> is found at that path, return a placeholder <see cref="GameObject"/> 
+        /// If no <see cref="GameObject"/> is found at that path, return a placeholder <see cref="GameObject"/>.
+        /// <para>It is basically a safe Resources.Load() that always returns a GameObject.</para>
         /// </summary>
         /// <param name="modelPath"></param>
         /// <returns>A <see cref="GameObject"/> prefab found at modelPath. If not found, a placeholder <see cref="GameObject"/>.</returns>

@@ -44,132 +44,63 @@ namespace AwARe.RoomScan.Path
         }
 
         /// <summary>
-        /// Create a Mesh of the path including the surrounding radius.
+        /// Checks whether the given point lies on the path.
         /// </summary>
-        /// <param name="numSegments">The number of segments in the mesh.</param>
-        /// <returns>The created Mesh.</returns>
-        public Mesh CreateMesh(int numSegments)
+        /// <param name="point">The point.</param>
+        /// <returns>Whether the given point lies on the path.</returns>
+        public bool PointLiesOnPath(Vector3 point)
         {
-
-            Mesh mesh = new();
-
-            for (int i = 0; i < points.Count; i++)
+            foreach (var edge in edges)
             {
-                Mesh circle = CircleMesh(points[i], this.radius, numSegments);
-                mesh = CombineMeshes(mesh, circle);
-            }
-
-            for (int i = 0; i < edges.Count; i++)
-            {
-                Mesh segment = this.SegmentMesh(edges[i].Item1, edges[i].Item2, this.radius);
-                mesh = CombineMeshes(mesh, segment);
-            }
-
-            return mesh;
-        }
-
-        /// <summary>
-        /// A helper method to combine two meshes into a single mesh.
-        /// </summary>
-        /// <param name="mesh1">The first mesh.</param>
-        /// <param name="mesh2">The second mesh.</param>
-        /// <returns>The combined mesh.</returns>
-        private Mesh CombineMeshes(Mesh mesh1, Mesh mesh2)
-        {
-            var vertices = mesh1.vertices.ToList();
-            int n = vertices.Count();
-            var triangles = mesh1.triangles.ToList();
-            vertices = mesh1.vertices.Concat(mesh2.vertices).ToList();
-            foreach (int triangle in mesh2.triangles)
-            {
-                triangles.Add(triangle + n);
-            }
-
-            Mesh combined = new()
-            {
-                vertices = vertices.ToArray(),
-                triangles = triangles.ToArray()
-            };
-            return combined;
-        }
-
-        /// <summary>
-        /// Creates a Circle Mesh around a center with the given radius.
-        /// The mesh consists of a given number of triangles. 
-        /// Use a higher number of segments to create a smoother circle.
-        /// </summary>
-        /// <param name="center">The center of the circle.</param>
-        /// <param name="radius">The radius of the circle.</param>
-        /// <param name="numSegments">The number of segments of the mesh.</param>
-        /// <returns>The circle mesh. </returns>
-        private Mesh CircleMesh(Vector3 center, float radius, int numSegments)
-        {
-            var vertices = new List<Vector3>();
-            var triangles = new List<int>();
-
-            vertices.Add(center);
-
-            for (int i = 0; i < numSegments; i++)
-            {
-                float angle = i * (360f / numSegments);
-                vertices.Add(center + (Quaternion.Euler(0, angle, 0) * Vector3.right * radius));
-
-                triangles.Add(0);
-                triangles.Add(i + 1);
-                if (i + 2 == numSegments + 1)
+                if (DistancePointToLineSegment(new Vector2(point.x, point.z), new Vector2(edge.Item1.x, edge.Item1.z), new Vector2(edge.Item2.x, edge.Item2.z)) <= radius)
                 {
-                    triangles.Add(1);
-                }
-                else
-                {
-                    triangles.Add(i + 2);
+                    return true;
                 }
             }
-
-            Mesh circle = new()
-            {
-                vertices = vertices.ToArray(),
-                triangles = triangles.ToArray()
-            };
-            return circle;
+            return false;
         }
 
         /// <summary>
-        /// Creates a (rotated)rectangle between two points with a width of two times the given radius.
+        /// Calculates the distance from a point to a line segment.
         /// </summary>
-        /// <param name="start">The start point.</param>
-        /// <param name="end">The end point.</param>
-        /// <param name="radius">The radius of the circle.</param>
-        /// <returns>The Mesh segment.</returns>
-        private Mesh SegmentMesh(Vector3 start, Vector3 end, float radius)
+        /// <param name="p">The point.</param>
+        /// <param name="a">The start point of the line.</param>
+        /// <param name="b">The end point of the line.</param>
+        /// <returns>The distance from the point to the line segment.</returns>
+        static double DistancePointToLineSegment(Vector2 p, Vector2 a, Vector2 b)
         {
-            var vertices = new List<Vector3>();
-            var triangles = new List<int>();
+            var A = p.x - a.x;
+            var B = p.y - a.y;
+            var C = b.x - a.x;
+            var D = b.y - a.y;
 
-            var fdir = end - start;
-            var fnormal = Vector3.Cross(fdir, Vector3.up).normalized * radius;
-            vertices.Add(start + fnormal);
-            vertices.Add(start - fnormal);
+            var dot = A * C + B * D;
+            var len_sq = C * C + D * D;
+            var param = -1f;
+            if (len_sq != 0) //in case of 0 length line
+                param = dot / len_sq;
 
-            var ldir = start - end;
-            var lnormal = Vector3.Cross(ldir, Vector3.up).normalized * radius;
-            vertices.Add(end + lnormal);
-            vertices.Add(end - lnormal);
+            float xx, yy;
 
-            triangles.Add(0);
-            triangles.Add(2);
-            triangles.Add(1);
-
-            triangles.Add(0);
-            triangles.Add(3);
-            triangles.Add(2);
-
-            Mesh segment = new()
+            if (param < 0)
             {
-                vertices = vertices.ToArray(),
-                triangles = triangles.ToArray()
-            };
-            return segment;
+                xx = a.x;
+                yy = a.y;
+            }
+            else if (param > 1)
+            {
+                xx = b.x;
+                yy = b.y;
+            }
+            else
+            {
+                xx = a.x + param * C;
+                yy = a.y + param * D;
+            }
+
+            var dx = p.x - xx;
+            var dy = p.y - yy;
+            return Math.Sqrt(dx * dx + dy * dy);
         }
     }
 }

@@ -6,21 +6,28 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
-using AwARe.InterScenes.Objects;
 using UnityEngine;
 
 namespace AwARe.IngredientList.Objects
 {
     /// <summary>
-    /// An UI Element displaying and managing the list overview screen.
+    /// <para>
+    ///     Handles the UI of the ingredient list overview screen.
+    /// </para>
+    /// <para>
+    ///     Shows an overview of all <see cref="IngredientList"/>s that have been created and saved by the user.
+    ///     Allows the user to select a list to edit and tick a checkbox of the list they want to be visualized in AR.
+    /// </para>
     /// </summary>
     public class ListsOverviewScreen : MonoBehaviour
     {
         // The parent element
         [SerializeField] private IngredientListManager manager;
         
-        // UI elements to control/copy
-        [SerializeField] private GameObject listItemObject; //list item 'prefab'
+        /// <summary>
+        /// The base GameObject for construction the UI-list of saved Ingredient Lists.
+        /// </summary>
+        public GameObject listItemObject;
         
         // Tracked UI elements
         readonly List<ListItem> lists = new();
@@ -60,6 +67,7 @@ namespace AwARe.IngredientList.Objects
 
         }
 
+
         /// <summary>
         /// Destroys all currently displayed GameObjects in the ScrollView.
         /// </summary>
@@ -86,14 +94,6 @@ namespace AwARe.IngredientList.Objects
         public void OnItemClick(Logic.IngredientList list)
         {
             manager.ChangeToIngredientListScreen(list, this.gameObject);
-        }
-
-        /// <summary>
-        /// Loads the Home scene.
-        /// </summary>
-        public void OnBackButtonClick()
-        {
-            SceneSwitcher.Get().LoadScene("Home");
         }
 
         /// <summary>

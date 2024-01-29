@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['cam_0',['cam',['../class_aw_a_re_1_1_inter_scenes_1_1_objects_1_1_a_r_secretary.html#a947e892e2e105b0ddde966456742ee00',1,'AwARe::InterScenes::Objects::ARSecretary']]],
+  ['camera_1',['camera',['../class_aw_a_re_1_1_u_i_1_1_objects_1_1_pointer.html#aa393d61138d0bba307c0b1ca768a2594',1,'AwARe::UI::Objects::Pointer']]],
+  ['cancellable_2',['cancellable',['../class_aw_a_re_1_1_notifications_1_1_scheduled_notification_data.html#adfdd67a47445c8040636321fa9266726',1,'AwARe::Notifications::ScheduledNotificationData']]],
+  ['canvas_3',['canvas',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_manager.html#a720011b9abaec5fe3c966b21d5fd9f4c',1,'AwARe.RoomScan.Objects.RoomManager.canvas'],['../class_aw_a_re_1_1_room_scan_1_1_screenshot_manager.html#ae5cc54324af69a802247155747e394bc',1,'AwARe.RoomScan.ScreenshotManager.canvas']]],
+  ['characterslefttext_4',['charactersLeftText',['../class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_ingredient_list_screen.html#a73ea0d2210573aa9c6738710fcec5054',1,'AwARe::IngredientList::Objects::IngredientListScreen']]],
+  ['checkboxoptionprefab_5',['checkBoxOptionPrefab',['../class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#aece46a256ac24ee712a2bcc452b162a8',1,'AwARe::Questionnaire::Objects::AnswerOptionSpawner']]],
+  ['checkboxprefab_6',['checkBoxPrefab',['../class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_question.html#a00a61bc2b341e6d000f575496c159a41',1,'AwARe::Questionnaire::Objects::Question']]],
+  ['checkbutton_7',['checkButton',['../class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_list_item.html#ac045aacc2a4039f7b1f537cbf62680ee',1,'AwARe::IngredientList::Objects::ListItem']]],
+  ['checkhighlight_8',['checkHighlight',['../class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_list_item.html#a78044137159373e2e63482f0182f7bcd',1,'AwARe::IngredientList::Objects::ListItem']]],
+  ['checkoffcolor_9',['checkOffColor',['../class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_list_item.html#a647deb9be9eea0bfbd3ae8bd295f91b6',1,'AwARe::IngredientList::Objects::ListItem']]],
+  ['checkoncolor_10',['checkOnColor',['../class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_list_item.html#a76cb0fc0b2836a315b91e3c987fc0d66',1,'AwARe::IngredientList::Objects::ListItem']]],
+  ['checkpositivepolygon_11',['checkPositivePolygon',['../struct_aw_a_re_1_1_room_scan_1_1_path_1_1_jobs_1_1_check_in_polygon_job.html#ac5e1793e4b0f27c65e46b264dce8877c',1,'AwARe::RoomScan::Path::Jobs::CheckInPolygonJob']]],
+  ['closedline_12',['closedLine',['../class_aw_a_re_1_1_data_1_1_logic_1_1_polygon_liner_logic.html#a847b3bc26d3e6e03db940b4e7df7d53b',1,'AwARe::Data::Logic::PolygonLinerLogic']]],
+  ['closeline_13',['closeLine',['../class_aw_a_re_1_1_room_scan_1_1_polygons_1_1_objects_1_1_polygon_drawer.html#a064b5c543a57cdc232070a14e53383bb',1,'AwARe::RoomScan::Polygons::Objects::PolygonDrawer']]],
+  ['columns_14',['columns',['../struct_aw_a_re_1_1_room_scan_1_1_path_1_1_jobs_1_1_check_hit_or_miss_job.html#ac1d5029613e3e4ddc6603e2b214a2712',1,'AwARe.RoomScan.Path.Jobs.CheckHitOrMissJob.columns'],['../struct_aw_a_re_1_1_room_scan_1_1_path_1_1_jobs_1_1_check_in_polygon_job.html#a765d6cb84c1e35faf1e411f600f6f4c2',1,'AwARe.RoomScan.Path.Jobs.CheckInPolygonJob.columns'],['../struct_aw_a_re_1_1_room_scan_1_1_path_1_1_jobs_1_1_erosion_scan_job.html#acb3efd4bb975ab7a13995d4488cbb546',1,'AwARe.RoomScan.Path.Jobs.ErosionScanJob.columns']]],
+  ['confirmbutton_15',['confirmButton',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a365a8f5751be62129df40eb4941e2076',1,'AwARe::RoomScan::Objects::RoomUI']]],
+  ['confirmpassword_16',['confirmPassword',['../struct_aw_a_re_1_1_server_1_1_logic_1_1_account_details.html#ab8793998b0a3ea2ebb5f865a39b68b94',1,'AwARe::Server::Logic::AccountDetails']]],
+  ['createbutton_17',['createButton',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a9ba4a3a32da3e84af80cde78385d24c0',1,'AwARe::RoomScan::Objects::RoomUI']]],
+  ['currentansweroptionindex_18',['currentAnswerOptionIndex',['../class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_question.html#acb0767ce8163be5ec8caaa7250e0e673',1,'AwARe::Questionnaire::Objects::Question']]],
+  ['currentroomrenderables_19',['currentRoomRenderables',['../class_aw_a_re_1_1_object_generation_1_1_object_creation_manager.html#a401b8e8e800c0a6bd6b152392f44640a',1,'AwARe::ObjectGeneration::ObjectCreationManager']]]
+];

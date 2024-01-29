@@ -1,0 +1,12 @@
+<map id="AwARe.Questionnaire.Objects.Questionnaire.AddIfYesQuestions" name="AwARe.Questionnaire.Objects.Questionnaire.AddIfYesQuestions">
+<area shape="rect" id="Node000001" title="Adds all IfYesQuestions from data &#160;to question &#160;if they exist. It sets them as inactive,..." alt="" coords="5,72,222,115"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_questionnaire.html#ab968ea3caab2cadab6f4a150cabdc05d" title="Instantiate a questionCreator and use it to create a new question." alt="" coords="270,72,471,115"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,100,254,100,254,105,222,105"/>
+<area shape="poly" id="edge3_Node000002_Node000001" title=" " alt="" coords="269,87,237,87,237,82,269,82"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_questionnaire.html#a6c03af09ccf4e17d9406526f6f1d2f89" title="Add a single answer option, using &quot;QuestionData&quot; to the given &quot;Question&quot;." alt="" coords="519,5,728,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="453,69,524,50,526,55,455,74"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_question.html#a283372fa95bfab3a532320f28f44e9df" title="Sets the index of the answerOption that triggers additional questions. ifYes &#160;should be set to true i..." alt="" coords="523,72,724,115"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="471,91,507,91,507,96,471,96"/>
+<area shape="rect" id="Node000005" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_question.html#aa56d899e11928d1755569c0ee0cf0846" title="Set the title of this question." alt="" coords="523,139,724,181"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="455,113,526,132,524,137,453,118"/>
+</map>

@@ -1,7 +1,13 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections.Generic;
-
-using AwARe.RoomScan.Polygons.Logic;
-
+using AwARe.Data.Logic;
+using AwARe.RoomScan.Path;
 using UnityEngine;
 
 namespace AwARe.ObjectGeneration
@@ -12,8 +18,10 @@ namespace AwARe.ObjectGeneration
     public interface ISpawnPointHandler
     {
         /// <summary>
-        /// returns a list of spawnpoints on which the objects are allowed to be spawned.
+        /// Returns a list of spawnpoints on which the objects are allowed to be spawned.
         /// </summary>
-        public List<Vector3> GetValidSpawnPoints(Room room, Mesh path);
+        /// <param name="room">The room in which the objects should be spawned.</param>
+        /// <param name="path">The path in the room.</param>
+        public List<Vector3> GetValidSpawnPoints(Room room, PathData path);
     }
 }

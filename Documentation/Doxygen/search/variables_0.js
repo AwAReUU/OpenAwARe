@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['accesstoken_0',['accesstoken',['../class_aw_a_re_1_1_server_1_1_logic_1_1_client.html#ad1ede154a91b2eed44c3a2ed259de999',1,'AwARe.Server.Logic.Client.accessToken'],['../struct_aw_a_re_1_1_server_1_1_logic_1_1_token_response.html#a0ad8bfe159b50957e49863aea633599c',1,'AwARe.Server.Logic.TokenResponse.accessToken']]],
+  ['activeline_1',['activeLine',['../class_aw_a_re_1_1_room_scan_1_1_polygons_1_1_objects_1_1_polygon_drawer.html#aa917dc56e4d92344c838e0dcb561259e',1,'AwARe::RoomScan::Polygons::Objects::PolygonDrawer']]],
+  ['activepolygon_2',['activepolygon',['../class_aw_a_re_1_1_room_scan_1_1_polygons_1_1_objects_1_1_polygon_drawer.html#a91c345d945cdbbd571d8deacec94aafb',1,'AwARe.RoomScan.Polygons.Objects.PolygonDrawer.activePolygon'],['../class_aw_a_re_1_1_room_scan_1_1_polygons_1_1_objects_1_1_polygon_manager.html#a42b8ad8117a130453612312feed3ce7c',1,'AwARe.RoomScan.Polygons.Objects.PolygonManager.activePolygon']]],
+  ['activepolygonline_3',['activePolygonLine',['../class_aw_a_re_1_1_room_scan_1_1_polygons_1_1_objects_1_1_polygon_manager.html#aa1f765c39cb444f42c73174ba3f9118a',1,'AwARe::RoomScan::Polygons::Objects::PolygonManager']]],
+  ['activepolygonmesh_4',['activePolygonMesh',['../class_aw_a_re_1_1_room_scan_1_1_polygons_1_1_objects_1_1_polygon_manager.html#a24da2d6a244ba09e5b089d1832b92cd1',1,'AwARe::RoomScan::Polygons::Objects::PolygonManager']]],
+  ['activepolygonobject_5',['activePolygonObject',['../class_aw_a_re_1_1_room_scan_1_1_polygons_1_1_objects_1_1_polygon_drawer.html#a57f2a024c5d950ca1c6da4bbd5b4a68d',1,'AwARe::RoomScan::Polygons::Objects::PolygonDrawer']]],
+  ['activepopup_6',['activePopUp',['../class_aw_a_re_1_1_u_i_1_1_popups_1_1_objects_1_1_popup_handler.html#a4045f45e1e80279d02581640befa19e7',1,'AwARe::UI::Popups::Objects::PopupHandler']]],
+  ['addbutton_7',['addButton',['../class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_ingredient_list_screen.html#a4c123b09ca29be37df7451f0a9eb5c0f',1,'AwARe::IngredientList::Objects::IngredientListScreen']]],
+  ['adress_8',['adress',['../class_aw_a_re_1_1_server_1_1_logic_1_1_client.html#af8aa4cebfd223f58b518ef8622fc3593',1,'AwARe.Server.Logic.Client.adress'],['../class_aw_a_re_1_1_server_1_1_objects_1_1_client_behaviour.html#a7c6d4959ed09b947cfb297f0d9ecf868',1,'AwARe.Server.Objects.ClientBehaviour.adress']]],
+  ['anchorcount_9',['anchorCount',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_anchor_handler.html#ac19b7201a43265901de96cba7c255696',1,'AwARe::RoomScan::Objects::AnchorHandler']]],
+  ['anchorhandler_10',['anchorHandler',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_manager.html#ab1f95c919eff3c38ca0bc066cdfb295b',1,'AwARe::RoomScan::Objects::RoomManager']]],
+  ['anchorrecognizabletext_11',['anchorRecognizableText',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a7a2e07b8f6577691cd671bbd3ab02656',1,'AwARe::RoomScan::Objects::RoomUI']]],
+  ['anchorvisual_12',['anchorVisual',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_anchor_handler.html#a697423bceabcb1dcb12a23c57717ad98',1,'AwARe::RoomScan::Objects::AnchorHandler']]],
+  ['answeredquestions_13',['AnsweredQuestions',['../class_aw_a_re_1_1_questionnaire_1_1_data_1_1_answered_questionnaire_data.html#a75b0bc5c5e715b505f08b3679d4b2505',1,'AwARe::Questionnaire::Data::AnsweredQuestionnaireData']]],
+  ['answeroptionindex_14',['answeroptionindex',['../class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_radio_answer_option.html#aa91fec9f6e12ac9261a5cb378e0e5682',1,'AwARe.Questionnaire.Objects.RadioAnswerOption.answerOptionIndex'],['../class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_check_box_answer_option.html#a8c8aa804d1233a3eee2c1c50619fe1e7',1,'AwARe.Questionnaire.Objects.CheckBoxAnswerOption.answerOptionIndex']]],
+  ['answeroptionprefab_15',['answerOptionPrefab',['../class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html#a2e306c8f713553098f7498c147aad669',1,'AwARe::Questionnaire::Objects::AnswerOption']]],
+  ['answeroptions_16',['answerOptions',['../class_aw_a_re_1_1_questionnaire_1_1_data_1_1_question_data.html#a85328aa364bafb9a7b3c7eef1b10a141',1,'AwARe::Questionnaire::Data::QuestionData']]],
+  ['answeroptionspawner_17',['answerOptionSpawner',['../class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_question.html#ada6757f919a01f22595b2fd7c9e7c3b0',1,'AwARe::Questionnaire::Objects::Question']]],
+  ['answers_18',['Answers',['../class_aw_a_re_1_1_questionnaire_1_1_data_1_1_answered_question_data.html#a94e5e4afde41b2d891c7dd002bceaf81',1,'AwARe::Questionnaire::Data::AnsweredQuestionData']]],
+  ['askfornegpolygonstext_19',['askForNegPolygonsText',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#abb932e742c18652b46c82ea44c407d74',1,'AwARe::RoomScan::Objects::RoomUI']]],
+  ['askforsavetext_20',['askForSaveText',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#afdadd43406e059c02c83158e217b0eff',1,'AwARe::RoomScan::Objects::RoomUI']]],
+  ['averageheight_21',['averageHeight',['../class_aw_a_re_1_1_room_scan_1_1_path_1_1_path_generator.html#a0eee1d21e301068daf420354624391c4',1,'AwARe::RoomScan::Path::PathGenerator']]]
+];
