@@ -795,6 +795,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoomManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2731303415398355644, guid: d4c46bfcf9edf094f9024b003f22eb7b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fa71a54ca8c4a36458d193f659a0d8b6,
+        type: 3}
     - target: {fileID: 6542437873311498104, guid: d4c46bfcf9edf094f9024b003f22eb7b,
         type: 3}
       propertyPath: m_AnchorMax.x
