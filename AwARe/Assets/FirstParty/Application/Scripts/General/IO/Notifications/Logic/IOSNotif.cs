@@ -17,6 +17,7 @@ namespace AwARe.Notifications.Logic
     /// <summary>
     /// Implementation of the abstract notification class for the IOS platform.
     /// </summary>
+    [ExcludeFromCoverage]
     public class IOSNotif : Notification
     {
 
