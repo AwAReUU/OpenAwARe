@@ -1,5 +1,0 @@
-<map id="AwARe.Notifications.Objects.NotificationScheduler.SendEditorNotification" name="AwARe.Notifications.Objects.NotificationScheduler.SendEditorNotification">
-<area shape="rect" id="Node000001" title="Sends a notifcation to the unity editor environment. does nothing if called on other platforms." alt="" coords="5,5,217,64"/>
-<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_notifications_1_1_objects_1_1_notification_scheduler.html#a37062dfeff2d4bbe7a68a68b0627f841" title="Sets the parameters of a notification." alt="" coords="265,13,503,56"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,32,249,32,249,37,217,37"/>
-</map>

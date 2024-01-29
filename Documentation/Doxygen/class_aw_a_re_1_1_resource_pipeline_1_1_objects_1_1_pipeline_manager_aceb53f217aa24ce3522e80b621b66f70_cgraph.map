@@ -1,9 +1,11 @@
 <map id="AwARe.ResourcePipeline.Objects.PipelineManager.QuantityDictToRenderables" name="AwARe.ResourcePipeline.Objects.PipelineManager.QuantityDictToRenderables">
-<area shape="rect" id="Node000001" title="Given a dictionary of (modelId, quantity), create a Renderable for each modelId." alt="" coords="5,72,285,115"/>
+<area shape="rect" id="Node000001" title="Given a dictionary of (modelId, quantity), create a Renderable for each modelId." alt="" coords="5,105,285,148"/>
 <area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_resource_pipeline_1_1_objects_1_1_pipeline_manager.html#ac46cbd04139ef0ac5609e1f97295aecc" title="HalfExtents are distances from center to bounding box walls." alt="" coords="343,5,565,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="246,69,336,49,338,54,248,74"/>
-<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_resource_pipeline_1_1_objects_1_1_pipeline_manager.html#a697d130d7458f4c5924c95675a483c03" title="Get the GameObject prefab from modelPath. If no GameObject is found at that path, return a placeholde..." alt="" coords="336,72,572,115"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="285,91,320,91,320,96,285,96"/>
-<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_object_generation_1_1_renderable.html#a5c8b9792df8d96eedd92ecad88acda5d" title="For each unique object, find out the percentage of space it will need." alt="" coords="333,139,575,181"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="248,113,338,132,336,137,246,118"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,102,332,57,355,50,357,55,333,63,205,107"/>
+<area shape="rect" id="Node000003" href="$interface_aw_a_re_1_1_database_1_1_i_model_database.html#a327ccfda56744653382eab6484f732f7" title="Selects a full row in the Model table that matches the given ID." alt="" coords="342,72,566,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="285,109,326,104,326,110,285,114"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_resource_pipeline_1_1_objects_1_1_pipeline_manager.html#a697d130d7458f4c5924c95675a483c03" title="Get the GameObject prefab from modelPath. If no GameObject is found at that path, return a placeholde..." alt="" coords="336,139,572,181"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="285,139,320,143,320,148,285,144"/>
+<area shape="rect" id="Node000005" href="$class_aw_a_re_1_1_object_generation_1_1_renderable.html#a5c8b9792df8d96eedd92ecad88acda5d" title="For each unique object, find out the percentage of space it will need." alt="" coords="333,205,575,248"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="205,146,333,191,357,198,355,203,332,196,203,151"/>
 </map>

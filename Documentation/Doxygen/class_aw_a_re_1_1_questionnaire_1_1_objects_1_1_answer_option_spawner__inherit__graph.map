@@ -1,9 +1,0 @@
-<map id="AwARe.Questionnaire.Objects.AnswerOptionSpawner" name="AwARe.Questionnaire.Objects.AnswerOptionSpawner">
-<area shape="rect" id="Node000001" title="Class AnswerOptionFactory is a base class for creation and initializing answer option objects." alt="" coords="5,72,207,115"/>
-<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_check_box_answer_option.html" title="Represents an answer option that displays CheckBoxes." alt="" coords="255,5,456,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,65,272,46,274,51,203,70"/>
-<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_radio_answer_option.html" title="Represents an answer option that displays RadioButtons." alt="" coords="255,72,456,115"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="222,91,254,91,254,96,222,96"/>
-<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_text_answer_option.html" title="Represents an answer option that displays a text input field." alt="" coords="255,139,456,181"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="203,117,274,135,272,141,202,122"/>
-</map>

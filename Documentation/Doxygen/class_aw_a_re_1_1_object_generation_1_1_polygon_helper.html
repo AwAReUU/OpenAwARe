@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="logoLowRes.png"/></td>
   <td id="projectalign">
-   <div id="projectname">AwARe<span id="projectnumber">&#160;8.0</span>
+   <div id="projectname">AwARe<span id="projectnumber">&#160;9.0</span>
    </div>
   </td>
  </tr>
@@ -89,65 +89,19 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a72d60df0ee7cb45741ffcb6353a193f0" id="r_a72d60df0ee7cb45741ffcb6353a193f0"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_object_generation_1_1_polygon_helper.html#a72d60df0ee7cb45741ffcb6353a193f0">IsPointInsidePolygon</a> (<a class="el" href="class_aw_a_re_1_1_data_1_1_logic_1_1_polygon.html">Polygon</a> polygon, Vector3 point)</td></tr>
 <tr class="memdesc:a72d60df0ee7cb45741ffcb6353a193f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the <em>point</em>  is inside of the <em>polygon</em> , by using a Point-in-Polygon (even-odd) algorithm.  <br /></td></tr>
 <tr class="separator:a72d60df0ee7cb45741ffcb6353a193f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2e1359bf6b3967c9754971153b9903c" id="r_aa2e1359bf6b3967c9754971153b9903c"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_object_generation_1_1_polygon_helper.html#aa2e1359bf6b3967c9754971153b9903c">PointNotInPolygons</a> (List&lt; <a class="el" href="class_aw_a_re_1_1_data_1_1_logic_1_1_polygon.html">Polygon</a> &gt; polygons, Vector3 point)</td></tr>
-<tr class="memdesc:aa2e1359bf6b3967c9754971153b9903c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the point is not inside of any of the given polygons.  <br /></td></tr>
-<tr class="separator:aa2e1359bf6b3967c9754971153b9903c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ae43ea2e15997f035c8660abe155187" id="r_a2ae43ea2e15997f035c8660abe155187"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_object_generation_1_1_polygon_helper.html#a2ae43ea2e15997f035c8660abe155187">IsPointInsidePath</a> (Mesh path, Vector3 point)</td></tr>
-<tr class="memdesc:a2ae43ea2e15997f035c8660abe155187"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the point lies inside the path.  <br /></td></tr>
-<tr class="separator:a2ae43ea2e15997f035c8660abe155187"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23a477fd6eba137552ebbf51d52cdec0" id="r_a23a477fd6eba137552ebbf51d52cdec0"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_object_generation_1_1_polygon_helper.html#a23a477fd6eba137552ebbf51d52cdec0">ObjectColliderInPolygon</a> (List&lt; Vector3 &gt; corners, <a class="el" href="class_aw_a_re_1_1_data_1_1_logic_1_1_room.html">Room</a> room)</td></tr>
-<tr class="memdesc:a23a477fd6eba137552ebbf51d52cdec0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if all four base <em>corners</em>  are inside of the Polygon described by <em>polygonPoints</em> .  <br /></td></tr>
-<tr class="separator:a23a477fd6eba137552ebbf51d52cdec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9b6748f7ffbef311038a28c2bc0d2eb" id="r_af9b6748f7ffbef311038a28c2bc0d2eb"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_aw_a_re_1_1_data_1_1_logic_1_1_polygon.html">Polygon</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_object_generation_1_1_polygon_helper.html#af9b6748f7ffbef311038a28c2bc0d2eb">PointInPolygons</a> (List&lt; <a class="el" href="class_aw_a_re_1_1_data_1_1_logic_1_1_polygon.html">Polygon</a> &gt; polygons, Vector3 point)</td></tr>
+<tr class="memdesc:af9b6748f7ffbef311038a28c2bc0d2eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the point is not inside of any of the given polygons.  <br /></td></tr>
+<tr class="separator:af9b6748f7ffbef311038a28c2bc0d2eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ab62c22e48ed686c967c88ad231e227" id="r_a2ab62c22e48ed686c967c88ad231e227"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_object_generation_1_1_polygon_helper.html#a2ab62c22e48ed686c967c88ad231e227">ObjectColliderAllInPolygon</a> (List&lt; Vector3 &gt; corners, <a class="el" href="class_aw_a_re_1_1_data_1_1_logic_1_1_polygon.html">Polygon</a> polygon)</td></tr>
+<tr class="memdesc:a2ab62c22e48ed686c967c88ad231e227"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if all four base <em>corners</em>  are inside of the given polygon.  <br /></td></tr>
+<tr class="separator:a2ab62c22e48ed686c967c88ad231e227"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7178cf3cff8757a4ce91b18136dec7e8" id="r_a7178cf3cff8757a4ce91b18136dec7e8"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_object_generation_1_1_polygon_helper.html#a7178cf3cff8757a4ce91b18136dec7e8">ObjectColliderAnyInPolygon</a> (List&lt; Vector3 &gt; corners, <a class="el" href="class_aw_a_re_1_1_data_1_1_logic_1_1_polygon.html">Polygon</a> polygon)</td></tr>
+<tr class="memdesc:a7178cf3cff8757a4ce91b18136dec7e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if any of the four base <em>corners</em>  is inside of the given polygon.  <br /></td></tr>
+<tr class="separator:a7178cf3cff8757a4ce91b18136dec7e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><code>PolygonHelper</code> is a class that contains some helper methods for object generation using the Polygon method. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a2ae43ea2e15997f035c8660abe155187" name="a2ae43ea2e15997f035c8660abe155187"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ae43ea2e15997f035c8660abe155187">&#9670;&#160;</a></span>IsPointInsidePath()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool AwARe.ObjectGeneration.PolygonHelper.IsPointInsidePath </td>
-          <td>(</td>
-          <td class="paramtype">Mesh&#160;</td>
-          <td class="paramname"><em>path</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Vector3&#160;</td>
-          <td class="paramname"><em>point</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check if the point lies inside the path. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">path</td><td>The path Mesh.</td></tr>
-    <tr><td class="paramname">point</td><td>The point to do the test on. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Whether the point lies inside the path. </dd></dl>
-
-</div>
-</div>
 <a id="a72d60df0ee7cb45741ffcb6353a193f0" name="a72d60df0ee7cb45741ffcb6353a193f0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a72d60df0ee7cb45741ffcb6353a193f0">&#9670;&#160;</a></span>IsPointInsidePolygon()</h2>
 
@@ -194,8 +148,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a23a477fd6eba137552ebbf51d52cdec0" name="a23a477fd6eba137552ebbf51d52cdec0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23a477fd6eba137552ebbf51d52cdec0">&#9670;&#160;</a></span>ObjectColliderInPolygon()</h2>
+<a id="a2ab62c22e48ed686c967c88ad231e227" name="a2ab62c22e48ed686c967c88ad231e227"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ab62c22e48ed686c967c88ad231e227">&#9670;&#160;</a></span>ObjectColliderAllInPolygon()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,7 +158,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static bool AwARe.ObjectGeneration.PolygonHelper.ObjectColliderInPolygon </td>
+          <td class="memname">static bool AwARe.ObjectGeneration.PolygonHelper.ObjectColliderAllInPolygon </td>
           <td>(</td>
           <td class="paramtype">List&lt; Vector3 &gt;&#160;</td>
           <td class="paramname"><em>corners</em>, </td>
@@ -212,8 +166,8 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_aw_a_re_1_1_data_1_1_logic_1_1_room.html">Room</a>&#160;</td>
-          <td class="paramname"><em>room</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="class_aw_a_re_1_1_data_1_1_logic_1_1_polygon.html">Polygon</a>&#160;</td>
+          <td class="paramname"><em>polygon</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -228,20 +182,20 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Check if all four base <em>corners</em>  are inside of the Polygon described by <em>polygonPoints</em> . </p>
+<p>Check if all four base <em>corners</em>  are inside of the given polygon. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">corners</td><td>Corners of the base of the bounding box of the Object.</td></tr>
-    <tr><td class="paramname">room</td><td>The room.</td></tr>
+    <tr><td class="paramname">polygon</td><td>The polygon.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Whether the object is inside the positive Polygon and outside the negative polygons.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Whether the object is inside the given polygon.</dd></dl>
 
 </div>
 </div>
-<a id="aa2e1359bf6b3967c9754971153b9903c" name="aa2e1359bf6b3967c9754971153b9903c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2e1359bf6b3967c9754971153b9903c">&#9670;&#160;</a></span>PointNotInPolygons()</h2>
+<a id="a7178cf3cff8757a4ce91b18136dec7e8" name="a7178cf3cff8757a4ce91b18136dec7e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7178cf3cff8757a4ce91b18136dec7e8">&#9670;&#160;</a></span>ObjectColliderAnyInPolygon()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -250,7 +204,53 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static bool AwARe.ObjectGeneration.PolygonHelper.PointNotInPolygons </td>
+          <td class="memname">static bool AwARe.ObjectGeneration.PolygonHelper.ObjectColliderAnyInPolygon </td>
+          <td>(</td>
+          <td class="paramtype">List&lt; Vector3 &gt;&#160;</td>
+          <td class="paramname"><em>corners</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_aw_a_re_1_1_data_1_1_logic_1_1_polygon.html">Polygon</a>&#160;</td>
+          <td class="paramname"><em>polygon</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check if any of the four base <em>corners</em>  is inside of the given polygon. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">corners</td><td>Corners of the base of the bounding box of the Object.</td></tr>
+    <tr><td class="paramname">polygon</td><td>The polygon.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Whether any part of the object is inside the given polygon.</dd></dl>
+
+</div>
+</div>
+<a id="af9b6748f7ffbef311038a28c2bc0d2eb" name="af9b6748f7ffbef311038a28c2bc0d2eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9b6748f7ffbef311038a28c2bc0d2eb">&#9670;&#160;</a></span>PointInPolygons()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="class_aw_a_re_1_1_data_1_1_logic_1_1_polygon.html">Polygon</a> AwARe.ObjectGeneration.PolygonHelper.PointInPolygons </td>
           <td>(</td>
           <td class="paramtype">List&lt; <a class="el" href="class_aw_a_re_1_1_data_1_1_logic_1_1_polygon.html">Polygon</a> &gt;&#160;</td>
           <td class="paramname"><em>polygons</em>, </td>
@@ -282,12 +282,12 @@ Static Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Whether the point is inside of any of the given polygons.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The polygon in which the point lies. Null if it does not lie in any of the polygons.</dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_aw_a_re_1_1_object_generation_1_1_polygon_helper_aa2e1359bf6b3967c9754971153b9903c_cgraph.png" border="0" usemap="#aclass_aw_a_re_1_1_object_generation_1_1_polygon_helper_aa2e1359bf6b3967c9754971153b9903c_cgraph" alt=""/></div>
-<map name="aclass_aw_a_re_1_1_object_generation_1_1_polygon_helper_aa2e1359bf6b3967c9754971153b9903c_cgraph" id="aclass_aw_a_re_1_1_object_generation_1_1_polygon_helper_aa2e1359bf6b3967c9754971153b9903c_cgraph">
+<div class="center"><img src="class_aw_a_re_1_1_object_generation_1_1_polygon_helper_af9b6748f7ffbef311038a28c2bc0d2eb_cgraph.png" border="0" usemap="#aclass_aw_a_re_1_1_object_generation_1_1_polygon_helper_af9b6748f7ffbef311038a28c2bc0d2eb_cgraph" alt=""/></div>
+<map name="aclass_aw_a_re_1_1_object_generation_1_1_polygon_helper_af9b6748f7ffbef311038a28c2bc0d2eb_cgraph" id="aclass_aw_a_re_1_1_object_generation_1_1_polygon_helper_af9b6748f7ffbef311038a28c2bc0d2eb_cgraph">
 <area shape="rect" title="Check if the point is not inside of any of the given polygons." alt="" coords="5,5,226,48"/>
 <area shape="rect" href="class_aw_a_re_1_1_object_generation_1_1_polygon_helper.html#a72d60df0ee7cb45741ffcb6353a193f0" title="Check if the point &#160;is inside of the polygon , by using a Point&#45;in&#45;Polygon (even&#45;odd) algorithm." alt="" coords="274,5,494,48"/>
 <area shape="poly" title=" " alt="" coords="226,24,258,24,258,29,226,29"/>
@@ -297,7 +297,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/Martijn/Documents/GitHub/awARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ObjectGeneration/<b>PolygonHelper.cs</b></li>
+<li>C:/Users/Martijn/Documents/GitHub/awARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ObjectGeneration/<a class="el" href="_polygon_helper_8cs.html">PolygonHelper.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

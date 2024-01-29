@@ -1,7 +1,19 @@
 var searchData=
 [
-  ['on_5fcatch_0',['on_catch',['../class_aw_a_re_1_1_server_1_1_logic_1_1_request.html#acd14e070b449bbcebd2d7fb560ceafd6',1,'AwARe::Server::Logic::Request']]],
-  ['on_5fthen_1',['on_then',['../class_aw_a_re_1_1_server_1_1_logic_1_1_request.html#a51c09a4365a17a938a56e686c6650b0f',1,'AwARe::Server::Logic::Request']]],
-  ['optiontext_2',['optionText',['../class_aw_a_re_1_1_questionnaire_1_1_data_1_1_answer_option_data.html#a7851e6b608a9d2e115d8a59db5e60f50',1,'AwARe::Questionnaire::Data::AnswerOptionData']]],
-  ['optiontype_3',['optionType',['../class_aw_a_re_1_1_questionnaire_1_1_data_1_1_answer_option_data.html#aa1888eb74104c2b0efd9046eebec3591',1,'AwARe::Questionnaire::Data::AnswerOptionData']]]
+  ['nameinput_0',['nameInput',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#aaaeafb65d74c2a2d4f5e143899522742',1,'AwARe::RoomScan::Objects::RoomUI']]],
+  ['nameinputwindow_1',['nameInputWindow',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a102a7f2ffa76f47650e6b077365229a6',1,'AwARe::RoomScan::Objects::RoomUI']]],
+  ['namelabel_2',['namelabel',['../class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_list_item.html#a4afa61155bab83865cc611330a2365d4',1,'AwARe.IngredientList.Objects.ListItem.nameLabel'],['../class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_search_item.html#abd247ac9e8fb654916c3ed14a18d7846',1,'AwARe.IngredientList.Objects.SearchItem.nameLabel'],['../class_aw_a_re_1_1_room_list_item.html#a08081e0ef0a4788d3fd4c0c399a5275c',1,'AwARe.RoomListItem.nameLabel']]],
+  ['nativegrid_3',['nativegrid',['../struct_aw_a_re_1_1_room_scan_1_1_path_1_1_jobs_1_1_check_hit_or_miss_job.html#a0a09eca1489c2bf2aaa4375920880cbb',1,'AwARe.RoomScan.Path.Jobs.CheckHitOrMissJob.nativeGrid'],['../struct_aw_a_re_1_1_room_scan_1_1_path_1_1_jobs_1_1_check_in_polygon_job.html#a89a0fe43437d0ffe380ec2b2011c63c8',1,'AwARe.RoomScan.Path.Jobs.CheckInPolygonJob.nativeGrid']]],
+  ['negativepolygonbase_4',['negativePolygonBase',['../class_aw_a_re_1_1_data_1_1_objects_1_1_room.html#ad5dfdc6d5769fec102ff14de7a591546',1,'AwARe::Data::Objects::Room']]],
+  ['negativepolygonliners_5',['negativePolygonLiners',['../class_aw_a_re_1_1_data_1_1_objects_1_1_room_liner.html#aed4bc1e84e13e457f08026c80ed012e9',1,'AwARe::Data::Objects::RoomLiner']]],
+  ['negativepolygons_6',['negativepolygons',['../class_aw_a_re_1_1_data_1_1_objects_1_1_room_serialization.html#ae988dce8ea4a812ffab5455673dc8a93',1,'AwARe.Data.Objects.RoomSerialization.NegativePolygons'],['../class_aw_a_re_1_1_data_1_1_objects_1_1_room.html#a10e8c75480b3089e603498a759e26de5',1,'AwARe.Data.Objects.Room.negativePolygons']]],
+  ['newline_7',['newLine',['../class_aw_a_re_1_1_objects_1_1_liner.html#a3e1c47c5b27d792e98dff4c9f4676932',1,'AwARe::Objects::Liner']]],
+  ['newliners_8',['newLiners',['../class_aw_a_re_1_1_data_1_1_objects_1_1_room_liner.html#af95a2e18121fa93c117e8c3a8d8d299a',1,'AwARe::Data::Objects::RoomLiner']]],
+  ['newlines_9',['newLines',['../class_aw_a_re_1_1_data_1_1_objects_1_1_room_liner.html#a9b2cbc722b2ad89d720d769357b4d7d5',1,'AwARe::Data::Objects::RoomLiner']]],
+  ['newmesh_10',['newMesh',['../class_aw_a_re_1_1_objects_1_1_mesher.html#a7d65e53d9e5b52bc8b25bf5405945872',1,'AwARe::Objects::Mesher']]],
+  ['nobutton_11',['noButton',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#ac0b24e6cf36f679c068d3ed017e15728',1,'AwARe::RoomScan::Objects::RoomUI']]],
+  ['nolistselectedpopup_12',['NoListSelectedPopup',['../class_aw_a_re_1_1_obj_gen_u_i_handler.html#ae58bf51d66231f5b69155af95a9f6a39',1,'AwARe::ObjGenUIHandler']]],
+  ['normal_13',['normal',['../class_aw_a_re_1_1_object_interaction_1_1_objects_1_1_interact_object_handler.html#abe280ffd2bd0d00e00997c1e51f3e922',1,'AwARe::ObjectInteraction::Objects::InteractObjectHandler']]],
+  ['notificationid_14',['notificationID',['../class_aw_a_re_1_1_notifications_1_1_scheduled_notification_data.html#a07e763a0b1e05257d2751bd04a4aeb34',1,'AwARe::Notifications::ScheduledNotificationData']]],
+  ['numsegments_15',['numSegments',['../class_aw_a_re_1_1_room_scan_1_1_path_1_1_path_visualizer.html#a7b0c13d141709fb7cc1e87287376caf2',1,'AwARe::RoomScan::Path::PathVisualizer']]]
 ];

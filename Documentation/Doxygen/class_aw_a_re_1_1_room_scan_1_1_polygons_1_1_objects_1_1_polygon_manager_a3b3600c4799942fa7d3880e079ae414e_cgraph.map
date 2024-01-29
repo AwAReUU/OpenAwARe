@@ -1,9 +1,15 @@
 <map id="AwARe.RoomScan.Polygons.Objects.PolygonManager.SwitchToState" name="AwARe.RoomScan.Polygons.Objects.PolygonManager.SwitchToState">
-<area shape="rect" id="Node000001" title="Sets all Objects activities to match new state." alt="" coords="5,5,216,64"/>
-<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_manager.html#a4805c830468ab4238986d227c9ba163f" title="Sets activity of components." alt="" coords="264,13,483,56"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,32,248,32,248,37,216,37"/>
-<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#ac44298e7dbabc2b469e5dc133ffa3323" title="Sets activity of UI elements based on the polygon state." alt="" coords="531,13,750,56"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="483,32,515,32,515,37,483,37"/>
-<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a0f102e6a4a0d1c565e408bca44cd3104" title="Called on changing the slider." alt="" coords="798,13,1018,56"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="751,32,783,32,783,37,751,37"/>
+<area shape="rect" id="Node000001" title="Sets all Objects activities to match new state." alt="" coords="5,64,216,123"/>
+<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_manager.html#a4805c830468ab4238986d227c9ba163f" title="Sets activity of components." alt="" coords="264,72,483,115"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,91,248,91,248,96,216,96"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#ac44298e7dbabc2b469e5dc133ffa3323" title="Sets activity of UI elements based on the polygon state." alt="" coords="531,72,750,115"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="483,91,515,91,515,96,483,96"/>
+<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a1cbc0a4af7db88ddfcc068683e7560e5" title="Display the screenshot with the given index for loading the anchors." alt="" coords="798,5,1018,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="728,69,804,50,806,55,730,74"/>
+<area shape="rect" id="Node000006" href="$class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_manager.html#a2eb3e8fb4be815f621343dbd72f8fa99" title="Whether the polygon being drawn is the positive polygon." alt="" coords="798,72,1018,115"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="751,91,783,91,783,96,751,96"/>
+<area shape="rect" id="Node000007" href="$class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a0f102e6a4a0d1c565e408bca44cd3104" title="Called on changing the slider." alt="" coords="798,139,1018,181"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="730,113,806,132,804,137,728,118"/>
+<area shape="rect" id="Node000005" href="$class_aw_a_re_1_1_room_scan_1_1_screenshot_manager.html#ab70709d0585b810c39e9fe42ad27a93f" title="Gets a screenshot from the file and displays it on screen." alt="" coords="1066,5,1301,48"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1018,24,1050,24,1050,29,1018,29"/>
 </map>

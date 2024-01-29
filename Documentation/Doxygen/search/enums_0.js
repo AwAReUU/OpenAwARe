@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['optiontype_0',['OptionType',['../namespace_aw_a_re_1_1_questionnaire_1_1_data.html#af4751554840818cd5eb0113a6d1a6e00',1,'AwARe::Questionnaire::Data']]]
+  ['imagesize_0',['ImageSize',['../class_aw_a_re_1_1_room_scan_1_1_screenshot_manager.html#ae242c66d049708abed69e8afb302bfb8',1,'AwARe::RoomScan::ScreenshotManager']]]
 ];

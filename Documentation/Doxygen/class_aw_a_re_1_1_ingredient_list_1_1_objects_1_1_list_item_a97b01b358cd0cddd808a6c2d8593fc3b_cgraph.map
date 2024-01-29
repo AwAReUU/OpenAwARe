@@ -2,6 +2,4 @@
 <area shape="rect" id="Node000001" title="Sets this item to represent the given result." alt="" coords="5,5,204,48"/>
 <area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_list_item.html#af738422a0c25da858117f81b713cf24f" title="Corrects this UI element to represent its data." alt="" coords="252,5,450,48"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,24,236,24,236,29,204,29"/>
-<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_list.html#a5de6c12887a32b063ed8588eaa9d4abf" title="Gets the current number of ingredients added to the IngredientList." alt="" coords="498,5,721,48"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="450,24,482,24,482,29,450,29"/>
 </map>

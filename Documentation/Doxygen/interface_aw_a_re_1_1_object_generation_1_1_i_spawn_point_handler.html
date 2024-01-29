@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="logoLowRes.png"/></td>
   <td id="projectalign">
-   <div id="projectname">AwARe<span id="projectnumber">&#160;8.0</span>
+   <div id="projectname">AwARe<span id="projectnumber">&#160;9.0</span>
    </div>
   </td>
  </tr>
@@ -96,15 +96,15 @@ Inheritance diagram for AwARe.ObjectGeneration.ISpawnPointHandler:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9bebf5e3b02f4de3ed90cb023a970075" id="r_a9bebf5e3b02f4de3ed90cb023a970075"><td class="memItemLeft" align="right" valign="top">List&lt; Vector3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_aw_a_re_1_1_object_generation_1_1_i_spawn_point_handler.html#a9bebf5e3b02f4de3ed90cb023a970075">GetValidSpawnPoints</a> (<a class="el" href="class_aw_a_re_1_1_data_1_1_logic_1_1_room.html">Room</a> room, Mesh path)</td></tr>
-<tr class="memdesc:a9bebf5e3b02f4de3ed90cb023a970075"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns a list of spawnpoints on which the objects are allowed to be spawned.  <br /></td></tr>
-<tr class="separator:a9bebf5e3b02f4de3ed90cb023a970075"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38e05da91f13f1ca31ec42cda49d637a" id="r_a38e05da91f13f1ca31ec42cda49d637a"><td class="memItemLeft" align="right" valign="top">List&lt; Vector3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_aw_a_re_1_1_object_generation_1_1_i_spawn_point_handler.html#a38e05da91f13f1ca31ec42cda49d637a">GetValidSpawnPoints</a> (<a class="el" href="class_aw_a_re_1_1_data_1_1_logic_1_1_room.html">Room</a> room, <a class="el" href="class_aw_a_re_1_1_room_scan_1_1_path_1_1_path_data.html">PathData</a> path)</td></tr>
+<tr class="memdesc:a38e05da91f13f1ca31ec42cda49d637a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of spawnpoints on which the objects are allowed to be spawned.  <br /></td></tr>
+<tr class="separator:a38e05da91f13f1ca31ec42cda49d637a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><code>ISpawnPointHandler</code> is an interface that mandates the implementation of GetValidSpawnPoints(). </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a9bebf5e3b02f4de3ed90cb023a970075" name="a9bebf5e3b02f4de3ed90cb023a970075"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bebf5e3b02f4de3ed90cb023a970075">&#9670;&#160;</a></span>GetValidSpawnPoints()</h2>
+<a id="a38e05da91f13f1ca31ec42cda49d637a" name="a38e05da91f13f1ca31ec42cda49d637a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38e05da91f13f1ca31ec42cda49d637a">&#9670;&#160;</a></span>GetValidSpawnPoints()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -118,7 +118,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Mesh&#160;</td>
+          <td class="paramtype"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_path_1_1_path_data.html">PathData</a>&#160;</td>
           <td class="paramname"><em>path</em>&#160;</td>
         </tr>
         <tr>
@@ -129,14 +129,21 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>returns a list of spawnpoints on which the objects are allowed to be spawned. </p>
+<p>Returns a list of spawnpoints on which the objects are allowed to be spawned. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">room</td><td>The room in which the objects should be spawned.</td></tr>
+    <tr><td class="paramname">path</td><td>The path in the room.</td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Implemented in <a class="el" href="class_aw_a_re_1_1_object_generation_1_1_polygon_spawn_point_handler.html#ab5cce5a42778f345afe7b71fd9ef4151">AwARe.ObjectGeneration.PolygonSpawnPointHandler</a>.</p>
+<p>Implemented in <a class="el" href="class_aw_a_re_1_1_object_generation_1_1_polygon_spawn_point_handler.html#a1bf0c03509e7d1f395b6a7e1b4af4642">AwARe.ObjectGeneration.PolygonSpawnPointHandler</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li>C:/Users/Martijn/Documents/GitHub/awARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ObjectGeneration/SpawnPoints/<b>ISpawnPointHandler.cs</b></li>
+<li>C:/Users/Martijn/Documents/GitHub/awARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/ObjectGeneration/SpawnPoints/<a class="el" href="_i_spawn_point_handler_8cs.html">ISpawnPointHandler.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

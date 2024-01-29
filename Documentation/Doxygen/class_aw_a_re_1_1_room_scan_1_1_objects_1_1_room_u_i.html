@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="logoLowRes.png"/></td>
   <td id="projectalign">
-   <div id="projectname">AwARe<span id="projectnumber">&#160;8.0</span>
+   <div id="projectname">AwARe<span id="projectnumber">&#160;9.0</span>
    </div>
   </td>
  </tr>
@@ -76,7 +76,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#properties">Properties</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">AwARe.RoomScan.Objects.RoomUI Class Reference</div></div>
@@ -91,10 +91,8 @@ Inheritance diagram for AwARe.RoomScan.Objects.RoomUI:</div>
 <div class="center"><img src="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i__inherit__graph.png" border="0" usemap="#a_aw_a_re_8_room_scan_8_objects_8_room_u_i_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_aw_a_re_8_room_scan_8_objects_8_room_u_i_inherit__map" id="a_aw_a_re_8_room_scan_8_objects_8_room_u_i_inherit__map">
 <area shape="rect" title="UI in the polygon scan." alt="" coords="5,80,237,107"/>
-<area shape="rect" title=" " alt="" coords="10,5,120,32"/>
-<area shape="poly" title=" " alt="" coords="86,43,113,78,109,81,82,46"/>
-<area shape="rect" href="interface_aw_a_re_1_1_u_i_1_1_i_pointer.html" title=" " alt="" coords="144,5,210,32"/>
-<area shape="poly" title=" " alt="" coords="160,46,133,81,129,78,156,43"/>
+<area shape="rect" title=" " alt="" coords="66,5,176,32"/>
+<area shape="poly" title=" " alt="" coords="124,48,124,80,118,80,118,48"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -103,106 +101,316 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac44298e7dbabc2b469e5dc133ffa3323" id="r_ac44298e7dbabc2b469e5dc133ffa3323"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#ac44298e7dbabc2b469e5dc133ffa3323">SetActive</a> (<a class="el" href="namespace_aw_a_re_1_1_room_scan_1_1_objects.html#ad568499ab4b43183b57a7d53d6ba3c21">State</a> roomState, <a class="el" href="namespace_aw_a_re_1_1_room_scan_1_1_polygons.html#a4ac905ce6bb79184884a05a19e0692d4">Polygons.State</a> polygonState, <a class="el" href="namespace_aw_a_re_1_1_room_scan_1_1_path.html#a9427ab1c75c3385c2b9214ad127d9297">Path.State</a> pathState)</td></tr>
 <tr class="memdesc:ac44298e7dbabc2b469e5dc133ffa3323"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets activity of UI elements based on the polygon state.  <br /></td></tr>
 <tr class="separator:ac44298e7dbabc2b469e5dc133ffa3323"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49cf854685890a826efdc394e3d4545b" id="r_a49cf854685890a826efdc394e3d4545b"><td class="memItemLeft" align="right" valign="top"><a id="a49cf854685890a826efdc394e3d4545b" name="a49cf854685890a826efdc394e3d4545b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnCreateButtonClick</b> ()</td></tr>
-<tr class="memdesc:a49cf854685890a826efdc394e3d4545b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on create button click. <br /></td></tr>
+<tr class="memitem:a1cbc0a4af7db88ddfcc068683e7560e5" id="r_a1cbc0a4af7db88ddfcc068683e7560e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a1cbc0a4af7db88ddfcc068683e7560e5">DisplayAnchorLoadingImage</a> (int index)</td></tr>
+<tr class="memdesc:a1cbc0a4af7db88ddfcc068683e7560e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display the screenshot with the given index for loading the anchors.  <br /></td></tr>
+<tr class="separator:a1cbc0a4af7db88ddfcc068683e7560e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab25daeff3599619e85266e75b6c9dcce" id="r_ab25daeff3599619e85266e75b6c9dcce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#ab25daeff3599619e85266e75b6c9dcce">DisplayAnchorSavingImage</a> (Texture2D screenshot)</td></tr>
+<tr class="memdesc:ab25daeff3599619e85266e75b6c9dcce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display the screenshot with the given index for saving the anchors.  <br /></td></tr>
+<tr class="separator:ab25daeff3599619e85266e75b6c9dcce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e74faf93bdac28e9de9926261c34d08" id="r_a5e74faf93bdac28e9de9926261c34d08"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a5e74faf93bdac28e9de9926261c34d08">HideScreenshot</a> ()</td></tr>
+<tr class="memdesc:a5e74faf93bdac28e9de9926261c34d08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hide the shown screenshot.  <br /></td></tr>
+<tr class="separator:a5e74faf93bdac28e9de9926261c34d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49cf854685890a826efdc394e3d4545b" id="r_a49cf854685890a826efdc394e3d4545b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a49cf854685890a826efdc394e3d4545b">OnCreateButtonClick</a> ()</td></tr>
+<tr class="memdesc:a49cf854685890a826efdc394e3d4545b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on create button click.  <br /></td></tr>
 <tr class="separator:a49cf854685890a826efdc394e3d4545b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b94ed9b50a93832d0eb2882cfe03f20" id="r_a5b94ed9b50a93832d0eb2882cfe03f20"><td class="memItemLeft" align="right" valign="top"><a id="a5b94ed9b50a93832d0eb2882cfe03f20" name="a5b94ed9b50a93832d0eb2882cfe03f20"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnResetButtonClick</b> ()</td></tr>
-<tr class="memdesc:a5b94ed9b50a93832d0eb2882cfe03f20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on reset button click. <br /></td></tr>
+<tr class="memitem:a5b94ed9b50a93832d0eb2882cfe03f20" id="r_a5b94ed9b50a93832d0eb2882cfe03f20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a5b94ed9b50a93832d0eb2882cfe03f20">OnResetButtonClick</a> ()</td></tr>
+<tr class="memdesc:a5b94ed9b50a93832d0eb2882cfe03f20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on reset button click.  <br /></td></tr>
 <tr class="separator:a5b94ed9b50a93832d0eb2882cfe03f20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4acb5388c5eb458d4b7f6f5b8cc27f2a" id="r_a4acb5388c5eb458d4b7f6f5b8cc27f2a"><td class="memItemLeft" align="right" valign="top"><a id="a4acb5388c5eb458d4b7f6f5b8cc27f2a" name="a4acb5388c5eb458d4b7f6f5b8cc27f2a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnApplyButtonClick</b> ()</td></tr>
-<tr class="memdesc:a4acb5388c5eb458d4b7f6f5b8cc27f2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on apply button click. <br /></td></tr>
-<tr class="separator:a4acb5388c5eb458d4b7f6f5b8cc27f2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07132ad684dcba126241dadcab4efacd" id="r_a07132ad684dcba126241dadcab4efacd"><td class="memItemLeft" align="right" valign="top"><a id="a07132ad684dcba126241dadcab4efacd" name="a07132ad684dcba126241dadcab4efacd"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnConfirmButtonClick</b> ()</td></tr>
-<tr class="memdesc:a07132ad684dcba126241dadcab4efacd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on confirm button click. <br /></td></tr>
+<tr class="memitem:a128cde4351f84dedcaffeab766bf9db7" id="r_a128cde4351f84dedcaffeab766bf9db7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a128cde4351f84dedcaffeab766bf9db7">OnSelectButtonClick</a> ()</td></tr>
+<tr class="memdesc:a128cde4351f84dedcaffeab766bf9db7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on select point button click.  <br /></td></tr>
+<tr class="separator:a128cde4351f84dedcaffeab766bf9db7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07132ad684dcba126241dadcab4efacd" id="r_a07132ad684dcba126241dadcab4efacd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a07132ad684dcba126241dadcab4efacd">OnConfirmButtonClick</a> ()</td></tr>
+<tr class="memdesc:a07132ad684dcba126241dadcab4efacd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on confirm button click.  <br /></td></tr>
 <tr class="separator:a07132ad684dcba126241dadcab4efacd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f102e6a4a0d1c565e408bca44cd3104" id="r_a0f102e6a4a0d1c565e408bca44cd3104"><td class="memItemLeft" align="right" valign="top"><a id="a0f102e6a4a0d1c565e408bca44cd3104" name="a0f102e6a4a0d1c565e408bca44cd3104"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnHeightSliderChanged</b> ()</td></tr>
-<tr class="memdesc:a0f102e6a4a0d1c565e408bca44cd3104"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on changing the slider. <br /></td></tr>
+<tr class="memitem:a0f102e6a4a0d1c565e408bca44cd3104" id="r_a0f102e6a4a0d1c565e408bca44cd3104"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a0f102e6a4a0d1c565e408bca44cd3104">OnHeightSliderChanged</a> ()</td></tr>
+<tr class="memdesc:a0f102e6a4a0d1c565e408bca44cd3104"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on changing the slider.  <br /></td></tr>
 <tr class="separator:a0f102e6a4a0d1c565e408bca44cd3104"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b104bca642601f92e5b07b1f75c6b1d" id="r_a0b104bca642601f92e5b07b1f75c6b1d"><td class="memItemLeft" align="right" valign="top"><a id="a0b104bca642601f92e5b07b1f75c6b1d" name="a0b104bca642601f92e5b07b1f75c6b1d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnSaveButtonClick</b> ()</td></tr>
-<tr class="memdesc:a0b104bca642601f92e5b07b1f75c6b1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on save button click. <br /></td></tr>
-<tr class="separator:a0b104bca642601f92e5b07b1f75c6b1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabe77692790f4542090971216fa90b81" id="r_aabe77692790f4542090971216fa90b81"><td class="memItemLeft" align="right" valign="top"><a id="aabe77692790f4542090971216fa90b81" name="aabe77692790f4542090971216fa90b81"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnSaveSlotClick</b> (int slotIdx)</td></tr>
-<tr class="memdesc:aabe77692790f4542090971216fa90b81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on save slot click. <br /></td></tr>
-<tr class="separator:aabe77692790f4542090971216fa90b81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca220b1380ea58bdf8dcdaa3bd15ed1e" id="r_aca220b1380ea58bdf8dcdaa3bd15ed1e"><td class="memItemLeft" align="right" valign="top"><a id="aca220b1380ea58bdf8dcdaa3bd15ed1e" name="aca220b1380ea58bdf8dcdaa3bd15ed1e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnLoadButtonClick</b> ()</td></tr>
-<tr class="memdesc:aca220b1380ea58bdf8dcdaa3bd15ed1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on save button click. <br /></td></tr>
-<tr class="separator:aca220b1380ea58bdf8dcdaa3bd15ed1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37dc4c7da21c5f9384158c9282fad875" id="r_a37dc4c7da21c5f9384158c9282fad875"><td class="memItemLeft" align="right" valign="top"><a id="a37dc4c7da21c5f9384158c9282fad875" name="a37dc4c7da21c5f9384158c9282fad875"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnLoadSlotClick</b> (int slotIdx)</td></tr>
-<tr class="memdesc:a37dc4c7da21c5f9384158c9282fad875"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on load slot click. <br /></td></tr>
-<tr class="separator:a37dc4c7da21c5f9384158c9282fad875"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cf59005758a13692afd1694aeeb5230" id="r_a7cf59005758a13692afd1694aeeb5230"><td class="memItemLeft" align="right" valign="top"><a id="a7cf59005758a13692afd1694aeeb5230" name="a7cf59005758a13692afd1694aeeb5230"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnContinueClick</b> ()</td></tr>
-<tr class="memdesc:a7cf59005758a13692afd1694aeeb5230"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on continue button click. <br /></td></tr>
-<tr class="separator:a7cf59005758a13692afd1694aeeb5230"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a643111f24d3ad054d342ed8c6c071a72" id="r_a643111f24d3ad054d342ed8c6c071a72"><td class="memItemLeft" align="right" valign="top"><a id="a643111f24d3ad054d342ed8c6c071a72" name="a643111f24d3ad054d342ed8c6c071a72"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnPathButtonClick</b> ()</td></tr>
-<tr class="memdesc:a643111f24d3ad054d342ed8c6c071a72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on path button click. <br /></td></tr>
-<tr class="separator:a643111f24d3ad054d342ed8c6c071a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac409b6d020628b4947ec4135a2236e80" id="r_ac409b6d020628b4947ec4135a2236e80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#ac409b6d020628b4947ec4135a2236e80">OnNoButtonClick</a> ()</td></tr>
+<tr class="memdesc:ac409b6d020628b4947ec4135a2236e80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on no button click.  <br /></td></tr>
+<tr class="separator:ac409b6d020628b4947ec4135a2236e80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87593534c863972ad9f473c0698019b9" id="r_a87593534c863972ad9f473c0698019b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a87593534c863972ad9f473c0698019b9">OnConfirmNameButtonClick</a> ()</td></tr>
+<tr class="memdesc:a87593534c863972ad9f473c0698019b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on confirm name button click.  <br /></td></tr>
+<tr class="separator:a87593534c863972ad9f473c0698019b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
-Properties</h2></td></tr>
-<tr class="memitem:a52261f4c37802f9df173f79389df4b3f" id="r_a52261f4c37802f9df173f79389df4b3f"><td class="memItemLeft" align="right" valign="top">virtual Vector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a52261f4c37802f9df173f79389df4b3f">PointedAt</a><code> [get]</code></td></tr>
-<tr class="memdesc:a52261f4c37802f9df173f79389df4b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the current position of the pointer.  <br /></td></tr>
-<tr class="separator:a52261f4c37802f9df173f79389df4b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header properties_interface_aw_a_re_1_1_u_i_1_1_i_pointer"><td colspan="2" onclick="javascript:toggleInherit('properties_interface_aw_a_re_1_1_u_i_1_1_i_pointer')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="interface_aw_a_re_1_1_u_i_1_1_i_pointer.html">AwARe.UI.IPointer</a></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:aa44a40286d85611089be6a43f88b3f0f" id="r_aa44a40286d85611089be6a43f88b3f0f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_screenshot_manager.html">ScreenshotManager</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#aa44a40286d85611089be6a43f88b3f0f">screenshotManager</a></td></tr>
+<tr class="separator:aa44a40286d85611089be6a43f88b3f0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:ae96eb1ee2c5645248b66ae64a40f1c70" id="r_ae96eb1ee2c5645248b66ae64a40f1c70"><td class="memItemLeft" align="right" valign="top"><a id="ae96eb1ee2c5645248b66ae64a40f1c70" name="ae96eb1ee2c5645248b66ae64a40f1c70"></a>
-<a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_manager.html">RoomManager</a>&#160;</td><td class="memItemRight" valign="bottom"><b>manager</b></td></tr>
+<tr class="memitem:ae96eb1ee2c5645248b66ae64a40f1c70" id="r_ae96eb1ee2c5645248b66ae64a40f1c70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_manager.html">RoomManager</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#ae96eb1ee2c5645248b66ae64a40f1c70">manager</a></td></tr>
 <tr class="separator:ae96eb1ee2c5645248b66ae64a40f1c70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8b42a677237c7715e6f975ec325eb67" id="r_aa8b42a677237c7715e6f975ec325eb67"><td class="memItemLeft" align="right" valign="top"><a id="aa8b42a677237c7715e6f975ec325eb67" name="aa8b42a677237c7715e6f975ec325eb67"></a>
-GameObject&#160;</td><td class="memItemRight" valign="bottom"><b>resetButton</b></td></tr>
+<tr class="memitem:aa8b42a677237c7715e6f975ec325eb67" id="r_aa8b42a677237c7715e6f975ec325eb67"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#aa8b42a677237c7715e6f975ec325eb67">resetButton</a></td></tr>
 <tr class="separator:aa8b42a677237c7715e6f975ec325eb67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ba4a3a32da3e84af80cde78385d24c0" id="r_a9ba4a3a32da3e84af80cde78385d24c0"><td class="memItemLeft" align="right" valign="top"><a id="a9ba4a3a32da3e84af80cde78385d24c0" name="a9ba4a3a32da3e84af80cde78385d24c0"></a>
-GameObject&#160;</td><td class="memItemRight" valign="bottom"><b>createButton</b></td></tr>
+<tr class="memitem:a9ba4a3a32da3e84af80cde78385d24c0" id="r_a9ba4a3a32da3e84af80cde78385d24c0"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a9ba4a3a32da3e84af80cde78385d24c0">createButton</a></td></tr>
 <tr class="separator:a9ba4a3a32da3e84af80cde78385d24c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a400b386ee4908f4ce021b03db7bcec63" id="r_a400b386ee4908f4ce021b03db7bcec63"><td class="memItemLeft" align="right" valign="top"><a id="a400b386ee4908f4ce021b03db7bcec63" name="a400b386ee4908f4ce021b03db7bcec63"></a>
-GameObject&#160;</td><td class="memItemRight" valign="bottom"><b>applyButton</b></td></tr>
-<tr class="separator:a400b386ee4908f4ce021b03db7bcec63"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a365a8f5751be62129df40eb4941e2076" id="r_a365a8f5751be62129df40eb4941e2076"><td class="memItemLeft" align="right" valign="top"><a id="a365a8f5751be62129df40eb4941e2076" name="a365a8f5751be62129df40eb4941e2076"></a>
-GameObject&#160;</td><td class="memItemRight" valign="bottom"><b>confirmButton</b></td></tr>
+<tr class="memitem:a365a8f5751be62129df40eb4941e2076" id="r_a365a8f5751be62129df40eb4941e2076"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a365a8f5751be62129df40eb4941e2076">confirmButton</a></td></tr>
 <tr class="separator:a365a8f5751be62129df40eb4941e2076"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14ca9e7148d14dbc06ac64f0e263eaef" id="r_a14ca9e7148d14dbc06ac64f0e263eaef"><td class="memItemLeft" align="right" valign="top"><a id="a14ca9e7148d14dbc06ac64f0e263eaef" name="a14ca9e7148d14dbc06ac64f0e263eaef"></a>
-Slider&#160;</td><td class="memItemRight" valign="bottom"><b>heightSlider</b></td></tr>
+<tr class="memitem:ac0b24e6cf36f679c068d3ed017e15728" id="r_ac0b24e6cf36f679c068d3ed017e15728"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#ac0b24e6cf36f679c068d3ed017e15728">noButton</a></td></tr>
+<tr class="separator:ac0b24e6cf36f679c068d3ed017e15728"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d86adac8b62ad1cfa945be6fc6e9f5d" id="r_a9d86adac8b62ad1cfa945be6fc6e9f5d"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a9d86adac8b62ad1cfa945be6fc6e9f5d">selectPointButton</a></td></tr>
+<tr class="separator:a9d86adac8b62ad1cfa945be6fc6e9f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcf8ad75124832c699f31a7f0a26283d" id="r_afcf8ad75124832c699f31a7f0a26283d"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#afcf8ad75124832c699f31a7f0a26283d">roomList</a></td></tr>
+<tr class="separator:afcf8ad75124832c699f31a7f0a26283d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a102a7f2ffa76f47650e6b077365229a6" id="r_a102a7f2ffa76f47650e6b077365229a6"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a102a7f2ffa76f47650e6b077365229a6">nameInputWindow</a></td></tr>
+<tr class="separator:a102a7f2ffa76f47650e6b077365229a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaeafb65d74c2a2d4f5e143899522742" id="r_aaaeafb65d74c2a2d4f5e143899522742"><td class="memItemLeft" align="right" valign="top">TMP_InputField&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#aaaeafb65d74c2a2d4f5e143899522742">nameInput</a></td></tr>
+<tr class="separator:aaaeafb65d74c2a2d4f5e143899522742"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14ca9e7148d14dbc06ac64f0e263eaef" id="r_a14ca9e7148d14dbc06ac64f0e263eaef"><td class="memItemLeft" align="right" valign="top">Slider&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a14ca9e7148d14dbc06ac64f0e263eaef">heightSlider</a></td></tr>
 <tr class="separator:a14ca9e7148d14dbc06ac64f0e263eaef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5847b11c1d1138157ba4bdc1c1eda8b1" id="r_a5847b11c1d1138157ba4bdc1c1eda8b1"><td class="memItemLeft" align="right" valign="top"><a id="a5847b11c1d1138157ba4bdc1c1eda8b1" name="a5847b11c1d1138157ba4bdc1c1eda8b1"></a>
-<a class="el" href="class_aw_a_re_1_1_u_i_1_1_objects_1_1_pointer.html">Pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><b>pointer</b></td></tr>
-<tr class="separator:a5847b11c1d1138157ba4bdc1c1eda8b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad53c252745c787ccb6d9b8bf1917343c" id="r_ad53c252745c787ccb6d9b8bf1917343c"><td class="memItemLeft" align="right" valign="top"><a id="ad53c252745c787ccb6d9b8bf1917343c" name="ad53c252745c787ccb6d9b8bf1917343c"></a>
-GameObject&#160;</td><td class="memItemRight" valign="bottom"><b>pathButton</b></td></tr>
-<tr class="separator:ad53c252745c787ccb6d9b8bf1917343c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9de3a95cc6df667342ed7fb14c1eafd4" id="r_a9de3a95cc6df667342ed7fb14c1eafd4"><td class="memItemLeft" align="right" valign="top"><a id="a9de3a95cc6df667342ed7fb14c1eafd4" name="a9de3a95cc6df667342ed7fb14c1eafd4"></a>
-GameObject&#160;</td><td class="memItemRight" valign="bottom"><b>pathLoadingPopup</b></td></tr>
+<tr class="memitem:a9de3a95cc6df667342ed7fb14c1eafd4" id="r_a9de3a95cc6df667342ed7fb14c1eafd4"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a9de3a95cc6df667342ed7fb14c1eafd4">pathLoadingPopup</a></td></tr>
 <tr class="separator:a9de3a95cc6df667342ed7fb14c1eafd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2bc5622f2cb4edd7e6827082dbf770b6" id="r_a2bc5622f2cb4edd7e6827082dbf770b6"><td class="memItemLeft" align="right" valign="top"><a id="a2bc5622f2cb4edd7e6827082dbf770b6" name="a2bc5622f2cb4edd7e6827082dbf770b6"></a>
-GameObject&#160;</td><td class="memItemRight" valign="bottom"><b>saveButton</b></td></tr>
-<tr class="separator:a2bc5622f2cb4edd7e6827082dbf770b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbae2d057d87a3dc1f0dde99839fb594" id="r_acbae2d057d87a3dc1f0dde99839fb594"><td class="memItemLeft" align="right" valign="top"><a id="acbae2d057d87a3dc1f0dde99839fb594" name="acbae2d057d87a3dc1f0dde99839fb594"></a>
-GameObject&#160;</td><td class="memItemRight" valign="bottom"><b>saveSlots</b></td></tr>
-<tr class="separator:acbae2d057d87a3dc1f0dde99839fb594"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7920c0c90ae08f14bdd56095712bb492" id="r_a7920c0c90ae08f14bdd56095712bb492"><td class="memItemLeft" align="right" valign="top"><a id="a7920c0c90ae08f14bdd56095712bb492" name="a7920c0c90ae08f14bdd56095712bb492"></a>
-GameObject&#160;</td><td class="memItemRight" valign="bottom"><b>loadButton</b></td></tr>
-<tr class="separator:a7920c0c90ae08f14bdd56095712bb492"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa26896f7d505f9b4afe0abc1f47a8f38" id="r_aa26896f7d505f9b4afe0abc1f47a8f38"><td class="memItemLeft" align="right" valign="top"><a id="aa26896f7d505f9b4afe0abc1f47a8f38" name="aa26896f7d505f9b4afe0abc1f47a8f38"></a>
-GameObject&#160;</td><td class="memItemRight" valign="bottom"><b>loadSlots</b></td></tr>
-<tr class="separator:aa26896f7d505f9b4afe0abc1f47a8f38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6177cd1a8ec2b2141eb06ec8ff08defa" id="r_a6177cd1a8ec2b2141eb06ec8ff08defa"><td class="memItemLeft" align="right" valign="top"><a id="a6177cd1a8ec2b2141eb06ec8ff08defa" name="a6177cd1a8ec2b2141eb06ec8ff08defa"></a>
-GameObject&#160;</td><td class="memItemRight" valign="bottom"><b>continueButton</b></td></tr>
-<tr class="separator:a6177cd1a8ec2b2141eb06ec8ff08defa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5847b11c1d1138157ba4bdc1c1eda8b1" id="r_a5847b11c1d1138157ba4bdc1c1eda8b1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_aw_a_re_1_1_u_i_1_1_objects_1_1_pointer.html">Pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a5847b11c1d1138157ba4bdc1c1eda8b1">pointer</a></td></tr>
+<tr class="separator:a5847b11c1d1138157ba4bdc1c1eda8b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ddb15ad0c7eae32830d2e5022c27a02" id="r_a4ddb15ad0c7eae32830d2e5022c27a02"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a4ddb15ad0c7eae32830d2e5022c27a02">findPointText</a></td></tr>
+<tr class="separator:a4ddb15ad0c7eae32830d2e5022c27a02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdadd43406e059c02c83158e217b0eff" id="r_afdadd43406e059c02c83158e217b0eff"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#afdadd43406e059c02c83158e217b0eff">askForSaveText</a></td></tr>
+<tr class="separator:afdadd43406e059c02c83158e217b0eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb175561341adaca66dca054e0a3a6c9" id="r_adb175561341adaca66dca054e0a3a6c9"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#adb175561341adaca66dca054e0a3a6c9">placeAnchorText</a></td></tr>
+<tr class="separator:adb175561341adaca66dca054e0a3a6c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a2e07b8f6577691cd671bbd3ab02656" id="r_a7a2e07b8f6577691cd671bbd3ab02656"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a7a2e07b8f6577691cd671bbd3ab02656">anchorRecognizableText</a></td></tr>
+<tr class="separator:a7a2e07b8f6577691cd671bbd3ab02656"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb932e742c18652b46c82ea44c407d74" id="r_abb932e742c18652b46c82ea44c407d74"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#abb932e742c18652b46c82ea44c407d74">askForNegPolygonsText</a></td></tr>
+<tr class="separator:abb932e742c18652b46c82ea44c407d74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78363762d2a73763f6c31f5bda91a37a" id="r_a78363762d2a73763f6c31f5bda91a37a"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a78363762d2a73763f6c31f5bda91a37a">setRoomHeightText</a></td></tr>
+<tr class="separator:a78363762d2a73763f6c31f5bda91a37a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a67501e29eec8478c483b8601db3577" id="r_a7a67501e29eec8478c483b8601db3577"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a7a67501e29eec8478c483b8601db3577">setObstacleHeightText</a></td></tr>
+<tr class="separator:a7a67501e29eec8478c483b8601db3577"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>UI in the polygon scan. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a1cbc0a4af7db88ddfcc068683e7560e5" name="a1cbc0a4af7db88ddfcc068683e7560e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cbc0a4af7db88ddfcc068683e7560e5">&#9670;&#160;</a></span>DisplayAnchorLoadingImage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AwARe.RoomScan.Objects.RoomUI.DisplayAnchorLoadingImage </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Display the screenshot with the given index for loading the anchors. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>The index of the screenshot.</td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i_a1cbc0a4af7db88ddfcc068683e7560e5_cgraph.png" border="0" usemap="#aclass_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i_a1cbc0a4af7db88ddfcc068683e7560e5_cgraph" alt=""/></div>
+<map name="aclass_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i_a1cbc0a4af7db88ddfcc068683e7560e5_cgraph" id="aclass_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i_a1cbc0a4af7db88ddfcc068683e7560e5_cgraph">
+<area shape="rect" title="Display the screenshot with the given index for loading the anchors." alt="" coords="5,5,225,48"/>
+<area shape="rect" href="class_aw_a_re_1_1_room_scan_1_1_screenshot_manager.html#ab70709d0585b810c39e9fe42ad27a93f" title="Gets a screenshot from the file and displays it on screen." alt="" coords="273,5,508,48"/>
+<area shape="poly" title=" " alt="" coords="225,24,257,24,257,29,225,29"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab25daeff3599619e85266e75b6c9dcce" name="ab25daeff3599619e85266e75b6c9dcce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab25daeff3599619e85266e75b6c9dcce">&#9670;&#160;</a></span>DisplayAnchorSavingImage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AwARe.RoomScan.Objects.RoomUI.DisplayAnchorSavingImage </td>
+          <td>(</td>
+          <td class="paramtype">Texture2D&#160;</td>
+          <td class="paramname"><em>screenshot</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Display the screenshot with the given index for saving the anchors. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">screenshot</td><td>The screenshot.</td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i_ab25daeff3599619e85266e75b6c9dcce_cgraph.png" border="0" usemap="#aclass_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i_ab25daeff3599619e85266e75b6c9dcce_cgraph" alt=""/></div>
+<map name="aclass_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i_ab25daeff3599619e85266e75b6c9dcce_cgraph" id="aclass_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i_ab25daeff3599619e85266e75b6c9dcce_cgraph">
+<area shape="rect" title="Display the screenshot with the given index for saving the anchors." alt="" coords="5,72,225,115"/>
+<area shape="rect" href="class_aw_a_re_1_1_room_scan_1_1_screenshot_manager.html#aae6913a493f5b5429063efce6dfd66a8" title="Displays the specified screenshot on the screen." alt="" coords="273,39,475,81"/>
+<area shape="poly" title=" " alt="" coords="225,77,257,72,258,78,225,82"/>
+<area shape="rect" href="class_aw_a_re_1_1_room_scan_1_1_screenshot_manager.html#a106ba565db1bdd21615eefce3f9fa590" title="Converts a texture2D to a sprite." alt="" coords="273,105,475,148"/>
+<area shape="poly" title=" " alt="" coords="225,105,258,109,257,114,225,110"/>
+<area shape="rect" href="class_aw_a_re_1_1_room_scan_1_1_screenshot_manager.html#a7f1397ebeea020c86bc836467da863b4" title="Sets the position of the image to the given position." alt="" coords="523,5,725,48"/>
+<area shape="poly" title=" " alt="" coords="475,44,507,40,508,45,476,49"/>
+<area shape="rect" href="class_aw_a_re_1_1_room_scan_1_1_screenshot_manager.html#a31dbd1d910841d743eca8d472a0cdb3f" title="Sets the scale of the image to the given scale." alt="" coords="523,72,725,115"/>
+<area shape="poly" title=" " alt="" coords="476,71,508,75,507,80,475,76"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a5e74faf93bdac28e9de9926261c34d08" name="a5e74faf93bdac28e9de9926261c34d08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e74faf93bdac28e9de9926261c34d08">&#9670;&#160;</a></span>HideScreenshot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AwARe.RoomScan.Objects.RoomUI.HideScreenshot </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Hide the shown screenshot. </p>
+
+</div>
+</div>
+<a id="a07132ad684dcba126241dadcab4efacd" name="a07132ad684dcba126241dadcab4efacd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07132ad684dcba126241dadcab4efacd">&#9670;&#160;</a></span>OnConfirmButtonClick()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AwARe.RoomScan.Objects.RoomUI.OnConfirmButtonClick </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Called on confirm button click. </p>
+
+</div>
+</div>
+<a id="a87593534c863972ad9f473c0698019b9" name="a87593534c863972ad9f473c0698019b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87593534c863972ad9f473c0698019b9">&#9670;&#160;</a></span>OnConfirmNameButtonClick()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AwARe.RoomScan.Objects.RoomUI.OnConfirmNameButtonClick </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Called on confirm name button click. </p>
+
+</div>
+</div>
+<a id="a49cf854685890a826efdc394e3d4545b" name="a49cf854685890a826efdc394e3d4545b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49cf854685890a826efdc394e3d4545b">&#9670;&#160;</a></span>OnCreateButtonClick()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AwARe.RoomScan.Objects.RoomUI.OnCreateButtonClick </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Called on create button click. </p>
+
+</div>
+</div>
+<a id="a0f102e6a4a0d1c565e408bca44cd3104" name="a0f102e6a4a0d1c565e408bca44cd3104"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f102e6a4a0d1c565e408bca44cd3104">&#9670;&#160;</a></span>OnHeightSliderChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AwARe.RoomScan.Objects.RoomUI.OnHeightSliderChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Called on changing the slider. </p>
+
+</div>
+</div>
+<a id="ac409b6d020628b4947ec4135a2236e80" name="ac409b6d020628b4947ec4135a2236e80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac409b6d020628b4947ec4135a2236e80">&#9670;&#160;</a></span>OnNoButtonClick()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AwARe.RoomScan.Objects.RoomUI.OnNoButtonClick </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Called on no button click. </p>
+
+</div>
+</div>
+<a id="a5b94ed9b50a93832d0eb2882cfe03f20" name="a5b94ed9b50a93832d0eb2882cfe03f20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b94ed9b50a93832d0eb2882cfe03f20">&#9670;&#160;</a></span>OnResetButtonClick()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AwARe.RoomScan.Objects.RoomUI.OnResetButtonClick </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Called on reset button click. </p>
+
+</div>
+</div>
+<a id="a128cde4351f84dedcaffeab766bf9db7" name="a128cde4351f84dedcaffeab766bf9db7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a128cde4351f84dedcaffeab766bf9db7">&#9670;&#160;</a></span>OnSelectButtonClick()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AwARe.RoomScan.Objects.RoomUI.OnSelectButtonClick </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Called on select point button click. </p>
+
+</div>
+</div>
 <a id="ac44298e7dbabc2b469e5dc133ffa3323" name="ac44298e7dbabc2b469e5dc133ffa3323"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac44298e7dbabc2b469e5dc133ffa3323">&#9670;&#160;</a></span>SetActive()</h2>
 
@@ -249,17 +457,23 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i_ac44298e7dbabc2b469e5dc133ffa3323_cgraph.png" border="0" usemap="#aclass_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i_ac44298e7dbabc2b469e5dc133ffa3323_cgraph" alt=""/></div>
 <map name="aclass_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i_ac44298e7dbabc2b469e5dc133ffa3323_cgraph" id="aclass_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i_ac44298e7dbabc2b469e5dc133ffa3323_cgraph">
-<area shape="rect" title="Sets activity of UI elements based on the polygon state." alt="" coords="5,5,225,48"/>
-<area shape="rect" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a0f102e6a4a0d1c565e408bca44cd3104" title="Called on changing the slider." alt="" coords="273,5,492,48"/>
-<area shape="poly" title=" " alt="" coords="225,24,257,24,257,29,225,29"/>
+<area shape="rect" title="Sets activity of UI elements based on the polygon state." alt="" coords="5,72,225,115"/>
+<area shape="rect" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a1cbc0a4af7db88ddfcc068683e7560e5" title="Display the screenshot with the given index for loading the anchors." alt="" coords="273,5,492,48"/>
+<area shape="poly" title=" " alt="" coords="203,69,279,50,280,55,204,74"/>
+<area shape="rect" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_manager.html#a2eb3e8fb4be815f621343dbd72f8fa99" title="Whether the polygon being drawn is the positive polygon." alt="" coords="273,72,492,115"/>
+<area shape="poly" title=" " alt="" coords="225,91,257,91,257,96,225,96"/>
+<area shape="rect" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_u_i.html#a0f102e6a4a0d1c565e408bca44cd3104" title="Called on changing the slider." alt="" coords="273,139,492,181"/>
+<area shape="poly" title=" " alt="" coords="204,113,280,132,279,137,203,118"/>
+<area shape="rect" href="class_aw_a_re_1_1_room_scan_1_1_screenshot_manager.html#ab70709d0585b810c39e9fe42ad27a93f" title="Gets a screenshot from the file and displays it on screen." alt="" coords="540,5,775,48"/>
+<area shape="poly" title=" " alt="" coords="493,24,524,24,524,29,493,29"/>
 </map>
 </div>
 
 </div>
 </div>
-<h2 class="groupheader">Property Documentation</h2>
-<a id="a52261f4c37802f9df173f79389df4b3f" name="a52261f4c37802f9df173f79389df4b3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52261f4c37802f9df173f79389df4b3f">&#9670;&#160;</a></span>PointedAt</h2>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a7a2e07b8f6577691cd671bbd3ab02656" name="a7a2e07b8f6577691cd671bbd3ab02656"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a2e07b8f6577691cd671bbd3ab02656">&#9670;&#160;</a></span>anchorRecognizableText</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -268,25 +482,430 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual Vector3 AwARe.RoomScan.Objects.RoomUI.PointedAt</td>
+          <td class="memname">GameObject AwARe.RoomScan.Objects.RoomUI.anchorRecognizableText</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Gets the current position of the pointer. </p>
-<p>The current position of the pointer. </p>
+</div>
+</div>
+<a id="abb932e742c18652b46c82ea44c407d74" name="abb932e742c18652b46c82ea44c407d74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb932e742c18652b46c82ea44c407d74">&#9670;&#160;</a></span>askForNegPolygonsText</h2>
 
-<p>Implements <a class="el" href="interface_aw_a_re_1_1_u_i_1_1_i_pointer.html#af467ffff6ebda92b227a2339726c71ee">AwARe.UI.IPointer</a>.</p>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GameObject AwARe.RoomScan.Objects.RoomUI.askForNegPolygonsText</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afdadd43406e059c02c83158e217b0eff" name="afdadd43406e059c02c83158e217b0eff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdadd43406e059c02c83158e217b0eff">&#9670;&#160;</a></span>askForSaveText</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GameObject AwARe.RoomScan.Objects.RoomUI.askForSaveText</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a365a8f5751be62129df40eb4941e2076" name="a365a8f5751be62129df40eb4941e2076"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a365a8f5751be62129df40eb4941e2076">&#9670;&#160;</a></span>confirmButton</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GameObject AwARe.RoomScan.Objects.RoomUI.confirmButton</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9ba4a3a32da3e84af80cde78385d24c0" name="a9ba4a3a32da3e84af80cde78385d24c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ba4a3a32da3e84af80cde78385d24c0">&#9670;&#160;</a></span>createButton</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GameObject AwARe.RoomScan.Objects.RoomUI.createButton</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4ddb15ad0c7eae32830d2e5022c27a02" name="a4ddb15ad0c7eae32830d2e5022c27a02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ddb15ad0c7eae32830d2e5022c27a02">&#9670;&#160;</a></span>findPointText</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GameObject AwARe.RoomScan.Objects.RoomUI.findPointText</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a14ca9e7148d14dbc06ac64f0e263eaef" name="a14ca9e7148d14dbc06ac64f0e263eaef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14ca9e7148d14dbc06ac64f0e263eaef">&#9670;&#160;</a></span>heightSlider</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Slider AwARe.RoomScan.Objects.RoomUI.heightSlider</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae96eb1ee2c5645248b66ae64a40f1c70" name="ae96eb1ee2c5645248b66ae64a40f1c70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae96eb1ee2c5645248b66ae64a40f1c70">&#9670;&#160;</a></span>manager</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_manager.html">RoomManager</a> AwARe.RoomScan.Objects.RoomUI.manager</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaaeafb65d74c2a2d4f5e143899522742" name="aaaeafb65d74c2a2d4f5e143899522742"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaaeafb65d74c2a2d4f5e143899522742">&#9670;&#160;</a></span>nameInput</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TMP_InputField AwARe.RoomScan.Objects.RoomUI.nameInput</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a102a7f2ffa76f47650e6b077365229a6" name="a102a7f2ffa76f47650e6b077365229a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a102a7f2ffa76f47650e6b077365229a6">&#9670;&#160;</a></span>nameInputWindow</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GameObject AwARe.RoomScan.Objects.RoomUI.nameInputWindow</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac0b24e6cf36f679c068d3ed017e15728" name="ac0b24e6cf36f679c068d3ed017e15728"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0b24e6cf36f679c068d3ed017e15728">&#9670;&#160;</a></span>noButton</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GameObject AwARe.RoomScan.Objects.RoomUI.noButton</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9de3a95cc6df667342ed7fb14c1eafd4" name="a9de3a95cc6df667342ed7fb14c1eafd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9de3a95cc6df667342ed7fb14c1eafd4">&#9670;&#160;</a></span>pathLoadingPopup</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GameObject AwARe.RoomScan.Objects.RoomUI.pathLoadingPopup</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adb175561341adaca66dca054e0a3a6c9" name="adb175561341adaca66dca054e0a3a6c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb175561341adaca66dca054e0a3a6c9">&#9670;&#160;</a></span>placeAnchorText</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GameObject AwARe.RoomScan.Objects.RoomUI.placeAnchorText</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5847b11c1d1138157ba4bdc1c1eda8b1" name="a5847b11c1d1138157ba4bdc1c1eda8b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5847b11c1d1138157ba4bdc1c1eda8b1">&#9670;&#160;</a></span>pointer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_aw_a_re_1_1_u_i_1_1_objects_1_1_pointer.html">Pointer</a> AwARe.RoomScan.Objects.RoomUI.pointer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa8b42a677237c7715e6f975ec325eb67" name="aa8b42a677237c7715e6f975ec325eb67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8b42a677237c7715e6f975ec325eb67">&#9670;&#160;</a></span>resetButton</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GameObject AwARe.RoomScan.Objects.RoomUI.resetButton</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afcf8ad75124832c699f31a7f0a26283d" name="afcf8ad75124832c699f31a7f0a26283d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcf8ad75124832c699f31a7f0a26283d">&#9670;&#160;</a></span>roomList</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GameObject AwARe.RoomScan.Objects.RoomUI.roomList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa44a40286d85611089be6a43f88b3f0f" name="aa44a40286d85611089be6a43f88b3f0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa44a40286d85611089be6a43f88b3f0f">&#9670;&#160;</a></span>screenshotManager</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_screenshot_manager.html">ScreenshotManager</a> AwARe.RoomScan.Objects.RoomUI.screenshotManager</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9d86adac8b62ad1cfa945be6fc6e9f5d" name="a9d86adac8b62ad1cfa945be6fc6e9f5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d86adac8b62ad1cfa945be6fc6e9f5d">&#9670;&#160;</a></span>selectPointButton</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GameObject AwARe.RoomScan.Objects.RoomUI.selectPointButton</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7a67501e29eec8478c483b8601db3577" name="a7a67501e29eec8478c483b8601db3577"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a67501e29eec8478c483b8601db3577">&#9670;&#160;</a></span>setObstacleHeightText</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GameObject AwARe.RoomScan.Objects.RoomUI.setObstacleHeightText</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78363762d2a73763f6c31f5bda91a37a" name="a78363762d2a73763f6c31f5bda91a37a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78363762d2a73763f6c31f5bda91a37a">&#9670;&#160;</a></span>setRoomHeightText</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GameObject AwARe.RoomScan.Objects.RoomUI.setRoomHeightText</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/Martijn/Documents/GitHub/awARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/RoomScan/Objects/<b>RoomUI.cs</b></li>
+<li>C:/Users/Martijn/Documents/GitHub/awARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/RoomScan/Objects/<a class="el" href="_room_u_i_8cs.html">RoomUI.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
