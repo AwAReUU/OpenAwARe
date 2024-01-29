@@ -2,6 +2,6 @@
 <area shape="rect" id="Node000001" title="displays spawn points on grid for debugging." alt="" coords="5,39,220,81"/>
 <area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_inter_scenes_1_1_objects_1_1_storage.html#af7698e3f557905ced5998b96cece866c" title="Get its current instance. Instantiate a new instance if necessary." alt="" coords="305,5,495,48"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,45,289,37,290,42,221,50"/>
-<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_object_generation_1_1_polygon_spawn_point_handler.html#ab5cce5a42778f345afe7b71fd9ef4151" title="Call the parameterized method &quot;GetGridPoints&quot; to obtain spawnPoints." alt="" coords="268,72,532,115"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_object_generation_1_1_polygon_spawn_point_handler.html#a1bf0c03509e7d1f395b6a7e1b4af4642" title="Call the parameterized method &quot;GetGridPoints&quot; to obtain spawnPoints." alt="" coords="268,72,532,115"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,70,252,74,252,79,220,75"/>
 </map>

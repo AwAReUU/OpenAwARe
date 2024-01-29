@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="logoLowRes.png"/></td>
   <td id="projectalign">
-   <div id="projectname">AwARe<span id="projectnumber">&#160;8.0</span>
+   <div id="projectname">AwARe<span id="projectnumber">&#160;9.0</span>
    </div>
   </td>
  </tr>
@@ -81,31 +81,196 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Abstract class from which platform-specific notifications are derived contains several abstract methods which define required behavior.  
+<p>Abstract class from which platform-specific notifications are derived. Contains several abstract methods which define required behavior.  
  <a href="class_aw_a_re_1_1_notifications_1_1_notification.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7e0837ff48f01a89963050515f8a0c1f" id="r_a7e0837ff48f01a89963050515f8a0c1f"><td class="memItemLeft" align="right" valign="top"><a id="a7e0837ff48f01a89963050515f8a0c1f" name="a7e0837ff48f01a89963050515f8a0c1f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetFireTime</b> (DateTime time)</td></tr>
+<tr class="memitem:a7e0837ff48f01a89963050515f8a0c1f" id="r_a7e0837ff48f01a89963050515f8a0c1f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_notifications_1_1_notification.html#a7e0837ff48f01a89963050515f8a0c1f">SetFireTime</a> (DateTime time)</td></tr>
+<tr class="memdesc:a7e0837ff48f01a89963050515f8a0c1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract method that sets the date and time at which a notification is sent.  <br /></td></tr>
 <tr class="separator:a7e0837ff48f01a89963050515f8a0c1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af454a6d918027a81452ae05f84aaf2a7" id="r_af454a6d918027a81452ae05f84aaf2a7"><td class="memItemLeft" align="right" valign="top"><a id="af454a6d918027a81452ae05f84aaf2a7" name="af454a6d918027a81452ae05f84aaf2a7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetTitle</b> (string title)</td></tr>
+<tr class="memitem:af454a6d918027a81452ae05f84aaf2a7" id="r_af454a6d918027a81452ae05f84aaf2a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_notifications_1_1_notification.html#af454a6d918027a81452ae05f84aaf2a7">SetTitle</a> (string title)</td></tr>
+<tr class="memdesc:af454a6d918027a81452ae05f84aaf2a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract method that sets the title text of a notification.  <br /></td></tr>
 <tr class="separator:af454a6d918027a81452ae05f84aaf2a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3ba5850a9eee91bf05c73a69758a400" id="r_ab3ba5850a9eee91bf05c73a69758a400"><td class="memItemLeft" align="right" valign="top"><a id="ab3ba5850a9eee91bf05c73a69758a400" name="ab3ba5850a9eee91bf05c73a69758a400"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Setbody</b> (string body)</td></tr>
+<tr class="memitem:ab3ba5850a9eee91bf05c73a69758a400" id="r_ab3ba5850a9eee91bf05c73a69758a400"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_notifications_1_1_notification.html#ab3ba5850a9eee91bf05c73a69758a400">Setbody</a> (string body)</td></tr>
+<tr class="memdesc:ab3ba5850a9eee91bf05c73a69758a400"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract method that sets the body text of a notification.  <br /></td></tr>
 <tr class="separator:ab3ba5850a9eee91bf05c73a69758a400"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae880c0a2c7394ee618afbc4366e24b8b" id="r_ae880c0a2c7394ee618afbc4366e24b8b"><td class="memItemLeft" align="right" valign="top"><a id="ae880c0a2c7394ee618afbc4366e24b8b" name="ae880c0a2c7394ee618afbc4366e24b8b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetQuestionnaire</b> (string questionnaire)</td></tr>
+<tr class="memitem:ae880c0a2c7394ee618afbc4366e24b8b" id="r_ae880c0a2c7394ee618afbc4366e24b8b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_notifications_1_1_notification.html#ae880c0a2c7394ee618afbc4366e24b8b">SetQuestionnaire</a> (string questionnaire)</td></tr>
+<tr class="memdesc:ae880c0a2c7394ee618afbc4366e24b8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract method that sets a questionnaire linked to the notification. Not currently implemented.  <br /></td></tr>
 <tr class="separator:ae880c0a2c7394ee618afbc4366e24b8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0486bfb1e052b47c17446ee5624d3ff" id="r_aa0486bfb1e052b47c17446ee5624d3ff"><td class="memItemLeft" align="right" valign="top"><a id="aa0486bfb1e052b47c17446ee5624d3ff" name="aa0486bfb1e052b47c17446ee5624d3ff"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Send</b> ()</td></tr>
-<tr class="separator:aa0486bfb1e052b47c17446ee5624d3ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ba46e6fc2cd660f43c8763b24a57e90" id="r_a1ba46e6fc2cd660f43c8763b24a57e90"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_aw_a_re_1_1_notifications_1_1_scheduled_notification_data.html">ScheduledNotificationData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_notifications_1_1_notification.html#a1ba46e6fc2cd660f43c8763b24a57e90">Schedule</a> ()</td></tr>
+<tr class="memdesc:a1ba46e6fc2cd660f43c8763b24a57e90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract method that Schedules the notification.  <br /></td></tr>
+<tr class="separator:a1ba46e6fc2cd660f43c8763b24a57e90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Abstract class from which platform-specific notifications are derived contains several abstract methods which define required behavior. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/Martijn/Documents/GitHub/awARe/AwARe/Assets/FirstParty/Application/Scripts/General/IO/Notifications/<b>INotification.cs</b></li>
+<div class="textblock"><p>Abstract class from which platform-specific notifications are derived. Contains several abstract methods which define required behavior. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a1ba46e6fc2cd660f43c8763b24a57e90" name="a1ba46e6fc2cd660f43c8763b24a57e90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ba46e6fc2cd660f43c8763b24a57e90">&#9670;&#160;</a></span>Schedule()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_aw_a_re_1_1_notifications_1_1_scheduled_notification_data.html">ScheduledNotificationData</a> AwARe.Notifications.Notification.Schedule </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">abstract</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Abstract method that Schedules the notification. </p>
+<dl class="section return"><dt>Returns</dt><dd>Data related to the scheduled notifcation.</dd></dl>
+
+</div>
+</div>
+<a id="ab3ba5850a9eee91bf05c73a69758a400" name="ab3ba5850a9eee91bf05c73a69758a400"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3ba5850a9eee91bf05c73a69758a400">&#9670;&#160;</a></span>Setbody()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AwARe.Notifications.Notification.Setbody </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>body</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">abstract</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Abstract method that sets the body text of a notification. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">body</td><td>The body text that should be displayed.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7e0837ff48f01a89963050515f8a0c1f" name="a7e0837ff48f01a89963050515f8a0c1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e0837ff48f01a89963050515f8a0c1f">&#9670;&#160;</a></span>SetFireTime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AwARe.Notifications.Notification.SetFireTime </td>
+          <td>(</td>
+          <td class="paramtype">DateTime&#160;</td>
+          <td class="paramname"><em>time</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">abstract</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Abstract method that sets the date and time at which a notification is sent. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">time</td><td>The date and time at which the notification should be sent.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae880c0a2c7394ee618afbc4366e24b8b" name="ae880c0a2c7394ee618afbc4366e24b8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae880c0a2c7394ee618afbc4366e24b8b">&#9670;&#160;</a></span>SetQuestionnaire()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AwARe.Notifications.Notification.SetQuestionnaire </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>questionnaire</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">abstract</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Abstract method that sets a questionnaire linked to the notification. Not currently implemented. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">questionnaire</td><td>The string / ID of the questionnaire that should be linked.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af454a6d918027a81452ae05f84aaf2a7" name="af454a6d918027a81452ae05f84aaf2a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af454a6d918027a81452ae05f84aaf2a7">&#9670;&#160;</a></span>SetTitle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AwARe.Notifications.Notification.SetTitle </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>title</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">abstract</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Abstract method that sets the title text of a notification. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">title</td><td>The title text that should be displayed.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>C:/Users/Martijn/Documents/GitHub/awARe/AwARe/Assets/FirstParty/Application/Scripts/General/IO/Notifications/<a class="el" href="_notification_8cs.html">Notification.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

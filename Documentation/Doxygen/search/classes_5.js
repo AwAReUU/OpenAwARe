@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gridconverter_0',['GridConverter',['../class_aw_a_re_1_1_room_scan_1_1_path_1_1_grid_converter.html',1,'AwARe::RoomScan::Path']]]
+  ['hit_0',['Hit',['../struct_aw_a_re_1_1_u_i_1_1_objects_1_1_pointer_1_1_hit.html',1,'AwARe::UI::Objects::Pointer']]]
 ];

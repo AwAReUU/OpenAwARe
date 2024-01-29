@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['user_0',['User',['../struct_aw_a_re_1_1_server_1_1_logic_1_1_user.html',1,'AwARe::Server::Logic']]]
+  ['vector2serialization_0',['Vector2Serialization',['../class_aw_a_re_1_1_vector2_serialization.html',1,'AwARe']]],
+  ['vector3serialization_1',['Vector3Serialization',['../class_aw_a_re_1_1_vector3_serialization.html',1,'AwARe']]]
 ];

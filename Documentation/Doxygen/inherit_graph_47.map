@@ -1,15 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" title=" " alt="" coords="5,115,88,141"/>
-<area shape="rect" id="Node000001" href="$class_aw_a_re_1_1_data_1_1_logic_1_1_polygon.html" title="A Polygon representing (a part of) the floor." alt="" coords="149,5,331,32"/>
-<area shape="poly" id="edge76_Node000000_Node000001" title=" " alt="" coords="66,101,96,70,134,42,162,30,164,35,137,46,99,74,70,105"/>
-<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_data_1_1_logic_1_1_room.html" title="A class representing the room." alt="" coords="156,56,324,83"/>
-<area shape="poly" id="edge77_Node000000_Node000002" title=" " alt="" coords="95,106,135,92,176,81,177,86,136,97,97,111"/>
-<area shape="rect" id="Node000004" href="$class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient.html" title="Class that stores Ingredient data retrieved from the Ingredient Database." alt="" coords="148,107,332,149"/>
-<area shape="poly" id="edge79_Node000000_Node000004" title=" " alt="" coords="103,125,147,125,147,131,103,131"/>
-<area shape="rect" id="Node000005" href="$class_aw_a_re_1_1_resource_pipeline_1_1_logic_1_1_model.html" title="Class Model contains the information about a model from the database that we will need." alt="" coords="136,173,344,216"/>
-<area shape="poly" id="edge80_Node000000_Node000005" title=" " alt="" coords="98,145,137,159,170,170,168,175,135,164,96,150"/>
-<area shape="rect" id="Node000006" href="$class_aw_a_re_1_1_resource_pipeline_1_1_logic_1_1_resource.html" title="Class Resource is responsible for storing some properties of a Resource." alt="" coords="136,240,344,283"/>
-<area shape="poly" id="edge81_Node000000_Node000006" title=" " alt="" coords="67,153,97,191,137,226,158,237,156,242,134,230,93,194,63,156"/>
-<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_room_scan_1_1_polygons_1_1_logic_1_1_test_room.html" title="A room filled with pre&#45;defined polygons." alt="" coords="392,48,586,91"/>
-<area shape="poly" id="edge78_Node000002_Node000003" title=" " alt="" coords="339,67,391,67,391,72,339,72"/>
+<area shape="rect" id="Node000000" href="$class_aw_a_re_1_1_server_1_1_logic_1_1_request.html" title="A helper class to send html requests. Is uses the Builder pattern. Instead of Build() at the end,..." alt="" coords="5,5,230,32"/>
 </map>

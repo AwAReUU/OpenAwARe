@@ -1,7 +1,0 @@
-<map id="AwARe.Questionnaire.Objects.MockQuestionnaireConstructor.InitializeFields" name="AwARe.Questionnaire.Objects.MockQuestionnaireConstructor.InitializeFields">
-<area shape="rect" id="Node000001" title="Initializes private serialize fields from inside the QuestionnaireConstructor using reflection...." alt="" coords="5,35,257,93"/>
-<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_questionnaire_constructor.html#ae363d90d7fb4846cfc4ce32127f52c02" title="Obtain the JsonFile from the serialize field." alt="" coords="321,5,562,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="257,46,305,40,305,46,257,52"/>
-<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_questionnaire_constructor.html#a81fa613dd5aab29fee1a0e50d60763f6" title="Obtain the QuestionnairePrefab from the serialize field." alt="" coords="305,72,578,131"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="257,76,289,80,289,86,257,82"/>
-</map>

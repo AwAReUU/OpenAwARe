@@ -1,6 +1,8 @@
 <map id="AwARe.Data.Objects.Room.AddComponentTo" name="AwARe.Data.Objects.Room.AddComponentTo">
 <area shape="rect" id="Node000001" title="Adds this component to a given GameObject and initializes the components members." alt="" coords="5,29,192,72"/>
-<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="53,29,51,19,59,10,75,5,99,3,124,5,140,11,138,16,123,10,98,8,76,10,62,15,56,21,58,28"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="53,29,51,19,59,10,75,5,99,3,124,5,140,11,138,16,123,10,98,8,76,10,62,15,56,21,58,28"/>
 <area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_data_1_1_objects_1_1_polygon.html#ad8c3907ee9a9d0c504810c7030c65738" title="Adds this component to a given GameObject and initializes the components members." alt="" coords="240,29,439,72"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,48,224,48,224,53,192,53"/>
+<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_data_1_1_objects_1_1_polygon.html#a0965973575ff1c6ee330aa86cb19748e" title=" " alt="" coords="487,29,686,72"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="439,48,472,48,472,53,439,53"/>
 </map>
