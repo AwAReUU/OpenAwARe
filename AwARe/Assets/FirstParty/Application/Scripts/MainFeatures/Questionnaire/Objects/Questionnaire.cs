@@ -6,7 +6,6 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
-
 using AwARe.Questionnaire.Data;
 using TMPro;
 using UnityEngine;

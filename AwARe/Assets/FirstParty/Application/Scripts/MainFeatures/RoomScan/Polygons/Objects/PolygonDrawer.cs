@@ -8,12 +8,9 @@
 using AwARe.Data.Logic;
 using AwARe.Objects;
 using AwARe.UI;
-
 using AYellowpaper;
-
 using UnityEngine;
 using UnityEngine.TestTools;
-
 using Polygon = AwARe.Data.Objects.Polygon;
 
 namespace AwARe.RoomScan.Polygons.Objects

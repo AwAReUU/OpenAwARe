@@ -3,13 +3,11 @@
 //     Utrecht University within the Software Project course.
 //
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
-// \*  
+// \*                                                                                       */
 
 using System.Collections.Generic;
 using System.Linq;
-
 using Newtonsoft.Json;
-
 using UnityEngine;
 
 namespace AwARe.Data.Objects

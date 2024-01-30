@@ -9,9 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
 using AwARe.Database;
-
 using UnityEngine;
 
 namespace AwARe.IngredientList.Logic

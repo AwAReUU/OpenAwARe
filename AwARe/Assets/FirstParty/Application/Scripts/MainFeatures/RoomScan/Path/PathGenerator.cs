@@ -7,11 +7,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using AwARe.Data.Logic;
-
-using Unity.Collections;
-
 using UnityEngine;
 
 namespace AwARe.RoomScan.Path

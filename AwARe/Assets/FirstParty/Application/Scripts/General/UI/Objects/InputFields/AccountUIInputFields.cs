@@ -3,10 +3,8 @@
 //     Utrecht University within the Software Project course.
 //
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
-// \* 
+// \*                                                                                       */
 
-using System.Collections;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;

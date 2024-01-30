@@ -1,8 +1,15 @@
+// /*                                                                                       *\
+//     This program has been developed by students from the bachelor Computer Science at
+//     Utrecht University within the Software Project course.
+//
+//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
+// \*                                                                                       */
+
 using System.Collections.Generic;
 using System.Linq;
 using AwARe.Database.Logic;
-using NUnit.Framework;
 using AwARe.ResourcePipeline.Logic;
+using NUnit.Framework;
 
 namespace AwARe.Tests.ResourcePipeline
 {

@@ -7,9 +7,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-
 using AwARe.Data.Objects;
-
 using UnityEngine;
 
 namespace AwARe.RoomScan.Objects

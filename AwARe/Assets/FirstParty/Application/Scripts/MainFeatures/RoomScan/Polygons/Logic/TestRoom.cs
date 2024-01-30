@@ -6,9 +6,7 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
-
 using AwARe.Data.Logic;
-
 using UnityEngine;
 
 namespace AwARe.RoomScan.Polygons.Logic

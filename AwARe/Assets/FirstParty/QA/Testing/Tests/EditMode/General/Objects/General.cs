@@ -16,7 +16,6 @@ using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.XR.ARFoundation;
-
 using Ingredients = AwARe.IngredientList.Logic;
 using Plane = UnityEngine.Plane;
 using Pointer = AwARe.UI.Objects.Pointer;

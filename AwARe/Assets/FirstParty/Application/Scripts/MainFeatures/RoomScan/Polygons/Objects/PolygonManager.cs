@@ -6,7 +6,6 @@
 // \*                                                                                       */
 
 using System.Linq;
-
 using AwARe.Data.Objects;
 using AwARe.Objects;
 using AwARe.RoomScan.Objects;

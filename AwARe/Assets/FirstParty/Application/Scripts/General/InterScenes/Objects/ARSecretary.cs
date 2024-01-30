@@ -6,8 +6,6 @@
 // \*                                                                                       */
 
 using System.Collections;
-using System.Runtime.InteropServices.ComTypes;
-
 using AwARe.Objects;
 using Unity.XR.CoreUtils;
 using UnityEngine;

@@ -6,7 +6,6 @@
 // \*                                                                                       */
 
 using System.Collections.Generic;
-
 using AwARe.IngredientList.Logic;
 using AwARe.ResourcePipeline.Logic;
 

@@ -8,9 +8,7 @@
 using System.Collections;
 using AwARe.RoomScan.Objects;
 using AwARe.RoomScan.Path.Objects;
-
 using NUnit.Framework;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;

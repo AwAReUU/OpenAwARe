@@ -8,7 +8,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-
 using AwARe.Database.Logic;
 using AwARe.IngredientList.Logic;
 using NUnit.Framework;

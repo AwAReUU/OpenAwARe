@@ -8,12 +8,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
 using AwARe.IngredientList.Logic;
 using AwARe.IngredientList.Objects;
-
 using NUnit.Framework;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;

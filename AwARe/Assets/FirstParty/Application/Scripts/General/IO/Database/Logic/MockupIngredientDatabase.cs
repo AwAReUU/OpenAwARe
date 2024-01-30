@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-
 using AwARe.IngredientList.Logic;
 
 namespace AwARe.Database.Logic

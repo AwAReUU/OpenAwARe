@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using AwARe.IngredientList.Logic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AwARe.IngredientList.Objects
 {
