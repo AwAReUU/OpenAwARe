@@ -120,33 +120,33 @@ See [Server](/Server) for detailed server setup instructions.
 * [Animal models](https://assetstore.unity.com/packages/3d/farm-animals-set-97945) By "Vertex Cat", provided by Unity's asset store.
 
 #### Icons <a name= "ackIcons"></a>
-* [CHECK](www.flaticon.com) by Pixel Perfect
-* [QUESTIONNAIRE](www.flaticon.com) by berkahicon
-* [HELP](www.flaticon.com) by apien
-* [SORT](www.flaticon.com) by Icon Hubs
-* [HAMBURGER_MENU](www.flaticon.com) by Royyan Wijaya
-* [HOME](www.flaticon.com) by Dave Gandy with License CC 3.0 BY, no changes made.
-* [ABORT](www.flaticon.com) by ariefstudio
-* [SEEN](www.flaticon.com) by torskaya
-* [HIDDEN](www.flaticon.com) by sonnycandra
-* [PASSWORD](www.flaticon.com) by Pixel Perfect
-* [ADD](www.freepik.com) by Freepik
-* [POINT_RIGHT](www.freepik.com) by Freepik
-* [SETTINGS](www.freepik.com) by Freepik
-* [SAVE](www.freepik.com) by Freepik
-* [GENERATE](www.freepik.com) by Seochan
-* [DELETE](www.freepik.com) by Freepik
-* [CLEAR](www.freepik.com) by Freepik
-* [INGREDIENTS](www.freepik.com) by Freepik
-* [EDIT](www.freepik.com) by Kiranshastry
-* [BACK](www.freepik.com) by Freepik
-* [USER](www.freepik.com) by Freepik
-* [EMAIL](www.freepik.com) by Freepik
-* [RESET](www.freepik.com) by Arslan Haider
-* [LOAD](www.flaticon.com) by mavadee
+* [CHECK](https://www.flaticon.com) by Pixel Perfect
+* [QUESTIONNAIRE](https://www.flaticon.com) by berkahicon
+* [HELP](https://www.flaticon.com) by apien
+* [SORT](https://www.flaticon.com) by Icon Hubs
+* [HAMBURGER_MENU](https://www.flaticon.com) by Royyan Wijaya
+* [HOME](https://www.flaticon.com) by Dave Gandy with License CC 3.0 BY, no changes made.
+* [ABORT](https://www.flaticon.com) by ariefstudio
+* [SEEN](https://www.flaticon.com) by torskaya
+* [HIDDEN](https://www.flaticon.com) by sonnycandra
+* [PASSWORD](https://www.flaticon.com) by Pixel Perfect
+* [ADD](https://www.freepik.com) by Freepik
+* [POINT_RIGHT](https://www.freepik.com) by Freepik
+* [SETTINGS](https://www.freepik.com) by Freepik
+* [SAVE](https://www.freepik.com) by Freepik
+* [GENERATE](https://www.freepik.com) by Seochan
+* [DELETE](https://www.freepik.com) by Freepik
+* [CLEAR](https://www.freepik.com) by Freepik
+* [INGREDIENTS](https://www.freepik.com) by Freepik
+* [EDIT](https://www.freepik.com) by Kiranshastry
+* [BACK](https://www.freepik.com) by Freepik
+* [USER](https://www.freepik.com) by Freepik
+* [EMAIL](https://www.freepik.com) by Freepik
+* [RESET](https://www.freepik.com) by Arslan Haider
+* [LOAD](https://www.flaticon.com) by mavadee
 
 #### Backgrounds <a name= "ackBack"></a>
-* [SOMS](www.freepik.com) by Freepik
-* [INGREDIENTS](www.pexels.com) by eva bronzini
+* [SOMS](https://www.freepik.com) by Freepik
+* [INGREDIENTS](https://www.pexels.com) by eva bronzini
 
 <p align="right">(<a href="#toTop">back to top</a>)</p>
