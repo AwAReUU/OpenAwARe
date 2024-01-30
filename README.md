@@ -114,10 +114,12 @@ See [Server](/Server) for detailed server setup instructions.
 * [NuGetForUnity](https://github.com/GlitchEnzo/NuGetForUnity) By GlitchEnzo & TK-Aria
 
 ### Resources <a name="ackRes"></a>
+
+#### Models <a name= "ackModels"></a>
 * [Crop models](https://craftpix.net/freebies/free-farming-crops-3d-low-poly-models/?utm_campaign=Website&utm_source=Sketchfab.com&utm_medium=public) Creator unknown, Provided by CraftPix
 * [Animal models](https://assetstore.unity.com/packages/3d/farm-animals-set-97945) By "Vertex Cat", provided by Unity's asset store.
 
-#### Icons <a name = "ackIcons"></a>
+#### Icons <a name= "ackIcons"></a>
 * [CHECK](www.flaticon.com) by Pixel Perfect
 * [QUESTIONNAIRE](www.flaticon.com) by berkahicon
 * [HELP](www.flaticon.com) by apien
@@ -143,7 +145,7 @@ See [Server](/Server) for detailed server setup instructions.
 * [RESET](www.freepik.com) by Arslan Haider
 * [LOAD](www.flaticon.com) by mavadee
 
-Backgrounds:
+#### Backgrounds <a name= "ackBack"></a>
 * [SOMS](www.freepik.com) by Freepik
 * [INGREDIENTS](www.pexels.com) by eva bronzini
 
