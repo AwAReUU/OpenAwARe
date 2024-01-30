@@ -82,7 +82,7 @@ namespace AwARe.ObjectGeneration
             if (resourceType == ResourceType.Water)
             {
                 float quantityMililiter = quantity * 1000;
-                float sideLength = (float)Math.Pow(quantityMililiter, 1.0 / 3.0) / 100f; //convert ml volume to meters side length.
+                float sideLength = 0.5f * ((float)Math.Pow(quantityMililiter, 1.0 / 3.0) / 100f); //convert ml volume to meters side length.
                 this.Scaling = sideLength;
                 this.HalfExtents *= sideLength;
             }
