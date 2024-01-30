@@ -84,7 +84,7 @@ To run the application in the Unity editor, make sure that the appscenes "Home",
 ### Server <a name="setupServer"></a>
 For developing and testing we run the server locally. We also have access to a remote server from the UU, which runs on Ubuntu. On the remote server we have installed the main branch of our Github repository. Connecting to the server and running commands is done via SSH. On Windows we use the PuTTY SSH client. On mac we use the built in ssh commands. To upload/download files to/from the server we use the SSH File Transfer Protocol (the “sftp” command) and FileZilla.
 
-See [Server](/AwARe/Server) for detailed server setup instructions.
+See [Server](/Server) for detailed server setup instructions.
 <p align="right">(<a href="#toTop">back to top</a>)</p>
 
 ## Documentation <a name="docs"></a>
