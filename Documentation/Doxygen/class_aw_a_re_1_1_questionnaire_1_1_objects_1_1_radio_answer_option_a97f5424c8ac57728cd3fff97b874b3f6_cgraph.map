@@ -1,7 +1,0 @@
-<map id="AwARe.Questionnaire.Objects.RadioAnswerOption.CreateAnswerOption" name="AwARe.Questionnaire.Objects.RadioAnswerOption.CreateAnswerOption">
-<area shape="rect" id="Node000001" title="Create a single RadioAnswerOption GameObject." alt="" coords="5,55,264,97"/>
-<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#a3e9663beefd85504a61e47ee7944d807" title="Initializes some common properties of an answer option GameObject." alt="" coords="312,5,558,64"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,56,296,51,297,56,265,61"/>
-<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#af95fa1473f0ed0147b014ae091e5f8bf" title="Initializes the ToggleHandler for the given answerOption." alt="" coords="314,88,556,147"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="265,91,299,96,298,101,264,96"/>
-</map>

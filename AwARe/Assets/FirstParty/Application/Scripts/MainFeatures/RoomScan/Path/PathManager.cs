@@ -6,10 +6,8 @@
 // \*                                                                                       */
 
 using System.Collections;
-
 using AwARe.Objects;
 using UnityEngine;
-
 using Polygon = AwARe.Data.Objects.Polygon;
 using Room = AwARe.Data.Objects.Room;
 using Storage = AwARe.InterScenes.Objects.Storage;

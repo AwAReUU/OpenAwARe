@@ -50,12 +50,15 @@ In this app, users can assemble a list of ingredients with specific quantities b
 * [AR Foundation](https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.1/manual/index.html) Used for everything AR related.
 * [Unity Test FrameWork](https://docs.unity3d.com/Packages/com.unity.test-framework@1.4/manual/index.html) Used for creating and running unit tests in unity.
 * [CodeCoverage](https://docs.unity3d.com/Packages/com.unity.testtools.codecoverage@0.2/manual/index.html) Used for finding out which lines of code are covered/uncovered by our tests.
+* [Mobile Notifications](https://docs.unity3d.com/Packages/com.unity.mobile.notifications@1.4/manual/index.html) Used for sending notifications.
 * [Doxygen](https://www.doxygen.nl/) Used for generating documentation from the doc-comments in the codebase.
 * [StyleCop](https://marketplace.visualstudio.com/items?itemName=ChrisDahlberg.StyleCop) Used for enforcing style and consistency rules.
 * [Serialize Interfaces!](https://assetstore.unity.com/packages/tools/utilities/serialize-interfaces-187505) Used for Referencing and serializing Unity Objects with a specified interface.
 * [Json.NET](https://www.newtonsoft.com/json) Used for serializing/deserializing json files/strings.
 * [Rest Client for Unity](https://assetstore.unity.com/packages/tools/network/rest-client-for-unity-102501) Used for handling requests between the server and application.
 * [RSG.Promise](https://www.nuget.org/packages/RSG.Promise) Used for multithreading/asynchronous operations.
+* [Resharper](https://www.jetbrains.com/resharper/) Used for linting.
+* [NuGetForUnity](https://github.com/GlitchEnzo/NuGetForUnity) Used for managing packages within Unity.
 
 Unity does not support organizing folders of Build-in packages or Third Party Software well. In principal, everything in the Unity Project that is stored outside First-Party is not owned by us.
 <p align="right">(<a href="#toTop">back to top</a>)</p>
@@ -63,13 +66,9 @@ Unity does not support organizing folders of Build-in packages or Third Party So
 ## Installation and Setup <a name="setup"></a>
 > Installation and use of this product.
 
-### Android (.apk) <a name="setupApk"></a>
-The latest android build can be downloaded here:
-[.apk download](https://drive.google.com/drive/folders/1na-DccCEgFc6qN1HVzgT2UaZSD8DYTzC?usp=sharing)
-
-### IOS (.ipa) <a name="setupIpa"></a>
-The latest IOS build can be downloaded here:
-[.ipa download](https://drive.google.com/drive/folders/1aV8CHId6o2akGBzoNdb2TW_KOTW-XYop?usp=drive_link)
+### Mobile <a name="setupMobile"></a>
+The latest mobile builds for Android and IOS can be found here:
+[Mobile Download](https://drive.google.com/drive/folders/1m9vdsbXeIhjuoOwdXRdQ0jMPpz5yU6HC)
 
 ### Unity <a name="setupUnity"></a>
 For development, we use unity editor version 2022.3.13f1. We recommend you to use this version too. This editor can be downloaded from [Unity Hub](https://unity.com/download).
@@ -85,13 +84,13 @@ To run the application in the Unity editor, make sure that the appscenes "Home",
 ### Server <a name="setupServer"></a>
 For developing and testing we run the server locally. We also have access to a remote server from the UU, which runs on Ubuntu. On the remote server we have installed the main branch of our Github repository. Connecting to the server and running commands is done via SSH. On Windows we use the PuTTY SSH client. On mac we use the built in ssh commands. To upload/download files to/from the server we use the SSH File Transfer Protocol (the “sftp” command) and FileZilla.
 
-See [Server](/AwARe/Server) for detailed server setup instructions.
+See [Server](/Server) for detailed server setup instructions.
 <p align="right">(<a href="#toTop">back to top</a>)</p>
 
 ## Documentation <a name="docs"></a>
 > Further reading.
 * [Epic documentation](https://drive.google.com/drive/folders/1qO1r8snl1aWU3m20tUas474e7qjv23iI?usp=drive_link) Documentation per major feature.
-* [Doxygen documentation](/Docs/Doxygen) Documentation from comments present in code.
+* [Doxygen documentation](/Documentation/Doxygen) Documentation from comments present in code.
 <p align="right">(<a href="#toTop">back to top</a>)</p>
 
 ## Acknowledgements <a name="ack"></a>
@@ -105,13 +104,49 @@ See [Server](/AwARe/Server) for detailed server setup instructions.
 * [CodeCoverage](https://docs.unity3d.com/Packages/com.unity.testtools.codecoverage@0.2/manual/index.html) By Unity.
 * [AR Foundation](https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.1/manual/index.html) By Unity.
 * [Unity Test FrameWork](https://docs.unity3d.com/Packages/com.unity.test-framework@1.4/manual/index.html) By Unity.
+* [Mobile Notifications](https://docs.unity3d.com/Packages/com.unity.mobile.notifications@1.4/manual/index.html) By Unity.
 * [StyleCop](https://marketplace.visualstudio.com/items?itemName=ChrisDahlberg.StyleCop) By Chris Dahlberg.
 * [Serialize Interfaces!](https://assetstore.unity.com/packages/tools/utilities/serialize-interfaces-187505) By ayellowpaper.
 * [Json.NET](https://www.newtonsoft.com/json) By Newtonsoft.
 * [Rest Client for Unity](https://assetstore.unity.com/packages/tools/network/rest-client-for-unity-102501) By Proyecto 26.
 * [RSG.Promise](https://www.nuget.org/packages/RSG.Promise) by Real Serious Games.
+* [Resharper](https://www.jetbrains.com/resharper/) By JetBrains.
+* [NuGetForUnity](https://github.com/GlitchEnzo/NuGetForUnity) By GlitchEnzo & TK-Aria
 
 ### Resources <a name="ackRes"></a>
+
+#### Models <a name= "ackModels"></a>
 * [Crop models](https://craftpix.net/freebies/free-farming-crops-3d-low-poly-models/?utm_campaign=Website&utm_source=Sketchfab.com&utm_medium=public) Creator unknown, Provided by CraftPix
 * [Animal models](https://assetstore.unity.com/packages/3d/farm-animals-set-97945) By "Vertex Cat", provided by Unity's asset store.
+
+#### Icons <a name= "ackIcons"></a>
+* [CHECK](https://www.flaticon.com) by Pixel Perfect
+* [QUESTIONNAIRE](https://www.flaticon.com) by berkahicon
+* [HELP](https://www.flaticon.com) by apien
+* [SORT](https://www.flaticon.com) by Icon Hubs
+* [HAMBURGER_MENU](https://www.flaticon.com) by Royyan Wijaya
+* [HOME](https://www.flaticon.com) by Dave Gandy with License CC 3.0 BY, no changes made.
+* [ABORT](https://www.flaticon.com) by ariefstudio
+* [SEEN](https://www.flaticon.com) by torskaya
+* [HIDDEN](https://www.flaticon.com) by sonnycandra
+* [PASSWORD](https://www.flaticon.com) by Pixel Perfect
+* [ADD](https://www.freepik.com) by Freepik
+* [POINT_RIGHT](https://www.freepik.com) by Freepik
+* [SETTINGS](https://www.freepik.com) by Freepik
+* [SAVE](https://www.freepik.com) by Freepik
+* [GENERATE](https://www.freepik.com) by Seochan
+* [DELETE](https://www.freepik.com) by Freepik
+* [CLEAR](https://www.freepik.com) by Freepik
+* [INGREDIENTS](https://www.freepik.com) by Freepik
+* [EDIT](https://www.freepik.com) by Kiranshastry
+* [BACK](https://www.freepik.com) by Freepik
+* [USER](https://www.freepik.com) by Freepik
+* [EMAIL](https://www.freepik.com) by Freepik
+* [RESET](https://www.freepik.com) by Arslan Haider
+* [LOAD](https://www.flaticon.com) by mavadee
+
+#### Backgrounds <a name= "ackBack"></a>
+* [SOMS](https://www.freepik.com) by Freepik
+* [INGREDIENTS](https://www.pexels.com) by eva bronzini
+
 <p align="right">(<a href="#toTop">back to top</a>)</p>

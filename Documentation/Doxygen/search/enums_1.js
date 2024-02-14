@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['platform_0',['Platform',['../namespace_aw_a_re_1_1_notifications_1_1_objects.html#a5f0ef4e7a81b250854da87767504fde4',1,'AwARe::Notifications::Objects']]]
+  ['optiontype_0',['OptionType',['../namespace_aw_a_re_1_1_questionnaire_1_1_data.html#af4751554840818cd5eb0113a6d1a6e00',1,'AwARe::Questionnaire::Data']]]
 ];

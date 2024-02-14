@@ -7,10 +7,9 @@
 
 using System;
 using System.Collections.Generic;
+using AwARe.RoomScan.Path.Jobs;
 using Unity.Collections;
 using Unity.Jobs;
-using UnityEngine;
-using AwARe.RoomScan.Path.Jobs;
 
 namespace AwARe.RoomScan.Path
 {

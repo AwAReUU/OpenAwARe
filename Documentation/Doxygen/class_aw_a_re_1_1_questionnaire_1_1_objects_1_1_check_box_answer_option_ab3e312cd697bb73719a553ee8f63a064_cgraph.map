@@ -1,7 +1,0 @@
-<map id="AwARe.Questionnaire.Objects.CheckBoxAnswerOption.CreateAnswerOption" name="AwARe.Questionnaire.Objects.CheckBoxAnswerOption.CreateAnswerOption">
-<area shape="rect" id="Node000001" title="Create a single CheckBoxAnswerOption GameObject." alt="" coords="5,47,253,105"/>
-<area shape="rect" id="Node000002" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#a3e9663beefd85504a61e47ee7944d807" title="Initializes some common properties of an answer option GameObject." alt="" coords="301,5,547,64"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,56,285,51,285,57,253,61"/>
-<area shape="rect" id="Node000003" href="$class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#af95fa1473f0ed0147b014ae091e5f8bf" title="Initializes the ToggleHandler for the given answerOption." alt="" coords="303,88,545,147"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,91,288,96,287,101,253,96"/>
-</map>

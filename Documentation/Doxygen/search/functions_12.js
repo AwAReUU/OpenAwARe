@@ -1,9 +1,26 @@
 var searchData=
 [
-  ['unloadscenes_0',['UnloadScenes',['../class_aw_a_re_1_1_inter_scenes_1_1_objects_1_1_scene_secretary.html#ae06df12df3e362ef09639f49beb40636',1,'AwARe::InterScenes::Objects::SceneSecretary']]],
-  ['updateingredient_1',['updateingredient',['../class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_list.html#ad2245b969383eeb8c9d3fc459c46f1ec',1,'AwARe.IngredientList.Logic.IngredientList.UpdateIngredient()'],['../class_aw_a_re_1_1_ingredient_list_1_1_objects_1_1_ingredient_list_manager.html#a1a4d84df99522628cbeb762635f7fc3f',1,'AwARe.IngredientList.Objects.IngredientListManager.UpdateIngredient()']]],
-  ['updateline_2',['UpdateLine',['../class_aw_a_re_1_1_objects_1_1_liner.html#a0ece0124705b3fe9e870bf7c4d70f31b',1,'AwARe::Objects::Liner']]],
-  ['updateliners_3',['UpdateLiners',['../class_aw_a_re_1_1_data_1_1_objects_1_1_room_liner.html#a7ddff29433c1e02e22ca21e07a96286f',1,'AwARe::Data::Objects::RoomLiner']]],
-  ['updatelines_4',['updatelines',['../class_aw_a_re_1_1_data_1_1_objects_1_1_room_liner.html#a80b5ad9032f250d60d9751a2f13ef599',1,'AwARe.Data.Objects.RoomLiner.UpdateLines()'],['../class_aw_a_re_1_1_room_scan_1_1_polygons_1_1_objects_1_1_polygon_drawer.html#a7da0cf4fd7be27e63b84fd5752c6dba2',1,'AwARe.RoomScan.Polygons.Objects.PolygonDrawer.UpdateLines()']]],
-  ['updatemesh_5',['UpdateMesh',['../class_aw_a_re_1_1_objects_1_1_mesher.html#a0b6732ebcfe68c92b62e019f3e3df50b',1,'AwARe::Objects::Mesher']]]
+  ['takescreenshot_0',['TakeScreenshot',['../class_aw_a_re_1_1_room_scan_1_1_screenshot_manager.html#a4880e62c568c8f392bb63add9af7b98f',1,'AwARe::RoomScan::ScreenshotManager']]],
+  ['testroom_1',['testroom',['../class_aw_a_re_1_1_room_scan_1_1_polygons_1_1_logic_1_1_test_room.html#ab9e8a6208e30b64ea40491d6143e2b7a',1,'AwARe.RoomScan.Polygons.Logic.TestRoom.TestRoom()'],['../class_aw_a_re_1_1_room_scan_1_1_polygons_1_1_logic_1_1_test_room.html#afcbcf02c8c03b96af0f79426eb06e0c6',1,'AwARe.RoomScan.Polygons.Logic.TestRoom.TestRoom(float size)']]],
+  ['textansweroption_2',['TextAnswerOption',['../class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_text_answer_option.html#a007e28ae47b4f6cbdd968868af43e4b6',1,'AwARe::Questionnaire::Objects::TextAnswerOption']]],
+  ['texturetosprite_3',['TextureToSprite',['../class_aw_a_re_1_1_room_scan_1_1_screenshot_manager.html#a106ba565db1bdd21615eefce3f9fa590',1,'AwARe::RoomScan::ScreenshotManager']]],
+  ['then_4',['Then',['../class_aw_a_re_1_1_server_1_1_logic_1_1_request.html#a005215e819a5f7e935f26962de27b694',1,'AwARe::Server::Logic::Request']]],
+  ['thinnedgrid_5',['ThinnedGrid',['../class_aw_a_re_1_1_room_scan_1_1_path_1_1_thinning_handler.html#a268a16c23355cb58c572a4a4d524cae5',1,'AwARe::RoomScan::Path::ThinningHandler']]],
+  ['thinninghandler_6',['ThinningHandler',['../class_aw_a_re_1_1_room_scan_1_1_path_1_1_thinning_handler.html#adc05ac243ceee552a4df8f2e60adcc17',1,'AwARe::RoomScan::Path::ThinningHandler']]],
+  ['toggle_7',['Toggle',['../class_aw_a_re_1_1_u_i_1_1_objects_1_1_activity_toggle.html#a1e6bb0e452903af141412a05f5a555ec',1,'AwARe::UI::Objects::ActivityToggle']]],
+  ['toggledatawindow_8',['ToggleDataWindow',['../class_aw_a_re_1_1_object_interaction_1_1_objects_1_1_interact_object_handler.html#ad19b86adf51593c710af2bfa5282e9ce',1,'AwARe::ObjectInteraction::Objects::InteractObjectHandler']]],
+  ['togrid_9',['ToGrid',['../class_aw_a_re_1_1_room_scan_1_1_path_1_1_grid_converter.html#aefd1b8a86fe9b2def1a70cf0481cca42',1,'AwARe::RoomScan::Path::GridConverter']]],
+  ['togridspace_10',['ToGridSpace',['../class_aw_a_re_1_1_room_scan_1_1_path_1_1_path_generator.html#a319b354724dccacfc164c89daebe7ce4',1,'AwARe::RoomScan::Path::PathGenerator']]],
+  ['tonativegrid_11',['ToNativeGrid',['../class_aw_a_re_1_1_room_scan_1_1_path_1_1_grid_converter.html#a2c43c02f6f78f9d642010adda7ad0335',1,'AwARe::RoomScan::Path::GridConverter']]],
+  ['topolygon_12',['ToPolygon',['../class_aw_a_re_1_1_data_1_1_objects_1_1_polygon_serialization.html#ae8a3ba55915b0487050f2b3515e55fe3',1,'AwARe::Data::Objects::PolygonSerialization']]],
+  ['topolygonspace_13',['ToPolygonSpace',['../class_aw_a_re_1_1_room_scan_1_1_path_1_1_path_generator.html#a0d2f96a4912c70af16e385b08ade9772',1,'AwARe::RoomScan::Path::PathGenerator']]],
+  ['toroom_14',['ToRoom',['../class_aw_a_re_1_1_data_1_1_objects_1_1_room_serialization.html#a3ae634a8ff6ea13f0f7ff19f0331ae07',1,'AwARe::Data::Objects::RoomSerialization']]],
+  ['tovector2_15',['ToVector2',['../class_aw_a_re_1_1_vector2_serialization.html#af25372afc67aaf331134ba38dfbf52d5',1,'AwARe::Vector2Serialization']]],
+  ['tovector3_16',['ToVector3',['../class_aw_a_re_1_1_vector3_serialization.html#a957af58e2a6765581926726634be0a06',1,'AwARe::Vector3Serialization']]],
+  ['tryaddanchor_17',['TryAddAnchor',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_anchor_handler.html#a15b4c1306180906c9ace6ad20e37710b',1,'AwARe::RoomScan::Objects::AnchorHandler']]],
+  ['tryaddpoint_18',['TryAddPoint',['../class_aw_a_re_1_1_room_scan_1_1_polygons_1_1_objects_1_1_polygon_manager.html#a2666f54006991e546acaa9479811e014',1,'AwARe::RoomScan::Polygons::Objects::PolygonManager']]],
+  ['tryplaceobject_19',['TryPlaceObject',['../class_aw_a_re_1_1_object_generation_1_1_object_placer.html#acfbf34d92c0787436f022c83c2d62849',1,'AwARe::ObjectGeneration::ObjectPlacer']]],
+  ['tryremovelastanchor_20',['TryRemoveLastAnchor',['../class_aw_a_re_1_1_room_scan_1_1_objects_1_1_anchor_handler.html#a8a760ae602317d900ad72633d4ddc4c4',1,'AwARe::RoomScan::Objects::AnchorHandler']]],
+  ['tryspawnorstackrenderable_21',['TrySpawnOrStackRenderable',['../class_aw_a_re_1_1_object_generation_1_1_object_placer.html#af315e227e05ed5ad7a3c7148ccffe9ad',1,'AwARe::ObjectGeneration::ObjectPlacer']]],
+  ['trystack_22',['TryStack',['../class_aw_a_re_1_1_object_generation_1_1_object_placer.html#ad9cb49792ffc9526ba46814b710d05c3',1,'AwARe::ObjectGeneration::ObjectPlacer']]]
 ];

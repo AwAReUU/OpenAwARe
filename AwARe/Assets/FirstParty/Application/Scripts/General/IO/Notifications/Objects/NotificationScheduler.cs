@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using AwARe.Notifications.Logic;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace AwARe.Notifications.Objects
 {
@@ -254,6 +255,7 @@ namespace AwARe.Notifications.Objects
         /// <param name="title">The title text of the notification.</param>
         /// <param name="body">The body text of the notification.</param>
         /// <param name="time">The time at which to send the notification.</param>
+        [ExcludeFromCoverage]
         private ScheduledNotificationData ScheduleAndroidNotification(string title, string body, DateTime time)
         {
             ScheduledNotificationData data = null;
@@ -271,6 +273,7 @@ namespace AwARe.Notifications.Objects
         /// <param name="title">The title text of the notification.</param>
         /// <param name="body">The body text of the notification.</param>
         /// <param name="time">The time at which to send the notification.</param>
+        [ExcludeFromCoverage]
         private ScheduledNotificationData ScheduleIOSNotification(string title, string body, DateTime time)
         {
             ScheduledNotificationData data = null;

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="logoLowRes.png"/></td>
   <td id="projectalign">
-   <div id="projectname">AwARe<span id="projectnumber">&#160;8.0</span>
+   <div id="projectname">AwARe<span id="projectnumber">&#160;9.0</span>
    </div>
   </td>
  </tr>
@@ -102,11 +102,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:aabba3d3a71d66fe2a43cc9d607a2d190" id="r_aabba3d3a71d66fe2a43cc9d607a2d190"><td class="memItemLeft" align="right" valign="top"><a id="aabba3d3a71d66fe2a43cc9d607a2d190" name="aabba3d3a71d66fe2a43cc9d607a2d190"></a>
-readonly string&#160;</td><td class="memItemRight" valign="bottom"><b>filePath</b></td></tr>
+<tr class="memitem:aabba3d3a71d66fe2a43cc9d607a2d190" id="r_aabba3d3a71d66fe2a43cc9d607a2d190"><td class="memItemLeft" align="right" valign="top">readonly string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_file_handler.html#aabba3d3a71d66fe2a43cc9d607a2d190">filePath</a></td></tr>
 <tr class="separator:aabba3d3a71d66fe2a43cc9d607a2d190"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b41186c1c896152bb93e1ca8ad35895" id="r_a5b41186c1c896152bb93e1ca8ad35895"><td class="memItemLeft" align="right" valign="top"><a id="a5b41186c1c896152bb93e1ca8ad35895" name="a5b41186c1c896152bb93e1ca8ad35895"></a>
-readonly <a class="el" href="interface_aw_a_re_1_1_database_1_1_i_ingredient_database.html">IIngredientDatabase</a>&#160;</td><td class="memItemRight" valign="bottom"><b>ingredientDatabase</b></td></tr>
+<tr class="memitem:a5b41186c1c896152bb93e1ca8ad35895" id="r_a5b41186c1c896152bb93e1ca8ad35895"><td class="memItemLeft" align="right" valign="top">readonly <a class="el" href="interface_aw_a_re_1_1_database_1_1_i_ingredient_database.html">IIngredientDatabase</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_file_handler.html#a5b41186c1c896152bb93e1ca8ad35895">ingredientDatabase</a></td></tr>
 <tr class="separator:a5b41186c1c896152bb93e1ca8ad35895"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -204,9 +202,11 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_file_handler_a2f4a6ae0f20de8c43fb7d62a2343dfab_cgraph.png" border="0" usemap="#aclass_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_file_handler_a2f4a6ae0f20de8c43fb7d62a2343dfab_cgraph" alt=""/></div>
 <map name="aclass_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_file_handler_a2f4a6ae0f20de8c43fb7d62a2343dfab_cgraph" id="aclass_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_file_handler_a2f4a6ae0f20de8c43fb7d62a2343dfab_cgraph">
-<area shape="rect" title="Converts the file contents to an IngredientList List." alt="" coords="5,13,203,56"/>
-<area shape="rect" href="class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_lists_json_helper.html#ae38b496c79f42575f8f02a90b986d433" title="Read the given path into a json object." alt="" coords="251,5,472,64"/>
-<area shape="poly" title=" " alt="" coords="203,32,235,32,235,37,203,37"/>
+<area shape="rect" title="Converts the file contents to an IngredientList List." alt="" coords="5,43,203,85"/>
+<area shape="rect" href="interface_aw_a_re_1_1_database_1_1_i_ingredient_database.html#abbc2a47f5aa01ca303931e5a2b8a85ba" title="Selects a full row in the Ingredient table that matches the given ID." alt="" coords="268,5,455,48"/>
+<area shape="poly" title=" " alt="" coords="203,47,252,40,253,45,203,52"/>
+<area shape="rect" href="class_aw_a_re_1_1_ingredient_list_1_1_logic_1_1_ingredient_lists_json_helper.html#ae38b496c79f42575f8f02a90b986d433" title="Read the given path into a json object." alt="" coords="251,72,472,131"/>
+<area shape="poly" title=" " alt="" coords="203,76,235,80,235,86,203,81"/>
 </map>
 </div>
 
@@ -248,8 +248,53 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="aabba3d3a71d66fe2a43cc9d607a2d190" name="aabba3d3a71d66fe2a43cc9d607a2d190"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabba3d3a71d66fe2a43cc9d607a2d190">&#9670;&#160;</a></span>filePath</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">readonly string AwARe.IngredientList.Logic.IngredientFileHandler.filePath</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5b41186c1c896152bb93e1ca8ad35895" name="a5b41186c1c896152bb93e1ca8ad35895"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b41186c1c896152bb93e1ca8ad35895">&#9670;&#160;</a></span>ingredientDatabase</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">readonly <a class="el" href="interface_aw_a_re_1_1_database_1_1_i_ingredient_database.html">IIngredientDatabase</a> AwARe.IngredientList.Logic.IngredientFileHandler.ingredientDatabase</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/Martijn/Documents/GitHub/awARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/IngredientList/Logic/<b>IngredientFileHandler.cs</b></li>
+<li>C:/Users/Martijn/Documents/GitHub/awARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/IngredientList/Logic/<a class="el" href="_ingredient_file_handler_8cs.html">IngredientFileHandler.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

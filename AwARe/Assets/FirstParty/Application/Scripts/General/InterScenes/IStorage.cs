@@ -8,7 +8,6 @@
 using AwARe.Data.Logic;
 using AwARe.RoomScan.Path;
 using Ingredients = AwARe.IngredientList.Logic;
-using Rooms = AwARe.RoomScan.Polygons.Logic;
 
 namespace AwARe.InterScenes
 {

@@ -11,9 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AwARe.IngredientList.Logic;
 using AwARe.IngredientList.Objects;
-
 using NUnit.Framework;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;

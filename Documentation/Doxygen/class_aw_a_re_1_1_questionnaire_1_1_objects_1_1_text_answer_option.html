@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="logoLowRes.png"/></td>
   <td id="projectalign">
-   <div id="projectname">AwARe<span id="projectnumber">&#160;8.0</span>
+   <div id="projectname">AwARe<span id="projectnumber">&#160;9.0</span>
    </div>
   </td>
  </tr>
@@ -89,7 +89,7 @@ Inheritance diagram for AwARe.Questionnaire.Objects.TextAnswerOption:</div>
 <div class="center"><img src="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_text_answer_option__inherit__graph.png" border="0" usemap="#a_aw_a_re_8_questionnaire_8_objects_8_text_answer_option_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_aw_a_re_8_questionnaire_8_objects_8_text_answer_option_inherit__map" id="a_aw_a_re_8_questionnaire_8_objects_8_text_answer_option_inherit__map">
 <area shape="rect" title="Represents an answer option that displays a text input field." alt="" coords="5,80,207,123"/>
-<area shape="rect" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html" title="Class AnswerOptionFactory is a base class for creation and initializing answer option objects." alt="" coords="30,5,182,32"/>
+<area shape="rect" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html" title="Class AnswerOption is a base class for creation and initializing answer option objects." alt="" coords="55,5,157,32"/>
 <area shape="poly" title=" " alt="" coords="109,48,109,80,103,80,103,48"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -99,31 +99,38 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a007e28ae47b4f6cbdd968868af43e4b6" id="r_a007e28ae47b4f6cbdd968868af43e4b6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_text_answer_option.html#a007e28ae47b4f6cbdd968868af43e4b6">TextAnswerOption</a> (GameObject questionGameObject, GameObject questionPrefab)</td></tr>
 <tr class="memdesc:a007e28ae47b4f6cbdd968868af43e4b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the TextAnswerOption class.  <br /></td></tr>
 <tr class="separator:a007e28ae47b4f6cbdd968868af43e4b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada8b2267fe1807feffcc17a6d96fa68c" id="r_ada8b2267fe1807feffcc17a6d96fa68c"><td class="memItemLeft" align="right" valign="top">override GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_text_answer_option.html#ada8b2267fe1807feffcc17a6d96fa68c">CreateAnswerOption</a> (string placeholderText)</td></tr>
-<tr class="memdesc:ada8b2267fe1807feffcc17a6d96fa68c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a single TextAnswerOption gameObject.  <br /></td></tr>
-<tr class="separator:ada8b2267fe1807feffcc17a6d96fa68c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html">AwARe.Questionnaire.Objects.AnswerOptionSpawner</a></td></tr>
-<tr class="memitem:aa72dbd5e6a02f1a2aab179c03a66b760 inherit pub_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner" id="r_aa72dbd5e6a02f1a2aab179c03a66b760"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#aa72dbd5e6a02f1a2aab179c03a66b760">CreateAnswerOption</a> (string title)</td></tr>
-<tr class="memdesc:aa72dbd5e6a02f1a2aab179c03a66b760 inherit pub_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an answer option using the given title. The implementation is defined in the subclasses.  <br /></td></tr>
-<tr class="separator:aa72dbd5e6a02f1a2aab179c03a66b760 inherit pub_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09d7a75cc687fcee6f639e9394a80b6a" id="r_a09d7a75cc687fcee6f639e9394a80b6a"><td class="memItemLeft" align="right" valign="top">override GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_text_answer_option.html#a09d7a75cc687fcee6f639e9394a80b6a">InstantiateAnswerOption</a> (string placeholderText)</td></tr>
+<tr class="memdesc:a09d7a75cc687fcee6f639e9394a80b6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a single TextAnswerOption gameObject.  <br /></td></tr>
+<tr class="separator:a09d7a75cc687fcee6f639e9394a80b6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fbc1728295ad1fd3732c4e0140f2191" id="r_a9fbc1728295ad1fd3732c4e0140f2191"><td class="memItemLeft" align="right" valign="top">override string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_text_answer_option.html#a9fbc1728295ad1fd3732c4e0140f2191">GetOptionText</a> (GameObject inputField)</td></tr>
+<tr class="separator:a9fbc1728295ad1fd3732c4e0140f2191"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html">AwARe.Questionnaire.Objects.AnswerOption</a></td></tr>
+<tr class="memitem:a8bf2b10bd0510ba935c04dae26e33494 inherit pub_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option" id="r_a8bf2b10bd0510ba935c04dae26e33494"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html#a8bf2b10bd0510ba935c04dae26e33494">InstantiateAnswerOption</a> (string title)</td></tr>
+<tr class="memdesc:a8bf2b10bd0510ba935c04dae26e33494 inherit pub_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an answer option using the given title. The implementation is defined in the subclasses.  <br /></td></tr>
+<tr class="separator:a8bf2b10bd0510ba935c04dae26e33494 inherit pub_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ed5db93ba25380b8981b69b4c0ab549 inherit pub_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option" id="r_a5ed5db93ba25380b8981b69b4c0ab549"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html#a5ed5db93ba25380b8981b69b4c0ab549">GetOptionText</a> (GameObject answerOption)</td></tr>
+<tr class="separator:a5ed5db93ba25380b8981b69b4c0ab549 inherit pub_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html">AwARe.Questionnaire.Objects.AnswerOptionSpawner</a></td></tr>
-<tr class="memitem:a02c8305e2367943ef616484d0d5fe183 inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner" id="r_a02c8305e2367943ef616484d0d5fe183"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#a02c8305e2367943ef616484d0d5fe183">AnswerOptionSpawner</a> (GameObject question, GameObject answerOptionPrefab)</td></tr>
-<tr class="memdesc:a02c8305e2367943ef616484d0d5fe183 inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. Used to create a new AnswerOptionSpawner.  <br /></td></tr>
-<tr class="separator:a02c8305e2367943ef616484d0d5fe183 inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e9663beefd85504a61e47ee7944d807 inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner" id="r_a3e9663beefd85504a61e47ee7944d807"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#a3e9663beefd85504a61e47ee7944d807">InitializeAnswerOption</a> (GameObject option, string labelText)</td></tr>
-<tr class="memdesc:a3e9663beefd85504a61e47ee7944d807 inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes some common properties of an answer option GameObject.  <br /></td></tr>
-<tr class="separator:a3e9663beefd85504a61e47ee7944d807 inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af95fa1473f0ed0147b014ae091e5f8bf inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner" id="r_af95fa1473f0ed0147b014ae091e5f8bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#af95fa1473f0ed0147b014ae091e5f8bf">InitializeToggleHandler</a> (GameObject answerOption, int answerOptionIndex)</td></tr>
-<tr class="memdesc:af95fa1473f0ed0147b014ae091e5f8bf inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the ToggleHandler for the given answerOption.  <br /></td></tr>
-<tr class="separator:af95fa1473f0ed0147b014ae091e5f8bf inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header properties_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner"><td colspan="2" onclick="javascript:toggleInherit('properties_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html">AwARe.Questionnaire.Objects.AnswerOptionSpawner</a></td></tr>
-<tr class="memitem:a5f46617b0f9ac1831b5232302ffe7f42 inherit properties_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner" id="r_a5f46617b0f9ac1831b5232302ffe7f42"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#a5f46617b0f9ac1831b5232302ffe7f42">Question</a><code> [get, set]</code></td></tr>
-<tr class="separator:a5f46617b0f9ac1831b5232302ffe7f42 inherit properties_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8565d89d0f4c54f75e57a95163aab14d inherit properties_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner" id="r_a8565d89d0f4c54f75e57a95163aab14d"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#a8565d89d0f4c54f75e57a95163aab14d">AnswerOptionPrefab</a><code> [get, set]</code></td></tr>
-<tr class="separator:a8565d89d0f4c54f75e57a95163aab14d inherit properties_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html">AwARe.Questionnaire.Objects.AnswerOption</a></td></tr>
+<tr class="memitem:a2dfd73a8e31f4cbbf22b291c2af5f546 inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option" id="r_a2dfd73a8e31f4cbbf22b291c2af5f546"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html#a2dfd73a8e31f4cbbf22b291c2af5f546">AnswerOption</a> (GameObject question, GameObject <a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html#a2e306c8f713553098f7498c147aad669">answerOptionPrefab</a>)</td></tr>
+<tr class="memdesc:a2dfd73a8e31f4cbbf22b291c2af5f546 inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the AnswerOption class.  <br /></td></tr>
+<tr class="separator:a2dfd73a8e31f4cbbf22b291c2af5f546 inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8188794574828ff7ef6ba3fa0c798278 inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option" id="r_a8188794574828ff7ef6ba3fa0c798278"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html#a8188794574828ff7ef6ba3fa0c798278">InitializeAnswerOption</a> (GameObject option, string labelText)</td></tr>
+<tr class="memdesc:a8188794574828ff7ef6ba3fa0c798278 inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes some common properties of an answer option GameObject.  <br /></td></tr>
+<tr class="separator:a8188794574828ff7ef6ba3fa0c798278 inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae111eecf3e7290a01c8b60d4d3ba8d9a inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option" id="r_ae111eecf3e7290a01c8b60d4d3ba8d9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html#ae111eecf3e7290a01c8b60d4d3ba8d9a">InitializeToggleHandler</a> (GameObject answerOption, int answerOptionIndex)</td></tr>
+<tr class="memdesc:ae111eecf3e7290a01c8b60d4d3ba8d9a inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the ToggleHandler for the given answerOption.  <br /></td></tr>
+<tr class="separator:ae111eecf3e7290a01c8b60d4d3ba8d9a inherit pro_methods_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html">AwARe.Questionnaire.Objects.AnswerOption</a></td></tr>
+<tr class="memitem:a2e306c8f713553098f7498c147aad669 inherit pro_attribs_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option" id="r_a2e306c8f713553098f7498c147aad669"><td class="memItemLeft" align="right" valign="top">readonly GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html#a2e306c8f713553098f7498c147aad669">answerOptionPrefab</a></td></tr>
+<tr class="memdesc:a2e306c8f713553098f7498c147aad669 inherit pro_attribs_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Answeroption prefab to be spawned. (Radio/Checkbox/Input/...)  <br /></td></tr>
+<tr class="separator:a2e306c8f713553098f7498c147aad669 inherit pro_attribs_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header properties_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td colspan="2" onclick="javascript:toggleInherit('properties_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html">AwARe.Questionnaire.Objects.AnswerOption</a></td></tr>
+<tr class="memitem:a154e5027a50930219180b2a11f134ed6 inherit properties_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option" id="r_a154e5027a50930219180b2a11f134ed6"><td class="memItemLeft" align="right" valign="top">GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html#a154e5027a50930219180b2a11f134ed6">Question</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a154e5027a50930219180b2a11f134ed6 inherit properties_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets or sets the Question to add the answer option to.  <br /></td></tr>
+<tr class="separator:a154e5027a50930219180b2a11f134ed6 inherit properties_class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents an answer option that displays a text input field. </p>
@@ -166,14 +173,32 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ada8b2267fe1807feffcc17a6d96fa68c" name="ada8b2267fe1807feffcc17a6d96fa68c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada8b2267fe1807feffcc17a6d96fa68c">&#9670;&#160;</a></span>CreateAnswerOption()</h2>
+<a id="a9fbc1728295ad1fd3732c4e0140f2191" name="a9fbc1728295ad1fd3732c4e0140f2191"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fbc1728295ad1fd3732c4e0140f2191">&#9670;&#160;</a></span>GetOptionText()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">override GameObject AwARe.Questionnaire.Objects.TextAnswerOption.CreateAnswerOption </td>
+          <td class="memname">override string AwARe.Questionnaire.Objects.TextAnswerOption.GetOptionText </td>
+          <td>(</td>
+          <td class="paramtype">GameObject&#160;</td>
+          <td class="paramname"><em>inputField</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a09d7a75cc687fcee6f639e9394a80b6a" name="a09d7a75cc687fcee6f639e9394a80b6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09d7a75cc687fcee6f639e9394a80b6a">&#9670;&#160;</a></span>InstantiateAnswerOption()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override GameObject AwARe.Questionnaire.Objects.TextAnswerOption.InstantiateAnswerOption </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>placeholderText</em></td><td>)</td>
@@ -189,22 +214,22 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An answerOption GameObject.</dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_text_answer_option_ada8b2267fe1807feffcc17a6d96fa68c_cgraph.png" border="0" usemap="#aclass_aw_a_re_1_1_questionnaire_1_1_objects_1_1_text_answer_option_ada8b2267fe1807feffcc17a6d96fa68c_cgraph" alt=""/></div>
-<map name="aclass_aw_a_re_1_1_questionnaire_1_1_objects_1_1_text_answer_option_ada8b2267fe1807feffcc17a6d96fa68c_cgraph" id="aclass_aw_a_re_1_1_questionnaire_1_1_objects_1_1_text_answer_option_ada8b2267fe1807feffcc17a6d96fa68c_cgraph">
-<area shape="rect" title="Create a single TextAnswerOption gameObject." alt="" coords="5,13,256,56"/>
-<area shape="rect" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option_spawner.html#a3e9663beefd85504a61e47ee7944d807" title="Initializes some common properties of an answer option GameObject." alt="" coords="304,5,550,64"/>
-<area shape="poly" title=" " alt="" coords="256,32,288,32,288,37,256,37"/>
+<div class="center"><img src="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_text_answer_option_a09d7a75cc687fcee6f639e9394a80b6a_cgraph.png" border="0" usemap="#aclass_aw_a_re_1_1_questionnaire_1_1_objects_1_1_text_answer_option_a09d7a75cc687fcee6f639e9394a80b6a_cgraph" alt=""/></div>
+<map name="aclass_aw_a_re_1_1_questionnaire_1_1_objects_1_1_text_answer_option_a09d7a75cc687fcee6f639e9394a80b6a_cgraph" id="aclass_aw_a_re_1_1_questionnaire_1_1_objects_1_1_text_answer_option_a09d7a75cc687fcee6f639e9394a80b6a_cgraph">
+<area shape="rect" title="Create a single TextAnswerOption gameObject." alt="" coords="5,5,240,64"/>
+<area shape="rect" href="class_aw_a_re_1_1_questionnaire_1_1_objects_1_1_answer_option.html#a8188794574828ff7ef6ba3fa0c798278" title="Initializes some common properties of an answer option GameObject." alt="" coords="288,13,522,56"/>
+<area shape="poly" title=" " alt="" coords="240,32,272,32,272,37,240,37"/>
 </map>
 </div>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/Martijn/Documents/GitHub/awARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/Questionnaire/Objects/<b>AnswerOptionSpawner.cs</b></li>
+<li>C:/Users/Martijn/Documents/GitHub/awARe/AwARe/Assets/FirstParty/Application/Scripts/MainFeatures/Questionnaire/Objects/<a class="el" href="_answer_option_8cs.html">AnswerOption.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

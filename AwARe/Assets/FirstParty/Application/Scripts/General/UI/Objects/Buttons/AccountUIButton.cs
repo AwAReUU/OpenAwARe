@@ -3,16 +3,10 @@
 //     Utrecht University within the Software Project course.
 //
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
-// \* 
-
-using System.Collections;
-using System.Collections.Generic;
+// \*                                                                                       */
 
 using AwARe.InterScenes.Objects;
-using AwARe.UI.Objects;
-
 using TMPro;
-
 using UnityEngine;
 using UnityEngine.UI;
 

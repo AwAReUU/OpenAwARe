@@ -82,7 +82,7 @@ namespace AwARe.ObjectGeneration
             if (resourceType == ResourceType.Water)
             {
                 float quantityMililiter = quantity * 1000;
-                float sideLength = (float)Math.Pow(quantityMililiter, 1.0 / 3.0) / 100f; //convert ml volume to meters side length.
+                float sideLength = 0.5f * ((float)Math.Pow(quantityMililiter, 1.0 / 3.0) / 100f); //convert ml volume to meters side length.
                 this.Scaling = sideLength;
                 this.HalfExtents *= sideLength;
             }
@@ -104,8 +104,18 @@ namespace AwARe.ObjectGeneration
                 float areaPerClone = halfExtents.x * halfExtents.z * 4;
                 float areaClonesSum = areaPerClone * quantity;
 
-                renderables[i].AllowedSurfaceUsage = areaClonesSum;
-                sumArea += areaClonesSum;
+                if (renderables[i].ResourceType == ResourceType.Water)
+                {
+                    //for water the quantity is in liters, while its only 1 object.
+                    renderables[i].AllowedSurfaceUsage = areaPerClone;
+                    sumArea += areaPerClone;
+                }
+
+                else
+                {
+                    renderables[i].AllowedSurfaceUsage = areaClonesSum;
+                    sumArea += areaClonesSum;
+                }
             }
 
             for (int i = 0; i < renderables.Count; i++)

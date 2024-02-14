@@ -8,9 +8,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using AwARe.Data.Logic;
-using AwARe.RoomScan.Path;
-using AwARe.RoomScan.Polygons.Logic;
-
 using UnityEngine;
 
 namespace AwARe.ObjectGeneration

@@ -718,6 +718,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 354526543859493538}
     m_Modifications:
+    - target: {fileID: 257178993128181915, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 37ac66f646c85154ca608cc62777fa26,
+        type: 3}
     - target: {fileID: 285990437104134187, guid: 23b8a78ada484394780c76a671db8dfe,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -762,6 +768,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -43
+      objectReference: {fileID: 0}
+    - target: {fileID: 3741742993141383016, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 4804253305567149815, guid: 23b8a78ada484394780c76a671db8dfe,
         type: 3}
@@ -888,16 +899,48 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: PlaceRoom
       objectReference: {fileID: 0}
+    - target: {fileID: 5694529601237306023, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694529601237306023, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6525875832329135559, guid: 23b8a78ada484394780c76a671db8dfe,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 175
       objectReference: {fileID: 0}
+    - target: {fileID: 7187037367396733334, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187037367396733334, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384298589923152030, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a649c44bd26e4c94fa093ef6f1eb189c,
+        type: 3}
     - target: {fileID: 7680288654466957375, guid: 23b8a78ada484394780c76a671db8dfe,
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -118
       objectReference: {fileID: 0}
+    - target: {fileID: 7780958551263204586, guid: 23b8a78ada484394780c76a671db8dfe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3cac20467db593a4d9d34ff0e42e592a,
+        type: 3}
     - target: {fileID: 7829858720519596794, guid: 23b8a78ada484394780c76a671db8dfe,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size

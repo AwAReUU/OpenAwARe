@@ -5,11 +5,9 @@
 //     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
 // \*                                                                                       */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation.VisualScripting;
 
 namespace AwARe.Data.Objects
 {

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="logoLowRes.png"/></td>
   <td id="projectalign">
-   <div id="projectname">AwARe<span id="projectnumber">&#160;8.0</span>
+   <div id="projectname">AwARe<span id="projectnumber">&#160;9.0</span>
    </div>
   </td>
  </tr>
@@ -83,6 +83,12 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_anchor_handler.html">AnchorHandler</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles placing the anchors.  <a href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_anchor_handler.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_list_manager.html">RoomListManager</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the Room and handles the different states within the Polygon scanning.  <a href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_list_manager.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_manager.html">RoomManager</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the Room and handles the different states within the Polygon scanning.  <a href="class_aw_a_re_1_1_room_scan_1_1_objects_1_1_room_manager.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -92,18 +98,46 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ad568499ab4b43183b57a7d53d6ba3c21" id="r_ad568499ab4b43183b57a7d53d6ba3c21"><td class="memItemLeft" align="right" valign="top"><a id="ad568499ab4b43183b57a7d53d6ba3c21" name="ad568499ab4b43183b57a7d53d6ba3c21"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_aw_a_re_1_1_room_scan_1_1_objects.html#ad568499ab4b43183b57a7d53d6ba3c21">State</a> { <br />
-&#160;&#160;<b>Default</b>
-, <b>Scanning</b>
-, <b>Done</b>
-, <b>Saving</b>
+<tr class="memitem:ad568499ab4b43183b57a7d53d6ba3c21" id="r_ad568499ab4b43183b57a7d53d6ba3c21"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_aw_a_re_1_1_room_scan_1_1_objects.html#ad568499ab4b43183b57a7d53d6ba3c21">State</a> { <br />
+&#160;&#160;<a class="el" href="namespace_aw_a_re_1_1_room_scan_1_1_objects.html#ad568499ab4b43183b57a7d53d6ba3c21a61c2547ce8daf9db29ae244a5e300bbf">RoomList</a>
+, <a class="el" href="namespace_aw_a_re_1_1_room_scan_1_1_objects.html#ad568499ab4b43183b57a7d53d6ba3c21a495c55c275d09a00aaeb7482365ab300">Scanning</a>
+, <a class="el" href="namespace_aw_a_re_1_1_room_scan_1_1_objects.html#ad568499ab4b43183b57a7d53d6ba3c21a9240f31a282e402f5fc864c1b5db4e95">AskToSave</a>
+, <a class="el" href="namespace_aw_a_re_1_1_room_scan_1_1_objects.html#ad568499ab4b43183b57a7d53d6ba3c21ac8dc81b196beb4a177e8561c9d1feb0e">InputtingName</a>
 , <br />
-&#160;&#160;<b>Loading</b>
+&#160;&#160;<a class="el" href="namespace_aw_a_re_1_1_room_scan_1_1_objects.html#ad568499ab4b43183b57a7d53d6ba3c21ac00296649c63f71c3c817f56bc23db14">SaveAnchoring</a>
+, <a class="el" href="namespace_aw_a_re_1_1_room_scan_1_1_objects.html#ad568499ab4b43183b57a7d53d6ba3c21ac455fa1315f63c7eb0aa0d3af9073fb5">SaveAnchoringCheck</a>
+, <a class="el" href="namespace_aw_a_re_1_1_room_scan_1_1_objects.html#ad568499ab4b43183b57a7d53d6ba3c21a41a3ea86fc21275e376a0205aeba3d02">LoadAnchoring</a>
 <br />
  }</td></tr>
-<tr class="memdesc:ad568499ab4b43183b57a7d53d6ba3c21"><td class="mdescLeft">&#160;</td><td class="mdescRight">The different states within the Room scanning process. <br /></td></tr>
+<tr class="memdesc:ad568499ab4b43183b57a7d53d6ba3c21"><td class="mdescLeft">&#160;</td><td class="mdescRight">The different states within the Room scanning and loading process.  <a href="namespace_aw_a_re_1_1_room_scan_1_1_objects.html#ad568499ab4b43183b57a7d53d6ba3c21">More...</a><br /></td></tr>
 <tr class="separator:ad568499ab4b43183b57a7d53d6ba3c21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="ad568499ab4b43183b57a7d53d6ba3c21" name="ad568499ab4b43183b57a7d53d6ba3c21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad568499ab4b43183b57a7d53d6ba3c21">&#9670;&#160;</a></span>State</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespace_aw_a_re_1_1_room_scan_1_1_objects.html#ad568499ab4b43183b57a7d53d6ba3c21">AwARe.RoomScan.Objects.State</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The different states within the Room scanning and loading process. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad568499ab4b43183b57a7d53d6ba3c21a61c2547ce8daf9db29ae244a5e300bbf" name="ad568499ab4b43183b57a7d53d6ba3c21a61c2547ce8daf9db29ae244a5e300bbf"></a>RoomList&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad568499ab4b43183b57a7d53d6ba3c21a495c55c275d09a00aaeb7482365ab300" name="ad568499ab4b43183b57a7d53d6ba3c21a495c55c275d09a00aaeb7482365ab300"></a>Scanning&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad568499ab4b43183b57a7d53d6ba3c21a9240f31a282e402f5fc864c1b5db4e95" name="ad568499ab4b43183b57a7d53d6ba3c21a9240f31a282e402f5fc864c1b5db4e95"></a>AskToSave&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad568499ab4b43183b57a7d53d6ba3c21ac8dc81b196beb4a177e8561c9d1feb0e" name="ad568499ab4b43183b57a7d53d6ba3c21ac8dc81b196beb4a177e8561c9d1feb0e"></a>InputtingName&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad568499ab4b43183b57a7d53d6ba3c21ac00296649c63f71c3c817f56bc23db14" name="ad568499ab4b43183b57a7d53d6ba3c21ac00296649c63f71c3c817f56bc23db14"></a>SaveAnchoring&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad568499ab4b43183b57a7d53d6ba3c21ac455fa1315f63c7eb0aa0d3af9073fb5" name="ad568499ab4b43183b57a7d53d6ba3c21ac455fa1315f63c7eb0aa0d3af9073fb5"></a>SaveAnchoringCheck&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad568499ab4b43183b57a7d53d6ba3c21a41a3ea86fc21275e376a0205aeba3d02" name="ad568499ab4b43183b57a7d53d6ba3c21a41a3ea86fc21275e376a0205aeba3d02"></a>LoadAnchoring&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

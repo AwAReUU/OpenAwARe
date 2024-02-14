@@ -13,7 +13,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 using AwARe.Database;
-
 using UnityEngine;
 
 namespace AwARe.IngredientList.Logic
