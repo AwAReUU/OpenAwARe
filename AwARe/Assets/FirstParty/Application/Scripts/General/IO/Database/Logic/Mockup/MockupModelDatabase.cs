@@ -65,13 +65,13 @@ namespace AwARe.Database.Logic
         }
 
         ///<inheritdoc cref="IModelDatabase.GetModels"/>
-        public Task<List<Model>> GetModels(IEnumerable<int> ids)
+        public Task<Model[]> GetModels(IEnumerable<int> ids)
         {
             IEnumerable<Model> models =
                 from id in ids
                 join model in modelTable on id equals model.ID
                 select model;
-            return Task.Run(() => models.ToList());
+            return Task.Run(() => models.ToArray());
         }
     }
 }

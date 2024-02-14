@@ -71,14 +71,14 @@ namespace AwARe.Database.Logic
         }
 
         ///<inheritdoc cref="IResourceDatabase.GetResources"/>
-        public Task<List<Resource>> GetResources(IEnumerable<int> ids)
+        public Task<Resource[]> GetResources(IEnumerable<int> ids)
         {
             // perform an inner join of resource table and ids on resourceID
             IEnumerable<Resource> resources =
                 from id in ids
                 join resource in resourceTable on id equals resource.ID
                 select resource;
-            return Task.Run(() => resources.ToList());
+            return Task.Run(() => resources.ToArray());
         }
     }
 }

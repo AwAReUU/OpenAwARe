@@ -106,7 +106,7 @@ namespace AwARe.Database.Logic
         };
 
         ///<inheritdoc cref="IIngredientDatabase.Search"/>
-        public Task<List<Ingredient>> Search(string term)
+        public Task<Ingredient[]> Search(string term)
         {
             IEnumerable<int> ids = (
                 from (int ID, string Name) s in SearchTable
@@ -131,14 +131,14 @@ namespace AwARe.Database.Logic
         }
 
         ///<inheritdoc cref="IIngredientDatabase.GetIngredients"/>
-        public Task<List<Ingredient>> GetIngredients(IEnumerable<int> ids)
+        public Task<Ingredient[]> GetIngredients(IEnumerable<int> ids)
         {
             // perform an inner join of ingredient table and ids on ingredientID
             IEnumerable<Ingredient> ingredients =
                 from id in ids
                 join ingredient in ingredientTable on id equals ingredient.IngredientID
                 select ingredient;
-            return Task.Run(() => ingredients.ToList());
+            return Task.Run(() => ingredients.ToArray());
         }
     }
 }

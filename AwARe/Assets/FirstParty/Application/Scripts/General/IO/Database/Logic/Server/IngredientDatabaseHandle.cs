@@ -68,23 +68,20 @@ namespace AwARe.Database.Logic
         }
 
         /// <inheritdoc/>
-        public Task<List<Ingredient>> GetIngredients(IEnumerable<int> ids)
+        public Task<Ingredient[]> GetIngredients(IEnumerable<int> ids)
         {
-            return Task.Run(async () =>
+            List<Task<Ingredient>> tasks = new();
+            foreach (int id in ids)
             {
-                List<Ingredient> ingredients = new();
-                foreach (int id in ids)
-                {
-                    ingredients.Add(await this.GetIngredient(id));
-                }
-                return ingredients;
-            });
+                tasks.Add(this.GetIngredient(id));
+            }
+            return Task.WhenAll(tasks);
         }
 
         /// <inheritdoc/>
-        public Task<List<Ingredient>> Search(string term)
+        public Task<Ingredient[]> Search(string term)
         {
-            var results = Client.GetInstance().Get<SearchRequestBody, List<Ingredient>>("ingr/search", new SearchRequestBody
+            var results = Client.GetInstance().Get<SearchRequestBody, Ingredient[]>("ingr/search", new SearchRequestBody
             {
                 query = term
             }).Then((res) =>
@@ -95,7 +92,7 @@ namespace AwARe.Database.Logic
                 {
                     ingredients.Add(new Ingredient(ingr.IngredientID, ingr.PrefName, ingr.GramsPerML, ingr.GramsPerPiece));
                 }
-                return ingredients;
+                return ingredients.ToArray();
             }).Catch((err) =>
                 {
                     if (err.StatusCode == 403)

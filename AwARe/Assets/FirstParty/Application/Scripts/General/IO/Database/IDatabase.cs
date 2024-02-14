@@ -29,7 +29,7 @@ namespace AwARe.Database
         /// </summary>
         /// <param name="ids">The unique identifiers of the desired ingredients.</param>
         /// <returns>The full data of the ingredients, which IDs match.</returns>
-        public Task<List<Ingredient>> GetIngredients(IEnumerable<int> ids);
+        public Task<Ingredient[]> GetIngredients(IEnumerable<int> ids);
 
         // returns a List of Ingredients with a (possible) name containing the search term,
         // without any duplicates
@@ -39,7 +39,7 @@ namespace AwARe.Database
         /// <param name="term"> The search term to look up ingredients by. </param>
         /// <returns>A List of Ingredients with a (possible) name containing the search term,
         /// sorted by the position of the term within that name, without any duplicates.</returns>
-        public Task<List<Ingredient>> Search(string term);
+        public Task<Ingredient[]> Search(string term);
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ namespace AwARe.Database
         /// </summary>
         /// <param name="ids">The unique identifiers of the desired resources.</param>
         /// <returns>The full data of the resources, which IDs match.</returns>
-        public Task<List<Resource>> GetResources(IEnumerable<int> ids);
+        public Task<Resource[]> GetResources(IEnumerable<int> ids);
     }
 
     /// <summary>
@@ -95,6 +95,6 @@ namespace AwARe.Database
         /// </summary>
         /// <param name="ids">The unique identifiers of the desired models.</param>
         /// <returns>The full data of the models, which IDs match.</returns>
-        public Task<List<Model>> GetModels(IEnumerable<int> ids);
+        public Task<Model[]> GetModels(IEnumerable<int> ids);
     }
 }

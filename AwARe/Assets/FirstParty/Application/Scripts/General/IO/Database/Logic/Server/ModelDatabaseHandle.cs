@@ -63,17 +63,14 @@ namespace AwARe.Database.Logic
         }
 
         /// <inheritdoc/>
-        public Task<List<Model>> GetModels(IEnumerable<int> ids)
+        public Task<Model[]> GetModels(IEnumerable<int> ids)
         {
-            return Task.Run(async () =>
+            List<Task<Model>> tasks = new();
+            foreach (int id in ids)
             {
-                List<Model> models = new();
-                foreach (int id in ids)
-                {
-                    models.Add(await this.GetModel(id));
-                }
-                return models;
-            });
+                tasks.Add(this.GetModel(id));
+            }
+            return Task.WhenAll(tasks);
         }
     }
 }

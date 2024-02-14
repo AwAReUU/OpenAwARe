@@ -1,15 +1,8 @@
-// /*                                                                                       *\
-//     This program has been developed by students from the bachelor Computer Science at
-//     Utrecht University within the Software Project course.
-//
-//     (c) Copyright Utrecht University (Department of Information and Computing Sciences)
-// \*                                                                                       */
-
 using System.Collections.Generic;
 using System.Linq;
 using AwARe.Database.Logic;
-using AwARe.ResourcePipeline.Logic;
 using NUnit.Framework;
+using AwARe.ResourcePipeline.Logic;
 
 namespace AwARe.Tests.ResourcePipeline
 {
@@ -24,7 +17,7 @@ namespace AwARe.Tests.ResourcePipeline
             const int RESOURCE_QUANTITY = 1;
             ModelCalculator modelCalculator = new();
             MockupResourceDatabase mockupResourceDatabase = new();
-            List<Resource> resources = await mockupResourceDatabase.GetResources(Enumerable.Range(1, MOCKUP_DATABASE_SIZE));
+            List<Resource> resources = (await mockupResourceDatabase.GetResources(Enumerable.Range(1, MOCKUP_DATABASE_SIZE))).ToList();
 
             //Act: Calculate model quantities for all resources in mockdatabase.
             IEnumerable<int> quantitiesList = Enumerable.Range(0, MOCKUP_DATABASE_SIZE)

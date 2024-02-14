@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AwARe.Database;
 using AwARe.Database.Logic;
@@ -279,6 +280,6 @@ namespace AwARe.IngredientList.Objects
         /// <param name="term">The search term.</param>
         /// <returns>The search results.</returns>
         public async Task<List<Ingredient>> SearchIngredient(string term) =>
-            SearchResults = await IngredientDatabase.Search(term);
+            SearchResults = (await IngredientDatabase.Search(term)).ToList();
     }
 }

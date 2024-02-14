@@ -80,17 +80,14 @@ namespace AwARe.Database.Logic
         }
 
         /// <inheritdoc/>
-        public Task<List<Resource>> GetResources(IEnumerable<int> ids)
+        public Task<Resource[]> GetResources(IEnumerable<int> ids)
         {
-            return Task.Run(async () =>
+            List<Task<Resource>> tasks = new();
+            foreach (int id in ids)
             {
-                List<Resource> resources = new();
-                foreach (int id in ids)
-                {
-                    resources.Add(await this.GetResource(id));
-                }
-                return resources;
-            });
+                tasks.Add(this.GetResource(id));
+            }
+            return Task.WhenAll(tasks);
         }
     }
 }
