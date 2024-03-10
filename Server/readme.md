@@ -2,11 +2,12 @@
 
 ## How to build Unity project with server connection
 
-1. Load the AwARe project in the Unity Editor.
-2. Make sure the ClientSupport scene is loaded.
-3. Go to the GameObject "ClientSetup" inside the "ClienSupport" scene.
-4. Scroll down to the "ClientSetup" (script) component.
-5. Fill in the server adress and port. Use "localhost" if the server is running on the same machine and you only want to test the app inside the Editor. The default port number is "8000". If the server is running on a different device than the app is running on, for example on mobile, please read "How to build for Android/iOS".
+1. Open the AwARe project in the Unity Editor.
+2. Load the start up scene. (Assets/FirstParty/Application/Scenes/Support/StartUpScene)
+3. Make sure the ClientSupport scene is included in the Start Loader component.
+4. Go to the GameObject "ClientSetup" inside the "ClienSupport" scene.
+5. Scroll down to the "ClientSetup" (script) component.
+6. Fill in the server adress and port. Use "localhost" if the server is running on the same machine and you only want to test the app inside the Editor. The default port number is "8000". If the server is running on a different device than the app is running on, for example on mobile, please read "How to build for Android/iOS".
 
 ## How to build for Android/iOS
 
@@ -24,19 +25,20 @@ Now you can build for Android/iOS, but make sure:
 
 ## How to run
 
-1. Navigate to directory:
+1. Install NodeJS.
+2. Navigate to directory:
 
 ```console
 cd {repository}/Server
 ```
 
-2. Install dependencies:
+3. Install dependencies:
 
 ```console
 npm install
 ```
 
-3. Start the server:
+4. Start the server:
 
 ```console
 npm run dev
@@ -204,6 +206,10 @@ Run tests with `npm test`. For code coverage use `npm run coverage`.
   
 </tbody>
 </table>
+
+## Data
+
+All user accounts and questionnaire data is stored inside "{repository}/Server/userdb.sqlite". 
 
 ## Tips
 
