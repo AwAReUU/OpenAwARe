@@ -7,6 +7,10 @@
 # AwARe: AR Food Production
 Utrecht University: Computer Science BA Software Project 2023-2024
 
+Related Scientific Publication: N. Rosa, "AwARe: Using handheld augmented reality for researching the potential of food resource information visualization," 2024 IEEE VIS Workshop on Visualization for Climate Action and Sustainability (Viz4Climate + Sustainability), St. Pete Beach, FL, USA, 2024, pp. 10-16, doi: 10.1109/Viz4Climate-Sustainability64680.2024.00006.
+
+
+
 <!--
 <p align="center">
     <a href="/AwARe/CodeCoverage" alt="Code Coverage">
